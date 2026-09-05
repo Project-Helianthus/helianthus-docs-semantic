@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -137,14 +138,16 @@ def require_type_fields(kernel_text: str) -> None:
         },
         "ExpectedEffect": {"rule", "fact", "operator", "expected"},
         "Selection": {
+            "contract",
             "snapshot_id",
+            "revisions",
             "evaluation_digest",
+            "context",
             "key",
             "policy_id",
             "policy_version",
             "selected_candidate",
             "candidate_revision",
-            "evaluated_at",
             "presentation_only",
         },
         "FactEnvelope": {
@@ -219,10 +222,17 @@ def require_type_fields(kernel_text: str) -> None:
         "EvaluatePredicate(FactCandidate, PredicateOp, Value) (bool, error)",
         "ValidateIntent(Intent) error",
         "EvaluateReadback(Intent, v1.FactCandidate) (ReadbackRelation, error)",
+        "Select(FactEnvelope, []EvaluatedFact) (CandidateID, error)",
     )
     for hook in required_hooks:
         if hook not in kernel_text:
             raise ValueError(f"required pack hook is missing: {hook}")
+    if not re.search(
+        r"SelectPresentation\(Snapshot, EvaluationView, FactKey, PolicyID,\s+"
+        r"SemanticVersion\) \(Selection, error\)",
+        kernel_text,
+    ):
+        raise ValueError("SelectPresentation must receive complete immutable inputs")
 
 
 def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
@@ -256,6 +266,17 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         "K-NEG-053": ("CausalContext", "negative"),
         "K-NEG-054": ("FactEnvelope", "negative"),
         "K-NEG-055": ("PublicationBatch", "negative"),
+        "K-POS-025": ("Selection", "positive"),
+        "K-NEG-056": ("Selection", "negative"),
+        "K-NEG-057": ("Selection", "negative"),
+        "K-NEG-058": ("Selection", "negative"),
+        "K-NEG-059": ("Selection", "negative"),
+        "K-NEG-060": ("Selection", "negative"),
+        "K-NEG-061": ("Selection", "negative"),
+        "K-NEG-062": ("Selection", "negative"),
+        "K-NEG-063": ("SelectionPolicy", "negative"),
+        "K-NEG-064": ("SelectionPolicy", "negative"),
+        "K-NEG-065": ("Selection", "negative"),
     }
     for vector_id, (record_type, polarity) in required.items():
         vector = by_id.get(vector_id)
@@ -593,8 +614,14 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         raise ValueError("K-POS-024: kernel-owned conflict derivation is incomplete")
     if (
         selection.get("stored_in_snapshot") is not False
+        or selection.get("contract") != "helianthus.semantic.selection/v1"
         or selection.get("snapshot_id")
         != metadata.get("conflicting_snapshot", {}).get("snapshot_id")
+        or selection.get("revisions")
+        != metadata.get("conflicting_snapshot", {}).get("revisions")
+        or not {"evaluated_at", "evaluate_monotonic"}.issubset(
+            selection.get("context", {})
+        )
         or selection.get("selected_candidate") != "candidate:source:a"
         or selection.get("candidate_revision") != "4"
     ):
@@ -640,6 +667,346 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         != int(conflicting.get("revision", "0")) + 1
     ):
         raise ValueError("K-POS-024: metadata revision sequence is incomplete")
+
+    selection_case = by_id["K-POS-025"]
+    selection_input = selection_case.get("input", {})
+    snapshot = selection_input.get("snapshot", {})
+    view = selection_input.get("evaluation_view", {})
+    requested_key = selection_input.get("requested_key")
+    required_snapshot_fields = {
+        "contract",
+        "snapshot_id",
+        "asset_id",
+        "revisions",
+        "evaluated_at",
+        "evaluate_monotonic",
+        "sources",
+        "bindings",
+        "identity_links",
+        "facts",
+        "services",
+        "capabilities",
+        "fences",
+        "cursors",
+    }
+    required_candidate_fields = {
+        "candidate_id",
+        "key",
+        "value",
+        "quality",
+        "times",
+        "freshness_policy",
+        "binding_id",
+        "source_epoch_id",
+        "driver_generation",
+        "origin",
+        "evidence",
+        "revision",
+    }
+    view_without_digest = {
+        key: value for key, value in view.items() if key != "evaluation_digest"
+    }
+    view_bytes = json.dumps(
+        view_without_digest,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    expected_view_digest = "sha256:" + hashlib.sha256(view_bytes).hexdigest()
+    snapshot_candidates: dict[str, tuple[str, Any]] = {}
+    requested_envelope: dict[str, Any] | None = None
+    bindings = {
+        item.get("binding_id"): item for item in snapshot.get("bindings", [])
+    }
+    for envelope in snapshot.get("facts", []):
+        key_bytes = json.dumps(envelope.get("key"), sort_keys=True)
+        if envelope.get("key") == requested_key:
+            requested_envelope = envelope
+        for item in envelope.get("candidates", []):
+            if not required_candidate_fields.issubset(item):
+                raise ValueError("K-POS-025: snapshot candidate input is incomplete")
+            if item.get("key") != envelope.get("key"):
+                raise ValueError("K-POS-025: candidate/envelope key mismatch")
+            binding = bindings.get(item.get("binding_id"), {})
+            origin = item.get("origin", {})
+            if (
+                binding.get("state") != "current"
+                or binding.get("source_epoch_id") != item.get("source_epoch_id")
+                or binding.get("driver_generation")
+                != item.get("driver_generation")
+                or origin.get("binding_id") != item.get("binding_id")
+                or origin.get("source_epoch_id") != item.get("source_epoch_id")
+                or origin.get("source_id") != binding.get("source_id")
+            ):
+                raise ValueError("K-POS-025: snapshot candidate path is inconsistent")
+            snapshot_candidates[item.get("candidate_id")] = (
+                item.get("revision"),
+                key_bytes,
+            )
+    evaluated_candidates = {
+        item.get("candidate_id"): item.get("candidate_revision")
+        for item in view.get("facts", [])
+    }
+    evaluated_ids = [item.get("candidate_id") for item in view.get("facts", [])]
+    candidate_sets_match = set(snapshot_candidates) == set(evaluated_candidates)
+    candidate_revisions_match = candidate_sets_match and all(
+        snapshot_candidates[candidate_id][0] == revision
+        for candidate_id, revision in evaluated_candidates.items()
+    )
+    result = selection_case.get("expect", {}).get("selection", {})
+    repeat_result = selection_case.get("expect", {}).get("repeat_selection", {})
+    envelope_keys = [
+        json.dumps(envelope.get("key"), sort_keys=True, separators=(",", ":"))
+        for envelope in snapshot.get("facts", [])
+    ]
+    if (
+        not required_snapshot_fields.issubset(snapshot)
+        or snapshot.get("snapshot_id") != view.get("snapshot_id")
+        or snapshot.get("revisions") != view.get("revisions")
+        or view.get("evaluation_digest") != expected_view_digest
+        or not candidate_revisions_match
+        or len(snapshot_candidates) != sum(
+            len(envelope.get("candidates", []))
+            for envelope in snapshot.get("facts", [])
+        )
+        or envelope_keys != sorted(envelope_keys)
+        or evaluated_ids != sorted(evaluated_ids)
+        or len(evaluated_ids) != len(set(evaluated_ids))
+        or requested_envelope is None
+        or len(snapshot.get("facts", [])) < 2
+    ):
+        raise ValueError("K-POS-025: snapshot/evaluation binding is incomplete")
+    requested_ids = [
+        item.get("candidate_id")
+        for item in requested_envelope.get("candidates", [])
+    ]
+    requested_candidates_complete = all(
+        {
+            "candidate_id",
+            "revision",
+            "value",
+            "quality",
+            "origin",
+        }.issubset(item)
+        for item in requested_envelope.get("candidates", [])
+    ) and "conflicts" in requested_envelope
+    policy_input = selection_input.get("policy_input", {})
+    if (
+        policy_input.get("envelope_key") != requested_key
+        or policy_input.get("candidate_ids") != requested_ids
+        or policy_input.get("evaluated_fact_ids") != requested_ids
+        or selection_input.get("policy", {}).get("registered_once") is not True
+        or not requested_candidates_complete
+    ):
+        raise ValueError("K-POS-025: exact envelope policy input is incomplete")
+    if (
+        result != repeat_result
+        or selection_input.get("repeat_identical_call") is not True
+        or result.get("contract") != "helianthus.semantic.selection/v1"
+        or result.get("snapshot_id") != snapshot.get("snapshot_id")
+        or result.get("revisions") != snapshot.get("revisions")
+        or result.get("evaluation_digest") != view.get("evaluation_digest")
+        or result.get("context") != view.get("context")
+        or result.get("key") != requested_key
+        or result.get("policy_id")
+        != selection_input.get("policy", {}).get("policy_id")
+        or result.get("policy_version")
+        != selection_input.get("policy", {}).get("policy_version")
+        or result.get("selected_candidate") not in requested_ids
+        or result.get("candidate_revision")
+        != evaluated_candidates.get(result.get("selected_candidate"))
+        or result.get("presentation_only") is not True
+    ):
+        raise ValueError("K-POS-025: deterministic selection result is incomplete")
+
+    for vector_id in (
+        "K-NEG-056",
+        "K-NEG-057",
+        "K-NEG-058",
+        "K-NEG-059",
+        "K-NEG-060",
+        "K-NEG-061",
+        "K-NEG-062",
+        "K-NEG-063",
+        "K-NEG-065",
+    ):
+        if by_id[vector_id].get("input", {}).get("base_vector") != "K-POS-025":
+            raise ValueError(f"{vector_id}: complete selection base input is missing")
+
+    wrong_envelope = by_id["K-NEG-056"]
+    wrong_input = wrong_envelope.get("input", {})
+    if (
+        wrong_envelope["expect"].get("error_id") != "invalid_value"
+        or wrong_input.get("base_vector") != "K-POS-025"
+        or wrong_input.get("policy_return", {}).get("candidate_id")
+        in wrong_input.get("expected_requested_envelope_candidate_ids", [])
+        or wrong_input.get("expected_requested_envelope_candidate_ids")
+        != requested_ids
+    ):
+        raise ValueError("K-NEG-056: wrong-envelope result control is incomplete")
+
+    def recompute_view_digest(candidate_view: dict[str, Any]) -> str:
+        unsigned = {
+            key: value
+            for key, value in candidate_view.items()
+            if key != "evaluation_digest"
+        }
+        encoded = json.dumps(
+            unsigned,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+    mismatch_ids = by_id["K-NEG-057"]
+    mismatch_ids_input = mismatch_ids.get("input", {})
+    mismatch_ids_case = copy.deepcopy(selection_input)
+    mismatch_ids_case["evaluation_view"]["snapshot_id"] = mismatch_ids_input[
+        "mutation"
+    ]["replacement"]
+    mismatch_ids_case["evaluation_view"][
+        "evaluation_digest"
+    ] = recompute_view_digest(mismatch_ids_case["evaluation_view"])
+    if (
+        mismatch_ids["expect"].get("error_id") != "revision_conflict"
+        or mismatch_ids_input.get("mutation", {}).get("path")
+        != "evaluation_view.snapshot_id"
+        or mismatch_ids_input.get("recompute_evaluation_digest") is not True
+        or mismatch_ids_case["snapshot"]["snapshot_id"]
+        == mismatch_ids_case["evaluation_view"]["snapshot_id"]
+        or mismatch_ids_case["evaluation_view"]["evaluation_digest"]
+        != recompute_view_digest(mismatch_ids_case["evaluation_view"])
+    ):
+        raise ValueError("K-NEG-057: snapshot ID mismatch control is incomplete")
+    mismatch_revisions = by_id["K-NEG-058"]
+    mismatch_revisions_input = mismatch_revisions.get("input", {})
+    mismatch_revisions_case = copy.deepcopy(selection_input)
+    mismatch_revisions_case["evaluation_view"]["revisions"][
+        "facts"
+    ] = mismatch_revisions_input["mutation"]["replacement"]
+    mismatch_revisions_case["evaluation_view"][
+        "evaluation_digest"
+    ] = recompute_view_digest(mismatch_revisions_case["evaluation_view"])
+    if (
+        mismatch_revisions["expect"].get("error_id") != "revision_conflict"
+        or mismatch_revisions_input.get("mutation", {}).get("path")
+        != "evaluation_view.revisions.facts"
+        or mismatch_revisions_input.get("recompute_evaluation_digest") is not True
+        or mismatch_revisions_case["snapshot"]["revisions"]
+        == mismatch_revisions_case["evaluation_view"]["revisions"]
+        or mismatch_revisions_case["evaluation_view"]["evaluation_digest"]
+        != recompute_view_digest(mismatch_revisions_case["evaluation_view"])
+    ):
+        raise ValueError("K-NEG-058: revision mismatch control is incomplete")
+    bad_digest = by_id["K-NEG-059"]
+    bad_digest_input = bad_digest.get("input", {})
+    bad_digest_case = copy.deepcopy(selection_input)
+    bad_digest_case["evaluation_view"]["evaluation_digest"] = bad_digest_input[
+        "mutation"
+    ]["replacement"]
+    if (
+        bad_digest["expect"].get("error_id") != "digest_mismatch"
+        or bad_digest_input.get("mutation", {}).get("path")
+        != "evaluation_view.evaluation_digest"
+        or bad_digest_input.get("digest_syntax_valid") is not True
+        or bad_digest_case["evaluation_view"]["evaluation_digest"]
+        == recompute_view_digest(bad_digest_case["evaluation_view"])
+    ):
+        raise ValueError("K-NEG-059: evaluation digest mismatch control is incomplete")
+    missing_key = by_id["K-NEG-060"]
+    missing_key_input = missing_key.get("input", {})
+    missing_key_case = copy.deepcopy(selection_input)
+    missing_key_case["requested_key"] = missing_key_input["mutation"][
+        "replacement"
+    ]
+    if (
+        missing_key["expect"].get("error_id") != "dangling_reference"
+        or missing_key_input.get("mutation", {}).get("path") != "requested_key"
+        or missing_key_case["requested_key"]
+        in [envelope.get("key") for envelope in snapshot.get("facts", [])]
+    ):
+        raise ValueError("K-NEG-060: absent selection key control is incomplete")
+    missing_candidate = by_id["K-NEG-061"]
+    missing_candidate_input = missing_candidate.get("input", {})
+    missing_candidate_case = copy.deepcopy(selection_input)
+    removed_candidate_id = missing_candidate_input.get("mutation", {}).get(
+        "remove_candidate_id"
+    )
+    missing_candidate_case["evaluation_view"]["facts"] = [
+        item
+        for item in missing_candidate_case["evaluation_view"]["facts"]
+        if item.get("candidate_id") != removed_candidate_id
+    ]
+    missing_candidate_case["evaluation_view"][
+        "evaluation_digest"
+    ] = recompute_view_digest(missing_candidate_case["evaluation_view"])
+    if (
+        missing_candidate["expect"].get("error_id") != "dangling_reference"
+        or missing_candidate_input.get("mutation", {}).get("path")
+        != "evaluation_view.facts"
+        or missing_candidate_input.get("recompute_evaluation_digest") is not True
+        or removed_candidate_id not in snapshot_candidates
+        or removed_candidate_id
+        in {
+            item.get("candidate_id")
+            for item in missing_candidate_case["evaluation_view"]["facts"]
+        }
+        or missing_candidate_case["evaluation_view"]["evaluation_digest"]
+        != recompute_view_digest(missing_candidate_case["evaluation_view"])
+    ):
+        raise ValueError("K-NEG-061: incomplete evaluation view control is missing")
+    mismatch_context = by_id["K-NEG-062"]
+    mismatch_context_input = mismatch_context.get("input", {})
+    mismatch_context_result = copy.deepcopy(result)
+    mismatch_context_result["context"]["evaluate_monotonic"][
+        "nanoseconds"
+    ] = mismatch_context_input["mutation"]["replacement"]
+    if (
+        mismatch_context["expect"].get("error_id") != "revision_conflict"
+        or mismatch_context_input.get("mutation", {}).get("path")
+        != "selection.context.evaluate_monotonic.nanoseconds"
+        or mismatch_context_result.get("context") == view.get("context")
+    ):
+        raise ValueError("K-NEG-062: selection context mismatch is incomplete")
+    missing_policy = by_id["K-NEG-063"]
+    duplicate_policy = by_id["K-NEG-064"]
+    if (
+        missing_policy["expect"].get("error_id") != "definition_owner_missing"
+        or missing_policy.get("input", {}).get("exact_registration_absent")
+        is not True
+        or duplicate_policy["expect"].get("error_id")
+        != "definition_owner_conflict"
+        or duplicate_policy.get("input", {}).get("registration_count") != 2
+    ):
+        raise ValueError("selection-policy ownership controls are incomplete")
+    mismatched_candidate_revision = by_id["K-NEG-065"]
+    mismatched_candidate_input = mismatched_candidate_revision.get("input", {})
+    mismatched_candidate_case = copy.deepcopy(selection_input)
+    target_candidate_id = "candidate:voltage:b"
+    target_fact = next(
+        item
+        for item in mismatched_candidate_case["evaluation_view"]["facts"]
+        if item.get("candidate_id") == target_candidate_id
+    )
+    target_fact["candidate_revision"] = mismatched_candidate_input["mutation"][
+        "replacement"
+    ]
+    mismatched_candidate_case["evaluation_view"][
+        "evaluation_digest"
+    ] = recompute_view_digest(mismatched_candidate_case["evaluation_view"])
+    if (
+        mismatched_candidate_revision["expect"].get("error_id")
+        != "revision_conflict"
+        or mismatched_candidate_input.get("mutation", {}).get("path")
+        != "evaluation_view.facts[candidate:voltage:b].candidate_revision"
+        or mismatched_candidate_input.get("recompute_evaluation_digest") is not True
+        or target_fact.get("candidate_revision")
+        == snapshot_candidates[target_candidate_id][0]
+        or mismatched_candidate_case["evaluation_view"]["evaluation_digest"]
+        != recompute_view_digest(mismatched_candidate_case["evaluation_view"])
+    ):
+        raise ValueError("K-NEG-065: candidate revision mismatch is incomplete")
 
     restart_snapshot = by_id["K-POS-018"].get("input", {}).get(
         "resulting_snapshot", {}

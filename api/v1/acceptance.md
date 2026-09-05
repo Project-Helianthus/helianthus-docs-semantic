@@ -85,7 +85,9 @@ independent axes; unknown and unsupported remain distinct.
 
 Multiple candidates coexist, qualified disagreement remains visible, and
 kernel-derived conflict metadata is atomically reconciled when candidates
-change. Pure presentation selection does not destroy or resolve alternatives.
+change. Pure presentation selection receives matching immutable snapshot and
+evaluation inputs, resolves the exact requested envelope, and does not destroy
+or resolve alternatives.
 
 ### Coverage: `capability`
 
@@ -174,7 +176,9 @@ A decimal coefficient/exponent is out of range or not in canonical exact form.
 
 A tagged value selects zero/multiple payloads, uses a forbidden kind, contains
 invalid text/symbol data, violates its pack-declared type/unit/range, or a
-snapshot's kernel-derived conflict metadata differs from its candidate set.
+snapshot's kernel-derived conflict metadata differs from its candidate set. It
+also covers a presentation policy that returns a candidate outside its supplied
+envelope/evaluated subset or returns zero/multiple candidates.
 
 ### Error: `invalid_enum`
 
@@ -225,7 +229,8 @@ A snapshot or update reference does not resolve to the exact required object,
 candidate revision, source path, or later readback snapshot. A resolved but stale
 source epoch or generation uses the more specific lifecycle error. This class
 does not apply to a precondition's exact candidate lookup or revision check;
-those are `precondition_failed`.
+those are `precondition_failed`. In selection, an absent requested fact key or
+candidate correspondence uses this class.
 
 ### Error: `derivation_cycle`
 
@@ -240,8 +245,9 @@ lacks its native-owner rule or has empty/unqualifying `IdentityLink.basis`.
 ### Error: `revision_conflict`
 
 An expected semantic/object/component revision does not match the current
-immutable state. A precondition's candidate-revision mismatch is
-`precondition_failed` instead.
+immutable state. It also covers a selection snapshot-ID, complete revision-vector,
+evaluation-context, or evaluated-candidate-revision mismatch. A precondition's
+candidate-revision mismatch is `precondition_failed` instead.
 
 ### Error: `sequence_conflict`
 
@@ -264,14 +270,16 @@ current generation or fails to include its atomic supersession boundary.
 
 ### Error: `definition_owner_conflict`
 
-Pack registration contains duplicate validators, duplicate definition ownership,
-a validator/index pack mismatch, or a definition listed under the wrong kind.
+Registration contains duplicate pack validators, duplicate definition ownership,
+a validator/index pack mismatch, a definition listed under the wrong kind, or a
+duplicate kernel selection-policy ID/version.
 
 ### Error: `definition_owner_missing`
 
 An explicit pack or field/service/capability/operation/effect definition has no
 exact registered validator and matching definition-index entry, or an operation
-pack lacks its required validation hook.
+pack lacks its required validation hook, or an exact kernel selection policy is
+not registered.
 
 ### Error: `capability_not_qualified`
 
@@ -371,6 +379,12 @@ These rules partition overlaps before applying the general precedence list:
 - missing/unresolvable readback snapshot/candidate references remain
   `dangling_reference`, while a resolved but pre-dispatch/unrelated/unverifiable
   candidate used for `applied` is `invalid_outcome`; and
+- selection input uses `invalid_value` for malformed digest syntax or a policy
+  result outside its supplied envelope, `digest_mismatch` for a valid but wrong
+  computed evaluation digest, `revision_conflict` for snapshot/revision/context/
+  candidate-revision mismatch, `dangling_reference` for an absent requested key
+  or candidate, and the definition-owner errors for missing/duplicate exact
+  selection-policy registration; and
 - after a `CausalContext` has syntactically valid fields, its path length,
   `hop_count`, `max_hops`, path/count consistency, append capacity, and
   300-second lifetime use `causal_budget_exceeded`, even though generic arrays,
@@ -392,23 +406,23 @@ serialization precedence list chooses one when an input violates several rows.
 | undeclared member or extension bag | `unknown_member` |
 | malformed, empty, overlength, non-ASCII, or wrong typed identifier | `invalid_identifier` |
 | noncanonical/out-of-range decimal coefficient or exponent | `invalid_decimal` |
-| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, malformed non-evidence digest, or mismatched kernel-derived conflict metadata | `invalid_value` |
+| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, malformed non-evidence digest, mismatched kernel-derived conflict metadata, or zero/multiple/out-of-envelope selection result | `invalid_value` |
 | invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow outside a well-formed over-limit causal lifetime | `invalid_time` |
 | malformed or inaccessible supplied `EvidenceRef` outside the identity/capability proof cases below | `invalid_evidence` |
 | enum token outside its exact declared set | `invalid_enum` |
 | collection/text/graph maximum exceeded outside causal path/hop/lifetime limits | `bounds_exceeded` |
 | valid set members presented outside canonical order | `noncanonical_order` |
 | previously unseen record digest differs from its computed canonical digest | `digest_mismatch` |
-| unresolved candidate/object/revision/source-path/readback-snapshot reference outside precondition lookup | `dangling_reference` |
+| unresolved candidate/object/revision/source-path/readback-snapshot/selection-key reference outside precondition lookup | `dangling_reference` |
 | derivation self-reference, cycle, or graph-shape violation | `derivation_cycle` |
 | incomparable monotonic epochs without permitted wall evaluation | `incomparable_clock_epoch` |
-| stale expected object, component, or semantic revision outside precondition candidate binding | `revision_conflict` |
+| stale expected object/component/semantic revision or mismatched selection snapshot/revision/context/candidate revision outside precondition binding | `revision_conflict` |
 | regressed/reused publication sequence or idempotency key with different bytes | `sequence_conflict` |
 | retired or non-current source epoch | `stale_source_epoch` |
 | fenced/superseded generation or readback/route generation mismatch | `stale_driver_generation` |
 | higher generation without every required explicit supersession fence/withdrawal boundary | `generation_transition_incomplete` |
-| duplicate validator/definition ownership, pack mismatch, or wrong indexed definition kind | `definition_owner_conflict` |
-| missing exact pack validator, field/service/capability/operation/effect entry, or operation-pack hook | `definition_owner_missing` |
+| duplicate validator/definition/selection-policy ownership, pack mismatch, or wrong indexed definition kind | `definition_owner_conflict` |
+| missing exact pack validator, field/service/capability/operation/effect entry, operation-pack hook, or selection policy | `definition_owner_missing` |
 | unproved/reused/conflicting identity link/binding, including empty or unqualifying link basis | `identity_not_qualified` |
 | candidate/unknown/unsupported/rejected capability or empty/unqualifying activation/pack proof | `capability_not_qualified` |
 | withdrawn/unavailable or non-permitted degraded capability | `capability_unavailable` |

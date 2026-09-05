@@ -109,6 +109,7 @@ digested input.
 | `TypedField` collections | `DefinitionID` |
 | `DefinitionIndex` collections | `(id, version)` |
 | registered pack validators and projection pack versions | `(pack id, pack version)` |
+| registered selection policies | `(policy_id, policy_version)` |
 | `Intent.preconditions` | `(canonical FactKey bytes, candidate_id, candidate_revision)` |
 | sources | `(source_id, source_epoch_id)` |
 | source retirements | `SourceEpochID` |
@@ -172,11 +173,23 @@ digest. Thus fresh-to-stale-to-expired transitions can produce distinct view
 bytes while the source snapshot canonical bytes and every publication revision
 remain unchanged.
 
-Presentation selection serializes a separate `Selection` result bound to the
-exact snapshot ID, evaluation digest, fact key, candidate ID/revision, and
-policy ID/version. It is never a `Snapshot` or `FactEnvelope` member. A later
-snapshot or evaluation cannot retain or rewrite it; callers request a new pure
-selection result.
+Presentation selection serializes a separate
+`helianthus.semantic.selection/v1` result bound to the exact snapshot ID,
+complete revision vector, evaluation digest and context, fact
+key, candidate ID/revision, and policy ID/version. It is never a `Snapshot` or
+`FactEnvelope` member. Selection receives both complete canonical `Snapshot` and
+`EvaluationView` bytes. The view digest is verified before snapshot/revision/
+candidate correspondence; the requested key is resolved in the snapshot before
+one exact policy dispatch. The policy receives the matching envelope and its
+sorted evaluated facts only. A later snapshot or evaluation cannot retain or
+rewrite the result; callers request a new pure selection.
+
+The same canonical snapshot, evaluation view, requested key and policy version
+MUST produce identical selection bytes. Selection reads no implicit store or
+clock. A valid-but-wrong evaluation digest is `digest_mismatch`; mismatched
+snapshot/revision/context/candidate revision is `revision_conflict`; a missing
+requested key/candidate is `dangling_reference`; and an out-of-envelope policy
+result is `invalid_value`.
 
 `FactEnvelope.conflicts` is canonical kernel output. After the complete candidate
 change and dependency cascade, the kernel sorts eligible candidate IDs, derives

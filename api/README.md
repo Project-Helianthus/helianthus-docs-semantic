@@ -10,15 +10,18 @@ The versioned kernel contract consists of:
 - [positive and negative acceptance vectors](v1/acceptance-vectors.json).
 
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
-view uses `helianthus.semantic.evaluation/v1`. The contract becomes normative
-for the Project Helianthus kernel implementation when merged into `main`. The
-owning Go module is
+view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
+`helianthus.semantic.selection/v1`. Selection receives the complete matching
+immutable snapshot and evaluation view; it has no hidden store or native lookup.
+The contract becomes normative for the Project Helianthus kernel implementation
+when merged into `main`. The owning Go module is
 [`Project-Helianthus/helianthus-semreg`](https://github.com/Project-Helianthus/helianthus-semreg).
 
 The contract is complete for its kernel scope: identity/source/evidence,
 protocol-neutral values and quality, facts and conflicts, services and
 capabilities, immutable publication/snapshots, pure freshness evaluation,
-multi-source derived dependencies, exact precondition evidence, pack-owned
+multi-source derived dependencies, self-contained deterministic presentation
+selection, exact precondition evidence, pack-owned
 readback effects and definition dispatch, mandatory generation supersession,
 operation evidence, causal budgets, projection loss, and compatibility aliases.
 It deliberately contains no protocol/vendor/gateway import or arbitrary public

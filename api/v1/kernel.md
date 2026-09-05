@@ -36,6 +36,7 @@ Public top-level records use these exact contract IDs:
 |---|---|
 | `PublicationBatch`, `Snapshot` | `helianthus.semantic.kernel/v1` |
 | `EvaluationView` | `helianthus.semantic.evaluation/v1` |
+| `Selection` | `helianthus.semantic.selection/v1` |
 | `Intent`, `ExecutionRecord` | `helianthus.semantic.operation/v1` |
 | `ProjectionReport` | `helianthus.semantic.projection/v1` |
 | `CompatibilityAlias` | `helianthus.semantic.alias/v1` |
@@ -697,28 +698,68 @@ and new native evidence.
 
 ```go
 type Selection struct {
+    Contract           ContractVersion `json:"contract"`
     SnapshotID         SnapshotID      `json:"snapshot_id"`
+    Revisions          RevisionVector  `json:"revisions"`
     EvaluationDigest   Digest          `json:"evaluation_digest"`
+    Context            EvaluationContext `json:"context"`
     Key                FactKey         `json:"key"`
     PolicyID           PolicyID        `json:"policy_id"`
     PolicyVersion      SemanticVersion `json:"policy_version"`
     SelectedCandidate  CandidateID    `json:"selected_candidate"`
     CandidateRevision  Uint64          `json:"candidate_revision"`
-    EvaluatedAt        TimePoint      `json:"evaluated_at"`
     PresentationOnly   bool           `json:"presentation_only"`
 }
 ```
 
 `Selection` is not stored in `Snapshot` or `FactEnvelope`. The root package
 exposes a pure operation equivalent to
-`SelectPresentation(EvaluationView, FactKey, PolicyID, SemanticVersion)
-(Selection, error)`. `presentation_only` MUST be true. The selected candidate
-and revision must exist in the named evaluation view and the exact deterministic
-policy must be registered by the kernel. Native publication cannot register or
-choose that cross-source policy. A selection is valid only for its snapshot and
-evaluation digest; any later publication or evaluation requires a new result.
-Selection does not remove alternatives, resolve identity, choose an operation
-route, or retain capability authority.
+`SelectPresentation(Snapshot, EvaluationView, FactKey, PolicyID,
+SemanticVersion) (Selection, error)`. It validates both immutable inputs before
+policy dispatch: the view digest is recomputed; snapshot IDs and complete
+revision vectors match; every evaluated candidate ID/revision corresponds
+exactly once to a snapshot candidate; and no snapshot candidate is omitted. It
+then resolves exactly one envelope by canonical `FactKey` equality and passes
+that envelope plus only its matching evaluated facts to the policy hook.
+
+`contract` is exactly `helianthus.semantic.selection/v1` and
+`presentation_only` MUST be true. The result repeats the matched snapshot ID,
+revision vector, complete evaluation context and digest. The selected candidate
+and revision must belong to the requested envelope and its evaluated subset.
+Native publication cannot register or choose the cross-source policy. A
+selection is valid only for its named snapshot and evaluation; any later
+publication or evaluation requires a new result. Selection does not remove
+alternatives, resolve identity, choose an operation route, or retain capability
+authority.
+
+### Type: SelectionPolicy
+
+```go
+type SelectionPolicy interface {
+    PolicyID() PolicyID
+    Version() SemanticVersion
+    Select(FactEnvelope, []EvaluatedFact) (CandidateID, error)
+}
+```
+
+The kernel registers each `(policy_id,version)` exactly once and invokes one
+exact match. Duplicate registration is `definition_owner_conflict`; absence is
+`definition_owner_missing`. The hook receives the full immutable candidates,
+values, stored quality, provenance, derivation and derived conflicts through the
+envelope, plus the matching sorted freshness/availability results. It is pure:
+no process clock, mutable snapshot store, registration-order probing, native
+lookup or external I/O. Repeating identical canonical inputs MUST select the
+same candidate. A returned candidate outside the supplied envelope/evaluated
+subset is `invalid_value`. The kernel, not the policy, constructs every other
+`Selection` field from the validated inputs. A policy that cannot select one
+candidate returns `invalid_value`; omission or multiple results are not a valid
+selection.
+
+A malformed evaluation digest is `invalid_value`; a valid digest that does not
+match the evaluation bytes is `digest_mismatch`. A snapshot ID, revision vector,
+evaluation context or evaluated candidate revision mismatch is
+`revision_conflict`. A missing requested key or candidate reference is
+`dangling_reference`.
 
 ### Type: Conflict
 
