@@ -1045,45 +1045,292 @@
         "time"
       ],
       "input": {
-        "snapshot_id": "snapshot:meter:10",
-        "revisions": {
-          "semantic": "10",
-          "identity": "2",
-          "facts": "7",
-          "services": "1",
-          "capabilities": "1"
+        "snapshot": {
+          "contract": "helianthus.semantic.kernel/v1",
+          "snapshot_id": "sha256:bf2624f9835cd4e38ad101c2bf87df7be319f150efe8321d78fec9a209607bb6",
+          "asset_id": "asset:evaluation",
+          "revisions": {
+            "semantic": "10",
+            "identity": "2",
+            "facts": "7",
+            "services": "1",
+            "capabilities": "1"
+          },
+          "evaluated_at": {
+            "unix_nanoseconds": "201",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "0"
+          },
+          "evaluate_monotonic": {
+            "clock_epoch_id": "clock-epoch:publication",
+            "nanoseconds": "100"
+          },
+          "sources": [
+            {
+              "source_id": "source:evaluation",
+              "source_epoch_id": "epoch:evaluation",
+              "protocol_id": "protocol.test",
+              "profile_id": "profile.test",
+              "profile_version": "release-1",
+              "registry_evidence": {
+                "owner": "owner.test",
+                "kind": "evidence.test",
+                "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+                "contract": "test.contract/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "started_at": {
+                "unix_nanoseconds": "100",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "0"
+              },
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:evaluation",
+              "asset_id": "asset:evaluation",
+              "source_id": "source:evaluation",
+              "source_epoch_id": "epoch:evaluation",
+              "driver_generation": "1",
+              "native_resource": {
+                "owner": "owner.test",
+                "kind": "evidence.test",
+                "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+                "contract": "test.contract/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "identity_links": [
+            {
+              "asset_id": "asset:evaluation",
+              "binding_id": "binding:evaluation",
+              "state": "qualified",
+              "basis": [
+                {
+                  "owner": "owner.test",
+                  "kind": "evidence.test",
+                  "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+                  "contract": "test.contract/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "facts": [
+            {
+              "asset_id": "asset:evaluation",
+              "key": {
+                "pack_id": "pack.test",
+                "pack_version": "1.0.0",
+                "fact_id": "fact.power",
+                "dimensions": []
+              },
+              "candidates": [
+                {
+                  "candidate_id": "candidate:meter:power",
+                  "key": {
+                    "pack_id": "pack.test",
+                    "pack_version": "1.0.0",
+                    "fact_id": "fact.power",
+                    "dimensions": []
+                  },
+                  "value": {
+                    "kind": "boolean",
+                    "boolean": true
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "qualification": "qualified",
+                    "promotion": "promoted",
+                    "validity": "good",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "reasons": []
+                  },
+                  "times": {
+                    "received_at": {
+                      "unix_nanoseconds": "100000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "0"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock-epoch:boot-1",
+                      "nanoseconds": "1000"
+                    },
+                    "evaluated_at": {
+                      "unix_nanoseconds": "100000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "0"
+                    },
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock-epoch:boot-1",
+                      "nanoseconds": "1000"
+                    }
+                  },
+                  "freshness_policy": {
+                    "policy_id": "policy:audit",
+                    "version": "1.0.0",
+                    "fresh_for_ns": "30000000000",
+                    "retain_for_ns": "120000000000",
+                    "max_wall_uncertainty_ns": "1000000"
+                  },
+                  "binding_id": "binding:evaluation",
+                  "source_epoch_id": "epoch:evaluation",
+                  "driver_generation": "1",
+                  "origin": {
+                    "origin_id": "origin:candidate:meter:power",
+                    "kind": "native_observation",
+                    "source_id": "source:evaluation",
+                    "source_epoch_id": "epoch:evaluation",
+                    "binding_id": "binding:evaluation",
+                    "evidence": [
+                      {
+                        "owner": "owner.test",
+                        "kind": "evidence.test",
+                        "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+                        "contract": "test.contract/v1",
+                        "access": "public",
+                        "redaction": "none"
+                      }
+                    ]
+                  },
+                  "evidence": [
+                    {
+                      "owner": "owner.test",
+                      "kind": "evidence.test",
+                      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+                      "contract": "test.contract/v1",
+                      "access": "public",
+                      "redaction": "none"
+                    }
+                  ],
+                  "revision": "4"
+                }
+              ],
+              "conflicts": [],
+              "revision": "1"
+            }
+          ],
+          "services": [
+            {
+              "instance_id": "service:evaluation",
+              "asset_id": "asset:evaluation",
+              "definition": {
+                "pack": {
+                  "id": "pack.test",
+                  "version": "1.0.0"
+                },
+                "id": "service.test",
+                "version": "1.0.0"
+              },
+              "binding_id": "binding:evaluation",
+              "source_epoch_id": "epoch:evaluation",
+              "driver_generation": "1",
+              "qualification": "qualified",
+              "availability": "available",
+              "revision": "1"
+            }
+          ],
+          "capabilities": [
+            {
+              "instance_id": "capability:evaluation",
+              "asset_id": "asset:evaluation",
+              "service_instance": "service:evaluation",
+              "definition": {
+                "pack": {
+                  "id": "pack.test",
+                  "version": "1.0.0"
+                },
+                "id": "capability.test",
+                "version": "1.0.0"
+              },
+              "binding_id": "binding:evaluation",
+              "source_epoch_id": "epoch:evaluation",
+              "driver_generation": "1",
+              "qualification": "qualified",
+              "availability": "available",
+              "constraints": [],
+              "activation_evidence": [
+                {
+                  "owner": "helianthus.gateway",
+                  "kind": "driver.activation",
+                  "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+                  "contract": "helianthus.gateway.driver.activation.v1",
+                  "access": "public",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "fences": [],
+          "cursors": [
+            {
+              "source_id": "source:evaluation",
+              "source_epoch_id": "epoch:evaluation",
+              "driver_generation": "1",
+              "last_sequence": "1",
+              "last_batch_digest": "sha256:9adee07c0cdb111c3e064fa788f5e6f9fb6354b24c66f788e2f5081a0bec6ea2",
+              "fenced": false
+            }
+          ]
         },
         "candidate_id": "candidate:meter:power",
-        "candidate_revision": "4",
-        "receipt": {
-          "wall_ns": "100000000000",
-          "uncertainty_ns": "0",
-          "clock_epoch_id": "clock-epoch:boot-1",
-          "monotonic_ns": "1000"
-        },
-        "policy": {
-          "fresh_for_ns": "30000000000",
-          "retain_for_ns": "120000000000",
-          "max_wall_uncertainty_ns": "1000000"
-        },
         "contexts": [
           {
-            "wall_ns": "129999999999",
-            "clock_epoch_id": "clock-epoch:boot-1",
-            "monotonic_ns": "30000000999",
-            "expected_freshness": "fresh"
+            "context": {
+              "evaluated_at": {
+                "unix_nanoseconds": "129999999999",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "0"
+              },
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock-epoch:boot-1",
+                "nanoseconds": "30000000999"
+              }
+            },
+            "expected_freshness": "fresh",
+            "expected_evaluation_digest": "sha256:f566e8d029b0b0ab54d3a1b7bcea665c6519e142a2219aa5cb599853ccf6461b"
           },
           {
-            "wall_ns": "130000000000",
-            "clock_epoch_id": "clock-epoch:boot-1",
-            "monotonic_ns": "30000001000",
-            "expected_freshness": "stale"
+            "context": {
+              "evaluated_at": {
+                "unix_nanoseconds": "130000000000",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "0"
+              },
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock-epoch:boot-1",
+                "nanoseconds": "30000001000"
+              }
+            },
+            "expected_freshness": "stale",
+            "expected_evaluation_digest": "sha256:3d8db85ba5a476c80a70103de7efc3d3d45204e9f00819009b22ec0a0b4ee0f0"
           },
           {
-            "wall_ns": "220000000000",
-            "clock_epoch_id": "clock-epoch:boot-1",
-            "monotonic_ns": "120000001000",
-            "expected_freshness": "expired"
+            "context": {
+              "evaluated_at": {
+                "unix_nanoseconds": "220000000000",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "0"
+              },
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock-epoch:boot-1",
+                "nanoseconds": "120000001000"
+              }
+            },
+            "expected_freshness": "expired",
+            "expected_evaluation_digest": "sha256:571fbfb22cffa426afcac446c9f09ffb347b902fc7cec94c7e45c7b001016683"
           }
         ]
       },
@@ -1759,7 +2006,7 @@
       "input": {
         "snapshot": {
           "contract": "helianthus.semantic.kernel/v1",
-          "snapshot_id": "snapshot:multi:40",
+          "snapshot_id": "sha256:c1af5be9470c99d886de71c2bf05514acf88280d4373c3347af997969472c811",
           "asset_id": "asset:site:01",
           "revisions": {
             "semantic": "40",
@@ -2117,7 +2364,7 @@
         },
         "evaluation_view": {
           "contract": "helianthus.semantic.evaluation/v1",
-          "snapshot_id": "snapshot:multi:40",
+          "snapshot_id": "sha256:c1af5be9470c99d886de71c2bf05514acf88280d4373c3347af997969472c811",
           "revisions": {
             "semantic": "40",
             "identity": "6",
@@ -2150,7 +2397,7 @@
               "effective_availability": "available"
             }
           ],
-          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12"
+          "evaluation_digest": "sha256:88de782f869ed861bdd3307b1e84802c088269590dbde6c120161029814002b1"
         },
         "requested_key": {
           "pack_id": "helianthus.pack.electrical",
@@ -2182,7 +2429,7 @@
       "expect": {
         "result": "accept",
         "selection": {
-          "snapshot_id": "snapshot:multi:40",
+          "snapshot_id": "sha256:c1af5be9470c99d886de71c2bf05514acf88280d4373c3347af997969472c811",
           "revisions": {
             "semantic": "40",
             "identity": "6",
@@ -2190,7 +2437,7 @@
             "services": "4",
             "capabilities": "4"
           },
-          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12",
+          "evaluation_digest": "sha256:88de782f869ed861bdd3307b1e84802c088269590dbde6c120161029814002b1",
           "context": {
             "evaluated_at": {
               "unix_nanoseconds": "40000000000",
@@ -2216,7 +2463,7 @@
           "contract": "helianthus.semantic.selection/v1"
         },
         "repeat_selection": {
-          "snapshot_id": "snapshot:multi:40",
+          "snapshot_id": "sha256:c1af5be9470c99d886de71c2bf05514acf88280d4373c3347af997969472c811",
           "revisions": {
             "semantic": "40",
             "identity": "6",
@@ -2224,7 +2471,7 @@
             "services": "4",
             "capabilities": "4"
           },
-          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12",
+          "evaluation_digest": "sha256:88de782f869ed861bdd3307b1e84802c088269590dbde6c120161029814002b1",
           "context": {
             "evaluated_at": {
               "unix_nanoseconds": "40000000000",
