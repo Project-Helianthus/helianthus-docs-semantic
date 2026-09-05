@@ -1305,11 +1305,13 @@ incomparable clocks, missing completion, or a retained pre-dispatch observation
 is `invalid_outcome`.
 
 `Readback.evaluation` is the complete explicit wall and monotonic context used
-to call `EvaluateSnapshot` on the later snapshot. It must be at or after the
-candidate receipt under the same comparison rules. The candidate must be
-qualified, promoted, good, evaluated fresh and available, and absent from an
-open conflict. An incomparable/invalid evaluation or effective stale, expired,
-unknown, degraded, unavailable, or withdrawn result is `invalid_outcome`.
+to call `EvaluateSnapshot` on the later snapshot. When the receipt and
+evaluation monotonic epochs match, evaluation ticks MUST be greater than or
+equal to receipt ticks. Across epochs, `EvaluateSnapshot` applies the exact UTC
+uncertainty algorithm in `FreshnessPolicy`. The candidate must be qualified,
+promoted, good, evaluated fresh and available, and absent from an open conflict.
+An incomparable/invalid evaluation or effective stale, expired, unknown,
+degraded, unavailable, or withdrawn result is `invalid_outcome`.
 
 A value already satisfied before dispatch never proves `applied`. If an
 operation pack supports an already-satisfied preflight decision, it must expose a

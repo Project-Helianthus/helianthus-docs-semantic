@@ -308,7 +308,7 @@ this exact precedence, from first to last:
    `capability_unavailable`, `authority_missing`, `deadline_expired`,
    `precondition_failed`;
 7. `route_selection_forbidden`, `ambiguous_route`, `retry_forbidden`;
-8. `invalid_outcome`, `causal_budget_exceeded`, `echo_suppressed`,
+8. `invalid_outcome`, `echo_suppressed`, `causal_budget_exceeded`,
    `projection_incomplete`, `alias_not_routable`.
 
 This order makes negative fixtures portable. It does not allow a validator to
