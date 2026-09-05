@@ -98,7 +98,8 @@ digested input.
 | Record/member | Sort key |
 |---|---|
 | `EvidenceRef` collections | `(owner, kind, contract, digest)` |
-| `Derivation.inputs` | `CandidateID` |
+| `Derivation.inputs` | `candidate_id` |
+| `DerivationInput.source_paths` | `(source_id, source_epoch_id, driver_generation, binding_id)` |
 | `Value.symbols` | `(namespace, token)` |
 | `FactKey.dimensions` | `Dimension.id`, then canonical value bytes |
 | `Quality.reasons` | `DefinitionID` |
@@ -109,6 +110,7 @@ digested input.
 | source retirements | `SourceEpochID` |
 | bindings, identity links, services, capabilities | primary instance/binding ID |
 | fact envelopes | canonical `FactKey` bytes |
+| `EvaluationView.facts` | `candidate_id` |
 | fences and publication cursors | `(source_id, source_epoch_id, driver_generation)` |
 | publication upserts/withdrawals | primary ID or canonical fact key |
 | projection requested/dispositions | `(kind, item_id)` |
@@ -134,7 +136,9 @@ when the record contract explicitly allows it.
 The digest binds the batch bytes, not acceptance. A repeated
 `(source_id, source_epoch_id, driver_generation, sequence)` is idempotent only
 when the digest is identical to the accepted batch. A different digest is
-`sequence_conflict` and changes no state.
+`sequence_conflict` and changes no state. For a sequence not already accepted,
+a syntactically valid digest that differs from the computed digest is
+`digest_mismatch`.
 
 Only the current `last_sequence`/`last_batch_digest` pair is idempotently
 replayable. A smaller sequence is rejected even if its old bytes are available;
@@ -157,6 +161,13 @@ member. Readers reject duplicate IDs, dangling references, revision mismatch,
 non-canonical order, and collections beyond the kernel limits. They do not
 truncate, merge, or choose a first duplicate.
 
+Time-only evaluation serializes an `EvaluationView`; it never serializes updated
+freshness back into `Snapshot`. The view repeats the snapshot ID and revision
+vector, records its explicit evaluation context, and has its own canonical
+digest. Thus fresh-to-stale-to-expired transitions can produce distinct view
+bytes while the source snapshot canonical bytes and every publication revision
+remain unchanged.
+
 ## Partial updates
 
 A publication batch is a patch with explicit operations, not a replacement
@@ -176,6 +187,13 @@ MUST leave the prior fact absent from both upserts and withdrawals unless its
 own contract supplies evidence for withdrawal. The retained fact may become
 stale, expired, bad, degraded, or unavailable according to its own policy; the
 failed sibling does not erase it.
+
+An inferred candidate serializes every exact input candidate revision and the
+sorted transitive union of native source paths. A publication that removes or
+changes an input path atomically removes affected derived candidates through the
+kernel's dependency closure. The cascade is part of the same snapshot and
+revision update; no temporary snapshot may retain a derived candidate with a
+dangling or fenced dependency.
 
 ## Generation and restart ordering
 
@@ -208,6 +226,11 @@ their individual timestamps and evidence. A later reconciliation appends a new
 record referring to the original attempt; it never changes `unknown` delivery
 into `not_sent` or rewrites an original `indeterminate` outcome.
 
+A readback serializes the exact later snapshot ID/revisions, candidate revision,
+binding, source, source epoch, and driver generation. These members are audit
+evidence and MUST match the admitted route; a fixture-only generation assertion
+cannot substitute for them.
+
 The same `IdempotencyKey` with different canonical intent bytes is
 `sequence_conflict`. The same validated intent may return its recorded outcome.
 No serializer or cache may convert that deduplication into permission to replay
@@ -230,16 +253,24 @@ requested semantic value with an earlier projection is not itself suppression.
 ## Error determinism
 
 Validation MUST return the most specific stable error ID before any state
-change. When several independent errors exist, implementations use this order:
+change. Every normative rejection maps to the stable class table in
+[acceptance.md](acceptance.md). When several errors exist, implementations use
+this exact precedence, from first to last:
 
-1. JSON syntax, duplicate keys, and unknown members;
-2. contract, required member, primitive, enum, and bound validation;
-3. internal reference, ordering, digest, and derivation validation;
-4. source epoch, generation, sequence, and revision validation;
-5. identity, qualification, capability, authority, deadline, and precondition
-   validation;
-6. route ambiguity and guarded admission;
-7. operation outcome, causal, projection, and compatibility invariants.
+1. `invalid_json`, `duplicate_key`;
+2. `invalid_contract`, `missing_member`, `unknown_member`;
+3. `invalid_identifier`, `invalid_decimal`, `invalid_value`, `invalid_time`,
+   `invalid_evidence`, `invalid_enum`, `bounds_exceeded`;
+4. `noncanonical_order`, `digest_mismatch`, `dangling_reference`,
+   `derivation_cycle`;
+5. `stale_source_epoch`, `stale_driver_generation`, `sequence_conflict`,
+   `revision_conflict`, `incomparable_clock_epoch`;
+6. `identity_not_qualified`, `capability_not_qualified`,
+   `capability_unavailable`, `authority_missing`, `deadline_expired`,
+   `precondition_failed`;
+7. `route_selection_forbidden`, `ambiguous_route`, `retry_forbidden`;
+8. `invalid_outcome`, `causal_budget_exceeded`, `echo_suppressed`,
+   `projection_incomplete`, `alias_not_routable`.
 
 This order makes negative fixtures portable. It does not allow a validator to
 skip additional diagnostics in logs, provided the public error ID is stable and

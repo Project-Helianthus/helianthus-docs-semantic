@@ -13,9 +13,18 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 KERNEL = ROOT / "api/v1/kernel.md"
 ACCEPTANCE = ROOT / "api/v1/acceptance.md"
+SERIALIZATION = ROOT / "api/v1/serialization.md"
 VECTORS = ROOT / "api/v1/acceptance-vectors.json"
 
 TYPE_HEADING = re.compile(r"^### Type: ([A-Za-z][A-Za-z0-9]*)$", re.MULTILINE)
+TYPE_BLOCK = re.compile(
+    r"^type ([A-Za-z][A-Za-z0-9]*) struct \{\n(.*?)^\}",
+    re.MULTILINE | re.DOTALL,
+)
+JSON_FIELD = re.compile(
+    r'^\s+[A-Za-z][A-Za-z0-9]*\s+.+`json:"([a-z][a-z0-9_]*)(?:,omitempty)?"`$',
+    re.MULTILINE,
+)
 ERROR_HEADING = re.compile(r"^### Error: `([a-z][a-z0-9_]*)`$", re.MULTILINE)
 COVERAGE_HEADING = re.compile(r"^### Coverage: `([a-z][a-z0-9_]*)`$", re.MULTILINE)
 VECTOR_ID = re.compile(r"^K-(POS|NEG)-[0-9]{3}$")
@@ -55,9 +64,141 @@ def heading_set(text: str, pattern: re.Pattern[str], label: str) -> set[str]:
     return set(values)
 
 
+def require_type_fields(kernel_text: str) -> None:
+    blocks = {
+        name: set(JSON_FIELD.findall(body))
+        for name, body in TYPE_BLOCK.findall(kernel_text)
+    }
+    required = {
+        "SourcePathRef": {
+            "binding_id",
+            "source_id",
+            "source_epoch_id",
+            "driver_generation",
+        },
+        "DerivationInput": {
+            "candidate_id",
+            "candidate_revision",
+            "source_paths",
+        },
+        "EvaluationView": {
+            "contract",
+            "snapshot_id",
+            "revisions",
+            "context",
+            "facts",
+            "evaluation_digest",
+        },
+        "Readback": {
+            "snapshot_id",
+            "revisions",
+            "candidate_id",
+            "candidate_revision",
+            "binding_id",
+            "source_id",
+            "source_epoch_id",
+            "driver_generation",
+            "relation",
+            "at",
+            "evidence",
+        },
+        "ProjectionDisposition": {
+            "kind",
+            "item_id",
+            "outcome",
+            "source_keys",
+            "loss",
+            "reason",
+        },
+    }
+    for name, fields in required.items():
+        missing = fields - blocks.get(name, set())
+        if missing:
+            raise ValueError(f"{name} is missing required fields: {sorted(missing)}")
+
+
+def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
+    by_id = {vector.get("id"): vector for vector in vectors}
+    required = {
+        "K-POS-019": ("EvaluationView", "positive"),
+        "K-POS-020": ("PublicationBatch", "positive"),
+        "K-NEG-034": ("PublicationBatch", "negative"),
+        "K-NEG-036": ("Readback", "negative"),
+        "K-NEG-037": ("ProjectionReport", "negative"),
+        "K-NEG-038": ("Intent", "negative"),
+    }
+    for vector_id, (record_type, polarity) in required.items():
+        vector = by_id.get(vector_id)
+        if not vector or vector.get("record_type") != record_type:
+            raise ValueError(f"{vector_id}: required correction vector is missing")
+        if vector.get("polarity") != polarity:
+            raise ValueError(f"{vector_id}: correction-vector polarity is invalid")
+
+    evaluation_assertions = set(by_id["K-POS-019"]["expect"].get("assertions", []))
+    if not {
+        "fresh_stale_expired_thresholds_exact",
+        "snapshot_canonical_bytes_unchanged",
+        "revision_vector_unchanged",
+    }.issubset(evaluation_assertions):
+        raise ValueError("K-POS-019: time-only evaluation assertions are incomplete")
+    contexts = by_id["K-POS-019"].get("input", {}).get("contexts", [])
+    if {context.get("expected_freshness") for context in contexts} != {
+        "fresh",
+        "stale",
+        "expired",
+    }:
+        raise ValueError("K-POS-019: freshness thresholds are incomplete")
+
+    required_readback = {
+        "snapshot_id",
+        "revisions",
+        "candidate_id",
+        "candidate_revision",
+        "binding_id",
+        "source_id",
+        "source_epoch_id",
+        "driver_generation",
+    }
+    for vector_id, readback in (
+        ("K-POS-014", by_id["K-POS-014"].get("input", {}).get("readback", {})),
+        ("K-NEG-036", by_id["K-NEG-036"].get("input", {})),
+    ):
+        if not required_readback.issubset(readback):
+            raise ValueError(f"{vector_id}: readback binding scenario is incomplete")
+
+    projection = by_id["K-POS-016"].get("input", {})
+    requested = {
+        (item.get("kind"), item.get("item_id"))
+        for item in projection.get("requested", [])
+    }
+    dispositions = {
+        (item.get("kind"), item.get("item_id"))
+        for item in projection.get("dispositions", [])
+    }
+    if requested != dispositions or len(requested) != len(
+        projection.get("requested", [])
+    ):
+        raise ValueError("K-POS-016: projection tuple accounting is incomplete")
+    ids_by_kind = defaultdict(set)
+    for kind, item_id in requested:
+        ids_by_kind[item_id].add(kind)
+    if not any(len(kinds) > 1 for kinds in ids_by_kind.values()):
+        raise ValueError("K-POS-016: equal IDs across kinds are not exercised")
+
+    derivation = by_id["K-POS-020"].get("input", {}).get("derived_candidate", {})
+    sources = {
+        path.get("source_id")
+        for item in derivation.get("inputs", [])
+        for path in item.get("source_paths", [])
+    }
+    if len(sources) < 2 or not derivation.get("binding_id_omitted"):
+        raise ValueError("K-POS-020: multi-source derivation is incomplete")
+
+
 def main() -> None:
     kernel_text = KERNEL.read_text(encoding="utf-8")
     acceptance_text = ACCEPTANCE.read_text(encoding="utf-8")
+    serialization_text = SERIALIZATION.read_text(encoding="utf-8")
     data = json.loads(
         VECTORS.read_text(encoding="utf-8"), object_pairs_hook=unique_object
     )
@@ -70,6 +211,7 @@ def main() -> None:
     error_ids = require_unique_sorted(data.get("error_ids"), "error_ids")
     coverage_ids = require_unique_sorted(data.get("coverage_ids"), "coverage_ids")
     types = heading_set(kernel_text, TYPE_HEADING, "type")
+    require_type_fields(kernel_text)
     documented_errors = heading_set(acceptance_text, ERROR_HEADING, "error")
     documented_coverage = heading_set(
         acceptance_text, COVERAGE_HEADING, "coverage"
@@ -79,6 +221,28 @@ def main() -> None:
         raise ValueError("vector error_ids do not match documented error headings")
     if set(coverage_ids) != documented_coverage:
         raise ValueError("vector coverage_ids do not match documented coverage headings")
+
+    class_map = acceptance_text.split("## Normative rejection class map", 1)
+    if len(class_map) != 2:
+        raise ValueError("normative rejection class map is missing")
+    class_map_text = class_map[1].split("## Acceptance procedure", 1)[0]
+    mapped_errors = re.findall(r"\| `([a-z][a-z0-9_]*)` \|", class_map_text)
+    if set(mapped_errors) != documented_errors or len(mapped_errors) != len(
+        documented_errors
+    ):
+        raise ValueError("rejection class map does not cover every stable error once")
+
+    precedence_text = serialization_text.split("## Error determinism", 1)
+    if len(precedence_text) != 2:
+        raise ValueError("serialization error precedence section is missing")
+    precedence_values = re.findall(
+        r"`([a-z][a-z0-9_]*)`", precedence_text[1]
+    )
+    precedence_ids = set(precedence_values)
+    if precedence_ids != documented_errors or len(precedence_values) != len(
+        precedence_ids
+    ):
+        raise ValueError("error precedence does not list every stable error exactly")
 
     vectors = data.get("vectors")
     if not isinstance(vectors, list) or not vectors:
@@ -194,6 +358,8 @@ def main() -> None:
             "coverage missing polarities: "
             f"missing={sorted(missing_coverage)} incomplete={incomplete_coverage}"
         )
+
+    require_correction_vectors(vectors)
 
     print(
         f"kernel v1 documents consistent: {len(types)} types, "

@@ -5,22 +5,29 @@
     "alias_not_routable",
     "ambiguous_route",
     "authority_missing",
+    "bounds_exceeded",
     "capability_not_qualified",
     "capability_unavailable",
     "causal_budget_exceeded",
+    "dangling_reference",
     "deadline_expired",
     "derivation_cycle",
+    "digest_mismatch",
     "duplicate_key",
     "echo_suppressed",
     "identity_not_qualified",
     "incomparable_clock_epoch",
     "invalid_contract",
     "invalid_decimal",
+    "invalid_enum",
     "invalid_evidence",
     "invalid_identifier",
+    "invalid_json",
     "invalid_outcome",
     "invalid_time",
     "invalid_value",
+    "missing_member",
+    "noncanonical_order",
     "precondition_failed",
     "projection_incomplete",
     "retry_forbidden",
@@ -90,7 +97,10 @@
       "polarity": "positive",
       "record_type": "FactCandidate",
       "operation": "validate",
-      "coverage": ["lineage", "qualification"],
+      "coverage": [
+        "lineage",
+        "qualification"
+      ],
       "input": {
         "candidate_id": "candidate:derived:power-total",
         "quality": {
@@ -102,23 +112,72 @@
           "freshness": "fresh",
           "reasons": []
         },
-        "origin": {"origin_id": "origin:derived:power-total", "kind": "derived", "evidence_count": 1},
+        "origin": {
+          "origin_id": "origin:derived:power-total",
+          "kind": "derived",
+          "evidence_count": 1
+        },
         "derivation": {
           "algorithm": "helianthus.sum.phases",
           "version": "1.0.0",
-          "inputs": ["candidate:phase:l1", "candidate:phase:l2", "candidate:phase:l3"],
+          "inputs": [
+            {
+              "candidate_id": "candidate:phase:l1",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l1",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:phase:l2",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l2",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:phase:l3",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l3",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            }
+          ],
           "evidence": []
         },
-        "evidence": [{
-          "owner": "helianthus.modbusreg",
-          "kind": "profile.observation",
-          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
-          "contract": "helianthus.modbus.profile.v1",
-          "access": "public",
-          "redaction": "none"
-        }]
+        "evidence": [
+          {
+            "owner": "helianthus.modbusreg",
+            "kind": "profile.observation",
+            "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "contract": "helianthus.modbus.profile.v1",
+            "access": "public",
+            "redaction": "none"
+          }
+        ]
       },
-      "expect": {"result": "accept", "assertions": ["derivation_inputs_retained", "promotion_does_not_erase_lineage"]},
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "derivation_inputs_retained",
+          "promotion_does_not_erase_lineage"
+        ]
+      },
       "criterion": "An inferred promoted fact names an acyclic versioned derivation and keeps native evidence."
     },
     {
@@ -279,10 +338,60 @@
       "polarity": "positive",
       "record_type": "ExecutionRecord",
       "operation": "validate",
-      "coverage": ["operation", "generation"],
-      "input": {"route_generation": "7", "dispatch_delivery": "sent", "acknowledgement": "accepted", "readback_relation": "confirms", "readback_generation": "7", "outcome": "applied"},
-      "expect": {"result": "accept", "assertions": ["ack_and_readback_retained_separately", "outcome_applied"]},
-      "criterion": "Current-generation confirming readback supports applied without erasing ACK evidence."
+      "coverage": [
+        "operation",
+        "generation"
+      ],
+      "input": {
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "admitted_revision": {
+          "semantic": "12",
+          "identity": "2",
+          "facts": "8",
+          "services": "3",
+          "capabilities": "5"
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "1",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "at": {
+            "unix_nanoseconds": "201000000000",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "1000"
+          },
+          "evidence_count": 1
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "applied"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "exact_later_snapshot_and_candidate_revision_retained",
+          "route_source_epoch_and_generation_match",
+          "outcome_applied"
+        ]
+      },
+      "criterion": "An exact later observed candidate on the admitted route and generation supports applied."
     },
     {
       "id": "K-POS-015",
@@ -300,15 +409,69 @@
       "polarity": "positive",
       "record_type": "ProjectionReport",
       "operation": "project",
-      "coverage": ["projection", "lineage"],
+      "coverage": [
+        "projection",
+        "lineage"
+      ],
       "input": {
-        "requested": [{"kind": "fact", "item_id": "helianthus.pv.active_power"}],
-        "dispositions": [{"item_id": "helianthus.pv.active_power", "outcome": "transformed", "source_keys": ["pv-power-key"], "loss": [{"kind": "precision", "reversible": false}]}],
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "fact",
+            "item_id": "helianthus.pv.active_power"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact",
+            "source_keys": [],
+            "loss": []
+          },
+          {
+            "kind": "fact",
+            "item_id": "helianthus.pv.active_power",
+            "outcome": "transformed",
+            "source_keys": [
+              "pv-power-key"
+            ],
+            "loss": [
+              {
+                "kind": "precision",
+                "reversible": false
+              }
+            ]
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "withheld",
+            "source_keys": [],
+            "loss": [],
+            "reason": "policy.operation_withheld"
+          }
+        ],
         "snapshot_revision": "12",
         "causal_preserved": true
       },
-      "expect": {"result": "accept", "assertions": ["one_disposition_per_request", "precision_loss_visible", "snapshot_revision_preserved"]},
-      "criterion": "A transformed target field accounts for its source and irreversible precision loss."
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "one_disposition_per_kind_and_item_id",
+          "equal_item_ids_remain_distinct_across_kinds",
+          "precision_loss_visible",
+          "snapshot_revision_preserved"
+        ]
+      },
+      "criterion": "Each requested (kind,item_id) tuple is accounted independently, including equal IDs under capability and operation."
     },
     {
       "id": "K-POS-017",
@@ -338,6 +501,140 @@
       "prior_state": {"current_source_epoch_id": "source-epoch:before-restart", "available_capabilities": ["capability:pv:telemetry"]},
       "expect": {"result": "accept", "assertions": ["new_epoch_current", "old_epoch_withdrawn_atomically", "sequence_domain_restarts_at_1", "old_monotonic_ticks_not_reused"]},
       "criterion": "A source restart establishes a new epoch and atomically retires old bindings and capabilities without conflating clock or driver generations."
+    },
+    {
+      "id": "K-POS-019",
+      "polarity": "positive",
+      "record_type": "EvaluationView",
+      "operation": "evaluate",
+      "coverage": [
+        "freshness",
+        "snapshot",
+        "time"
+      ],
+      "input": {
+        "snapshot_id": "snapshot:meter:10",
+        "revisions": {
+          "semantic": "10",
+          "identity": "2",
+          "facts": "7",
+          "services": "1",
+          "capabilities": "1"
+        },
+        "candidate_id": "candidate:meter:power",
+        "candidate_revision": "4",
+        "receipt": {
+          "wall_ns": "100000000000",
+          "uncertainty_ns": "0",
+          "clock_epoch_id": "clock-epoch:boot-1",
+          "monotonic_ns": "1000"
+        },
+        "policy": {
+          "fresh_for_ns": "30000000000",
+          "retain_for_ns": "120000000000",
+          "max_wall_uncertainty_ns": "1000000"
+        },
+        "contexts": [
+          {
+            "wall_ns": "129999999999",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "30000000999",
+            "expected_freshness": "fresh"
+          },
+          {
+            "wall_ns": "130000000000",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "30000001000",
+            "expected_freshness": "stale"
+          },
+          {
+            "wall_ns": "220000000000",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "120000001000",
+            "expected_freshness": "expired"
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "fresh_stale_expired_thresholds_exact",
+          "snapshot_id_unchanged",
+          "revision_vector_unchanged",
+          "snapshot_canonical_bytes_unchanged",
+          "evaluation_digests_distinct"
+        ]
+      },
+      "criterion": "Pure evaluation applies exact fresh/stale/expired boundaries without a native publication or snapshot mutation."
+    },
+    {
+      "id": "K-POS-020",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "generation",
+        "lineage",
+        "partial_update",
+        "snapshot"
+      ],
+      "input": {
+        "derived_candidate": {
+          "candidate_id": "candidate:site:net-power",
+          "candidate_revision": "6",
+          "inputs": [
+            {
+              "candidate_id": "candidate:inverter:power",
+              "candidate_revision": "8",
+              "source_paths": [
+                {
+                  "binding_id": "binding:inverter:01",
+                  "source_id": "source:inverter:01",
+                  "source_epoch_id": "source-epoch:inverter:01",
+                  "driver_generation": "4"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:grid-meter:power",
+              "candidate_revision": "3",
+              "source_paths": [
+                {
+                  "binding_id": "binding:grid-meter:01",
+                  "source_id": "source:grid-meter:01",
+                  "source_epoch_id": "source-epoch:grid-meter:01",
+                  "driver_generation": "2"
+                }
+              ]
+            }
+          ],
+          "binding_id_omitted": true
+        },
+        "generation_fence": {
+          "source_id": "source:grid-meter:01",
+          "source_epoch_id": "source-epoch:grid-meter:01",
+          "driver_generation": "2",
+          "reason": "lifecycle.driver_replaced",
+          "evidence_count": 1,
+          "revision": "1"
+        },
+        "expected_semantic_revision": "21"
+      },
+      "prior_state": {
+        "both_inputs_current": true,
+        "derived_candidate_published": true
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "grid_meter_input_withdrawn",
+          "derived_candidate_withdrawn_same_snapshot",
+          "derived_dependents_withdrawn_transitively",
+          "facts_revision_incremented_once",
+          "semantic_revision_equals_22"
+        ]
+      },
+      "criterion": "Fencing either source path of a two-source derivation atomically invalidates the derived candidate without inventing a binding."
     },
     {
       "id": "K-NEG-001",
@@ -578,10 +875,34 @@
       "polarity": "negative",
       "record_type": "ProjectionReport",
       "operation": "project",
-      "coverage": ["projection"],
-      "input": {"requested": ["fact:power", "fact:energy"], "dispositions": ["fact:power"]},
-      "expect": {"result": "reject", "error_id": "projection_incomplete", "state_unchanged": true},
-      "criterion": "Every requested item requires exactly one disposition."
+      "coverage": [
+        "projection"
+      ],
+      "input": {
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "projection_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "Equal item IDs under different kinds still require two exact tuple dispositions."
     },
     {
       "id": "K-NEG-025",
@@ -622,6 +943,284 @@
       "input": {"coefficient": "23", "exponent10": 1, "display_precision": 1},
       "expect": {"result": "reject", "error_id": "unknown_member", "state_unchanged": true},
       "criterion": "An undeclared v1 member is not silently discarded into an extension bag."
+    },
+    {
+      "id": "K-NEG-029",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input_json": "{\"coefficient\":\"23\",\"exponent10\":1} trailing",
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_json",
+        "state_unchanged": true
+      },
+      "criterion": "Trailing data after one JSON value is rejected before typed decoding."
+    },
+    {
+      "id": "K-NEG-030",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "coefficient": "23"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "missing_member",
+        "state_unchanged": true
+      },
+      "criterion": "A missing required exponent member has one stable rejection class."
+    },
+    {
+      "id": "K-NEG-031",
+      "polarity": "negative",
+      "record_type": "Quality",
+      "operation": "validate",
+      "coverage": [
+        "qualification",
+        "serialization"
+      ],
+      "input": {
+        "assertion": "measured",
+        "qualification": "qualified",
+        "promotion": "promoted",
+        "validity": "good",
+        "availability": "available",
+        "freshness": "fresh",
+        "reasons": []
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_enum",
+        "state_unchanged": true
+      },
+      "criterion": "An enum token outside the exact v1 set is rejected deterministically."
+    },
+    {
+      "id": "K-NEG-032",
+      "polarity": "negative",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": [
+        "snapshot",
+        "serialization"
+      ],
+      "input": {
+        "candidate_count": 33,
+        "limit": 32,
+        "otherwise_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "bounds_exceeded",
+        "state_unchanged": true
+      },
+      "criterion": "A collection beyond its explicit maximum is rejected without truncation."
+    },
+    {
+      "id": "K-NEG-033",
+      "polarity": "negative",
+      "record_type": "Derivation",
+      "operation": "validate",
+      "coverage": [
+        "lineage",
+        "serialization"
+      ],
+      "input": {
+        "inputs": [
+          {
+            "candidate_id": "candidate:b",
+            "candidate_revision": "1",
+            "source_paths": [
+              {
+                "binding_id": "binding:b",
+                "source_id": "source:b",
+                "source_epoch_id": "epoch:b",
+                "driver_generation": "1"
+              }
+            ]
+          },
+          {
+            "candidate_id": "candidate:a",
+            "candidate_revision": "1",
+            "source_paths": [
+              {
+                "binding_id": "binding:a",
+                "source_id": "source:a",
+                "source_epoch_id": "epoch:a",
+                "driver_generation": "1"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "noncanonical_order",
+        "state_unchanged": true
+      },
+      "criterion": "Set-like derivation inputs in descending candidate order are rejected rather than silently reordered."
+    },
+    {
+      "id": "K-NEG-034",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "validate",
+      "coverage": [
+        "partial_update",
+        "serialization"
+      ],
+      "input": {
+        "sequence": "1",
+        "previously_seen": false,
+        "batch_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "computed_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "digest_mismatch",
+        "state_unchanged": true
+      },
+      "criterion": "A first-sequence syntactically valid digest must match the canonical batch bytes."
+    },
+    {
+      "id": "K-NEG-035",
+      "polarity": "negative",
+      "record_type": "Snapshot",
+      "operation": "validate",
+      "coverage": [
+        "lineage",
+        "snapshot"
+      ],
+      "input": {
+        "derived_candidate_id": "candidate:site:net-power",
+        "dependency_candidate_id": "candidate:grid-meter:missing",
+        "dependency_candidate_revision": "3",
+        "snapshot_candidates": [
+          "candidate:inverter:power"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "dangling_reference",
+        "state_unchanged": true
+      },
+      "criterion": "A derived input that does not resolve to its exact candidate revision is rejected."
+    },
+    {
+      "id": "K-NEG-036",
+      "polarity": "negative",
+      "record_type": "Readback",
+      "operation": "validate",
+      "coverage": [
+        "generation",
+        "operation"
+      ],
+      "input": {
+        "snapshot_id": "snapshot:evse:14",
+        "revisions": {
+          "semantic": "14",
+          "identity": "2",
+          "facts": "10",
+          "services": "3",
+          "capabilities": "6"
+        },
+        "candidate_id": "candidate:evse:limit-readback",
+        "candidate_revision": "2",
+        "binding_id": "binding:evse:01",
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "relation": "confirms",
+        "at": {
+          "unix_nanoseconds": "202000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "1000"
+        },
+        "evidence_count": 1
+      },
+      "prior_state": {
+        "admitted_route_source_epoch_id": "source-epoch:evse:01",
+        "admitted_route_driver_generation": "7"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "stale_driver_generation",
+        "state_unchanged": true
+      },
+      "criterion": "A confirming candidate from a replacement driver generation cannot prove the earlier admitted route applied."
+    },
+    {
+      "id": "K-NEG-037",
+      "polarity": "negative",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": [
+        "projection"
+      ],
+      "input": {
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "projection_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "A capability disposition cannot also account for the equal operation item ID."
+    },
+    {
+      "id": "K-NEG-038",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "freshness",
+        "operation",
+        "time"
+      ],
+      "input": {
+        "precondition_candidate_id": "candidate:meter:power",
+        "candidate_revision": "4",
+        "stored_freshness": "fresh",
+        "evaluation_context_wall_ns": "140000000000",
+        "evaluated_freshness": "stale",
+        "no_new_publication": true
+      },
+      "prior_state": {
+        "snapshot_id": "snapshot:meter:10",
+        "semantic_revision": "10",
+        "receipt_wall_ns": "100000000000",
+        "fresh_for_ns": "30000000000"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "Admission re-evaluates time and rejects a now-stale precondition even though the immutable snapshot stored fresh."
     }
   ]
 }

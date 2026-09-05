@@ -35,6 +35,7 @@ Public top-level records use these exact contract IDs:
 | Record | Contract ID |
 |---|---|
 | `PublicationBatch`, `Snapshot` | `helianthus.semantic.kernel/v1` |
+| `EvaluationView` | `helianthus.semantic.evaluation/v1` |
 | `Intent`, `ExecutionRecord` | `helianthus.semantic.operation/v1` |
 | `ProjectionReport` | `helianthus.semantic.projection/v1` |
 | `CompatibilityAlias` | `helianthus.semantic.alias/v1` |
@@ -59,7 +60,7 @@ INT-05 must provide these public packages without cyclic imports:
 
 | Package | Owns |
 |---|---|
-| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, quality, services, capabilities, causal context, publication batches, fences, and snapshots |
+| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, quality, services, capabilities, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
 | `semreg/v1/operation` | intent, preconditions, admitted routes, dispatch/acknowledgement/readback evidence, and outcomes |
 | `semreg/v1/projection` | target manifests, requested items, dispositions, loss details, and compatibility aliases |
 
@@ -85,10 +86,12 @@ type PackValidator interface {
 ```
 
 The kernel registry is constructed with zero or more validators keyed by exact
-pack ID and version. Duplicate registrations fail. A record that needs a pack
-definition cannot be qualified, promoted, or made actionable unless its exact
-validator is registered. The interface carries only typed kernel records; it
-does not expose raw protocol values, native handles, arbitrary JSON, or `any`.
+pack ID and version. Duplicate registrations fail with `duplicate_key`. A record
+that needs a pack definition cannot be qualified, promoted, or made actionable
+unless its exact validator is registered. Missing pack validation is
+`invalid_value` during record validation and `capability_not_qualified` during
+operation admission. The interface carries only typed kernel records; it does
+not expose raw protocol values, native handles, arbitrary JSON, or `any`.
 Capability-pack catalogs and their implementations remain separate INT-04/05
 work.
 
@@ -183,7 +186,9 @@ be narrower. Matching never falls back to a different definition ID.
 
 `Digest` is exactly `sha256:` followed by 64 lowercase hexadecimal characters.
 It identifies bytes under an owning contract. It is not proof that a referenced
-object is public, qualified, or trustworthy.
+object is public, qualified, or trustworthy. Invalid digest syntax inside an
+`EvidenceRef` is `invalid_evidence`; invalid syntax on another record is
+`invalid_value`; a valid but incorrect computed digest is `digest_mismatch`.
 
 ### Type: ErrorID
 
@@ -296,21 +301,55 @@ for every other state. Similar values, model strings, addresses, or topology
 positions cannot qualify a link. Contradictory qualified links become
 `conflict`; the kernel does not choose one silently.
 
+### Type: SourcePathRef
+
+```go
+type SourcePathRef struct {
+    BindingID        NativeBindingID `json:"binding_id"`
+    SourceID         SourceID        `json:"source_id"`
+    SourceEpochID    SourceEpochID   `json:"source_epoch_id"`
+    DriverGeneration Uint64          `json:"driver_generation"`
+}
+```
+
+A source path names one exact native dependency without carrying a live handle.
+Every member must resolve to the same current `NativeBinding`. Source paths are
+sorted by `(source_id,source_epoch_id,driver_generation,binding_id)` and are
+unique.
+
+### Type: DerivationInput
+
+```go
+type DerivationInput struct {
+    CandidateID       CandidateID     `json:"candidate_id"`
+    CandidateRevision Uint64          `json:"candidate_revision"`
+    SourcePaths       []SourcePathRef `json:"source_paths"`
+}
+```
+
+An input binds one exact candidate revision and every transitive native source
+path on which that revision depends. An observed input has exactly one path. An
+inferred input repeats the sorted union of its own derivation inputs' paths.
+`source_paths` contains 1 through 32 entries. The kernel rejects an input whose
+candidate revision or resolved path set differs from the referenced candidate.
+
 ### Type: Derivation
 
 ```go
 type Derivation struct {
-    Algorithm DefinitionID   `json:"algorithm"`
-    Version   SemanticVersion `json:"version"`
-    Inputs    []CandidateID  `json:"inputs"`
-    Evidence  []EvidenceRef  `json:"evidence"`
+    Algorithm DefinitionID      `json:"algorithm"`
+    Version   SemanticVersion   `json:"version"`
+    Inputs    []DerivationInput `json:"inputs"`
+    Evidence  []EvidenceRef     `json:"evidence"`
 }
 ```
 
-An inferred fact requires a derivation. Inputs are unique and sorted. The graph
-of candidate inputs in one snapshot MUST be acyclic, contain at most 4096 nodes,
-and have maximum depth 32. Missing inputs, self-reference, or a cycle is
-`derivation_cycle`. An observed fact MUST omit `derivation`.
+An inferred fact requires a derivation with 1 through 32 inputs, sorted by
+`candidate_id`, with no duplicate candidate. The graph of candidate inputs in
+one snapshot MUST be acyclic, contain at most 4096 nodes, and have maximum depth
+32. Missing inputs, a revision/path mismatch, self-reference, or a cycle is
+`dangling_reference` or `derivation_cycle` according to the stable error table.
+An observed fact MUST omit `derivation`.
 
 ## Exact values and dimensions
 
@@ -487,6 +526,73 @@ restoration yields `freshness=unknown` and at most `availability=degraded` until
 a new observation arrives. It never resets a retained fact to `fresh` merely
 because a new monotonic epoch started.
 
+### Type: EvaluationContext
+
+```go
+type EvaluationContext struct {
+    EvaluatedAt       TimePoint     `json:"evaluated_at"`
+    EvaluateMonotonic MonotonicPoint `json:"evaluate_monotonic"`
+}
+```
+
+The root package exposes a pure operation equivalent to
+`EvaluateSnapshot(Snapshot, EvaluationContext) (EvaluationView, error)`. The
+caller supplies a trusted current wall estimate and monotonic point. Evaluation
+fails with `invalid_time` when the context is earlier than the snapshot under a
+comparable clock, and uses the `FreshnessPolicy` rules above for every retained
+candidate. It never reads a process clock implicitly.
+
+### Type: EvaluatedFact
+
+```go
+type EvaluatedFact struct {
+    CandidateID          CandidateID   `json:"candidate_id"`
+    CandidateRevision    Uint64        `json:"candidate_revision"`
+    Freshness            Freshness     `json:"freshness"`
+    EffectiveAvailability Availability `json:"effective_availability"`
+}
+```
+
+For an observed candidate, `freshness` is evaluated from its receipt time to the
+supplied context. For an inferred candidate, the kernel evaluates the candidate
+and every transitive `DerivationInput`, then combines them deterministically:
+`expired` wins; otherwise `unknown` wins; otherwise `stale` wins; otherwise the
+result is `fresh`. This preserves all source paths while preventing a fresh
+derived view from outliving an input.
+
+Effective availability starts with the candidate's stored availability.
+`withdrawn` stays `withdrawn`; `expired` caps every other state at `unavailable`;
+`stale` or `unknown` changes `available` to `degraded`; and an already degraded
+or unavailable state never improves. Evaluation cannot promote, qualify, or
+restore a candidate.
+
+### Type: EvaluationView
+
+```go
+type EvaluationView struct {
+    Contract         ContractVersion `json:"contract"`
+    SnapshotID       SnapshotID      `json:"snapshot_id"`
+    Revisions        RevisionVector  `json:"revisions"`
+    Context          EvaluationContext `json:"context"`
+    Facts            []EvaluatedFact `json:"facts"`
+    EvaluationDigest Digest          `json:"evaluation_digest"`
+}
+```
+
+`contract` is exactly `helianthus.semantic.evaluation/v1`. Facts are sorted by
+candidate ID and cover every candidate in the snapshot exactly once. The digest
+is SHA-256 over canonical view JSON with `evaluation_digest` omitted. Evaluation
+creates no publication: the source snapshot ID, revision vector, candidates,
+stored quality, and canonical snapshot bytes remain byte-identical. Repeating
+evaluation with the same snapshot and context produces identical view bytes.
+
+Operation admission MUST evaluate the admitted snapshot with a trusted current
+context immediately before checking preconditions and selecting a route. A fact
+precondition may use only a `fresh` evaluated candidate with effective
+availability `available`; stale, expired, unknown, degraded, unavailable,
+conflicted, or changed-revision input is `precondition_failed`. This
+re-evaluation does not relax the intent's expected snapshot revisions.
+
 ### Type: Quality
 
 ```go
@@ -530,9 +636,9 @@ type FactCandidate struct {
     Quality          Quality         `json:"quality"`
     Times            Times           `json:"times"`
     FreshnessPolicy  FreshnessPolicy `json:"freshness_policy"`
-    BindingID        NativeBindingID `json:"binding_id"`
-    SourceEpochID    SourceEpochID    `json:"source_epoch_id"`
-    DriverGeneration Uint64           `json:"driver_generation"`
+    BindingID        *NativeBindingID `json:"binding_id,omitempty"`
+    SourceEpochID    *SourceEpochID    `json:"source_epoch_id,omitempty"`
+    DriverGeneration *Uint64           `json:"driver_generation,omitempty"`
     Origin           OriginRef        `json:"origin"`
     Causal           *CausalContext   `json:"causal,omitempty"`
     Evidence         []EvidenceRef    `json:"evidence"`
@@ -541,11 +647,15 @@ type FactCandidate struct {
 }
 ```
 
-Evidence contains 1 through 32 unique references. `driver_generation` and
-`revision` are greater than zero. Binding/source/generation must match a current
-binding in the same snapshot. A candidate value is required except where
-`Quality` forbids it. Origin and causal context survive projection and derived
-facts; they do not grant command authority.
+Evidence contains 1 through 32 unique references and `revision` is greater than
+zero. An observed candidate requires binding, source epoch, and driver
+generation; the generation is greater than zero and all three fields resolve to
+one current binding. It omits `derivation`. An inferred candidate omits those
+three single-path fields and requires a `Derivation`; its typed inputs preserve
+every native source path, so it never invents or arbitrarily selects a synthetic
+binding. A candidate value is required except where `Quality` forbids it. Origin
+and causal context survive projection and derived facts; they do not grant
+command authority.
 
 ### Type: Selection
 
@@ -730,10 +840,13 @@ strictly increasing for `(source_id, source_epoch_id, driver_generation)`.
 Replaying an identical sequence and digest returns the prior result without a
 new revision. Reusing a sequence with different bytes is `sequence_conflict`.
 
-Every upsert and withdrawal belongs to the header asset, source, epoch, and
-generation, except an explicit source retirement or a fence of an older
-generation under the same source. Cross-asset or cross-source changes require a
-separate batch and cannot be partially committed together.
+Every observed upsert and withdrawal belongs to the header asset, source, epoch,
+and generation, except an explicit source retirement or a fence of an older
+generation under the same source. An inferred fact upsert belongs to the header
+asset but derives lifecycle from its typed input paths; the batch header orders
+the publishing attempt and does not become a synthetic native dependency.
+Cross-asset changes require a separate batch and cannot be partially committed
+together.
 
 `expected_semantic_revision` must equal the current asset revision. Any invalid
 member, stale source epoch, fenced generation, revision mismatch, or withdrawal
@@ -747,6 +860,22 @@ atomically withdraws its bindings, services, capabilities, and candidates. A
 retired epoch cannot be reactivated. Historical immutable snapshots retain its
 earlier state. Replacing an active epoch requires its retirement and the new
 descriptor in the same batch.
+
+Before committing a batch, the kernel computes the transitive closure of inferred
+candidates whose `DerivationInput` no longer resolves exactly after the proposed
+change. Withdrawal of an input, source retirement, generation fence, binding
+invalidation caused by either transition, or candidate revision change
+automatically withdraws every affected derived candidate and its dependents in
+the same snapshot. A same-batch inferred upsert survives only when all of its
+revised inputs and exact source paths resolve after the complete batch. Empty
+fact envelopes are removed.
+
+This dependency cascade is part of the one atomic batch. Each changed envelope
+revision and the fact component revision increments once, while the semantic
+revision increments once for the batch regardless of cascade size. No separate
+native batch, invented binding, or later cleanup window is permitted. Time-only
+aging does not run this publication cascade; `EvaluationView` computes effective
+freshness and availability without changing the immutable snapshot.
 
 An available capability upsert is valid only after native activation has
 completed for the referenced current generation. Publication of that upsert
@@ -820,8 +949,9 @@ type Snapshot struct {
 A snapshot is immutable, self-consistent, and complete for one asset at one
 semantic revision. It contains all alternatives and open conflicts. Every
 reference resolves inside the snapshot or to an `EvidenceRef`. Collections are
-sorted by their primary ID/key and contain no duplicate. Limits are 32 sources,
-128 bindings, 128 identity links, 4096 fact envelopes, 1024 services, 2048
+sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
+unique across all fact envelopes in one snapshot. Limits are 32 sources, 128
+bindings, 128 identity links, 4096 fact envelopes, 1024 services, 2048
 capabilities, and 128 retained fences per asset. Exceeding a limit rejects the
 batch; it never truncates a snapshot. Up to 128 publication cursors are retained
 while their source epochs remain relevant to replay/fence validation.
@@ -829,6 +959,12 @@ while their source epochs remain relevant to replay/fence validation.
 The snapshot ID is unique for the exact canonical bytes. A reader either sees
 the complete prior snapshot or complete new snapshot. It never observes mixed
 identity, fact, service, capability, or fence revisions.
+
+`evaluated_at` and `evaluate_monotonic` record the publication-time evaluation
+stored in these immutable bytes. Passage of time never mutates this snapshot or
+increments a revision. A caller obtains current freshness through
+`EvaluateSnapshot`; an operation cannot rely on the stored publication-time
+freshness without that admission-time evaluation.
 
 ## Operations and guarded admission
 
@@ -977,15 +1113,31 @@ native protocol evidence; it is not confirming readback.
 
 ```go
 type Readback struct {
-    CandidateID CandidateID      `json:"candidate_id"`
-    Relation    ReadbackRelation `json:"relation"`
-    At          TimePoint        `json:"at"`
-    Evidence    []EvidenceRef    `json:"evidence"`
+    SnapshotID        SnapshotID       `json:"snapshot_id"`
+    Revisions         RevisionVector   `json:"revisions"`
+    CandidateID       CandidateID      `json:"candidate_id"`
+    CandidateRevision Uint64           `json:"candidate_revision"`
+    BindingID         NativeBindingID  `json:"binding_id"`
+    SourceID          SourceID         `json:"source_id"`
+    SourceEpochID     SourceEpochID    `json:"source_epoch_id"`
+    DriverGeneration  Uint64           `json:"driver_generation"`
+    Relation          ReadbackRelation `json:"relation"`
+    At                TimePoint        `json:"at"`
+    Evidence          []EvidenceRef    `json:"evidence"`
 }
 ```
 
-`ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The candidate
-must be in a later snapshot for the same asset and current binding generation.
+`ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The exact
+snapshot must still be retrievable, its semantic revision must be greater than
+the admitted semantic revision, and it must contain the named observed candidate
+at exactly `candidate_revision`. The candidate's binding, source, source epoch,
+and driver generation must equal these fields, resolve within that snapshot, and
+equal the admitted `Route`.
+
+A missing snapshot/candidate or revision mismatch is `dangling_reference`; a
+different or retired route epoch is `stale_source_epoch`; a different or fenced
+route generation is `stale_driver_generation`; and a different binding/source or
+an inferred candidate is `invalid_outcome`. None can support `applied`.
 
 ### Type: ExecutionRecord
 
@@ -1070,6 +1222,7 @@ text, not native payload.
 
 ```go
 type ProjectionDisposition struct {
+    Kind       ItemKind       `json:"kind"`
     ItemID     DefinitionID   `json:"item_id"`
     Outcome    ProjectionOutcome `json:"outcome"`
     SourceKeys []FactKey      `json:"source_keys"`
@@ -1079,11 +1232,12 @@ type ProjectionDisposition struct {
 ```
 
 `ProjectionOutcome` is `exact`, `transformed`, `withheld`,
-`unrepresentable`, `unsupported`, or `unknown`. Every requested item has exactly
-one disposition. `exact` forbids loss; `transformed` requires at least one loss
-detail; `withheld`, `unrepresentable`, `unsupported`, and `unknown` require a
-reason. Only a separately tested same-native mapping may claim lossless round
-trip.
+`unrepresentable`, `unsupported`, or `unknown`. Every requested `(kind,item_id)`
+tuple has exactly one disposition with the identical tuple. Tuples are unique;
+the same item ID MAY occur under different kinds and remains two independent
+requests. `exact` forbids loss; `transformed` requires at least one loss detail;
+`withheld`, `unrepresentable`, `unsupported`, and `unknown` require a reason.
+Only a separately tested same-native mapping may claim lossless round trip.
 
 ### Type: ProjectionReport
 

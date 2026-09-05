@@ -62,7 +62,8 @@ and non-routable compatibility aliases.
 ### Coverage: `lineage`
 
 Native evidence references, observed versus inferred facts, derivation inputs,
-bounded acyclic graphs, origins, and correlation preservation.
+exact transitive source paths, multi-source lifecycle invalidation, bounded
+acyclic graphs, origins, and correlation preservation.
 
 ### Coverage: `time`
 
@@ -72,7 +73,8 @@ monotonic clock epochs, reset behavior, and fail-closed comparison.
 ### Coverage: `freshness`
 
 Fresh/stale/expired/unknown evaluation, conservative cross-epoch wall fallback,
-retention after restart, and no false fresh reset.
+retention after restart, time-only evaluation views with unchanged snapshot
+bytes/revisions, admission-time re-evaluation, and no false fresh reset.
 
 ### Coverage: `qualification`
 
@@ -92,7 +94,8 @@ qualification, availability, and degraded admission policy.
 ### Coverage: `snapshot`
 
 Immutable deep copies, complete revision vectors, canonical collections,
-resolved references, collection bounds, and atomic reader visibility.
+resolved references, collection bounds, atomic derived-dependency cascades, and
+reader visibility.
 
 ### Coverage: `partial_update`
 
@@ -131,9 +134,25 @@ weaken, or reinterpret these vectors under the same contract version.
 
 ## Stable error identifiers
 
+This list is exhaustive for v1 public validation. A conforming implementation
+MUST NOT mint an additional public rejection ID under the same contract version.
+The exact overlap precedence is defined in
+[serialization.md](serialization.md#error-determinism).
+
+### Error: `invalid_json`
+
+The input is not exactly one valid UTF-8 JSON value, has a byte-order mark,
+contains trailing data, or uses a JSON token that cannot be decoded.
+
 ### Error: `invalid_contract`
 
 The record contract ID is missing, malformed, or not the required v1 contract.
+
+### Error: `missing_member`
+
+A required member other than the top-level contract is absent. An omitted
+optional member is not an error; `null` cannot substitute for either a required
+value or valid omission. An absent top-level contract is `invalid_contract`.
 
 ### Error: `invalid_identifier`
 
@@ -149,6 +168,16 @@ A decimal coefficient/exponent is out of range or not in canonical exact form.
 A tagged value selects zero/multiple payloads, uses a forbidden kind, contains
 invalid text/symbol data, or violates its pack-declared type/unit/range.
 
+### Error: `invalid_enum`
+
+An enum field contains a token outside the exact values declared by its v1 type.
+
+### Error: `bounds_exceeded`
+
+A collection, text value, graph depth/node count, or other explicitly bounded
+record exceeds its v1 maximum. Arithmetic overflow remains `invalid_time` or
+`invalid_decimal` when that more specific class applies.
+
 ### Error: `invalid_time`
 
 A wall or monotonic point, uncertainty interval, ordering, deadline, expiry, or
@@ -163,6 +192,23 @@ epochs without the permitted conservative wall-time evaluation.
 
 Evidence is missing, malformed, duplicated, inaccessible for the claimed public
 state, or does not satisfy the owning reference contract.
+
+### Error: `noncanonical_order`
+
+A set-like array is not in its required canonical order. A duplicate canonical
+key is `duplicate_key` by higher precedence.
+
+### Error: `digest_mismatch`
+
+A syntactically valid digest on a previously unseen record does not equal the
+digest of its required canonical input. Reuse of an accepted sequence or
+idempotency key with different bytes is `sequence_conflict`.
+
+### Error: `dangling_reference`
+
+A snapshot or update reference does not resolve to the exact required object,
+candidate revision, source path, or later readback snapshot. A resolved but stale
+source epoch or generation uses the more specific lifecycle error.
 
 ### Error: `derivation_cycle`
 
@@ -216,8 +262,8 @@ intent deadline.
 
 ### Error: `precondition_failed`
 
-A typed precondition is false, stale, conflicted, unavailable, or cannot be
-evaluated under its pack contract.
+A typed precondition is false, stale, expired, unknown, conflicted, degraded,
+unavailable, revision-changed, or cannot be evaluated under its pack contract.
 
 ### Error: `authority_missing`
 
@@ -267,6 +313,50 @@ canonical key.
 ### Error: `unknown_member`
 
 A v1 semantic record contains an undeclared member or arbitrary extension bag.
+
+## Normative rejection class map
+
+Every `MUST reject`, invalid-state rule, and failed public operation in v1 maps
+through this table. The stable error descriptions refine the classes; the
+serialization precedence list chooses one when an input violates several rows.
+
+| Rejection class | Stable error ID |
+|---|---|
+| malformed UTF-8/JSON, byte-order mark, trailing data, invalid JSON token | `invalid_json` |
+| repeated object member or duplicate canonical collection key | `duplicate_key` |
+| absent, wrong, or malformed top-level contract | `invalid_contract` |
+| absent required member other than the top-level contract, or `null` in its place | `missing_member` |
+| undeclared member or extension bag | `unknown_member` |
+| malformed, empty, overlength, non-ASCII, or wrong typed identifier | `invalid_identifier` |
+| noncanonical/out-of-range decimal coefficient or exponent | `invalid_decimal` |
+| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, or malformed non-evidence digest | `invalid_value` |
+| invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow | `invalid_time` |
+| malformed, duplicate, inaccessible, or insufficient `EvidenceRef` | `invalid_evidence` |
+| enum token outside its exact declared set | `invalid_enum` |
+| collection/text/graph maximum exceeded | `bounds_exceeded` |
+| valid set members presented outside canonical order | `noncanonical_order` |
+| previously unseen record digest differs from its computed canonical digest | `digest_mismatch` |
+| unresolved candidate/object/revision/source-path/readback-snapshot reference | `dangling_reference` |
+| derivation self-reference, cycle, or graph-shape violation | `derivation_cycle` |
+| incomparable monotonic epochs without permitted wall evaluation | `incomparable_clock_epoch` |
+| stale expected object, component, or semantic revision | `revision_conflict` |
+| regressed/reused publication sequence or idempotency key with different bytes | `sequence_conflict` |
+| retired or non-current source epoch | `stale_source_epoch` |
+| fenced/superseded generation or readback/route generation mismatch | `stale_driver_generation` |
+| unproved/reused/conflicting identity link or binding | `identity_not_qualified` |
+| candidate/unknown/unsupported/rejected capability or missing activation/pack qualification | `capability_not_qualified` |
+| withdrawn/unavailable or non-permitted degraded capability | `capability_unavailable` |
+| zero/multiple eligible routes after otherwise successful filtering | `ambiguous_route` |
+| expired or uncertainty-failed deadline | `deadline_expired` |
+| false/stale/expired/unknown/conflicted/degraded/unavailable/revision-changed precondition | `precondition_failed` |
+| missing/unresolved/expired/out-of-scope authority | `authority_missing` |
+| route selected from presentation/projection/alias/caller native ID | `route_selection_forbidden` |
+| expired/inconsistent/over-limit causal budget | `causal_budget_exceeded` |
+| reflected re-entry or attempted authority minting | `echo_suppressed` |
+| unsafe blind retry or route fallback after possible side effect | `retry_forbidden` |
+| missing/duplicate/mismatched requested `(kind,item_id)` disposition or required accounting | `projection_incomplete` |
+| compatibility alias marked or used as routable | `alias_not_routable` |
+| contradictory/incomplete dispatch, ACK, readback, side-effect, and outcome combination | `invalid_outcome` |
 
 ## Acceptance procedure for INT-05
 
