@@ -1158,8 +1158,9 @@ Exceeding a limit rejects the batch; it never truncates a snapshot. Up to 128
 publication cursors are retained while their source epochs remain relevant to
 replay/fence validation.
 
-The snapshot ID is unique for the exact canonical bytes. A reader either sees
-the complete prior snapshot or complete new snapshot. It never observes mixed
+The snapshot ID is `sha256:` over canonical `Snapshot` JSON with `snapshot_id`
+omitted, and is therefore unique for the exact canonical bytes. A reader either
+sees the complete prior snapshot or complete new snapshot. It never observes mixed
 identity, fact, service, capability, or fence revisions.
 
 `evaluated_at` and `evaluate_monotonic` record the publication-time evaluation
