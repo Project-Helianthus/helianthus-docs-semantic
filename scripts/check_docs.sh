@@ -34,3 +34,4 @@ git diff --check
 python3 scripts/check_local_links.py
 python3 scripts/validate_kernel_v1.py
 python3 scripts/check_snapshot_vector_ids.py
+python3 scripts/test_check_snapshot_vector_ids.py
