@@ -11,10 +11,13 @@
     "causal_budget_exceeded",
     "dangling_reference",
     "deadline_expired",
+    "definition_owner_conflict",
+    "definition_owner_missing",
     "derivation_cycle",
     "digest_mismatch",
     "duplicate_key",
     "echo_suppressed",
+    "generation_transition_incomplete",
     "identity_not_qualified",
     "incomparable_clock_epoch",
     "invalid_contract",
@@ -240,25 +243,43 @@
       "polarity": "positive",
       "record_type": "CapabilityInstance",
       "operation": "validate",
-      "coverage": ["capability", "generation"],
+      "coverage": [
+        "capability",
+        "generation"
+      ],
       "input": {
         "instance_id": "capability:limit:01",
-        "definition": {"id": "helianthus.evse.current_limit", "version": "1.2.0"},
+        "definition": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.current_limit",
+          "version": "1.2.0"
+        },
         "binding_id": "binding:evse:01",
         "source_epoch_id": "source-epoch:evse:01",
         "driver_generation": "7",
         "qualification": "qualified",
         "availability": "available",
-        "activation_evidence": [{
-          "owner": "helianthus.gateway",
-          "kind": "driver.activation",
-          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
-          "contract": "helianthus.gateway.driver.activation.v1",
-          "access": "public",
-          "redaction": "metadata_only"
-        }]
+        "activation_evidence": [
+          {
+            "owner": "helianthus.gateway",
+            "kind": "driver.activation",
+            "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+            "contract": "helianthus.gateway.driver.activation.v1",
+            "access": "public",
+            "redaction": "metadata_only"
+          }
+        ]
       },
-      "expect": {"result": "accept", "assertions": ["exact_version_range_can_match", "generation_bound"]},
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "exact_version_range_can_match",
+          "generation_bound"
+        ]
+      },
       "criterion": "A qualified available capability is bound to completed activation and one generation."
     },
     {
@@ -296,10 +317,33 @@
       "polarity": "positive",
       "record_type": "GenerationFence",
       "operation": "apply",
-      "coverage": ["generation", "capability", "snapshot"],
-      "input": {"source_id": "source:evse:01", "source_epoch_id": "source-epoch:evse:01", "driver_generation": "7", "revision": "8"},
-      "prior_state": {"available_capabilities": ["capability:limit:01"], "driver_generation": "7"},
-      "expect": {"result": "accept", "assertions": ["fence_visible", "generation_capabilities_withdrawn_in_same_snapshot", "old_guarded_callback_rejected"]},
+      "coverage": [
+        "generation",
+        "capability",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "7",
+        "revision": "8"
+      },
+      "prior_state": {
+        "available_capabilities": [
+          "capability:limit:01"
+        ],
+        "driver_generation": "7"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "fence_visible",
+          "generation_bindings_and_candidates_withdrawn",
+          "generation_capabilities_withdrawn_in_same_snapshot",
+          "derived_dependents_withdrawn_transitively",
+          "old_guarded_callback_rejected"
+        ]
+      },
       "criterion": "Fencing happens before the new snapshot exposes atomic capability withdrawal."
     },
     {
@@ -307,20 +351,112 @@
       "polarity": "positive",
       "record_type": "Intent",
       "operation": "admit",
-      "coverage": ["operation", "capability"],
+      "coverage": [
+        "operation",
+        "capability"
+      ],
       "input": {
         "intent_id": "intent:evse-limit:01",
         "asset_id": "asset:evse:01",
-        "required_capability": {"definition_id": "helianthus.evse.current_limit", "versions": {"minimum": "1.0.0", "maximum_exclusive": "2.0.0"}, "allow_degraded": false},
+        "required_capability": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "definition_id": "helianthus.evse.current_limit",
+          "versions": {
+            "minimum": "1.0.0",
+            "maximum_exclusive": "2.0.0"
+          },
+          "allow_degraded": false
+        },
         "expected_semantic_revision": "12",
         "expected_capability_revision": "5",
         "expected_capability_instance_revision": "3",
         "expected_source_epoch_id": "source-epoch:evse:01",
         "expected_driver_generation": "7",
-        "deadline": {"unix_nanoseconds": "200000000000", "clock_id": "clock.utc", "uncertainty_ns": "1000"}
+        "deadline": {
+          "unix_nanoseconds": "200000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "1000"
+        },
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "preconditions": [
+          {
+            "fact": {
+              "pack_id": "helianthus.pack.evse",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.evse.interlock_clear",
+              "dimensions": []
+            },
+            "candidate_id": "candidate:evse:interlock",
+            "candidate_revision": "4",
+            "operator": "equal",
+            "expected": {
+              "kind": "boolean",
+              "boolean": true
+            }
+          }
+        ]
       },
-      "prior_state": {"eligible_routes": ["capability:limit:01"], "authority_resolves": true, "preconditions": "true"},
-      "expect": {"result": "accept", "assertions": ["exactly_one_generation_bound_route", "guarded_callback_required"]},
+      "prior_state": {
+        "eligible_routes": [
+          "capability:limit:01"
+        ],
+        "authority_resolves": true,
+        "candidate:evse:interlock": {
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false,
+          "value": true
+        }
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "exact_candidate_precondition",
+          "exact_pack_validator_dispatch",
+          "exactly_one_generation_bound_route",
+          "guarded_callback_required"
+        ]
+      },
       "criterion": "Exact current state and one qualified route admit a guarded operation."
     },
     {
@@ -381,11 +517,65 @@
         },
         "dispatch_delivery": "sent",
         "acknowledgement": "accepted",
-        "outcome": "applied"
+        "outcome": "applied",
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "resolved_candidate": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false
+        },
+        "operation_pack_result": "confirms"
       },
       "expect": {
         "result": "accept",
         "assertions": [
+          "pack_owned_effect_rule_confirms_exact_fact_and_value",
           "exact_later_snapshot_and_candidate_revision_retained",
           "route_source_epoch_and_generation_match",
           "outcome_applied"
@@ -637,6 +827,185 @@
       "criterion": "Fencing either source path of a two-source derivation atomically invalidates the derived candidate without inventing a binding."
     },
     {
+      "id": "K-POS-021",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "capability",
+        "generation",
+        "lineage",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "sequence": "1",
+        "expected_semantic_revision": "30",
+        "generation_fences": [
+          {
+            "source_id": "source:evse:01",
+            "source_epoch_id": "source-epoch:evse:01",
+            "driver_generation": "7",
+            "reason": "lifecycle.driver_replaced",
+            "evidence_count": 1,
+            "revision": "1"
+          }
+        ],
+        "new_generation": {
+          "binding_id": "binding:evse:02",
+          "service_id": "service:evse:02",
+          "capability_id": "capability:limit:02",
+          "activation_evidence_count": 1
+        }
+      },
+      "prior_state": {
+        "current_driver_generation": "7",
+        "old_binding_current": true,
+        "old_capability_actionable": true,
+        "old_observed_candidate": "candidate:evse:limit:old",
+        "derived_dependents": [
+          "candidate:site:flexibility"
+        ],
+        "guarded_callback_generation": "7"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "generation_7_fenced",
+          "old_binding_noncurrent",
+          "old_identity_facts_services_capabilities_withdrawn",
+          "derived_dependents_withdrawn",
+          "generation_7_callback_rejected",
+          "generation_8_only_actionable",
+          "identity_fact_service_capability_revisions_increment_once",
+          "all_changes_visible_in_semantic_revision_31"
+        ]
+      },
+      "criterion": "A higher-generation transition explicitly fences and atomically supersedes every old actionable record, derived dependent, and guarded callback."
+    },
+    {
+      "id": "K-POS-022",
+      "polarity": "positive",
+      "record_type": "DefinitionIndex",
+      "operation": "register_validate",
+      "coverage": [
+        "capability",
+        "operation",
+        "serialization"
+      ],
+      "input": {
+        "validators_in_registration_order": [
+          {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "fields": [],
+            "services": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.thermal.service.control",
+                "version": "1.0.0"
+              }
+            ],
+            "capabilities": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.thermal.temperature_setpoint",
+                "version": "1.0.0"
+              }
+            ],
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.set_temperature",
+                "version": "1.0.0"
+              }
+            ],
+            "effect_rules": []
+          },
+          {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "fields": [],
+            "services": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.service.control",
+                "version": "1.0.0"
+              }
+            ],
+            "capabilities": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.current_limit",
+                "version": "1.0.0"
+              }
+            ],
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.set_current_limit",
+                "version": "1.0.0"
+              }
+            ],
+            "effect_rules": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.effect.current_limit",
+                "version": "1.0.0"
+              }
+            ]
+          }
+        ],
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "repeat_with_registration_order_reversed": true
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "evse_validator_selected_by_exact_pack_ref",
+          "service_capability_operation_owners_resolve_exactly",
+          "operation_and_effect_entries_resolve_exactly",
+          "registration_order_does_not_change_result",
+          "no_prefix_inference_or_probing"
+        ]
+      },
+      "criterion": "Multiple packs dispatch deterministically through the explicit pack and unique definition index in either registration order."
+    },
+    {
       "id": "K-NEG-001",
       "polarity": "negative",
       "record_type": "PublicationBatch",
@@ -815,10 +1184,43 @@
       "polarity": "negative",
       "record_type": "Precondition",
       "operation": "admit",
-      "coverage": ["operation", "conflict"],
-      "input": {"fact": "helianthus.evse.connected", "operator": "equal", "expected": true, "actual_conflict": true},
-      "expect": {"result": "reject", "error_id": "precondition_failed", "state_unchanged": true},
-      "criterion": "A conflicted fact cannot silently satisfy an operation precondition."
+      "coverage": [
+        "operation",
+        "conflict"
+      ],
+      "input": {
+        "fact": {
+          "pack_id": "helianthus.pack.evse",
+          "pack_version": "1.0.0",
+          "fact_id": "helianthus.evse.connected",
+          "dimensions": []
+        },
+        "candidate_id": "candidate:evse:connected",
+        "candidate_revision": "5",
+        "operator": "equal",
+        "expected": {
+          "kind": "boolean",
+          "boolean": true
+        },
+        "resolved_candidate": {
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "value": true
+        },
+        "open_conflict_candidates": [
+          "candidate:evse:connected",
+          "candidate:evse:connected:other"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "An exact otherwise eligible candidate in an open conflict cannot satisfy an operation precondition."
     },
     {
       "id": "K-NEG-019",
@@ -1221,6 +1623,361 @@
         "state_unchanged": true
       },
       "criterion": "Admission re-evaluates time and rejects a now-stale precondition even though the immutable snapshot stored fresh."
+    },
+    {
+      "id": "K-NEG-039",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "qualification"
+      ],
+      "input": {
+        "precondition": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.interlock_clear",
+            "dimensions": []
+          },
+          "candidate_id": "candidate:interlock:unqualified",
+          "candidate_revision": "4",
+          "operator": "equal",
+          "expected": {
+            "kind": "boolean",
+            "boolean": true
+          }
+        },
+        "envelope_candidates": [
+          {
+            "candidate_id": "candidate:interlock:unqualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": true
+            },
+            "qualification": "candidate",
+            "promotion": "unpromoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          },
+          {
+            "candidate_id": "candidate:interlock:qualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            },
+            "qualification": "qualified",
+            "promotion": "promoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          }
+        ],
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "A fresh available value cannot satisfy a write precondition when the exactly named candidate is unqualified and unpromoted."
+    },
+    {
+      "id": "K-NEG-040",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "conflict",
+        "operation",
+        "qualification"
+      ],
+      "input": {
+        "precondition": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.interlock_clear",
+            "dimensions": []
+          },
+          "candidate_id": "candidate:interlock:qualified",
+          "candidate_revision": "4",
+          "operator": "equal",
+          "expected": {
+            "kind": "boolean",
+            "boolean": true
+          }
+        },
+        "envelope_candidates": [
+          {
+            "candidate_id": "candidate:interlock:qualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            },
+            "qualification": "qualified",
+            "promotion": "promoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          },
+          {
+            "candidate_id": "candidate:interlock:candidate",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": true
+            },
+            "qualification": "candidate",
+            "promotion": "unpromoted",
+            "validity": "unknown",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          }
+        ],
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "Equal numeric revisions and a true same-key candidate cannot replace the exact qualified candidate whose value makes the predicate false."
+    },
+    {
+      "id": "K-NEG-041",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:voltage",
+          "candidate_revision": "2",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "at": {
+            "unix_nanoseconds": "201000000000",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "1000"
+          },
+          "evidence_count": 1
+        },
+        "resolved_candidate": {
+          "fact": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.voltage",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "23",
+                "exponent10": 1
+              },
+              "unit": "unit.volt"
+            }
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false
+        },
+        "outcome": "applied",
+        "all_definition_owners_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "An unrelated later observation on the same admitted route cannot self-assert confirms for the operation-specific effect."
+    },
+    {
+      "id": "K-NEG-042",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "capability",
+        "generation",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "sequence": "1",
+        "expected_semantic_revision": "30",
+        "generation_fences": [],
+        "new_generation_activation_evidence_count": 1,
+        "otherwise_valid": true
+      },
+      "prior_state": {
+        "current_driver_generation": "7",
+        "old_capability_actionable": true,
+        "old_guarded_callback_current": true,
+        "derived_dependents": [
+          "candidate:site:flexibility"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "generation_transition_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "A higher-generation publication without an explicit fence cannot retain or silently supersede the older actionable generation."
+    },
+    {
+      "id": "K-NEG-043",
+      "polarity": "negative",
+      "record_type": "DefinitionIndex",
+      "operation": "register",
+      "coverage": [
+        "capability",
+        "operation"
+      ],
+      "input": {
+        "indexes": [
+          {
+            "pack": {
+              "id": "helianthus.pack.alpha",
+              "version": "1.0.0"
+            },
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.alpha",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.shared",
+                "version": "1.0.0"
+              }
+            ]
+          },
+          {
+            "pack": {
+              "id": "helianthus.pack.beta",
+              "version": "1.0.0"
+            },
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.beta",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.shared",
+                "version": "1.0.0"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "Two packs cannot claim the same operation definition kind, ID, and version."
+    },
+    {
+      "id": "K-NEG-044",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "capability",
+        "operation"
+      ],
+      "input": {
+        "registered_pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "indexed_operations": [],
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "registration_order_fallback_candidate": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_missing",
+        "state_unchanged": true
+      },
+      "criterion": "An explicit pack with no exact operation index entry fails without prefix inference or probing another validator."
     }
   ]
 }

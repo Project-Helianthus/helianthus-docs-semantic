@@ -88,8 +88,9 @@ presentation selection does not destroy or resolve alternatives.
 
 ### Coverage: `capability`
 
-Exact definition/version matching, activation evidence, constraints,
-qualification, availability, and degraded admission policy.
+Exact pack/definition/version matching, activation evidence, constraints,
+qualification, availability, degraded admission policy, and deterministic exact
+pack-owner dispatch.
 
 ### Coverage: `snapshot`
 
@@ -105,11 +106,13 @@ idempotent replay, conflicting sequence reuse, and all-or-nothing changes.
 ### Coverage: `generation`
 
 Distinct source epoch, driver generation, object/semantic revisions, lifecycle
-operation, and intent correlation; activation publication and fencing order.
+operation, and intent correlation; activation publication, mandatory explicit
+generation supersession, and fencing order.
 
 ### Coverage: `operation`
 
 Authority, deadline, preconditions, exactly-one route, guarded native admission,
+exact eligible candidate binding, pack-owned expected effects,
 dispatch/ACK/readback distinctions, terminal outcomes, and retry boundaries.
 
 ### Coverage: `causal`
@@ -239,6 +242,22 @@ A publication or operation refers to a source epoch that is no longer current.
 A publication, capability, route, callback, or readback refers to a fenced or
 superseded driver generation.
 
+### Error: `generation_transition_incomplete`
+
+A higher-generation publication omits the explicit fence for an older unfenced
+current generation or fails to include its atomic supersession boundary.
+
+### Error: `definition_owner_conflict`
+
+Pack registration contains duplicate validators, duplicate definition ownership,
+a validator/index pack mismatch, or a definition listed under the wrong kind.
+
+### Error: `definition_owner_missing`
+
+An explicit pack or field/service/capability/operation/effect definition has no
+exact registered validator and matching definition-index entry, or an operation
+pack lacks its required validation hook.
+
 ### Error: `capability_not_qualified`
 
 The required service/capability is candidate, unknown, unsupported, rejected,
@@ -262,8 +281,10 @@ intent deadline.
 
 ### Error: `precondition_failed`
 
-A typed precondition is false, stale, expired, unknown, conflicted, degraded,
-unavailable, revision-changed, or cannot be evaluated under its pack contract.
+A typed precondition is false; selects no exact candidate; selects candidate,
+unpromoted, suspect/bad/unknown, stale/expired, degraded/unavailable/withdrawn,
+revision-changed, or open-conflict evidence; or cannot be evaluated under its
+exact pack contract. Another same-key candidate is never substituted.
 
 ### Error: `authority_missing`
 
@@ -303,7 +324,8 @@ endpoint, or operation route.
 ### Error: `invalid_outcome`
 
 The supplied dispatch, acknowledgement, readback, side-effect flag, and terminal
-outcome combination is contradictory or incomplete.
+outcome combination is contradictory or incomplete. This includes a same-route
+candidate that does not satisfy the intent's pack-owned expected effect.
 
 ### Error: `duplicate_key`
 
@@ -343,12 +365,15 @@ serialization precedence list chooses one when an input violates several rows.
 | regressed/reused publication sequence or idempotency key with different bytes | `sequence_conflict` |
 | retired or non-current source epoch | `stale_source_epoch` |
 | fenced/superseded generation or readback/route generation mismatch | `stale_driver_generation` |
+| higher generation without every required explicit supersession fence/withdrawal boundary | `generation_transition_incomplete` |
+| duplicate validator/definition ownership, pack mismatch, or wrong indexed definition kind | `definition_owner_conflict` |
+| missing exact pack validator, field/service/capability/operation/effect entry, or operation-pack hook | `definition_owner_missing` |
 | unproved/reused/conflicting identity link or binding | `identity_not_qualified` |
 | candidate/unknown/unsupported/rejected capability or missing activation/pack qualification | `capability_not_qualified` |
 | withdrawn/unavailable or non-permitted degraded capability | `capability_unavailable` |
 | zero/multiple eligible routes after otherwise successful filtering | `ambiguous_route` |
 | expired or uncertainty-failed deadline | `deadline_expired` |
-| false/stale/expired/unknown/conflicted/degraded/unavailable/revision-changed precondition | `precondition_failed` |
+| false or non-exact candidate/unqualified/unpromoted/suspect/bad/unknown/stale/expired/conflicted/degraded/unavailable/revision-changed precondition | `precondition_failed` |
 | missing/unresolved/expired/out-of-scope authority | `authority_missing` |
 | route selected from presentation/projection/alias/caller native ID | `route_selection_forbidden` |
 | expired/inconsistent/over-limit causal budget | `causal_budget_exceeded` |

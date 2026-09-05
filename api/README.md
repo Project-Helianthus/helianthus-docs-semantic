@@ -18,9 +18,11 @@ owning Go module is
 The contract is complete for its kernel scope: identity/source/evidence,
 protocol-neutral values and quality, facts and conflicts, services and
 capabilities, immutable publication/snapshots, pure freshness evaluation,
-multi-source derived dependencies, operation evidence, causal budgets,
-projection loss, and compatibility aliases. It deliberately contains no
-protocol/vendor/gateway import or arbitrary public value bag.
+multi-source derived dependencies, exact precondition evidence, pack-owned
+readback effects and definition dispatch, mandatory generation supersession,
+operation evidence, causal budgets, projection loss, and compatibility aliases.
+It deliberately contains no protocol/vendor/gateway import or arbitrary public
+value bag.
 
 ## Remaining contracts
 

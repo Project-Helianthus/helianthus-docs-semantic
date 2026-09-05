@@ -106,6 +106,9 @@ digested input.
 | `FactEnvelope.candidates` | `CandidateID` |
 | `Conflict.candidates` | `CandidateID` |
 | `TypedField` collections | `DefinitionID` |
+| `DefinitionIndex` collections | `(id, version)` |
+| registered pack validators and projection pack versions | `(pack id, pack version)` |
+| `Intent.preconditions` | `(canonical FactKey bytes, candidate_id, candidate_revision)` |
 | sources | `(source_id, source_epoch_id)` |
 | source retirements | `SourceEpochID` |
 | bindings, identity links, services, capabilities | primary instance/binding ID |
@@ -218,6 +221,15 @@ capability becomes visible as actionable only after activation evidence exists
 for the current generation. A fence and all withdrawals for the fenced
 generation publish atomically before the new snapshot becomes visible.
 
+A higher generation is not an ordinary partial update. Its first batch includes
+an explicit fence for every older unfenced generation under the same source
+epoch. The canonical fence array therefore binds the supersession evidence into
+`batch_digest`. Missing a required fence is
+`generation_transition_incomplete`; serializers and decoders never infer or add
+one. The accepted batch atomically publishes the old generation's binding,
+identity, fact, service, capability, derived-dependency, and guarded-callback
+withdrawal before exposing the new generation.
+
 ## Operation record ordering
 
 Operation records are append-only evidence. Admission binds the exact snapshot
@@ -226,10 +238,24 @@ their individual timestamps and evidence. A later reconciliation appends a new
 record referring to the original attempt; it never changes `unknown` delivery
 into `not_sent` or rewrites an original `indeterminate` outcome.
 
+Each precondition serializes its fact key, candidate ID, and candidate revision.
+Admission resolves only that tuple and requires qualified, promoted, good, fresh,
+available, unconflicted evidence. Equal revisions on another same-key candidate
+do not match, and neither canonical ordering nor a presentation selection can
+change the selected evidence.
+
 A readback serializes the exact later snapshot ID/revisions, candidate revision,
 binding, source, source epoch, and driver generation. These members are audit
 evidence and MUST match the admitted route; a fixture-only generation assertion
-cannot substitute for them.
+cannot substitute for them. The containing intent serializes an exact
+pack-owned `ExpectedEffect`. The operation pack validator recomputes the relation
+from the unchanged intent and resolved candidate; serialized `relation=confirms`
+cannot substitute for that evaluation.
+
+Definition dispatch reads the explicit `PackRef` carried by each
+`DefinitionRef` or capability requirement, then performs one exact lookup in the
+prebuilt definition index. Registration order, name prefixes, and fallback
+probing do not affect canonical bytes or validation results.
 
 The same `IdempotencyKey` with different canonical intent bytes is
 `sequence_conflict`. The same validated intent may return its recorded outcome.
@@ -264,8 +290,10 @@ this exact precedence, from first to last:
 4. `noncanonical_order`, `digest_mismatch`, `dangling_reference`,
    `derivation_cycle`;
 5. `stale_source_epoch`, `stale_driver_generation`, `sequence_conflict`,
-   `revision_conflict`, `incomparable_clock_epoch`;
-6. `identity_not_qualified`, `capability_not_qualified`,
+   `revision_conflict`, `incomparable_clock_epoch`,
+   `generation_transition_incomplete`;
+6. `definition_owner_conflict`, `definition_owner_missing`,
+   `identity_not_qualified`, `capability_not_qualified`,
    `capability_unavailable`, `authority_missing`, `deadline_expired`,
    `precondition_failed`;
 7. `route_selection_forbidden`, `ambiguous_route`, `retry_forbidden`;

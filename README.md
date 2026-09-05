@@ -7,9 +7,10 @@ cross-protocol semantic architecture and API documentation.
 
 The [semantic kernel v1 contract](api/v1/kernel.md) defines the protocol-neutral
 types, serialization, time-only evaluation views, multi-source dependency
-lifecycle, validation, and acceptance vectors required for its own dependent
-implementation in `helianthus-semreg`. It becomes normative for that Helianthus
-implementation when merged into `main`.
+lifecycle, exact pack ownership and operation evidence, validation, and
+acceptance vectors required for its own dependent implementation in
+`helianthus-semreg`. It becomes normative for that Helianthus implementation
+when merged into `main`.
 
 This kernel contract does not complete all INT-04 capability packs or native
 mappings, implement INT-05 product code, settle unresolved normative versions,

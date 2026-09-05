@@ -89,6 +89,50 @@ def require_type_fields(kernel_text: str) -> None:
             "facts",
             "evaluation_digest",
         },
+        "PackRef": {"id", "version"},
+        "DefinitionRef": {"pack", "id", "version"},
+        "DefinitionIndex": {
+            "pack",
+            "fields",
+            "services",
+            "capabilities",
+            "operations",
+            "effect_rules",
+        },
+        "CapabilityRequirement": {
+            "pack",
+            "definition_id",
+            "versions",
+            "instance_id",
+            "allow_degraded",
+        },
+        "Precondition": {
+            "fact",
+            "candidate_id",
+            "candidate_revision",
+            "operator",
+            "expected",
+        },
+        "ExpectedEffect": {"rule", "fact", "operator", "expected"},
+        "Intent": {
+            "contract",
+            "intent_id",
+            "kind",
+            "expected_effect",
+            "asset_id",
+            "arguments",
+            "required_capability",
+            "authority",
+            "causal",
+            "expected_semantic_revision",
+            "expected_capability_revision",
+            "expected_capability_instance_revision",
+            "expected_source_epoch_id",
+            "expected_driver_generation",
+            "preconditions",
+            "idempotency_key",
+            "deadline",
+        },
         "Readback": {
             "snapshot_id",
             "revisions",
@@ -116,6 +160,16 @@ def require_type_fields(kernel_text: str) -> None:
         if missing:
             raise ValueError(f"{name} is missing required fields: {sorted(missing)}")
 
+    required_hooks = (
+        "Definitions() DefinitionIndex",
+        "EvaluatePredicate(FactCandidate, PredicateOp, Value) (bool, error)",
+        "ValidateIntent(Intent) error",
+        "EvaluateReadback(Intent, v1.FactCandidate) (ReadbackRelation, error)",
+    )
+    for hook in required_hooks:
+        if hook not in kernel_text:
+            raise ValueError(f"required pack hook is missing: {hook}")
+
 
 def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     by_id = {vector.get("id"): vector for vector in vectors}
@@ -126,6 +180,14 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         "K-NEG-036": ("Readback", "negative"),
         "K-NEG-037": ("ProjectionReport", "negative"),
         "K-NEG-038": ("Intent", "negative"),
+        "K-POS-021": ("PublicationBatch", "positive"),
+        "K-POS-022": ("DefinitionIndex", "positive"),
+        "K-NEG-039": ("Intent", "negative"),
+        "K-NEG-040": ("Intent", "negative"),
+        "K-NEG-041": ("ExecutionRecord", "negative"),
+        "K-NEG-042": ("PublicationBatch", "negative"),
+        "K-NEG-043": ("DefinitionIndex", "negative"),
+        "K-NEG-044": ("Intent", "negative"),
     }
     for vector_id, (record_type, polarity) in required.items():
         vector = by_id.get(vector_id)
@@ -162,6 +224,7 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     for vector_id, readback in (
         ("K-POS-014", by_id["K-POS-014"].get("input", {}).get("readback", {})),
         ("K-NEG-036", by_id["K-NEG-036"].get("input", {})),
+        ("K-NEG-041", by_id["K-NEG-041"].get("input", {}).get("readback", {})),
     ):
         if not required_readback.issubset(readback):
             raise ValueError(f"{vector_id}: readback binding scenario is incomplete")
@@ -193,6 +256,94 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     }
     if len(sources) < 2 or not derivation.get("binding_id_omitted"):
         raise ValueError("K-POS-020: multi-source derivation is incomplete")
+
+    for vector_id in ("K-NEG-039", "K-NEG-040"):
+        scenario = by_id[vector_id].get("input", {})
+        precondition = scenario.get("precondition", {})
+        candidates = scenario.get("envelope_candidates", [])
+        if not {"candidate_id", "candidate_revision"}.issubset(precondition):
+            raise ValueError(f"{vector_id}: exact precondition binding is missing")
+        values = {
+            json.dumps(item.get("value"), sort_keys=True) for item in candidates
+        }
+        if len(candidates) < 2 or len(values) < 2:
+            raise ValueError(f"{vector_id}: mixed candidate evidence is incomplete")
+        if len({item.get("revision") for item in candidates}) != 1:
+            raise ValueError(f"{vector_id}: equal revision negative control is missing")
+        selected = next(
+            (
+                item
+                for item in candidates
+                if item.get("candidate_id") == precondition.get("candidate_id")
+            ),
+            None,
+        )
+        if not selected:
+            raise ValueError(f"{vector_id}: selected candidate is absent")
+        if vector_id == "K-NEG-039" and selected.get("qualification") == "qualified":
+            raise ValueError("K-NEG-039: unqualified selected candidate is missing")
+        if vector_id == "K-NEG-040":
+            expected = json.dumps(precondition.get("expected"), sort_keys=True)
+            selected_value = json.dumps(selected.get("value"), sort_keys=True)
+            other_values = {
+                json.dumps(item.get("value"), sort_keys=True)
+                for item in candidates
+                if item is not selected
+            }
+            if selected_value == expected or expected not in other_values:
+                raise ValueError("K-NEG-040: exact-candidate negative control is invalid")
+
+    effect = by_id["K-POS-014"].get("input", {}).get("expected_effect", {})
+    if not {"rule", "fact", "operator", "expected"}.issubset(effect):
+        raise ValueError("K-POS-014: typed expected effect is incomplete")
+    unrelated = by_id["K-NEG-041"].get("input", {})
+    if unrelated.get("expected_effect", {}).get("fact") == unrelated.get(
+        "resolved_candidate", {}
+    ).get("fact"):
+        raise ValueError("K-NEG-041: unrelated same-route readback is missing")
+    resolved = unrelated.get("resolved_candidate", {})
+    if any(
+        resolved.get(key) != value
+        for key, value in {
+            "assertion": "observed",
+            "qualification": "qualified",
+            "promotion": "promoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available",
+            "open_conflict": False,
+        }.items()
+    ):
+        raise ValueError("K-NEG-041: unrelated readback is not otherwise eligible")
+
+    transition = by_id["K-POS-021"].get("input", {})
+    if not transition.get("generation_fences") or transition.get(
+        "driver_generation"
+    ) == transition["generation_fences"][0].get("driver_generation"):
+        raise ValueError("K-POS-021: explicit higher-generation fence is missing")
+    transition_assertions = set(by_id["K-POS-021"]["expect"].get("assertions", []))
+    if not {
+        "derived_dependents_withdrawn",
+        "generation_7_callback_rejected",
+        "generation_8_only_actionable",
+    }.issubset(transition_assertions):
+        raise ValueError("K-POS-021: atomic supersession assertions are incomplete")
+    if by_id["K-NEG-042"].get("input", {}).get("generation_fences") != []:
+        raise ValueError("K-NEG-042: omitted-fence negative control is missing")
+
+    pack_dispatch = by_id["K-POS-022"].get("input", {})
+    if len(pack_dispatch.get("validators_in_registration_order", [])) < 2 or not pack_dispatch.get(
+        "repeat_with_registration_order_reversed"
+    ):
+        raise ValueError("K-POS-022: deterministic multi-pack dispatch is incomplete")
+    for validator in pack_dispatch["validators_in_registration_order"]:
+        if not {"pack", "fields", "services", "capabilities", "operations", "effect_rules"}.issubset(
+            validator
+        ):
+            raise ValueError("K-POS-022: definition index collections are incomplete")
+        for kind in ("fields", "services", "capabilities", "operations", "effect_rules"):
+            if any(item.get("pack") != validator["pack"] for item in validator[kind]):
+                raise ValueError("K-POS-022: definition owner differs from index pack")
 
 
 def main() -> None:

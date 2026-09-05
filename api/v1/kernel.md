@@ -60,7 +60,7 @@ INT-05 must provide these public packages without cyclic imports:
 
 | Package | Owns |
 |---|---|
-| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, quality, services, capabilities, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
+| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, predicates, quality, services, capabilities, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
 | `semreg/v1/operation` | intent, preconditions, admitted routes, dispatch/acknowledgement/readback evidence, and outcomes |
 | `semreg/v1/projection` | target manifests, requested items, dispositions, loss details, and compatibility aliases |
 
@@ -76,24 +76,31 @@ The root package exposes a typed pack boundary equivalent to:
 
 ```go
 type PackValidator interface {
-    Pack() DefinitionRef
+    Pack() PackRef
+    Definitions() DefinitionIndex
     ValidateFact(FactKey, *Value) error
     ValidateService(ServiceInstance) error
     ValidateCapability(CapabilityInstance) error
     ValidateField(DefinitionRef, TypedField) error
     MatchConstraints(CapabilityInstance, []TypedField) error
+    EvaluatePredicate(FactCandidate, PredicateOp, Value) (bool, error)
 }
 ```
 
-The kernel registry is constructed with zero or more validators keyed by exact
-pack ID and version. Duplicate registrations fail with `duplicate_key`. A record
-that needs a pack definition cannot be qualified, promoted, or made actionable
-unless its exact validator is registered. Missing pack validation is
-`invalid_value` during record validation and `capability_not_qualified` during
-operation admission. The interface carries only typed kernel records; it does
-not expose raw protocol values, native handles, arbitrary JSON, or `any`.
-Capability-pack catalogs and their implementations remain separate INT-04/05
-work.
+The kernel registry is constructed atomically with zero or more validators keyed
+by exact `PackRef`. It builds the exact definition-owner index described below
+before accepting any semantic record. Registry iteration order is never
+observable. Duplicate validator/definition ownership is
+`definition_owner_conflict`; a missing validator/index entry is
+`definition_owner_missing`. The kernel MUST NOT infer ownership from an ID
+prefix, probe validators in registration order, or accept the first validator
+that returns success.
+
+A record that needs a pack definition cannot be qualified, promoted, or made
+actionable unless its exact owner and validator are registered. The interface
+carries only typed kernel records; it does not expose raw protocol values,
+native handles, arbitrary JSON, or `any`. Capability-pack catalogs and their
+implementations remain separate INT-04/05 work.
 
 ## Primitive rules
 
@@ -587,11 +594,10 @@ stored quality, and canonical snapshot bytes remain byte-identical. Repeating
 evaluation with the same snapshot and context produces identical view bytes.
 
 Operation admission MUST evaluate the admitted snapshot with a trusted current
-context immediately before checking preconditions and selecting a route. A fact
-precondition may use only a `fresh` evaluated candidate with effective
-availability `available`; stale, expired, unknown, degraded, unavailable,
-conflicted, or changed-revision input is `precondition_failed`. This
-re-evaluation does not relax the intent's expected snapshot revisions.
+context immediately before checking preconditions and selecting a route. It then
+applies the exact candidate binding and all six eligibility axes defined by
+`Precondition`; it cannot search for a different candidate that makes a predicate
+true. This re-evaluation does not relax the intent's expected snapshot revisions.
 
 ### Type: Quality
 
@@ -713,14 +719,52 @@ or conflict state changes.
 
 ## Services and capabilities
 
-### Type: DefinitionRef
+### Type: PackRef
 
 ```go
-type DefinitionRef struct {
+type PackRef struct {
     ID      DefinitionID    `json:"id"`
     Version SemanticVersion `json:"version"`
 }
 ```
+
+A pack reference is the exact registry key. Pack IDs and versions are explicit;
+they are never parsed from a definition ID.
+
+### Type: DefinitionRef
+
+```go
+type DefinitionRef struct {
+    Pack    PackRef         `json:"pack"`
+    ID      DefinitionID    `json:"id"`
+    Version SemanticVersion `json:"version"`
+}
+```
+
+Every service, capability, operation, effect rule, and typed field definition
+uses this record. The definition's pack must match its one registered owner.
+
+### Type: DefinitionIndex
+
+```go
+type DefinitionIndex struct {
+    Pack         PackRef         `json:"pack"`
+    Fields       []DefinitionRef `json:"fields"`
+    Services     []DefinitionRef `json:"services"`
+    Capabilities []DefinitionRef `json:"capabilities"`
+    Operations   []DefinitionRef `json:"operations"`
+    EffectRules  []DefinitionRef `json:"effect_rules"`
+}
+```
+
+Each collection is sorted by `(id,version)`, has no duplicate, and every member's
+`pack` equals `DefinitionIndex.pack`. Across the complete registry, the tuple
+`(definition kind,id,version)` has exactly one owner. A duplicate tuple, a
+validator whose `Pack()` differs from its index, or a definition listed under the
+wrong kind is `definition_owner_conflict`. A referenced tuple absent from its
+declared pack/index or a pack without its validator is
+`definition_owner_missing`. Registration order and identifier spelling never
+alter lookup.
 
 ### Type: TypedField
 
@@ -734,6 +778,13 @@ type TypedField struct {
 `TypedField` is used only where an accepted capability pack declares the field,
 its value kind, unit, range, and required presence. Collections contain at most
 64 fields, sorted by ID, with no duplicates.
+
+### Type: PredicateOp
+
+`PredicateOp` is the root-package string enum `equal`, `not_equal`, `less`,
+`less_equal`, `greater`, `greater_equal`, or `contains`. A pack validator must
+reject operators or value/unit combinations that its exact fact definition does
+not support.
 
 ### Type: ServiceInstance
 
@@ -773,9 +824,11 @@ type CapabilityInstance struct {
 Service and capability `driver_generation` and `revision` are greater than zero.
 Their asset, binding, source epoch, generation, and service references must all
 resolve to the same current source path in one snapshot. Constraints are unique
-and sorted. Activation evidence contains 1 through 32 unique references.
+and sorted. Each definition resolves through its explicit `DefinitionRef.pack`
+and the matching service/capability definition index. Activation evidence
+contains 1 through 32 unique references.
 
-An actionable capability is exactly one instance whose definition ID and
+An actionable capability is exactly one instance whose definition pack, ID, and
 version match the request, `qualification=qualified`, availability is
 `available` or explicitly permitted `degraded`, binding/source/generation are
 current, activation evidence is non-empty, and every constraint admits the
@@ -799,11 +852,17 @@ type GenerationFence struct {
 ```
 
 A fence is monotonic and irreversible for its source epoch and generation.
-Accepting a fence happens before publication of the resulting snapshot: every
-service and capability instance for that generation becomes `withdrawn`, and
-late batches or operation admission for that generation fail. The native owner
-must reject its guarded callbacks at the same boundary. The kernel never closes
-the native handle itself.
+Accepting a fence happens before publication of the resulting snapshot. Every
+binding from that generation becomes non-current; its identity links, services,
+and capabilities become `withdrawn`; its observed candidates and the transitive
+derived-dependency closure are removed from the new current snapshot; and empty
+fact envelopes are removed. Historical snapshots retain every pre-fence record.
+
+Late batches, readbacks, and operation admission for that generation fail. The
+native owner must reject every guarded callback at the same boundary, including
+one already selected but not yet invoked. The semantic changes, derived closure,
+and callback fence are one publication-versus-admission happens-before boundary.
+The kernel never closes the native handle itself.
 
 ### Type: PublicationBatch
 
@@ -852,7 +911,9 @@ together.
 member, stale source epoch, fenced generation, revision mismatch, or withdrawal
 of an unknown ID rejects the complete batch without mutation. Fields absent from
 the batch remain unchanged. Partial reads therefore upsert only evidenced
-candidates; they do not erase unrelated facts. Withdrawal is explicit.
+candidates; they do not erase unrelated facts. Withdrawal is explicit except for
+the source-retirement, generation-fence, and derived-dependency cascades defined
+here.
 
 Source upserts and retirements refer only to the batch `source_id`. A new source
 epoch is added before its bindings or facts, and retiring the current epoch
@@ -886,8 +947,20 @@ a restart uses a new source epoch unless sequence continuity is proved.
 Every fence in a batch uses the same source and epoch as its owning descriptor
 and contains 1 through 32 unique evidence references. A batch that fences its
 own header generation cannot upsert a binding, fact, service, or capability for
-that generation. A newer generation may fence an older generation and publish
-its own activated instances in the same atomic snapshot.
+that generation.
+
+At most one generation for a `(source_id,source_epoch_id)` is unfenced and
+current. A first generation needs no supersession fence. A batch whose header
+generation is greater than the current generation MUST include a
+`GenerationFence` for every older unfenced generation. Omitting any required
+fence is `generation_transition_incomplete`; the batch changes no state. The
+transition fence performs all automatic withdrawals and callback rejection
+before the same atomic snapshot exposes activated records for the new generation.
+Explicit per-record withdrawals MAY repeat the same transition intent but cannot
+replace the required fence. A generation below the current one is
+`stale_driver_generation` and a fenced generation can never become current again.
+The semantic revision increments once; every identity/fact/service/capability
+component changed by supersession increments its component revision once.
 
 ### Type: RevisionVector
 
@@ -998,6 +1071,7 @@ key, and correlation ID remains admissible even when it requests the same value.
 
 ```go
 type CapabilityRequirement struct {
+    Pack         PackRef              `json:"pack"`
     DefinitionID DefinitionID          `json:"definition_id"`
     Versions     VersionRange          `json:"versions"`
     InstanceID   *CapabilityInstanceID `json:"instance_id,omitempty"`
@@ -1005,20 +1079,84 @@ type CapabilityRequirement struct {
 }
 ```
 
+The requirement matches only capability definitions owned by the exact pack.
+Neither the definition ID nor version range can select another pack.
+
 ### Type: Precondition
 
 ```go
 type Precondition struct {
-    Fact       FactKey      `json:"fact"`
-    Operator   PredicateOp  `json:"operator"`
-    Expected   Value        `json:"expected"`
-    CandidateRevision *Uint64 `json:"candidate_revision,omitempty"`
+    Fact              FactKey     `json:"fact"`
+    CandidateID       CandidateID `json:"candidate_id"`
+    CandidateRevision Uint64      `json:"candidate_revision"`
+    Operator          PredicateOp `json:"operator"`
+    Expected          Value       `json:"expected"`
 }
 ```
 
-`PredicateOp` is `equal`, `not_equal`, `less`, `less_equal`, `greater`,
-`greater_equal`, or `contains`. The pack defines allowed operators and type/unit
-compatibility. Preconditions evaluate against the exact admitted snapshot.
+The fact key, candidate ID, and candidate revision select exactly one candidate
+in one envelope of the admitted snapshot. Equal numeric revisions on another
+candidate never match this reference.
+
+`FactKey.pack_id` and `pack_version` dispatch predicate validation to exactly one
+registered `PackRef` and its `EvaluatePredicate` hook; prefix inference and
+validator probing are forbidden. A missing exact fact-pack validator is
+`definition_owner_missing`.
+
+The selected candidate MUST be `qualification=qualified`,
+`promotion=promoted`, `validity=good`, evaluated `fresh`, effectively
+`availability=available`, and absent from every open conflict. The predicate is
+applied only to that candidate. Candidate/unpromoted/suspect/bad/unknown,
+stale/expired/degraded/unavailable/withdrawn, missing/revision-changed, or
+open-conflict evidence is `precondition_failed`; the kernel MUST NOT search
+another same-key candidate or use a presentation selection as fallback.
+
+### Type: ExpectedEffect
+
+```go
+type ExpectedEffect struct {
+    Rule     DefinitionRef `json:"rule"`
+    Fact     FactKey       `json:"fact"`
+    Operator PredicateOp   `json:"operator"`
+    Expected Value         `json:"expected"`
+}
+```
+
+`ExpectedEffect` is a required part of the intent's canonical bytes. The
+operation pack owns the rule that translates the exact operation and arguments
+into this typed fact predicate. `ValidateIntent` MUST derive the expected rule,
+fact, operator, and value and require byte-identical fields; caller assertion is
+insufficient, and a mismatch is `invalid_value`. `rule.pack` MUST equal
+`Intent.kind.pack` and the rule MUST be
+present in that pack's `effect_rules` index. The fact may belong to another
+explicit pack; this does not transfer ownership of its meaning.
+
+### Type: OperationPackValidator
+
+The operation package exposes this extension of the root pack boundary:
+
+```go
+type OperationPackValidator interface {
+    v1.PackValidator
+    ValidateIntent(Intent) error
+    EvaluateReadback(Intent, v1.FactCandidate) (ReadbackRelation, error)
+}
+```
+
+Any pack that indexes an operation or effect rule MUST implement this interface.
+Admission dispatches directly through `Intent.kind.pack`, verifies the indexed
+operation and effect rule, then calls `ValidateIntent`. It never probes another
+validator. `EvaluateReadback` receives the unchanged admitted intent and the
+exact resolved observed candidate named by `Readback`; it MUST reject a candidate
+whose `FactKey` differs from `Intent.expected_effect.fact`, then apply the
+pack-owned rule/operator/value and return the computed relation. The serialized
+`Readback.relation` must equal that result. Missing hooks or index entries are
+`definition_owner_missing`; a caller-provided `confirms` token is never evidence
+by itself.
+
+These are ordinary typed software 0.7 interfaces. They do not introduce a
+descriptive language, IR, generated validator, or code-generation dependency;
+those remain 0.8 work.
 
 ### Type: Intent
 
@@ -1027,6 +1165,7 @@ type Intent struct {
     Contract                   ContractVersion       `json:"contract"`
     IntentID                   IntentID              `json:"intent_id"`
     Kind                       DefinitionRef          `json:"kind"`
+    ExpectedEffect             ExpectedEffect         `json:"expected_effect"`
     AssetID                    AssetID               `json:"asset_id"`
     Arguments                  []TypedField           `json:"arguments"`
     RequiredCapability         CapabilityRequirement `json:"required_capability"`
@@ -1045,9 +1184,11 @@ type Intent struct {
 
 Authority is an opaque evidence reference resolved by the runtime's authority
 owner; presence alone never grants permission. The deadline uses `clock.utc`.
-Arguments and preconditions contain at most 64 entries and are sorted by ID or
-fact key. An idempotency key deduplicates the same validated intent and outcome;
-it does not make a native operation replay-safe.
+Arguments and preconditions contain at most 64 entries. Arguments are sorted by
+field ID. Preconditions are sorted by `(canonical fact key,candidate_id,
+candidate_revision)` and contain no duplicate tuple. An idempotency key
+deduplicates the same validated intent and outcome; it does not make a native
+operation replay-safe.
 
 `expected_capability_revision` binds `RevisionVector.capabilities`.
 `expected_capability_instance_revision` binds the one matched instance. Both
@@ -1068,10 +1209,11 @@ type Route struct {
 
 Admission revalidates authority, deadline, causal budget, preconditions,
 expected revisions, exact source epoch/generation, capability qualification and
-availability, version range, and constraints against one immutable snapshot.
-It must produce exactly one route or fail before dispatch. Presentation
-`Selection`, compatibility aliases, projections, or caller-supplied native IDs
-cannot select the route.
+availability, version range, and constraints against one immutable snapshot. It
+also resolves the operation, expected effect, required capability, fields, and
+fact predicates through their one exact pack/index/hook. It must produce exactly
+one route or fail before dispatch. Presentation `Selection`, compatibility
+aliases, projections, or caller-supplied native IDs cannot select the route.
 
 The runtime owns the admitted, generation-bound guarded callback. It MUST
 revalidate the current generation and fence under its lifecycle lock immediately
@@ -1134,10 +1276,16 @@ at exactly `candidate_revision`. The candidate's binding, source, source epoch,
 and driver generation must equal these fields, resolve within that snapshot, and
 equal the admitted `Route`.
 
+The candidate must also be qualified, promoted, good, fresh and available in an
+`EvaluationView` at `Readback.at`, and absent from an open conflict. Otherwise
+the relation cannot be `confirms` and `applied` is `invalid_outcome`.
+
 A missing snapshot/candidate or revision mismatch is `dangling_reference`; a
 different or retired route epoch is `stale_source_epoch`; a different or fenced
 route generation is `stale_driver_generation`; and a different binding/source or
-an inferred candidate is `invalid_outcome`. None can support `applied`.
+an inferred candidate is `invalid_outcome`. Even when all route fields match, a
+candidate with a different fact key or a pack-evaluated relation other than
+`confirms` is `invalid_outcome`. None can support `applied`.
 
 ### Type: ExecutionRecord
 
@@ -1164,7 +1312,7 @@ type ExecutionRecord struct {
 | `rejected` | No route or dispatch. `error_id` is required and records the stable admission error. |
 | `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect. Retry still requires the owning replay policy. |
 | `acknowledged_unverified` | A request was sent and accepted/provisionally acknowledged, but no confirming readback exists. |
-| `applied` | Dispatch occurred and current-generation readback confirms the requested effect. An ACK is retained when the protocol supplies one. |
+| `applied` | Dispatch occurred and exact current-generation readback was evaluated as `confirms` by the intent's exact operation-pack effect rule. An ACK is retained when the protocol supplies one. |
 | `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
 | `conflict` | Post-dispatch evidence contradicts the requested effect or another current result. |
 | `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
@@ -1187,7 +1335,7 @@ type ProjectionManifest struct {
     TargetID        TargetID        `json:"target_id"`
     TargetVersion   VersionLabel    `json:"target_version"`
     KernelVersion   ContractVersion `json:"kernel_version"`
-    PackVersions    []DefinitionRef `json:"pack_versions"`
+    PackVersions    []PackRef       `json:"pack_versions"`
     MappingRevision Uint64          `json:"mapping_revision"`
 }
 ```
