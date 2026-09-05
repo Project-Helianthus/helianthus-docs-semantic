@@ -236,6 +236,7 @@ type SourceDescriptor struct {
     ProfileVersion   VersionLabel   `json:"profile_version"`
     RegistryEvidence EvidenceRef    `json:"registry_evidence"`
     StartedAt        TimePoint      `json:"started_at"`
+    State            SourceState    `json:"state"`
     Revision         Uint64         `json:"revision"`
 }
 ```
@@ -246,7 +247,15 @@ without a proved sequence continuation, or a new process/runtime assumes the
 source. Profile identity and version are native evidence, not semantic
 capability proof. A profile/version change creates a new source epoch. Revision
 is greater than zero and orders metadata changes within one epoch. One snapshot
-contains at most one active epoch for a given `source_id`.
+contains at most one `current` epoch for a given `source_id`; retired descriptors
+remain resolvable and non-current.
+
+### Type: SourceState
+
+`SourceState` is `current` or `retired`. A publisher may upsert only `current`;
+`retired` is an irreversible kernel-produced tombstone created by an accepted
+source retirement. A publisher-supplied retired upsert is
+`stale_source_epoch`.
 
 ### Type: OriginRef
 
@@ -279,6 +288,7 @@ type NativeBinding struct {
     SourceEpochID    SourceEpochID   `json:"source_epoch_id"`
     DriverGeneration Uint64          `json:"driver_generation"`
     NativeResource   EvidenceRef     `json:"native_resource"`
+    State            BindingState    `json:"state"`
     Revision         Uint64          `json:"revision"`
 }
 ```
@@ -287,7 +297,17 @@ type NativeBinding struct {
 binding ID and remains the only owner of a live native handle. A binding is an
 opaque route reference, never a decoded bus address. Reusing a binding ID with a
 different source, source epoch, asset, or native resource is
-`identity_not_qualified`.
+`identity_not_qualified`. `current` resolves through a current source epoch and
+an unfenced generation. `fenced` resolves through its retained generation fence;
+`retired` resolves through its retained retired source descriptor. Neither
+tombstone is a route or live handle.
+
+### Type: BindingState
+
+`BindingState` is `current`, `fenced`, or `retired`. A publisher may upsert only
+`current`; `fenced` and `retired` are irreversible kernel-produced tombstones.
+A publisher-supplied fenced upsert is `stale_driver_generation`; a
+publisher-supplied retired upsert is `stale_source_epoch`.
 
 ### Type: IdentityLink
 
@@ -302,11 +322,15 @@ type IdentityLink struct {
 ```
 
 `LinkState` is `candidate`, `qualified`, `rejected`, `conflict`, or `withdrawn`.
-`basis` contains 1 through 32 unique evidence references for `candidate` or
-`qualified`, and at least one rejection/conflict/withdrawal evidence reference
-for every other state. Similar values, model strings, addresses, or topology
-positions cannot qualify a link. Contradictory qualified links become
-`conflict`; the kernel does not choose one silently.
+`basis` contains 1 through 32 unique evidence references. Candidate/qualified
+basis proves the link; rejected/conflict basis proves that state. Automatic
+withdrawal retains the prior basis and adds available transition evidence,
+including generation-fence evidence. Similar values, model strings, addresses,
+or topology positions cannot qualify a link. Contradictory qualified links
+become `conflict`; the kernel does not choose one silently. A non-withdrawn link
+must resolve a current binding. A withdrawn link must resolve a retained fenced
+or retired binding tombstone, or a retained current binding when withdrawal is
+an explicit identity decision. It is never identity or route authority.
 
 ### Type: SourcePathRef
 
@@ -673,18 +697,28 @@ and new native evidence.
 
 ```go
 type Selection struct {
-    PolicyID           PolicyID       `json:"policy_id"`
+    SnapshotID         SnapshotID      `json:"snapshot_id"`
+    EvaluationDigest   Digest          `json:"evaluation_digest"`
+    Key                FactKey         `json:"key"`
+    PolicyID           PolicyID        `json:"policy_id"`
     PolicyVersion      SemanticVersion `json:"policy_version"`
     SelectedCandidate  CandidateID    `json:"selected_candidate"`
+    CandidateRevision  Uint64          `json:"candidate_revision"`
     EvaluatedAt        TimePoint      `json:"evaluated_at"`
     PresentationOnly   bool           `json:"presentation_only"`
 }
 ```
 
-`presentation_only` MUST be true. The selected candidate must exist in the
-envelope and the deterministic policy must be known. Selection does not remove
-alternatives, resolve identity, choose an operation route, or preserve
-capability authority after generation or availability changes.
+`Selection` is not stored in `Snapshot` or `FactEnvelope`. The root package
+exposes a pure operation equivalent to
+`SelectPresentation(EvaluationView, FactKey, PolicyID, SemanticVersion)
+(Selection, error)`. `presentation_only` MUST be true. The selected candidate
+and revision must exist in the named evaluation view and the exact deterministic
+policy must be registered by the kernel. Native publication cannot register or
+choose that cross-source policy. A selection is valid only for its snapshot and
+evaluation digest; any later publication or evaluation requires a new result.
+Selection does not remove alternatives, resolve identity, choose an operation
+route, or retain capability authority.
 
 ### Type: Conflict
 
@@ -698,11 +732,31 @@ type Conflict struct {
 }
 ```
 
-`ConflictKind` is `identity`, `value`, `source`, `version`, or `operation`.
-`ConflictState` is `open` or `resolved`. An open conflict contains 2 through 16
-unique sorted candidate IDs and at least one evidence reference. A resolved
-conflict retains every candidate and adds resolution evidence; it is never
-deleted from the immutable snapshot that observed it.
+`ConflictKind` is exactly `value` and `ConflictState` is exactly `open` in v1.
+A conflict contains 2 through 32 unique sorted candidate IDs. `evidence`
+contains the sorted, deduplicated union of their candidate evidence and therefore
+has 1 through 1024 references.
+
+Identity disagreement remains explicit in `IdentityLink.state=conflict`;
+source differences remain in candidate lineage; pack-version differences remain
+in `FactKey`; and operation ambiguity is rejected during route admission. Those
+axes do not create underspecified publisher-authored `FactEnvelope` conflicts.
+
+After applying all explicit fact changes and lifecycle/derivation cascades, the
+kernel reconciles each affected envelope. It takes candidates with a value,
+`qualification=qualified`, and `promotion=promoted`. When their canonical value
+bytes contain at least two distinct values, it emits one open value conflict
+containing every candidate in that set. Its `conflict_id` is the `sha256:` digest
+of JCS bytes for `{contract,asset_id,key,kind,candidates}`, with `contract`
+exactly `helianthus.semantic.conflict-id/v1`. Otherwise the current envelope
+contains no conflict. Native publishers never submit, resolve, or select
+cross-source conflict metadata.
+
+Withdrawal, fencing, dependency cascade, or candidate revision change reruns
+this rule against the complete resulting candidate set. A conflict whose
+condition no longer holds is absent from the new current snapshot; it is not
+rewritten as `resolved` and no resolution evidence is fabricated. The immutable
+prior snapshot remains the history of the former conflict.
 
 ### Type: FactEnvelope
 
@@ -711,17 +765,19 @@ type FactEnvelope struct {
     AssetID   AssetID        `json:"asset_id"`
     Key       FactKey        `json:"key"`
     Candidates []FactCandidate `json:"candidates"`
-    Selection *Selection     `json:"selection,omitempty"`
     Conflicts []Conflict     `json:"conflicts"`
     Revision  Uint64         `json:"revision"`
 }
 ```
 
 One envelope holds 1 through 32 candidates with unique IDs, sorted by
-`candidate_id`. Candidates for the same key coexist. A value disagreement among
-qualified promoted candidates MUST be an open or resolved conflict; the kernel
-cannot silently choose one. `revision` changes whenever candidates, selection,
-or conflict state changes.
+`candidate_id`. Candidates for the same key coexist. `conflicts` is exactly the
+kernel-derived result above and is never a publisher input. The kernel cannot
+silently choose one. `revision` increments exactly once in a batch whenever its
+candidate set/revision/content or derived conflict changes; otherwise it is
+retained unchanged. A decoded snapshot whose conflict IDs, candidate set,
+evidence union, state, or order differs from the derived result is
+`invalid_value`.
 
 ## Services and capabilities
 
@@ -828,11 +884,15 @@ type CapabilityInstance struct {
 ```
 
 Service and capability `driver_generation` and `revision` are greater than zero.
-Their asset, binding, source epoch, generation, and service references must all
-resolve to the same current source path in one snapshot. Constraints are unique
-and sorted. Each definition resolves through its explicit `DefinitionRef.pack`
-and the matching service/capability definition index. Activation evidence
-contains 1 through 32 unique references.
+When availability is not `withdrawn`, their asset, binding, source epoch,
+generation, and service references must all resolve to the same `current` source
+path in one snapshot. A withdrawn service/capability instead resolves to the
+same retained binding, which may be `current`, `fenced`, or `retired`; a
+withdrawn capability's service must remain resolvable, and must itself be
+withdrawn when the binding is not current. Constraints are unique and sorted.
+Each definition resolves through its explicit `DefinitionRef.pack` and the
+matching service/capability definition index. Activation evidence contains 1
+through 32 unique references and remains historical evidence on a tombstone.
 
 An actionable capability is exactly one instance whose definition pack, ID, and
 version match the request, `qualification=qualified`, availability is
@@ -859,10 +919,14 @@ type GenerationFence struct {
 
 A fence is monotonic and irreversible for its source epoch and generation.
 Accepting a fence happens before publication of the resulting snapshot. Every
-binding from that generation becomes non-current; its identity links, services,
-and capabilities become `withdrawn`; its observed candidates and the transitive
-derived-dependency closure are removed from the new current snapshot; and empty
-fact envelopes are removed. Historical snapshots retain every pre-fence record.
+binding from that generation is retained as `state=fenced`; its identity links
+are retained as `state=withdrawn`; its services and capabilities are retained as
+`availability=withdrawn`. Their object revisions increment exactly once. Their
+references resolve through the retained binding and fence but are non-actionable.
+Observed candidates and the transitive derived-dependency closure are removed
+from the new current snapshot, affected envelope metadata is reconciled, and
+empty fact envelopes are removed. Historical snapshots retain every pre-fence
+record.
 
 Late batches, readbacks, and operation admission for that generation fail. The
 native owner must reject every guarded callback at the same boundary, including
@@ -922,10 +986,13 @@ the source-retirement, generation-fence, and derived-dependency cascades defined
 here.
 
 Source upserts and retirements refer only to the batch `source_id`. A new source
-epoch is added before its bindings or facts, and retiring the current epoch
-atomically withdraws its bindings, services, capabilities, and candidates. A
-retired epoch cannot be reactivated. Historical immutable snapshots retain its
-earlier state. Replacing an active epoch requires its retirement and the new
+epoch is added before its bindings or facts. Retiring the current epoch retains
+its descriptor as `state=retired`, retains its bindings as `state=retired`, and
+retains its identity links/services/capabilities as withdrawn tombstones while
+atomically removing its observed candidates and derived closure. Every changed
+object revision and affected component revision increments once. A retired epoch
+cannot be reactivated. Historical immutable snapshots retain its earlier active
+state. Replacing an active epoch requires its retirement and the new current
 descriptor in the same batch.
 
 Before committing a batch, the kernel computes the transitive closure of inferred
@@ -936,6 +1003,13 @@ automatically withdraws every affected derived candidate and its dependents in
 the same snapshot. A same-batch inferred upsert survives only when all of its
 revised inputs and exact source paths resolve after the complete batch. Empty
 fact envelopes are removed.
+
+After that closure, the kernel derives current conflict metadata for every
+affected non-empty envelope using the exact rule above. This reconciliation is
+part of batch application rather than a publisher field. A candidate removal or
+revision therefore cannot leave a current conflict pointing at a missing or old
+revision, and native publishers cannot acquire cross-source selection or
+resolution authority.
 
 This dependency cascade is part of the one atomic batch. Each changed envelope
 revision and the fact component revision increments once, while the semantic
@@ -965,8 +1039,11 @@ before the same atomic snapshot exposes activated records for the new generation
 Explicit per-record withdrawals MAY repeat the same transition intent but cannot
 replace the required fence. A generation below the current one is
 `stale_driver_generation` and a fenced generation can never become current again.
-The semantic revision increments once; every identity/fact/service/capability
-component changed by supersession increments its component revision once.
+The old source descriptor remains current, its old bindings are retained as
+fenced tombstones, and the withdrawn link/service/capability records remain
+resolvable through those tombstones. The semantic revision increments once;
+every identity/fact/service/capability component changed by supersession
+increments its component revision once.
 
 ### Type: RevisionVector
 
@@ -1026,14 +1103,19 @@ type Snapshot struct {
 ```
 
 A snapshot is immutable, self-consistent, and complete for one asset at one
-semantic revision. It contains all alternatives and open conflicts. Every
-reference resolves inside the snapshot or to an `EvidenceRef`. Collections are
-sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
+semantic revision. It contains all alternatives and current open conflicts.
+Every reference resolves inside the snapshot or to an `EvidenceRef`. Current
+facts and actionable identity/service/capability records resolve only through
+current source/binding paths. Withdrawn identity/service/capability records
+remain non-actionable and resolve through a retained binding; a non-current
+binding must resolve through its fence or retired source descriptor. Collections
+are sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
 unique across all fact envelopes in one snapshot. Limits are 32 sources, 128
-bindings, 128 identity links, 4096 fact envelopes, 1024 services, 2048
-capabilities, and 128 retained fences per asset. Exceeding a limit rejects the
-batch; it never truncates a snapshot. Up to 128 publication cursors are retained
-while their source epochs remain relevant to replay/fence validation.
+bindings, 128 identity links, 4096 fact
+envelopes, 1024 services, 2048 capabilities, and 128 retained fences per asset.
+Exceeding a limit rejects the batch; it never truncates a snapshot. Up to 128
+publication cursors are retained while their source epochs remain relevant to
+replay/fence validation.
 
 The snapshot ID is unique for the exact canonical bytes. A reader either sees
 the complete prior snapshot or complete new snapshot. It never observes mixed
@@ -1227,8 +1309,11 @@ expected revisions, exact source epoch/generation, capability qualification and
 availability, version range, and constraints against one immutable snapshot. It
 also resolves the operation, expected effect, required capability, fields, and
 fact predicates through their one exact pack/index/hook. It must produce exactly
-one route or fail before dispatch. Presentation `Selection`, compatibility
-aliases, projections, or caller-supplied native IDs cannot select the route.
+one route or fail before dispatch. Every route field resolves through a
+`current` source descriptor and `current` binding; fenced/retired tombstones and
+withdrawn records can never form a route. Presentation `Selection`,
+compatibility aliases, projections, or caller-supplied native IDs cannot select
+the route.
 
 The runtime owns the admitted, generation-bound guarded callback. It MUST
 revalidate the current generation and fence under its lifecycle lock immediately

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from collections import Counter, defaultdict
@@ -70,6 +71,27 @@ def require_type_fields(kernel_text: str) -> None:
         for name, body in TYPE_BLOCK.findall(kernel_text)
     }
     required = {
+        "SourceDescriptor": {
+            "source_id",
+            "source_epoch_id",
+            "protocol_id",
+            "profile_id",
+            "profile_version",
+            "registry_evidence",
+            "started_at",
+            "state",
+            "revision",
+        },
+        "NativeBinding": {
+            "binding_id",
+            "asset_id",
+            "source_id",
+            "source_epoch_id",
+            "driver_generation",
+            "native_resource",
+            "state",
+            "revision",
+        },
         "SourcePathRef": {
             "binding_id",
             "source_id",
@@ -114,6 +136,25 @@ def require_type_fields(kernel_text: str) -> None:
             "expected",
         },
         "ExpectedEffect": {"rule", "fact", "operator", "expected"},
+        "Selection": {
+            "snapshot_id",
+            "evaluation_digest",
+            "key",
+            "policy_id",
+            "policy_version",
+            "selected_candidate",
+            "candidate_revision",
+            "evaluated_at",
+            "presentation_only",
+        },
+        "FactEnvelope": {
+            "asset_id",
+            "key",
+            "candidates",
+            "conflicts",
+            "revision",
+        },
+        "Conflict": {"conflict_id", "kind", "candidates", "evidence", "state"},
         "DispatchEvidence": {
             "attempt_id",
             "started",
@@ -167,6 +208,11 @@ def require_type_fields(kernel_text: str) -> None:
         missing = fields - blocks.get(name, set())
         if missing:
             raise ValueError(f"{name} is missing required fields: {sorted(missing)}")
+    if "selection" in blocks.get("FactEnvelope", set()):
+        raise ValueError("FactEnvelope must not persist presentation selection")
+    forbidden_publication_metadata = {"selection", "selections", "conflicts"}
+    if forbidden_publication_metadata & blocks.get("PublicationBatch", set()):
+        raise ValueError("PublicationBatch must not accept envelope metadata input")
 
     required_hooks = (
         "Definitions() DefinitionIndex",
@@ -182,6 +228,7 @@ def require_type_fields(kernel_text: str) -> None:
 def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     by_id = {vector.get("id"): vector for vector in vectors}
     required = {
+        "K-POS-018": ("PublicationBatch", "positive"),
         "K-POS-019": ("EvaluationView", "positive"),
         "K-POS-020": ("PublicationBatch", "positive"),
         "K-NEG-034": ("PublicationBatch", "negative"),
@@ -204,6 +251,11 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         "K-NEG-049": ("Precondition", "negative"),
         "K-NEG-050": ("Precondition", "negative"),
         "K-NEG-051": ("CausalContext", "negative"),
+        "K-POS-024": ("PublicationBatch", "positive"),
+        "K-NEG-052": ("CausalContext", "negative"),
+        "K-NEG-053": ("CausalContext", "negative"),
+        "K-NEG-054": ("FactEnvelope", "negative"),
+        "K-NEG-055": ("PublicationBatch", "negative"),
     }
     for vector_id, (record_type, polarity) in required.items():
         vector = by_id.get(vector_id)
@@ -273,6 +325,9 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     }
     if len(sources) < 2 or not derivation.get("binding_id_omitted"):
         raise ValueError("K-POS-020: multi-source derivation is incomplete")
+    derivation_ids = [item.get("candidate_id") for item in derivation.get("inputs", [])]
+    if derivation_ids != sorted(derivation_ids):
+        raise ValueError("K-POS-020: derivation inputs are not canonical")
 
     for vector_id in ("K-NEG-039", "K-NEG-040"):
         scenario = by_id[vector_id].get("input", {})
@@ -466,6 +521,150 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     ):
         raise ValueError("K-NEG-051: C-to-A reflection control is invalid")
 
+    hard_bound = by_id["K-NEG-021"]
+    hard_input = hard_bound.get("input", {})
+    if (
+        hard_bound["expect"].get("error_id") != "causal_budget_exceeded"
+        or hard_input.get("all_wire_fields_syntactically_valid") is not True
+        or hard_input.get("causal_domain_limits_are_only_failure") is not True
+        or hard_input.get("max_hops", 0) <= 16
+        or int(hard_input.get("lifetime_ns", "0")) <= 300000000000
+    ):
+        raise ValueError("K-NEG-021: causal-domain error partition is incomplete")
+    malformed_causal = by_id["K-NEG-052"]
+    malformed_input = malformed_causal.get("input", {})
+    if (
+        malformed_causal["expect"].get("error_id") != "invalid_time"
+        or malformed_input.get("first_seen_at", {}).get("uncertainty_ns")
+        != "-1"
+        or malformed_input.get("max_hops", 0) <= 16
+    ):
+        raise ValueError("K-NEG-052: malformed causal-time overlap is incomplete")
+    exhausted = by_id["K-NEG-053"]
+    exhausted_input = exhausted.get("input", {})
+    if (
+        exhausted["expect"].get("error_id") != "causal_budget_exceeded"
+        or exhausted_input.get("all_wire_fields_syntactically_valid") is not True
+        or exhausted_input.get("incoming_hop_count")
+        != exhausted_input.get("max_hops")
+        or len(exhausted_input.get("incoming_path", []))
+        != exhausted_input.get("incoming_hop_count")
+        or exhausted_input.get("receiver") in exhausted_input.get(
+            "incoming_path", []
+        )
+    ):
+        raise ValueError("K-NEG-053: causal append-capacity control is incomplete")
+
+    metadata = by_id["K-POS-024"].get("input", {})
+    create = metadata.get("create_conflict_batch", {})
+    conflicting = metadata.get("conflicting_snapshot", {}).get("envelope", {})
+    selection = metadata.get("presentation_selection", {})
+    withdrawal = metadata.get("withdraw_one_batch", {})
+    resulting = metadata.get("resulting_snapshot", {})
+    result_envelope = resulting.get("envelope", {})
+    prior = metadata.get("prior_snapshot_after_withdrawal", {})
+    conflicts = conflicting.get("conflicts", [])
+    if len(conflicts) != 1:
+        raise ValueError("K-POS-024: exact derived conflict is missing")
+    conflict = conflicts[0]
+    conflict_source = {
+        "contract": "helianthus.semantic.conflict-id/v1",
+        "asset_id": metadata.get("initial_snapshot", {}).get("asset_id"),
+        "key": conflicting.get("key"),
+        "kind": "value",
+        "candidates": ["candidate:source:a", "candidate:source:b"],
+    }
+    conflict_bytes = json.dumps(
+        conflict_source,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    expected_conflict_id = "sha256:" + hashlib.sha256(conflict_bytes).hexdigest()
+    if (
+        create.get("publisher_metadata_members_present") is not False
+        or withdrawal.get("publisher_metadata_members_present") is not False
+        or conflict.get("conflict_id") != expected_conflict_id
+        or conflict.get("candidates")
+        != ["candidate:source:a", "candidate:source:b"]
+        or conflict.get("evidence") != ["evidence:source:a", "evidence:source:b"]
+        or conflicting.get("selection_member_absent") is not True
+    ):
+        raise ValueError("K-POS-024: kernel-owned conflict derivation is incomplete")
+    if (
+        selection.get("stored_in_snapshot") is not False
+        or selection.get("snapshot_id")
+        != metadata.get("conflicting_snapshot", {}).get("snapshot_id")
+        or selection.get("selected_candidate") != "candidate:source:a"
+        or selection.get("candidate_revision") != "4"
+    ):
+        raise ValueError("K-POS-024: snapshot-bound pure selection is incomplete")
+    if (
+        withdrawal.get("fact_withdrawals") != ["candidate:source:a"]
+        or result_envelope.get("candidates") != ["candidate:source:b@2"]
+        or result_envelope.get("conflicts") != []
+        or result_envelope.get("selection_member_absent") is not True
+        or resulting.get("old_selection_valid_for_resulting_snapshot") is not False
+        or prior.get("unchanged") is not True
+        or prior.get("conflict_id") != expected_conflict_id
+    ):
+        raise ValueError("K-POS-024: withdrawal metadata cleanup is incomplete")
+    mismatch = by_id["K-NEG-054"]
+    if (
+        mismatch["expect"].get("error_id") != "invalid_value"
+        or mismatch.get("input", {}).get("supplied_conflict", {}).get("evidence")
+        == mismatch.get("input", {}).get("derived_evidence")
+    ):
+        raise ValueError("K-NEG-054: derived conflict mismatch control is incomplete")
+    publisher_metadata = by_id["K-NEG-055"]
+    if (
+        publisher_metadata["expect"].get("error_id") != "unknown_member"
+        or "conflicts" not in publisher_metadata.get("input", {})
+    ):
+        raise ValueError("K-NEG-055: publisher metadata rejection is incomplete")
+    initial_revisions = metadata.get("initial_snapshot", {}).get("revisions", {})
+    conflict_revisions = metadata.get("conflicting_snapshot", {}).get(
+        "revisions", {}
+    )
+    result_revisions = resulting.get("revisions", {})
+    if (
+        int(conflict_revisions.get("semantic", "0"))
+        != int(initial_revisions.get("semantic", "0")) + 1
+        or int(result_revisions.get("semantic", "0"))
+        != int(conflict_revisions.get("semantic", "0")) + 1
+        or int(conflict_revisions.get("facts", "0"))
+        != int(initial_revisions.get("facts", "0")) + 1
+        or int(result_revisions.get("facts", "0"))
+        != int(conflict_revisions.get("facts", "0")) + 1
+        or int(result_envelope.get("revision", "0"))
+        != int(conflicting.get("revision", "0")) + 1
+    ):
+        raise ValueError("K-POS-024: metadata revision sequence is incomplete")
+
+    restart_snapshot = by_id["K-POS-018"].get("input", {}).get(
+        "resulting_snapshot", {}
+    )
+    source_states = {
+        item.get("source_epoch_id"): item.get("state")
+        for item in restart_snapshot.get("sources", [])
+    }
+    retired_binding_states = {
+        item.get("binding_id"): item.get("state")
+        for item in restart_snapshot.get("bindings", [])
+    }
+    if (
+        source_states
+        != {
+            "source-epoch:after-restart": "current",
+            "source-epoch:before-restart": "retired",
+        }
+        or retired_binding_states.get("binding:pv:old") != "retired"
+        or restart_snapshot.get("old_epoch_candidates") != []
+        or restart_snapshot.get("full_snapshot_validation") != "accept"
+        or restart_snapshot.get("canonical_serialization") != "accept"
+    ):
+        raise ValueError("K-POS-018: resolvable retirement tombstones are incomplete")
+
     transition = by_id["K-POS-021"].get("input", {})
     if not transition.get("generation_fences") or transition.get(
         "driver_generation"
@@ -473,13 +672,39 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         raise ValueError("K-POS-021: explicit higher-generation fence is missing")
     transition_assertions = set(by_id["K-POS-021"]["expect"].get("assertions", []))
     if not {
-        "derived_dependents_withdrawn",
+        "old_observed_and_derived_candidates_removed",
+        "all_tombstone_references_resolve",
+        "full_post_transition_snapshot_valid_and_canonical",
         "generation_7_callback_rejected",
         "generation_8_only_actionable",
     }.issubset(transition_assertions):
         raise ValueError("K-POS-021: atomic supersession assertions are incomplete")
     if by_id["K-NEG-042"].get("input", {}).get("generation_fences") != []:
         raise ValueError("K-NEG-042: omitted-fence negative control is missing")
+    resulting_snapshot = transition.get("resulting_snapshot", {})
+    binding_states = {
+        item.get("binding_id"): item.get("state")
+        for item in resulting_snapshot.get("bindings", [])
+    }
+    service_states = {
+        item.get("instance_id"): item.get("availability")
+        for item in resulting_snapshot.get("services", [])
+    }
+    capability_states = {
+        item.get("instance_id"): item.get("availability")
+        for item in resulting_snapshot.get("capabilities", [])
+    }
+    if (
+        binding_states
+        != {"binding:evse:01": "fenced", "binding:evse:02": "current"}
+        or service_states.get("service:evse:01") != "withdrawn"
+        or capability_states.get("capability:limit:01") != "withdrawn"
+        or service_states.get("service:evse:02") != "available"
+        or capability_states.get("capability:limit:02") != "available"
+        or resulting_snapshot.get("full_snapshot_validation") != "accept"
+        or resulting_snapshot.get("canonical_serialization") != "accept"
+    ):
+        raise ValueError("K-POS-021: resolvable transition tombstones are incomplete")
 
     pack_dispatch = by_id["K-POS-022"].get("input", {})
     if len(pack_dispatch.get("validators_in_registration_order", [])) < 2 or not pack_dispatch.get(

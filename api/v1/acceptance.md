@@ -84,7 +84,8 @@ independent axes; unknown and unsupported remain distinct.
 ### Coverage: `conflict`
 
 Multiple candidates coexist, qualified disagreement remains visible, and
-presentation selection does not destroy or resolve alternatives.
+kernel-derived conflict metadata is atomically reconciled when candidates
+change. Pure presentation selection does not destroy or resolve alternatives.
 
 ### Coverage: `capability`
 
@@ -107,7 +108,8 @@ idempotent replay, conflicting sequence reuse, and all-or-nothing changes.
 
 Distinct source epoch, driver generation, object/semantic revisions, lifecycle
 operation, and intent correlation; activation publication, mandatory explicit
-generation supersession, and fencing order.
+generation supersession, resolvable non-actionable fenced/retired tombstones,
+complete post-transition snapshot validation, and fencing order.
 
 ### Coverage: `operation`
 
@@ -171,7 +173,8 @@ A decimal coefficient/exponent is out of range or not in canonical exact form.
 ### Error: `invalid_value`
 
 A tagged value selects zero/multiple payloads, uses a forbidden kind, contains
-invalid text/symbol data, or violates its pack-declared type/unit/range.
+invalid text/symbol data, violates its pack-declared type/unit/range, or a
+snapshot's kernel-derived conflict metadata differs from its candidate set.
 
 ### Error: `invalid_enum`
 
@@ -181,12 +184,16 @@ An enum field contains a token outside the exact values declared by its v1 type.
 
 A collection, text value, graph depth/node count, or other explicitly bounded
 record exceeds its v1 maximum. Arithmetic overflow remains `invalid_time` or
-`invalid_decimal` when that more specific class applies.
+`invalid_decimal` when that more specific class applies. `CausalContext` path,
+hop, declared-hop, and lifetime maxima are the causal-domain exception below and
+use `causal_budget_exceeded`.
 
 ### Error: `invalid_time`
 
 A wall or monotonic point, uncertainty interval, ordering, deadline, expiry, or
-freshness policy is malformed or impossible.
+freshness policy is malformed or impossible. A syntactically valid causal
+interval whose lifetime exceeds the v1 300-second limit is
+`causal_budget_exceeded`; malformed causal time points remain `invalid_time`.
 
 ### Error: `incomparable_clock_epoch`
 
@@ -360,10 +367,15 @@ These rules partition overlaps before applying the general precedence list:
 - an absent `Precondition.candidate_id` or `candidate_revision` wire member is
   `missing_member`; after the precondition record decodes, an unresolved exact
   candidate ID or unequal candidate revision is `precondition_failed`, never
-  `dangling_reference` or `revision_conflict`; and
+  `dangling_reference` or `revision_conflict`;
 - missing/unresolvable readback snapshot/candidate references remain
   `dangling_reference`, while a resolved but pre-dispatch/unrelated/unverifiable
-  candidate used for `applied` is `invalid_outcome`.
+  candidate used for `applied` is `invalid_outcome`; and
+- after a `CausalContext` has syntactically valid fields, its path length,
+  `hop_count`, `max_hops`, path/count consistency, append capacity, and
+  300-second lifetime use `causal_budget_exceeded`, even though generic arrays,
+  integers, and time intervals have earlier precedence. Malformed JSON/member/
+  identifier/time tokens retain their earlier parser-class error.
 
 ## Normative rejection class map
 
@@ -380,11 +392,11 @@ serialization precedence list chooses one when an input violates several rows.
 | undeclared member or extension bag | `unknown_member` |
 | malformed, empty, overlength, non-ASCII, or wrong typed identifier | `invalid_identifier` |
 | noncanonical/out-of-range decimal coefficient or exponent | `invalid_decimal` |
-| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, or malformed non-evidence digest | `invalid_value` |
-| invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow | `invalid_time` |
+| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, malformed non-evidence digest, or mismatched kernel-derived conflict metadata | `invalid_value` |
+| invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow outside a well-formed over-limit causal lifetime | `invalid_time` |
 | malformed or inaccessible supplied `EvidenceRef` outside the identity/capability proof cases below | `invalid_evidence` |
 | enum token outside its exact declared set | `invalid_enum` |
-| collection/text/graph maximum exceeded | `bounds_exceeded` |
+| collection/text/graph maximum exceeded outside causal path/hop/lifetime limits | `bounds_exceeded` |
 | valid set members presented outside canonical order | `noncanonical_order` |
 | previously unseen record digest differs from its computed canonical digest | `digest_mismatch` |
 | unresolved candidate/object/revision/source-path/readback-snapshot reference outside precondition lookup | `dangling_reference` |

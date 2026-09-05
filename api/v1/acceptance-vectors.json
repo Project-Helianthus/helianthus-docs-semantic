@@ -310,17 +310,23 @@
           "candidate:source:a",
           "candidate:source:b"
         ],
-        "selection": {
-          "selected_candidate": "candidate:source:a",
-          "presentation_only": true
-        },
-        "conflicts": [
+        "candidate_values": [
+          "21",
+          "22"
+        ],
+        "candidate_eligibility": "qualified_promoted",
+        "publisher_metadata_members_present": false,
+        "derived_conflicts": [
           {
             "kind": "value",
             "state": "open",
             "candidates": [
               "candidate:source:a",
               "candidate:source:b"
+            ],
+            "evidence": [
+              "evidence:source:a",
+              "evidence:source:b"
             ]
           }
         ]
@@ -329,11 +335,11 @@
         "result": "accept",
         "assertions": [
           "both_candidates_retained",
-          "conflict_visible",
-          "selection_presentation_only"
+          "conflict_kernel_derived",
+          "publisher_has_no_cross_source_metadata_authority"
         ]
       },
-      "criterion": "Conflicting qualified candidates coexist and a presentation selection does not resolve them."
+      "criterion": "Conflicting qualified candidates coexist and the kernel derives visible conflict metadata without publisher selection or resolution input."
     },
     {
       "id": "K-POS-008",
@@ -453,7 +459,35 @@
         "source_id": "source:evse:01",
         "source_epoch_id": "source-epoch:evse:01",
         "driver_generation": "7",
-        "revision": "8"
+        "revision": "8",
+        "resulting_snapshot": {
+          "old_binding": {
+            "binding_id": "binding:evse:01",
+            "state": "fenced",
+            "revision": "9"
+          },
+          "old_identity_link": {
+            "binding_id": "binding:evse:01",
+            "state": "withdrawn",
+            "revision": "9"
+          },
+          "old_service": {
+            "instance_id": "service:evse:01",
+            "binding_id": "binding:evse:01",
+            "availability": "withdrawn",
+            "revision": "9"
+          },
+          "old_capability": {
+            "instance_id": "capability:limit:01",
+            "service_instance": "service:evse:01",
+            "binding_id": "binding:evse:01",
+            "availability": "withdrawn",
+            "revision": "9"
+          },
+          "facts_from_generation": [],
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
+        }
       },
       "prior_state": {
         "available_capabilities": [
@@ -465,9 +499,12 @@
         "result": "accept",
         "assertions": [
           "fence_visible",
-          "generation_bindings_and_candidates_withdrawn",
-          "generation_capabilities_withdrawn_in_same_snapshot",
+          "generation_binding_retained_fenced",
+          "generation_identity_link_retained_withdrawn",
+          "generation_service_and_capability_retained_withdrawn",
+          "generation_candidates_removed",
           "derived_dependents_withdrawn_transitively",
+          "full_snapshot_references_resolve",
           "old_guarded_callback_rejected"
         ]
       },
@@ -922,7 +959,58 @@
         ],
         "source_retirements": [
           "source-epoch:before-restart"
-        ]
+        ],
+        "resulting_snapshot": {
+          "sources": [
+            {
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:after-restart",
+              "state": "current",
+              "revision": "1"
+            },
+            {
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:before-restart",
+              "state": "retired",
+              "revision": "6"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:pv:old",
+              "source_epoch_id": "source-epoch:before-restart",
+              "state": "retired",
+              "revision": "6"
+            }
+          ],
+          "identity_links": [
+            {
+              "binding_id": "binding:pv:old",
+              "state": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "services": [
+            {
+              "instance_id": "service:pv:old",
+              "binding_id": "binding:pv:old",
+              "availability": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "capabilities": [
+            {
+              "instance_id": "capability:pv:telemetry",
+              "service_instance": "service:pv:old",
+              "binding_id": "binding:pv:old",
+              "availability": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "old_epoch_candidates": [],
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
+        }
       },
       "prior_state": {
         "current_source_epoch_id": "source-epoch:before-restart",
@@ -934,7 +1022,12 @@
         "result": "accept",
         "assertions": [
           "new_epoch_current",
-          "old_epoch_withdrawn_atomically",
+          "old_epoch_descriptor_retained_retired",
+          "old_bindings_retained_retired",
+          "old_identity_services_capabilities_retained_withdrawn",
+          "old_epoch_candidates_removed",
+          "all_tombstone_references_resolve",
+          "full_snapshot_valid_and_canonical",
           "sequence_domain_restarts_at_1",
           "old_monotonic_ticks_not_reused"
         ]
@@ -1023,18 +1116,6 @@
           "candidate_revision": "6",
           "inputs": [
             {
-              "candidate_id": "candidate:inverter:power",
-              "candidate_revision": "8",
-              "source_paths": [
-                {
-                  "binding_id": "binding:inverter:01",
-                  "source_id": "source:inverter:01",
-                  "source_epoch_id": "source-epoch:inverter:01",
-                  "driver_generation": "4"
-                }
-              ]
-            },
-            {
               "candidate_id": "candidate:grid-meter:power",
               "candidate_revision": "3",
               "source_paths": [
@@ -1043,6 +1124,18 @@
                   "source_id": "source:grid-meter:01",
                   "source_epoch_id": "source-epoch:grid-meter:01",
                   "driver_generation": "2"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:inverter:power",
+              "candidate_revision": "8",
+              "source_paths": [
+                {
+                  "binding_id": "binding:inverter:01",
+                  "source_id": "source:inverter:01",
+                  "source_epoch_id": "source-epoch:inverter:01",
+                  "driver_generation": "4"
                 }
               ]
             }
@@ -1107,6 +1200,95 @@
           "service_id": "service:evse:02",
           "capability_id": "capability:limit:02",
           "activation_evidence_count": 1
+        },
+        "resulting_snapshot": {
+          "sources": [
+            {
+              "source_id": "source:evse:01",
+              "source_epoch_id": "source-epoch:evse:01",
+              "state": "current"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "state": "fenced",
+              "revision": "8"
+            },
+            {
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "identity_links": [
+            {
+              "binding_id": "binding:evse:01",
+              "state": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "binding_id": "binding:evse:02",
+              "state": "qualified",
+              "revision": "1"
+            }
+          ],
+          "services": [
+            {
+              "instance_id": "service:evse:01",
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "availability": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "instance_id": "service:evse:02",
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "availability": "available",
+              "revision": "1"
+            }
+          ],
+          "capabilities": [
+            {
+              "instance_id": "capability:limit:01",
+              "service_instance": "service:evse:01",
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "availability": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "instance_id": "capability:limit:02",
+              "service_instance": "service:evse:02",
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "availability": "available",
+              "revision": "1"
+            }
+          ],
+          "removed_candidates": [
+            "candidate:evse:limit:old",
+            "candidate:site:flexibility"
+          ],
+          "fences": [
+            {
+              "source_id": "source:evse:01",
+              "source_epoch_id": "source-epoch:evse:01",
+              "driver_generation": "7"
+            }
+          ],
+          "revisions": {
+            "semantic": "31",
+            "identity": "12",
+            "facts": "10",
+            "services": "7",
+            "capabilities": "9"
+          },
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
         }
       },
       "prior_state": {
@@ -1123,9 +1305,11 @@
         "result": "accept",
         "assertions": [
           "generation_7_fenced",
-          "old_binding_noncurrent",
-          "old_identity_facts_services_capabilities_withdrawn",
-          "derived_dependents_withdrawn",
+          "generation_7_binding_retained_fenced",
+          "old_identity_service_capability_retained_withdrawn",
+          "old_observed_and_derived_candidates_removed",
+          "all_tombstone_references_resolve",
+          "full_post_transition_snapshot_valid_and_canonical",
           "generation_7_callback_rejected",
           "generation_8_only_actionable",
           "identity_fact_service_capability_revisions_increment_once",
@@ -1331,6 +1515,183 @@
         ]
       },
       "criterion": "A to B to C preserves sender egress state and appends each receiving target exactly once after successful ingress."
+    },
+    {
+      "id": "K-POS-024",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply_sequence",
+      "coverage": [
+        "conflict",
+        "partial_update",
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "initial_snapshot": {
+          "snapshot_id": "snapshot:site:20",
+          "revisions": {
+            "semantic": "20",
+            "identity": "4",
+            "facts": "7",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "facts": [],
+          "asset_id": "asset:site:01"
+        },
+        "create_conflict_batch": {
+          "expected_semantic_revision": "20",
+          "publisher_metadata_members_present": false,
+          "fact_upserts": [
+            {
+              "candidate_id": "candidate:source:a",
+              "candidate_revision": "4",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.power",
+                "dimensions": []
+              },
+              "value": "21",
+              "qualification": "qualified",
+              "promotion": "promoted",
+              "evidence": [
+                "evidence:source:a"
+              ]
+            },
+            {
+              "candidate_id": "candidate:source:b",
+              "candidate_revision": "2",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.power",
+                "dimensions": []
+              },
+              "value": "22",
+              "qualification": "qualified",
+              "promotion": "promoted",
+              "evidence": [
+                "evidence:source:b"
+              ]
+            }
+          ]
+        },
+        "conflicting_snapshot": {
+          "snapshot_id": "snapshot:site:21",
+          "revisions": {
+            "semantic": "21",
+            "identity": "4",
+            "facts": "8",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "envelope": {
+            "key": {
+              "pack_id": "helianthus.pack.electrical",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.electrical.power",
+              "dimensions": []
+            },
+            "revision": "1",
+            "candidates": [
+              "candidate:source:a@4",
+              "candidate:source:b@2"
+            ],
+            "conflicts": [
+              {
+                "conflict_id": "sha256:fabb381e03c191e4a74d18c95559abfe148a4010995c7ddce9e3b96815e008f3",
+                "kind": "value",
+                "state": "open",
+                "candidates": [
+                  "candidate:source:a",
+                  "candidate:source:b"
+                ],
+                "evidence": [
+                  "evidence:source:a",
+                  "evidence:source:b"
+                ]
+              }
+            ],
+            "selection_member_absent": true
+          }
+        },
+        "presentation_selection": {
+          "snapshot_id": "snapshot:site:21",
+          "evaluation_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "key": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.power",
+            "dimensions": []
+          },
+          "policy_id": "policy.presentation.prefer_a",
+          "policy_version": "1.0.0",
+          "selected_candidate": "candidate:source:a",
+          "candidate_revision": "4",
+          "presentation_only": true,
+          "stored_in_snapshot": false,
+          "evaluated_at": {
+            "unix_nanoseconds": "21000000000",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "1000"
+          }
+        },
+        "withdraw_one_batch": {
+          "expected_semantic_revision": "21",
+          "fact_withdrawals": [
+            "candidate:source:a"
+          ],
+          "publisher_metadata_members_present": false
+        },
+        "resulting_snapshot": {
+          "snapshot_id": "snapshot:site:22",
+          "revisions": {
+            "semantic": "22",
+            "identity": "4",
+            "facts": "9",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "envelope": {
+            "key": {
+              "pack_id": "helianthus.pack.electrical",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.electrical.power",
+              "dimensions": []
+            },
+            "revision": "2",
+            "candidates": [
+              "candidate:source:b@2"
+            ],
+            "conflicts": [],
+            "selection_member_absent": true
+          },
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept",
+          "old_selection_valid_for_resulting_snapshot": false
+        },
+        "prior_snapshot_after_withdrawal": {
+          "snapshot_id": "snapshot:site:21",
+          "unchanged": true,
+          "conflict_id": "sha256:fabb381e03c191e4a74d18c95559abfe148a4010995c7ddce9e3b96815e008f3"
+        }
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "conflict_id_and_evidence_kernel_derived",
+          "selection_is_pure_view_not_snapshot_metadata",
+          "old_selection_cannot_apply_to_resulting_snapshot",
+          "no_resolution_evidence_fabricated",
+          "envelope_revision_incremented_once_per_batch",
+          "facts_revision_incremented_once_per_batch",
+          "prior_snapshot_retains_conflict_history",
+          "resulting_snapshot_complete_valid_and_canonical"
+        ]
+      },
+      "criterion": "The kernel creates conflict metadata, returns a snapshot-bound presentation selection, and atomically removes obsolete current metadata when one candidate is withdrawn while immutable history remains."
     },
     {
       "id": "K-NEG-001",
@@ -1800,7 +2161,9 @@
         "hop_count": 17,
         "max_hops": 17,
         "path_length": 17,
-        "lifetime_ns": "300000000001"
+        "lifetime_ns": "300000000001",
+        "all_wire_fields_syntactically_valid": true,
+        "causal_domain_limits_are_only_failure": true
       },
       "expect": {
         "result": "reject",
@@ -3103,6 +3466,131 @@
         "state_unchanged": true
       },
       "criterion": "C to A reflection is rejected before append because A already appears in the entered-target path."
+    },
+    {
+      "id": "K-NEG-052",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "validate",
+      "coverage": [
+        "causal",
+        "time"
+      ],
+      "input": {
+        "hop_count": 17,
+        "max_hops": 17,
+        "path_length": 17,
+        "first_seen_at": {
+          "unix_nanoseconds": "0",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "-1"
+        },
+        "expires_at": {
+          "unix_nanoseconds": "300000000001",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "0"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_time",
+        "state_unchanged": true
+      },
+      "criterion": "A malformed causal time token keeps the parser-specific invalid_time error even when causal domain limits also fail."
+    },
+    {
+      "id": "K-NEG-053",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "receiver": "target:d",
+        "incoming_path": [
+          "target:a",
+          "target:b",
+          "target:c"
+        ],
+        "incoming_hop_count": 3,
+        "max_hops": 3,
+        "all_wire_fields_syntactically_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "causal_budget_exceeded",
+        "state_unchanged": true
+      },
+      "criterion": "A valid receiver ingress that has no remaining hop capacity uses the causal-domain error before append and leaves the context unchanged."
+    },
+    {
+      "id": "K-NEG-054",
+      "polarity": "negative",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": [
+        "conflict",
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "candidates": [
+          "candidate:source:a@4",
+          "candidate:source:b@2"
+        ],
+        "canonical_values": [
+          "21",
+          "22"
+        ],
+        "supplied_conflict": {
+          "kind": "value",
+          "state": "open",
+          "candidates": [
+            "candidate:source:a",
+            "candidate:source:b"
+          ],
+          "evidence": [
+            "evidence:source:a"
+          ]
+        },
+        "derived_evidence": [
+          "evidence:source:a",
+          "evidence:source:b"
+        ],
+        "all_other_fields_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A decoded snapshot cannot omit candidate evidence from kernel-derived conflict metadata."
+    },
+    {
+      "id": "K-NEG-055",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "decode",
+      "coverage": [
+        "conflict",
+        "serialization"
+      ],
+      "input": {
+        "all_required_members_valid": true,
+        "conflicts": [
+          {
+            "conflict_id": "conflict:caller-supplied"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "unknown_member",
+        "state_unchanged": true
+      },
+      "criterion": "A native publication cannot submit cross-source conflict metadata through an undeclared batch member."
     }
   ]
 }

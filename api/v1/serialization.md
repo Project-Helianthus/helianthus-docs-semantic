@@ -104,6 +104,7 @@ digested input.
 | `FactKey.dimensions` | `Dimension.id`, then canonical value bytes |
 | `Quality.reasons` | `DefinitionID` |
 | `FactEnvelope.candidates` | `CandidateID` |
+| `FactEnvelope.conflicts` | `ConflictID` |
 | `Conflict.candidates` | `CandidateID` |
 | `TypedField` collections | `DefinitionID` |
 | `DefinitionIndex` collections | `(id, version)` |
@@ -171,6 +172,19 @@ digest. Thus fresh-to-stale-to-expired transitions can produce distinct view
 bytes while the source snapshot canonical bytes and every publication revision
 remain unchanged.
 
+Presentation selection serializes a separate `Selection` result bound to the
+exact snapshot ID, evaluation digest, fact key, candidate ID/revision, and
+policy ID/version. It is never a `Snapshot` or `FactEnvelope` member. A later
+snapshot or evaluation cannot retain or rewrite it; callers request a new pure
+selection result.
+
+`FactEnvelope.conflicts` is canonical kernel output. After the complete candidate
+change and dependency cascade, the kernel sorts eligible candidate IDs, derives
+the conflict ID from the specified JCS object, and sorts the unioned candidate
+evidence before snapshot serialization. A publication batch never serializes
+selection/conflict input. Removing or revising a referenced candidate recomputes
+the complete current conflict array before the new snapshot ID is calculated.
+
 ## Partial updates
 
 A publication batch is a patch with explicit operations, not a replacement
@@ -180,6 +194,8 @@ snapshot:
 - an explicit withdrawal changes only its named current object;
 - an absent object retains its previous value and continues to age under its
   freshness policy;
+- fact conflict metadata is deterministically reconciled after explicit and
+  lifecycle-derived candidate changes;
 - a rejected batch changes neither state nor revisions;
 - an accepted batch publishes all component changes together; and
 - an idempotent replay returns the previously created snapshot and does not
@@ -197,6 +213,13 @@ changes an input path atomically removes affected derived candidates through the
 kernel's dependency closure. The cascade is part of the same snapshot and
 revision update; no temporary snapshot may retain a derived candidate with a
 dangling or fenced dependency.
+
+An affected non-empty envelope is serialized only after its derived conflict
+array is recomputed. If withdrawal leaves one qualifying value, the new envelope
+contains that candidate and an empty conflict array; its revision and the facts
+component revision increment once. The prior snapshot remains the immutable
+record of the earlier candidates/conflict. No `resolved` conflict or resolution
+evidence is synthesized.
 
 ## Generation and restart ordering
 
@@ -226,9 +249,13 @@ an explicit fence for every older unfenced generation under the same source
 epoch. The canonical fence array therefore binds the supersession evidence into
 `batch_digest`. Missing a required fence is
 `generation_transition_incomplete`; serializers and decoders never infer or add
-one. The accepted batch atomically publishes the old generation's binding,
-identity, fact, service, capability, derived-dependency, and guarded-callback
-withdrawal before exposing the new generation.
+one. The accepted batch atomically serializes the old binding as `fenced`, its
+identity link as `withdrawn`, its service/capability as `withdrawn`, removes its
+observed and derived candidates, reconciles envelope conflicts, and rejects its
+guarded callback before exposing the new generation. These tombstones remain
+resolvable through the retained fence/source records and cannot be selected as
+current routes. Source retirement uses the corresponding `retired` source and
+binding tombstones.
 
 ## Operation record ordering
 
@@ -310,6 +337,13 @@ this exact precedence, from first to last:
 7. `route_selection_forbidden`, `ambiguous_route`, `retry_forbidden`;
 8. `invalid_outcome`, `echo_suppressed`, `causal_budget_exceeded`,
    `projection_incomplete`, `alias_not_routable`.
+
+The context partitions in acceptance.md classify a decoded record before this
+list orders independent failures. In particular, syntactically valid
+CausalContext path length, hop values, path/count consistency, append capacity,
+and lifetime limits use the causal-budget error; they are excluded from generic
+bounds and time errors. Malformed JSON tokens, missing members, invalid
+identifiers, or malformed time points retain their earlier classes.
 
 This order makes negative fixtures portable. It does not allow a validator to
 skip additional diagnostics in logs, provided the public error ID is stable and
