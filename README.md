@@ -3,23 +3,27 @@
 `helianthus-docs-semantic` is the public Project Helianthus home for reusable,
 cross-protocol semantic architecture and API documentation.
 
-## Bootstrap status
+## Contract status
 
-This repository currently establishes documentation ownership and reviewed
-conceptual boundaries. It does not publish a complete or frozen semantic API,
-complete INT-04, implement INT-05, settle unresolved normative versions, or
-establish conformance, release, or hardware acceptance.
+The [semantic kernel v1 contract](api/v1/kernel.md) defines the protocol-neutral
+types, serialization, time-only evaluation views, multi-source dependency
+lifecycle, exact pack ownership and operation evidence, validation, and
+acceptance vectors required for its own dependent implementation in
+`helianthus-semreg`. It becomes normative for that Helianthus implementation
+when merged into `main`.
 
-The first complete typed architecture/API contract will be added through a
-separate scoped issue and independent review. Until that contract is accepted,
-the [API directory](api/README.md) contains no active version.
+This kernel contract does not complete all INT-04 capability packs or native
+mappings, implement INT-05 product code, settle unresolved normative versions,
+or establish target conformance, release, or hardware acceptance.
 
 ## Documentation map
 
 - [Repository ownership and boundaries](architecture/repository-ownership-v1.md)
   records the accepted owner split without publishing an executable schema.
 - [API publication status](api/README.md) defines how a future version becomes
-  active.
+  active and links the current kernel contract.
+- [Kernel v1 acceptance](api/v1/acceptance.md) defines the concrete positive and
+  negative vectors required of later code.
 - [Compatibility donor ledger](compatibility/donor-ledger.md) links immutable
   public migration inputs and states their limits.
 - [Native documentation owners](evidence/native-documentation-owners.md) routes
@@ -46,9 +50,9 @@ Run the complete document check from a standalone clone:
 ./scripts/check_docs.sh
 ```
 
-The check verifies required bootstrap files, whitespace, and repository-local
-Markdown links. No protocol, transport, conformance, deployment, or physical
-smoke gate applies to this ownership-only bootstrap.
+The check verifies required files, whitespace, repository-local Markdown links,
+and structural consistency among the kernel contract, stable errors, coverage
+areas, and acceptance vectors. It does not implement semantic behavior.
 
 ## License
 

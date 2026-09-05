@@ -1,0 +1,4418 @@
+{
+  "contract": "helianthus.semantic.kernel.acceptance/v1",
+  "kernel_contract": "helianthus.semantic.kernel/v1",
+  "error_ids": [
+    "alias_not_routable",
+    "ambiguous_route",
+    "authority_missing",
+    "bounds_exceeded",
+    "capability_not_qualified",
+    "capability_unavailable",
+    "causal_budget_exceeded",
+    "dangling_reference",
+    "deadline_expired",
+    "definition_owner_conflict",
+    "definition_owner_missing",
+    "derivation_cycle",
+    "digest_mismatch",
+    "duplicate_key",
+    "echo_suppressed",
+    "generation_transition_incomplete",
+    "identity_not_qualified",
+    "incomparable_clock_epoch",
+    "invalid_contract",
+    "invalid_decimal",
+    "invalid_enum",
+    "invalid_evidence",
+    "invalid_identifier",
+    "invalid_json",
+    "invalid_outcome",
+    "invalid_time",
+    "invalid_value",
+    "missing_member",
+    "noncanonical_order",
+    "precondition_failed",
+    "projection_incomplete",
+    "retry_forbidden",
+    "revision_conflict",
+    "route_selection_forbidden",
+    "sequence_conflict",
+    "stale_driver_generation",
+    "stale_source_epoch",
+    "unknown_member"
+  ],
+  "coverage_ids": [
+    "capability",
+    "causal",
+    "compatibility",
+    "conflict",
+    "freshness",
+    "generation",
+    "identity",
+    "lineage",
+    "operation",
+    "partial_update",
+    "projection",
+    "qualification",
+    "serialization",
+    "snapshot",
+    "time"
+  ],
+  "vectors": [
+    {
+      "id": "K-POS-001",
+      "polarity": "positive",
+      "record_type": "Decimal",
+      "operation": "validate",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "coefficient": "23",
+        "exponent10": 1
+      },
+      "expect": {
+        "result": "accept",
+        "canonical_json": "{\"coefficient\":\"23\",\"exponent10\":1}"
+      },
+      "criterion": "Exact 230 is accepted without a floating-point token or noncanonical trailing zero."
+    },
+    {
+      "id": "K-POS-002",
+      "polarity": "positive",
+      "record_type": "IdentityLink",
+      "operation": "validate",
+      "coverage": [
+        "identity",
+        "lineage"
+      ],
+      "input": {
+        "asset_id": "asset:heat-pump:01",
+        "binding_id": "binding:eebus:01",
+        "state": "qualified",
+        "basis": [
+          {
+            "owner": "helianthus.eebusreg",
+            "kind": "native.identity",
+            "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "contract": "helianthus.eebus.runtime.native-snapshot.v2",
+            "access": "public",
+            "redaction": "redacted"
+          }
+        ],
+        "revision": "1"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "qualified_link_retains_basis"
+        ]
+      },
+      "criterion": "A qualified link has native-owner evidence and does not expose a bus address as asset identity."
+    },
+    {
+      "id": "K-POS-003",
+      "polarity": "positive",
+      "record_type": "FactCandidate",
+      "operation": "validate",
+      "coverage": [
+        "lineage",
+        "qualification"
+      ],
+      "input": {
+        "candidate_id": "candidate:derived:power-total",
+        "quality": {
+          "assertion": "inferred",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "availability": "available",
+          "freshness": "fresh",
+          "reasons": []
+        },
+        "origin": {
+          "origin_id": "origin:derived:power-total",
+          "kind": "derived",
+          "evidence_count": 1
+        },
+        "derivation": {
+          "algorithm": "helianthus.sum.phases",
+          "version": "1.0.0",
+          "inputs": [
+            {
+              "candidate_id": "candidate:phase:l1",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l1",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:phase:l2",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l2",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:phase:l3",
+              "candidate_revision": "4",
+              "source_paths": [
+                {
+                  "binding_id": "binding:meter:l3",
+                  "source_id": "source:meter:01",
+                  "source_epoch_id": "source-epoch:meter:01",
+                  "driver_generation": "3"
+                }
+              ]
+            }
+          ],
+          "evidence": []
+        },
+        "evidence": [
+          {
+            "owner": "helianthus.modbusreg",
+            "kind": "profile.observation",
+            "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "contract": "helianthus.modbus.profile.v1",
+            "access": "public",
+            "redaction": "none"
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "derivation_inputs_retained",
+          "promotion_does_not_erase_lineage"
+        ]
+      },
+      "criterion": "An inferred promoted fact names an acyclic versioned derivation and keeps native evidence."
+    },
+    {
+      "id": "K-POS-004",
+      "polarity": "positive",
+      "record_type": "Times",
+      "operation": "validate",
+      "coverage": [
+        "time"
+      ],
+      "input": {
+        "received_at": {
+          "unix_nanoseconds": "1000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "1000"
+        },
+        "receipt_monotonic": {
+          "clock_epoch_id": "clock-epoch:boot-1",
+          "nanoseconds": "500"
+        },
+        "evaluated_at": {
+          "unix_nanoseconds": "1000001000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "1000"
+        },
+        "evaluate_monotonic": {
+          "clock_epoch_id": "clock-epoch:boot-1",
+          "nanoseconds": "1500"
+        }
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "elapsed_monotonic_ns_equals_1000"
+        ]
+      },
+      "criterion": "Receipt and evaluation are ordered by one monotonic clock epoch."
+    },
+    {
+      "id": "K-POS-005",
+      "polarity": "positive",
+      "record_type": "FreshnessPolicy",
+      "operation": "restore",
+      "coverage": [
+        "freshness",
+        "time"
+      ],
+      "input": {
+        "policy": {
+          "policy_id": "policy:telemetry",
+          "version": "1.0.0",
+          "fresh_for_ns": "30000000000",
+          "retain_for_ns": "300000000000",
+          "max_wall_uncertainty_ns": "2000000"
+        },
+        "received_at": {
+          "unix_nanoseconds": "100000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "500000"
+        },
+        "evaluated_at": {
+          "unix_nanoseconds": "140000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "500000"
+        },
+        "receipt_clock_epoch_id": "clock-epoch:before-restart",
+        "evaluate_clock_epoch_id": "clock-epoch:after-restart"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "freshness_equals_stale",
+          "monotonic_ticks_not_subtracted"
+        ]
+      },
+      "criterion": "A restart uses conservative comparable UTC intervals and retains the fact as stale."
+    },
+    {
+      "id": "K-POS-006",
+      "polarity": "positive",
+      "record_type": "Symbol",
+      "operation": "validate",
+      "coverage": [
+        "qualification",
+        "serialization"
+      ],
+      "input": {
+        "namespace": "native.modbusreg.growatt",
+        "token": "0x9f",
+        "known": false
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "token_round_trips",
+          "symbol_does_not_satisfy_known_capability"
+        ]
+      },
+      "criterion": "An unknown native symbol remains representable without becoming a known semantic symbol."
+    },
+    {
+      "id": "K-POS-007",
+      "polarity": "positive",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": [
+        "conflict",
+        "snapshot"
+      ],
+      "input": {
+        "candidate_ids": [
+          "candidate:source:a",
+          "candidate:source:b"
+        ],
+        "candidate_values": [
+          "21",
+          "22"
+        ],
+        "candidate_eligibility": "qualified_promoted",
+        "publisher_metadata_members_present": false,
+        "derived_conflicts": [
+          {
+            "kind": "value",
+            "state": "open",
+            "candidates": [
+              "candidate:source:a",
+              "candidate:source:b"
+            ],
+            "evidence": [
+              "evidence:source:a",
+              "evidence:source:b"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "both_candidates_retained",
+          "conflict_kernel_derived",
+          "publisher_has_no_cross_source_metadata_authority"
+        ]
+      },
+      "criterion": "Conflicting qualified candidates coexist and the kernel derives visible conflict metadata without publisher selection or resolution input."
+    },
+    {
+      "id": "K-POS-008",
+      "polarity": "positive",
+      "record_type": "CapabilityInstance",
+      "operation": "validate",
+      "coverage": [
+        "capability",
+        "generation"
+      ],
+      "input": {
+        "instance_id": "capability:limit:01",
+        "definition": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.current_limit",
+          "version": "1.2.0"
+        },
+        "binding_id": "binding:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "7",
+        "qualification": "qualified",
+        "availability": "available",
+        "activation_evidence": [
+          {
+            "owner": "helianthus.gateway",
+            "kind": "driver.activation",
+            "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+            "contract": "helianthus.gateway.driver.activation.v1",
+            "access": "public",
+            "redaction": "metadata_only"
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "exact_version_range_can_match",
+          "generation_bound"
+        ]
+      },
+      "criterion": "A qualified available capability is bound to completed activation and one generation."
+    },
+    {
+      "id": "K-POS-009",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "partial_update",
+        "snapshot"
+      ],
+      "input": {
+        "expected_semantic_revision": "4",
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:pv:01",
+        "driver_generation": "2",
+        "sequence": "9",
+        "fact_upserts": [
+          "candidate:pv:power"
+        ],
+        "fact_withdrawals": []
+      },
+      "prior_state": {
+        "semantic_revision": "4",
+        "fact_ids": [
+          "candidate:pv:power-old",
+          "candidate:pv:yield"
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "semantic_revision_equals_5",
+          "yield_candidate_retained",
+          "power_candidate_upserted_atomically"
+        ]
+      },
+      "criterion": "A partial update changes its named fact and retains an unrelated last-known good fact."
+    },
+    {
+      "id": "K-POS-010",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "partial_update",
+        "serialization"
+      ],
+      "prior_vector": "K-POS-009",
+      "input": {
+        "sequence": "9",
+        "batch_digest": "same_as_prior_vector"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "returns_prior_snapshot",
+          "no_revision_increment"
+        ]
+      },
+      "criterion": "An identical sequence and digest replay is idempotent."
+    },
+    {
+      "id": "K-POS-011",
+      "polarity": "positive",
+      "record_type": "GenerationFence",
+      "operation": "apply",
+      "coverage": [
+        "generation",
+        "capability",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "7",
+        "revision": "8",
+        "resulting_snapshot": {
+          "old_binding": {
+            "binding_id": "binding:evse:01",
+            "state": "fenced",
+            "revision": "9"
+          },
+          "old_identity_link": {
+            "binding_id": "binding:evse:01",
+            "state": "withdrawn",
+            "revision": "9"
+          },
+          "old_service": {
+            "instance_id": "service:evse:01",
+            "binding_id": "binding:evse:01",
+            "availability": "withdrawn",
+            "revision": "9"
+          },
+          "old_capability": {
+            "instance_id": "capability:limit:01",
+            "service_instance": "service:evse:01",
+            "binding_id": "binding:evse:01",
+            "availability": "withdrawn",
+            "revision": "9"
+          },
+          "facts_from_generation": [],
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
+        }
+      },
+      "prior_state": {
+        "available_capabilities": [
+          "capability:limit:01"
+        ],
+        "driver_generation": "7"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "fence_visible",
+          "generation_binding_retained_fenced",
+          "generation_identity_link_retained_withdrawn",
+          "generation_service_and_capability_retained_withdrawn",
+          "generation_candidates_removed",
+          "derived_dependents_withdrawn_transitively",
+          "full_snapshot_references_resolve",
+          "old_guarded_callback_rejected"
+        ]
+      },
+      "criterion": "Fencing happens before the new snapshot exposes atomic capability withdrawal."
+    },
+    {
+      "id": "K-POS-012",
+      "polarity": "positive",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "capability"
+      ],
+      "input": {
+        "intent_id": "intent:evse-limit:01",
+        "asset_id": "asset:evse:01",
+        "required_capability": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "definition_id": "helianthus.evse.current_limit",
+          "versions": {
+            "minimum": "1.0.0",
+            "maximum_exclusive": "2.0.0"
+          },
+          "allow_degraded": false
+        },
+        "expected_semantic_revision": "12",
+        "expected_capability_revision": "5",
+        "expected_capability_instance_revision": "3",
+        "expected_source_epoch_id": "source-epoch:evse:01",
+        "expected_driver_generation": "7",
+        "deadline": {
+          "unix_nanoseconds": "200000000000",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "1000"
+        },
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "preconditions": [
+          {
+            "fact": {
+              "pack_id": "helianthus.pack.evse",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.evse.interlock_clear",
+              "dimensions": []
+            },
+            "candidate_id": "candidate:evse:interlock",
+            "candidate_revision": "4",
+            "operator": "equal",
+            "expected": {
+              "kind": "boolean",
+              "boolean": true
+            }
+          }
+        ]
+      },
+      "prior_state": {
+        "eligible_routes": [
+          "capability:limit:01"
+        ],
+        "authority_resolves": true,
+        "candidate:evse:interlock": {
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false,
+          "value": true
+        }
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "exact_candidate_precondition",
+          "exact_pack_validator_dispatch",
+          "exactly_one_generation_bound_route",
+          "guarded_callback_required"
+        ]
+      },
+      "criterion": "Exact current state and one qualified route admit a guarded operation."
+    },
+    {
+      "id": "K-POS-013",
+      "polarity": "positive",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "route": "capability:limit:01",
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "readback": "absent",
+        "outcome": "acknowledged_unverified"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "ack_not_treated_as_applied"
+        ]
+      },
+      "criterion": "A protocol acknowledgement without confirming readback remains explicitly unverified."
+    },
+    {
+      "id": "K-POS-014",
+      "polarity": "positive",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation",
+        "generation"
+      ],
+      "input": {
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "admitted_revision": {
+          "semantic": "12",
+          "identity": "2",
+          "facts": "8",
+          "services": "3",
+          "capabilities": "5"
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "2",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "evidence_count": 1,
+          "evaluation": {
+            "evaluated_at": {
+              "unix_nanoseconds": "202000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "3000"
+            }
+          }
+        },
+        "acknowledgement": "accepted",
+        "outcome": "applied",
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "resolved_candidate": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false,
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "2",
+          "times": {
+            "received_at": {
+              "unix_nanoseconds": "201000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "receipt_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "2000"
+            }
+          }
+        },
+        "operation_pack_result": "confirms",
+        "dispatch": {
+          "delivery": "sent",
+          "possible_side_effect": true,
+          "started": {
+            "evaluated_at": {
+              "unix_nanoseconds": "199000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "900"
+            }
+          },
+          "completed": {
+            "evaluated_at": {
+              "unix_nanoseconds": "200000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "1000"
+            }
+          },
+          "evidence_count": 1
+        },
+        "admitted_candidate_revision": "1"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "new_candidate_revision_after_dispatch",
+          "post_dispatch_receipt_proved_by_monotonic_order",
+          "explicit_readback_evaluation_context",
+          "pack_owned_effect_rule_confirms_exact_fact_and_value",
+          "exact_later_snapshot_and_candidate_revision_retained",
+          "route_source_epoch_and_generation_match",
+          "outcome_applied"
+        ]
+      },
+      "criterion": "A newly revised post-dispatch observation, explicitly evaluated as fresh and confirmed by the exact effect rule, supports applied."
+    },
+    {
+      "id": "K-POS-015",
+      "polarity": "positive",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "origin": {
+          "origin_id": "origin:operator:01",
+          "kind": "operator",
+          "evidence_count": 1
+        },
+        "correlation_id": "correlation:new:02",
+        "hop_count": 0,
+        "max_hops": 8,
+        "path": [],
+        "lifetime_ns": "60000000000",
+        "authority_resolves": true
+      },
+      "prior_state": {
+        "earlier_projection_same_value": true,
+        "earlier_correlation_id": "correlation:old:01"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "independent_intent_not_suppressed"
+        ]
+      },
+      "criterion": "A new authorized intent with a new correlation remains admissible despite equal projected value."
+    },
+    {
+      "id": "K-POS-016",
+      "polarity": "positive",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": [
+        "projection",
+        "lineage"
+      ],
+      "input": {
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "fact",
+            "item_id": "helianthus.pv.active_power"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact",
+            "source_keys": [],
+            "loss": []
+          },
+          {
+            "kind": "fact",
+            "item_id": "helianthus.pv.active_power",
+            "outcome": "transformed",
+            "source_keys": [
+              "pv-power-key"
+            ],
+            "loss": [
+              {
+                "kind": "precision",
+                "reversible": false
+              }
+            ]
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "withheld",
+            "source_keys": [],
+            "loss": [],
+            "reason": "policy.operation_withheld"
+          }
+        ],
+        "snapshot_revision": "12",
+        "causal_preserved": true
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "one_disposition_per_kind_and_item_id",
+          "equal_item_ids_remain_distinct_across_kinds",
+          "precision_loss_visible",
+          "snapshot_revision_preserved"
+        ]
+      },
+      "criterion": "Each requested (kind,item_id) tuple is accounted independently, including equal IDs under capability and operation."
+    },
+    {
+      "id": "K-POS-017",
+      "polarity": "positive",
+      "record_type": "CompatibilityAlias",
+      "operation": "validate",
+      "coverage": [
+        "compatibility",
+        "identity"
+      ],
+      "input": {
+        "alias_contract": "helianthus.semantic.alias/v1",
+        "legacy_id": "Service:/HeatGenerator:1",
+        "asset_id": "asset:heat-pump:01",
+        "valid_from": "1.0.0",
+        "routable": false,
+        "evidence_count": 1
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "legacy_read_identity_preserved",
+          "alias_cannot_route"
+        ]
+      },
+      "criterion": "A versioned legacy ID remains readable while operation routing stays bound to native capability instances."
+    },
+    {
+      "id": "K-POS-018",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "generation",
+        "partial_update",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:after-restart",
+        "driver_generation": "1",
+        "sequence": "1",
+        "expected_semantic_revision": "20",
+        "source_upserts": [
+          "source-epoch:after-restart"
+        ],
+        "source_retirements": [
+          "source-epoch:before-restart"
+        ],
+        "resulting_snapshot": {
+          "sources": [
+            {
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:after-restart",
+              "state": "current",
+              "revision": "1"
+            },
+            {
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:before-restart",
+              "state": "retired",
+              "revision": "6"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:pv:old",
+              "source_epoch_id": "source-epoch:before-restart",
+              "state": "retired",
+              "revision": "6"
+            }
+          ],
+          "identity_links": [
+            {
+              "binding_id": "binding:pv:old",
+              "state": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "services": [
+            {
+              "instance_id": "service:pv:old",
+              "binding_id": "binding:pv:old",
+              "availability": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "capabilities": [
+            {
+              "instance_id": "capability:pv:telemetry",
+              "service_instance": "service:pv:old",
+              "binding_id": "binding:pv:old",
+              "availability": "withdrawn",
+              "revision": "6"
+            }
+          ],
+          "old_epoch_candidates": [],
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
+        }
+      },
+      "prior_state": {
+        "current_source_epoch_id": "source-epoch:before-restart",
+        "available_capabilities": [
+          "capability:pv:telemetry"
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "new_epoch_current",
+          "old_epoch_descriptor_retained_retired",
+          "old_bindings_retained_retired",
+          "old_identity_services_capabilities_retained_withdrawn",
+          "old_epoch_candidates_removed",
+          "all_tombstone_references_resolve",
+          "full_snapshot_valid_and_canonical",
+          "sequence_domain_restarts_at_1",
+          "old_monotonic_ticks_not_reused"
+        ]
+      },
+      "criterion": "A source restart establishes a new epoch and atomically retires old bindings and capabilities without conflating clock or driver generations."
+    },
+    {
+      "id": "K-POS-019",
+      "polarity": "positive",
+      "record_type": "EvaluationView",
+      "operation": "evaluate",
+      "coverage": [
+        "freshness",
+        "snapshot",
+        "time"
+      ],
+      "input": {
+        "snapshot_id": "snapshot:meter:10",
+        "revisions": {
+          "semantic": "10",
+          "identity": "2",
+          "facts": "7",
+          "services": "1",
+          "capabilities": "1"
+        },
+        "candidate_id": "candidate:meter:power",
+        "candidate_revision": "4",
+        "receipt": {
+          "wall_ns": "100000000000",
+          "uncertainty_ns": "0",
+          "clock_epoch_id": "clock-epoch:boot-1",
+          "monotonic_ns": "1000"
+        },
+        "policy": {
+          "fresh_for_ns": "30000000000",
+          "retain_for_ns": "120000000000",
+          "max_wall_uncertainty_ns": "1000000"
+        },
+        "contexts": [
+          {
+            "wall_ns": "129999999999",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "30000000999",
+            "expected_freshness": "fresh"
+          },
+          {
+            "wall_ns": "130000000000",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "30000001000",
+            "expected_freshness": "stale"
+          },
+          {
+            "wall_ns": "220000000000",
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "monotonic_ns": "120000001000",
+            "expected_freshness": "expired"
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "fresh_stale_expired_thresholds_exact",
+          "snapshot_id_unchanged",
+          "revision_vector_unchanged",
+          "snapshot_canonical_bytes_unchanged",
+          "evaluation_digests_distinct"
+        ]
+      },
+      "criterion": "Pure evaluation applies exact fresh/stale/expired boundaries without a native publication or snapshot mutation."
+    },
+    {
+      "id": "K-POS-020",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "generation",
+        "lineage",
+        "partial_update",
+        "snapshot"
+      ],
+      "input": {
+        "derived_candidate": {
+          "candidate_id": "candidate:site:net-power",
+          "candidate_revision": "6",
+          "inputs": [
+            {
+              "candidate_id": "candidate:grid-meter:power",
+              "candidate_revision": "3",
+              "source_paths": [
+                {
+                  "binding_id": "binding:grid-meter:01",
+                  "source_id": "source:grid-meter:01",
+                  "source_epoch_id": "source-epoch:grid-meter:01",
+                  "driver_generation": "2"
+                }
+              ]
+            },
+            {
+              "candidate_id": "candidate:inverter:power",
+              "candidate_revision": "8",
+              "source_paths": [
+                {
+                  "binding_id": "binding:inverter:01",
+                  "source_id": "source:inverter:01",
+                  "source_epoch_id": "source-epoch:inverter:01",
+                  "driver_generation": "4"
+                }
+              ]
+            }
+          ],
+          "binding_id_omitted": true
+        },
+        "generation_fence": {
+          "source_id": "source:grid-meter:01",
+          "source_epoch_id": "source-epoch:grid-meter:01",
+          "driver_generation": "2",
+          "reason": "lifecycle.driver_replaced",
+          "evidence_count": 1,
+          "revision": "1"
+        },
+        "expected_semantic_revision": "21"
+      },
+      "prior_state": {
+        "both_inputs_current": true,
+        "derived_candidate_published": true
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "grid_meter_input_withdrawn",
+          "derived_candidate_withdrawn_same_snapshot",
+          "derived_dependents_withdrawn_transitively",
+          "facts_revision_incremented_once",
+          "semantic_revision_equals_22"
+        ]
+      },
+      "criterion": "Fencing either source path of a two-source derivation atomically invalidates the derived candidate without inventing a binding."
+    },
+    {
+      "id": "K-POS-021",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "capability",
+        "generation",
+        "lineage",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "sequence": "1",
+        "expected_semantic_revision": "30",
+        "generation_fences": [
+          {
+            "source_id": "source:evse:01",
+            "source_epoch_id": "source-epoch:evse:01",
+            "driver_generation": "7",
+            "reason": "lifecycle.driver_replaced",
+            "evidence_count": 1,
+            "revision": "1"
+          }
+        ],
+        "new_generation": {
+          "binding_id": "binding:evse:02",
+          "service_id": "service:evse:02",
+          "capability_id": "capability:limit:02",
+          "activation_evidence_count": 1
+        },
+        "resulting_snapshot": {
+          "sources": [
+            {
+              "source_id": "source:evse:01",
+              "source_epoch_id": "source-epoch:evse:01",
+              "state": "current"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "state": "fenced",
+              "revision": "8"
+            },
+            {
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "identity_links": [
+            {
+              "binding_id": "binding:evse:01",
+              "state": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "binding_id": "binding:evse:02",
+              "state": "qualified",
+              "revision": "1"
+            }
+          ],
+          "services": [
+            {
+              "instance_id": "service:evse:01",
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "availability": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "instance_id": "service:evse:02",
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "availability": "available",
+              "revision": "1"
+            }
+          ],
+          "capabilities": [
+            {
+              "instance_id": "capability:limit:01",
+              "service_instance": "service:evse:01",
+              "binding_id": "binding:evse:01",
+              "driver_generation": "7",
+              "availability": "withdrawn",
+              "revision": "8"
+            },
+            {
+              "instance_id": "capability:limit:02",
+              "service_instance": "service:evse:02",
+              "binding_id": "binding:evse:02",
+              "driver_generation": "8",
+              "availability": "available",
+              "revision": "1"
+            }
+          ],
+          "removed_candidates": [
+            "candidate:evse:limit:old",
+            "candidate:site:flexibility"
+          ],
+          "fences": [
+            {
+              "source_id": "source:evse:01",
+              "source_epoch_id": "source-epoch:evse:01",
+              "driver_generation": "7"
+            }
+          ],
+          "revisions": {
+            "semantic": "31",
+            "identity": "12",
+            "facts": "10",
+            "services": "7",
+            "capabilities": "9"
+          },
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept"
+        }
+      },
+      "prior_state": {
+        "current_driver_generation": "7",
+        "old_binding_current": true,
+        "old_capability_actionable": true,
+        "old_observed_candidate": "candidate:evse:limit:old",
+        "derived_dependents": [
+          "candidate:site:flexibility"
+        ],
+        "guarded_callback_generation": "7"
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "generation_7_fenced",
+          "generation_7_binding_retained_fenced",
+          "old_identity_service_capability_retained_withdrawn",
+          "old_observed_and_derived_candidates_removed",
+          "all_tombstone_references_resolve",
+          "full_post_transition_snapshot_valid_and_canonical",
+          "generation_7_callback_rejected",
+          "generation_8_only_actionable",
+          "identity_fact_service_capability_revisions_increment_once",
+          "all_changes_visible_in_semantic_revision_31"
+        ]
+      },
+      "criterion": "A higher-generation transition explicitly fences and atomically supersedes every old actionable record, derived dependent, and guarded callback."
+    },
+    {
+      "id": "K-POS-022",
+      "polarity": "positive",
+      "record_type": "DefinitionIndex",
+      "operation": "register_validate",
+      "coverage": [
+        "capability",
+        "operation",
+        "serialization"
+      ],
+      "input": {
+        "validators_in_registration_order": [
+          {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "fields": [],
+            "services": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.thermal.service.control",
+                "version": "1.0.0"
+              }
+            ],
+            "capabilities": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.thermal.temperature_setpoint",
+                "version": "1.0.0"
+              }
+            ],
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.set_temperature",
+                "version": "1.0.0"
+              }
+            ],
+            "effect_rules": []
+          },
+          {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "fields": [],
+            "services": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.service.control",
+                "version": "1.0.0"
+              }
+            ],
+            "capabilities": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.current_limit",
+                "version": "1.0.0"
+              }
+            ],
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.set_current_limit",
+                "version": "1.0.0"
+              }
+            ],
+            "effect_rules": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.evse.effect.current_limit",
+                "version": "1.0.0"
+              }
+            ]
+          }
+        ],
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "repeat_with_registration_order_reversed": true
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "evse_validator_selected_by_exact_pack_ref",
+          "service_capability_operation_owners_resolve_exactly",
+          "operation_and_effect_entries_resolve_exactly",
+          "registration_order_does_not_change_result",
+          "no_prefix_inference_or_probing"
+        ]
+      },
+      "criterion": "Multiple packs dispatch deterministically through the explicit pack and unique definition index in either registration order."
+    },
+    {
+      "id": "K-POS-023",
+      "polarity": "positive",
+      "record_type": "CausalContext",
+      "operation": "traverse",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "origin_target": "target:a",
+        "max_hops": 8,
+        "states": [
+          {
+            "event": "created_at_a",
+            "receiver": "target:a",
+            "incoming_path": [],
+            "incoming_hop_count": 0,
+            "accepted_path": [
+              "target:a"
+            ],
+            "accepted_hop_count": 1
+          },
+          {
+            "event": "a_emits_to_b",
+            "emitted_path": [
+              "target:a"
+            ],
+            "emitted_hop_count": 1
+          },
+          {
+            "event": "b_ingress",
+            "receiver": "target:b",
+            "incoming_path": [
+              "target:a"
+            ],
+            "incoming_hop_count": 1,
+            "accepted_path": [
+              "target:a",
+              "target:b"
+            ],
+            "accepted_hop_count": 2
+          },
+          {
+            "event": "b_emits_to_c",
+            "emitted_path": [
+              "target:a",
+              "target:b"
+            ],
+            "emitted_hop_count": 2
+          },
+          {
+            "event": "c_ingress",
+            "receiver": "target:c",
+            "incoming_path": [
+              "target:a",
+              "target:b"
+            ],
+            "incoming_hop_count": 2,
+            "accepted_path": [
+              "target:a",
+              "target:b",
+              "target:c"
+            ],
+            "accepted_hop_count": 3
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "egress_does_not_change_path_or_hop",
+          "receiver_appended_only_after_ingress_checks",
+          "a_to_b_to_c_forward_path_accepted"
+        ]
+      },
+      "criterion": "A to B to C preserves sender egress state and appends each receiving target exactly once after successful ingress."
+    },
+    {
+      "id": "K-POS-024",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply_sequence",
+      "coverage": [
+        "conflict",
+        "partial_update",
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "initial_snapshot": {
+          "snapshot_id": "snapshot:site:20",
+          "revisions": {
+            "semantic": "20",
+            "identity": "4",
+            "facts": "7",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "facts": [],
+          "asset_id": "asset:site:01"
+        },
+        "create_conflict_batch": {
+          "expected_semantic_revision": "20",
+          "publisher_metadata_members_present": false,
+          "fact_upserts": [
+            {
+              "candidate_id": "candidate:source:a",
+              "candidate_revision": "4",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.power",
+                "dimensions": []
+              },
+              "value": "21",
+              "qualification": "qualified",
+              "promotion": "promoted",
+              "evidence": [
+                "evidence:source:a"
+              ]
+            },
+            {
+              "candidate_id": "candidate:source:b",
+              "candidate_revision": "2",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.power",
+                "dimensions": []
+              },
+              "value": "22",
+              "qualification": "qualified",
+              "promotion": "promoted",
+              "evidence": [
+                "evidence:source:b"
+              ]
+            }
+          ]
+        },
+        "conflicting_snapshot": {
+          "snapshot_id": "snapshot:site:21",
+          "revisions": {
+            "semantic": "21",
+            "identity": "4",
+            "facts": "8",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "envelope": {
+            "key": {
+              "pack_id": "helianthus.pack.electrical",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.electrical.power",
+              "dimensions": []
+            },
+            "revision": "1",
+            "candidates": [
+              "candidate:source:a@4",
+              "candidate:source:b@2"
+            ],
+            "conflicts": [
+              {
+                "conflict_id": "sha256:fabb381e03c191e4a74d18c95559abfe148a4010995c7ddce9e3b96815e008f3",
+                "kind": "value",
+                "state": "open",
+                "candidates": [
+                  "candidate:source:a",
+                  "candidate:source:b"
+                ],
+                "evidence": [
+                  "evidence:source:a",
+                  "evidence:source:b"
+                ]
+              }
+            ],
+            "selection_member_absent": true
+          }
+        },
+        "presentation_evaluation_view": {
+          "contract": "helianthus.semantic.evaluation/v1",
+          "snapshot_id": "snapshot:site:21",
+          "revisions": {
+            "semantic": "21",
+            "identity": "4",
+            "facts": "8",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "21000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-1",
+              "nanoseconds": "21000000000"
+            }
+          },
+          "facts": [
+            {
+              "candidate_id": "candidate:source:a",
+              "candidate_revision": "4",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            },
+            {
+              "candidate_id": "candidate:source:b",
+              "candidate_revision": "2",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            }
+          ],
+          "evaluation_digest": "sha256:ab93529b7dfce8e88eeacad8c609e8e251fa0665236edcc71a4c68b97c4c9b4d"
+        },
+        "presentation_selection": {
+          "snapshot_id": "snapshot:site:21",
+          "evaluation_digest": "sha256:ab93529b7dfce8e88eeacad8c609e8e251fa0665236edcc71a4c68b97c4c9b4d",
+          "key": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.power",
+            "dimensions": []
+          },
+          "policy_id": "policy.presentation.prefer_a",
+          "policy_version": "1.0.0",
+          "selected_candidate": "candidate:source:a",
+          "candidate_revision": "4",
+          "presentation_only": true,
+          "stored_in_snapshot": false,
+          "revisions": {
+            "semantic": "21",
+            "identity": "4",
+            "facts": "8",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "21000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-1",
+              "nanoseconds": "21000000000"
+            }
+          },
+          "contract": "helianthus.semantic.selection/v1"
+        },
+        "withdraw_one_batch": {
+          "expected_semantic_revision": "21",
+          "fact_withdrawals": [
+            "candidate:source:a"
+          ],
+          "publisher_metadata_members_present": false
+        },
+        "resulting_snapshot": {
+          "snapshot_id": "snapshot:site:22",
+          "revisions": {
+            "semantic": "22",
+            "identity": "4",
+            "facts": "9",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "envelope": {
+            "key": {
+              "pack_id": "helianthus.pack.electrical",
+              "pack_version": "1.0.0",
+              "fact_id": "helianthus.electrical.power",
+              "dimensions": []
+            },
+            "revision": "2",
+            "candidates": [
+              "candidate:source:b@2"
+            ],
+            "conflicts": [],
+            "selection_member_absent": true
+          },
+          "full_snapshot_validation": "accept",
+          "canonical_serialization": "accept",
+          "old_selection_valid_for_resulting_snapshot": false
+        },
+        "prior_snapshot_after_withdrawal": {
+          "snapshot_id": "snapshot:site:21",
+          "unchanged": true,
+          "conflict_id": "sha256:fabb381e03c191e4a74d18c95559abfe148a4010995c7ddce9e3b96815e008f3"
+        }
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": [
+          "conflict_id_and_evidence_kernel_derived",
+          "presentation_evaluation_digest_recomputed",
+          "selection_is_pure_view_not_snapshot_metadata",
+          "old_selection_cannot_apply_to_resulting_snapshot",
+          "no_resolution_evidence_fabricated",
+          "envelope_revision_incremented_once_per_batch",
+          "facts_revision_incremented_once_per_batch",
+          "prior_snapshot_retains_conflict_history",
+          "resulting_snapshot_complete_valid_and_canonical"
+        ]
+      },
+      "criterion": "The kernel creates conflict metadata, returns a snapshot-bound presentation selection, and atomically removes obsolete current metadata when one candidate is withdrawn while immutable history remains."
+    },
+    {
+      "id": "K-POS-025",
+      "polarity": "positive",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "conflict",
+        "freshness",
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "snapshot": {
+          "contract": "helianthus.semantic.kernel/v1",
+          "snapshot_id": "snapshot:multi:40",
+          "asset_id": "asset:site:01",
+          "revisions": {
+            "semantic": "40",
+            "identity": "6",
+            "facts": "12",
+            "services": "4",
+            "capabilities": "4"
+          },
+          "evaluated_at": {
+            "unix_nanoseconds": "35000000000",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "1000"
+          },
+          "evaluate_monotonic": {
+            "clock_epoch_id": "clock-epoch:selection-2",
+            "nanoseconds": "35000000000"
+          },
+          "sources": [
+            {
+              "source_id": "source:inverter",
+              "source_epoch_id": "epoch:inverter",
+              "protocol_id": "protocol.test",
+              "profile_id": "profile.test",
+              "profile_version": "test-1",
+              "registry_evidence": {
+                "owner": "helianthus.registry.test",
+                "kind": "native.profile",
+                "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "contract": "helianthus.evidence.test/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "started_at": {
+                "unix_nanoseconds": "10000000001",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "1000"
+              },
+              "state": "current",
+              "revision": "1"
+            },
+            {
+              "source_id": "source:meter",
+              "source_epoch_id": "epoch:meter",
+              "protocol_id": "protocol.test",
+              "profile_id": "profile.test",
+              "profile_version": "test-1",
+              "registry_evidence": {
+                "owner": "helianthus.registry.test",
+                "kind": "native.profile",
+                "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "contract": "helianthus.evidence.test/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "started_at": {
+                "unix_nanoseconds": "10000000002",
+                "clock_id": "clock.utc",
+                "uncertainty_ns": "1000"
+              },
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "bindings": [
+            {
+              "binding_id": "binding:inverter",
+              "asset_id": "asset:site:01",
+              "source_id": "source:inverter",
+              "source_epoch_id": "epoch:inverter",
+              "driver_generation": "1",
+              "native_resource": {
+                "owner": "helianthus.registry.test",
+                "kind": "native.resource",
+                "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "contract": "helianthus.evidence.test/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "state": "current",
+              "revision": "1"
+            },
+            {
+              "binding_id": "binding:meter",
+              "asset_id": "asset:site:01",
+              "source_id": "source:meter",
+              "source_epoch_id": "epoch:meter",
+              "driver_generation": "1",
+              "native_resource": {
+                "owner": "helianthus.registry.test",
+                "kind": "native.resource",
+                "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "contract": "helianthus.evidence.test/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "identity_links": [
+            {
+              "asset_id": "asset:site:01",
+              "binding_id": "binding:inverter",
+              "state": "qualified",
+              "basis": [
+                {
+                  "owner": "helianthus.registry.test",
+                  "kind": "identity.basis",
+                  "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "contract": "helianthus.evidence.test/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            },
+            {
+              "asset_id": "asset:site:01",
+              "binding_id": "binding:meter",
+              "state": "qualified",
+              "basis": [
+                {
+                  "owner": "helianthus.registry.test",
+                  "kind": "identity.basis",
+                  "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                  "contract": "helianthus.evidence.test/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "facts": [
+            {
+              "asset_id": "asset:site:01",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.power",
+                "dimensions": []
+              },
+              "candidates": [
+                {
+                  "candidate_id": "candidate:power:a",
+                  "key": {
+                    "pack_id": "helianthus.pack.electrical",
+                    "pack_version": "1.0.0",
+                    "fact_id": "helianthus.electrical.power",
+                    "dimensions": []
+                  },
+                  "value": {
+                    "kind": "quantity",
+                    "quantity": {
+                      "number": {
+                        "coefficient": "5",
+                        "exponent10": 3
+                      },
+                      "unit": "unit.watt"
+                    }
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "qualification": "qualified",
+                    "promotion": "promoted",
+                    "validity": "good",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "reasons": []
+                  },
+                  "times": {
+                    "received_at": {
+                      "unix_nanoseconds": "30000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "1000"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock-epoch:selection-2",
+                      "nanoseconds": "30000000000"
+                    },
+                    "evaluated_at": {
+                      "unix_nanoseconds": "35000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "1000"
+                    },
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock-epoch:selection-2",
+                      "nanoseconds": "35000000000"
+                    }
+                  },
+                  "freshness_policy": {
+                    "policy_id": "policy.freshness.test",
+                    "version": "1.0.0",
+                    "fresh_for_ns": "30000000000",
+                    "retain_for_ns": "120000000000",
+                    "max_wall_uncertainty_ns": "1000000"
+                  },
+                  "binding_id": "binding:inverter",
+                  "source_epoch_id": "epoch:inverter",
+                  "driver_generation": "1",
+                  "origin": {
+                    "origin_id": "origin:a",
+                    "kind": "native_observation",
+                    "source_id": "source:inverter",
+                    "source_epoch_id": "epoch:inverter",
+                    "binding_id": "binding:inverter",
+                    "evidence": [
+                      {
+                        "owner": "helianthus.registry.test",
+                        "kind": "native.observation",
+                        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "contract": "helianthus.evidence.test/v1",
+                        "access": "public",
+                        "redaction": "none"
+                      }
+                    ]
+                  },
+                  "evidence": [
+                    {
+                      "owner": "helianthus.registry.test",
+                      "kind": "native.observation",
+                      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "contract": "helianthus.evidence.test/v1",
+                      "access": "public",
+                      "redaction": "none"
+                    }
+                  ],
+                  "revision": "3"
+                }
+              ],
+              "conflicts": [],
+              "revision": "3"
+            },
+            {
+              "asset_id": "asset:site:01",
+              "key": {
+                "pack_id": "helianthus.pack.electrical",
+                "pack_version": "1.0.0",
+                "fact_id": "helianthus.electrical.voltage",
+                "dimensions": []
+              },
+              "candidates": [
+                {
+                  "candidate_id": "candidate:voltage:b",
+                  "key": {
+                    "pack_id": "helianthus.pack.electrical",
+                    "pack_version": "1.0.0",
+                    "fact_id": "helianthus.electrical.voltage",
+                    "dimensions": []
+                  },
+                  "value": {
+                    "kind": "quantity",
+                    "quantity": {
+                      "number": {
+                        "coefficient": "23",
+                        "exponent10": 1
+                      },
+                      "unit": "unit.volt"
+                    }
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "qualification": "qualified",
+                    "promotion": "promoted",
+                    "validity": "good",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "reasons": []
+                  },
+                  "times": {
+                    "received_at": {
+                      "unix_nanoseconds": "31000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "1000"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock-epoch:selection-2",
+                      "nanoseconds": "31000000000"
+                    },
+                    "evaluated_at": {
+                      "unix_nanoseconds": "35000000000",
+                      "clock_id": "clock.utc",
+                      "uncertainty_ns": "1000"
+                    },
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock-epoch:selection-2",
+                      "nanoseconds": "35000000000"
+                    }
+                  },
+                  "freshness_policy": {
+                    "policy_id": "policy.freshness.test",
+                    "version": "1.0.0",
+                    "fresh_for_ns": "30000000000",
+                    "retain_for_ns": "120000000000",
+                    "max_wall_uncertainty_ns": "1000000"
+                  },
+                  "binding_id": "binding:meter",
+                  "source_epoch_id": "epoch:meter",
+                  "driver_generation": "1",
+                  "origin": {
+                    "origin_id": "origin:b",
+                    "kind": "native_observation",
+                    "source_id": "source:meter",
+                    "source_epoch_id": "epoch:meter",
+                    "binding_id": "binding:meter",
+                    "evidence": [
+                      {
+                        "owner": "helianthus.registry.test",
+                        "kind": "native.observation",
+                        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                        "contract": "helianthus.evidence.test/v1",
+                        "access": "public",
+                        "redaction": "none"
+                      }
+                    ]
+                  },
+                  "evidence": [
+                    {
+                      "owner": "helianthus.registry.test",
+                      "kind": "native.observation",
+                      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                      "contract": "helianthus.evidence.test/v1",
+                      "access": "public",
+                      "redaction": "none"
+                    }
+                  ],
+                  "revision": "7"
+                }
+              ],
+              "conflicts": [],
+              "revision": "2"
+            }
+          ],
+          "services": [],
+          "capabilities": [],
+          "fences": [],
+          "cursors": [
+            {
+              "source_id": "source:inverter",
+              "source_epoch_id": "epoch:inverter",
+              "driver_generation": "1",
+              "last_sequence": "1",
+              "last_batch_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+              "fenced": false
+            },
+            {
+              "source_id": "source:meter",
+              "source_epoch_id": "epoch:meter",
+              "driver_generation": "1",
+              "last_sequence": "1",
+              "last_batch_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+              "fenced": false
+            }
+          ]
+        },
+        "evaluation_view": {
+          "contract": "helianthus.semantic.evaluation/v1",
+          "snapshot_id": "snapshot:multi:40",
+          "revisions": {
+            "semantic": "40",
+            "identity": "6",
+            "facts": "12",
+            "services": "4",
+            "capabilities": "4"
+          },
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "40000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-2",
+              "nanoseconds": "40000000000"
+            }
+          },
+          "facts": [
+            {
+              "candidate_id": "candidate:power:a",
+              "candidate_revision": "3",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            },
+            {
+              "candidate_id": "candidate:voltage:b",
+              "candidate_revision": "7",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            }
+          ],
+          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12"
+        },
+        "requested_key": {
+          "pack_id": "helianthus.pack.electrical",
+          "pack_version": "1.0.0",
+          "fact_id": "helianthus.electrical.voltage",
+          "dimensions": []
+        },
+        "policy": {
+          "policy_id": "policy.presentation.prefer_meter",
+          "policy_version": "1.0.0",
+          "registered_once": true
+        },
+        "policy_input": {
+          "envelope_key": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.voltage",
+            "dimensions": []
+          },
+          "candidate_ids": [
+            "candidate:voltage:b"
+          ],
+          "evaluated_fact_ids": [
+            "candidate:voltage:b"
+          ]
+        },
+        "repeat_identical_call": true
+      },
+      "expect": {
+        "result": "accept",
+        "selection": {
+          "snapshot_id": "snapshot:multi:40",
+          "revisions": {
+            "semantic": "40",
+            "identity": "6",
+            "facts": "12",
+            "services": "4",
+            "capabilities": "4"
+          },
+          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12",
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "40000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-2",
+              "nanoseconds": "40000000000"
+            }
+          },
+          "key": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.voltage",
+            "dimensions": []
+          },
+          "policy_id": "policy.presentation.prefer_meter",
+          "policy_version": "1.0.0",
+          "selected_candidate": "candidate:voltage:b",
+          "candidate_revision": "7",
+          "presentation_only": true,
+          "contract": "helianthus.semantic.selection/v1"
+        },
+        "repeat_selection": {
+          "snapshot_id": "snapshot:multi:40",
+          "revisions": {
+            "semantic": "40",
+            "identity": "6",
+            "facts": "12",
+            "services": "4",
+            "capabilities": "4"
+          },
+          "evaluation_digest": "sha256:62c66cb94bbf689ec8c317285dfeb8e2522946b2170160642df9bc1f835eec12",
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "40000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-2",
+              "nanoseconds": "40000000000"
+            }
+          },
+          "key": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.voltage",
+            "dimensions": []
+          },
+          "policy_id": "policy.presentation.prefer_meter",
+          "policy_version": "1.0.0",
+          "selected_candidate": "candidate:voltage:b",
+          "candidate_revision": "7",
+          "presentation_only": true,
+          "contract": "helianthus.semantic.selection/v1"
+        },
+        "assertions": [
+          "snapshot_and_view_ids_and_revisions_match",
+          "evaluation_digest_recomputed",
+          "evaluation_context_repeated_exactly",
+          "requested_voltage_envelope_selected",
+          "power_candidate_excluded_from_policy_input",
+          "policy_receives_value_quality_provenance_conflict_and_evaluation",
+          "identical_inputs_produce_identical_bytes",
+          "no_store_clock_or_native_lookup"
+        ]
+      },
+      "criterion": "Complete immutable snapshot and evaluation inputs select the voltage candidate from the voltage envelope in a multi-key snapshot, deterministically and without hidden data."
+    },
+    {
+      "id": "K-NEG-001",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "validate",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "contract": "helianthus.semantic.kernel/v2"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_contract",
+        "state_unchanged": true
+      },
+      "criterion": "A v2 record cannot be decoded as the v1 kernel."
+    },
+    {
+      "id": "K-NEG-002",
+      "polarity": "negative",
+      "record_type": "NativeBinding",
+      "operation": "validate",
+      "coverage": [
+        "identity"
+      ],
+      "input": {
+        "asset_id": " bus address 03 ",
+        "binding_id": "binding:01"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_identifier",
+        "state_unchanged": true
+      },
+      "criterion": "Whitespace and an untyped bus-address surrogate cannot form an asset ID."
+    },
+    {
+      "id": "K-NEG-003",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "validate",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "coefficient": "230",
+        "exponent10": 0
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_decimal",
+        "state_unchanged": true
+      },
+      "criterion": "A non-zero coefficient with a trailing zero is not canonical."
+    },
+    {
+      "id": "K-NEG-004",
+      "polarity": "negative",
+      "record_type": "Value",
+      "operation": "validate",
+      "coverage": [
+        "serialization",
+        "qualification"
+      ],
+      "input": {
+        "kind": "quantity",
+        "quantity": {
+          "number": {
+            "coefficient": "23",
+            "exponent10": 1
+          },
+          "unit": "unit.volt"
+        },
+        "boolean": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A tagged value cannot select quantity and boolean payloads together."
+    },
+    {
+      "id": "K-NEG-005",
+      "polarity": "negative",
+      "record_type": "FreshnessPolicy",
+      "operation": "validate",
+      "coverage": [
+        "time",
+        "freshness"
+      ],
+      "input": {
+        "fresh_for_ns": "300",
+        "retain_for_ns": "300",
+        "max_wall_uncertainty_ns": "1"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_time",
+        "state_unchanged": true
+      },
+      "criterion": "Retention must be strictly longer than freshness."
+    },
+    {
+      "id": "K-NEG-006",
+      "polarity": "negative",
+      "record_type": "Times",
+      "operation": "validate",
+      "coverage": [
+        "time",
+        "freshness"
+      ],
+      "input": {
+        "receipt_clock_epoch_id": "clock-epoch:a",
+        "receipt_ticks": "900",
+        "evaluate_clock_epoch_id": "clock-epoch:b",
+        "evaluate_ticks": "1000",
+        "comparable_wall_time": false
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "incomparable_clock_epoch",
+        "state_unchanged": true
+      },
+      "criterion": "Numeric monotonic ticks from different epochs cannot be subtracted."
+    },
+    {
+      "id": "K-NEG-007",
+      "polarity": "negative",
+      "record_type": "EvidenceRef",
+      "operation": "validate",
+      "coverage": [
+        "lineage"
+      ],
+      "input": {
+        "owner": "helianthus.eebusreg",
+        "kind": "native.snapshot",
+        "digest": "sha256:ABC",
+        "contract": "helianthus.eebus.runtime.native-snapshot.v2",
+        "access": "restricted",
+        "redaction": "none"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_evidence",
+        "state_unchanged": true
+      },
+      "criterion": "Malformed digest and unredacted restricted evidence cannot enter a public record."
+    },
+    {
+      "id": "K-NEG-008",
+      "polarity": "negative",
+      "record_type": "Derivation",
+      "operation": "validate",
+      "coverage": [
+        "lineage"
+      ],
+      "input": {
+        "candidate_id": "candidate:a",
+        "inputs": [
+          "candidate:b"
+        ],
+        "candidate_b_inputs": [
+          "candidate:a"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "derivation_cycle",
+        "state_unchanged": true
+      },
+      "criterion": "A two-node derivation cycle is rejected atomically."
+    },
+    {
+      "id": "K-NEG-009",
+      "polarity": "negative",
+      "record_type": "IdentityLink",
+      "operation": "validate",
+      "coverage": [
+        "identity",
+        "conflict"
+      ],
+      "input": {
+        "asset_id": "asset:01",
+        "binding_id": "binding:02",
+        "state": "qualified",
+        "basis": []
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "identity_not_qualified",
+        "state_unchanged": true
+      },
+      "criterion": "Similar observations without native-owner evidence cannot qualify identity."
+    },
+    {
+      "id": "K-NEG-010",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "snapshot",
+        "partial_update"
+      ],
+      "input": {
+        "expected_semantic_revision": "3"
+      },
+      "prior_state": {
+        "semantic_revision": "4"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "revision_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "A stale expected revision cannot overwrite the current immutable snapshot."
+    },
+    {
+      "id": "K-NEG-011",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "partial_update",
+        "serialization"
+      ],
+      "prior_vector": "K-POS-009",
+      "input": {
+        "sequence": "9",
+        "batch_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "sequence_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "The same source sequence with different canonical bytes is not idempotent."
+    },
+    {
+      "id": "K-NEG-012",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "generation",
+        "partial_update"
+      ],
+      "input": {
+        "source_epoch_id": "source-epoch:old",
+        "driver_generation": "8",
+        "sequence": "1"
+      },
+      "prior_state": {
+        "current_source_epoch_id": "source-epoch:new"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "stale_source_epoch",
+        "state_unchanged": true
+      },
+      "criterion": "A restarted source cannot continue publishing under its old epoch."
+    },
+    {
+      "id": "K-NEG-013",
+      "polarity": "negative",
+      "record_type": "Route",
+      "operation": "admit",
+      "coverage": [
+        "generation",
+        "capability",
+        "operation"
+      ],
+      "input": {
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "7"
+      },
+      "prior_state": {
+        "fenced_driver_generation": "7",
+        "current_driver_generation": "8"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "stale_driver_generation",
+        "state_unchanged": true
+      },
+      "criterion": "A route and guarded callback from a fenced generation fail before native dispatch."
+    },
+    {
+      "id": "K-NEG-014",
+      "polarity": "negative",
+      "record_type": "CapabilityInstance",
+      "operation": "admit",
+      "coverage": [
+        "capability",
+        "qualification"
+      ],
+      "input": {
+        "qualification": "candidate",
+        "availability": "available",
+        "activation_evidence": []
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "capability_not_qualified",
+        "state_unchanged": true
+      },
+      "criterion": "Catalog or candidate presence does not create an actionable capability."
+    },
+    {
+      "id": "K-NEG-015",
+      "polarity": "negative",
+      "record_type": "CapabilityInstance",
+      "operation": "admit",
+      "coverage": [
+        "capability"
+      ],
+      "input": {
+        "qualification": "qualified",
+        "availability": "degraded",
+        "allow_degraded": false
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "capability_unavailable",
+        "state_unchanged": true
+      },
+      "criterion": "Degraded operation is unavailable without an explicit permitting contract."
+    },
+    {
+      "id": "K-NEG-016",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "capability"
+      ],
+      "input": {
+        "required_capability": "helianthus.evse.current_limit",
+        "eligible_routes": [
+          "capability:limit:01",
+          "capability:limit:02"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "ambiguous_route",
+        "state_unchanged": true
+      },
+      "criterion": "Two eligible current routes fail closed before dispatch."
+    },
+    {
+      "id": "K-NEG-017",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "time"
+      ],
+      "input": {
+        "now_latest_ns": "2001",
+        "deadline_earliest_ns": "2001"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "deadline_expired",
+        "state_unchanged": true
+      },
+      "criterion": "Admission requires the latest plausible now to be strictly before the earliest deadline."
+    },
+    {
+      "id": "K-NEG-018",
+      "polarity": "negative",
+      "record_type": "Precondition",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "conflict"
+      ],
+      "input": {
+        "fact": {
+          "pack_id": "helianthus.pack.evse",
+          "pack_version": "1.0.0",
+          "fact_id": "helianthus.evse.connected",
+          "dimensions": []
+        },
+        "candidate_id": "candidate:evse:connected",
+        "candidate_revision": "5",
+        "operator": "equal",
+        "expected": {
+          "kind": "boolean",
+          "boolean": true
+        },
+        "resolved_candidate": {
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "value": true
+        },
+        "open_conflict_candidates": [
+          "candidate:evse:connected",
+          "candidate:evse:connected:other"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "An exact otherwise eligible candidate in an open conflict cannot satisfy an operation precondition."
+    },
+    {
+      "id": "K-NEG-019",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "authority": "unresolved",
+        "other_fields_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "authority_missing",
+        "state_unchanged": true
+      },
+      "criterion": "An opaque authority reference must resolve for the exact intent and route."
+    },
+    {
+      "id": "K-NEG-020",
+      "polarity": "negative",
+      "record_type": "Route",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "conflict",
+        "compatibility"
+      ],
+      "input": {
+        "route_source": "presentation_selection",
+        "selected_candidate": "candidate:source:a"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "route_selection_forbidden",
+        "state_unchanged": true
+      },
+      "criterion": "Presentation selection cannot choose a native operation route."
+    },
+    {
+      "id": "K-NEG-021",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "validate",
+      "coverage": [
+        "causal",
+        "time"
+      ],
+      "input": {
+        "hop_count": 17,
+        "max_hops": 17,
+        "path_length": 17,
+        "lifetime_ns": "300000000001",
+        "all_wire_fields_syntactically_valid": true,
+        "causal_domain_limits_are_only_failure": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "causal_budget_exceeded",
+        "state_unchanged": true
+      },
+      "criterion": "The hard 16-hop and 300-second causal bounds cannot be enlarged by a target."
+    },
+    {
+      "id": "K-NEG-022",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "correlation_id": "correlation:loop:01",
+        "path": [
+          "target:matter",
+          "target:ha"
+        ],
+        "ingress_target": "target:matter",
+        "attempts_to_create_intent": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "echo_suppressed",
+        "state_unchanged": true
+      },
+      "criterion": "A reflected projection cannot re-enter the same target or create fresh authority."
+    },
+    {
+      "id": "K-NEG-023",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "generation"
+      ],
+      "input": {
+        "prior_outcome": "indeterminate",
+        "possible_side_effect": true,
+        "requested_action": "fallback_to_second_route"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "retry_forbidden",
+        "state_unchanged": true
+      },
+      "criterion": "An indeterminate operation cannot blindly retry or fall back after possible dispatch."
+    },
+    {
+      "id": "K-NEG-024",
+      "polarity": "negative",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": [
+        "projection"
+      ],
+      "input": {
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "projection_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "Equal item IDs under different kinds still require two exact tuple dispositions."
+    },
+    {
+      "id": "K-NEG-025",
+      "polarity": "negative",
+      "record_type": "CompatibilityAlias",
+      "operation": "admit",
+      "coverage": [
+        "compatibility",
+        "identity",
+        "operation"
+      ],
+      "input": {
+        "legacy_id": "Service:/HeatGenerator:1",
+        "routable": true,
+        "requested_action": "select_binding"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "alias_not_routable",
+        "state_unchanged": true
+      },
+      "criterion": "A legacy public identity cannot become a native endpoint or route."
+    },
+    {
+      "id": "K-NEG-026",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "dispatch_delivery": "unknown",
+        "possible_side_effect": true,
+        "acknowledgement": "absent",
+        "readback": "absent",
+        "outcome": "failed_no_contact"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "Unknown delivery with possible side effect cannot be classified as proven no contact."
+    },
+    {
+      "id": "K-NEG-027",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input_json": "{\"coefficient\":\"23\",\"coefficient\":\"24\",\"exponent10\":1}",
+      "expect": {
+        "result": "reject",
+        "error_id": "duplicate_key",
+        "state_unchanged": true
+      },
+      "criterion": "Duplicate JSON members are rejected before typed decoding."
+    },
+    {
+      "id": "K-NEG-028",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "coefficient": "23",
+        "exponent10": 1,
+        "display_precision": 1
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "unknown_member",
+        "state_unchanged": true
+      },
+      "criterion": "An undeclared v1 member is not silently discarded into an extension bag."
+    },
+    {
+      "id": "K-NEG-029",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input_json": "{\"coefficient\":\"23\",\"exponent10\":1} trailing",
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_json",
+        "state_unchanged": true
+      },
+      "criterion": "Trailing data after one JSON value is rejected before typed decoding."
+    },
+    {
+      "id": "K-NEG-030",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": [
+        "serialization"
+      ],
+      "input": {
+        "coefficient": "23"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "missing_member",
+        "state_unchanged": true
+      },
+      "criterion": "A missing required exponent member has one stable rejection class."
+    },
+    {
+      "id": "K-NEG-031",
+      "polarity": "negative",
+      "record_type": "Quality",
+      "operation": "validate",
+      "coverage": [
+        "qualification",
+        "serialization"
+      ],
+      "input": {
+        "assertion": "measured",
+        "qualification": "qualified",
+        "promotion": "promoted",
+        "validity": "good",
+        "availability": "available",
+        "freshness": "fresh",
+        "reasons": []
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_enum",
+        "state_unchanged": true
+      },
+      "criterion": "An enum token outside the exact v1 set is rejected deterministically."
+    },
+    {
+      "id": "K-NEG-032",
+      "polarity": "negative",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": [
+        "snapshot",
+        "serialization"
+      ],
+      "input": {
+        "candidate_count": 33,
+        "limit": 32,
+        "otherwise_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "bounds_exceeded",
+        "state_unchanged": true
+      },
+      "criterion": "A collection beyond its explicit maximum is rejected without truncation."
+    },
+    {
+      "id": "K-NEG-033",
+      "polarity": "negative",
+      "record_type": "Derivation",
+      "operation": "validate",
+      "coverage": [
+        "lineage",
+        "serialization"
+      ],
+      "input": {
+        "inputs": [
+          {
+            "candidate_id": "candidate:b",
+            "candidate_revision": "1",
+            "source_paths": [
+              {
+                "binding_id": "binding:b",
+                "source_id": "source:b",
+                "source_epoch_id": "epoch:b",
+                "driver_generation": "1"
+              }
+            ]
+          },
+          {
+            "candidate_id": "candidate:a",
+            "candidate_revision": "1",
+            "source_paths": [
+              {
+                "binding_id": "binding:a",
+                "source_id": "source:a",
+                "source_epoch_id": "epoch:a",
+                "driver_generation": "1"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "noncanonical_order",
+        "state_unchanged": true
+      },
+      "criterion": "Set-like derivation inputs in descending candidate order are rejected rather than silently reordered."
+    },
+    {
+      "id": "K-NEG-034",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "validate",
+      "coverage": [
+        "partial_update",
+        "serialization"
+      ],
+      "input": {
+        "sequence": "1",
+        "previously_seen": false,
+        "batch_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "computed_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "digest_mismatch",
+        "state_unchanged": true
+      },
+      "criterion": "A first-sequence syntactically valid digest must match the canonical batch bytes."
+    },
+    {
+      "id": "K-NEG-035",
+      "polarity": "negative",
+      "record_type": "Snapshot",
+      "operation": "validate",
+      "coverage": [
+        "lineage",
+        "snapshot"
+      ],
+      "input": {
+        "derived_candidate_id": "candidate:site:net-power",
+        "dependency_candidate_id": "candidate:grid-meter:missing",
+        "dependency_candidate_revision": "3",
+        "snapshot_candidates": [
+          "candidate:inverter:power"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "dangling_reference",
+        "state_unchanged": true
+      },
+      "criterion": "A derived input that does not resolve to its exact candidate revision is rejected."
+    },
+    {
+      "id": "K-NEG-036",
+      "polarity": "negative",
+      "record_type": "Readback",
+      "operation": "validate",
+      "coverage": [
+        "generation",
+        "operation"
+      ],
+      "input": {
+        "snapshot_id": "snapshot:evse:14",
+        "revisions": {
+          "semantic": "14",
+          "identity": "2",
+          "facts": "10",
+          "services": "3",
+          "capabilities": "6"
+        },
+        "candidate_id": "candidate:evse:limit-readback",
+        "candidate_revision": "2",
+        "binding_id": "binding:evse:01",
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "relation": "confirms",
+        "evidence_count": 1,
+        "evaluation": {
+          "evaluated_at": {
+            "unix_nanoseconds": "202000000000",
+            "clock_id": "clock.utc",
+            "uncertainty_ns": "1000"
+          },
+          "evaluate_monotonic": {
+            "clock_epoch_id": "clock-epoch:boot-1",
+            "nanoseconds": "3000"
+          }
+        }
+      },
+      "prior_state": {
+        "admitted_route_source_epoch_id": "source-epoch:evse:01",
+        "admitted_route_driver_generation": "7"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "stale_driver_generation",
+        "state_unchanged": true
+      },
+      "criterion": "A confirming candidate from a replacement driver generation cannot prove the earlier admitted route applied."
+    },
+    {
+      "id": "K-NEG-037",
+      "polarity": "negative",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": [
+        "projection"
+      ],
+      "input": {
+        "requested": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit"
+          },
+          {
+            "kind": "operation",
+            "item_id": "helianthus.storage.power_limit"
+          }
+        ],
+        "dispositions": [
+          {
+            "kind": "capability",
+            "item_id": "helianthus.storage.power_limit",
+            "outcome": "exact"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "projection_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "A capability disposition cannot also account for the equal operation item ID."
+    },
+    {
+      "id": "K-NEG-038",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "freshness",
+        "operation",
+        "time"
+      ],
+      "input": {
+        "precondition_candidate_id": "candidate:meter:power",
+        "candidate_revision": "4",
+        "stored_freshness": "fresh",
+        "evaluation_context_wall_ns": "140000000000",
+        "evaluated_freshness": "stale",
+        "no_new_publication": true
+      },
+      "prior_state": {
+        "snapshot_id": "snapshot:meter:10",
+        "semantic_revision": "10",
+        "receipt_wall_ns": "100000000000",
+        "fresh_for_ns": "30000000000"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "Admission re-evaluates time and rejects a now-stale precondition even though the immutable snapshot stored fresh."
+    },
+    {
+      "id": "K-NEG-039",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "operation",
+        "qualification"
+      ],
+      "input": {
+        "precondition": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.interlock_clear",
+            "dimensions": []
+          },
+          "candidate_id": "candidate:interlock:unqualified",
+          "candidate_revision": "4",
+          "operator": "equal",
+          "expected": {
+            "kind": "boolean",
+            "boolean": true
+          }
+        },
+        "envelope_candidates": [
+          {
+            "candidate_id": "candidate:interlock:unqualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": true
+            },
+            "qualification": "candidate",
+            "promotion": "unpromoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          },
+          {
+            "candidate_id": "candidate:interlock:qualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            },
+            "qualification": "qualified",
+            "promotion": "promoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          }
+        ],
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "A fresh available value cannot satisfy a write precondition when the exactly named candidate is unqualified and unpromoted."
+    },
+    {
+      "id": "K-NEG-040",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "conflict",
+        "operation",
+        "qualification"
+      ],
+      "input": {
+        "precondition": {
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.interlock_clear",
+            "dimensions": []
+          },
+          "candidate_id": "candidate:interlock:qualified",
+          "candidate_revision": "4",
+          "operator": "equal",
+          "expected": {
+            "kind": "boolean",
+            "boolean": true
+          }
+        },
+        "envelope_candidates": [
+          {
+            "candidate_id": "candidate:interlock:qualified",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            },
+            "qualification": "qualified",
+            "promotion": "promoted",
+            "validity": "good",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          },
+          {
+            "candidate_id": "candidate:interlock:candidate",
+            "revision": "4",
+            "value": {
+              "kind": "boolean",
+              "boolean": true
+            },
+            "qualification": "candidate",
+            "promotion": "unpromoted",
+            "validity": "unknown",
+            "evaluated_freshness": "fresh",
+            "effective_availability": "available"
+          }
+        ],
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "Equal numeric revisions and a true same-key candidate cannot replace the exact qualified candidate whose value makes the predicate false."
+    },
+    {
+      "id": "K-NEG-041",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:voltage",
+          "candidate_revision": "2",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "evidence_count": 1,
+          "evaluation": {
+            "evaluated_at": {
+              "unix_nanoseconds": "202000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "3000"
+            }
+          }
+        },
+        "resolved_candidate": {
+          "fact": {
+            "pack_id": "helianthus.pack.electrical",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.electrical.voltage",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "23",
+                "exponent10": 1
+              },
+              "unit": "unit.volt"
+            }
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false,
+          "candidate_id": "candidate:evse:voltage",
+          "candidate_revision": "2",
+          "times": {
+            "received_at": {
+              "unix_nanoseconds": "201000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "receipt_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "2000"
+            }
+          }
+        },
+        "outcome": "applied",
+        "all_definition_owners_registered": true,
+        "dispatch": {
+          "delivery": "sent",
+          "possible_side_effect": true,
+          "started": {
+            "evaluated_at": {
+              "unix_nanoseconds": "199000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "900"
+            }
+          },
+          "completed": {
+            "evaluated_at": {
+              "unix_nanoseconds": "200000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "1000"
+            }
+          },
+          "evidence_count": 1
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "An unrelated later observation on the same admitted route cannot self-assert confirms for the operation-specific effect."
+    },
+    {
+      "id": "K-NEG-042",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": [
+        "capability",
+        "generation",
+        "snapshot"
+      ],
+      "input": {
+        "source_id": "source:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "8",
+        "sequence": "1",
+        "expected_semantic_revision": "30",
+        "generation_fences": [],
+        "new_generation_activation_evidence_count": 1,
+        "otherwise_valid": true
+      },
+      "prior_state": {
+        "current_driver_generation": "7",
+        "old_capability_actionable": true,
+        "old_guarded_callback_current": true,
+        "derived_dependents": [
+          "candidate:site:flexibility"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "generation_transition_incomplete",
+        "state_unchanged": true
+      },
+      "criterion": "A higher-generation publication without an explicit fence cannot retain or silently supersede the older actionable generation."
+    },
+    {
+      "id": "K-NEG-043",
+      "polarity": "negative",
+      "record_type": "DefinitionIndex",
+      "operation": "register",
+      "coverage": [
+        "capability",
+        "operation"
+      ],
+      "input": {
+        "indexes": [
+          {
+            "pack": {
+              "id": "helianthus.pack.alpha",
+              "version": "1.0.0"
+            },
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.alpha",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.shared",
+                "version": "1.0.0"
+              }
+            ]
+          },
+          {
+            "pack": {
+              "id": "helianthus.pack.beta",
+              "version": "1.0.0"
+            },
+            "operations": [
+              {
+                "pack": {
+                  "id": "helianthus.pack.beta",
+                  "version": "1.0.0"
+                },
+                "id": "helianthus.operation.shared",
+                "version": "1.0.0"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "Two packs cannot claim the same operation definition kind, ID, and version."
+    },
+    {
+      "id": "K-NEG-044",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": [
+        "capability",
+        "operation"
+      ],
+      "input": {
+        "registered_pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "indexed_operations": [],
+        "intent_kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "helianthus.evse.set_current_limit",
+          "version": "1.0.0"
+        },
+        "registration_order_fallback_candidate": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_missing",
+        "state_unchanged": true
+      },
+      "criterion": "An explicit pack with no exact operation index entry fails without prefix inference or probing another validator."
+    },
+    {
+      "id": "K-NEG-045",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "freshness",
+        "operation",
+        "time"
+      ],
+      "input": {
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "dispatch": {
+          "delivery": "sent",
+          "possible_side_effect": true,
+          "started": {
+            "evaluated_at": {
+              "unix_nanoseconds": "199000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "900"
+            }
+          },
+          "completed": {
+            "evaluated_at": {
+              "unix_nanoseconds": "200000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "1000"
+            }
+          },
+          "evidence_count": 1
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "1",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "evaluation": {
+            "evaluated_at": {
+              "unix_nanoseconds": "202000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "3000"
+            }
+          },
+          "evidence_count": 1
+        },
+        "resolved_candidate": {
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "1",
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          },
+          "times": {
+            "received_at": {
+              "unix_nanoseconds": "190000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "receipt_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "500"
+            }
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "evaluated_freshness": "fresh",
+          "effective_availability": "available",
+          "open_conflict": false
+        },
+        "admitted_candidate_revision": "1",
+        "later_snapshot_change": "unrelated_service_only",
+        "operation_pack_result": "confirms",
+        "outcome": "applied"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A matching pre-dispatch candidate retained unchanged in a later snapshot cannot prove applied."
+    },
+    {
+      "id": "K-NEG-046",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "freshness",
+        "operation",
+        "time"
+      ],
+      "input": {
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "helianthus.evse.effect.current_limit",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        },
+        "admitted_route": {
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7"
+        },
+        "dispatch": {
+          "delivery": "sent",
+          "possible_side_effect": true,
+          "started": {
+            "evaluated_at": {
+              "unix_nanoseconds": "199000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "900"
+            }
+          },
+          "completed": {
+            "evaluated_at": {
+              "unix_nanoseconds": "200000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-1",
+              "nanoseconds": "1000"
+            }
+          },
+          "evidence_count": 1
+        },
+        "readback": {
+          "snapshot_id": "snapshot:evse:13",
+          "revisions": {
+            "semantic": "13",
+            "identity": "2",
+            "facts": "9",
+            "services": "3",
+            "capabilities": "5"
+          },
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "2",
+          "binding_id": "binding:evse:01",
+          "source_id": "source:evse:01",
+          "source_epoch_id": "source-epoch:evse:01",
+          "driver_generation": "7",
+          "relation": "confirms",
+          "evaluation": {
+            "evaluated_at": {
+              "unix_nanoseconds": "210000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "10000000000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-3",
+              "nanoseconds": "1000"
+            }
+          },
+          "evidence_count": 1
+        },
+        "resolved_candidate": {
+          "candidate_id": "candidate:evse:limit-readback",
+          "candidate_revision": "2",
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.evse.current_limit_readback",
+            "dimensions": []
+          },
+          "value": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          },
+          "times": {
+            "received_at": {
+              "unix_nanoseconds": "205000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000000"
+            },
+            "receipt_monotonic": {
+              "clock_epoch_id": "clock-epoch:boot-2",
+              "nanoseconds": "1000"
+            }
+          },
+          "freshness_policy": {
+            "fresh_for_ns": "30000000000",
+            "retain_for_ns": "120000000000",
+            "max_wall_uncertainty_ns": "1000000"
+          },
+          "assertion": "observed",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "stored_freshness": "fresh",
+          "availability": "available",
+          "open_conflict": false
+        },
+        "post_dispatch_wall_order_proved": true,
+        "evaluated_freshness": "unknown",
+        "outcome": "applied"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A complete cross-epoch evaluation whose wall uncertainty exceeds policy cannot establish fresh readback for applied."
+    },
+    {
+      "id": "K-NEG-047",
+      "polarity": "negative",
+      "record_type": "IdentityLink",
+      "operation": "validate",
+      "coverage": [
+        "identity",
+        "lineage"
+      ],
+      "input": {
+        "asset_id": "asset:01",
+        "binding_id": "binding:01",
+        "state": "qualified",
+        "basis": [],
+        "revision": "1",
+        "all_other_fields_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "identity_not_qualified",
+        "state_unchanged": true
+      },
+      "criterion": "An empty qualified identity basis uses the identity-specific error, not invalid_evidence."
+    },
+    {
+      "id": "K-NEG-048",
+      "polarity": "negative",
+      "record_type": "CapabilityInstance",
+      "operation": "admit",
+      "coverage": [
+        "capability",
+        "qualification"
+      ],
+      "input": {
+        "qualification": "qualified",
+        "availability": "available",
+        "activation_evidence": [],
+        "binding_and_generation_current": true,
+        "definition_owner_registered": true,
+        "all_other_fields_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "capability_not_qualified",
+        "state_unchanged": true
+      },
+      "criterion": "Empty activation proof uses the capability-specific error, not invalid_evidence."
+    },
+    {
+      "id": "K-NEG-049",
+      "polarity": "negative",
+      "record_type": "Precondition",
+      "operation": "admit",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "fact": {
+          "pack_id": "helianthus.pack.evse",
+          "pack_version": "1.0.0",
+          "fact_id": "helianthus.evse.interlock_clear",
+          "dimensions": []
+        },
+        "candidate_id": "candidate:missing",
+        "candidate_revision": "4",
+        "operator": "equal",
+        "expected": {
+          "kind": "boolean",
+          "boolean": true
+        },
+        "snapshot_candidates": [
+          "candidate:other"
+        ],
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "A decoded precondition whose exact candidate is absent uses precondition_failed, not dangling_reference."
+    },
+    {
+      "id": "K-NEG-050",
+      "polarity": "negative",
+      "record_type": "Precondition",
+      "operation": "admit",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "fact": {
+          "pack_id": "helianthus.pack.evse",
+          "pack_version": "1.0.0",
+          "fact_id": "helianthus.evse.interlock_clear",
+          "dimensions": []
+        },
+        "candidate_id": "candidate:evse:interlock",
+        "candidate_revision": "4",
+        "operator": "equal",
+        "expected": {
+          "kind": "boolean",
+          "boolean": true
+        },
+        "resolved_candidate_revision": "5",
+        "exact_pack_validator_registered": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "precondition_failed",
+        "state_unchanged": true
+      },
+      "criterion": "A precondition candidate revision mismatch uses precondition_failed, not revision_conflict or dangling_reference."
+    },
+    {
+      "id": "K-NEG-051",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "event": "c_emits_reflection_to_a",
+        "receiver": "target:a",
+        "incoming_path": [
+          "target:a",
+          "target:b",
+          "target:c"
+        ],
+        "incoming_hop_count": 3,
+        "max_hops": 8,
+        "attempted_path_after_rejection": [
+          "target:a",
+          "target:b",
+          "target:c"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "echo_suppressed",
+        "state_unchanged": true
+      },
+      "criterion": "C to A reflection is rejected before append because A already appears in the entered-target path."
+    },
+    {
+      "id": "K-NEG-052",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "validate",
+      "coverage": [
+        "causal",
+        "time"
+      ],
+      "input": {
+        "hop_count": 17,
+        "max_hops": 17,
+        "path_length": 17,
+        "first_seen_at": {
+          "unix_nanoseconds": "0",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "-1"
+        },
+        "expires_at": {
+          "unix_nanoseconds": "300000000001",
+          "clock_id": "clock.utc",
+          "uncertainty_ns": "0"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_time",
+        "state_unchanged": true
+      },
+      "criterion": "A malformed causal time token keeps the parser-specific invalid_time error even when causal domain limits also fail."
+    },
+    {
+      "id": "K-NEG-053",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": [
+        "causal",
+        "operation"
+      ],
+      "input": {
+        "receiver": "target:d",
+        "incoming_path": [
+          "target:a",
+          "target:b",
+          "target:c"
+        ],
+        "incoming_hop_count": 3,
+        "max_hops": 3,
+        "all_wire_fields_syntactically_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "causal_budget_exceeded",
+        "state_unchanged": true
+      },
+      "criterion": "A valid receiver ingress that has no remaining hop capacity uses the causal-domain error before append and leaves the context unchanged."
+    },
+    {
+      "id": "K-NEG-054",
+      "polarity": "negative",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": [
+        "conflict",
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "candidates": [
+          "candidate:source:a@4",
+          "candidate:source:b@2"
+        ],
+        "canonical_values": [
+          "21",
+          "22"
+        ],
+        "supplied_conflict": {
+          "kind": "value",
+          "state": "open",
+          "candidates": [
+            "candidate:source:a",
+            "candidate:source:b"
+          ],
+          "evidence": [
+            "evidence:source:a"
+          ]
+        },
+        "derived_evidence": [
+          "evidence:source:a",
+          "evidence:source:b"
+        ],
+        "all_other_fields_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A decoded snapshot cannot omit candidate evidence from kernel-derived conflict metadata."
+    },
+    {
+      "id": "K-NEG-055",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "decode",
+      "coverage": [
+        "conflict",
+        "serialization"
+      ],
+      "input": {
+        "all_required_members_valid": true,
+        "conflicts": [
+          {
+            "conflict_id": "conflict:caller-supplied"
+          }
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "unknown_member",
+        "state_unchanged": true
+      },
+      "criterion": "A native publication cannot submit cross-source conflict metadata through an undeclared batch member."
+    },
+    {
+      "id": "K-NEG-056",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "conflict",
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "requested_key_from_base": true,
+        "policy_return": {
+          "candidate_id": "candidate:power:a"
+        },
+        "expected_requested_envelope_candidate_ids": [
+          "candidate:voltage:b"
+        ]
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A deterministic policy result from another fact envelope cannot be labeled as the requested voltage selection."
+    },
+    {
+      "id": "K-NEG-057",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "evaluation_view.snapshot_id",
+          "replacement": "snapshot:multi:other"
+        },
+        "recompute_evaluation_digest": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "revision_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "Selection rejects otherwise valid snapshot and evaluation inputs whose snapshot IDs differ."
+    },
+    {
+      "id": "K-NEG-058",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "evaluation_view.revisions.facts",
+          "replacement": "13"
+        },
+        "recompute_evaluation_digest": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "revision_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "Selection rejects a view whose complete revision vector differs from its snapshot."
+    },
+    {
+      "id": "K-NEG-059",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "evaluation_view.evaluation_digest",
+          "replacement": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "digest_syntax_valid": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "digest_mismatch",
+        "state_unchanged": true
+      },
+      "criterion": "A syntactically valid evaluation digest that does not match the canonical view bytes is rejected before policy dispatch."
+    },
+    {
+      "id": "K-NEG-060",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "requested_key",
+          "replacement": {
+            "pack_id": "helianthus.pack.hvac",
+            "pack_version": "1.0.0",
+            "fact_id": "helianthus.hvac.temperature",
+            "dimensions": []
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "dangling_reference",
+        "state_unchanged": true
+      },
+      "criterion": "A requested fact key absent from the supplied immutable snapshot is rejected before policy dispatch."
+    },
+    {
+      "id": "K-NEG-061",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "freshness",
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "evaluation_view.facts",
+          "remove_candidate_id": "candidate:voltage:b"
+        },
+        "recompute_evaluation_digest": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "dangling_reference",
+        "state_unchanged": true
+      },
+      "criterion": "A view that omits a snapshot candidate cannot provide the complete selector input."
+    },
+    {
+      "id": "K-NEG-062",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "validate_result",
+      "coverage": [
+        "freshness",
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "selection.context.evaluate_monotonic.nanoseconds",
+          "replacement": "40000000001"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "revision_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "A selection result must repeat the complete evaluation context exactly rather than substitute another monotonic point."
+    },
+    {
+      "id": "K-NEG-063",
+      "polarity": "negative",
+      "record_type": "SelectionPolicy",
+      "operation": "select_presentation",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "policy_id": "policy.presentation.missing",
+        "policy_version": "1.0.0",
+        "exact_registration_absent": true,
+        "base_vector": "K-POS-025"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_missing",
+        "state_unchanged": true
+      },
+      "criterion": "Selection dispatch requires one exact registered kernel policy ID and version."
+    },
+    {
+      "id": "K-NEG-064",
+      "polarity": "negative",
+      "record_type": "SelectionPolicy",
+      "operation": "register",
+      "coverage": [
+        "serialization",
+        "snapshot"
+      ],
+      "input": {
+        "policy_id": "policy.presentation.prefer_meter",
+        "policy_version": "1.0.0",
+        "registration_count": 2
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "definition_owner_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "Duplicate registration of the same kernel selection-policy ID and version is rejected deterministically."
+    },
+    {
+      "id": "K-NEG-065",
+      "polarity": "negative",
+      "record_type": "Selection",
+      "operation": "select_presentation",
+      "coverage": [
+        "freshness",
+        "serialization",
+        "snapshot"
+      ],
+      "prior_vector": "K-POS-025",
+      "input": {
+        "base_vector": "K-POS-025",
+        "mutation": {
+          "path": "evaluation_view.facts[candidate:voltage:b].candidate_revision",
+          "replacement": "8"
+        },
+        "recompute_evaluation_digest": true
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "revision_conflict",
+        "state_unchanged": true
+      },
+      "criterion": "A correctly redigested view whose candidate revision differs from the immutable snapshot is rejected before policy dispatch."
+    }
+  ]
+}
