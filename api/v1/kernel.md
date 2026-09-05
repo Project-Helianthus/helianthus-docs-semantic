@@ -1,0 +1,1152 @@
+# Project Helianthus semantic kernel v1
+
+Contract ID: `helianthus.semantic.kernel/v1`
+
+Owning Go module: `github.com/Project-Helianthus/helianthus-semreg`
+
+Status: normative for the Helianthus v1 kernel when merged into `main`
+
+## Scope
+
+This document defines the implementable protocol-neutral kernel contract for
+software 0.7. It fixes the public record types, validation rules, state axes,
+snapshot and update semantics, capability matching, operation evidence, causal
+loop bounds, projection accounting, and compatibility aliases that INT-05 must
+implement.
+
+The contract is normative only for Project Helianthus. It does not define the
+thermal, PV, storage, EVSE, or infrastructure capability-pack catalogs; native
+protocol mappings; gateway lifecycle interfaces; Portal descriptors; consumer
+schemas; or target conformance. Those owners may depend on these records but may
+not redefine them.
+
+Canonical kernel packages must not import a transport, protocol, native
+registry, gateway, vendor, output, UI, sibling-checkout, or private package.
+Native owners retain framing, I/O, protocol lifecycle, qualification, decoding,
+native identity, and raw evidence. The gateway retains live composition and the
+native adapter retains every live handle. A semantic selection or projection
+never grants authority or supplies a route around guarded native admission.
+
+The wire rules in [serialization.md](serialization.md) and the scenarios in
+[acceptance.md](acceptance.md) are part of this contract.
+
+Public top-level records use these exact contract IDs:
+
+| Record | Contract ID |
+|---|---|
+| `PublicationBatch`, `Snapshot` | `helianthus.semantic.kernel/v1` |
+| `Intent`, `ExecutionRecord` | `helianthus.semantic.operation/v1` |
+| `ProjectionReport` | `helianthus.semantic.projection/v1` |
+| `CompatibilityAlias` | `helianthus.semantic.alias/v1` |
+| acceptance-vector document | `helianthus.semantic.kernel.acceptance/v1` |
+
+## Conformance language
+
+`MUST`, `MUST NOT`, `REQUIRED`, `SHOULD`, and `MAY` have their usual normative
+meaning. A v1 implementation conforms only when every applicable positive and
+negative vector in
+[acceptance-vectors.json](acceptance-vectors.json) passes without weakening a
+validation rule.
+
+An implementation may use different private data structures. Its public Go
+types and JSON records MUST preserve the names, distinctions, and behavior in
+this contract. Validation is fail-closed and atomic: a rejected record or update
+changes no published state.
+
+## Package surface
+
+INT-05 must provide these public packages without cyclic imports:
+
+| Package | Owns |
+|---|---|
+| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, quality, services, capabilities, causal context, publication batches, fences, and snapshots |
+| `semreg/v1/operation` | intent, preconditions, admitted routes, dispatch/acknowledgement/readback evidence, and outcomes |
+| `semreg/v1/projection` | target manifests, requested items, dispositions, loss details, and compatibility aliases |
+
+Each package MUST expose validation for its complete public records. The root
+package MUST expose deterministic canonical JSON for any valid v1 record. It
+MUST return a stable error identifier from [acceptance.md](acceptance.md) for
+every rejection. It MUST NOT accept an untyped `any` or arbitrary property bag
+as a public semantic value, constraint, argument, precondition, or extension.
+
+### Type: PackValidator
+
+The root package exposes a typed pack boundary equivalent to:
+
+```go
+type PackValidator interface {
+    Pack() DefinitionRef
+    ValidateFact(FactKey, *Value) error
+    ValidateService(ServiceInstance) error
+    ValidateCapability(CapabilityInstance) error
+    ValidateField(DefinitionRef, TypedField) error
+    MatchConstraints(CapabilityInstance, []TypedField) error
+}
+```
+
+The kernel registry is constructed with zero or more validators keyed by exact
+pack ID and version. Duplicate registrations fail. A record that needs a pack
+definition cannot be qualified, promoted, or made actionable unless its exact
+validator is registered. The interface carries only typed kernel records; it
+does not expose raw protocol values, native handles, arbitrary JSON, or `any`.
+Capability-pack catalogs and their implementations remain separate INT-04/05
+work.
+
+## Primitive rules
+
+### Type: ContractVersion
+
+`ContractVersion` is an ASCII string of 1 through 128 bytes matching
+`^[a-z][a-z0-9]*(?:[._/-][a-z0-9]+)*(?:[./]v[1-9][0-9]*)$`. The kernel constant is
+exactly `helianthus.semantic.kernel/v1`.
+
+### Type: DefinitionID
+
+`DefinitionID` is an ASCII string of 3 through 160 bytes matching
+`^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$`. Capability packs own their definition
+IDs. The kernel validates syntax and version references but never manufactures a
+domain definition.
+
+### Type: OpaqueID
+
+`OpaqueID` is a case-sensitive ASCII string of 1 through 256 bytes matching
+`^[A-Za-z0-9][A-Za-z0-9._:/@-]*$`. It is never trimmed or case-folded. The
+following are distinct aliases of `OpaqueID` and are never interchangeable:
+
+- `AssetID`
+- `SourceID`
+- `SourceEpochID`
+- `ClockEpochID`
+- `NativeBindingID`
+- `CandidateID`
+- `ConflictID`
+- `CapabilityInstanceID`
+- `ServiceInstanceID`
+- `SnapshotID`
+- `BatchID`
+- `IntentID`
+- `AttemptID`
+- `OriginID`
+- `CorrelationID`
+- `IdempotencyKey`
+- `PolicyID`
+- `TargetID`
+
+String equality between two different aliases does not make them the same
+identity. In particular, a bus address is not an `AssetID`, a source epoch is
+not a driver generation, a driver generation is not a semantic revision, and a
+lifecycle operation identifier is not an intent or causal correlation.
+
+### Type: Uint64
+
+`Uint64` is represented in JSON as a canonical decimal string matching
+`0|[1-9][0-9]*` and ranging from 0 through 18446744073709551615. Sequence,
+generation, revision, and monotonic values use this type so JSON decoders cannot
+lose integer precision.
+
+### Type: Int64
+
+`Int64` is represented in JSON as a canonical decimal string matching
+`0|-?[1-9][0-9]*` and ranging from -9223372036854775808 through
+9223372036854775807.
+
+### Type: SemanticVersion
+
+`SemanticVersion` is a SemVer 2.0.0 `MAJOR.MINOR.PATCH` string. V1 definition
+versions MUST contain three unsigned components without leading zeroes and MUST
+NOT contain prerelease or build metadata. Ordering compares the three numeric
+components.
+
+### Type: VersionLabel
+
+`VersionLabel` preserves an externally owned protocol, profile, firmware, or
+target version without recoding it as SemVer. It is a case-sensitive ASCII
+string of 1 through 128 bytes, has no control character or leading/trailing
+whitespace, and is compared only for exact equality. Examples such as native
+profile build labels remain native evidence; lexical order does not mean newer.
+
+### Type: VersionRange
+
+```go
+type VersionRange struct {
+    Minimum         SemanticVersion `json:"minimum"`
+    MaximumExclusive SemanticVersion `json:"maximum_exclusive"`
+}
+```
+
+Both versions are required, `minimum < maximum_exclusive`, and a version matches
+only when `minimum <= version < maximum_exclusive`. A requirement for v1 of a
+definition normally uses `1.0.0` through `2.0.0`; exact minor/patch ranges MAY
+be narrower. Matching never falls back to a different definition ID.
+
+### Type: Digest
+
+`Digest` is exactly `sha256:` followed by 64 lowercase hexadecimal characters.
+It identifies bytes under an owning contract. It is not proof that a referenced
+object is public, qualified, or trustworthy.
+
+### Type: ErrorID
+
+`ErrorID` is an ASCII string matching `^[a-z][a-z0-9_]*$`. V1 public validation
+uses only the stable IDs in [acceptance.md](acceptance.md). Human-readable error
+text may add context but cannot replace or change the ID.
+
+## Evidence, source, and identity
+
+### Type: EvidenceRef
+
+```go
+type EvidenceRef struct {
+    Owner     DefinitionID    `json:"owner"`
+    Kind      DefinitionID    `json:"kind"`
+    Digest    Digest          `json:"digest"`
+    Contract  ContractVersion `json:"contract"`
+    Access    EvidenceAccess  `json:"access"`
+    Redaction RedactionState  `json:"redaction"`
+}
+```
+
+`EvidenceAccess` is `public`, `authorized`, or `restricted`.
+`RedactionState` is `none`, `redacted`, or `metadata_only`. The record carries no
+payload or locator. `access=public` MAY use any redaction state;
+`access=restricted` MUST NOT use `redaction=none` in a public snapshot. A digest
+does not grant access. The native owner remains responsible for the object,
+authorization, retention, and redaction contract.
+
+### Type: SourceDescriptor
+
+```go
+type SourceDescriptor struct {
+    SourceID         SourceID       `json:"source_id"`
+    SourceEpochID    SourceEpochID  `json:"source_epoch_id"`
+    ProtocolID       DefinitionID   `json:"protocol_id"`
+    ProfileID        DefinitionID   `json:"profile_id"`
+    ProfileVersion   VersionLabel   `json:"profile_version"`
+    RegistryEvidence EvidenceRef    `json:"registry_evidence"`
+    StartedAt        TimePoint      `json:"started_at"`
+    Revision         Uint64         `json:"revision"`
+}
+```
+
+The native owner allocates `source_id`. It MUST allocate a new unpredictable
+`source_epoch_id` whenever source sequencing can restart, state is restored
+without a proved sequence continuation, or a new process/runtime assumes the
+source. Profile identity and version are native evidence, not semantic
+capability proof. A profile/version change creates a new source epoch. Revision
+is greater than zero and orders metadata changes within one epoch. One snapshot
+contains at most one active epoch for a given `source_id`.
+
+### Type: OriginRef
+
+```go
+type OriginRef struct {
+    OriginID      OriginID         `json:"origin_id"`
+    Kind          OriginKind       `json:"kind"`
+    SourceID      *SourceID        `json:"source_id,omitempty"`
+    SourceEpochID *SourceEpochID   `json:"source_epoch_id,omitempty"`
+    BindingID     *NativeBindingID `json:"binding_id,omitempty"`
+    Evidence      []EvidenceRef    `json:"evidence"`
+}
+```
+
+`OriginKind` is `native_observation`, `derived`, `operator`, `automation`, or
+`projection`. Native observations require source, epoch, and binding. Derived
+origins require a `Derivation` on the candidate. Operator and automation origins
+omit native source fields and require authority/audit evidence. Projection
+origins omit native source fields, retain the prior causal context, and require
+projection evidence. Evidence contains 1 through 32 unique references. An
+origin describes lineage; it never grants operation authority.
+
+### Type: NativeBinding
+
+```go
+type NativeBinding struct {
+    BindingID        NativeBindingID `json:"binding_id"`
+    AssetID          AssetID         `json:"asset_id"`
+    SourceID         SourceID        `json:"source_id"`
+    SourceEpochID    SourceEpochID   `json:"source_epoch_id"`
+    DriverGeneration Uint64          `json:"driver_generation"`
+    NativeResource   EvidenceRef     `json:"native_resource"`
+    Revision         Uint64          `json:"revision"`
+}
+```
+
+`driver_generation` MUST be greater than zero. The native adapter allocates the
+binding ID and remains the only owner of a live native handle. A binding is an
+opaque route reference, never a decoded bus address. Reusing a binding ID with a
+different source, source epoch, asset, or native resource is
+`identity_not_qualified`.
+
+### Type: IdentityLink
+
+```go
+type IdentityLink struct {
+    AssetID   AssetID        `json:"asset_id"`
+    BindingID NativeBindingID `json:"binding_id"`
+    State     LinkState      `json:"state"`
+    Basis     []EvidenceRef  `json:"basis"`
+    Revision  Uint64         `json:"revision"`
+}
+```
+
+`LinkState` is `candidate`, `qualified`, `rejected`, `conflict`, or `withdrawn`.
+`basis` contains 1 through 32 unique evidence references for `candidate` or
+`qualified`, and at least one rejection/conflict/withdrawal evidence reference
+for every other state. Similar values, model strings, addresses, or topology
+positions cannot qualify a link. Contradictory qualified links become
+`conflict`; the kernel does not choose one silently.
+
+### Type: Derivation
+
+```go
+type Derivation struct {
+    Algorithm DefinitionID   `json:"algorithm"`
+    Version   SemanticVersion `json:"version"`
+    Inputs    []CandidateID  `json:"inputs"`
+    Evidence  []EvidenceRef  `json:"evidence"`
+}
+```
+
+An inferred fact requires a derivation. Inputs are unique and sorted. The graph
+of candidate inputs in one snapshot MUST be acyclic, contain at most 4096 nodes,
+and have maximum depth 32. Missing inputs, self-reference, or a cycle is
+`derivation_cycle`. An observed fact MUST omit `derivation`.
+
+## Exact values and dimensions
+
+### Type: Decimal
+
+```go
+type Decimal struct {
+    Coefficient string `json:"coefficient"`
+    Exponent10  int32  `json:"exponent10"`
+}
+```
+
+`coefficient` is `0` or `-?[1-9][0-9]*`. `-0` and leading zeroes are invalid.
+`exponent10` is from -18 through 18. Zero MUST use exponent 0. A non-zero
+coefficient MUST NOT end in `0`; trailing decimal zeroes move into the exponent.
+The represented value is `coefficient × 10^exponent10`. IEEE floating point is
+never authoritative.
+
+### Type: Symbol
+
+```go
+type Symbol struct {
+    Namespace DefinitionID `json:"namespace"`
+    Token     string       `json:"token"`
+    Known     bool         `json:"known"`
+}
+```
+
+`token` is valid NFC UTF-8, 1 through 256 bytes, with no control character.
+Known symbols use a capability-pack namespace and MUST be declared by that
+exact pack version. Unknown native symbols use a namespace beginning
+`native.` and `known=false`; they round-trip without becoming a supported
+semantic symbol or capability. `known=true` is invalid for a `native.`
+namespace.
+
+### Type: Value
+
+```go
+type Value struct {
+    Kind      ValueKind  `json:"kind"`
+    Quantity  *Quantity  `json:"quantity,omitempty"`
+    Boolean   *bool      `json:"boolean,omitempty"`
+    Text      *string    `json:"text,omitempty"`
+    Symbol    *Symbol    `json:"symbol,omitempty"`
+    Symbols   []Symbol   `json:"symbols,omitempty"`
+    Time      *TimePoint `json:"time,omitempty"`
+}
+
+type Quantity struct {
+    Number Decimal      `json:"number"`
+    Unit   DefinitionID `json:"unit"`
+}
+```
+
+`ValueKind` is `quantity`, `boolean`, `text`, `symbol`, `symbols`, or `time`.
+Exactly one matching payload is present; every other payload is omitted. JSON
+`null` is invalid. `text` is NFC UTF-8 of at most 4096 bytes without control
+characters other than tab, line feed, and carriage return. A `symbols` value
+contains 1 through 64 unique symbols sorted by namespace then token. A pack
+defines the allowed kind, dimension, unit, range, resolution, and symbol set for
+each fact or argument.
+
+### Type: Dimension
+
+```go
+type Dimension struct {
+    ID    DefinitionID `json:"id"`
+    Value Value        `json:"value"`
+}
+```
+
+A dimension value is restricted to `boolean`, `text`, `symbol`, or `quantity`.
+One fact key contains at most 16 dimensions, sorted by `id`, with no duplicate
+ID. The owning pack defines which dimensions are required and their value
+contracts.
+
+### Type: FactKey
+
+```go
+type FactKey struct {
+    PackID      DefinitionID    `json:"pack_id"`
+    PackVersion SemanticVersion `json:"pack_version"`
+    FactID      DefinitionID    `json:"fact_id"`
+    Dimensions  []Dimension     `json:"dimensions"`
+}
+```
+
+The tuple of all four fields is the key. A key from one pack version is not
+silently equal to the same text in another version. Packs, not the kernel,
+define fact meaning.
+
+## Time and quality axes
+
+### Type: TimePoint
+
+```go
+type TimePoint struct {
+    UnixNanoseconds Int64        `json:"unix_nanoseconds"`
+    ClockID         DefinitionID `json:"clock_id"`
+    UncertaintyNS   Uint64       `json:"uncertainty_ns"`
+}
+```
+
+`clock_id` identifies the wall-clock realization. `clock.utc` means a UTC
+estimate. Source-specific clocks use a namespaced ID and require transformation
+evidence before comparison with UTC. An uncertainty of zero asserts exactness
+under the owning clock contract; it is not the default for an unknown clock.
+
+### Type: MonotonicPoint
+
+```go
+type MonotonicPoint struct {
+    ClockEpochID ClockEpochID `json:"clock_epoch_id"`
+    Nanoseconds  Uint64       `json:"nanoseconds"`
+}
+```
+
+Monotonic points are comparable only when `clock_epoch_id` is identical.
+Restarting or resetting the monotonic clock MUST allocate a new epoch. Numeric
+ticks from different epochs MUST NOT be ordered or subtracted.
+
+### Type: Times
+
+```go
+type Times struct {
+    PhenomenonAt      *TimePoint      `json:"phenomenon_at,omitempty"`
+    SourceAt          *TimePoint      `json:"source_at,omitempty"`
+    ReceivedAt        TimePoint       `json:"received_at"`
+    ReceiptMonotonic  MonotonicPoint  `json:"receipt_monotonic"`
+    EvaluatedAt       TimePoint       `json:"evaluated_at"`
+    EvaluateMonotonic MonotonicPoint  `json:"evaluate_monotonic"`
+}
+```
+
+Missing source or phenomenon time is omitted, not synthesized. Receipt and
+evaluation are required. If the monotonic epochs match, evaluation ticks MUST
+be greater than or equal to receipt ticks. Wall time does not override a
+backward monotonic result.
+
+### Type: FreshnessPolicy
+
+```go
+type FreshnessPolicy struct {
+    PolicyID             PolicyID       `json:"policy_id"`
+    Version              SemanticVersion `json:"version"`
+    FreshForNS           Uint64         `json:"fresh_for_ns"`
+    RetainForNS          Uint64         `json:"retain_for_ns"`
+    MaxWallUncertaintyNS Uint64         `json:"max_wall_uncertainty_ns"`
+}
+```
+
+`fresh_for_ns > 0` and `retain_for_ns > fresh_for_ns`. A pack supplies the
+policy; the kernel evaluates it. Within one monotonic epoch, elapsed time is the
+tick difference. Across epochs, the kernel may use `clock.utc` wall points only
+when the sum of receipt and evaluation uncertainty is no greater than
+`max_wall_uncertainty_ns`.
+
+For cross-epoch wall evaluation, let `d` be the wall-time difference and `u` the
+sum of uncertainties. The conservative elapsed interval is
+`[max(0,d-u), d+u]`:
+
+- `fresh` only when its upper bound is less than `fresh_for_ns`;
+- `stale` only when its lower bound is at least `fresh_for_ns` and its upper
+  bound is less than `retain_for_ns`;
+- `expired` only when its lower bound is at least `retain_for_ns`;
+- otherwise `unknown`.
+
+All duration arithmetic is checked. Signed/unsigned overflow, a negative wall
+delta outside the stated uncertainty, or an interval beyond the supported
+integer range is `invalid_time`; it never wraps.
+
+When wall clocks are not comparable or uncertainty exceeds the policy, restart
+restoration yields `freshness=unknown` and at most `availability=degraded` until
+a new observation arrives. It never resets a retained fact to `fresh` merely
+because a new monotonic epoch started.
+
+### Type: Quality
+
+```go
+type Quality struct {
+    Assertion     AssertionKind `json:"assertion"`
+    Qualification Qualification `json:"qualification"`
+    Promotion     Promotion     `json:"promotion"`
+    Validity      Validity      `json:"validity"`
+    Availability Availability  `json:"availability"`
+    Freshness     Freshness     `json:"freshness"`
+    Reasons       []DefinitionID `json:"reasons"`
+}
+```
+
+The axes are independent and are never collapsed into one status:
+
+- `AssertionKind`: `observed` or `inferred`;
+- `Qualification`: `candidate`, `qualified`, `unsupported`, `unknown`, or
+  `rejected`;
+- `Promotion`: `unpromoted` or `promoted`;
+- `Validity`: `good`, `suspect`, `bad`, or `unknown`;
+- `Availability`: `available`, `degraded`, `unavailable`, or `withdrawn`;
+- `Freshness`: `fresh`, `stale`, `expired`, or `unknown`.
+
+`reasons` contains at most 16 unique sorted namespaced codes. An inferred value
+requires `Derivation`; an observed value forbids it. `promotion=promoted`
+requires `qualification=qualified`, `validity` of `good` or `suspect`, and
+`availability` of `available` or `degraded`. `unsupported` and `rejected`
+forbid a value and promotion. `withdrawn` forbids a value. `unknown` may retain
+an observed opaque native symbol but cannot be promoted or satisfy a capability.
+
+## Facts, alternatives, and conflicts
+
+### Type: FactCandidate
+
+```go
+type FactCandidate struct {
+    CandidateID      CandidateID      `json:"candidate_id"`
+    Key              FactKey         `json:"key"`
+    Value            *Value          `json:"value,omitempty"`
+    Quality          Quality         `json:"quality"`
+    Times            Times           `json:"times"`
+    FreshnessPolicy  FreshnessPolicy `json:"freshness_policy"`
+    BindingID        NativeBindingID `json:"binding_id"`
+    SourceEpochID    SourceEpochID    `json:"source_epoch_id"`
+    DriverGeneration Uint64           `json:"driver_generation"`
+    Origin           OriginRef        `json:"origin"`
+    Causal           *CausalContext   `json:"causal,omitempty"`
+    Evidence         []EvidenceRef    `json:"evidence"`
+    Derivation       *Derivation      `json:"derivation,omitempty"`
+    Revision         Uint64           `json:"revision"`
+}
+```
+
+Evidence contains 1 through 32 unique references. `driver_generation` and
+`revision` are greater than zero. Binding/source/generation must match a current
+binding in the same snapshot. A candidate value is required except where
+`Quality` forbids it. Origin and causal context survive projection and derived
+facts; they do not grant command authority.
+
+### Type: Selection
+
+```go
+type Selection struct {
+    PolicyID           PolicyID       `json:"policy_id"`
+    PolicyVersion      SemanticVersion `json:"policy_version"`
+    SelectedCandidate  CandidateID    `json:"selected_candidate"`
+    EvaluatedAt        TimePoint      `json:"evaluated_at"`
+    PresentationOnly   bool           `json:"presentation_only"`
+}
+```
+
+`presentation_only` MUST be true. The selected candidate must exist in the
+envelope and the deterministic policy must be known. Selection does not remove
+alternatives, resolve identity, choose an operation route, or preserve
+capability authority after generation or availability changes.
+
+### Type: Conflict
+
+```go
+type Conflict struct {
+    ConflictID ConflictID    `json:"conflict_id"`
+    Kind       ConflictKind  `json:"kind"`
+    Candidates []CandidateID `json:"candidates"`
+    Evidence   []EvidenceRef `json:"evidence"`
+    State      ConflictState `json:"state"`
+}
+```
+
+`ConflictKind` is `identity`, `value`, `source`, `version`, or `operation`.
+`ConflictState` is `open` or `resolved`. An open conflict contains 2 through 16
+unique sorted candidate IDs and at least one evidence reference. A resolved
+conflict retains every candidate and adds resolution evidence; it is never
+deleted from the immutable snapshot that observed it.
+
+### Type: FactEnvelope
+
+```go
+type FactEnvelope struct {
+    AssetID   AssetID        `json:"asset_id"`
+    Key       FactKey        `json:"key"`
+    Candidates []FactCandidate `json:"candidates"`
+    Selection *Selection     `json:"selection,omitempty"`
+    Conflicts []Conflict     `json:"conflicts"`
+    Revision  Uint64         `json:"revision"`
+}
+```
+
+One envelope holds 1 through 32 candidates with unique IDs, sorted by
+`candidate_id`. Candidates for the same key coexist. A value disagreement among
+qualified promoted candidates MUST be an open or resolved conflict; the kernel
+cannot silently choose one. `revision` changes whenever candidates, selection,
+or conflict state changes.
+
+## Services and capabilities
+
+### Type: DefinitionRef
+
+```go
+type DefinitionRef struct {
+    ID      DefinitionID    `json:"id"`
+    Version SemanticVersion `json:"version"`
+}
+```
+
+### Type: TypedField
+
+```go
+type TypedField struct {
+    ID    DefinitionID `json:"id"`
+    Value Value        `json:"value"`
+}
+```
+
+`TypedField` is used only where an accepted capability pack declares the field,
+its value kind, unit, range, and required presence. Collections contain at most
+64 fields, sorted by ID, with no duplicates.
+
+### Type: ServiceInstance
+
+```go
+type ServiceInstance struct {
+    InstanceID       ServiceInstanceID `json:"instance_id"`
+    AssetID          AssetID           `json:"asset_id"`
+    Definition       DefinitionRef      `json:"definition"`
+    BindingID        NativeBindingID   `json:"binding_id"`
+    SourceEpochID    SourceEpochID      `json:"source_epoch_id"`
+    DriverGeneration Uint64             `json:"driver_generation"`
+    Qualification    Qualification      `json:"qualification"`
+    Availability     Availability       `json:"availability"`
+    Revision         Uint64             `json:"revision"`
+}
+```
+
+### Type: CapabilityInstance
+
+```go
+type CapabilityInstance struct {
+    InstanceID       CapabilityInstanceID `json:"instance_id"`
+    AssetID          AssetID              `json:"asset_id"`
+    ServiceInstance  ServiceInstanceID    `json:"service_instance"`
+    Definition       DefinitionRef         `json:"definition"`
+    BindingID        NativeBindingID      `json:"binding_id"`
+    SourceEpochID    SourceEpochID         `json:"source_epoch_id"`
+    DriverGeneration Uint64                `json:"driver_generation"`
+    Qualification    Qualification         `json:"qualification"`
+    Availability     Availability          `json:"availability"`
+    Constraints      []TypedField          `json:"constraints"`
+    ActivationEvidence []EvidenceRef       `json:"activation_evidence"`
+    Revision         Uint64                `json:"revision"`
+}
+```
+
+Service and capability `driver_generation` and `revision` are greater than zero.
+Their asset, binding, source epoch, generation, and service references must all
+resolve to the same current source path in one snapshot. Constraints are unique
+and sorted. Activation evidence contains 1 through 32 unique references.
+
+An actionable capability is exactly one instance whose definition ID and
+version match the request, `qualification=qualified`, availability is
+`available` or explicitly permitted `degraded`, binding/source/generation are
+current, activation evidence is non-empty, and every constraint admits the
+arguments. Catalog completeness cannot create an instance. A pack or native
+mapping decides which degraded capabilities remain actionable; absence of that
+decision means unavailable.
+
+## Publication, fencing, and immutable snapshots
+
+### Type: GenerationFence
+
+```go
+type GenerationFence struct {
+    SourceID         SourceID       `json:"source_id"`
+    SourceEpochID    SourceEpochID  `json:"source_epoch_id"`
+    DriverGeneration Uint64         `json:"driver_generation"`
+    Reason           DefinitionID   `json:"reason"`
+    Evidence         []EvidenceRef  `json:"evidence"`
+    Revision         Uint64         `json:"revision"`
+}
+```
+
+A fence is monotonic and irreversible for its source epoch and generation.
+Accepting a fence happens before publication of the resulting snapshot: every
+service and capability instance for that generation becomes `withdrawn`, and
+late batches or operation admission for that generation fail. The native owner
+must reject its guarded callbacks at the same boundary. The kernel never closes
+the native handle itself.
+
+### Type: PublicationBatch
+
+```go
+type PublicationBatch struct {
+    Contract                 ContractVersion       `json:"contract"`
+    BatchID                  BatchID               `json:"batch_id"`
+    BatchDigest              Digest                `json:"batch_digest"`
+    AssetID                  AssetID               `json:"asset_id"`
+    SourceID                 SourceID              `json:"source_id"`
+    SourceEpochID            SourceEpochID         `json:"source_epoch_id"`
+    DriverGeneration         Uint64                `json:"driver_generation"`
+    Sequence                 Uint64                `json:"sequence"`
+    ExpectedSemanticRevision Uint64                `json:"expected_semantic_revision"`
+    ObservedAt               TimePoint             `json:"observed_at"`
+    SourceUpserts            []SourceDescriptor    `json:"source_upserts"`
+    SourceRetirements        []SourceEpochID        `json:"source_retirements"`
+    BindingUpserts           []NativeBinding       `json:"binding_upserts"`
+    IdentityLinkUpserts      []IdentityLink        `json:"identity_link_upserts"`
+    FactUpserts              []FactCandidate       `json:"fact_upserts"`
+    FactWithdrawals          []CandidateID         `json:"fact_withdrawals"`
+    ServiceUpserts           []ServiceInstance     `json:"service_upserts"`
+    ServiceWithdrawals       []ServiceInstanceID   `json:"service_withdrawals"`
+    CapabilityUpserts        []CapabilityInstance  `json:"capability_upserts"`
+    CapabilityWithdrawals    []CapabilityInstanceID `json:"capability_withdrawals"`
+    GenerationFences         []GenerationFence     `json:"generation_fences"`
+}
+```
+
+The batch is one atomic change for one asset/source/epoch/generation. Collection
+members are unique and canonically sorted. `batch_digest` is the digest of the
+canonical JSON record with the `batch_digest` member omitted. Sequence is
+strictly increasing for `(source_id, source_epoch_id, driver_generation)`.
+Replaying an identical sequence and digest returns the prior result without a
+new revision. Reusing a sequence with different bytes is `sequence_conflict`.
+
+Every upsert and withdrawal belongs to the header asset, source, epoch, and
+generation, except an explicit source retirement or a fence of an older
+generation under the same source. Cross-asset or cross-source changes require a
+separate batch and cannot be partially committed together.
+
+`expected_semantic_revision` must equal the current asset revision. Any invalid
+member, stale source epoch, fenced generation, revision mismatch, or withdrawal
+of an unknown ID rejects the complete batch without mutation. Fields absent from
+the batch remain unchanged. Partial reads therefore upsert only evidenced
+candidates; they do not erase unrelated facts. Withdrawal is explicit.
+
+Source upserts and retirements refer only to the batch `source_id`. A new source
+epoch is added before its bindings or facts, and retiring the current epoch
+atomically withdraws its bindings, services, capabilities, and candidates. A
+retired epoch cannot be reactivated. Historical immutable snapshots retain its
+earlier state. Replacing an active epoch requires its retirement and the new
+descriptor in the same batch.
+
+An available capability upsert is valid only after native activation has
+completed for the referenced current generation. Publication of that upsert
+happens before a snapshot exposes it as actionable. A fence happens before all
+withdrawals for its generation in the same atomic commit. New publication after
+a restart uses a new source epoch unless sequence continuity is proved.
+
+Every fence in a batch uses the same source and epoch as its owning descriptor
+and contains 1 through 32 unique evidence references. A batch that fences its
+own header generation cannot upsert a binding, fact, service, or capability for
+that generation. A newer generation may fence an older generation and publish
+its own activated instances in the same atomic snapshot.
+
+### Type: RevisionVector
+
+```go
+type RevisionVector struct {
+    Semantic   Uint64 `json:"semantic"`
+    Identity   Uint64 `json:"identity"`
+    Facts      Uint64 `json:"facts"`
+    Services   Uint64 `json:"services"`
+    Capabilities Uint64 `json:"capabilities"`
+}
+```
+
+Each value is monotonic per asset and greater than zero in a published snapshot.
+`semantic` increments once for every accepted non-idempotent batch. Component
+revisions increment only when that component changes.
+
+### Type: PublicationCursor
+
+```go
+type PublicationCursor struct {
+    SourceID         SourceID      `json:"source_id"`
+    SourceEpochID    SourceEpochID `json:"source_epoch_id"`
+    DriverGeneration Uint64        `json:"driver_generation"`
+    LastSequence     Uint64        `json:"last_sequence"`
+    LastBatchDigest  Digest        `json:"last_batch_digest"`
+    Fenced           bool          `json:"fenced"`
+}
+```
+
+One cursor exists for each retained source/epoch/generation. Sequence begins at
+1. An identical replay is accepted only for the cursor's `last_sequence` and
+`last_batch_digest`; any smaller sequence is `sequence_conflict`. Driver
+generation strictly increases within one source epoch and never resets.
+`fenced=true` is irreversible. A new source epoch starts a new sequence and
+generation domain; the prior epoch remains stale even if its numbers are larger.
+
+### Type: Snapshot
+
+```go
+type Snapshot struct {
+    Contract       ContractVersion      `json:"contract"`
+    SnapshotID     SnapshotID           `json:"snapshot_id"`
+    AssetID        AssetID              `json:"asset_id"`
+    Revisions      RevisionVector       `json:"revisions"`
+    EvaluatedAt    TimePoint            `json:"evaluated_at"`
+    EvaluateMonotonic MonotonicPoint    `json:"evaluate_monotonic"`
+    Sources        []SourceDescriptor   `json:"sources"`
+    Bindings       []NativeBinding      `json:"bindings"`
+    IdentityLinks  []IdentityLink       `json:"identity_links"`
+    Facts          []FactEnvelope       `json:"facts"`
+    Services       []ServiceInstance    `json:"services"`
+    Capabilities   []CapabilityInstance `json:"capabilities"`
+    Fences         []GenerationFence    `json:"fences"`
+    Cursors        []PublicationCursor  `json:"cursors"`
+}
+```
+
+A snapshot is immutable, self-consistent, and complete for one asset at one
+semantic revision. It contains all alternatives and open conflicts. Every
+reference resolves inside the snapshot or to an `EvidenceRef`. Collections are
+sorted by their primary ID/key and contain no duplicate. Limits are 32 sources,
+128 bindings, 128 identity links, 4096 fact envelopes, 1024 services, 2048
+capabilities, and 128 retained fences per asset. Exceeding a limit rejects the
+batch; it never truncates a snapshot. Up to 128 publication cursors are retained
+while their source epochs remain relevant to replay/fence validation.
+
+The snapshot ID is unique for the exact canonical bytes. A reader either sees
+the complete prior snapshot or complete new snapshot. It never observes mixed
+identity, fact, service, capability, or fence revisions.
+
+## Operations and guarded admission
+
+### Type: CausalContext
+
+```go
+type CausalContext struct {
+    Origin              OriginRef      `json:"origin"`
+    CorrelationID       CorrelationID  `json:"correlation_id"`
+    ParentCorrelationID *CorrelationID `json:"parent_correlation_id,omitempty"`
+    HopCount            uint16         `json:"hop_count"`
+    MaxHops             uint16         `json:"max_hops"`
+    FirstSeenAt         TimePoint      `json:"first_seen_at"`
+    ExpiresAt           TimePoint      `json:"expires_at"`
+    Path                []TargetID     `json:"path"`
+}
+```
+
+`max_hops` is from 1 through 16; `hop_count <= max_hops`; path length equals
+`hop_count` and has no repeated target. `first_seen_at` and `expires_at` use
+`clock.utc`, and expiry is no more than 300 seconds after first seen. Every
+projection or bridge preserves origin/correlation, increments `hop_count`, and
+appends its target before emission.
+
+Ingress rejects a context that is expired, exceeds its hop budget, or already
+contains the ingress target. A reflected observation cannot create an intent or
+authority. An independent authorized intent with a new intent ID, idempotency
+key, and correlation ID remains admissible even when it requests the same value.
+
+### Type: CapabilityRequirement
+
+```go
+type CapabilityRequirement struct {
+    DefinitionID DefinitionID          `json:"definition_id"`
+    Versions     VersionRange          `json:"versions"`
+    InstanceID   *CapabilityInstanceID `json:"instance_id,omitempty"`
+    AllowDegraded bool                 `json:"allow_degraded"`
+}
+```
+
+### Type: Precondition
+
+```go
+type Precondition struct {
+    Fact       FactKey      `json:"fact"`
+    Operator   PredicateOp  `json:"operator"`
+    Expected   Value        `json:"expected"`
+    CandidateRevision *Uint64 `json:"candidate_revision,omitempty"`
+}
+```
+
+`PredicateOp` is `equal`, `not_equal`, `less`, `less_equal`, `greater`,
+`greater_equal`, or `contains`. The pack defines allowed operators and type/unit
+compatibility. Preconditions evaluate against the exact admitted snapshot.
+
+### Type: Intent
+
+```go
+type Intent struct {
+    Contract                   ContractVersion       `json:"contract"`
+    IntentID                   IntentID              `json:"intent_id"`
+    Kind                       DefinitionRef          `json:"kind"`
+    AssetID                    AssetID               `json:"asset_id"`
+    Arguments                  []TypedField           `json:"arguments"`
+    RequiredCapability         CapabilityRequirement `json:"required_capability"`
+    Authority                  EvidenceRef            `json:"authority"`
+    Causal                     CausalContext           `json:"causal"`
+    ExpectedSemanticRevision   Uint64                 `json:"expected_semantic_revision"`
+    ExpectedCapabilityRevision Uint64                 `json:"expected_capability_revision"`
+    ExpectedCapabilityInstanceRevision Uint64         `json:"expected_capability_instance_revision"`
+    ExpectedSourceEpochID      SourceEpochID          `json:"expected_source_epoch_id"`
+    ExpectedDriverGeneration   Uint64                 `json:"expected_driver_generation"`
+    Preconditions              []Precondition         `json:"preconditions"`
+    IdempotencyKey             IdempotencyKey         `json:"idempotency_key"`
+    Deadline                   TimePoint               `json:"deadline"`
+}
+```
+
+Authority is an opaque evidence reference resolved by the runtime's authority
+owner; presence alone never grants permission. The deadline uses `clock.utc`.
+Arguments and preconditions contain at most 64 entries and are sorted by ID or
+fact key. An idempotency key deduplicates the same validated intent and outcome;
+it does not make a native operation replay-safe.
+
+`expected_capability_revision` binds `RevisionVector.capabilities`.
+`expected_capability_instance_revision` binds the one matched instance. Both
+must still match immediately before guarded dispatch.
+
+### Type: Route
+
+```go
+type Route struct {
+    CapabilityInstance CapabilityInstanceID `json:"capability_instance"`
+    ServiceInstance    ServiceInstanceID    `json:"service_instance"`
+    BindingID           NativeBindingID      `json:"binding_id"`
+    SourceID            SourceID             `json:"source_id"`
+    SourceEpochID       SourceEpochID        `json:"source_epoch_id"`
+    DriverGeneration    Uint64                `json:"driver_generation"`
+}
+```
+
+Admission revalidates authority, deadline, causal budget, preconditions,
+expected revisions, exact source epoch/generation, capability qualification and
+availability, version range, and constraints against one immutable snapshot.
+It must produce exactly one route or fail before dispatch. Presentation
+`Selection`, compatibility aliases, projections, or caller-supplied native IDs
+cannot select the route.
+
+The runtime owns the admitted, generation-bound guarded callback. It MUST
+revalidate the current generation and fence under its lifecycle lock immediately
+before invoking the native adapter, return a release function, and keep the
+native adapter as sole handle owner. These runtime mechanics are specified in
+INT-06; no gateway type is imported into this kernel.
+
+### Type: DispatchEvidence
+
+```go
+type DispatchEvidence struct {
+    AttemptID         AttemptID       `json:"attempt_id"`
+    StartedAt         TimePoint       `json:"started_at"`
+    CompletedAt       *TimePoint      `json:"completed_at,omitempty"`
+    Delivery          DeliveryState   `json:"delivery"`
+    PossibleSideEffect bool           `json:"possible_side_effect"`
+    Evidence          []EvidenceRef   `json:"evidence"`
+}
+```
+
+`DeliveryState` is `not_sent`, `sent`, or `unknown`. `not_sent` requires
+`possible_side_effect=false`; `sent` or `unknown` may require true unless native
+evidence proves no effect. Dispatch completion is not protocol acknowledgement.
+
+### Type: Acknowledgement
+
+```go
+type Acknowledgement struct {
+    State    AckState      `json:"state"`
+    At       TimePoint     `json:"at"`
+    Evidence []EvidenceRef `json:"evidence"`
+}
+```
+
+`AckState` is `accepted`, `rejected`, or `provisional`. An acknowledgement is
+native protocol evidence; it is not confirming readback.
+
+### Type: Readback
+
+```go
+type Readback struct {
+    CandidateID CandidateID      `json:"candidate_id"`
+    Relation    ReadbackRelation `json:"relation"`
+    At          TimePoint        `json:"at"`
+    Evidence    []EvidenceRef    `json:"evidence"`
+}
+```
+
+`ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The candidate
+must be in a later snapshot for the same asset and current binding generation.
+
+### Type: ExecutionRecord
+
+```go
+type ExecutionRecord struct {
+    Contract        ContractVersion  `json:"contract"`
+    Intent          Intent           `json:"intent"`
+    AdmittedAt      *TimePoint       `json:"admitted_at,omitempty"`
+    AdmittedRevision *RevisionVector `json:"admitted_revision,omitempty"`
+    Route           *Route           `json:"route,omitempty"`
+    Dispatch        *DispatchEvidence `json:"dispatch,omitempty"`
+    Acknowledgement *Acknowledgement `json:"acknowledgement,omitempty"`
+    Readback        *Readback        `json:"readback,omitempty"`
+    Outcome         Outcome          `json:"outcome"`
+    ErrorID         *ErrorID         `json:"error_id,omitempty"`
+    OutcomeEvidence []EvidenceRef    `json:"outcome_evidence"`
+}
+```
+
+`Outcome` is one of:
+
+| Outcome | Required evidence and meaning |
+|---|---|
+| `rejected` | No route or dispatch. `error_id` is required and records the stable admission error. |
+| `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect. Retry still requires the owning replay policy. |
+| `acknowledged_unverified` | A request was sent and accepted/provisionally acknowledged, but no confirming readback exists. |
+| `applied` | Dispatch occurred and current-generation readback confirms the requested effect. An ACK is retained when the protocol supplies one. |
+| `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
+| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result. |
+| `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
+
+After dispatch may have occurred, the execution remains bound to its route.
+Timeout is an event, not `failed_no_contact`. An owner-specific recovery contract
+may later append reconciliation evidence; it never rewrites the original
+immutable execution record.
+
+Only `rejected` carries `error_id`; every other outcome omits it and requires
+non-empty outcome evidence. `rejected` MUST omit admitted revision, route,
+dispatch, acknowledgement, and readback.
+
+## Projection and compatibility
+
+### Type: ProjectionManifest
+
+```go
+type ProjectionManifest struct {
+    TargetID        TargetID        `json:"target_id"`
+    TargetVersion   VersionLabel    `json:"target_version"`
+    KernelVersion   ContractVersion `json:"kernel_version"`
+    PackVersions    []DefinitionRef `json:"pack_versions"`
+    MappingRevision Uint64          `json:"mapping_revision"`
+}
+```
+
+### Type: RequestedItem
+
+```go
+type RequestedItem struct {
+    ItemID DefinitionID `json:"item_id"`
+    Kind   ItemKind     `json:"kind"`
+}
+```
+
+`ItemKind` is `fact`, `relation`, `capability`, or `operation`.
+
+### Type: LossDetail
+
+```go
+type LossDetail struct {
+    Kind         LossKind       `json:"kind"`
+    SourceItems  []DefinitionID `json:"source_items"`
+    Description  string         `json:"description"`
+    Reversible   bool           `json:"reversible"`
+}
+```
+
+`LossKind` is `unit`, `range`, `precision`, `time`, `symbol`, `provenance`,
+`identity`, `capability`, `operation`, or `policy`. Description is public NFC
+text, not native payload.
+
+### Type: ProjectionDisposition
+
+```go
+type ProjectionDisposition struct {
+    ItemID     DefinitionID   `json:"item_id"`
+    Outcome    ProjectionOutcome `json:"outcome"`
+    SourceKeys []FactKey      `json:"source_keys"`
+    Loss       []LossDetail   `json:"loss"`
+    Reason     *DefinitionID  `json:"reason,omitempty"`
+}
+```
+
+`ProjectionOutcome` is `exact`, `transformed`, `withheld`,
+`unrepresentable`, `unsupported`, or `unknown`. Every requested item has exactly
+one disposition. `exact` forbids loss; `transformed` requires at least one loss
+detail; `withheld`, `unrepresentable`, `unsupported`, and `unknown` require a
+reason. Only a separately tested same-native mapping may claim lossless round
+trip.
+
+### Type: ProjectionReport
+
+```go
+type ProjectionReport struct {
+    Contract      ContractVersion        `json:"contract"`
+    Manifest      ProjectionManifest     `json:"manifest"`
+    SnapshotID    SnapshotID             `json:"snapshot_id"`
+    Revisions     RevisionVector         `json:"revisions"`
+    Requested     []RequestedItem        `json:"requested"`
+    Dispositions  []ProjectionDisposition `json:"dispositions"`
+    Causal        *CausalContext         `json:"causal,omitempty"`
+}
+```
+
+Requested items and dispositions are sorted by `(kind,item_id)`. Projection
+preserves snapshot and causal revisions. It cannot create facts, capability
+instances, authority, intents, or routes.
+
+### Type: CompatibilityAlias
+
+```go
+type CompatibilityAlias struct {
+    AliasContract ContractVersion `json:"alias_contract"`
+    LegacyID     OpaqueID        `json:"legacy_id"`
+    AssetID      AssetID         `json:"asset_id"`
+    ValidFrom    SemanticVersion `json:"valid_from"`
+    ValidUntil   *SemanticVersion `json:"valid_until,omitempty"`
+    Routable     bool            `json:"routable"`
+    Evidence     []EvidenceRef   `json:"evidence"`
+}
+```
+
+`routable` MUST be false. Aliases preserve public identity during migration but
+cannot select a binding, capability, native endpoint, or operation route.
+Evidence contains 1 through 32 unique references. `valid_until`, when present,
+is greater than `valid_from`. Expiry does not delete historical snapshots.
+
+## External normative boundary
+
+This kernel contract is internally normative for Helianthus. It deliberately
+contains no frozen Matter or eeBUS mapping.
+
+The Matter comparison remains the draft 1.7 ballot 0.9 source at
+[`29b4768a513cf566011ab8cd60df1bc495204953`](https://github.com/AryaHassanli/connectedhomeip/commit/29b4768a513cf566011ab8cd60df1bc495204953),
+with upstream PR #73842 still open and draft when this contract was prepared.
+Its provisional energy additions are design inputs, not final Matter
+conformance.
+
+The eeBUS
+[`normative source ledger@81cd647`](https://github.com/Project-Helianthus/helianthus-docs-eebus/blob/81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1/protocols/eebus-normative-source-ledger.md)
+leaves exact current SHIP, SPINE, and use-case revisions unresolved. Affected
+mappings remain candidate until an authorized exact revision and publishable
+compatibility decision exist. Similar concepts do not establish equivalent
+choreography, lifecycle, failsafe behavior, or conformance.
+
+## Remaining INT-04 boundary
+
+This v1 contract unblocks implementation of its own kernel records,
+serialization, validation, and acceptance vectors in `helianthus-semreg` after
+merge. It does not complete all INT-04. Separate reviewed work must still define
+the thermal/HVAC, PV/inverter, storage/BMS, EVSE, and infrastructure capability
+pack catalogs; exact native mappings and normative dispositions; Portal
+contributions; and target contracts. INT-06 owns gateway/runtime composition.
+INT-05 owns product code and executable fixtures. The 0.8 descriptive language,
+IR, generation, and code reduction remain outside this typed 0.7 contract.

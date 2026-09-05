@@ -1,0 +1,627 @@
+{
+  "contract": "helianthus.semantic.kernel.acceptance/v1",
+  "kernel_contract": "helianthus.semantic.kernel/v1",
+  "error_ids": [
+    "alias_not_routable",
+    "ambiguous_route",
+    "authority_missing",
+    "capability_not_qualified",
+    "capability_unavailable",
+    "causal_budget_exceeded",
+    "deadline_expired",
+    "derivation_cycle",
+    "duplicate_key",
+    "echo_suppressed",
+    "identity_not_qualified",
+    "incomparable_clock_epoch",
+    "invalid_contract",
+    "invalid_decimal",
+    "invalid_evidence",
+    "invalid_identifier",
+    "invalid_outcome",
+    "invalid_time",
+    "invalid_value",
+    "precondition_failed",
+    "projection_incomplete",
+    "retry_forbidden",
+    "revision_conflict",
+    "route_selection_forbidden",
+    "sequence_conflict",
+    "stale_driver_generation",
+    "stale_source_epoch",
+    "unknown_member"
+  ],
+  "coverage_ids": [
+    "capability",
+    "causal",
+    "compatibility",
+    "conflict",
+    "freshness",
+    "generation",
+    "identity",
+    "lineage",
+    "operation",
+    "partial_update",
+    "projection",
+    "qualification",
+    "serialization",
+    "snapshot",
+    "time"
+  ],
+  "vectors": [
+    {
+      "id": "K-POS-001",
+      "polarity": "positive",
+      "record_type": "Decimal",
+      "operation": "validate",
+      "coverage": ["serialization"],
+      "input": {"coefficient": "23", "exponent10": 1},
+      "expect": {
+        "result": "accept",
+        "canonical_json": "{\"coefficient\":\"23\",\"exponent10\":1}"
+      },
+      "criterion": "Exact 230 is accepted without a floating-point token or noncanonical trailing zero."
+    },
+    {
+      "id": "K-POS-002",
+      "polarity": "positive",
+      "record_type": "IdentityLink",
+      "operation": "validate",
+      "coverage": ["identity", "lineage"],
+      "input": {
+        "asset_id": "asset:heat-pump:01",
+        "binding_id": "binding:eebus:01",
+        "state": "qualified",
+        "basis": [{
+          "owner": "helianthus.eebusreg",
+          "kind": "native.identity",
+          "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "contract": "helianthus.eebus.runtime.native-snapshot.v2",
+          "access": "public",
+          "redaction": "redacted"
+        }],
+        "revision": "1"
+      },
+      "expect": {"result": "accept", "assertions": ["qualified_link_retains_basis"]},
+      "criterion": "A qualified link has native-owner evidence and does not expose a bus address as asset identity."
+    },
+    {
+      "id": "K-POS-003",
+      "polarity": "positive",
+      "record_type": "FactCandidate",
+      "operation": "validate",
+      "coverage": ["lineage", "qualification"],
+      "input": {
+        "candidate_id": "candidate:derived:power-total",
+        "quality": {
+          "assertion": "inferred",
+          "qualification": "qualified",
+          "promotion": "promoted",
+          "validity": "good",
+          "availability": "available",
+          "freshness": "fresh",
+          "reasons": []
+        },
+        "origin": {"origin_id": "origin:derived:power-total", "kind": "derived", "evidence_count": 1},
+        "derivation": {
+          "algorithm": "helianthus.sum.phases",
+          "version": "1.0.0",
+          "inputs": ["candidate:phase:l1", "candidate:phase:l2", "candidate:phase:l3"],
+          "evidence": []
+        },
+        "evidence": [{
+          "owner": "helianthus.modbusreg",
+          "kind": "profile.observation",
+          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "contract": "helianthus.modbus.profile.v1",
+          "access": "public",
+          "redaction": "none"
+        }]
+      },
+      "expect": {"result": "accept", "assertions": ["derivation_inputs_retained", "promotion_does_not_erase_lineage"]},
+      "criterion": "An inferred promoted fact names an acyclic versioned derivation and keeps native evidence."
+    },
+    {
+      "id": "K-POS-004",
+      "polarity": "positive",
+      "record_type": "Times",
+      "operation": "validate",
+      "coverage": ["time"],
+      "input": {
+        "received_at": {"unix_nanoseconds": "1000000000", "clock_id": "clock.utc", "uncertainty_ns": "1000"},
+        "receipt_monotonic": {"clock_epoch_id": "clock-epoch:boot-1", "nanoseconds": "500"},
+        "evaluated_at": {"unix_nanoseconds": "1000001000", "clock_id": "clock.utc", "uncertainty_ns": "1000"},
+        "evaluate_monotonic": {"clock_epoch_id": "clock-epoch:boot-1", "nanoseconds": "1500"}
+      },
+      "expect": {"result": "accept", "assertions": ["elapsed_monotonic_ns_equals_1000"]},
+      "criterion": "Receipt and evaluation are ordered by one monotonic clock epoch."
+    },
+    {
+      "id": "K-POS-005",
+      "polarity": "positive",
+      "record_type": "FreshnessPolicy",
+      "operation": "restore",
+      "coverage": ["freshness", "time"],
+      "input": {
+        "policy": {"policy_id": "policy:telemetry", "version": "1.0.0", "fresh_for_ns": "30000000000", "retain_for_ns": "300000000000", "max_wall_uncertainty_ns": "2000000"},
+        "received_at": {"unix_nanoseconds": "100000000000", "clock_id": "clock.utc", "uncertainty_ns": "500000"},
+        "evaluated_at": {"unix_nanoseconds": "140000000000", "clock_id": "clock.utc", "uncertainty_ns": "500000"},
+        "receipt_clock_epoch_id": "clock-epoch:before-restart",
+        "evaluate_clock_epoch_id": "clock-epoch:after-restart"
+      },
+      "expect": {"result": "accept", "assertions": ["freshness_equals_stale", "monotonic_ticks_not_subtracted"]},
+      "criterion": "A restart uses conservative comparable UTC intervals and retains the fact as stale."
+    },
+    {
+      "id": "K-POS-006",
+      "polarity": "positive",
+      "record_type": "Symbol",
+      "operation": "validate",
+      "coverage": ["qualification", "serialization"],
+      "input": {"namespace": "native.modbusreg.growatt", "token": "0x9f", "known": false},
+      "expect": {"result": "accept", "assertions": ["token_round_trips", "symbol_does_not_satisfy_known_capability"]},
+      "criterion": "An unknown native symbol remains representable without becoming a known semantic symbol."
+    },
+    {
+      "id": "K-POS-007",
+      "polarity": "positive",
+      "record_type": "FactEnvelope",
+      "operation": "validate",
+      "coverage": ["conflict", "snapshot"],
+      "input": {
+        "candidate_ids": ["candidate:source:a", "candidate:source:b"],
+        "selection": {"selected_candidate": "candidate:source:a", "presentation_only": true},
+        "conflicts": [{"kind": "value", "state": "open", "candidates": ["candidate:source:a", "candidate:source:b"]}]
+      },
+      "expect": {"result": "accept", "assertions": ["both_candidates_retained", "conflict_visible", "selection_presentation_only"]},
+      "criterion": "Conflicting qualified candidates coexist and a presentation selection does not resolve them."
+    },
+    {
+      "id": "K-POS-008",
+      "polarity": "positive",
+      "record_type": "CapabilityInstance",
+      "operation": "validate",
+      "coverage": ["capability", "generation"],
+      "input": {
+        "instance_id": "capability:limit:01",
+        "definition": {"id": "helianthus.evse.current_limit", "version": "1.2.0"},
+        "binding_id": "binding:evse:01",
+        "source_epoch_id": "source-epoch:evse:01",
+        "driver_generation": "7",
+        "qualification": "qualified",
+        "availability": "available",
+        "activation_evidence": [{
+          "owner": "helianthus.gateway",
+          "kind": "driver.activation",
+          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "contract": "helianthus.gateway.driver.activation.v1",
+          "access": "public",
+          "redaction": "metadata_only"
+        }]
+      },
+      "expect": {"result": "accept", "assertions": ["exact_version_range_can_match", "generation_bound"]},
+      "criterion": "A qualified available capability is bound to completed activation and one generation."
+    },
+    {
+      "id": "K-POS-009",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["partial_update", "snapshot"],
+      "input": {
+        "expected_semantic_revision": "4",
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:pv:01",
+        "driver_generation": "2",
+        "sequence": "9",
+        "fact_upserts": ["candidate:pv:power"],
+        "fact_withdrawals": []
+      },
+      "prior_state": {"semantic_revision": "4", "fact_ids": ["candidate:pv:power-old", "candidate:pv:yield"]},
+      "expect": {"result": "accept", "assertions": ["semantic_revision_equals_5", "yield_candidate_retained", "power_candidate_upserted_atomically"]},
+      "criterion": "A partial update changes its named fact and retains an unrelated last-known good fact."
+    },
+    {
+      "id": "K-POS-010",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["partial_update", "serialization"],
+      "prior_vector": "K-POS-009",
+      "input": {"sequence": "9", "batch_digest": "same_as_prior_vector"},
+      "expect": {"result": "accept", "assertions": ["returns_prior_snapshot", "no_revision_increment"]},
+      "criterion": "An identical sequence and digest replay is idempotent."
+    },
+    {
+      "id": "K-POS-011",
+      "polarity": "positive",
+      "record_type": "GenerationFence",
+      "operation": "apply",
+      "coverage": ["generation", "capability", "snapshot"],
+      "input": {"source_id": "source:evse:01", "source_epoch_id": "source-epoch:evse:01", "driver_generation": "7", "revision": "8"},
+      "prior_state": {"available_capabilities": ["capability:limit:01"], "driver_generation": "7"},
+      "expect": {"result": "accept", "assertions": ["fence_visible", "generation_capabilities_withdrawn_in_same_snapshot", "old_guarded_callback_rejected"]},
+      "criterion": "Fencing happens before the new snapshot exposes atomic capability withdrawal."
+    },
+    {
+      "id": "K-POS-012",
+      "polarity": "positive",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": ["operation", "capability"],
+      "input": {
+        "intent_id": "intent:evse-limit:01",
+        "asset_id": "asset:evse:01",
+        "required_capability": {"definition_id": "helianthus.evse.current_limit", "versions": {"minimum": "1.0.0", "maximum_exclusive": "2.0.0"}, "allow_degraded": false},
+        "expected_semantic_revision": "12",
+        "expected_capability_revision": "5",
+        "expected_capability_instance_revision": "3",
+        "expected_source_epoch_id": "source-epoch:evse:01",
+        "expected_driver_generation": "7",
+        "deadline": {"unix_nanoseconds": "200000000000", "clock_id": "clock.utc", "uncertainty_ns": "1000"}
+      },
+      "prior_state": {"eligible_routes": ["capability:limit:01"], "authority_resolves": true, "preconditions": "true"},
+      "expect": {"result": "accept", "assertions": ["exactly_one_generation_bound_route", "guarded_callback_required"]},
+      "criterion": "Exact current state and one qualified route admit a guarded operation."
+    },
+    {
+      "id": "K-POS-013",
+      "polarity": "positive",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": ["operation"],
+      "input": {"route": "capability:limit:01", "dispatch_delivery": "sent", "acknowledgement": "accepted", "readback": "absent", "outcome": "acknowledged_unverified"},
+      "expect": {"result": "accept", "assertions": ["ack_not_treated_as_applied"]},
+      "criterion": "A protocol acknowledgement without confirming readback remains explicitly unverified."
+    },
+    {
+      "id": "K-POS-014",
+      "polarity": "positive",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": ["operation", "generation"],
+      "input": {"route_generation": "7", "dispatch_delivery": "sent", "acknowledgement": "accepted", "readback_relation": "confirms", "readback_generation": "7", "outcome": "applied"},
+      "expect": {"result": "accept", "assertions": ["ack_and_readback_retained_separately", "outcome_applied"]},
+      "criterion": "Current-generation confirming readback supports applied without erasing ACK evidence."
+    },
+    {
+      "id": "K-POS-015",
+      "polarity": "positive",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": ["causal", "operation"],
+      "input": {"origin": {"origin_id": "origin:operator:01", "kind": "operator", "evidence_count": 1}, "correlation_id": "correlation:new:02", "hop_count": 0, "max_hops": 8, "path": [], "lifetime_ns": "60000000000", "authority_resolves": true},
+      "prior_state": {"earlier_projection_same_value": true, "earlier_correlation_id": "correlation:old:01"},
+      "expect": {"result": "accept", "assertions": ["independent_intent_not_suppressed"]},
+      "criterion": "A new authorized intent with a new correlation remains admissible despite equal projected value."
+    },
+    {
+      "id": "K-POS-016",
+      "polarity": "positive",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": ["projection", "lineage"],
+      "input": {
+        "requested": [{"kind": "fact", "item_id": "helianthus.pv.active_power"}],
+        "dispositions": [{"item_id": "helianthus.pv.active_power", "outcome": "transformed", "source_keys": ["pv-power-key"], "loss": [{"kind": "precision", "reversible": false}]}],
+        "snapshot_revision": "12",
+        "causal_preserved": true
+      },
+      "expect": {"result": "accept", "assertions": ["one_disposition_per_request", "precision_loss_visible", "snapshot_revision_preserved"]},
+      "criterion": "A transformed target field accounts for its source and irreversible precision loss."
+    },
+    {
+      "id": "K-POS-017",
+      "polarity": "positive",
+      "record_type": "CompatibilityAlias",
+      "operation": "validate",
+      "coverage": ["compatibility", "identity"],
+      "input": {"alias_contract": "helianthus.semantic.alias/v1", "legacy_id": "Service:/HeatGenerator:1", "asset_id": "asset:heat-pump:01", "valid_from": "1.0.0", "routable": false, "evidence_count": 1},
+      "expect": {"result": "accept", "assertions": ["legacy_read_identity_preserved", "alias_cannot_route"]},
+      "criterion": "A versioned legacy ID remains readable while operation routing stays bound to native capability instances."
+    },
+    {
+      "id": "K-POS-018",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["generation", "partial_update", "snapshot"],
+      "input": {
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:after-restart",
+        "driver_generation": "1",
+        "sequence": "1",
+        "expected_semantic_revision": "20",
+        "source_upserts": ["source-epoch:after-restart"],
+        "source_retirements": ["source-epoch:before-restart"]
+      },
+      "prior_state": {"current_source_epoch_id": "source-epoch:before-restart", "available_capabilities": ["capability:pv:telemetry"]},
+      "expect": {"result": "accept", "assertions": ["new_epoch_current", "old_epoch_withdrawn_atomically", "sequence_domain_restarts_at_1", "old_monotonic_ticks_not_reused"]},
+      "criterion": "A source restart establishes a new epoch and atomically retires old bindings and capabilities without conflating clock or driver generations."
+    },
+    {
+      "id": "K-NEG-001",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "validate",
+      "coverage": ["serialization"],
+      "input": {"contract": "helianthus.semantic.kernel/v2"},
+      "expect": {"result": "reject", "error_id": "invalid_contract", "state_unchanged": true},
+      "criterion": "A v2 record cannot be decoded as the v1 kernel."
+    },
+    {
+      "id": "K-NEG-002",
+      "polarity": "negative",
+      "record_type": "NativeBinding",
+      "operation": "validate",
+      "coverage": ["identity"],
+      "input": {"asset_id": " bus address 03 ", "binding_id": "binding:01"},
+      "expect": {"result": "reject", "error_id": "invalid_identifier", "state_unchanged": true},
+      "criterion": "Whitespace and an untyped bus-address surrogate cannot form an asset ID."
+    },
+    {
+      "id": "K-NEG-003",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "validate",
+      "coverage": ["serialization"],
+      "input": {"coefficient": "230", "exponent10": 0},
+      "expect": {"result": "reject", "error_id": "invalid_decimal", "state_unchanged": true},
+      "criterion": "A non-zero coefficient with a trailing zero is not canonical."
+    },
+    {
+      "id": "K-NEG-004",
+      "polarity": "negative",
+      "record_type": "Value",
+      "operation": "validate",
+      "coverage": ["serialization", "qualification"],
+      "input": {"kind": "quantity", "quantity": {"number": {"coefficient": "23", "exponent10": 1}, "unit": "unit.volt"}, "boolean": true},
+      "expect": {"result": "reject", "error_id": "invalid_value", "state_unchanged": true},
+      "criterion": "A tagged value cannot select quantity and boolean payloads together."
+    },
+    {
+      "id": "K-NEG-005",
+      "polarity": "negative",
+      "record_type": "FreshnessPolicy",
+      "operation": "validate",
+      "coverage": ["time", "freshness"],
+      "input": {"fresh_for_ns": "300", "retain_for_ns": "300", "max_wall_uncertainty_ns": "1"},
+      "expect": {"result": "reject", "error_id": "invalid_time", "state_unchanged": true},
+      "criterion": "Retention must be strictly longer than freshness."
+    },
+    {
+      "id": "K-NEG-006",
+      "polarity": "negative",
+      "record_type": "Times",
+      "operation": "validate",
+      "coverage": ["time", "freshness"],
+      "input": {"receipt_clock_epoch_id": "clock-epoch:a", "receipt_ticks": "900", "evaluate_clock_epoch_id": "clock-epoch:b", "evaluate_ticks": "1000", "comparable_wall_time": false},
+      "expect": {"result": "reject", "error_id": "incomparable_clock_epoch", "state_unchanged": true},
+      "criterion": "Numeric monotonic ticks from different epochs cannot be subtracted."
+    },
+    {
+      "id": "K-NEG-007",
+      "polarity": "negative",
+      "record_type": "EvidenceRef",
+      "operation": "validate",
+      "coverage": ["lineage"],
+      "input": {"owner": "helianthus.eebusreg", "kind": "native.snapshot", "digest": "sha256:ABC", "contract": "helianthus.eebus.runtime.native-snapshot.v2", "access": "restricted", "redaction": "none"},
+      "expect": {"result": "reject", "error_id": "invalid_evidence", "state_unchanged": true},
+      "criterion": "Malformed digest and unredacted restricted evidence cannot enter a public record."
+    },
+    {
+      "id": "K-NEG-008",
+      "polarity": "negative",
+      "record_type": "Derivation",
+      "operation": "validate",
+      "coverage": ["lineage"],
+      "input": {"candidate_id": "candidate:a", "inputs": ["candidate:b"], "candidate_b_inputs": ["candidate:a"]},
+      "expect": {"result": "reject", "error_id": "derivation_cycle", "state_unchanged": true},
+      "criterion": "A two-node derivation cycle is rejected atomically."
+    },
+    {
+      "id": "K-NEG-009",
+      "polarity": "negative",
+      "record_type": "IdentityLink",
+      "operation": "validate",
+      "coverage": ["identity", "conflict"],
+      "input": {"asset_id": "asset:01", "binding_id": "binding:02", "state": "qualified", "basis": []},
+      "expect": {"result": "reject", "error_id": "identity_not_qualified", "state_unchanged": true},
+      "criterion": "Similar observations without native-owner evidence cannot qualify identity."
+    },
+    {
+      "id": "K-NEG-010",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["snapshot", "partial_update"],
+      "input": {"expected_semantic_revision": "3"},
+      "prior_state": {"semantic_revision": "4"},
+      "expect": {"result": "reject", "error_id": "revision_conflict", "state_unchanged": true},
+      "criterion": "A stale expected revision cannot overwrite the current immutable snapshot."
+    },
+    {
+      "id": "K-NEG-011",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["partial_update", "serialization"],
+      "prior_vector": "K-POS-009",
+      "input": {"sequence": "9", "batch_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
+      "expect": {"result": "reject", "error_id": "sequence_conflict", "state_unchanged": true},
+      "criterion": "The same source sequence with different canonical bytes is not idempotent."
+    },
+    {
+      "id": "K-NEG-012",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["generation", "partial_update"],
+      "input": {"source_epoch_id": "source-epoch:old", "driver_generation": "8", "sequence": "1"},
+      "prior_state": {"current_source_epoch_id": "source-epoch:new"},
+      "expect": {"result": "reject", "error_id": "stale_source_epoch", "state_unchanged": true},
+      "criterion": "A restarted source cannot continue publishing under its old epoch."
+    },
+    {
+      "id": "K-NEG-013",
+      "polarity": "negative",
+      "record_type": "Route",
+      "operation": "admit",
+      "coverage": ["generation", "capability", "operation"],
+      "input": {"source_epoch_id": "source-epoch:evse:01", "driver_generation": "7"},
+      "prior_state": {"fenced_driver_generation": "7", "current_driver_generation": "8"},
+      "expect": {"result": "reject", "error_id": "stale_driver_generation", "state_unchanged": true},
+      "criterion": "A route and guarded callback from a fenced generation fail before native dispatch."
+    },
+    {
+      "id": "K-NEG-014",
+      "polarity": "negative",
+      "record_type": "CapabilityInstance",
+      "operation": "admit",
+      "coverage": ["capability", "qualification"],
+      "input": {"qualification": "candidate", "availability": "available", "activation_evidence": []},
+      "expect": {"result": "reject", "error_id": "capability_not_qualified", "state_unchanged": true},
+      "criterion": "Catalog or candidate presence does not create an actionable capability."
+    },
+    {
+      "id": "K-NEG-015",
+      "polarity": "negative",
+      "record_type": "CapabilityInstance",
+      "operation": "admit",
+      "coverage": ["capability"],
+      "input": {"qualification": "qualified", "availability": "degraded", "allow_degraded": false},
+      "expect": {"result": "reject", "error_id": "capability_unavailable", "state_unchanged": true},
+      "criterion": "Degraded operation is unavailable without an explicit permitting contract."
+    },
+    {
+      "id": "K-NEG-016",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": ["operation", "capability"],
+      "input": {"required_capability": "helianthus.evse.current_limit", "eligible_routes": ["capability:limit:01", "capability:limit:02"]},
+      "expect": {"result": "reject", "error_id": "ambiguous_route", "state_unchanged": true},
+      "criterion": "Two eligible current routes fail closed before dispatch."
+    },
+    {
+      "id": "K-NEG-017",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": ["operation", "time"],
+      "input": {"now_latest_ns": "2001", "deadline_earliest_ns": "2001"},
+      "expect": {"result": "reject", "error_id": "deadline_expired", "state_unchanged": true},
+      "criterion": "Admission requires the latest plausible now to be strictly before the earliest deadline."
+    },
+    {
+      "id": "K-NEG-018",
+      "polarity": "negative",
+      "record_type": "Precondition",
+      "operation": "admit",
+      "coverage": ["operation", "conflict"],
+      "input": {"fact": "helianthus.evse.connected", "operator": "equal", "expected": true, "actual_conflict": true},
+      "expect": {"result": "reject", "error_id": "precondition_failed", "state_unchanged": true},
+      "criterion": "A conflicted fact cannot silently satisfy an operation precondition."
+    },
+    {
+      "id": "K-NEG-019",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "admit",
+      "coverage": ["operation"],
+      "input": {"authority": "unresolved", "other_fields_valid": true},
+      "expect": {"result": "reject", "error_id": "authority_missing", "state_unchanged": true},
+      "criterion": "An opaque authority reference must resolve for the exact intent and route."
+    },
+    {
+      "id": "K-NEG-020",
+      "polarity": "negative",
+      "record_type": "Route",
+      "operation": "admit",
+      "coverage": ["operation", "conflict", "compatibility"],
+      "input": {"route_source": "presentation_selection", "selected_candidate": "candidate:source:a"},
+      "expect": {"result": "reject", "error_id": "route_selection_forbidden", "state_unchanged": true},
+      "criterion": "Presentation selection cannot choose a native operation route."
+    },
+    {
+      "id": "K-NEG-021",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "validate",
+      "coverage": ["causal", "time"],
+      "input": {"hop_count": 17, "max_hops": 17, "path_length": 17, "lifetime_ns": "300000000001"},
+      "expect": {"result": "reject", "error_id": "causal_budget_exceeded", "state_unchanged": true},
+      "criterion": "The hard 16-hop and 300-second causal bounds cannot be enlarged by a target."
+    },
+    {
+      "id": "K-NEG-022",
+      "polarity": "negative",
+      "record_type": "CausalContext",
+      "operation": "admit",
+      "coverage": ["causal", "operation"],
+      "input": {"correlation_id": "correlation:loop:01", "path": ["target:matter", "target:ha"], "ingress_target": "target:matter", "attempts_to_create_intent": true},
+      "expect": {"result": "reject", "error_id": "echo_suppressed", "state_unchanged": true},
+      "criterion": "A reflected projection cannot re-enter the same target or create fresh authority."
+    },
+    {
+      "id": "K-NEG-023",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "admit",
+      "coverage": ["operation", "generation"],
+      "input": {"prior_outcome": "indeterminate", "possible_side_effect": true, "requested_action": "fallback_to_second_route"},
+      "expect": {"result": "reject", "error_id": "retry_forbidden", "state_unchanged": true},
+      "criterion": "An indeterminate operation cannot blindly retry or fall back after possible dispatch."
+    },
+    {
+      "id": "K-NEG-024",
+      "polarity": "negative",
+      "record_type": "ProjectionReport",
+      "operation": "project",
+      "coverage": ["projection"],
+      "input": {"requested": ["fact:power", "fact:energy"], "dispositions": ["fact:power"]},
+      "expect": {"result": "reject", "error_id": "projection_incomplete", "state_unchanged": true},
+      "criterion": "Every requested item requires exactly one disposition."
+    },
+    {
+      "id": "K-NEG-025",
+      "polarity": "negative",
+      "record_type": "CompatibilityAlias",
+      "operation": "admit",
+      "coverage": ["compatibility", "identity", "operation"],
+      "input": {"legacy_id": "Service:/HeatGenerator:1", "routable": true, "requested_action": "select_binding"},
+      "expect": {"result": "reject", "error_id": "alias_not_routable", "state_unchanged": true},
+      "criterion": "A legacy public identity cannot become a native endpoint or route."
+    },
+    {
+      "id": "K-NEG-026",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": ["operation"],
+      "input": {"dispatch_delivery": "unknown", "possible_side_effect": true, "acknowledgement": "absent", "readback": "absent", "outcome": "failed_no_contact"},
+      "expect": {"result": "reject", "error_id": "invalid_outcome", "state_unchanged": true},
+      "criterion": "Unknown delivery with possible side effect cannot be classified as proven no contact."
+    },
+    {
+      "id": "K-NEG-027",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": ["serialization"],
+      "input_json": "{\"coefficient\":\"23\",\"coefficient\":\"24\",\"exponent10\":1}",
+      "expect": {"result": "reject", "error_id": "duplicate_key", "state_unchanged": true},
+      "criterion": "Duplicate JSON members are rejected before typed decoding."
+    },
+    {
+      "id": "K-NEG-028",
+      "polarity": "negative",
+      "record_type": "Decimal",
+      "operation": "decode",
+      "coverage": ["serialization"],
+      "input": {"coefficient": "23", "exponent10": 1, "display_precision": 1},
+      "expect": {"result": "reject", "error_id": "unknown_member", "state_unchanged": true},
+      "criterion": "An undeclared v1 member is not silently discarded into an extension bag."
+    }
+  ]
+}

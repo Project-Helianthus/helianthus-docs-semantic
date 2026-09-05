@@ -71,8 +71,10 @@ operations from that generation cannot silently reactivate it.
 The future typed operation contract must distinguish intent admission, exact
 route selection, native dispatch, acknowledgement, confirming readback, and
 outcome. Timeout is not proof that no side effect occurred. Observation and
-projection never create command authority. The exact types, serialization,
-admission rules, and recovery behavior remain future reviewed API work.
+projection never create command authority. The exact kernel types,
+serialization, admission evidence, and recovery boundary are defined by the
+[semantic kernel v1 contract](../api/v1/kernel.md); gateway runtime mechanics
+remain separately owned.
 
 ## Projection boundary
 
@@ -91,7 +93,9 @@ integration. Descriptive language, IR, generation, and measured code reduction
 belong to later 0.8 work after the typed contracts are accepted and must preserve
 their behavior.
 
-This bootstrap activates no API version. A later reviewed document must define
-the complete typed kernel and capability-package contracts, validation,
-compatibility fixtures, and unresolved normative dispositions before dependent
-implementation is accepted. See [API publication status](../api/README.md).
+The repository bootstrap itself activated no API. The later
+[semantic kernel v1 contract](../api/v1/kernel.md) now defines its bounded typed
+kernel scope. Capability-package catalogs, native mappings, exact normative
+dispositions, and their fixtures remain separate reviewed contracts before the
+corresponding dependent implementation is accepted. See
+[API publication status](../api/README.md).
