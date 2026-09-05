@@ -1617,9 +1617,46 @@
             "selection_member_absent": true
           }
         },
+        "presentation_evaluation_view": {
+          "contract": "helianthus.semantic.evaluation/v1",
+          "snapshot_id": "snapshot:site:21",
+          "revisions": {
+            "semantic": "21",
+            "identity": "4",
+            "facts": "8",
+            "services": "2",
+            "capabilities": "2"
+          },
+          "context": {
+            "evaluated_at": {
+              "unix_nanoseconds": "21000000000",
+              "clock_id": "clock.utc",
+              "uncertainty_ns": "1000"
+            },
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock-epoch:selection-1",
+              "nanoseconds": "21000000000"
+            }
+          },
+          "facts": [
+            {
+              "candidate_id": "candidate:source:a",
+              "candidate_revision": "4",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            },
+            {
+              "candidate_id": "candidate:source:b",
+              "candidate_revision": "2",
+              "freshness": "fresh",
+              "effective_availability": "available"
+            }
+          ],
+          "evaluation_digest": "sha256:ab93529b7dfce8e88eeacad8c609e8e251fa0665236edcc71a4c68b97c4c9b4d"
+        },
         "presentation_selection": {
           "snapshot_id": "snapshot:site:21",
-          "evaluation_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "evaluation_digest": "sha256:ab93529b7dfce8e88eeacad8c609e8e251fa0665236edcc71a4c68b97c4c9b4d",
           "key": {
             "pack_id": "helianthus.pack.electrical",
             "pack_version": "1.0.0",
@@ -1696,6 +1733,7 @@
         "result": "accept",
         "assertions": [
           "conflict_id_and_evidence_kernel_derived",
+          "presentation_evaluation_digest_recomputed",
           "selection_is_pure_view_not_snapshot_metadata",
           "old_selection_cannot_apply_to_resulting_snapshot",
           "no_resolution_evidence_fabricated",

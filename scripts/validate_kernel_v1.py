@@ -579,6 +579,7 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     metadata = by_id["K-POS-024"].get("input", {})
     create = metadata.get("create_conflict_batch", {})
     conflicting = metadata.get("conflicting_snapshot", {}).get("envelope", {})
+    selection_view = metadata.get("presentation_evaluation_view", {})
     selection = metadata.get("presentation_selection", {})
     withdrawal = metadata.get("withdraw_one_batch", {})
     resulting = metadata.get("resulting_snapshot", {})
@@ -602,6 +603,20 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         sort_keys=True,
     ).encode("utf-8")
     expected_conflict_id = "sha256:" + hashlib.sha256(conflict_bytes).hexdigest()
+    selection_view_unsigned = {
+        key: value
+        for key, value in selection_view.items()
+        if key != "evaluation_digest"
+    }
+    selection_view_bytes = json.dumps(
+        selection_view_unsigned,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    expected_selection_digest = (
+        "sha256:" + hashlib.sha256(selection_view_bytes).hexdigest()
+    )
     if (
         create.get("publisher_metadata_members_present") is not False
         or withdrawal.get("publisher_metadata_members_present") is not False
@@ -612,20 +627,59 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         or conflicting.get("selection_member_absent") is not True
     ):
         raise ValueError("K-POS-024: kernel-owned conflict derivation is incomplete")
+
+    def kpos024_selection_binding_valid(candidate_selection: dict[str, Any]) -> bool:
+        return (
+            candidate_selection.get("snapshot_id")
+            == metadata.get("conflicting_snapshot", {}).get("snapshot_id")
+            and candidate_selection.get("revisions")
+            == metadata.get("conflicting_snapshot", {}).get("revisions")
+            and candidate_selection.get("evaluation_digest")
+            == expected_selection_digest
+            and candidate_selection.get("context") == selection_view.get("context")
+            and candidate_selection.get("selected_candidate")
+            == "candidate:source:a"
+            and candidate_selection.get("candidate_revision") == "4"
+        )
+
     if (
         selection.get("stored_in_snapshot") is not False
         or selection.get("contract") != "helianthus.semantic.selection/v1"
-        or selection.get("snapshot_id")
-        != metadata.get("conflicting_snapshot", {}).get("snapshot_id")
-        or selection.get("revisions")
-        != metadata.get("conflicting_snapshot", {}).get("revisions")
+        or selection_view.get("contract")
+        != "helianthus.semantic.evaluation/v1"
+        or selection_view.get("snapshot_id") != selection.get("snapshot_id")
+        or selection_view.get("revisions") != selection.get("revisions")
+        or selection_view.get("context") != selection.get("context")
+        or selection_view.get("facts")
+        != [
+            {
+                "candidate_id": "candidate:source:a",
+                "candidate_revision": "4",
+                "freshness": "fresh",
+                "effective_availability": "available",
+            },
+            {
+                "candidate_id": "candidate:source:b",
+                "candidate_revision": "2",
+                "freshness": "fresh",
+                "effective_availability": "available",
+            },
+        ]
+        or selection_view.get("evaluation_digest") != expected_selection_digest
+        or "presentation_evaluation_digest_recomputed"
+        not in by_id["K-POS-024"].get("expect", {}).get("assertions", [])
         or not {"evaluated_at", "evaluate_monotonic"}.issubset(
             selection.get("context", {})
         )
-        or selection.get("selected_candidate") != "candidate:source:a"
-        or selection.get("candidate_revision") != "4"
+        or not kpos024_selection_binding_valid(selection)
     ):
         raise ValueError("K-POS-024: snapshot-bound pure selection is incomplete")
+    mutated_selection = copy.deepcopy(selection)
+    mutated_selection["evaluation_digest"] = (
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    )
+    if kpos024_selection_binding_valid(mutated_selection):
+        raise ValueError("K-POS-024: changed selection digest was not rejected")
     if (
         withdrawal.get("fact_withdrawals") != ["candidate:source:a"]
         or result_envelope.get("candidates") != ["candidate:source:b@2"]
