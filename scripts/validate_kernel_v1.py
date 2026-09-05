@@ -114,6 +114,14 @@ def require_type_fields(kernel_text: str) -> None:
             "expected",
         },
         "ExpectedEffect": {"rule", "fact", "operator", "expected"},
+        "DispatchEvidence": {
+            "attempt_id",
+            "started",
+            "completed",
+            "delivery",
+            "possible_side_effect",
+            "evidence",
+        },
         "Intent": {
             "contract",
             "intent_id",
@@ -143,7 +151,7 @@ def require_type_fields(kernel_text: str) -> None:
             "source_epoch_id",
             "driver_generation",
             "relation",
-            "at",
+            "evaluation",
             "evidence",
         },
         "ProjectionDisposition": {
@@ -188,6 +196,14 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         "K-NEG-042": ("PublicationBatch", "negative"),
         "K-NEG-043": ("DefinitionIndex", "negative"),
         "K-NEG-044": ("Intent", "negative"),
+        "K-POS-023": ("CausalContext", "positive"),
+        "K-NEG-045": ("ExecutionRecord", "negative"),
+        "K-NEG-046": ("ExecutionRecord", "negative"),
+        "K-NEG-047": ("IdentityLink", "negative"),
+        "K-NEG-048": ("CapabilityInstance", "negative"),
+        "K-NEG-049": ("Precondition", "negative"),
+        "K-NEG-050": ("Precondition", "negative"),
+        "K-NEG-051": ("CausalContext", "negative"),
     }
     for vector_id, (record_type, polarity) in required.items():
         vector = by_id.get(vector_id)
@@ -220,6 +236,7 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         "source_id",
         "source_epoch_id",
         "driver_generation",
+        "evaluation",
     }
     for vector_id, readback in (
         ("K-POS-014", by_id["K-POS-014"].get("input", {}).get("readback", {})),
@@ -315,6 +332,139 @@ def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
         }.items()
     ):
         raise ValueError("K-NEG-041: unrelated readback is not otherwise eligible")
+
+    applied = by_id["K-POS-014"].get("input", {})
+    dispatch_completed = applied.get("dispatch", {}).get("completed", {})
+    readback_evaluation = applied.get("readback", {}).get("evaluation", {})
+    candidate = applied.get("resolved_candidate", {})
+    candidate_times = candidate.get("times", {})
+    for label, context in (
+        ("dispatch completion", dispatch_completed),
+        ("readback evaluation", readback_evaluation),
+    ):
+        if not {"evaluated_at", "evaluate_monotonic"}.issubset(context):
+            raise ValueError(f"K-POS-014: {label} context is incomplete")
+    completed_mono = dispatch_completed["evaluate_monotonic"]
+    receipt_mono = candidate_times.get("receipt_monotonic", {})
+    if (
+        completed_mono.get("clock_epoch_id") != receipt_mono.get("clock_epoch_id")
+        or int(receipt_mono.get("nanoseconds", "-1"))
+        <= int(completed_mono.get("nanoseconds", "-1"))
+    ):
+        raise ValueError("K-POS-014: post-dispatch monotonic receipt proof is missing")
+    if candidate.get("candidate_revision") == applied.get(
+        "admitted_candidate_revision"
+    ):
+        raise ValueError("K-POS-014: post-dispatch candidate revision is unchanged")
+
+    retained = by_id["K-NEG-045"].get("input", {})
+    retained_candidate = retained.get("resolved_candidate", {})
+    retained_completed = retained.get("dispatch", {}).get("completed", {})
+    retained_receipt = retained_candidate.get("times", {}).get(
+        "receipt_monotonic", {}
+    )
+    if (
+        retained_candidate.get("candidate_revision")
+        != retained.get("admitted_candidate_revision")
+        or retained_receipt.get("clock_epoch_id")
+        != retained_completed.get("evaluate_monotonic", {}).get("clock_epoch_id")
+        or int(retained_receipt.get("nanoseconds", "0"))
+        >= int(
+            retained_completed.get("evaluate_monotonic", {}).get(
+                "nanoseconds", "0"
+            )
+        )
+        or by_id["K-NEG-045"]["expect"].get("error_id") != "invalid_outcome"
+    ):
+        raise ValueError("K-NEG-045: retained pre-dispatch negative control is invalid")
+
+    uncertain = by_id["K-NEG-046"].get("input", {})
+    uncertain_candidate = uncertain.get("resolved_candidate", {})
+    uncertain_receipt = uncertain_candidate.get("times", {}).get(
+        "receipt_monotonic", {}
+    )
+    uncertain_evaluation = uncertain.get("readback", {}).get("evaluation", {})
+    uncertainty = int(
+        uncertain_evaluation.get("evaluated_at", {}).get("uncertainty_ns", "0")
+    )
+    max_uncertainty = int(
+        uncertain_candidate.get("freshness_policy", {}).get(
+            "max_wall_uncertainty_ns", "0"
+        )
+    )
+    if (
+        not {"evaluated_at", "evaluate_monotonic"}.issubset(
+            uncertain_evaluation
+        )
+        or uncertain_receipt.get("clock_epoch_id")
+        == uncertain_evaluation.get("evaluate_monotonic", {}).get(
+            "clock_epoch_id"
+        )
+        or uncertainty <= max_uncertainty
+        or uncertain.get("evaluated_freshness") != "unknown"
+        or by_id["K-NEG-046"]["expect"].get("error_id") != "invalid_outcome"
+    ):
+        raise ValueError("K-NEG-046: unverifiable freshness control is incomplete")
+
+    expected_partition = {
+        "K-NEG-047": "identity_not_qualified",
+        "K-NEG-048": "capability_not_qualified",
+        "K-NEG-049": "precondition_failed",
+        "K-NEG-050": "precondition_failed",
+    }
+    for vector_id, error_id in expected_partition.items():
+        if by_id[vector_id]["expect"].get("error_id") != error_id:
+            raise ValueError(f"{vector_id}: context-specific error is incorrect")
+    if by_id["K-NEG-047"].get("input", {}).get("basis") != []:
+        raise ValueError("K-NEG-047: empty identity basis control is missing")
+    if by_id["K-NEG-048"].get("input", {}).get("activation_evidence") != []:
+        raise ValueError("K-NEG-048: empty capability proof control is missing")
+    if by_id["K-NEG-049"].get("input", {}).get("candidate_id") in by_id[
+        "K-NEG-049"
+    ].get("input", {}).get("snapshot_candidates", []):
+        raise ValueError("K-NEG-049: missing precondition target control is invalid")
+    revision_case = by_id["K-NEG-050"].get("input", {})
+    if revision_case.get("candidate_revision") == revision_case.get(
+        "resolved_candidate_revision"
+    ):
+        raise ValueError("K-NEG-050: revision-changed precondition control is invalid")
+
+    causal = by_id["K-POS-023"].get("input", {})
+    states = {state.get("event"): state for state in causal.get("states", [])}
+    expected_states = {
+        "created_at_a": ([], 0, ["target:a"], 1),
+        "b_ingress": (["target:a"], 1, ["target:a", "target:b"], 2),
+        "c_ingress": (
+            ["target:a", "target:b"],
+            2,
+            ["target:a", "target:b", "target:c"],
+            3,
+        ),
+    }
+    for event, (incoming_path, incoming_hops, accepted_path, accepted_hops) in expected_states.items():
+        state = states.get(event, {})
+        if (
+            state.get("incoming_path") != incoming_path
+            or state.get("incoming_hop_count") != incoming_hops
+            or state.get("accepted_path") != accepted_path
+            or state.get("accepted_hop_count") != accepted_hops
+        ):
+            raise ValueError(f"K-POS-023: {event} causal transition is invalid")
+    for event, path, hops in (
+        ("a_emits_to_b", ["target:a"], 1),
+        ("b_emits_to_c", ["target:a", "target:b"], 2),
+    ):
+        state = states.get(event, {})
+        if state.get("emitted_path") != path or state.get("emitted_hop_count") != hops:
+            raise ValueError(f"K-POS-023: {event} mutates causal context")
+    reflection = by_id["K-NEG-051"].get("input", {})
+    if (
+        reflection.get("receiver") not in reflection.get("incoming_path", [])
+        or reflection.get("attempted_path_after_rejection")
+        != reflection.get("incoming_path")
+        or by_id["K-NEG-051"]["expect"].get("error_id") != "echo_suppressed"
+    ):
+        raise ValueError("K-NEG-051: C-to-A reflection control is invalid")
 
     transition = by_id["K-POS-021"].get("input", {})
     if not transition.get("generation_fences") or transition.get(

@@ -245,12 +245,19 @@ do not match, and neither canonical ordering nor a presentation selection can
 change the selected evidence.
 
 A readback serializes the exact later snapshot ID/revisions, candidate revision,
-binding, source, source epoch, and driver generation. These members are audit
-evidence and MUST match the admitted route; a fixture-only generation assertion
-cannot substitute for them. The containing intent serializes an exact
-pack-owned `ExpectedEffect`. The operation pack validator recomputes the relation
-from the unchanged intent and resolved candidate; serialized `relation=confirms`
-cannot substitute for that evaluation.
+binding, source, source epoch, driver generation, and complete wall-plus-monotonic
+`EvaluationContext`. These members are audit evidence and MUST match the
+admitted route; a fixture-only generation assertion cannot substitute for them.
+For `applied`, the resolved candidate's receipt must be strictly after the
+serialized dispatch completion. Equal monotonic epochs compare ticks; different
+epochs compare UTC uncertainty intervals, requiring the earliest plausible
+receipt to be later than the latest plausible completion. A retained
+pre-dispatch candidate, missing completion, overlapping interval, incomparable
+clock, or evaluation whose freshness is not reproducible rejects
+`invalid_outcome`. The containing intent serializes an exact pack-owned
+`ExpectedEffect`. The operation pack validator recomputes the relation from the
+unchanged intent and resolved candidate; serialized `relation=confirms` cannot
+substitute for that evaluation.
 
 Definition dispatch reads the explicit `PackRef` carried by each
 `DefinitionRef` or capability requirement, then performs one exact lookup in the
@@ -264,17 +271,21 @@ the native operation.
 
 ## Causal serialization
 
-Origin references and correlation IDs persist through facts and projections. A bridge
-increments the hop count and appends itself exactly once before emission. It
-MUST NOT shorten expiry or hop history in a way that hides a loop, extend the
-expiry beyond the original 300-second maximum, or mint authority from an
-observation.
+Origin references and correlation IDs persist through facts and projections.
+The path serializes targets that have already accepted ingress, in their entry
+order. A context created inside A is `[A]/1`; A emits `[A]/1` unchanged. Receiver
+R validates the incoming context, rejects an existing R, checks capacity, then
+appends R and increments the count before processing. Thus B accepts `[A,B]/2`,
+emits `[A,B]/2` unchanged, and C accepts `[A,B,C]/3`; a C-to-A reflection is
+rejected before mutation because A is already present. Rejection never mutates
+the context. A processor
+MUST NOT shorten expiry or path history, extend the expiry beyond the original
+300-second maximum, or mint authority from an observation.
 
-A receiving target rejects the record when its ID is already in the path, the
-hop count would exceed `max_hops`, or the conservative expiry check fails. An
-independent operator or automation request uses a new intent, idempotency, and
-correlation ID and undergoes normal authority/admission checks; equality of the
-requested semantic value with an earlier projection is not itself suppression.
+An independent operator or automation request uses a new intent, idempotency,
+and correlation ID and undergoes normal authority/admission checks; equality of
+the requested semantic value with an earlier projection is not itself
+suppression.
 
 ## Error determinism
 

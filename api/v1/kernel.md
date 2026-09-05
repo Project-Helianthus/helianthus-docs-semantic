@@ -663,6 +663,12 @@ binding. A candidate value is required except where `Quality` forbids it. Origin
 and causal context survive projection and derived facts; they do not grant
 command authority.
 
+`revision` increments whenever the key, value, quality, times, binding path,
+origin, causal context, evidence, or derivation changes. Retaining a candidate in
+a later snapshot preserves both its revision and observation times. A producer
+cannot rewrite receipt/evidence as post-dispatch without a new candidate revision
+and new native evidence.
+
 ### Type: Selection
 
 ```go
@@ -1058,14 +1064,23 @@ type CausalContext struct {
 
 `max_hops` is from 1 through 16; `hop_count <= max_hops`; path length equals
 `hop_count` and has no repeated target. `first_seen_at` and `expires_at` use
-`clock.utc`, and expiry is no more than 300 seconds after first seen. Every
-projection or bridge preserves origin/correlation, increments `hop_count`, and
-appends its target before emission.
+`clock.utc`, and expiry is no more than 300 seconds after first seen. `path`
+contains the target processors that have successfully entered the causal chain,
+in entry order. A context created inside target A starts as `path=[A]` and
+`hop_count=1`; an external context before its first target starts empty at zero.
 
-Ingress rejects a context that is expired, exceeds its hop budget, or already
-contains the ingress target. A reflected observation cannot create an intent or
-authority. An independent authorized intent with a new intent ID, idempotency
-key, and correlation ID remains admissible even when it requests the same value.
+Egress never changes path or hop count. On ingress at receiver R, the receiver
+performs this exact order atomically: validate the incoming count/path/expiry;
+reject `echo_suppressed` when R is already in path; reject
+`causal_budget_exceeded` when appending R would exceed `max_hops`; then append R,
+increment `hop_count`, and process or later emit the updated context. Thus A emits
+`[A]/1` to B, B accepts and holds `[A,B]/2`, B emits that unchanged context to C,
+and C accepts and holds `[A,B,C]/3`. A reflection from C to A is rejected because
+A is already present; no path member is appended on rejection.
+
+A reflected observation cannot create an intent or authority. An independent
+authorized intent with a new intent ID, idempotency key, and correlation ID
+remains admissible even when it requests the same value.
 
 ### Type: CapabilityRequirement
 
@@ -1225,18 +1240,21 @@ INT-06; no gateway type is imported into this kernel.
 
 ```go
 type DispatchEvidence struct {
-    AttemptID         AttemptID       `json:"attempt_id"`
-    StartedAt         TimePoint       `json:"started_at"`
-    CompletedAt       *TimePoint      `json:"completed_at,omitempty"`
-    Delivery          DeliveryState   `json:"delivery"`
-    PossibleSideEffect bool           `json:"possible_side_effect"`
-    Evidence          []EvidenceRef   `json:"evidence"`
+    AttemptID          AttemptID         `json:"attempt_id"`
+    Started            EvaluationContext `json:"started"`
+    Completed          *EvaluationContext `json:"completed,omitempty"`
+    Delivery           DeliveryState     `json:"delivery"`
+    PossibleSideEffect bool              `json:"possible_side_effect"`
+    Evidence           []EvidenceRef     `json:"evidence"`
 }
 ```
 
 `DeliveryState` is `not_sent`, `sent`, or `unknown`. `not_sent` requires
 `possible_side_effect=false`; `sent` or `unknown` may require true unless native
-evidence proves no effect. Dispatch completion is not protocol acknowledgement.
+evidence proves no effect. `started` and optional `completed` carry explicit wall
+and monotonic contexts; completion cannot precede start under the same-epoch or
+uncertainty-aware cross-epoch ordering used for readback. Dispatch completion is
+not protocol acknowledgement.
 
 ### Type: Acknowledgement
 
@@ -1263,9 +1281,9 @@ type Readback struct {
     SourceID          SourceID         `json:"source_id"`
     SourceEpochID     SourceEpochID    `json:"source_epoch_id"`
     DriverGeneration  Uint64           `json:"driver_generation"`
-    Relation          ReadbackRelation `json:"relation"`
-    At                TimePoint        `json:"at"`
-    Evidence          []EvidenceRef    `json:"evidence"`
+    Relation          ReadbackRelation  `json:"relation"`
+    Evaluation        EvaluationContext `json:"evaluation"`
+    Evidence          []EvidenceRef     `json:"evidence"`
 }
 ```
 
@@ -1276,9 +1294,28 @@ at exactly `candidate_revision`. The candidate's binding, source, source epoch,
 and driver generation must equal these fields, resolve within that snapshot, and
 equal the admitted `Route`.
 
-The candidate must also be qualified, promoted, good, fresh and available in an
-`EvaluationView` at `Readback.at`, and absent from an open conflict. Otherwise
-the relation cannot be `confirms` and `applied` is `invalid_outcome`.
+For `applied`, dispatch must be `sent` and include `Dispatch.completed`. The
+resolved candidate's `Times.received_at`/`receipt_monotonic` must prove a new
+observation strictly after that completed dispatch boundary. When monotonic
+epochs match, receipt ticks MUST be greater than completed ticks. Across epochs,
+both wall points must use `clock.utc` and the earliest plausible receipt
+(`received_at - uncertainty`) MUST be greater than the latest plausible dispatch
+completion (`completed_at + uncertainty`). Equality, overlapping uncertainty,
+incomparable clocks, missing completion, or a retained pre-dispatch observation
+is `invalid_outcome`.
+
+`Readback.evaluation` is the complete explicit wall and monotonic context used
+to call `EvaluateSnapshot` on the later snapshot. It must be at or after the
+candidate receipt under the same comparison rules. The candidate must be
+qualified, promoted, good, evaluated fresh and available, and absent from an
+open conflict. An incomparable/invalid evaluation or effective stale, expired,
+unknown, degraded, unavailable, or withdrawn result is `invalid_outcome`.
+
+A value already satisfied before dispatch never proves `applied`. If an
+operation pack supports an already-satisfied preflight decision, it must expose a
+separate typed pack contract that skips native dispatch and records no `applied`
+`ExecutionRecord`; v1 defines no automatic fallback or additional terminal
+outcome for that case.
 
 A missing snapshot/candidate or revision mismatch is `dangling_reference`; a
 different or retired route epoch is `stale_source_epoch`; a different or fenced

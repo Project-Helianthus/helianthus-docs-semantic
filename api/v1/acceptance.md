@@ -113,12 +113,14 @@ generation supersession, and fencing order.
 
 Authority, deadline, preconditions, exactly-one route, guarded native admission,
 exact eligible candidate binding, pack-owned expected effects,
-dispatch/ACK/readback distinctions, terminal outcomes, and retry boundaries.
+dispatch/ACK/readback distinctions, provably post-dispatch observations with
+explicit evaluation contexts, terminal outcomes, and retry boundaries.
 
 ### Coverage: `causal`
 
 Preserved origin/correlation, bounded 16-hop and 300-second budgets, echo
-re-entry rejection, and admission of an independent authorized intent.
+re-entry rejection, exact receiver-ingress path mutation with unchanged egress,
+and admission of an independent authorized intent.
 
 ### Coverage: `projection`
 
@@ -193,8 +195,11 @@ epochs without the permitted conservative wall-time evaluation.
 
 ### Error: `invalid_evidence`
 
-Evidence is missing, malformed, duplicated, inaccessible for the claimed public
-state, or does not satisfy the owning reference contract.
+A supplied `EvidenceRef` is malformed, inaccessible for the claimed public
+state, or violates its owning reference contract. Duplicate canonical references
+are `duplicate_key`. An empty/unqualifying `IdentityLink.basis` is
+`identity_not_qualified`; empty/unqualifying capability activation evidence is
+`capability_not_qualified`.
 
 ### Error: `noncanonical_order`
 
@@ -211,7 +216,9 @@ idempotency key with different bytes is `sequence_conflict`.
 
 A snapshot or update reference does not resolve to the exact required object,
 candidate revision, source path, or later readback snapshot. A resolved but stale
-source epoch or generation uses the more specific lifecycle error.
+source epoch or generation uses the more specific lifecycle error. This class
+does not apply to a precondition's exact candidate lookup or revision check;
+those are `precondition_failed`.
 
 ### Error: `derivation_cycle`
 
@@ -221,12 +228,13 @@ exceeds the derivation node/depth bound.
 ### Error: `identity_not_qualified`
 
 A binding/link/alias is reused inconsistently or a claimed qualified identity
-lacks its native-owner rule and evidence.
+lacks its native-owner rule or has empty/unqualifying `IdentityLink.basis`.
 
 ### Error: `revision_conflict`
 
 An expected semantic/object/component revision does not match the current
-immutable state.
+immutable state. A precondition's candidate-revision mismatch is
+`precondition_failed` instead.
 
 ### Error: `sequence_conflict`
 
@@ -261,7 +269,7 @@ pack lacks its required validation hook.
 ### Error: `capability_not_qualified`
 
 The required service/capability is candidate, unknown, unsupported, rejected,
-or lacks activation evidence/current binding qualification.
+or has empty/unqualifying activation evidence or current binding qualification.
 
 ### Error: `capability_unavailable`
 
@@ -299,12 +307,14 @@ address attempts to choose/bypass the guarded route.
 ### Error: `causal_budget_exceeded`
 
 The causal context is expired, exceeds 16 hops, exceeds its declared hop count,
-has inconsistent path length, repeats a target, or exceeds 300 seconds.
+has inconsistent path length or duplicate historical entries, cannot append a
+new receiver within `max_hops`, or exceeds 300 seconds.
 
 ### Error: `echo_suppressed`
 
-A reflected observation/projection attempts to re-enter operation admission
-under the same causal path/correlation or tries to create authority.
+A receiver already present in the incoming causal path is re-entered under the
+same correlation, or a reflected observation/projection tries to create
+authority. Rejection does not append the receiver or increment the hop count.
 
 ### Error: `retry_forbidden`
 
@@ -336,6 +346,25 @@ canonical key.
 
 A v1 semantic record contains an undeclared member or arbitrary extension bag.
 
+## Context-specific error partition
+
+These rules partition overlaps before applying the general precedence list:
+
+- a syntactically present but empty/unqualifying `IdentityLink.basis` is
+  `identity_not_qualified`; malformed supplied references inside a non-empty
+  basis remain `invalid_evidence`;
+- a syntactically present but empty/unqualifying
+  `CapabilityInstance.activation_evidence` is `capability_not_qualified`;
+  malformed supplied references inside a non-empty collection remain
+  `invalid_evidence`;
+- an absent `Precondition.candidate_id` or `candidate_revision` wire member is
+  `missing_member`; after the precondition record decodes, an unresolved exact
+  candidate ID or unequal candidate revision is `precondition_failed`, never
+  `dangling_reference` or `revision_conflict`; and
+- missing/unresolvable readback snapshot/candidate references remain
+  `dangling_reference`, while a resolved but pre-dispatch/unrelated/unverifiable
+  candidate used for `applied` is `invalid_outcome`.
+
 ## Normative rejection class map
 
 Every `MUST reject`, invalid-state rule, and failed public operation in v1 maps
@@ -353,31 +382,31 @@ serialization precedence list chooses one when an input violates several rows.
 | noncanonical/out-of-range decimal coefficient or exponent | `invalid_decimal` |
 | wrong primitive token type, invalid tagged payload/text/symbol/unit/range, or malformed non-evidence digest | `invalid_value` |
 | invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow | `invalid_time` |
-| malformed, duplicate, inaccessible, or insufficient `EvidenceRef` | `invalid_evidence` |
+| malformed or inaccessible supplied `EvidenceRef` outside the identity/capability proof cases below | `invalid_evidence` |
 | enum token outside its exact declared set | `invalid_enum` |
 | collection/text/graph maximum exceeded | `bounds_exceeded` |
 | valid set members presented outside canonical order | `noncanonical_order` |
 | previously unseen record digest differs from its computed canonical digest | `digest_mismatch` |
-| unresolved candidate/object/revision/source-path/readback-snapshot reference | `dangling_reference` |
+| unresolved candidate/object/revision/source-path/readback-snapshot reference outside precondition lookup | `dangling_reference` |
 | derivation self-reference, cycle, or graph-shape violation | `derivation_cycle` |
 | incomparable monotonic epochs without permitted wall evaluation | `incomparable_clock_epoch` |
-| stale expected object, component, or semantic revision | `revision_conflict` |
+| stale expected object, component, or semantic revision outside precondition candidate binding | `revision_conflict` |
 | regressed/reused publication sequence or idempotency key with different bytes | `sequence_conflict` |
 | retired or non-current source epoch | `stale_source_epoch` |
 | fenced/superseded generation or readback/route generation mismatch | `stale_driver_generation` |
 | higher generation without every required explicit supersession fence/withdrawal boundary | `generation_transition_incomplete` |
 | duplicate validator/definition ownership, pack mismatch, or wrong indexed definition kind | `definition_owner_conflict` |
 | missing exact pack validator, field/service/capability/operation/effect entry, or operation-pack hook | `definition_owner_missing` |
-| unproved/reused/conflicting identity link or binding | `identity_not_qualified` |
-| candidate/unknown/unsupported/rejected capability or missing activation/pack qualification | `capability_not_qualified` |
+| unproved/reused/conflicting identity link/binding, including empty or unqualifying link basis | `identity_not_qualified` |
+| candidate/unknown/unsupported/rejected capability or empty/unqualifying activation/pack proof | `capability_not_qualified` |
 | withdrawn/unavailable or non-permitted degraded capability | `capability_unavailable` |
 | zero/multiple eligible routes after otherwise successful filtering | `ambiguous_route` |
 | expired or uncertainty-failed deadline | `deadline_expired` |
 | false or non-exact candidate/unqualified/unpromoted/suspect/bad/unknown/stale/expired/conflicted/degraded/unavailable/revision-changed precondition | `precondition_failed` |
 | missing/unresolved/expired/out-of-scope authority | `authority_missing` |
 | route selected from presentation/projection/alias/caller native ID | `route_selection_forbidden` |
-| expired/inconsistent/over-limit causal budget | `causal_budget_exceeded` |
-| reflected re-entry or attempted authority minting | `echo_suppressed` |
+| expired/inconsistent/duplicate-history causal context or no capacity to append a new receiver | `causal_budget_exceeded` |
+| ingress receiver already in path or attempted authority minting from reflection | `echo_suppressed` |
 | unsafe blind retry or route fallback after possible side effect | `retry_forbidden` |
 | missing/duplicate/mismatched requested `(kind,item_id)` disposition or required accounting | `projection_incomplete` |
 | compatibility alias marked or used as routable | `alias_not_routable` |
