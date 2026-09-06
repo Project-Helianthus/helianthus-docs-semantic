@@ -20,6 +20,13 @@ are mechanically checked with `scripts/validate_thermal_hvac_pack_v1.py`.
 Native eBUS and GREE rows remain candidate evidence owned by their native
 documentation repositories. Affected eeBUS rows remain unknown pending STD-01.
 
+## Storage/BMS pack v1
+
+[`helianthus.pack.storage/v1`](v1/packs/storage-bms-v1.md) is the accepted
+second typed capability pack. Its vectors are checked by
+`scripts/validate_storage_bms_pack_v1.py`. CAN V1.04 and RS-485 1xSxxP rows are
+offline candidate evidence only; eeBUS remains `unknown_pending_std_01`.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -41,10 +48,10 @@ value bag.
 ## Remaining contracts
 
 This publication does not complete all INT-04. Separately versioned and reviewed
-contracts are still required for the PV/inverter, storage/BMS, EVSE, and
-infrastructure capability-pack catalogs; exact native mappings and normative
-dispositions; gateway composition; and target bindings. The accepted thermal
-pack does not close those four follow-ons or turn its candidate native rows into
+contracts are still required for the PV/inverter, EVSE, and infrastructure
+capability-pack catalogs; exact native mappings and normative dispositions;
+gateway composition; and target bindings. The accepted thermal and storage packs
+do not close those three follow-ons or turn candidate native rows into
 normative mappings.
 
 Matter draft and eeBUS source gaps stay explicit. Affected mappings cannot
