@@ -36,8 +36,9 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
   negative vectors required of later code.
 - [Thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) defines the accepted
   first capability pack and its native-evidence boundary.
-- [Storage/BMS pack v1](api/v1/packs/storage-bms-v1.md) defines accepted typed
-  storage vocabulary with offline candidate boundaries.
+- [Storage/BMS pack v1.1](api/v1/packs/storage-bms-v1.md) defines accepted typed
+  storage vocabulary, a qualified-current interface interlock predicate, and
+  offline candidate boundaries.
 - [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) defines accepted
   electrical and topology vocabulary with conservative admitted limit actions.
 - [EVSE pack v1](api/v1/packs/evse-v1.md) defines accepted charging topology,

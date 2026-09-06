@@ -23,9 +23,11 @@ documentation repositories. Affected eeBUS rows remain unknown pending STD-01.
 ## Storage/BMS pack v1
 
 [`helianthus.pack.storage/v1`](v1/packs/storage-bms-v1.md) is the accepted
-second typed capability pack. Its vectors are checked by
-`scripts/validate_storage_bms_pack_v1.py`. CAN V1.04 and RS-485 1xSxxP rows are
-offline candidate evidence only; eeBUS remains `unknown_pending_std_01`.
+second typed capability pack at exact PackRef `1.1.0`. Its vectors are checked
+by `scripts/validate_storage_bms_pack_v1.py`. Version 1.0.0 is superseded and
+non-implementable for operations because its interlock was not machine-identifiable.
+CAN V1.04 and RS-485 1xSxxP rows are offline candidate evidence only; eeBUS
+remains `unknown_pending_std_01`.
 
 ## PV/inverter pack v1
 
