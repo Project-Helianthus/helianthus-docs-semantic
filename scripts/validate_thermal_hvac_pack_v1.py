@@ -21,7 +21,7 @@ LIFECYCLE={"source_epoch","driver_generation","semantic_revision","capability_qu
 LOSS={"native_enum","precision_range","multiple_zones_faces","schedules","vendor_extensions","unavailable_fields","conflicting_sources","unsupported_operations"}
 PUBLICATION_POLICY={"admission":["exact_source_epoch","current_driver_generation","exact_semantic_revision","qualified_active_capability"],"stale_generation":"reject","partial_publication":"supplied_valid_only_preserve_permitted_last_known_good","withdrawal":"explicit_generation_fenced","evidence":"stale_unknown_never_promote_or_authorize","tombstone":"retained_non_actionable"}
 OPERATION_STAGES=["admission","dispatch","acknowledgement","readback","terminal_outcome"]
-OUTCOMES=["rejected","dispatched_unacknowledged","acknowledged_unverified","applied","no_effect","conflict","indeterminate"]
+OUTCOMES=["rejected","failed_no_contact","acknowledged_unverified","applied","no_effect","conflict","indeterminate"]
 PINS={"semantic_kernel":"da5ab4415d3bec73f9572aec1c495a6cdcbcba47","ebus":"ef076cb03e6cd5612f5dcbe7839e00ab4ee666c9","gree_can":"665a5f22f78c349b5e3063bda158af250a3f44b6","eebus_ledger":"81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1","eebus_m625_donor":"cedf238e34f879815ba773e9cd76b2b31c2822a3","matter_draft":"29b4768a513cf566011ab8cd60df1bc495204953"}
 def pairs(ps):
  d={}

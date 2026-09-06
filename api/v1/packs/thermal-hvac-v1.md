@@ -122,7 +122,7 @@ non-actionable.
 `thermal.setpoint.temperature`; `thermal.capability.set_mode` constrains exactly
 `thermal.mode.system`. Stages are admission, dispatch, acknowledgement,
 readback, and terminal outcome. Outcomes are `rejected`,
-`dispatched_unacknowledged`, `acknowledged_unverified`, `applied`, `no_effect`,
+`failed_no_contact`, `acknowledged_unverified`, `applied`, `no_effect`,
 `conflict`, and `indeterminate`. `applied` needs post-dispatch current-generation
 confirming readback; blind retry is forbidden after possible dispatch or
 indeterminate handoff.

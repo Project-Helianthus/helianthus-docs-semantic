@@ -110,6 +110,12 @@ def main() -> None:
     bad_constraint["catalog"]["definitions"]["capabilities"][5]["constraints"] = []
     reject(bad_constraint, "operation/capability constraint mismatch")
 
+    invented_outcome = copy.deepcopy(document)
+    invented_outcome["catalog"]["definitions"]["operations"][0]["terminal_outcomes"][1] = (
+        "dispatched_unacknowledged"
+    )
+    reject(invented_outcome, "operation stages/outcomes")
+
     print("baseline: PASS")
     print("duplicate_definition: REJECTED")
     print("wrong_pack: REJECTED")
@@ -125,6 +131,7 @@ def main() -> None:
     print("missing_read_field: REJECTED")
     print("missing_stage: REJECTED")
     print("bad_constraint: REJECTED")
+    print("invented_outcome: REJECTED")
 
 
 if __name__ == "__main__":
