@@ -1,6 +1,6 @@
 # Storage and BMS capability pack v1
 
-`helianthus.pack.storage/v1` has exact PackRef `{id: "helianthus.pack.storage", version: "1.0.0"}` and is the accepted software-0.7 typed input over `helianthus.semantic.kernel/v1`. Its machine-significant catalog is [storage-bms-acceptance-vectors.json](storage-bms-acceptance-vectors.json).
+`helianthus.pack.storage/v1` has exact PackRef `{id: "helianthus.pack.storage", version: "1.1.0"}` and is the accepted software-0.7 typed input over `helianthus.semantic.kernel/v1`. Its machine-significant catalog is [storage-bms-acceptance-vectors.json](storage-bms-acceptance-vectors.json). Version 1.0.0 is superseded and non-implementable for operations because its required interlock was not machine-identifiable; a normal `>=1.0.0,<2.0.0` range remains major-version compatible, while exact references use 1.1.0.
 
 The companion [exact contract tables](storage-bms-contract-tables.json) fix each
 field's kind, unit, dimension, optionality and bounded/unbounded shape; service,
@@ -11,7 +11,7 @@ terminal outcome, and applied effect confirmation.
 
 The table's `definition_index` is a complete kernel `DefinitionRef` index for
 fields, services, capabilities, operations, and effect rules. Every reference
-names `helianthus.pack.storage` version `1.0.0`; no owner or version is inferred
+names `helianthus.pack.storage` version `1.1.0`; no owner or version is inferred
 from a DefinitionID. Quantity bounds use kernel `Decimal` objects
 `{coefficient, exponent10}`, never string or floating-point comparisons.
 
@@ -35,7 +35,9 @@ System, battery, pack, module, cell, string, and inverter/charger interface rema
 
 Publication requires exact source epoch, current driver generation, exact semantic revision, and qualified active capability. Partial publication changes supplied valid fields only and preserves permitted last-known-good data. Withdrawal is explicit and generation-fenced; stale/unknown evidence cannot promote or authorize. Counter decrease never proves reset/wrap; native evidence is required.
 
-The only operation shapes are `storage.operation.set_charge_limit` and `storage.operation.set_discharge_limit`. An exact qualified native route, capability, generation, authority, and interlock are required before dispatch. ACK, readback, and terminal outcome remain separate; `applied` needs exact current-generation readback. No generic contactor, enable/disable, balancing, firmware, reset, or raw native write is published.
+The only operation shapes are `storage.operation.set_charge_limit` and `storage.operation.set_discharge_limit`. Each has exactly one canonical predicate: exact `storage.status.interlock@1.1.0` in exact `helianthus.pack.storage@1.1.0`, on byte-identical `storage.dimension.interface` FactKey dimensions to its equal expected-effect limit, with `{kind:"symbol",symbol:{namespace:"storage.status.interlock",token:"clear",known:true}}`. Additional valid predicates do not satisfy this requirement; empty, unrelated, duplicate, wrong-pack/version/fact/dimension/operator/value, or unknown predicates reject before authority resolution or dispatch.
+
+`storage.status.interlock` is an optional interface symbol with only `storage.status.interlock.active` and `storage.status.interlock.clear`. `clear` means qualified-current semantic evidence permits this interface operation family only; it grants no authority and creates no native route. Missing, active, stale, unknown, unqualified, unpromoted, degraded, unavailable, withdrawn, or conflicting evidence fails closed. `storage.capability.read.interface` has qualified-current binding semantics for both interface limit fields and this interlock fact, and `storage.portal.read.interface` exposes exactly those three fields through that capability. An exact qualified native route, capability, generation, authority, and canonical predicate are required before dispatch. ACK, readback, and terminal outcome remain separate; `applied` needs exact current-generation readback. No generic contactor, enable/disable, balancing, firmware, reset, or raw native write is published.
 
 Projection loss covers native enum/bitfield, precision/range, cell/module topology, signed direction, aggregation/reference, counter reset/wrap, unavailable fields, conflicts, extensions, and unsupported operations. Portal consumes promoted read facts and current admitted operations; it cannot define truth, routes, authority, or lifecycle.
 
@@ -43,4 +45,4 @@ Inputs are semantic docs `346cda9b675a03a7d1a8c886a3467eab84ce8fb2`, semreg proj
 
 Growatt CAN V1.04 is a selected-interface synthetic offline candidate with `physical_qualified=false`, no control route, and V1.05/high-voltage/other families unsupported. Growatt 1xSxxP RS-485 is an observation/fixture candidate with no command tuple, discovery, runtime admission, or real I/O. eeBUS remains `unknown_pending_std_01`; Matter is not conformance. No mapping is normative or operable.
 
-The five-domain catalog has thermal/HVAC and storage/BMS accepted, PV/inverter in exact-HEAD review, and EVSE/infrastructure follow-ons. This is typed 0.7 documentation only: no IR/codegen, runtime, driver, gateway, consumer, deployment, or live behavior. Run `python3 scripts/validate_storage_bms_pack_v1.py`, `python3 scripts/test_validate_storage_bms_pack_v1.py`, and `./scripts/check_docs.sh`.
+The five-domain catalog has thermal/HVAC and storage/BMS accepted, PV/inverter in exact-HEAD review, and EVSE/infrastructure follow-ons. This is typed 0.7 documentation only: no IR/codegen, runtime, driver, gateway, consumer, deployment, or live behavior, and no live authority. Run `python3 scripts/validate_storage_bms_pack_v1.py`, `python3 scripts/test_validate_storage_bms_pack_v1.py`, and `./scripts/check_docs.sh`.
