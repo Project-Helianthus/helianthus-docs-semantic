@@ -51,6 +51,18 @@ checked by `scripts/validate_evse_pack_v1.py`. Tesla FBE0/FDE0 is offline
 candidate evidence with no sender, control route, or live authority. eeBUS
 remains `unknown_pending_std_01`; the Matter draft is not conformance.
 
+## Electrical infrastructure pack v1
+
+[`helianthus.pack.infrastructure/v1`](v1/packs/infrastructure-v1.md) is the
+accepted fifth INT-04 capability pack. It defines protocol-neutral electrical
+site, grid-connection, feeder, circuit, phase, and meter topology; typed
+telemetry and state; lifecycle and loss boundaries; and Portal read
+contributions. Its [positive and negative vectors](v1/packs/infrastructure-acceptance-vectors.json)
+are checked by `scripts/validate_infrastructure_pack_v1.py`. It publishes no
+operation, breaker actuation, import/export control, sender, control route, or
+live authority. eBUS and Modbus are non-universal evidence only, eeBUS remains
+`unknown_pending_std_01`, and Matter is not conformance.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -71,12 +83,12 @@ value bag.
 
 ## Remaining contracts
 
-This publication does not complete all INT-04. Separately versioned and reviewed
-contracts are still required for the infrastructure capability-pack catalog,
-exact native mappings and normative dispositions;
+This publication completes the five typed INT-04 catalogs. Separately versioned
+and reviewed contracts are still required for exact native mappings and
+normative dispositions;
 gateway composition; and target bindings. The accepted thermal, storage/BMS,
-PV/inverter, and EVSE packs do not close the infrastructure follow-on or turn
-candidate native rows into normative mappings.
+PV/inverter, EVSE, and infrastructure packs do not turn candidate native rows
+into normative mappings.
 
 Matter draft and eeBUS source gaps stay explicit. Affected mappings cannot
 become normative merely because the kernel v1 types can represent them.

@@ -22,6 +22,8 @@ required_files=(
   api/v1/packs/pv-inverter-acceptance-vectors.json
   api/v1/packs/evse-v1.md
   api/v1/packs/evse-acceptance-vectors.json
+  api/v1/packs/infrastructure-v1.md
+  api/v1/packs/infrastructure-acceptance-vectors.json
   architecture/repository-ownership-v1.md
   compatibility/donor-ledger.md
   evidence/native-documentation-owners.md
@@ -52,3 +54,5 @@ python3 scripts/validate_pv_inverter_pack_v1.py
 python3 scripts/test_validate_pv_inverter_pack_v1.py
 python3 scripts/validate_evse_pack_v1.py
 python3 scripts/test_validate_evse_pack_v1.py
+python3 scripts/validate_infrastructure_pack_v1.py
+python3 scripts/test_validate_infrastructure_pack_v1.py
