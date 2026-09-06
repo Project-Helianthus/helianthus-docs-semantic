@@ -15,6 +15,9 @@ required_files=(
   api/v1/serialization.md
   api/v1/packs/thermal-hvac-v1.md
   api/v1/packs/thermal-hvac-acceptance-vectors.json
+  api/v1/packs/storage-bms-v1.md
+  api/v1/packs/storage-bms-acceptance-vectors.json
+  api/v1/packs/storage-bms-contract-tables.json
   architecture/repository-ownership-v1.md
   compatibility/donor-ledger.md
   evidence/native-documentation-owners.md
@@ -39,3 +42,5 @@ python3 scripts/check_snapshot_vector_ids.py
 python3 scripts/test_check_snapshot_vector_ids.py
 python3 scripts/validate_thermal_hvac_pack_v1.py
 python3 scripts/test_validate_thermal_hvac_pack_v1.py
+python3 scripts/validate_storage_bms_pack_v1.py
+python3 scripts/test_validate_storage_bms_pack_v1.py
