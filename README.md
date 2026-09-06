@@ -17,13 +17,12 @@ mappings, implement INT-05 product code, settle unresolved normative versions,
 or establish target conformance, release, or hardware acceptance.
 
 The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md),
-[storage/BMS pack v1](api/v1/packs/storage-bms-v1.md), and
-[PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) add the first three typed
-INT-04 vocabularies and machine-checked acceptance vectors. EVSE and
-infrastructure remain explicit follow-on packs. Growatt and Fronius PV rows
-remain candidate-only native evidence; Fronius is offline-only with no write
-authority. Growatt TL3-X applicability remains blocked by docs-modbus #143 and
-modbusreg #196. Affected eeBUS rows remain unknown pending STD-01.
+[storage/BMS pack v1](api/v1/packs/storage-bms-v1.md),
+[PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md), and
+[EVSE pack v1](api/v1/packs/evse-v1.md) add the first four typed INT-04
+vocabularies and machine-checked acceptance vectors. Infrastructure remains the
+explicit follow-on. Tesla FBE0/FDE0 remains an offline native candidate with no
+sender or live authority; affected eeBUS rows remain unknown pending STD-01.
 
 ## Documentation map
 
@@ -39,6 +38,8 @@ modbusreg #196. Affected eeBUS rows remain unknown pending STD-01.
   storage vocabulary with offline candidate boundaries.
 - [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) defines accepted
   electrical and topology vocabulary with conservative admitted limit actions.
+- [EVSE pack v1](api/v1/packs/evse-v1.md) defines accepted charging topology,
+  telemetry, and a conservative admitted allocated-current action.
 - [Compatibility donor ledger](compatibility/donor-ledger.md) links immutable
   public migration inputs and states their limits.
 - [Native documentation owners](evidence/native-documentation-owners.md) routes
