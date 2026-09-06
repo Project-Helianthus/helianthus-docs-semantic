@@ -20,10 +20,10 @@ The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md),
 [storage/BMS pack v1](api/v1/packs/storage-bms-v1.md), and
 [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) add the first three typed
 INT-04 vocabularies and machine-checked acceptance vectors. EVSE and
-infrastructure remain explicit follow-on packs. Growatt and Tesla PV rows
-remain candidate-only native evidence; Growatt TL3-X applicability remains
-blocked by docs-modbus #143 and modbusreg #196. Affected eeBUS rows remain
-unknown pending STD-01.
+infrastructure remain explicit follow-on packs. Growatt and Fronius PV rows
+remain candidate-only native evidence; Fronius is offline-only with no write
+authority. Growatt TL3-X applicability remains blocked by docs-modbus #143 and
+modbusreg #196. Affected eeBUS rows remain unknown pending STD-01.
 
 ## Documentation map
 

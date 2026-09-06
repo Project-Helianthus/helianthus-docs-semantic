@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Focused mutation tests for the PV/inverter pack documentation validator."""
+"""Focused exact-association mutation tests for the PV/inverter pack."""
 from __future__ import annotations
 
 import copy
@@ -26,56 +26,53 @@ def reject(document, expected):
     raise AssertionError(f"expected rejection containing {expected!r}")
 
 
+def case(document, name, expected, mutate):
+    candidate = copy.deepcopy(document)
+    mutate(candidate["catalog"])
+    reject(candidate, expected)
+    print(f"{name}: REJECTED")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
-    cases = []
+    validator.decimal_less({"coefficient": "9007199254740992", "exponent10": -18}, {"coefficient": "9007199254740993", "exponent10": -18}) or (_ for _ in ()).throw(AssertionError("exact close Decimal comparison"))
+    print("baseline_exact_chain: PASS")
+    print("close_decimal_interval: PASS")
 
-    wrong_pack = copy.deepcopy(document)
-    wrong_pack["catalog"]["pack"]["id"] = "helianthus.pack.thermal"
-    cases.append(("wrong_pack", wrong_pack, "exact PackRef"))
-
-    no_follow_on = copy.deepcopy(document)
-    no_follow_on["catalog"]["domain_catalog"] = no_follow_on["catalog"]["domain_catalog"][:-1]
-    cases.append(("missing_follow_on", no_follow_on, "five-domain catalog"))
-
-    no_phase_relation = copy.deepcopy(document)
-    no_phase_relation["catalog"]["definitions"]["relationships"] = no_phase_relation["catalog"]["definitions"]["relationships"][:-1]
-    cases.append(("missing_phase_relation", no_phase_relation, "topology relationship catalog"))
-
-    generic_enable = copy.deepcopy(document)
-    generic_enable["catalog"]["definitions"]["operations"][0]["id"] = "pv.operation.enable"
-    generic_enable["catalog"]["definitions"]["operations"][0]["ref"]["id"] = "pv.operation.enable"
-    cases.append(("generic_enable", generic_enable, "operation catalog"))
-
-    unadmitted = copy.deepcopy(document)
-    unadmitted["catalog"]["definitions"]["operations"][0]["preconditions"][-1] = "optional_authority"
-    cases.append(("unadmitted_operation", unadmitted, "operation lacks admission/readback"))
-
-    growatt_qualified = copy.deepcopy(document)
-    growatt_qualified["catalog"]["candidate_mappings"][0]["state"] = "qualified"
-    cases.append(("growatt_qualified", growatt_qualified, "Growatt mapping"))
-
-    tesla_qualified = copy.deepcopy(document)
-    tesla_qualified["catalog"]["candidate_mappings"][1]["state"] = "qualified"
-    cases.append(("tesla_qualified", tesla_qualified, "Tesla mapping"))
-
-    eebus_normative = copy.deepcopy(document)
-    eebus_normative["catalog"]["candidate_mappings"][2]["state"] = "candidate"
-    cases.append(("eebus_normative", eebus_normative, "eeBUS mapping"))
-
-    no_counter = copy.deepcopy(document)
-    del no_counter["catalog"]["counter_policy"]
-    cases.append(("missing_counter_policy", no_counter, "counter policy"))
-
-    no_portal_field = copy.deepcopy(document)
-    no_portal_field["catalog"]["definitions"]["portal_contributions"][1]["fields"].remove("pv.status.fault")
-    cases.append(("missing_portal_field", no_portal_field, "read descriptor field coverage"))
-
-    for name, candidate, expected in cases:
-        reject(candidate, expected)
-        print(f"{name}: REJECTED")
-    print("baseline: PASS")
+    case(document, "wrong_pack", "exact PackRef", lambda c: c["pack"].update(id="helianthus.pack.thermal"))
+    case(document, "missing_follow_on", "five-domain catalog", lambda c: c["domain_catalog"].pop())
+    case(document, "storage_bms_downgrade", "five-domain catalog", lambda c: c["domain_catalog"][2].update(state="follow_on"))
+    case(document, "retyped_voltage", "field has noncanonical kind", lambda c: c["definitions"]["fields"][0].update(kind="symbol", symbols=["pv.status.operating.idle"]))
+    case(document, "voltage_wrong_optional", "field has noncanonical kind", lambda c: c["definitions"]["fields"][0].update(optional=False))
+    case(document, "boolean_decimal_exponent", "canonical kernel Decimal", lambda c: c["definitions"]["fields"][0]["bounds"]["maximum"].update(exponent10=True))
+    case(document, "dc_voltage_exact_minimum", "canonical quantity contract", lambda c: c["definitions"]["fields"][0]["bounds"].update(minimum={"coefficient":"-99","exponent10":0}))
+    case(document, "ac_frequency_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][6]["bounds"].update(maximum={"coefficient":"999","exponent10":0}))
+    case(document, "retained_limit_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][10]["bounds"].update(maximum={"coefficient":"2","exponent10":7}))
+    case(document, "wrong_canonical_unit", "canonical quantity contract", lambda c: c["definitions"]["fields"][0].update(unit="unit.watt"))
+    case(document, "duplicate_field_order", "fields noncanonical order", lambda c: c["definitions"]["fields"][1].update(order=10))
+    case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
+    case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
+    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":230}))
+    case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
+    case(document, "availability_policy_conflated", "availability policy", lambda c: c["availability_policy"].update(effective_availability="pv.status.operating"))
+    case(document, "topology_self_edge", "topology relationship association", lambda c: c["definitions"]["relationships"][0].update(to="pv.dimension.system"))
+    case(document, "phase_service_system_dimension", "service dimension association", lambda c: c["definitions"]["services"][5].update(fact_key_dimension="pv.dimension.system"))
+    case(document, "capability_cross_service", "capability association", lambda c: c["definitions"]["capabilities"][6].update(service="pv.service.system"))
+    case(document, "operation_cross_capability", "operation association", lambda c: c["definitions"]["operations"][0].update(capability="pv.capability.set_export_limit"))
+    case(document, "operation_wrong_argument", "operation association", lambda c: c["definitions"]["operations"][0].update(arguments=["pv.limit.export_power"], argument_constraints=["pv.limit.export_power"]))
+    case(document, "cross_operation_effect", "operation association", lambda c: c["definitions"]["operations"][0].update(effect_rule="pv.effect.set_export_limit"))
+    case(document, "wrong_effect_fact", "effect association", lambda c: c["definitions"]["effect_rules"][0].update(fact="pv.status.fault"))
+    case(document, "effect_cross_operation", "effect association", lambda c: c["definitions"]["effect_rules"][0].update(operation="pv.operation.set_export_limit"))
+    case(document, "wrong_portal_operation", "Portal operation association", lambda c: c["definitions"]["portal_contributions"][6].update(operation="pv.operation.set_export_limit"))
+    case(document, "missing_portal_field", "Portal read association", lambda c: c["definitions"]["portal_contributions"][1]["fields"].remove("pv.status.fault"))
+    case(document, "wrong_portal_read_service", "Portal read association", lambda c: c["definitions"]["portal_contributions"][1].update(service="pv.service.system"))
+    case(document, "growatt_wrong_owner", "native mapping boundary", lambda c: c["candidate_mappings"][0].update(native_owner="helianthus-semreg"))
+    case(document, "mapping_missing_loss", "native mapping boundary", lambda c: c["candidate_mappings"][0].pop("loss"))
+    case(document, "mapping_wrong_source_ref", "native mapping boundary", lambda c: c["candidate_mappings"][1].update(source_refs=["growatt_docs_modbus"]))
+    case(document, "extra_normative_mapping", "native mapping boundary", lambda c: c["candidate_mappings"].append({"id":"pv.mapping.extra","native_owner":"helianthus-semreg","source_refs":[],"state":"normative","qualification":"qualified","loss":"none"}))
+    case(document, "tesla_provenance_reintroduced", "pinned public inputs", lambda c: c["inputs"][4].update(id="tesla_docs_modbus", revision="d16ff91ff808803fa31c67a6a10eb2a4faa70937"))
+    print("focused_mutations: 32 REJECTED")
 
 
 if __name__ == "__main__":

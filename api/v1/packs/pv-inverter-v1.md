@@ -13,7 +13,11 @@ voltage, current, and power; aggregate and per-phase AC voltage, current and
 active power; AC frequency; power factor; generated energy; inverter
 temperature; and active-power and export-limit settings. Canonical units are
 volt, ampere, watt, hertz, kilowatt-hour, celsius, and ratio. Operating,
-derating, fault, and availability fields use declared symbols only. Unknown,
+derating, and fault fields use declared symbols only. Effective observation and
+capability availability stays exclusively in kernel availability state; it is
+not a PV symbol. `pv.status.operating` is a distinct native operating-readiness
+fact and never encodes unavailable, withdrawn, stale, or unknown. Portal
+consumes that kernel availability separately from promoted PV facts. Unknown,
 withheld, unavailable, and operation outcomes remain kernel quality,
 availability, and operation records, never symbols.
 
@@ -38,7 +42,7 @@ pv.ac.frequency                   pv.ac.power_factor
 pv.energy.generated               pv.temperature.inverter
 pv.limit.active_power             pv.limit.export_power
 pv.status.operating               pv.status.derating
-pv.status.fault                   pv.status.availability
+pv.status.fault
 pv.service.system                 pv.service.inverter
 pv.service.array                  pv.service.string
 pv.service.input                  pv.service.phase
@@ -59,6 +63,11 @@ pv.portal.operation.set_export_limit
 ```
 
 ## Capability and operation boundary
+
+Every quantity field carries its published minimum and maximum as an exact
+kernel `Decimal` `{coefficient, exponent10}` pair in the acceptance catalog.
+Those per-field values are part of this PackRef and cannot be broadened,
+narrowed, or re-encoded under the same version.
 
 Read capabilities require a qualified current binding. The only operations are
 `pv.operation.set_active_power_limit` and `pv.operation.set_export_limit`.
@@ -92,6 +101,17 @@ per-string/per-input/per-phase topology, counter reset/wrap, curtailment
 reason, vendor extensions, unavailable fields, conflicts, and unsupported
 operations. Projection cannot create a route, authority, capability, or fact.
 
+## Measurement reference and aggregation boundary
+
+The canonical unit does not establish an electrical reference, aggregation, or
+sign convention. A qualified native mapping must identify the voltage/current
+reference and phase basis it actually observes. Aggregate AC/DC fields retain a
+native aggregation record; this pack does not assume scalar, vector, arithmetic
+sum, average, or nameplate aggregation. Signed active power and power factor
+retain the native direction/reference convention in evidence and expose any
+unprojectable convention as explicit loss. Candidate and unknown rows therefore
+cannot be used to infer import/export direction or normalize phase measurements.
+
 ## Portal contribution descriptors
 
 Read descriptors consume promoted fields for system, inverter, input, phase,
@@ -105,22 +125,24 @@ lifecycle.
 Inputs are semantic documentation `346cda9b675a03a7d1a8c886a3467eab84ce8fb2`,
 semantic implementation `cc9b324225e945598128eeabe977e7fa0af6dc93`, Growatt
 documentation `7ba9c333539c4381c06584cab0dc86c7e9280767`, Growatt registry
-`7853d903970a4fdded35abaef01fe30f7e93be6a`, Tesla documentation
-`d16ff91ff808803fa31c67a6a10eb2a4faa70937`, Tesla registry
-`75e4e3988a7682068c02d8ac24f737b7f24a029f`, eeBUS ledger
+`7853d903970a4fdded35abaef01fe30f7e93be6a`, Fronius documentation
+`f0292b6dee164b78c2ec06849e214839f55abd18`, Fronius registry
+`1e2cea375f415847fb70cb8a181cdd1285543eca`, eeBUS ledger
 `81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1`, eeBUS raw donor
 `cedf238e34f879815ba773e9cd76b2b31c2822a3`, and Matter draft
 `29b4768a513cf566011ab8cd60df1bc495204953`.
 
-Growatt and Tesla rows are candidates only. Growatt TL3-X applicability and
-offsets 59--124 remain blocked by docs-modbus #143 and modbusreg #196. Affected
-eeBUS mapping is `unknown_pending_std_01`; the Matter draft is not conformance.
-No mapping in this pack is normative or an operation authority.
+Growatt and Fronius rows are candidates only. The Fronius sources are offline
+readiness candidates with `live_qualified=false` and no write authority.
+Growatt TL3-X applicability and offsets 59--124 remain blocked by docs-modbus
+#143 and modbusreg #196. Affected eeBUS mapping is `unknown_pending_std_01`;
+the Matter draft is not conformance. No mapping in this pack is normative or an
+operation authority.
 
 ## Compatibility and validation
 
-The full five-domain catalog has thermal/HVAC accepted, PV/inverter accepted,
-and storage/BMS, EVSE, and infrastructure as required follow-ons. This is typed
+The full five-domain catalog has thermal/HVAC, PV/inverter, and storage/BMS
+accepted, with EVSE and infrastructure as required follow-ons. This is typed
 0.7 documentation only: it introduces no 0.8 IR, HWIR, code generation,
 runtime, native driver, gateway, consumer, Portal UI, deployment, or live
 action. Breaking change requires a new major pack directory.

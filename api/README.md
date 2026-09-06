@@ -34,9 +34,10 @@ INT-04 capability pack. It defines typed generation, electrical, energy,
 state, topology, lifecycle, projection-loss, conservative power-limit operation,
 and Portal-contribution contracts. Its [positive and negative
 vectors](v1/packs/pv-inverter-acceptance-vectors.json) are checked by
-`scripts/validate_pv_inverter_pack_v1.py`. Growatt and Tesla rows remain
-candidate-only native-owner evidence; Growatt TL3-X applicability is blocked by
-docs-modbus #143 and modbusreg #196. Affected eeBUS rows remain
+`scripts/validate_pv_inverter_pack_v1.py`. Growatt and Fronius rows remain
+candidate-only native-owner evidence; Fronius is offline-only with no write
+authority. Growatt TL3-X applicability is blocked by docs-modbus #143 and
+modbusreg #196. Affected eeBUS rows remain
 `unknown_pending_std_01`.
 
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
