@@ -18,11 +18,13 @@ or establish target conformance, release, or hardware acceptance.
 
 The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md),
 [storage/BMS pack v1](api/v1/packs/storage-bms-v1.md),
-[PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md), and
-[EVSE pack v1](api/v1/packs/evse-v1.md) add the first four typed INT-04
-vocabularies and machine-checked acceptance vectors. Infrastructure remains the
-explicit follow-on. Tesla FBE0/FDE0 remains an offline native candidate with no
-sender or live authority; affected eeBUS rows remain unknown pending STD-01.
+[PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md),
+[EVSE pack v1](api/v1/packs/evse-v1.md), and [electrical infrastructure pack
+v1](api/v1/packs/infrastructure-v1.md) provide all five typed INT-04
+vocabularies and machine-checked acceptance vectors. Infrastructure is
+electrical site/grid/feeder/circuit semantics, not deployment infrastructure;
+it is read-only until a separately qualified native route and action-time
+authority exist. Affected eeBUS rows remain unknown pending STD-01.
 
 ## Documentation map
 
@@ -40,6 +42,9 @@ sender or live authority; affected eeBUS rows remain unknown pending STD-01.
   electrical and topology vocabulary with conservative admitted limit actions.
 - [EVSE pack v1](api/v1/packs/evse-v1.md) defines accepted charging topology,
   telemetry, and a conservative admitted allocated-current action.
+- [Electrical infrastructure pack v1](api/v1/packs/infrastructure-v1.md)
+  defines accepted site/grid/feeder/circuit/phase/meter topology, telemetry,
+  lifecycle, loss, and a read-only operation boundary.
 - [Compatibility donor ledger](compatibility/donor-ledger.md) links immutable
   public migration inputs and states their limits.
 - [Native documentation owners](evidence/native-documentation-owners.md) routes
