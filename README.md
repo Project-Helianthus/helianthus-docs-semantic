@@ -16,6 +16,12 @@ This kernel contract does not complete all INT-04 capability packs or native
 mappings, implement INT-05 product code, settle unresolved normative versions,
 or establish target conformance, release, or hardware acceptance.
 
+The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) adds the
+first typed INT-04 vocabulary and its machine-checked acceptance vectors. It
+retains PV/inverter, storage/BMS, EVSE, and infrastructure as four explicit
+follow-on packs. Candidate eBUS/GREE rows remain owned by their native docs;
+affected eeBUS rows remain unknown pending STD-01.
+
 ## Documentation map
 
 - [Repository ownership and boundaries](architecture/repository-ownership-v1.md)
@@ -24,6 +30,8 @@ or establish target conformance, release, or hardware acceptance.
   active and links the current kernel contract.
 - [Kernel v1 acceptance](api/v1/acceptance.md) defines the concrete positive and
   negative vectors required of later code.
+- [Thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) defines the accepted
+  first capability pack and its native-evidence boundary.
 - [Compatibility donor ledger](compatibility/donor-ledger.md) links immutable
   public migration inputs and states their limits.
 - [Native documentation owners](evidence/native-documentation-owners.md) routes

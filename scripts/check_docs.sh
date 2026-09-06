@@ -13,6 +13,8 @@ required_files=(
   api/v1/acceptance.md
   api/v1/kernel.md
   api/v1/serialization.md
+  api/v1/packs/thermal-hvac-v1.md
+  api/v1/packs/thermal-hvac-acceptance-vectors.json
   architecture/repository-ownership-v1.md
   compatibility/donor-ledger.md
   evidence/native-documentation-owners.md
@@ -35,3 +37,5 @@ python3 scripts/check_local_links.py
 python3 scripts/validate_kernel_v1.py
 python3 scripts/check_snapshot_vector_ids.py
 python3 scripts/test_check_snapshot_vector_ids.py
+python3 scripts/validate_thermal_hvac_pack_v1.py
+python3 scripts/test_validate_thermal_hvac_pack_v1.py
