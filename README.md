@@ -16,10 +16,14 @@ This kernel contract does not complete all INT-04 capability packs or native
 mappings, implement INT-05 product code, settle unresolved normative versions,
 or establish target conformance, release, or hardware acceptance.
 
-The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) and
-[storage/BMS pack v1](api/v1/packs/storage-bms-v1.md) add typed INT-04
-vocabularies and machine-checked acceptance vectors. PV/inverter remains in
-exact-HEAD review; EVSE and infrastructure remain explicit follow-ons.
+The accepted [thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md),
+[storage/BMS pack v1](api/v1/packs/storage-bms-v1.md), and
+[PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) add the first three typed
+INT-04 vocabularies and machine-checked acceptance vectors. EVSE and
+infrastructure remain explicit follow-on packs. Growatt and Fronius PV rows
+remain candidate-only native evidence; Fronius is offline-only with no write
+authority. Growatt TL3-X applicability remains blocked by docs-modbus #143 and
+modbusreg #196. Affected eeBUS rows remain unknown pending STD-01.
 
 ## Documentation map
 
@@ -33,6 +37,8 @@ exact-HEAD review; EVSE and infrastructure remain explicit follow-ons.
   first capability pack and its native-evidence boundary.
 - [Storage/BMS pack v1](api/v1/packs/storage-bms-v1.md) defines accepted typed
   storage vocabulary with offline candidate boundaries.
+- [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) defines accepted
+  electrical and topology vocabulary with conservative admitted limit actions.
 - [Compatibility donor ledger](compatibility/donor-ledger.md) links immutable
   public migration inputs and states their limits.
 - [Native documentation owners](evidence/native-documentation-owners.md) routes

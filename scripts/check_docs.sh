@@ -18,6 +18,8 @@ required_files=(
   api/v1/packs/storage-bms-v1.md
   api/v1/packs/storage-bms-acceptance-vectors.json
   api/v1/packs/storage-bms-contract-tables.json
+  api/v1/packs/pv-inverter-v1.md
+  api/v1/packs/pv-inverter-acceptance-vectors.json
   architecture/repository-ownership-v1.md
   compatibility/donor-ledger.md
   evidence/native-documentation-owners.md
@@ -44,3 +46,5 @@ python3 scripts/validate_thermal_hvac_pack_v1.py
 python3 scripts/test_validate_thermal_hvac_pack_v1.py
 python3 scripts/validate_storage_bms_pack_v1.py
 python3 scripts/test_validate_storage_bms_pack_v1.py
+python3 scripts/validate_pv_inverter_pack_v1.py
+python3 scripts/test_validate_pv_inverter_pack_v1.py

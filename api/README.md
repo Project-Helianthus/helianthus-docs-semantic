@@ -27,6 +27,19 @@ second typed capability pack. Its vectors are checked by
 `scripts/validate_storage_bms_pack_v1.py`. CAN V1.04 and RS-485 1xSxxP rows are
 offline candidate evidence only; eeBUS remains `unknown_pending_std_01`.
 
+## PV/inverter pack v1
+
+[`helianthus.pack.pv/v1`](v1/packs/pv-inverter-v1.md) is the accepted third
+INT-04 capability pack. It defines typed generation, electrical, energy,
+state, topology, lifecycle, projection-loss, conservative power-limit operation,
+and Portal-contribution contracts. Its [positive and negative
+vectors](v1/packs/pv-inverter-acceptance-vectors.json) are checked by
+`scripts/validate_pv_inverter_pack_v1.py`. Growatt and Fronius rows remain
+candidate-only native-owner evidence; Fronius is offline-only with no write
+authority. Growatt TL3-X applicability is blocked by docs-modbus #143 and
+modbusreg #196. Affected eeBUS rows remain
+`unknown_pending_std_01`.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -48,10 +61,10 @@ value bag.
 ## Remaining contracts
 
 This publication does not complete all INT-04. Separately versioned and reviewed
-contracts are still required for the PV/inverter, EVSE, and infrastructure
+contracts are still required for the EVSE and infrastructure
 capability-pack catalogs; exact native mappings and normative dispositions;
-gateway composition; and target bindings. The accepted thermal and storage packs
-do not close those three follow-ons or turn candidate native rows into
+gateway composition; and target bindings. The accepted thermal, storage/BMS,
+and PV/inverter packs do not close those two follow-ons or turn candidate native rows into
 normative mappings.
 
 Matter draft and eeBUS source gaps stay explicit. Affected mappings cannot
