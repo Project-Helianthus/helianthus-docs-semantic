@@ -40,6 +40,17 @@ authority. Growatt TL3-X applicability is blocked by docs-modbus #143 and
 modbusreg #196. Affected eeBUS rows remain
 `unknown_pending_std_01`.
 
+## EVSE pack v1
+
+[`helianthus.pack.evse/v1`](v1/packs/evse-v1.md) is the accepted fourth
+INT-04 capability pack. It defines typed connector/phase/session/meter topology,
+telemetry, current-limit distinctions, lifecycle, loss, conservative
+allocated-current operations, and Portal contributions. Its
+[positive and negative vectors](v1/packs/evse-acceptance-vectors.json) are
+checked by `scripts/validate_evse_pack_v1.py`. Tesla FBE0/FDE0 is offline
+candidate evidence with no sender, control route, or live authority. eeBUS
+remains `unknown_pending_std_01`; the Matter draft is not conformance.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -61,11 +72,11 @@ value bag.
 ## Remaining contracts
 
 This publication does not complete all INT-04. Separately versioned and reviewed
-contracts are still required for the EVSE and infrastructure
-capability-pack catalogs; exact native mappings and normative dispositions;
+contracts are still required for the infrastructure capability-pack catalog,
+exact native mappings and normative dispositions;
 gateway composition; and target bindings. The accepted thermal, storage/BMS,
-and PV/inverter packs do not close those two follow-ons or turn candidate native rows into
-normative mappings.
+PV/inverter, and EVSE packs do not close the infrastructure follow-on or turn
+candidate native rows into normative mappings.
 
 Matter draft and eeBUS source gaps stay explicit. Affected mappings cannot
 become normative merely because the kernel v1 types can represent them.
