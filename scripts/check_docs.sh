@@ -10,6 +10,7 @@ required_files=(
   README.md
   api/README.md
   api/v1/acceptance-vectors.json
+  api/v1/kernel-fork-acceptance.json
   api/v1/acceptance.md
   api/v1/kernel.md
   api/v1/serialization.md
@@ -44,6 +45,8 @@ fi
 git diff --check
 python3 scripts/check_local_links.py
 python3 scripts/validate_kernel_v1.py
+python3 scripts/validate_publication_kernel_fork.py
+python3 scripts/test_validate_publication_kernel_fork.py
 python3 scripts/check_snapshot_vector_ids.py
 python3 scripts/test_check_snapshot_vector_ids.py
 python3 scripts/validate_thermal_hvac_pack_v1.py

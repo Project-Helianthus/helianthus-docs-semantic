@@ -6,8 +6,9 @@ The versioned kernel contract consists of:
 
 - [typed records and invariants](v1/kernel.md);
 - [deterministic JSON serialization](v1/serialization.md);
-- [acceptance rules and stable errors](v1/acceptance.md); and
-- [positive and negative acceptance vectors](v1/acceptance-vectors.json).
+- [acceptance rules and stable errors](v1/acceptance.md);
+- [positive and negative acceptance vectors](v1/acceptance-vectors.json); and
+- [detached PublicationKernel fork falsifiers](v1/kernel-fork-acceptance.json).
 
 ## Thermal/HVAC pack v1
 
