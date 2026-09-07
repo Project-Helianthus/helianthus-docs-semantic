@@ -456,3 +456,29 @@ serialization precedence list chooses one when an input violates several rows.
 Documentation acceptance does not claim these code tests passed. It makes the
 test obligation concrete so the next code issue can implement it without a new
 design cycle.
+
+## PublicationKernel fork falsifiers
+
+The companion [fork acceptance fixture](kernel-fork-acceptance.json) is
+normative for `PublicationKernel.Fork`. Every scenario below is a falsifier:
+any result other than its stated postcondition rejects the implementation.
+
+1. `KF-POS-001` builds through sequence 32, forks, and requires byte-identical
+   current snapshot and canonical bytes before another apply.
+2. `KF-POS-002` applies sequence 33 only to the fork and requires the source to
+   remain byte-identical while the fork advances once in the same source, epoch
+   and generation.
+3. `KF-NEG-001` applies a malformed or conflicting batch only to a fork and
+   requires both source and fork to remain unchanged.
+4. `KF-POS-003` replays the accepted current tuple independently on source and
+   fork and requires equal detached result bytes with no revision advance.
+5. `KF-POS-004` forks an empty kernel and requires the same pack validator to
+   accept and reject the same definitions after its first publication.
+6. `KF-NEG-002` mutates every value returned by `Current` and `Fork` and
+   requires no attached state change.
+7. `KF-POS-005` races `Current`, `Fork`, and `Apply` and requires each fork to
+   contain one complete committed point, never a mixed state.
+
+The fixture also rejects a nil receiver unless `Fork` returns no object and
+`invalid_value`. It does not authorize restore, import, checkpoint,
+persistence, gateway composition, lifecycle replacement, or a source restart.

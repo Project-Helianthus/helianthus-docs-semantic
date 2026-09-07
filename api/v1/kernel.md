@@ -1618,3 +1618,61 @@ pack catalogs; exact native mappings and normative dispositions; Portal
 contributions; and target contracts. INT-06 owns gateway/runtime composition.
 INT-05 owns product code and executable fixtures. The 0.8 descriptive language,
 IR, generation, and code reduction remain outside this typed 0.7 contract.
+
+## PublicationKernel detached fork
+
+### Public signature and nil behavior
+
+The root package exposes exactly this additional v1 method:
+
+```go
+func (k *PublicationKernel) Fork() (*PublicationKernel, error)
+```
+
+`Fork` is a point-in-time, in-memory copy operation. A nil receiver returns
+`nil` and the stable v1 error identifier `invalid_value` with the same
+`publication kernel` subject used by `Apply`; it creates no object and performs
+no other work. A non-nil receiver returns a new valid `PublicationKernel` or an
+error. V1 has no other public fork signature.
+
+### Point-in-time preservation
+
+`Fork` MUST hold the source kernel read lock while constructing the result. The
+result reflects one complete committed instant. The fork MUST retain the same
+asset and registered pack-validation behavior, whether or not the source is
+empty. If a current state exists, the fork MUST copy exactly this current-state
+set: snapshot, canonical bytes, revision vector, sources, bindings, identity
+links, facts, services, capabilities, publication cursors, generation fences,
+and accepted current-tuple replay results.
+
+The validator registry is construction-static; `Fork` neither registers,
+removes nor probes a validator. An empty fork has no current snapshot, no
+canonical bytes and no accepted replay result, but accepts or rejects the same
+first publication definitions as the source. The operation itself implies no
+source upsert or retirement, binding/link upsert, generation fence, clock read,
+lifecycle event or semantic revision.
+
+### Independence and later publication
+
+The source and fork MUST share no mutable snapshot, canonical-byte, replay-result,
+map, or slice storage. `Current`, `Fork`, `Apply`, and replay results MUST return
+detached values. Mutating a returned snapshot, canonical byte slice, or replay
+result cannot affect either kernel.
+
+After a fork, applying the next batch for the same source, source epoch and
+driver generation follows the existing `Apply` sequence contract. Applying only
+to the fork cannot change the source current result, canonical bytes, revisions,
+cursor, replay result, or later acceptance behavior; the converse is also true.
+An accepted idempotent replay returns the retained detached result independently
+in each kernel without advancing revisions. Reuse of that tuple with a different
+digest rejects as `sequence_conflict` independently and leaves both states
+byte-identical.
+
+### Cost and non-goals
+
+Fork cost is bounded by the kernel's already bounded in-memory snapshot and
+accepted replay entries. The caller owns fork lifetime and decides whether to
+replace a private reference after its own checks succeed. `Fork` is not a public
+state-transfer mechanism: it creates no restore, import, checkpoint,
+persistence, serialization, background work, authority token, operation
+admission, transport behavior or external mutation.
