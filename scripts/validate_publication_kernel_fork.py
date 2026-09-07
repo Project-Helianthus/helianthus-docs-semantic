@@ -17,18 +17,32 @@ EXPECTED = {
     "KF-NEG-002": ("negative", "mutate_all_current_and_fork_return_values", {"no_attached_state_change"}),
     "KF-POS-005": ("positive", "race", {"complete_committed_point_only", "no_mixed_state"}),
 }
+COPIED_STATE_CLAUSE = (
+    "If a current state exists, the fork MUST copy exactly this current-state\n"
+    "set: snapshot, canonical bytes, revision vector, sources, bindings, identity\n"
+    "links, facts, services, capabilities, publication cursors, generation fences,\n"
+    "and accepted current-tuple replay results."
+)
+NO_SHARED_MUTABLE_STORAGE_CLAUSE = (
+    "The source and fork MUST share no mutable snapshot, canonical-byte, replay-result,\n"
+    "map, or slice storage."
+)
 
 def main() -> None:
     kernel, acceptance = KERNEL.read_text(), ACCEPTANCE.read_text()
     required = (
         "func (k *PublicationKernel) Fork() (*PublicationKernel, error)",
         "stable v1 error identifier `invalid_value`",
-        "read lock", "same asset and\nregistered pack-validation behavior", "no mutable snapshot, canonical-byte, replay",
-        "it creates no restore, import, checkpoint,\npersistence, serialization", "same source, source epoch and\ndriver generation",
+        "read lock",
+        "The fork MUST retain the same\nasset and registered pack-validation behavior",
+        COPIED_STATE_CLAUSE,
+        NO_SHARED_MUTABLE_STORAGE_CLAUSE,
+        "it creates no restore, import, checkpoint,\npersistence, serialization",
+        "same source, source epoch and\ndriver generation",
     )
     for token in required:
-        if token not in kernel:
-            raise ValueError(f"kernel fork contract missing: {token!r}")
+        if kernel.count(token) != 1:
+            raise ValueError(f"kernel fork contract missing or repeated: {token!r}")
     for token in ("## PublicationKernel fork falsifiers", "KF-POS-001", "KF-POS-005", "nil receiver"):
         if token not in acceptance:
             raise ValueError(f"acceptance fork contract missing: {token!r}")

@@ -1638,12 +1638,12 @@ error. V1 has no other public fork signature.
 ### Point-in-time preservation
 
 `Fork` MUST hold the source kernel read lock while constructing the result. The
-result reflects one complete committed instant: it retains the same asset and
-registered pack-validation behavior, whether or not the source is empty. If a
-current state exists, the fork retains its complete snapshot, canonical bytes,
-revision vector, sources, bindings, identity links, facts, services,
-capabilities, cursors and generation fences. It also retains every accepted
-replay result needed to return the same result for an identical accepted tuple.
+result reflects one complete committed instant. The fork MUST retain the same
+asset and registered pack-validation behavior, whether or not the source is
+empty. If a current state exists, the fork MUST copy exactly this current-state
+set: snapshot, canonical bytes, revision vector, sources, bindings, identity
+links, facts, services, capabilities, publication cursors, generation fences,
+and accepted current-tuple replay results.
 
 The validator registry is construction-static; `Fork` neither registers,
 removes nor probes a validator. An empty fork has no current snapshot, no
@@ -1654,10 +1654,10 @@ lifecycle event or semantic revision.
 
 ### Independence and later publication
 
-The source and fork MUST share no mutable snapshot, canonical-byte, replay
-result, map or slice storage. `Current`, `Fork`, `Apply`, and replay results
-MUST return detached values. Mutating a returned snapshot, canonical byte slice,
-or replay result cannot affect either kernel.
+The source and fork MUST share no mutable snapshot, canonical-byte, replay-result,
+map, or slice storage. `Current`, `Fork`, `Apply`, and replay results MUST return
+detached values. Mutating a returned snapshot, canonical byte slice, or replay
+result cannot affect either kernel.
 
 After a fork, applying the next batch for the same source, source epoch and
 driver generation follows the existing `Apply` sequence contract. Applying only
