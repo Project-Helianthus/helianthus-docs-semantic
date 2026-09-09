@@ -30,15 +30,16 @@ expiry and explicit withdrawal vectors remain applicable.
 
 ## Validation
 
-- `python3 scripts/validate_retained_observation_v1.py` — PASS: 20 normative
-  falsifiers.
+- `python3 scripts/validate_retained_observation_v1.py` — PASS: 19 normative
+  falsifiers (9 positive, 10 negative); fixture-count drift is rejected.
 - `python3 scripts/test_validate_retained_observation_v1.py` — PASS: baseline
-  plus nine rejecting mutations.
+  plus twelve rejecting mutations, including declared-count drift and omission of
+  the multiple-fence sequential-retirement vector.
 - `python3 -m py_compile scripts/validate_retained_observation_v1.py
   scripts/test_validate_retained_observation_v1.py` — PASS.
 - `git diff --check` and local-link validation — PASS.
 - `./scripts/check_docs.sh` — PASS. Complete log SHA-256:
-  `1aa48bd2ba539f563d8370c54c7e97a87f30bbdde3a096c65e809d359b127d6e`.
+  `b99d3628d4acdd79463724fb8a3f4fe57699707637da3fc0efac55278f391428`.
 
 ## Residual risk and stop
 

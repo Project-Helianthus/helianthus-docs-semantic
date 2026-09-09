@@ -56,6 +56,10 @@ def main() -> None:
     scenario(sequential, "RO-POS-007")["input"]["binding"]["state"] = "fenced"
     cross_source = copy.deepcopy(baseline)
     scenario(cross_source, "RO-NEG-007")["input"]["retirement_source_id"] = "source:meter"
+    count_drift = copy.deepcopy(baseline)
+    count_drift["scenario_counts"]["total"] = 20
+    omitted_vector = copy.deepcopy(baseline)
+    omitted_vector["scenarios"] = [item for item in omitted_vector["scenarios"] if item["id"] != "RO-POS-008"]
     missing_path = kernel.replace("Retained-path validation is separate from current-fact validation.", "Retained-path validation is unspecified.", 1)
     for name, document, kernel_text, expected in (
         ("baseline", baseline, None, True),
@@ -68,6 +72,8 @@ def main() -> None:
         ("retirement_tombstone", retirement_tombstone, None, False),
         ("sequential_retirement", sequential, None, False),
         ("cross_source_retirement", cross_source, None, False),
+        ("declared_count_drift", count_drift, None, False),
+        ("omitted_sequential_vector", omitted_vector, None, False),
         ("tombstone_path", baseline, missing_path, False),
     ):
         actual = execute(document, kernel_text)

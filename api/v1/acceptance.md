@@ -474,7 +474,7 @@ design cycle.
 ## Retained-observation falsifiers
 
 The companion [retained-observation fixture](retained-observation-acceptance.json)
-is normative for the lifecycle behavior introduced by issue #22. Its twenty vectors
+is normative for the lifecycle behavior introduced by issue #22. Its nineteen vectors
 cover generation fence, source retirement, same-ID current replacement, explicit
 withdrawal, deadline-only expiry, multiple retained revisions, tampering,
 selection/operation rejection, rejected-transition non-advance, and mismatched
@@ -484,7 +484,9 @@ retirement, and foreign source/epoch/generation rejection without advance. An IN
 implementation must execute each vector and preserve the stated canonical tuple,
 original candidate bytes, and result. The fixture is checked by
 `scripts/validate_retained_observation_v1.py` and mutation-tested by
-`scripts/test_validate_retained_observation_v1.py`.
+`scripts/test_validate_retained_observation_v1.py`. The fixture declares and the
+validator derives its 9-positive, 10-negative, 19-total count; a drift or omitted
+sequential-lifecycle vector rejects validation.
 
 ## PublicationKernel fork falsifiers
 

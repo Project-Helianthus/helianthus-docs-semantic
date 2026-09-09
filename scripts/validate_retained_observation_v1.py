@@ -12,6 +12,7 @@ SERIALIZATION = ROOT / "api/v1/serialization.md"
 FIXTURE = ROOT / "api/v1/retained-observation-acceptance.json"
 
 AXES = ["candidate_id", "candidate_revision", "jcs_key", "binding_id", "source_epoch_id", "driver_generation"]
+SCENARIO_COUNTS = {"positive": 9, "negative": 10, "total": 19}
 EXPECTED = {
     "RO-POS-001": ("positive", "generation_fence", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "fenced_non_actionable", "matching_fenced_binding_and_fence_path"}),
     "RO-POS-002": ("positive", "source_retirement", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "retired_non_actionable", "matching_retired_binding_and_source_path"}),
@@ -63,6 +64,8 @@ def main() -> None:
         raise ValueError("retained fixture contract pin differs")
     if data.get("identity_axes") != AXES:
         raise ValueError("retained fixture identity axes differ")
+    if data.get("scenario_counts") != SCENARIO_COUNTS:
+        raise ValueError("retained fixture scenario counts differ")
     rows = data.get("scenarios")
     if not isinstance(rows, list) or len(rows) != len(EXPECTED):
         raise ValueError("retained scenario count differs")
@@ -77,6 +80,13 @@ def main() -> None:
         polarity, operation, outcome = EXPECTED[ident]
         if row["polarity"] != polarity or row["operation"] != operation or set(row["expect"]) != outcome or len(row["expect"]) != len(outcome):
             raise ValueError(f"retained scenario differs: {ident}")
+    actual_counts = {
+        "positive": sum(row["polarity"] == "positive" for row in rows),
+        "negative": sum(row["polarity"] == "negative" for row in rows),
+        "total": len(rows),
+    }
+    if actual_counts != SCENARIO_COUNTS:
+        raise ValueError("retained scenario rows do not match declared counts")
     tombstone = next(row for row in rows if row["id"] == "RO-NEG-005")
     retirement_tombstone = next(row for row in rows if row["id"] == "RO-NEG-006")
     if tombstone.get("mutation") != "replace_matching_fenced_binding_or_fence_axis":
@@ -110,7 +120,7 @@ def main() -> None:
     controls = {row["id"]: row["input"] for row in rows if row["id"] in {"RO-NEG-007", "RO-NEG-008", "RO-NEG-009", "RO-NEG-010"}}
     if controls["RO-NEG-007"].get("header_source_id") == controls["RO-NEG-007"].get("retirement_source_id") or controls["RO-NEG-008"].get("header_source_epoch_id") == controls["RO-NEG-008"].get("retirement_source_epoch_id") or controls["RO-NEG-009"].get("header_driver_generation") == controls["RO-NEG-009"].get("retirement_driver_generation") or not controls["RO-NEG-010"].get("new_batch_digest"):
         raise ValueError("retirement rejection controls are incomplete")
-    print("Retained observation v1: PASS; 20 normative falsifiers")
+    print("Retained observation v1: PASS; " + str(actual_counts["total"]) + " normative falsifiers (" + str(actual_counts["positive"]) + " positive, " + str(actual_counts["negative"]) + " negative)")
 
 if __name__ == "__main__":
     main()
