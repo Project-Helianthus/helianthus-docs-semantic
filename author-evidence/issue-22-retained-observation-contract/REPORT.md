@@ -44,17 +44,18 @@ copy rule, and atomic rejected-transition non-advance are machine checked.
 
 ## Validation
 
-- `python3 scripts/validate_retained_observation_v1.py` — PASS: 11 normative
+- `python3 scripts/validate_retained_observation_v1.py` — PASS: 12 normative
   falsifiers.
 - `python3 scripts/test_validate_retained_observation_v1.py` — PASS: baseline
-  plus six rejecting mutations, including tombstone-path mismatch.
+  plus eight rejecting mutations, including fenced and retired tombstone-path
+  mismatch.
 - `python3 -m py_compile scripts/validate_retained_observation_v1.py
   scripts/test_validate_retained_observation_v1.py` — PASS.
 - `git diff --check` and local-link validation — PASS.
 - `./scripts/check_docs.sh` — PASS: kernel consistency (70 types, 38 errors,
   16 coverage areas, 90 vectors), retained validators, and every existing pack
   validator/self-test. Captured log SHA-256:
-  `5c9c5a95833b3a3a95de134add8f26b7cf54f05370b013de4497d6d1a88c7bc7`.
+  `01c8ecd416d1b97f0f618683ff8db225bc2145d6823dd898f47497e525cec963`.
 
 ## Residual risk and stop
 

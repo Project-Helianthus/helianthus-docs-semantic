@@ -471,7 +471,7 @@ design cycle.
 ## Retained-observation falsifiers
 
 The companion [retained-observation fixture](retained-observation-acceptance.json)
-is normative for the lifecycle behavior introduced by issue #22. Its eleven vectors
+is normative for the lifecycle behavior introduced by issue #22. Its twelve vectors
 cover generation fence, source retirement, same-ID current replacement, explicit
 withdrawal, deadline-only expiry, multiple retained revisions, tampering,
 selection/operation rejection, rejected-transition non-advance, and mismatched

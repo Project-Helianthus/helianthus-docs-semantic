@@ -24,6 +24,7 @@ EXPECTED = {
     "RO-NEG-003": ("negative", "admit_or_confirm_from_retained", {"reject", "error_id:precondition_failed", "state_unchanged"}),
     "RO-NEG-004": ("negative", "incomplete_fence_transition", {"reject", "error_id:generation_transition_incomplete", "current_and_retained_state_unchanged"}),
     "RO-NEG-005": ("negative", "validate_retained_tombstone_path", {"reject", "error_id:dangling_reference", "current_and_retained_state_unchanged"}),
+    "RO-NEG-006": ("negative", "validate_retained_tombstone_path", {"reject", "error_id:dangling_reference", "current_and_retained_state_unchanged"}),
 }
 
 CLAUSES = (
@@ -67,8 +68,11 @@ def main() -> None:
         if row["polarity"] != polarity or row["operation"] != operation or set(row["expect"]) != outcome or len(row["expect"]) != len(outcome):
             raise ValueError(f"retained scenario differs: {ident}")
     tombstone = next(row for row in rows if row["id"] == "RO-NEG-005")
-    if tombstone.get("mutation") != "replace_matching_fenced_or_retired_binding_or_tombstone_axis":
+    retirement_tombstone = next(row for row in rows if row["id"] == "RO-NEG-006")
+    if tombstone.get("mutation") != "replace_matching_fenced_binding_or_fence_axis":
         raise ValueError("retained tombstone-path mutation differs")
+    if retirement_tombstone.get("mutation") != "replace_matching_retired_source_descriptor_axis":
+        raise ValueError("retained retirement-tombstone mutation differs")
     fence = next(row for row in rows if row["id"] == "RO-POS-001")["input"]
     retired = next(row for row in rows if row["id"] == "RO-POS-002")["input"]
     mismatch = tombstone["input"]
@@ -79,7 +83,10 @@ def main() -> None:
             raise ValueError(f"retained {label} tombstone path differs")
     if mismatch.get("candidate_path", {}).get("driver_generation") == mismatch.get("binding", {}).get("driver_generation"):
         raise ValueError("retained mismatch control is not mismatched")
-    print("Retained observation v1: PASS; 11 normative falsifiers")
+    retirement_mismatch = retirement_tombstone["input"]
+    if retirement_mismatch.get("retained_removal") != "source_retirement" or retirement_mismatch.get("binding", {}).get("state") != "retired" or retirement_mismatch.get("source", {}).get("state") != "retired" or retirement_mismatch.get("candidate_path", {}).get("source_epoch_id") == retirement_mismatch.get("source", {}).get("source_epoch_id"):
+        raise ValueError("retained retirement mismatch control is not concrete")
+    print("Retained observation v1: PASS; 12 normative falsifiers")
 
 if __name__ == "__main__":
     main()

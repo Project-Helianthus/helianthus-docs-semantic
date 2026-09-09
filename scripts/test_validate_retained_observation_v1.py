@@ -47,7 +47,9 @@ def main() -> None:
     tombstone = copy.deepcopy(baseline)
     tombstone["scenarios"][-1]["expect"][1] = "error_id:invalid_value"
     tombstone_mutation = copy.deepcopy(baseline)
-    tombstone_mutation["scenarios"][-1]["mutation"] = "omit_tombstone_check"
+    tombstone_mutation["scenarios"][-2]["mutation"] = "omit_tombstone_check"
+    retirement_tombstone = copy.deepcopy(baseline)
+    retirement_tombstone["scenarios"][-1]["input"]["source"]["source_epoch_id"] = "epoch:meter:2"
     missing_path = kernel.replace("Retained-path validation is separate from current-fact validation.", "Retained-path validation is unspecified.", 1)
     for name, document, kernel_text, expected in (
         ("baseline", baseline, None, True),
@@ -57,6 +59,7 @@ def main() -> None:
         ("selection_error", selection, None, False),
         ("tombstone_error", tombstone, None, False),
         ("tombstone_mutation", tombstone_mutation, None, False),
+        ("retirement_tombstone", retirement_tombstone, None, False),
         ("tombstone_path", baseline, missing_path, False),
     ):
         actual = execute(document, kernel_text)
