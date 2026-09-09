@@ -21,6 +21,12 @@ is separate from current facts; expiry removes it from current and readback view
 without a publication. Retained evidence cannot select, route, admit, satisfy a
 precondition, or confirm a readback.
 
+Current observed candidates resolve through current bindings only. A retained
+copy has its own validation: the copied native path must match a fenced binding
+and matching generation fence, or a retired binding and matching retired source
+descriptor. A mismatched or missing tombstone rejects atomically as
+`dangling_reference`; the path is verified without changing any copied byte.
+
 An explicit withdrawal removes all retained instances with its stable CandidateID
 atomically, including distinct revisions and paths, and never fails because no
 current candidate remains. The 32-record bound, canonical ordering, immutable
@@ -38,17 +44,17 @@ copy rule, and atomic rejected-transition non-advance are machine checked.
 
 ## Validation
 
-- `python3 scripts/validate_retained_observation_v1.py` — PASS: 10 normative
+- `python3 scripts/validate_retained_observation_v1.py` — PASS: 11 normative
   falsifiers.
 - `python3 scripts/test_validate_retained_observation_v1.py` — PASS: baseline
-  plus four rejecting mutations.
+  plus six rejecting mutations, including tombstone-path mismatch.
 - `python3 -m py_compile scripts/validate_retained_observation_v1.py
   scripts/test_validate_retained_observation_v1.py` — PASS.
 - `git diff --check` and local-link validation — PASS.
 - `./scripts/check_docs.sh` — PASS: kernel consistency (70 types, 38 errors,
   16 coverage areas, 90 vectors), retained validators, and every existing pack
   validator/self-test. Captured log SHA-256:
-  `41d109a4dc636e18d720c7805b81863466a335d3230b809701a030d2e47860f9`.
+  `5c9c5a95833b3a3a95de134add8f26b7cf54f05370b013de4497d6d1a88c7bc7`.
 
 ## Residual risk and stop
 

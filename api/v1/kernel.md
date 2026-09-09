@@ -706,13 +706,15 @@ type FactCandidate struct {
 
 Evidence contains 1 through 32 unique references and `revision` is greater than
 zero. An observed candidate requires binding, source epoch, and driver
-generation; the generation is greater than zero and all three fields resolve to
-one current binding. It omits `derivation`. An inferred candidate omits those
-three single-path fields and requires a `Derivation`; its typed inputs preserve
-every native source path, so it never invents or arbitrarily selects a synthetic
-binding. A candidate value is required except where `Quality` forbids it. Origin
-and causal context survive projection and derived facts; they do not grant
-command authority.
+generation; the generation is greater than zero. Containment validation is
+explicit: an observed candidate in `Snapshot.Facts` MUST resolve all three
+fields to one current binding. A `RetainedObservation.Candidate` instead uses
+the retained-path validation below. It omits `derivation`. An inferred candidate
+omits those three single-path fields and requires a `Derivation`; its typed
+inputs preserve every native source path, so it never invents or arbitrarily
+selects a synthetic binding. A candidate value is required except where `Quality`
+forbids it. Origin and causal context survive projection and derived facts; they
+do not grant command authority.
 
 `revision` increments whenever the key, value, quality, times, binding path,
 origin, causal context, evidence, or derivation changes. Retaining a candidate in
@@ -737,11 +739,23 @@ origin, candidate and origin evidence, binding, source epoch, driver generation,
 causal context, and derivation. The kernel MUST NOT redact, normalize, advance,
 replace, or rebind any copied member while retaining it.
 
-`Removal` is exactly `generation_fence`, `source_retirement`, or
-`fact_withdrawal`. It records why an observed candidate left current state and
-does not alter the copy or grant lifecycle authority. A fence or source
-retirement retains affected observed candidates. An explicit `FactWithdrawal`
-removes an already-retained instance as specified below; it creates none.
+`Removal` is exactly `generation_fence` or `source_retirement`. It records why
+an observed candidate left current state and does not alter the copy or grant
+lifecycle authority. A fence or source retirement retains affected observed
+candidates. An explicit `FactWithdrawal` removes an already-retained instance
+as specified below; it creates none.
+
+Retained-path validation is separate from current-fact validation. The copied
+candidate's binding, source epoch, driver generation, and native origin fields
+MUST agree with one another and with one binding in the containing snapshot. For
+`removal=generation_fence`, that binding MUST be `fenced` and a
+`GenerationFence` with the same source ID, source epoch ID, and driver generation
+MUST exist. For `removal=source_retirement`, that binding MUST be `retired` and
+the matching source descriptor MUST be `retired` for its source ID and source
+epoch ID. A mismatched, absent, current, wrong-generation, or wrong-epoch
+tombstone is `dangling_reference`; the whole publication rejects without
+changing current or retained state. This validates the immutable copied path; it
+does not rebind or reclassify the candidate as current.
 
 The retained-instance identity is the ordered tuple
 `(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)`

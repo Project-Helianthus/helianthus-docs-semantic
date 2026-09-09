@@ -13,8 +13,8 @@ FIXTURE = ROOT / "api/v1/retained-observation-acceptance.json"
 
 AXES = ["candidate_id", "candidate_revision", "jcs_key", "binding_id", "source_epoch_id", "driver_generation"]
 EXPECTED = {
-    "RO-POS-001": ("positive", "generation_fence", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "fenced_non_actionable"}),
-    "RO-POS-002": ("positive", "source_retirement", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "retired_non_actionable"}),
+    "RO-POS-001": ("positive", "generation_fence", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "fenced_non_actionable", "matching_fenced_binding_and_fence_path"}),
+    "RO-POS-002": ("positive", "source_retirement", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "retired_non_actionable", "matching_retired_binding_and_source_path"}),
     "RO-POS-003": ("positive", "same_id_replacement", {"current_replacement_visible", "retained_prior_visible", "identity_axes_distinguish_instances", "canonical_tuple_order"}),
     "RO-POS-004": ("positive", "withdraw_retained_id", {"all_matching_retained_id_instances_removed", "no_dangling_current_lookup", "current_unrelated_unchanged"}),
     "RO-POS-005": ("positive", "evaluate_after_original_deadline", {"retained_absent_from_current_view", "retained_absent_from_readback_view", "snapshot_bytes_unchanged", "no_publication_required"}),
@@ -23,6 +23,7 @@ EXPECTED = {
     "RO-NEG-002": ("negative", "select_retained", {"reject", "error_id:route_selection_forbidden", "state_unchanged"}),
     "RO-NEG-003": ("negative", "admit_or_confirm_from_retained", {"reject", "error_id:precondition_failed", "state_unchanged"}),
     "RO-NEG-004": ("negative", "incomplete_fence_transition", {"reject", "error_id:generation_transition_incomplete", "current_and_retained_state_unchanged"}),
+    "RO-NEG-005": ("negative", "validate_retained_tombstone_path", {"reject", "error_id:dangling_reference", "current_and_retained_state_unchanged"}),
 }
 
 CLAUSES = (
@@ -32,6 +33,8 @@ CLAUSES = (
     "`(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)`",
     "At most\n32 retained instances exist per asset; an excess rejects atomically with\n`bounds_exceeded`.",
     "it removes the current candidate and every matching retained\ninstance.",
+    "Retained-path validation is separate from current-fact validation.",
+    "MUST exist. For `removal=source_retirement`, that binding MUST be `retired` and\nthe matching source descriptor MUST be `retired` for its source ID and source\nepoch ID.",
 )
 
 def main() -> None:
@@ -63,7 +66,20 @@ def main() -> None:
         polarity, operation, outcome = EXPECTED[ident]
         if row["polarity"] != polarity or row["operation"] != operation or set(row["expect"]) != outcome or len(row["expect"]) != len(outcome):
             raise ValueError(f"retained scenario differs: {ident}")
-    print("Retained observation v1: PASS; 10 normative falsifiers")
+    tombstone = next(row for row in rows if row["id"] == "RO-NEG-005")
+    if tombstone.get("mutation") != "replace_matching_fenced_or_retired_binding_or_tombstone_axis":
+        raise ValueError("retained tombstone-path mutation differs")
+    fence = next(row for row in rows if row["id"] == "RO-POS-001")["input"]
+    retired = next(row for row in rows if row["id"] == "RO-POS-002")["input"]
+    mismatch = tombstone["input"]
+    for label, scenario, state, tombstone_key in (("fence", fence, "fenced", "fence"), ("retirement", retired, "retired", "source")):
+        path, binding, marker = scenario.get("candidate_path", {}), scenario.get("binding", {}), scenario.get(tombstone_key, {})
+        axes = ("source_id", "source_epoch_id") + (("driver_generation",) if tombstone_key == "fence" else ())
+        if binding.get("state") != state or any(path.get(axis) != binding.get(axis) or path.get(axis) != marker.get(axis) for axis in axes) or path.get("binding_id") != binding.get("binding_id"):
+            raise ValueError(f"retained {label} tombstone path differs")
+    if mismatch.get("candidate_path", {}).get("driver_generation") == mismatch.get("binding", {}).get("driver_generation"):
+        raise ValueError("retained mismatch control is not mismatched")
+    print("Retained observation v1: PASS; 11 normative falsifiers")
 
 if __name__ == "__main__":
     main()

@@ -44,12 +44,20 @@ def main() -> None:
     missing_withdrawal = kernel.replace("it removes the current candidate and every matching retained\ninstance.", "it removes only the current candidate.", 1)
     selection = copy.deepcopy(baseline)
     selection["scenarios"][7]["expect"][1] = "error_id:invalid_value"
+    tombstone = copy.deepcopy(baseline)
+    tombstone["scenarios"][-1]["expect"][1] = "error_id:invalid_value"
+    tombstone_mutation = copy.deepcopy(baseline)
+    tombstone_mutation["scenarios"][-1]["mutation"] = "omit_tombstone_check"
+    missing_path = kernel.replace("Retained-path validation is separate from current-fact validation.", "Retained-path validation is unspecified.", 1)
     for name, document, kernel_text, expected in (
         ("baseline", baseline, None, True),
         ("identity_axes", mutated_axes, None, False),
         ("expiry", baseline, missing_expiry, False),
         ("withdrawal", baseline, missing_withdrawal, False),
         ("selection_error", selection, None, False),
+        ("tombstone_error", tombstone, None, False),
+        ("tombstone_mutation", tombstone_mutation, None, False),
+        ("tombstone_path", baseline, missing_path, False),
     ):
         actual = execute(document, kernel_text)
         if actual != expected:

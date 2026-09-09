@@ -471,10 +471,11 @@ design cycle.
 ## Retained-observation falsifiers
 
 The companion [retained-observation fixture](retained-observation-acceptance.json)
-is normative for the lifecycle behavior introduced by issue #22. Its ten vectors
+is normative for the lifecycle behavior introduced by issue #22. Its eleven vectors
 cover generation fence, source retirement, same-ID current replacement, explicit
 withdrawal, deadline-only expiry, multiple retained revisions, tampering,
-selection/operation rejection, and rejected-transition non-advance. An INT-05
+selection/operation rejection, rejected-transition non-advance, and mismatched
+fenced/retired tombstone-path rejection. An INT-05
 implementation must execute each vector and preserve the stated canonical tuple,
 original candidate bytes, and result. The fixture is checked by
 `scripts/validate_retained_observation_v1.py` and mutation-tested by
