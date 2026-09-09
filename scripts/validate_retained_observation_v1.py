@@ -19,12 +19,19 @@ EXPECTED = {
     "RO-POS-004": ("positive", "withdraw_retained_id", {"all_matching_retained_id_instances_removed", "no_dangling_current_lookup", "current_unrelated_unchanged"}),
     "RO-POS-005": ("positive", "evaluate_after_original_deadline", {"retained_absent_from_current_view", "retained_absent_from_readback_view", "snapshot_bytes_unchanged", "no_publication_required"}),
     "RO-POS-006": ("positive", "successive_fences", {"multiple_revisions_retained", "bounded_at_32", "canonical_tuple_order", "individual_original_deadlines"}),
+    "RO-POS-007": ("positive", "fence_then_source_retirement", {"original_candidate_and_removal_byte_identical", "fence_preserved", "binding_monotonically_retired", "retained_visible_until_original_deadline", "non_actionable"}),
+    "RO-POS-008": ("positive", "multiple_fences_then_source_retirement", {"all_fenced_bindings_monotonically_retired", "all_original_fences_and_removals_preserved", "canonical_tuple_order", "current_facts_advance_independently"}),
+    "RO-POS-009": ("positive", "replay_source_retirement", {"identical_batch_returns_prior_snapshot", "no_revision_advance", "no_retained_rewrite"}),
     "RO-NEG-001": ("negative", "validate_retained_copy", {"reject", "error_id:invalid_value", "state_unchanged"}),
     "RO-NEG-002": ("negative", "select_retained", {"reject", "error_id:route_selection_forbidden", "state_unchanged"}),
     "RO-NEG-003": ("negative", "admit_or_confirm_from_retained", {"reject", "error_id:precondition_failed", "state_unchanged"}),
     "RO-NEG-004": ("negative", "incomplete_fence_transition", {"reject", "error_id:generation_transition_incomplete", "current_and_retained_state_unchanged"}),
     "RO-NEG-005": ("negative", "validate_retained_tombstone_path", {"reject", "error_id:dangling_reference", "current_and_retained_state_unchanged"}),
     "RO-NEG-006": ("negative", "validate_retained_tombstone_path", {"reject", "error_id:dangling_reference", "current_and_retained_state_unchanged"}),
+    "RO-NEG-007": ("negative", "retire_foreign_source", {"reject", "error_id:stale_source_epoch", "current_and_retained_state_unchanged"}),
+    "RO-NEG-008": ("negative", "retire_foreign_epoch", {"reject", "error_id:stale_source_epoch", "current_and_retained_state_unchanged"}),
+    "RO-NEG-009": ("negative", "retire_foreign_generation", {"reject", "error_id:stale_driver_generation", "current_and_retained_state_unchanged"}),
+    "RO-NEG-010": ("negative", "retire_already_retired_epoch", {"reject", "error_id:stale_source_epoch", "current_and_retained_state_unchanged"}),
 }
 
 CLAUSES = (
@@ -35,7 +42,10 @@ CLAUSES = (
     "At most\n32 retained instances exist per asset; an excess rejects atomically with\n`bounds_exceeded`.",
     "it removes the current candidate and every matching retained\ninstance.",
     "Retained-path validation is separate from current-fact validation.",
-    "MUST exist. For `removal=source_retirement`, that binding MUST be `retired` and\nthe matching source descriptor MUST be `retired` for its source ID and source\nepoch ID.",
+    "For `removal=source_retirement`, the binding and matching source descriptor MUST\nbe `retired` for the copied source ID and source epoch ID.",
+    "Binding tombstone state is monotonic: `current -> fenced -> retired` or\n`current -> retired`.",
+    "including its original `Removal=generation_fence`, and preserves the matching\ngeneration fence.",
+    "A later distinct batch that retires an already retired epoch is\n`stale_source_epoch`.",
 )
 
 def main() -> None:
@@ -86,7 +96,21 @@ def main() -> None:
     retirement_mismatch = retirement_tombstone["input"]
     if retirement_mismatch.get("retained_removal") != "source_retirement" or retirement_mismatch.get("binding", {}).get("state") != "retired" or retirement_mismatch.get("source", {}).get("state") != "retired" or retirement_mismatch.get("candidate_path", {}).get("source_epoch_id") == retirement_mismatch.get("source", {}).get("source_epoch_id"):
         raise ValueError("retained retirement mismatch control is not concrete")
-    print("Retained observation v1: PASS; 12 normative falsifiers")
+    sequence = next(row for row in rows if row["id"] == "RO-POS-007")["input"]
+    retained, binding, fence_marker, source = (sequence.get(key, {}) for key in ("retained", "binding", "fence", "source"))
+    path = retained.get("candidate_path", {})
+    if retained.get("removal") != "generation_fence" or binding.get("state") != "retired" or source.get("state") != "retired" or any(path.get(axis) != binding.get(axis) or path.get(axis) != fence_marker.get(axis) for axis in ("source_id", "source_epoch_id", "driver_generation")) or path.get("source_id") != source.get("source_id") or path.get("source_epoch_id") != source.get("source_epoch_id"):
+        raise ValueError("fence-then-retirement sequence is incomplete")
+    multiple = next(row for row in rows if row["id"] == "RO-POS-008")["input"]
+    if multiple.get("fenced_generations") != ["2", "4", "6"] or multiple.get("binding_states") != ["retired", "retired", "retired"] or multiple.get("retained_removals") != ["generation_fence", "generation_fence", "generation_fence"] or multiple.get("source_state") != "retired":
+        raise ValueError("multiple-fence retirement sequence is incomplete")
+    replay = next(row for row in rows if row["id"] == "RO-POS-009")["input"]
+    if replay.get("source_id") != "source:meter" or replay.get("source_epoch_id") != "epoch:meter:1" or replay.get("driver_generation") != "6" or replay.get("sequence") != "19":
+        raise ValueError("retirement replay tuple is incomplete")
+    controls = {row["id"]: row["input"] for row in rows if row["id"] in {"RO-NEG-007", "RO-NEG-008", "RO-NEG-009", "RO-NEG-010"}}
+    if controls["RO-NEG-007"].get("header_source_id") == controls["RO-NEG-007"].get("retirement_source_id") or controls["RO-NEG-008"].get("header_source_epoch_id") == controls["RO-NEG-008"].get("retirement_source_epoch_id") or controls["RO-NEG-009"].get("header_driver_generation") == controls["RO-NEG-009"].get("retirement_driver_generation") or not controls["RO-NEG-010"].get("new_batch_digest"):
+        raise ValueError("retirement rejection controls are incomplete")
+    print("Retained observation v1: PASS; 20 normative falsifiers")
 
 if __name__ == "__main__":
     main()

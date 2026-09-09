@@ -122,7 +122,10 @@ bounded, evaluate separately, disappear from current/readback views on expiry
 without publication, and never satisfy selection, capability, route, operation,
 or confirming-readback authority. Explicit withdrawal removes retained stable-ID
 instances deterministically; rejected transitions leave both current and retained
-state unchanged.
+state unchanged. A later source retirement monotonically advances fenced binding
+tombstones to retired while preserving the original retained candidate and removal
+event; exact batch replay is idempotent, and cross-source/epoch/generation
+retirements fail without advance.
 
 ### Coverage: `operation`
 
@@ -471,11 +474,13 @@ design cycle.
 ## Retained-observation falsifiers
 
 The companion [retained-observation fixture](retained-observation-acceptance.json)
-is normative for the lifecycle behavior introduced by issue #22. Its twelve vectors
+is normative for the lifecycle behavior introduced by issue #22. Its twenty vectors
 cover generation fence, source retirement, same-ID current replacement, explicit
 withdrawal, deadline-only expiry, multiple retained revisions, tampering,
 selection/operation rejection, rejected-transition non-advance, and mismatched
-fenced/retired tombstone-path rejection. An INT-05
+fenced/retired tombstone-path rejection. They also cover fence-then-retirement,
+multiple fences then retirement, exact retirement replay, later duplicate
+retirement, and foreign source/epoch/generation rejection without advance. An INT-05
 implementation must execute each vector and preserve the stated canonical tuple,
 original candidate bytes, and result. The fixture is checked by
 `scripts/validate_retained_observation_v1.py` and mutation-tested by
