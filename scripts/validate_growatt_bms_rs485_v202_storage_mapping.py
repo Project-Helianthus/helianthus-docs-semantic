@@ -2,6 +2,9 @@
 """Execute and validate the Growatt BMS RS-485 v2.02 storage mapping gate."""
 import copy
 import json
+import math
+import re
+from datetime import datetime
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -15,21 +18,28 @@ UNSUPPORTED=['pack_power','state_of_health','cell_temperature_meaning','cell_vol
 
 def load(): return json.loads(PATH.read_text())
 def mutate(value,m):
+ path=m['path'].replace('native.request_adu','observation.slices.0.request_adu_hex').replace('native.words','observation.slices.0.words').replace('native.revision','observation.revision').replace('native.unit_id','observation.slices.0.unit_id').replace('native.slices','observation.slices').replace('native.typed','observation.typed')
+ if 'source' in value and path=='identity.source_id': path='source.source_id'
  c=value
- for p in m['path'].split('.')[:-1]: c=c[int(p)] if isinstance(c,list) else c[p]
- p=m['path'].split('.')[-1]; c[int(p) if isinstance(c,list) else p]=m['value']
+ for p in path.split('.')[:-1]: c=c[int(p)] if isinstance(c,list) else c[p]
+ p=path.split('.')[-1]; c[int(p) if isinstance(c,list) else p]=m['value']
 def fail(code): raise ValueError(code)
 def project(c):
- n,i,l=c['native'],c['identity'],c['lifecycle']
- if not n.get('request_adu') or not n.get('response_adu') or not n.get('words'): fail('native_evidence_missing')
- if n.get('revision')!=REV or not isinstance(n.get('unit_id'),int) or not 1<=n['unit_id']<=247 or n.get('slices')!=SLICES: fail('revision_or_unit_or_slice_invalid')
- if not i.get('asset_id') or not i.get('source_id') or i['asset_id']==i['source_id']: fail('identity_missing_or_invalid')
- if any(not l.get(k) for k in LIFE): fail('lifecycle_missing')
+ n,i,src,l,q=c['observation'],c['identity'],c['source'],c['lifecycle'],c['qualification']
+ if n.get('revision')!=REV or len(n.get('slices',[]))!=4: fail('revision_or_unit_or_slice_invalid')
+ for actual,required in zip(n['slices'],SLICES):
+  if {k:actual.get(k) for k in ('function','offset','quantity')}!=required or not isinstance(actual.get('unit_id'),int) or not 1<=actual['unit_id']<=247 or actual.get('transport_generation')!=l.get('transport_generation'): fail('revision_or_unit_or_slice_invalid')
+  if not actual.get('request_id') or not re.fullmatch(r'[0-9A-Fa-f]+',str(actual.get('request_adu_hex',''))) or not re.fullmatch(r'[0-9A-Fa-f]+',str(actual.get('response_adu_hex',''))) or len(actual.get('words',[]))!=actual['quantity']: fail('native_evidence_missing')
+ if not isinstance(i.get('asset_id'),str) or not isinstance(src.get('source_id'),str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:/@-]*',i['asset_id']) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:/@-]*',src['source_id']) or i['asset_id']==src['source_id']: fail('identity_missing_or_invalid')
+ if any(not l.get(k) for k in LIFE) or any(not isinstance(l[k],int) or isinstance(l[k],bool) or l[k]<1 for k in ('observation_revision','clock_epoch','source_epoch','driver_generation','transport_generation')) or not re.fullmatch(r'[1-9][0-9]*ns',str(l['receipt_monotonic'])): fail('lifecycle_missing')
+ try: datetime.fromisoformat(l['receipt_wall'].replace('Z','+00:00'))
+ except (AttributeError,ValueError): fail('lifecycle_missing')
+ if q!={'physical_qualified':False,'mapping_qualified':True,'outbound_allowed':False}: fail('mapping_unqualified')
  if c.get('request_operation'): fail('unsupported_or_withheld')
  t=n['typed']; state={'standby':'storage.status.operating.standby','charging':'storage.status.operating.active','discharging':'storage.status.operating.active'}.get(t['operating_state'])
  if state is None: fail('unsupported_or_withheld')
- if not all(isinstance(t[k],(int,float)) for k in ('soc_percent','pack_voltage_volts','pack_current_amps','temperature_celsius','cumulative_charge_amp_hours','cumulative_discharge_amp_hours')): fail('native_evidence_missing')
- return [['storage.capacity.charge',t['cumulative_charge_amp_hours'],'unit.ampere_hour','transformed'],['storage.capacity.discharge',t['cumulative_discharge_amp_hours'],'unit.ampere_hour','transformed'],['storage.pack.current',t['pack_current_amps'],'unit.ampere','transformed'],['storage.pack.voltage',t['pack_voltage_volts'],'unit.volt','exact'],['storage.state.soc',t['soc_percent'],'unit.percent','exact'],['storage.status.operating',state,None,'transformed'],['storage.temperature.pack',t['temperature_celsius'],'unit.celsius','exact']]
+ if not all(isinstance(t[k],(int,float)) and not isinstance(t[k],bool) and math.isfinite(t[k]) for k in ('soc_percent','pack_voltage_volts','pack_current_amps','temperature_celsius','cumulative_charge_amp_hours','cumulative_discharge_amp_hours')) or not 0<=t['soc_percent']<=100 or t['pack_voltage_volts']<0 or t['cumulative_charge_amp_hours']<0 or t['cumulative_discharge_amp_hours']<0: fail('native_evidence_missing')
+ return True
 def validate_contract(d):
  if d.get('contract')!='helianthus.semantic.mapping.growatt-bms-rs485-v202.storage/v1' or d.get('pack')!={'id':'helianthus.pack.storage','version':'1.1.0'} or len(d.get('pins',{}))!=10 or d['pins'].get('gateway_tree')!='0a850d5646d46f5782b1396d72a3d93bffa6974e' or d['pins'].get('native_source')!='6c08d4d2acf70bea622da333f6d75e26d2d92621': fail('contract')
  n=d.get('native_contract',{})
@@ -59,7 +69,7 @@ def document(d):
   c=copy.deepcopy(positive)
   for m in scenario.get('mutations',[]): mutate(c,m)
   if scenario['polarity']=='positive':
-   if project(c)!=scenario['expect']['facts'] or scenario['expect']['operations']!=[]: fail('positive projection')
+   if project(c) is not True or scenario['expect']['requested']!=d['projection']['requested_items'] or scenario['expect']['dispositions']!='canonical_from_field_rules' or scenario['expect']['withheld_reasons']!='canonical' or scenario['expect']['operations']!=[]: fail('positive projection')
   else:
    try: project(c)
    except ValueError as e:
