@@ -20,6 +20,8 @@ required_files=(
   api/v1/packs/storage-bms-v1.md
   api/v1/packs/storage-bms-acceptance-vectors.json
   api/v1/packs/storage-bms-contract-tables.json
+  api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md
+  api/v1/mappings/growatt-bms-rs485-v202-storage-v1.json
   api/v1/packs/pv-inverter-v1.md
   api/v1/packs/pv-inverter-acceptance-vectors.json
   api/v1/packs/evse-v1.md
@@ -56,6 +58,8 @@ python3 scripts/validate_thermal_hvac_pack_v1.py
 python3 scripts/test_validate_thermal_hvac_pack_v1.py
 python3 scripts/validate_storage_bms_pack_v1.py
 python3 scripts/test_validate_storage_bms_pack_v1.py
+python3 scripts/validate_growatt_bms_rs485_v202_storage_mapping.py
+python3 scripts/test_validate_growatt_bms_rs485_v202_storage_mapping.py
 python3 scripts/validate_pv_inverter_pack_v1.py
 python3 scripts/test_validate_pv_inverter_pack_v1.py
 python3 scripts/validate_evse_pack_v1.py

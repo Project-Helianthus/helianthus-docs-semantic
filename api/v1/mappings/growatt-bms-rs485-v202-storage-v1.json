@@ -1,0 +1,58 @@
+{
+  "contract": "helianthus.semantic.mapping.growatt-bms-rs485-v202.storage/v1",
+  "mapping_id": "storage.mapping.growatt.rs485.1xsxxp.v202",
+  "pack": {"id": "helianthus.pack.storage", "version": "1.1.0"},
+  "status": "accepted_source_specific_read_only_mapping_gate",
+  "pins": {
+    "docs_semantic_base": "ed33276cddb2dd86757efcf335c95936bdf4efe2",
+    "semreg": "f3f761bc67e10d6a65eba6c13cb4dc51002d6955",
+    "storage_docs": "c20fdef000fe95df95fca60c55d651a0614c4efd",
+    "storage_runtime": "6556bf4b3fffd645b6c14ebfd194d8570b7c5207",
+    "docs_modbus_lifecycle": "35151979c8561d5dc4215030899277aec36d2f9f",
+    "modbusreg": "7853d903970a4fdded35abaef01fe30f7e93be6a",
+    "native_source": "6c08d4d2acf70bea622da333f6d75e26d2d92621",
+    "gateway_main": "32244901c4c8337266cd348bdad90fb9e8eb0a61",
+    "gateway_tree": "0a850d5646d46f5782b1396d72a3d93bffa6974e",
+    "gateway_reviewed_source": "15ab7f0f4197485c83c04f8fe24000ebe058cb7a"
+  },
+  "native_contract": {
+    "profile": "growatt.bms.rs485.1xsxxp.v2_02.readonly.v1",
+    "revision": {"family": "1xSxxP ESS", "file_revision": "Rev2.01", "header_version": "V2.0", "cumulative_revision": "2.02"},
+    "unit": {"selection": "explicit_unicast", "allowed": "1..247", "broadcast_zero": "no_send"},
+    "slices": [{"function": "FC03", "offset": "0x0001", "quantity": 7}, {"function": "FC03", "offset": "0x000D", "quantity": 29}, {"function": "FC03", "offset": "0x0100", "quantity": 12}, {"function": "FC03", "offset": "0x010D", "quantity": 2}],
+    "typed_source": "GrowattBMSTypedReadOnlyStatus",
+    "qualification": {"physical_qualified": false, "semantic_qualified": false, "outbound_allowed": false}
+  },
+  "identity": {"asset": "no_semantic_asset_identity_emitted", "source": ["revision", "unit_id", "mcu_software_version", "gauge_version", "bms_company", "bms_generation", "pack_company", "pack_generation", "box_or_battery_topology", "cell_series_count"], "rule": "all_fields_required_as_native_coherent_evidence; none_is_a_stable_asset_selector"},
+  "lifecycle": {"observation": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "transport_generation", "unit_id", "revision", "slices", "request_adu", "response_adu", "words"], "freshness": "native_receipt_axes_preserved", "withdrawal": "explicit_generation_fenced", "retention": "permitted_last_known_good_only_after_owner_validation", "qualification": "false_blocks_semantic_promotion_and_operations"},
+  "fields": [
+    {"source": "operating_state", "target": "storage.status.operating", "disposition": "transformed", "unit": null, "loss": ["native_enum_bitfield"], "rule": "standby_to_standby; charging_or_discharging_to_active; soft_starting_withheld"},
+    {"source": "soc_percent", "target": "storage.state.soc", "disposition": "exact", "unit": "unit.percent", "loss": []},
+    {"source": "pack_voltage_volts", "target": "storage.pack.voltage", "disposition": "exact", "unit": "unit.volt", "loss": []},
+    {"source": "pack_current_amps", "target": "storage.pack.current", "disposition": "exact", "unit": "unit.ampere", "loss": ["signed_direction"], "rule": "native_sign_and_reference_remain_provenance"},
+    {"source": "temperature_celsius", "target": "storage.temperature.pack", "disposition": "exact", "unit": "unit.celsius", "loss": []},
+    {"source": "cumulative_charge_amp_hours", "target": "storage.capacity.charge", "disposition": "exact", "unit": "unit.ampere_hour", "loss": ["counter_reset_wrap"]},
+    {"source": "cumulative_discharge_amp_hours", "target": "storage.capacity.discharge", "disposition": "exact", "unit": "unit.ampere_hour", "loss": ["counter_reset_wrap"]},
+    {"source": "remaining_capacity_amp_hours", "target": null, "disposition": "withheld", "unit": "unit.ampere_hour", "loss": ["unavailable_fields"], "reason": "no_exact_remaining_capacity_definition"},
+    {"source": "full_charge_capacity_amp_hours", "target": null, "disposition": "withheld", "unit": "unit.ampere_hour", "loss": ["unavailable_fields"], "reason": "no_exact_full_charge_capacity_definition"},
+    {"source": "cycle_count", "target": null, "disposition": "withheld", "unit": "unit.count", "loss": ["unavailable_fields"]},
+    {"source": "continuous_charge_seconds", "target": null, "disposition": "withheld", "unit": "unit.second", "loss": ["unavailable_fields"]},
+    {"source": "current_cycle_charge_amp_hours", "target": null, "disposition": "withheld", "unit": "unit.ampere_hour", "loss": ["aggregation_reference"], "reason": "cycle_time_domain_not_represented"},
+    {"source": "average_cell_voltage_volts", "target": null, "disposition": "withheld", "unit": "unit.volt", "loss": ["cell_module_topology"], "reason": "no_cell_identity_or_extrema_semantics"},
+    {"source": "floating_pack_voltage_volts", "target": null, "disposition": "withheld", "unit": "unit.volt", "loss": ["aggregation_reference"], "reason": "not_interchangeable_with_observed_pack_voltage"},
+    {"source": "mcu_software_version,gauge_version,bms_company,bms_generation,pack_company,pack_generation", "target": null, "disposition": "native_provenance_only", "unit": null, "loss": ["vendor_extensions"]}
+  ],
+  "unsupported": ["pack_power", "state_of_health", "cell_temperature_meaning", "cell_voltage_extrema", "pack_module_cell_string_topology", "repeated_pack_identity", "warning_error_company_status", "extension_words", "calibration_control_adjacent_fields", "writable_ranges", "charge_discharge_limits", "interlock", "authority", "write_operations", "acknowledgement", "readback", "retry", "control_routes"],
+  "projection": {"target": "SemReg_storage_projection", "requested_items": ["storage.status.operating", "storage.state.soc", "storage.pack.voltage", "storage.pack.current", "storage.temperature.pack", "storage.capacity.charge", "storage.capacity.discharge"], "missing_native": "unavailable_withheld_never_zero", "error_precedence": ["revision_or_unit_or_slice_invalid", "identity_incoherent", "native_observation_or_lifecycle_missing", "unqualified", "unsupported_or_withheld"], "operations": "unsupported_no_authority"},
+  "consumer_cutover": {"consumers": ["semantic_mcp", "graphql", "portal", "home_assistant"], "implementation_requirement": "one_atomic_cutover", "required_removals": ["legacy_semantic_path", "fallback", "comparator", "compatibility_only_path", "dual_publication"], "until_implemented": "no_public_consumer_binding"},
+  "vectors": [
+    {"id": "growatt-v202-storage-positive", "polarity": "positive", "input": {"mutations": []}},
+    {"id": "growatt-v202-storage-negative-native-revision", "polarity": "negative", "input": {"mutations": [{"path": "native_contract.revision.cumulative_revision", "value": "2.03"}]}, "expect": {"error": "native revision"}},
+    {"id": "growatt-v202-storage-negative-unit", "polarity": "negative", "input": {"mutations": [{"path": "native_contract.unit.selection", "value": "scan"}]}, "expect": {"error": "unit"}},
+    {"id": "growatt-v202-storage-negative-identity", "polarity": "negative", "input": {"mutations": [{"path": "identity.asset", "value": "serial_number"}]}, "expect": {"error": "identity"}},
+    {"id": "growatt-v202-storage-negative-lifecycle", "polarity": "negative", "input": {"mutations": [{"path": "lifecycle.qualification", "value": "true_promotes"}]}, "expect": {"error": "lifecycle"}},
+    {"id": "growatt-v202-storage-negative-loss", "polarity": "negative", "input": {"mutations": [{"path": "fields.3.loss.0", "value": "none"}]}, "expect": {"error": "field mapping"}},
+    {"id": "growatt-v202-storage-negative-operation", "polarity": "negative", "input": {"mutations": [{"path": "projection.operations", "value": "readback_required"}]}, "expect": {"error": "projection"}},
+    {"id": "growatt-v202-storage-negative-consumer", "polarity": "negative", "input": {"mutations": [{"path": "consumer_cutover.required_removals.1", "value": "allowed_fallback"}]}, "expect": {"error": "consumer cutover"}}
+  ]
+}
