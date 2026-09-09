@@ -39,6 +39,9 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
 - [Storage/BMS pack v1.1](api/v1/packs/storage-bms-v1.md) defines accepted typed
   storage vocabulary, a qualified-current interface interlock predicate, and
   offline candidate boundaries.
+- [Growatt BMS RS-485 v2.02 mapping gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
+  freezes a read-only source-specific projection and its withheld/unsupported
+  boundary; it does not qualify a device or publish a consumer binding.
 - [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) defines accepted
   electrical and topology vocabulary with conservative admitted limit actions.
 - [EVSE pack v1](api/v1/packs/evse-v1.md) defines accepted charging topology,

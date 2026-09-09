@@ -30,6 +30,10 @@ non-implementable for operations because its interlock was not machine-identifia
 CAN V1.04 and RS-485 1xSxxP rows are offline candidate evidence only; eeBUS
 remains `unknown_pending_std_01`.
 
+The [Growatt BMS RS-485 v2.02 mapping gate](v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
+freezes the accepted read-only source-specific field and lifecycle boundary for
+later SemReg work. It does not activate consumer publication or control.
+
 ## PV/inverter pack v1
 
 [`helianthus.pack.pv/v1`](v1/packs/pv-inverter-v1.md) is the accepted third
