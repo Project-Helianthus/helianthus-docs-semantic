@@ -7,6 +7,8 @@
 - Branch: `issue/25-growatt-bms-storage-mapping`
 - Base: `ed33276cddb2dd86757efcf335c95936bdf4efe2`
 - Original mapping candidate head: `3fa3800c9c91f0222940a69fb52acaeb6cb56afa`
+- Corrected mapping candidate head: `9574169f8cca56aad4beeffb8e8f40621920b50b`
+- Corrected mapping candidate tree: `66c4bb8c2dd0e3760b7601c0192d9e34b1fca6c9`
 
 The candidate adds a public, source-specific mapping gate from the exact
 Growatt 1xSxxP RS-485 v2.02 native tuple into
