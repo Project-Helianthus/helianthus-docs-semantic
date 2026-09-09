@@ -116,6 +116,7 @@ digested input.
 | bindings, identity links, services, capabilities | primary instance/binding ID |
 | fact envelopes | canonical `FactKey` bytes |
 | `EvaluationView.facts` | `candidate_id` |
+| `EvaluationView.retained`, `Snapshot.retained_observations` | `(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)` |
 | fences and publication cursors | `(source_id, source_epoch_id, driver_generation)` |
 | publication upserts/withdrawals | primary ID or canonical fact key |
 | projection requested/dispositions | `(kind, item_id)` |
@@ -172,6 +173,15 @@ vector, records its explicit evaluation context, and has its own canonical
 digest. Thus fresh-to-stale-to-expired transitions can produce distinct view
 bytes while the source snapshot canonical bytes and every publication revision
 remain unchanged.
+
+Retained observations serialize the copied original `FactCandidate` without
+changing value, time, quality, origin, evidence, binding, source epoch, or
+generation. The canonical retained tuple is compared component-wise in the order
+stated in `RetainedObservation`; `JCS(key)` supplies the fact-key axis.
+`Snapshot.retained_observations` is stored audit state, whereas
+`EvaluationView.retained` contains only records before their original deadline.
+No serializer may revive an expired retained record or put it in
+`EvaluationView.facts`, a fact envelope, selection input, route, or readback.
 
 Presentation selection serializes a separate
 `helianthus.semantic.selection/v1` result bound to the exact snapshot ID,

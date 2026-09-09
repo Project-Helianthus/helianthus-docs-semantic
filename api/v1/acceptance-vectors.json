@@ -54,6 +54,7 @@
     "partial_update",
     "projection",
     "qualification",
+    "retained_observation",
     "serialization",
     "snapshot",
     "time"
@@ -946,6 +947,7 @@
       "coverage": [
         "generation",
         "partial_update",
+        "retained_observation",
         "snapshot"
       ],
       "input": {
@@ -3719,6 +3721,7 @@
       "coverage": [
         "capability",
         "generation",
+        "retained_observation",
         "snapshot"
       ],
       "input": {

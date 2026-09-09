@@ -113,6 +113,17 @@ operation, and intent correlation; activation publication, mandatory explicit
 generation supersession, resolvable non-actionable fenced/retired tombstones,
 complete post-transition snapshot validation, and fencing order.
 
+### Coverage: `retained_observation`
+
+Fence and source-epoch retirement retain a complete immutable observed-candidate
+copy until its original deadline while removing it from current facts. Retained
+instances use all identity/revision/path axes, are canonically ordered and
+bounded, evaluate separately, disappear from current/readback views on expiry
+without publication, and never satisfy selection, capability, route, operation,
+or confirming-readback authority. Explicit withdrawal removes retained stable-ID
+instances deterministically; rejected transitions leave both current and retained
+state unchanged.
+
 ### Coverage: `operation`
 
 Authority, deadline, preconditions, exactly-one route, guarded native admission,
@@ -456,6 +467,18 @@ serialization precedence list chooses one when an input violates several rows.
 Documentation acceptance does not claim these code tests passed. It makes the
 test obligation concrete so the next code issue can implement it without a new
 design cycle.
+
+## Retained-observation falsifiers
+
+The companion [retained-observation fixture](retained-observation-acceptance.json)
+is normative for the lifecycle behavior introduced by issue #22. Its ten vectors
+cover generation fence, source retirement, same-ID current replacement, explicit
+withdrawal, deadline-only expiry, multiple retained revisions, tampering,
+selection/operation rejection, and rejected-transition non-advance. An INT-05
+implementation must execute each vector and preserve the stated canonical tuple,
+original candidate bytes, and result. The fixture is checked by
+`scripts/validate_retained_observation_v1.py` and mutation-tested by
+`scripts/test_validate_retained_observation_v1.py`.
 
 ## PublicationKernel fork falsifiers
 

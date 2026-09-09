@@ -110,8 +110,11 @@ def require_type_fields(kernel_text: str) -> None:
             "revisions",
             "context",
             "facts",
+            "retained",
             "evaluation_digest",
         },
+        "EvaluatedRetainedObservation": {"observation", "freshness"},
+        "RetainedObservation": {"contract", "candidate", "removal"},
         "PackRef": {"id", "version"},
         "DefinitionRef": {"pack", "id", "version"},
         "DefinitionIndex": {
