@@ -8,6 +8,8 @@
 - Base: `f830ace6c2b9dd1af0e87ce808fa545662578418`
 - Mapping implementation head: `18164a84a6e28ed44ed99f9169a4cb300464c4c1`
 - Mapping implementation tree: `a4a8d7d30243d4cc207f596542603a9066386967`
+- P2 correction implementation head: `a0d832e0217a1bc8f26f5c4c9475d3c210a7cc8e`
+- P2 correction implementation tree: `7c29f0e5e6275bfc776f253b510e4470d3dcda89`
 
 The source-specific gate maps only the documented integer-ampere persistent
 `MaxOutputCurrentAmps` to `evse.limit.configured_current`, and the distinct,
@@ -17,6 +19,20 @@ correlated provisional `LimitCurrentMaxAmps` to
 Both emitted values use canonical exact decimal coefficient/exponent values and
 `unit.ampere`; no power, energy, phase, session, topology, readiness, SOC,
 thermal, fault, interlock, or meter fact is invented.
+
+## P2 correction
+
+The independent exact-HEAD review report at
+`docs28-030a5ca-independent/REVIEW.md`, SHA-256
+`c0c8f3068f3d651438470c5b8db01ea39783aa94fb5f9775bdc14c3057fc3842`,
+found that the original mapping incorrectly required provisional payload
+references before it could publish the independent persistent fact. Commit
+`a0d832e0217a1bc8f26f5c4c9475d3c210a7cc8e` closes that P2 by separating the
+persistent request/terminal evidence path from the provisional set/ack/readback
+path. Invalid persistent evidence remains a stable whole-observation
+`evidence_binding_invalid` rejection. Invalid, absent, inhibited, zero-timeout,
+or mismatched provisional evidence instead retains configured current and
+explicitly withholds only allocated current.
 
 ## Public evidence pins
 
@@ -37,18 +53,26 @@ thermal, fault, interlock, or meter fact is invented.
 
 `api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.{md,json}` fixes
 the qualified profile, FC100 source path, configured non-secret asset/EVSE/
-connector identity, immutable payload evidence references, receipt/source epoch,
-driver generation, qualification, semantic revision, lifecycle generation, and
-atomicity. It rejects missing, blank, invalid, reused, or ambiguous identity;
-evidence from distinct observations or generations cannot combine.
+connector identity, field-scoped immutable payload evidence references,
+receipt/source epoch, driver generation, qualification, semantic revision,
+lifecycle generation, and atomicity. It rejects missing, blank, invalid,
+reused, or ambiguous identity; evidence from distinct observations or
+generations cannot combine within a fact path. A valid persistent request/
+terminal record publishes configured current even when provisional data is
+absent, inhibited, malformed, zero-timeout, or mismatched; in those cases only
+allocated current is withheld with an explicit reason.
 
-The mapping validator executes two exact positive outputs and nine hostile
-vectors: profile/version, identity, source path, evidence reference, missing
-receipt time, unsupported fact, operation attempt, identity ambiguity, and a
-combined-error precedence case. Its focused test rejects 17 independently
-mutated contract and runtime boundaries, including a changed persistent target,
-weakened provisional disposition, outbound enablement, identity derivation,
-consumer-cutover escape, and `set_allocated_current` attempt.
+The mapping validator executes six exact positive outputs and nine hostile
+vectors. The positives cover complete records plus persistent-only, inhibited,
+malformed, zero-timeout, and mismatched provisional evidence; every partial
+provisional case retains configured current and withholds allocated current.
+The hostile vectors cover profile/version, identity, source path, invalid
+persistent evidence, missing receipt time, unsupported fact, operation attempt,
+identity ambiguity, and combined-error precedence. Its focused test exercises
+21 independently mutated contract and runtime boundaries, including all four
+partial-record regressions, changed persistent target, weakened provisional
+disposition, outbound enablement, identity derivation, consumer-cutover escape,
+and `set_allocated_current` attempt.
 
 Validation passed:
 
