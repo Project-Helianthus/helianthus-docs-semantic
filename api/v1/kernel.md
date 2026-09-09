@@ -748,14 +748,25 @@ as specified below; it creates none.
 Retained-path validation is separate from current-fact validation. The copied
 candidate's binding, source epoch, driver generation, and native origin fields
 MUST agree with one another and with one binding in the containing snapshot. For
-`removal=generation_fence`, that binding MUST be `fenced` and a
-`GenerationFence` with the same source ID, source epoch ID, and driver generation
-MUST exist. For `removal=source_retirement`, that binding MUST be `retired` and
-the matching source descriptor MUST be `retired` for its source ID and source
-epoch ID. A mismatched, absent, current, wrong-generation, or wrong-epoch
-tombstone is `dangling_reference`; the whole publication rejects without
-changing current or retained state. This validates the immutable copied path; it
-does not rebind or reclassify the candidate as current.
+`removal=generation_fence`, a `GenerationFence` with the same source ID, source
+epoch ID, and driver generation MUST always exist. Its binding MUST be `fenced`
+while its source epoch is current, and MUST advance to `retired` when that epoch
+is retired; in the latter state the matching source descriptor MUST be `retired`.
+For `removal=source_retirement`, the binding and matching source descriptor MUST
+be `retired` for the copied source ID and source epoch ID. A mismatched, absent,
+current, wrong-generation, wrong-source, or wrong-epoch tombstone is
+`dangling_reference`; the whole publication rejects without changing current or
+retained state. This validates the immutable copied path; it does not rebind,
+rewrite `Removal`, or reclassify the candidate as current.
+
+Binding tombstone state is monotonic: `current -> fenced -> retired` or
+`current -> retired`. A source retirement advances every binding of that exact
+source epoch, including previously fenced bindings, to `retired` in the same
+atomic snapshot. It preserves every existing retained observation byte-for-byte,
+including its original `Removal=generation_fence`, and preserves the matching
+generation fence. Retirement does not create a replacement retained instance for
+an already-retained candidate. A new current observed candidate removed directly
+by that retirement receives `Removal=source_retirement` as before.
 
 The retained-instance identity is the ordered tuple
 `(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)`
@@ -1126,6 +1137,15 @@ object revision and affected component revision increments once. A retired epoch
 cannot be reactivated. Historical immutable snapshots retain its earlier active
 state. Replacing an active epoch requires its retirement and the new current
 descriptor in the same batch.
+
+Source retirement is monotonic and idempotent only by the normal identical
+publication-batch replay rule: the same accepted batch tuple and digest returns
+its prior snapshot without advancing any revision or rewriting retained records.
+A later distinct batch that retires an already retired epoch is
+`stale_source_epoch`. Each retirement names only the header source and its exact
+retired epoch; a foreign source or epoch is `stale_source_epoch`, and a foreign
+generation is `stale_driver_generation`. All of these failures leave current and
+retained state unchanged.
 
 Before committing a batch, the kernel computes the transitive closure of inferred
 candidates whose `DerivationInput` no longer resolves exactly after the proposed

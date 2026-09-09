@@ -78,6 +78,8 @@ The kernel's retained-observation lifecycle contract is
 [`api/v1/retained-observation-acceptance.json`](v1/retained-observation-acceptance.json).
 It keeps pre-fence or retired-source observed evidence separately from current
 facts through the original deadline, never as selection or operation authority.
+A later source retirement advances a fenced binding tombstone to `retired` while
+preserving the original retained candidate and its removal event.
 
 The contract is complete for its kernel scope: identity/source/evidence,
 protocol-neutral values and quality, facts and conflicts, services and

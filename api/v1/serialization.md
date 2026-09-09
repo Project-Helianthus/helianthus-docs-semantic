@@ -183,6 +183,15 @@ stated in `RetainedObservation`; `JCS(key)` supplies the fact-key axis.
 No serializer may revive an expired retained record or put it in
 `EvaluationView.facts`, a fact envelope, selection input, route, or readback.
 
+The retained tuple and copied `Removal` event are immutable across a later
+`fenced -> retired` binding-state advance. Canonical snapshot serialization
+contains the one current binding tombstone in its normal binding collection plus
+the original retained observation; it creates no second retained store or
+replacement observation. An identical source-retirement batch replays the prior
+canonical snapshot. A later distinct retirement, or one that names a different
+source, epoch, or generation, has no canonical output because it rejects before
+publication.
+
 Presentation selection serializes a separate
 `helianthus.semantic.selection/v1` result bound to the exact snapshot ID,
 complete revision vector, evaluation digest and context, fact
