@@ -9,6 +9,7 @@
 - Original mapping candidate head: `3fa3800c9c91f0222940a69fb52acaeb6cb56afa`
 - Corrected mapping candidate head: `9574169f8cca56aad4beeffb8e8f40621920b50b`
 - Corrected mapping candidate tree: `66c4bb8c2dd0e3760b7601c0192d9e34b1fca6c9`
+- Gateway-evidence-aligned candidate head: `0e7a2e8`
 
 The candidate adds a public, source-specific mapping gate from the exact
 Growatt 1xSxxP RS-485 v2.02 native tuple into
@@ -29,6 +30,12 @@ reviewed source, docs-semantic/SemReg/storage/docs-modbus/modbusreg/native
   qualification, configured identity, all lifecycle evidence, exact/loss
   semantics, withheld and unsupported boundaries, requested items, precedence,
   operations, and consumer cutover.
+
+The final scenario uses four `GrowattBMSRS485ObservationEvidence`-shaped FC03
+slice records, with individual request/response ADUs, exact word counts,
+shared unit and transport generation. It also validates opaque IDs, numeric
+lifecycle axes, RFC3339/monotonic receipts, finite numeric telemetry, and
+storage bounds before projecting facts.
 - `./scripts/check_docs.sh`: PASS. It includes the new validator and mutation
   coverage, plus all existing repository checks.
 
