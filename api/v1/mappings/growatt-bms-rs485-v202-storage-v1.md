@@ -5,6 +5,10 @@ to `helianthus.pack.storage@1.1.0`. It is neither a device support claim nor a
 physical qualification. Its machine-readable companion is
 [the mapping vectors](growatt-bms-rs485-v202-storage-v1.json).
 
+The executable vectors use offline synthetic RTU observations with valid frame
+shape and CRC. They are deterministic mapping evidence, not observations from
+hardware and not a device-compatibility claim.
+
 ## Publishable evidence pins
 
 The native source is [Growatt RS-485 v2.02 documentation at substantive revision
@@ -28,14 +32,20 @@ Admission requires the combined revision tuple `1xSxxP ESS`, `Rev2.01`,
 `V2.0`, and `2.02`; one caller-selected unicast unit from 1 through 247; and
 the four FC03 slices at `0x0001/7`, `0x000D/29`, `0x0100/12`, and `0x010D/2`.
 Broadcast unit zero is `NO_SEND`. The immutable native path retains the request
-and response ADUs, words, offsets, function, unit, tuple, observation ID and
-revision, wall and monotonic receipt axes, clock/source epochs, driver and
-transport generations, and qualification. Missing evidence is withheld or
-unavailable, never zero.
+and response ADUs with valid Modbus CRC, per-slice request IDs and exact word
+counts, offsets, function, unit, tuple, observation ID and revision, wall and
+monotonic receipt axes, opaque clock/source epochs, driver and transport
+generations, and qualification. The four slices share the same unit and
+transport generation, and request IDs are distinct. Missing or contradictory
+evidence rejects the observation before mapping; missing semantic fields are
+withheld or unavailable, never zero.
 
 A gateway-configured, non-secret semantic `asset_id` and distinct `source_id`
 are required for projection. Neither may be derived from unit, vendor, version,
-company, or generation. Missing or invalid identity fails closed. The revision,
+company, or generation. A stable native binding ID is derived with a
+domain-separated function over only the asset ID, source ID, and exact profile;
+it never selects or changes the asset identity. Missing or invalid identity
+fails closed. The revision,
 selected unit, version/gauge evidence, BMS and pack company/generation,
 topology, and cell-series evidence remain coherent native provenance. This
 mapping may qualify its offline projection while physical qualification remains
@@ -48,9 +58,12 @@ field. It preserves volts, amperes, percent, Celsius, seconds, counts, and
 ampere-hours exactly as native units specify. Capacity is never converted to
 kWh and energy is never derived from voltage, current, time, SOC, or a decoded
 combination. `charging` and `discharging` become only the semantic `active`
-state with a SemReg `symbol` loss; `soft_starting` is withheld. Current and
+state with a SemReg `symbol` loss; `soft_starting` withholds only the operating
+state while the six independently valid facts remain available. Current and
 counter continuity use transformed `provenance` and `policy` loss details;
-an exact disposition has empty loss.
+an exact disposition has empty loss. Exact quantity vectors use SemReg's
+canonical `{coefficient, exponent10}` decimal form derived from the admitted
+fixed-scale words, rather than binary floating-point serialization.
 
 Pack power, SOH, cell-temperature meaning, cell extrema, topology, repeated
 pack identity, warning/error/company status, extension words, writable ranges,
