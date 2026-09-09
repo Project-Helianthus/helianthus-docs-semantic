@@ -34,6 +34,11 @@ The [Growatt BMS RS-485 v2.02 mapping gate](v1/mappings/growatt-bms-rs485-v202-s
 freezes the accepted read-only source-specific field and lifecycle boundary for
 later SemReg work. It does not activate consumer publication or control.
 
+The [Tesla Gen3 WC3 24.44.3 EVSE current-limit mapping gate](v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md)
+freezes the source-specific read-only mapping of persistent configured current
+and an evidence-qualified provisional allocated current. It exposes no sender,
+route, authority, consumer binding, or control.
+
 ## PV/inverter pack v1
 
 [`helianthus.pack.pv/v1`](v1/packs/pv-inverter-v1.md) is the accepted third
