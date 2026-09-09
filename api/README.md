@@ -74,6 +74,11 @@ The contract becomes normative for the Project Helianthus kernel implementation
 when merged into `main`. The owning Go module is
 [`Project-Helianthus/helianthus-semreg`](https://github.com/Project-Helianthus/helianthus-semreg).
 
+The kernel's retained-observation lifecycle contract is
+[`api/v1/retained-observation-acceptance.json`](v1/retained-observation-acceptance.json).
+It keeps pre-fence or retired-source observed evidence separately from current
+facts through the original deadline, never as selection or operation authority.
+
 The contract is complete for its kernel scope: identity/source/evidence,
 protocol-neutral values and quality, facts and conflicts, services and
 capabilities, immutable publication/snapshots, pure freshness evaluation,

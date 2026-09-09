@@ -36,6 +36,7 @@ Public top-level records use these exact contract IDs:
 |---|---|
 | `PublicationBatch`, `Snapshot` | `helianthus.semantic.kernel/v1` |
 | `EvaluationView` | `helianthus.semantic.evaluation/v1` |
+| `RetainedObservation` | `helianthus.semantic.retained-observation/v1` |
 | `Selection` | `helianthus.semantic.selection/v1` |
 | `Intent`, `ExecutionRecord` | `helianthus.semantic.operation/v1` |
 | `ProjectionReport` | `helianthus.semantic.projection/v1` |
@@ -607,22 +608,47 @@ type EvaluationView struct {
     Revisions        RevisionVector  `json:"revisions"`
     Context          EvaluationContext `json:"context"`
     Facts            []EvaluatedFact `json:"facts"`
+    Retained         []EvaluatedRetainedObservation `json:"retained"`
     EvaluationDigest Digest          `json:"evaluation_digest"`
 }
 ```
 
 `contract` is exactly `helianthus.semantic.evaluation/v1`. Facts are sorted by
-candidate ID and cover every candidate in the snapshot exactly once. The digest
-is SHA-256 over canonical view JSON with `evaluation_digest` omitted. Evaluation
-creates no publication: the source snapshot ID, revision vector, candidates,
-stored quality, and canonical snapshot bytes remain byte-identical. Repeating
-evaluation with the same snapshot and context produces identical view bytes.
+candidate ID and cover every current candidate in the snapshot exactly once.
+`retained` is separately sorted by retained-instance identity. It contains
+exactly retained records whose original retention deadline has not expired at
+the supplied context; an expired record is absent even when no later publication
+occurred. The digest is SHA-256 over canonical view JSON with
+`evaluation_digest` omitted. Evaluation creates no publication: the source
+snapshot ID, revision vector, candidates, stored quality, retained store, and
+canonical snapshot bytes remain byte-identical. Repeating evaluation with the
+same snapshot and context produces identical view bytes.
+
+An API claiming a *current* or *readback* result MUST expose the matching
+`EvaluationView` with its `Snapshot`; it MUST NOT expose an unevaluated
+`Snapshot` as current state. An immutable `Snapshot` remains an audit artifact
+and may retain an expired stored record; that does not make the record visible
+in any public current/readback view.
 
 Operation admission MUST evaluate the admitted snapshot with a trusted current
 context immediately before checking preconditions and selecting a route. It then
 applies the exact candidate binding and all six eligibility axes defined by
 `Precondition`; it cannot search for a different candidate that makes a predicate
 true. This re-evaluation does not relax the intent's expected snapshot revisions.
+
+### Type: EvaluatedRetainedObservation
+
+```go
+type EvaluatedRetainedObservation struct {
+    Observation RetainedObservation `json:"observation"`
+    Freshness   Freshness           `json:"freshness"`
+}
+```
+
+This is read-only historical evidence. Its `Freshness` is evaluated from the
+embedded original candidate and is never replacement availability. It MUST NOT
+be used for capability admission, selection, route construction, preconditions,
+operation confirmation, or readback confirmation.
 
 ### Type: Quality
 
@@ -680,19 +706,71 @@ type FactCandidate struct {
 
 Evidence contains 1 through 32 unique references and `revision` is greater than
 zero. An observed candidate requires binding, source epoch, and driver
-generation; the generation is greater than zero and all three fields resolve to
-one current binding. It omits `derivation`. An inferred candidate omits those
-three single-path fields and requires a `Derivation`; its typed inputs preserve
-every native source path, so it never invents or arbitrarily selects a synthetic
-binding. A candidate value is required except where `Quality` forbids it. Origin
-and causal context survive projection and derived facts; they do not grant
-command authority.
+generation; the generation is greater than zero. Containment validation is
+explicit: an observed candidate in `Snapshot.Facts` MUST resolve all three
+fields to one current binding. A `RetainedObservation.Candidate` instead uses
+the retained-path validation below. It omits `derivation`. An inferred candidate
+omits those three single-path fields and requires a `Derivation`; its typed
+inputs preserve every native source path, so it never invents or arbitrarily
+selects a synthetic binding. A candidate value is required except where `Quality`
+forbids it. Origin and causal context survive projection and derived facts; they
+do not grant command authority.
 
 `revision` increments whenever the key, value, quality, times, binding path,
 origin, causal context, evidence, or derivation changes. Retaining a candidate in
 a later snapshot preserves both its revision and observation times. A producer
 cannot rewrite receipt/evidence as post-dispatch without a new candidate revision
 and new native evidence.
+
+### Type: RetainedObservation
+
+```go
+type RetainedObservation struct {
+    Contract  ContractVersion `json:"contract"`
+    Candidate FactCandidate   `json:"candidate"`
+    Removal   RetainedRemoval `json:"removal"`
+}
+```
+
+`contract` is exactly `helianthus.semantic.retained-observation/v1`.
+`Candidate` is a complete immutable copy of the original accepted candidate:
+candidate ID/revision, fact key/value, quality, all times and freshness policy,
+origin, candidate and origin evidence, binding, source epoch, driver generation,
+causal context, and derivation. The kernel MUST NOT redact, normalize, advance,
+replace, or rebind any copied member while retaining it.
+
+`Removal` is exactly `generation_fence` or `source_retirement`. It records why
+an observed candidate left current state and does not alter the copy or grant
+lifecycle authority. A fence or source retirement retains affected observed
+candidates. An explicit `FactWithdrawal` removes an already-retained instance
+as specified below; it creates none.
+
+Retained-path validation is separate from current-fact validation. The copied
+candidate's binding, source epoch, driver generation, and native origin fields
+MUST agree with one another and with one binding in the containing snapshot. For
+`removal=generation_fence`, that binding MUST be `fenced` and a
+`GenerationFence` with the same source ID, source epoch ID, and driver generation
+MUST exist. For `removal=source_retirement`, that binding MUST be `retired` and
+the matching source descriptor MUST be `retired` for its source ID and source
+epoch ID. A mismatched, absent, current, wrong-generation, or wrong-epoch
+tombstone is `dangling_reference`; the whole publication rejects without
+changing current or retained state. This validates the immutable copied path; it
+does not rebind or reclassify the candidate as current.
+
+The retained-instance identity is the ordered tuple
+`(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)`
+from `Candidate`. Every axis is required for retained observed candidates. The
+tuple, not `CandidateID` alone, permits a stable logical CandidateID to be
+reused by a later current revision or binding without collision or loss. It is
+unique and the canonical ascending order for every retained collection. At most
+32 retained instances exist per asset; an excess rejects atomically with
+`bounds_exceeded`. Multiple successive revisions are retained separately only
+while each original deadline is unexpired.
+
+The original deadline is calculated only from `Candidate.Times` and
+`Candidate.FreshnessPolicy.retain_for_ns`, using the normal monotonic and
+conservative cross-epoch rules. It never moves because of a fence, retirement,
+new clock epoch, replacement candidate, or later publication.
 
 ### Type: Selection
 
@@ -965,9 +1043,11 @@ are retained as `state=withdrawn`; its services and capabilities are retained as
 `availability=withdrawn`. Their object revisions increment exactly once. Their
 references resolve through the retained binding and fence but are non-actionable.
 Observed candidates and the transitive derived-dependency closure are removed
-from the new current snapshot, affected envelope metadata is reconciled, and
-empty fact envelopes are removed. Historical snapshots retain every pre-fence
-record.
+from the new current snapshot. Before that removal, each affected observed
+candidate is copied to `RetainedObservation` with
+`removal=generation_fence`; the derived closure is removed and is never
+retained. Current envelope metadata is reconciled and empty envelopes are
+removed. Historical snapshots retain every pre-fence record.
 
 Late batches, readbacks, and operation admission for that generation fail. The
 native owner must reject every guarded callback at the same boundary, including
@@ -1020,17 +1100,28 @@ together.
 
 `expected_semantic_revision` must equal the current asset revision. Any invalid
 member, stale source epoch, fenced generation, revision mismatch, or withdrawal
-of an unknown ID rejects the complete batch without mutation. Fields absent from
-the batch remain unchanged. Partial reads therefore upsert only evidenced
-candidates; they do not erase unrelated facts. Withdrawal is explicit except for
-the source-retirement, generation-fence, and derived-dependency cascades defined
-here.
+of an unknown current or retained ID rejects the complete batch without mutation.
+Fields absent from the batch remain unchanged. Partial reads therefore upsert
+only evidenced candidates; they do not erase unrelated facts. Withdrawal is
+explicit except for the source-retirement, generation-fence, and
+derived-dependency cascades defined here.
+
+`FactWithdrawals` first resolves every matching current candidate ID. If no
+current candidate has that ID, it resolves every retained instance with that
+candidate ID. It removes all matched retained instances atomically, including
+all revisions and paths for that stable ID; no dangling current lookup is made
+and no undeletable retained history remains. If both current and retained
+instances match, it removes the current candidate and every matching retained
+instance. A same-batch fence/retirement may not also explicitly withdraw a
+candidate it retains; that ambiguous overlap is `invalid_value` with no advance.
 
 Source upserts and retirements refer only to the batch `source_id`. A new source
 epoch is added before its bindings or facts. Retiring the current epoch retains
 its descriptor as `state=retired`, retains its bindings as `state=retired`, and
 retains its identity links/services/capabilities as withdrawn tombstones while
-atomically removing its observed candidates and derived closure. Every changed
+atomically copying its observed candidates to retained observations with
+`removal=source_retirement` and removing them and their derived closure from
+current facts. Every changed
 object revision and affected component revision increments once. A retired epoch
 cannot be reactivated. Historical immutable snapshots retain its earlier active
 state. Replacing an active epoch requires its retirement and the new current
@@ -1136,6 +1227,7 @@ type Snapshot struct {
     Bindings       []NativeBinding      `json:"bindings"`
     IdentityLinks  []IdentityLink       `json:"identity_links"`
     Facts          []FactEnvelope       `json:"facts"`
+    RetainedObservations []RetainedObservation `json:"retained_observations"`
     Services       []ServiceInstance    `json:"services"`
     Capabilities   []CapabilityInstance `json:"capabilities"`
     Fences         []GenerationFence    `json:"fences"`
@@ -1144,7 +1236,9 @@ type Snapshot struct {
 ```
 
 A snapshot is immutable, self-consistent, and complete for one asset at one
-semantic revision. It contains all alternatives and current open conflicts.
+semantic revision. It contains all current alternatives/open conflicts and the
+bounded retained store. `Facts` contains current candidates only;
+`RetainedObservations` contains no current candidate and is never an envelope.
 Every reference resolves inside the snapshot or to an `EvidenceRef`. Current
 facts and actionable identity/service/capability records resolve only through
 current source/binding paths. Withdrawn identity/service/capability records
@@ -1153,7 +1247,8 @@ binding must resolve through its fence or retired source descriptor. Collections
 are sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
 unique across all fact envelopes in one snapshot. Limits are 32 sources, 128
 bindings, 128 identity links, 4096 fact
-envelopes, 1024 services, 2048 capabilities, and 128 retained fences per asset.
+envelopes, 32 retained observations, 1024 services, 2048 capabilities, and 128
+retained fences per asset.
 Exceeding a limit rejects the batch; it never truncates a snapshot. Up to 128
 publication cursors are retained while their source epochs remain relevant to
 replay/fence validation.
