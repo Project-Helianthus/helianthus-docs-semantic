@@ -33,11 +33,13 @@ revision, wall and monotonic receipt axes, clock/source epochs, driver and
 transport generations, and qualification. Missing evidence is withheld or
 unavailable, never zero.
 
-The stable asset identity is deliberately not emitted. The revision, selected
-unit, version/gauge evidence, BMS and pack company/generation, topology and
-cell-series evidence must remain coherent native provenance; none alone
-identifies a semantic asset. Qualification remains false, so no candidate can
-promote a semantic fact or operation.
+A gateway-configured, non-secret semantic `asset_id` and distinct `source_id`
+are required for projection. Neither may be derived from unit, vendor, version,
+company, or generation. Missing or invalid identity fails closed. The revision,
+selected unit, version/gauge evidence, BMS and pack company/generation,
+topology, and cell-series evidence remain coherent native provenance. This
+mapping may qualify its offline projection while physical qualification remains
+false; it grants no device support claim or operation.
 
 ## Mapping and loss
 
@@ -46,7 +48,9 @@ field. It preserves volts, amperes, percent, Celsius, seconds, counts, and
 ampere-hours exactly as native units specify. Capacity is never converted to
 kWh and energy is never derived from voltage, current, time, SOC, or a decoded
 combination. `charging` and `discharging` become only the semantic `active`
-state, retaining native enum/direction loss; `soft_starting` is withheld.
+state with a SemReg `symbol` loss; `soft_starting` is withheld. Current and
+counter continuity use transformed `provenance` and `policy` loss details;
+an exact disposition has empty loss.
 
 Pack power, SOH, cell-temperature meaning, cell extrema, topology, repeated
 pack identity, warning/error/company status, extension words, writable ranges,
