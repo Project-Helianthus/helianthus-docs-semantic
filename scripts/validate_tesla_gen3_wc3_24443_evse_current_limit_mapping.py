@@ -16,7 +16,8 @@ PINS = {"docs_semantic_base": "f830ace6c2b9dd1af0e87ce808fa545662578418", "semre
 ERRORS = ["profile_or_version_invalid", "identity_invalid", "source_path_invalid", "evidence_binding_invalid", "lifecycle_invalid", "unsupported_fact_or_operation"]
 OPAQUE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
 DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
-PAYLOAD_REFS = ["persistent_request", "persistent_terminal", "provisional_set", "provisional_ack", "provisional_readback_request", "provisional_readback_terminal"]
+PERSISTENT_REFS = ["persistent_request", "persistent_terminal"]
+PROVISIONAL_REFS = ["provisional_set", "provisional_ack", "provisional_readback_request", "provisional_readback_terminal"]
 
 
 def load():
@@ -32,7 +33,11 @@ def mutate(value, mutation):
     current = value
     for part in parts[:-1]:
         current = current[int(part)] if isinstance(current, list) else current.setdefault(part, {})
-    current[int(parts[-1]) if isinstance(current, list) else parts[-1]] = mutation["value"]
+    key = int(parts[-1]) if isinstance(current, list) else parts[-1]
+    if mutation.get("op") == "delete":
+        current.pop(key)
+    else:
+        current[key] = mutation["value"]
 
 
 def validate_contract(contract):
@@ -45,7 +50,7 @@ def validate_contract(contract):
     if set(identity) != {"asset_id", "evse_id", "connector_id", "forbidden_derivations", "failure"} or identity.get("forbidden_derivations") != ["unit_id", "firmware_text", "observation_values", "payload_bytes", "request_order"] or identity.get("failure") != "missing_blank_invalid_reused_or_ambiguous_identity_fails_closed" or any(identity.get(k) != {"source": f"gateway_configured_semantic_{k}", "required": True, "non_secret": True} for k in ("asset_id", "evse_id", "connector_id")):
         fail("identity_contract")
     lifecycle = contract.get("lifecycle", {})
-    if lifecycle != {"required": ["immutable_evidence_id", "payload_digest", "receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"], "atomicity": "one_observation_one_evidence_id_one_source_epoch_one_driver_generation_one_semantic_revision", "withdrawal": "explicit_generation_fenced", "retention": "native_owner_only_permitted_last_known_good", "physical_qualified": False, "mapping_qualified": True}:
+    if lifecycle != {"required": ["receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"], "per_fact_evidence": {"persistent": ["immutable_evidence_id", "payload_digest", "persistent_request", "persistent_terminal"], "provisional": ["immutable_evidence_id", "payload_digest", "correlation_id", "provisional_set", "provisional_ack", "provisional_readback_request", "provisional_readback_terminal"]}, "atomicity": "persistent_and_provisional_each_have_one_evidence_id_one_source_epoch_one_driver_generation_one_semantic_revision", "withdrawal": "explicit_generation_fenced", "retention": "native_owner_only_permitted_last_known_good", "physical_qualified": False, "mapping_qualified": True}:
         fail("lifecycle_contract")
     if contract.get("field_rules") != [{"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "dimension": "evse", "unit": "unit.ampere", "disposition": "exact"}, {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "dimension": "connector", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"}]:
         fail("field_rules")
@@ -63,6 +68,12 @@ def valid_id(value):
     return isinstance(value, str) and bool(OPAQUE.fullmatch(value))
 
 
+def valid_evidence(evidence, refs, correlation=False):
+    if not isinstance(evidence, dict) or not valid_id(evidence.get("immutable_evidence_id")) or not DIGEST.fullmatch(str(evidence.get("payload_digest"))) or any(not DIGEST.fullmatch(str(evidence.get(key))) for key in refs):
+        return False
+    return not correlation or evidence.get("correlation_id") == evidence["immutable_evidence_id"]
+
+
 def project(case, contract):
     errors = set()
     if case.get("profile") != "wc3_24_44_3": errors.add(ERRORS[0])
@@ -71,7 +82,7 @@ def project(case, contract):
     if not all(valid_id(v) for v in values) or len(set(values)) != 3: errors.add(ERRORS[1])
     if case.get("source_path") != contract["projection"]["source_path"]: errors.add(ERRORS[2])
     evidence = case.get("evidence", {})
-    if not valid_id(evidence.get("immutable_evidence_id")) or not DIGEST.fullmatch(str(evidence.get("payload_digest"))) or any(not DIGEST.fullmatch(str(evidence.get(key))) for key in PAYLOAD_REFS): errors.add(ERRORS[3])
+    if not valid_evidence(evidence.get("persistent"), PERSISTENT_REFS): errors.add(ERRORS[3])
     lifecycle = case.get("lifecycle", {})
     try:
         receipt = datetime.fromisoformat(str(lifecycle.get("receipt_timestamp")).replace("Z", "+00:00"))
@@ -85,10 +96,20 @@ def project(case, contract):
     persistent, provisional = case.get("persistent"), case.get("provisional")
     if not isinstance(persistent, dict) or not isinstance(persistent.get("MaxOutputCurrentAmps"), int) or isinstance(persistent["MaxOutputCurrentAmps"], bool) or persistent["MaxOutputCurrentAmps"] < 0: fail(ERRORS[3])
     facts = [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": str(persistent["MaxOutputCurrentAmps"]), "exponent10": 0}, "unit": "unit.ampere"}]
-    if isinstance(provisional, dict) and provisional.get("LimitTimeoutSeconds") != 0:
-        if not isinstance(provisional.get("LimitCurrentMaxAmps"), int) or isinstance(provisional["LimitCurrentMaxAmps"], bool) or not 6 <= provisional["LimitCurrentMaxAmps"] <= 1000 or not isinstance(provisional.get("LimitTimeoutSeconds"), int) or not 1 <= provisional["LimitTimeoutSeconds"] <= 86399 or provisional.get("InhibitCharging") is not False: fail(ERRORS[3])
+    withheld = []
+    if not isinstance(provisional, dict):
+        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_record_absent"})
+    elif not valid_evidence(evidence.get("provisional"), PROVISIONAL_REFS, correlation=True):
+        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_evidence_invalid"})
+    elif provisional.get("LimitTimeoutSeconds") == 0:
+        withheld.append({"id": "evse.limit.allocated_current", "reason": "zero_timeout_unresolved"})
+    elif provisional.get("InhibitCharging") is not False:
+        withheld.append({"id": "evse.limit.allocated_current", "reason": "inhibit_state_not_semantically_representable"})
+    elif not isinstance(provisional.get("LimitCurrentMaxAmps"), int) or isinstance(provisional["LimitCurrentMaxAmps"], bool) or not 6 <= provisional["LimitCurrentMaxAmps"] <= 1000 or not isinstance(provisional.get("LimitTimeoutSeconds"), int) or not 1 <= provisional["LimitTimeoutSeconds"] <= 86399:
+        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_record_malformed"})
+    else:
         facts.append({"id": "evse.limit.allocated_current", "dimension": "connector", "value": {"coefficient": str(provisional["LimitCurrentMaxAmps"]), "exponent10": 0}, "unit": "unit.ampere"})
-    return {"facts": facts, "operations": []}
+    return {"facts": facts, "withheld": withheld, "operations": []}
 
 
 def document(contract):
@@ -111,7 +132,7 @@ def document(contract):
 def main():
     contract = load(); document(contract)
     text = DOC.read_text(encoding="utf-8")
-    for token in ("FC100", "outbound_allowed=false", "one atomic publication", "Every operation is unavailable", "mTLS GraphQL"):
+    for token in ("FC100", "outbound_allowed=false", "field-scoped immutable evidence", "Every operation is unavailable", "mTLS GraphQL"):
         if token not in text: fail("document_boundary")
     positive = sum(s["polarity"] == "positive" for s in contract["scenarios"])
     print(f"Tesla Gen3 WC3 24.44.3 EVSE current-limit mapping: PASS; {positive} executable outputs and {len(contract['scenarios']) - positive} rejected scenarios")

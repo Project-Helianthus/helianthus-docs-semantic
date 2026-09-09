@@ -35,10 +35,14 @@ The four provisional request/ack/readback payloads, persistent request/terminal
 payloads, FC100 decoding, and their immutable digests remain native evidence.
 The semantic gate accepts their immutable references only. A source path,
 receipt timestamp, source epoch, driver generation, qualification, semantic
-revision, lifecycle generation, and one immutable evidence ID are required for
-one atomic publication. Evidence from observations, epochs, generations, or
-revisions cannot be combined. Permitted last-known-good retention remains the
-native owner's lifecycle decision.
+revision, lifecycle generation, and field-scoped immutable evidence are
+required. Persistent request/terminal evidence is sufficient for one atomic
+configured-current fact. Provisional allocation requires its own complete,
+correlated set/ack/readback evidence; its absence, inhibition, malformed
+payload reference, mismatch, or zero timeout withholds only allocated current.
+Evidence from observations, epochs, generations, or revisions cannot be
+combined within either fact path. Permitted last-known-good retention remains
+the native owner's lifecycle decision.
 
 ## Identity, loss, and operations
 
@@ -53,7 +57,7 @@ meter, and all unsupported native facts remain withheld or native-only. There
 is no sender, route, authority, acknowledgement/readback authority, retry, or
 live control. Every operation is unavailable, including
 `evse.operation.set_allocated_current`; `outbound_allowed=false` is not an
-operation admission.
+operation admission. Every operation is unavailable.
 
 ## Later consumer cutover
 

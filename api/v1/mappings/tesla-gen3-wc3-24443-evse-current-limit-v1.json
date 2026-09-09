@@ -28,8 +28,12 @@
     "failure": "missing_blank_invalid_reused_or_ambiguous_identity_fails_closed"
   },
   "lifecycle": {
-    "required": ["immutable_evidence_id", "payload_digest", "receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"],
-    "atomicity": "one_observation_one_evidence_id_one_source_epoch_one_driver_generation_one_semantic_revision",
+    "required": ["receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"],
+    "per_fact_evidence": {
+      "persistent": ["immutable_evidence_id", "payload_digest", "persistent_request", "persistent_terminal"],
+      "provisional": ["immutable_evidence_id", "payload_digest", "correlation_id", "provisional_set", "provisional_ack", "provisional_readback_request", "provisional_readback_terminal"]
+    },
+    "atomicity": "persistent_and_provisional_each_have_one_evidence_id_one_source_epoch_one_driver_generation_one_semantic_revision",
     "withdrawal": "explicit_generation_fenced",
     "retention": "native_owner_only_permitted_last_known_good",
     "physical_qualified": false,
@@ -62,17 +66,21 @@
       "input": {
         "profile": "wc3_24_44_3", "identity": {"asset_id": "asset.wc3.alpha", "evse_id": "evse.wc3.alpha", "connector_id": "connector.wc3.alpha"},
         "source_path": "modbus.v1.tesla.gen3.evse.current_limit.get",
-        "evidence": {"immutable_evidence_id": "evidence.wc3.0001", "payload_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "persistent_request": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "persistent_terminal": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "provisional_set": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "provisional_ack": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "provisional_readback_request": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "provisional_readback_terminal": "sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+        "evidence": {"persistent": {"immutable_evidence_id": "evidence.wc3.persistent.0001", "payload_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "persistent_request": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "persistent_terminal": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}, "provisional": {"immutable_evidence_id": "evidence.wc3.provisional.0001", "payload_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "correlation_id": "evidence.wc3.provisional.0001", "provisional_set": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "provisional_ack": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "provisional_readback_request": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "provisional_readback_terminal": "sha256:2222222222222222222222222222222222222222222222222222222222222222"}},
         "lifecycle": {"receipt_timestamp": "2026-09-10T00:00:00Z", "source_epoch": "epoch.wc3.1", "driver_generation": 1, "qualification": "qualified", "semantic_revision": "1.0.0", "lifecycle_generation": 1},
         "persistent": {"MaxOutputCurrentAmps": 16}, "provisional": {"LimitCurrentMaxAmps": 12, "LimitTimeoutSeconds": 600, "InhibitCharging": false}
       },
-      "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}, {"id": "evse.limit.allocated_current", "dimension": "connector", "value": {"coefficient": "12", "exponent10": 0}, "unit": "unit.ampere"}], "operations": []}
+      "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}, {"id": "evse.limit.allocated_current", "dimension": "connector", "value": {"coefficient": "12", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [], "operations": []}
     },
-    {"id": "TESLA-EVSE-POS-002", "polarity": "positive", "mutations": [{"path": "provisional.LimitTimeoutSeconds", "value": 0}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "operations": []}},
+    {"id": "TESLA-EVSE-POS-002", "polarity": "positive", "mutations": [{"path": "provisional.LimitTimeoutSeconds", "value": 0}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [{"id": "evse.limit.allocated_current", "reason": "zero_timeout_unresolved"}], "operations": []}},
+    {"id": "TESLA-EVSE-POS-003", "polarity": "positive", "mutations": [{"path": "provisional", "value": null}, {"path": "evidence.provisional", "value": null}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [{"id": "evse.limit.allocated_current", "reason": "provisional_record_absent"}], "operations": []}},
+    {"id": "TESLA-EVSE-POS-004", "polarity": "positive", "mutations": [{"path": "provisional.InhibitCharging", "value": true}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [{"id": "evse.limit.allocated_current", "reason": "inhibit_state_not_semantically_representable"}], "operations": []}},
+    {"id": "TESLA-EVSE-POS-005", "polarity": "positive", "mutations": [{"path": "evidence.provisional.provisional_ack", "value": "bad"}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [{"id": "evse.limit.allocated_current", "reason": "provisional_evidence_invalid"}], "operations": []}},
+    {"id": "TESLA-EVSE-POS-006", "polarity": "positive", "mutations": [{"path": "evidence.provisional.correlation_id", "value": "evidence.wc3.other"}], "expect": {"facts": [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": "16", "exponent10": 0}, "unit": "unit.ampere"}], "withheld": [{"id": "evse.limit.allocated_current", "reason": "provisional_evidence_invalid"}], "operations": []}},
     {"id": "TESLA-EVSE-NEG-001", "polarity": "negative", "mutations": [{"path": "profile", "value": "wc3_24_44_4"}], "expect_error": "profile_or_version_invalid"},
     {"id": "TESLA-EVSE-NEG-002", "polarity": "negative", "mutations": [{"path": "identity.connector_id", "value": ""}], "expect_error": "identity_invalid"},
     {"id": "TESLA-EVSE-NEG-003", "polarity": "negative", "mutations": [{"path": "source_path", "value": "modbus.v1.raw.read"}], "expect_error": "source_path_invalid"},
-    {"id": "TESLA-EVSE-NEG-004", "polarity": "negative", "mutations": [{"path": "evidence.provisional_ack", "value": ""}], "expect_error": "evidence_binding_invalid"},
+    {"id": "TESLA-EVSE-NEG-004", "polarity": "negative", "mutations": [{"path": "evidence.persistent.persistent_terminal", "value": ""}], "expect_error": "evidence_binding_invalid"},
     {"id": "TESLA-EVSE-NEG-005", "polarity": "negative", "mutations": [{"path": "lifecycle.receipt_timestamp", "value": ""}], "expect_error": "lifecycle_invalid"},
     {"id": "TESLA-EVSE-NEG-006", "polarity": "negative", "mutations": [{"path": "unsupported_fact", "value": "evse.ac.active_power"}], "expect_error": "unsupported_fact_or_operation"},
     {"id": "TESLA-EVSE-NEG-007", "polarity": "negative", "mutations": [{"path": "operation", "value": "evse.operation.set_allocated_current"}], "expect_error": "unsupported_fact_or_operation"},

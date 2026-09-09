@@ -21,13 +21,19 @@ def main():
     cases = [("pin", "pins.gateway_main", "0" * 40, "contract"), ("profile", "native_contract.profile", "wc3_24_44_4", "native_contract"), ("outbound", "native_contract.outbound_allowed", True, "native_contract"), ("identity_derivation", "identity.forbidden_derivations.0", "serial", "identity_contract"), ("identity_reuse", "identity.failure", "allow_reuse", "identity_contract"), ("lifecycle", "lifecycle.required.0", "timestamp", "lifecycle_contract"), ("persistent_target", "field_rules.0.target", "evse.limit.allocated_current", "field_rules"), ("provisional_disposition", "field_rules.1.disposition", "always", "field_rules"), ("unsupported", "unsupported.0", "power_allowed", "withheld_or_unsupported"), ("precedence", "projection.error_precedence.0", "x", "projection"), ("operations", "projection.operations", "available", "projection"), ("cutover", "consumer_cutover.forbidden.0", "allowed", "consumer_cutover")]
     for case in cases: reject(*case)
     contract = mapping.load(); baseline = contract["scenarios"][0]["input"]
-    for name, path, value, expected in [("blank_identity", "identity.asset_id", "", "identity_invalid"), ("wrong_unit_profile", "profile", "other", "profile_or_version_invalid"), ("missing_receipt", "lifecycle.receipt_timestamp", "", "lifecycle_invalid"), ("operation_attempt", "operation", "evse.operation.set_allocated_current", "unsupported_fact_or_operation"), ("evidence", "evidence.provisional_ack", "bad", "evidence_binding_invalid")]:
+    for name, path, value, expected in [("blank_identity", "identity.asset_id", "", "identity_invalid"), ("wrong_unit_profile", "profile", "other", "profile_or_version_invalid"), ("missing_receipt", "lifecycle.receipt_timestamp", "", "lifecycle_invalid"), ("operation_attempt", "operation", "evse.operation.set_allocated_current", "unsupported_fact_or_operation"), ("persistent_evidence", "evidence.persistent.persistent_terminal", "bad", "evidence_binding_invalid")]:
         candidate = copy.deepcopy(baseline); mapping.mutate(candidate, {"path": path, "value": value})
         try: mapping.project(candidate, contract)
         except ValueError as error:
             if str(error) != expected: raise AssertionError(error)
         else: raise AssertionError(name + " accepted")
         print(name + ": REJECTED")
-    print("baseline: PASS; 17 focused mutations rejected")
+    for name, path, value, reason in [("persistent_only", "provisional", None, "provisional_record_absent"), ("inhibited_provisional", "provisional.InhibitCharging", True, "inhibit_state_not_semantically_representable"), ("malformed_provisional", "evidence.provisional.provisional_ack", "bad", "provisional_evidence_invalid"), ("mismatched_provisional", "evidence.provisional.correlation_id", "evidence.wc3.other", "provisional_evidence_invalid")]:
+        candidate = copy.deepcopy(baseline); mapping.mutate(candidate, {"path": path, "value": value})
+        if name == "persistent_only": mapping.mutate(candidate, {"path": "evidence.provisional", "value": None})
+        result = mapping.project(candidate, contract)
+        if [fact["id"] for fact in result["facts"]] != ["evse.limit.configured_current"] or result["withheld"] != [{"id": "evse.limit.allocated_current", "reason": reason}]: raise AssertionError(name + " did not retain persistent only")
+        print(name + ": RETAINED_CONFIGURED")
+    print("baseline: PASS; 21 focused mutations rejected or retained")
 
 if __name__ == "__main__": main()
