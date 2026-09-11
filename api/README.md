@@ -102,6 +102,11 @@ value bag.
 
 ## Remaining contracts
 
+The accepted [immutable pack metadata v1](v1/pack-metadata-v1.md) exports exact
+units, dimensions, ownership and operation shapes from the five accepted packs
+for a future SemReg query API. It neither implements that API nor creates a
+Gateway semantic table.
+
 This publication completes the five typed INT-04 catalogs. Separately versioned
 and reviewed contracts are still required for exact native mappings and
 normative dispositions;

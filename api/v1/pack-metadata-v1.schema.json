@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/api/v1/pack-metadata-v1.schema.json",
+  "title": "Helianthus immutable pack metadata v1",
+  "type": "object",
+  "required": [
+    "contract",
+    "status",
+    "metadata_order",
+    "packs",
+    "query_vectors"
+  ],
+  "properties": {
+    "contract": {
+      "const": "helianthus.semantic.pack-metadata/v1"
+    },
+    "status": {
+      "const": "accepted"
+    },
+    "metadata_order": {
+      "const": "pack id, pack version, definition id, definition version as canonical UTF-8 byte sequence"
+    },
+    "packs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/pack"
+      }
+    },
+    "query_vectors": {
+      "$ref": "#/$defs/queryVectors"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "packRef": {
+      "oneOf": [
+        {"const": {"id": "helianthus.pack.thermal", "version": "1.0.0"}},
+        {"const": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+        {"const": {"id": "helianthus.pack.storage", "version": "1.1.0"}},
+        {"const": {"id": "helianthus.pack.evse", "version": "1.0.0"}},
+        {"const": {"id": "helianthus.pack.infrastructure", "version": "1.0.0"}}
+      ]
+    },
+    "definitionRef": {
+      "type": "object",
+      "required": [
+        "pack",
+        "id",
+        "version"
+      ],
+      "properties": {
+        "pack": {
+          "$ref": "#/$defs/packRef"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "field": {
+      "type": "object",
+      "required": [
+        "ref",
+        "canonical_unit",
+        "dimension"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "canonical_unit": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/definitionRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dimension": {
+          "$ref": "#/$defs/definitionRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "service": {
+      "type": "object",
+      "required": [
+        "ref",
+        "fact_key_dimension"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "fact_key_dimension": {
+          "$ref": "#/$defs/definitionRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "capability": {
+      "type": "object",
+      "required": [
+        "ref",
+        "service"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "service": {
+          "$ref": "#/$defs/definitionRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "ref",
+        "capability",
+        "service",
+        "argument",
+        "effect"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "capability": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "service": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "argument": {
+          "$ref": "#/$defs/definitionRef"
+        },
+        "effect": {
+          "$ref": "#/$defs/definitionRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pack": {
+      "type": "object",
+      "required": [
+        "pack",
+        "source",
+        "units",
+        "definitions",
+        "fields",
+        "services",
+        "capabilities",
+        "operations"
+      ],
+      "properties": {
+        "pack": {
+          "$ref": "#/$defs/packRef"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "api/v1/packs/thermal-hvac-acceptance-vectors.json",
+            "api/v1/packs/pv-inverter-acceptance-vectors.json",
+            "api/v1/packs/storage-bms-acceptance-vectors.json",
+            "api/v1/packs/evse-acceptance-vectors.json",
+            "api/v1/packs/infrastructure-acceptance-vectors.json"
+          ]
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/definitionRef"
+          }
+        },
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/definitionRef"
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/service"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/capability"
+          }
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "queryVectors": {
+      "type": "object",
+      "required": [
+        "positive",
+        "negative"
+      ],
+      "properties": {
+        "positive": {
+          "const": ["Packs", "HasDefinition", "CanonicalUnit", "ServiceOwnsCapability", "FieldMatches", "OperationMatches"]
+        },
+        "negative": {
+          "const": ["wrong_pack", "wrong_version", "wrong_unit", "wrong_service", "wrong_capability", "wrong_operation", "wrong_argument", "wrong_effect", "cross_pack_relation", "duplicate_relation", "ambiguous_ownership", "deep_copy_mutation", "noncanonical_order"]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,5445 @@
+{
+  "contract": "helianthus.semantic.pack-metadata/v1",
+  "status": "accepted",
+  "metadata_order": "pack id, pack version, definition id, definition version as canonical UTF-8 byte sequence",
+  "packs": [
+    {
+      "pack": {
+        "id": "helianthus.pack.evse",
+        "version": "1.0.0"
+      },
+      "source": "api/v1/packs/evse-acceptance-vectors.json",
+      "units": [
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "definitions": [
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.ac.active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.ac.current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.ac.frequency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.ac.voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.read.connector",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.read.evse",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.read.meter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.read.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.read.session",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.energy.lifetime",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.energy.session",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.actual_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.advertised_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.configured_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.service.connector",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.service.evse",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.service.meter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.service.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.service.session",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.charging",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.connection",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.fault",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.interlock",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.readiness",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.ac.active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.ac.current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.ac.frequency",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.hertz",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.ac.voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.energy.lifetime",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.energy.session",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.actual_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.advertised_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.allocated_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.configured_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.charging",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.connection",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.fault",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.interlock",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.readiness",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "services": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.meter",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.session",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.read.connector",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.read.evse",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.read.meter",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.read.phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.read.session",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "operations": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.allocated_current",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        }
+      ]
+    },
+    {
+      "pack": {
+        "id": "helianthus.pack.infrastructure",
+        "version": "1.0.0"
+      },
+      "source": "api/v1/packs/infrastructure-acceptance-vectors.json",
+      "units": [
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt_ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt_ampere_reactive",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "definitions": [
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.apparent_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.frequency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.power_factor",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.reactive_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.ac.voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.circuit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.feeder",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.grid_connection",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.meter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.capability.read.site",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.energy.export",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.energy.import",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.apparent",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.export_active",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.export_reactive",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.import_active",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.import_reactive",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.circuit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.feeder",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.grid_connection",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.meter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.service.site",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.status.breaker",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.status.connection",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.status.fault",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.status.interlock",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.status.readiness",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt_ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt_ampere_reactive",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.apparent_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.frequency",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.hertz",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.power_factor",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.reactive_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere_reactive",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.ac.voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.energy.export",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.energy.import",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.apparent",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.export_active",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.export_reactive",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere_reactive",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.import_active",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.import_reactive",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere_reactive",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.status.breaker",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.status.connection",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.status.fault",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.site",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.status.interlock",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.status.readiness",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "services": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.circuit",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.feeder",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.feeder",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.grid_connection",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.meter",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.phase",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.site",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.site",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.circuit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.feeder",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.feeder",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.grid_connection",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.meter",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.capability.read.site",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.service.site",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "operations": []
+    },
+    {
+      "pack": {
+        "id": "helianthus.pack.pv",
+        "version": "1.0.0"
+      },
+      "source": "api/v1/packs/pv-inverter-acceptance-vectors.json",
+      "units": [
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "definitions": [
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.aggregate_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.aggregate_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.aggregate_voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.frequency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.power_factor",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.array",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.input",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.inverter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.string",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.read.system",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.set_active_power_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.capability.set_export_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.aggregate_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.aggregate_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.aggregate_voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.dc.voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.effect.set_active_power_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.effect.set_export_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.energy.generated",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.limit.active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.limit.export_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.operation.set_active_power_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.operation.set_export_limit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.array",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.input",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.inverter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.string",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.service.system",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.status.derating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.status.fault",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.status.operating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.temperature.inverter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.hertz",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.volt",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.aggregate_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.aggregate_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.aggregate_voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.frequency",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.hertz",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.power_factor",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.aggregate_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.aggregate_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.aggregate_voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dc.voltage",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.energy.generated",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.limit.active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.limit.export_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.status.derating",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.status.fault",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.status.operating",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.temperature.inverter",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "services": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.array",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.array",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.input",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.inverter",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.phase",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.string",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.system",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.array",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.array",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.input",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.inverter",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.string",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.string",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.read.system",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.set_active_power_limit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.set_export_limit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "operations": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.operation.set_active_power_limit",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.set_active_power_limit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.inverter",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.limit.active_power",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.effect.set_active_power_limit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.operation.set_export_limit",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.capability.set_export_limit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.limit.export_power",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.effect.set_export_limit",
+            "version": "1.0.0"
+          }
+        }
+      ]
+    },
+    {
+      "pack": {
+        "id": "helianthus.pack.storage",
+        "version": "1.1.0"
+      },
+      "source": "api/v1/packs/storage-bms-acceptance-vectors.json",
+      "units": [
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.ampere_hour",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.percent",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.volt",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.watt",
+          "version": "1.1.0"
+        }
+      ],
+      "definitions": [
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capability.read.cell",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capability.read.interface",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capability.read.pack",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capability.set_charge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capability.set_discharge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capacity.charge",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.capacity.discharge",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.cell.voltage_maximum",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.cell.voltage_minimum",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.effect.set_charge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.effect.set_discharge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.energy.charged",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.energy.discharged",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.limit.charge_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.limit.discharge_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.operation.set_charge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.operation.set_discharge_limit",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.pack.current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.pack.power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.pack.voltage",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.battery",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.cell",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.module",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.pack",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.string",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.service.system",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.state.soc",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.state.soh",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.status.alarm",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.status.interlock",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.status.operating",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.status.protection",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.status.warning",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.temperature.cell",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.temperature.pack",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.ampere",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.ampere_hour",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.kilowatt_hour",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.percent",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.volt",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "unit.watt",
+          "version": "1.1.0"
+        }
+      ],
+      "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capacity.charge",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere_hour",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capacity.discharge",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere_hour",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.cell.voltage_maximum",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.volt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.cell",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.cell.voltage_minimum",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.volt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.cell",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.energy.charged",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.energy.discharged",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.kilowatt_hour",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.limit.charge_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.limit.discharge_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.pack.current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.pack.power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.pack.voltage",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.volt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.state.soc",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.percent",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.state.soh",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.percent",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.status.alarm",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.status.interlock",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.status.operating",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.status.protection",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.status.warning",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.temperature.cell",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.cell",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.temperature.pack",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        }
+      ],
+      "services": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.battery",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.battery",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.cell",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.cell",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.module",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.module",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.pack",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.string",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.string",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.system",
+            "version": "1.1.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          }
+        }
+      ],
+      "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.read.cell",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.cell",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.read.interface",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.read.pack",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.set_charge_limit",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.set_discharge_limit",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          }
+        }
+      ],
+      "operations": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.operation.set_charge_limit",
+            "version": "1.1.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.set_charge_limit",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.limit.charge_power",
+            "version": "1.1.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.effect.set_charge_limit",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.operation.set_discharge_limit",
+            "version": "1.1.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.capability.set_discharge_limit",
+            "version": "1.1.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.service.interface",
+            "version": "1.1.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.limit.discharge_power",
+            "version": "1.1.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.effect.set_discharge_limit",
+            "version": "1.1.0"
+          }
+        }
+      ]
+    },
+    {
+      "pack": {
+        "id": "helianthus.pack.thermal",
+        "version": "1.0.0"
+      },
+      "source": "api/v1/packs/thermal-hvac-acceptance-vectors.json",
+      "units": [
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.litre_per_minute",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.percent",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "definitions": [
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.action.state",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.read.circuit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.read.dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.read.system",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.read.ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.read.zone",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.demand.level",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.flow_rate",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.humidity_relative",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.water_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.mode.system",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.mode.zone",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.circuit",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.system",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.zone",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.dhw_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.status.fault",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.status.operation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.celsius",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.litre_per_minute",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.percent",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.watt",
+          "version": "1.0.0"
+        }
+      ],
+      "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.action.state",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.demand.level",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.percent",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ratio",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.flow_rate",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.litre_per_minute",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.volumetric_flow",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.humidity_relative",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.percent",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ratio",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.power",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.water_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.mode.system",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.mode.zone",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.dhw_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.celsius",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.status.fault",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.status.operation",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "services": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.dhw",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.dhw",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.zone",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.read.circuit",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.read.dhw",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.dhw",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.read.system",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.read.ventilation",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.read.zone",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.zone",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "operations": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_mode",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.mode.system",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_mode",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_temperature",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.zone",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.temperature",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_temperature",
+            "version": "1.0.0"
+          }
+        }
+      ]
+    }
+  ],
+  "query_vectors": {
+    "positive": [
+      "Packs",
+      "HasDefinition",
+      "CanonicalUnit",
+      "ServiceOwnsCapability",
+      "FieldMatches",
+      "OperationMatches"
+    ],
+    "negative": [
+      "wrong_pack",
+      "wrong_version",
+      "wrong_unit",
+      "wrong_service",
+      "wrong_capability",
+      "wrong_operation",
+      "wrong_argument",
+      "wrong_effect",
+      "cross_pack_relation",
+      "duplicate_relation",
+      "ambiguous_ownership",
+      "deep_copy_mutation",
+      "noncanonical_order"
+    ]
+  }
+}

@@ -34,6 +34,8 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
   active and links the current kernel contract.
 - [Kernel v1 acceptance](api/v1/acceptance.md) defines the concrete positive and
   negative vectors required of later code.
+- [Immutable pack metadata v1](api/v1/pack-metadata-v1.md) freezes the exact
+  five-pack read-only facts required by the future SemReg descriptor validator.
 - [Thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) defines the accepted
   first capability pack and its native-evidence boundary.
 - [Storage/BMS pack v1.1](api/v1/packs/storage-bms-v1.md) defines accepted typed
