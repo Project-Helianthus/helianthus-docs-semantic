@@ -73,5 +73,6 @@ python3 scripts/validate_evse_pack_v1.py
 python3 scripts/test_validate_evse_pack_v1.py
 python3 scripts/validate_infrastructure_pack_v1.py
 python3 scripts/test_validate_infrastructure_pack_v1.py
+python3 scripts/validate_pack_metadata_schema_v1.py
 python3 scripts/validate_pack_metadata_v1.py
 python3 scripts/test_validate_pack_metadata_v1.py

@@ -73,9 +73,11 @@ class Registry:
     def service_owns_capability(self, service, capability): return any(item["ref"] == capability and item["service"] == service for pack in self._packs for item in pack["capabilities"])
     def field_matches(self, field, service, capability):
         for pack in self._packs:
-            fields = {item["ref"]["id"]: item for item in pack["fields"]}; services = {item["ref"]["id"]: item for item in pack["services"]}
-            if self.service_owns_capability(service, capability) and field["pack"] == pack["pack"] and service["pack"] == pack["pack"] and capability["pack"] == pack["pack"]:
-                return fields.get(field["id"], {}).get("dimension") == services.get(service["id"], {}).get("fact_key_dimension")
+            fields = {key(item["ref"]): item for item in pack["fields"]}
+            services = {key(item["ref"]): item for item in pack["services"]}
+            capabilities = {key(item["ref"]): item for item in pack["capabilities"]}
+            if key(field) in fields and key(service) in services and key(capability) in capabilities:
+                return capabilities[key(capability)]["service"] == service and fields[key(field)]["dimension"] == services[key(service)]["fact_key_dimension"]
         return False
     def operation_matches(self, operation, capability, service, argument, effect):
         return any(item == {"ref": operation, "capability": capability, "service": service, "argument": argument, "effect": effect} for pack in self._packs for item in pack["operations"])
