@@ -15,6 +15,9 @@ required_files=(
   api/v1/acceptance.md
   api/v1/kernel.md
   api/v1/serialization.md
+  api/v1/pack-metadata-v1.md
+  api/v1/pack-metadata-v1.json
+  api/v1/pack-metadata-v1.schema.json
   api/v1/packs/thermal-hvac-v1.md
   api/v1/packs/thermal-hvac-acceptance-vectors.json
   api/v1/packs/storage-bms-v1.md
@@ -70,3 +73,5 @@ python3 scripts/validate_evse_pack_v1.py
 python3 scripts/test_validate_evse_pack_v1.py
 python3 scripts/validate_infrastructure_pack_v1.py
 python3 scripts/test_validate_infrastructure_pack_v1.py
+python3 scripts/validate_pack_metadata_v1.py
+python3 scripts/test_validate_pack_metadata_v1.py
