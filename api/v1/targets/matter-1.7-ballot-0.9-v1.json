@@ -1,0 +1,2340 @@
+{
+  "contract": "helianthus.gateway.matter-projection/v1",
+  "status": "accepted_pinned_draft_projection_contract",
+  "mapping_revision": 1,
+  "target": {
+    "name": "matter.data-model",
+    "version": "1.7-draft-ballot-0.9+29b4768a513cf566011ab8cd60df1bc495204953"
+  },
+  "pins": {
+    "connectedhomeip": {
+      "branch": "dm-0.9-1.7",
+      "commit": "29b4768a513cf566011ab8cd60df1bc495204953"
+    },
+    "data_model": {
+      "path": "data_model/1.7",
+      "spec_sha": "214e40c9d51cfe89050eae68ca5b76238fcfa332",
+      "spec_tag": "0.9-1.7-winter2027",
+      "scraper": "alchemy v1.7.10+dirty"
+    },
+    "semreg": "089ed6ae9004",
+    "docs_semantic_base": "2b3ca78",
+    "packs": {
+      "evse": "1.0.0",
+      "infrastructure": "1.0.0",
+      "pv": "1.0.0",
+      "storage": "1.1.0",
+      "thermal": "1.0.0"
+    }
+  },
+  "scope": {
+    "projection_items": [
+      "field",
+      "capability",
+      "operation"
+    ],
+    "excluded": "service"
+  },
+  "rows": [
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.ac.active_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.ac.current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "candidate_read_only_transformed_observation",
+      "reason": "single narrow numeric draft observation; no qualification or conformance",
+      "loss": [
+        "endpoint identity",
+        "phase identity",
+        "precision",
+        "lifecycle",
+        "range",
+        "nullability",
+        "target behavior"
+      ],
+      "target": {
+        "device_type_id": 1296,
+        "cluster_id": 144,
+        "attribute_id": 5,
+        "transform": {
+          "from_unit": "unit.ampere",
+          "to_unit": "milliamperes",
+          "factor": 1000
+        }
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.ac.frequency",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.ac.voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.energy.lifetime",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.energy.session",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.actual_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.advertised_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.allocated_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.configured_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.charging",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.connection",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.fault",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.interlock",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.readiness",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.read.connector",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.read.evse",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.read.meter",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.read.phase",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.read.session",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_allocated_current",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_allocated_current",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.active_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.apparent_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.frequency",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.power_factor",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.reactive_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.ac.voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.energy.export",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.energy.import",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.power.apparent",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.power.export_active",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.power.export_reactive",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.power.import_active",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.power.import_reactive",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.status.breaker",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.status.connection",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.status.fault",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.status.interlock",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.status.readiness",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.circuit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.feeder",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.grid_connection",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.meter",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.phase",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.capability.read.site",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.active_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.aggregate_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.aggregate_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.aggregate_voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.frequency",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.power_factor",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.aggregate_current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.aggregate_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.aggregate_voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.current",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.dc.voltage",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.energy.generated",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.limit.active_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.limit.export_power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.status.derating",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.status.fault",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.status.operating",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.temperature.inverter",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.array",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.input",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.inverter",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.phase",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.string",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.read.system",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.set_active_power_limit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.capability.set_export_limit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.operation.set_active_power_limit",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.operation.set_export_limit",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capacity.charge",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capacity.discharge",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.cell.voltage_maximum",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.cell.voltage_minimum",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.energy.charged",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.energy.discharged",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.limit.charge_power",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.limit.discharge_power",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.pack.current",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.pack.power",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.pack.voltage",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.state.soc",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.state.soh",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.status.alarm",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.status.interlock",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.status.operating",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.status.protection",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.status.warning",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.temperature.cell",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.temperature.pack",
+        "version": "1.1.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capability.read.cell",
+        "version": "1.1.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capability.read.interface",
+        "version": "1.1.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capability.read.pack",
+        "version": "1.1.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capability.set_charge_limit",
+        "version": "1.1.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.capability.set_discharge_limit",
+        "version": "1.1.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.operation.set_charge_limit",
+        "version": "1.1.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.operation.set_discharge_limit",
+        "version": "1.1.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.action.state",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.demand.level",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.flow_rate",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.humidity_relative",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.power",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.water_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.mode.system",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.mode.zone",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.dhw_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.temperature",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.status.fault",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.status.operation",
+        "version": "1.0.0"
+      },
+      "kind": "field",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.read.circuit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.read.dhw",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.read.system",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.read.ventilation",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.read.zone",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown_fail_closed",
+      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "loss": [
+        "no target lookup",
+        "no inferred fallback",
+        "no operation or control authority"
+      ]
+    }
+  ]
+}
