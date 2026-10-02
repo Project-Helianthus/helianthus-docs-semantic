@@ -46,6 +46,11 @@ def main():
     )
     rejects(
         document,
+        "invalid_reason_definition_id",
+        lambda d: d["rows"][0].update(reason="not a Definition ID"),
+    )
+    rejects(
+        document,
         "missing_fact_key_binding",
         lambda d: d["rows"][positive]["source"]["fact_keys"][0].pop("dimensions"),
     )
@@ -82,6 +87,8 @@ def main():
         "guard_removed",
         lambda d: d["input_guards"]["whole_document_no_payload"].pop(),
     )
+    rejects(document, "ownership_removed", lambda d: d.pop("ownership"))
+    rejects(document, "non_claim_removed", lambda d: d["non_claims"].pop())
     rejects(
         document,
         "ambiguous_source_allowed",
@@ -107,7 +114,7 @@ def main():
         print("public_blob_drift: REJECTED")
     else:
         raise AssertionError("public_blob_drift: accepted")
-    print("focused_mutations: 11 REJECTED")
+    print("focused_mutations: 14 REJECTED")
 
 
 if __name__ == "__main__":

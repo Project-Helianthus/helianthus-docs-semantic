@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,6 +61,29 @@ GUARDS = [
     "nonrepresentable_value",
     "multiple_or_ambiguous_source_keys",
 ]
+OWNERSHIP = {
+    "projection_contract": "Project-Helianthus/helianthus-docs-semantic",
+    "kernel_and_packs": "Project-Helianthus/helianthus-semreg",
+    "runtime_implementation": "Project-Helianthus/helianthus-ebusgateway",
+}
+NON_CLAIMS = [
+    "matter_sdk_dependency",
+    "matter_node",
+    "endpoint_allocation",
+    "commissioning",
+    "fabric",
+    "transport",
+    "subscription",
+    "command_dispatch",
+    "access_control",
+    "certification",
+    "conformance",
+    "live_device",
+    "physical_result",
+]
+DEFINITION_ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+UNKNOWN_REASON = "matter.unmapped.v1"
+POSITIVE_REASON = "matter.phase_endpoint_identity_loss.v1"
 
 
 def pairs(items):
@@ -163,6 +187,8 @@ def validate(document):
         "pins",
         "scope",
         "input_guards",
+        "ownership",
+        "non_claims",
         "rows",
     }:
         raise ValueError("document shape")
@@ -184,6 +210,8 @@ def validate(document):
         "rule": "all guards and every transformed-value representability rule must pass before any target payload exists",
     }:
         raise ValueError("whole-document input guards")
+    if document["ownership"] != OWNERSHIP or document["non_claims"] != NON_CLAIMS:
+        raise ValueError("ownership or non-claims")
     expected, rows = expected_items(load(METADATA)), document["rows"]
     if not isinstance(rows, list) or len(rows) != len(expected):
         raise ValueError("projection coverage")
@@ -197,9 +225,10 @@ def validate(document):
         if (
             row.get("disposition") not in OUTCOMES
             or not isinstance(row.get("reason"), str)
-            or not row["reason"]
+            or not 3 <= len(row["reason"]) <= 160
+            or DEFINITION_ID.fullmatch(row["reason"]) is None
         ):
-            raise ValueError("kernel v1 outcome")
+            raise ValueError("kernel v1 outcome or reason DefinitionID")
         loss = row.get("loss")
         valid_loss = (
             isinstance(loss, list)
@@ -258,12 +287,14 @@ def validate(document):
                 set(row)
                 != {"ref", "kind", "disposition", "reason", "loss", "source", "target"}
                 or row["disposition"] != "transformed"
+                or row["reason"] != POSITIVE_REASON
                 or row["target"] != target
             ):
                 raise ValueError("pinned transformed EVSE observation")
         elif (
             set(row) != {"ref", "kind", "disposition", "reason", "loss", "source"}
             or row["disposition"] != "unknown"
+            or row["reason"] != UNKNOWN_REASON
         ):
             raise ValueError("fail-closed nonpositive disposition")
     validate_evidence(load(EVIDENCE))

@@ -34,12 +34,27 @@ Its FactKey binds the exact pack ID/version, fact ID, and canonical runtime
 dimensions, and the projection binds the exact input snapshot and revision
 vector.
 
-All remaining rows are kernel-v1 `unknown`, each with a reason and structured
-loss. They permit no target lookup, inferred fallback, operation, or control.
+All remaining rows are kernel-v1 `unknown` with the reason DefinitionID
+`matter.unmapped.v1` and structured loss. The transformed row uses
+`matter.phase_endpoint_identity_loss.v1`. They permit no target lookup,
+inferred fallback, operation, or control.
 The public-source evidence fixture records the pinned XML paths and Git blob
 identities used for the one tuple without copying standard prose. This contract
 makes no Matter runtime, conformance, qualification, consumer-binding, or
 physical-device claim.
+
+## Ownership and non-claims
+
+`Project-Helianthus/helianthus-docs-semantic` owns this versioned projection
+contract and ledger. `Project-Helianthus/helianthus-semreg` owns kernel v1 and
+the accepted pack contracts. `Project-Helianthus/helianthus-ebusgateway` may
+implement the pure adapter only after this contract is accepted; it does not
+thereby acquire semantic or Matter-standard ownership.
+
+This contract supplies no Matter SDK dependency, Matter node, endpoint
+allocation, commissioning, fabric, transport, subscription, command dispatch,
+access control, certification, conformance, live-device result, or physical
+result. The ledger is not authority for any of those actions or claims.
 
 Run `python3 scripts/validate_matter_17_projection_v1.py`,
 `python3 scripts/test_validate_matter_17_projection_v1.py`, and

@@ -35,6 +35,26 @@
     ],
     "excluded": "service"
   },
+  "ownership": {
+    "projection_contract": "Project-Helianthus/helianthus-docs-semantic",
+    "kernel_and_packs": "Project-Helianthus/helianthus-semreg",
+    "runtime_implementation": "Project-Helianthus/helianthus-ebusgateway"
+  },
+  "non_claims": [
+    "matter_sdk_dependency",
+    "matter_node",
+    "endpoint_allocation",
+    "commissioning",
+    "fabric",
+    "transport",
+    "subscription",
+    "command_dispatch",
+    "access_control",
+    "certification",
+    "conformance",
+    "live_device",
+    "physical_result"
+  ],
   "rows": [
     {
       "ref": {
@@ -47,7 +67,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -100,7 +120,7 @@
       },
       "kind": "fact",
       "disposition": "transformed",
-      "reason": "single narrow numeric draft observation; no qualification or conformance",
+      "reason": "matter.phase_endpoint_identity_loss.v1",
       "loss": [
         {
           "kind": "unit",
@@ -179,7 +199,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -232,7 +252,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -285,7 +305,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -321,7 +341,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -357,7 +377,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -393,7 +413,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -429,7 +449,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -465,7 +485,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -501,7 +521,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -554,7 +574,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -607,7 +627,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -660,7 +680,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -713,7 +733,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -766,7 +786,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -819,7 +839,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -855,7 +875,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -908,7 +928,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -961,7 +981,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1014,7 +1034,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1067,7 +1087,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1120,7 +1140,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1173,7 +1193,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1226,7 +1246,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1279,7 +1299,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1332,7 +1352,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1385,7 +1405,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1438,7 +1458,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1491,7 +1511,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1527,7 +1547,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1563,7 +1583,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1599,7 +1619,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1635,7 +1655,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1671,7 +1691,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1707,7 +1727,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1760,7 +1780,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1813,7 +1833,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1866,7 +1886,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1919,7 +1939,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -1972,7 +1992,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2025,7 +2045,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2078,7 +2098,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2131,7 +2151,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2184,7 +2204,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2237,7 +2257,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2290,7 +2310,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2343,7 +2363,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2396,7 +2416,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2449,7 +2469,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2502,7 +2522,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2555,7 +2575,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2608,7 +2628,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2661,7 +2681,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2714,7 +2734,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2767,7 +2787,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2803,7 +2823,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2839,7 +2859,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2875,7 +2895,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2911,7 +2931,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2947,7 +2967,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -2983,7 +3003,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3019,7 +3039,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3055,7 +3075,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3108,7 +3128,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3161,7 +3181,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3214,7 +3234,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3267,7 +3287,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3320,7 +3340,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3373,7 +3393,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3426,7 +3446,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3479,7 +3499,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3532,7 +3552,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3568,7 +3588,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3604,7 +3624,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3657,7 +3677,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3710,7 +3730,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3763,7 +3783,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3816,7 +3836,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3852,7 +3872,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3888,7 +3908,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3924,7 +3944,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3960,7 +3980,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -3996,7 +4016,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4049,7 +4069,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4102,7 +4122,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4155,7 +4175,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4208,7 +4228,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4261,7 +4281,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4314,7 +4334,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4367,7 +4387,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4420,7 +4440,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4456,7 +4476,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4492,7 +4512,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4545,7 +4565,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4598,7 +4618,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4651,7 +4671,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4704,7 +4724,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4757,7 +4777,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4810,7 +4830,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4863,7 +4883,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4916,7 +4936,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -4969,7 +4989,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5022,7 +5042,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5075,7 +5095,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5128,7 +5148,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5181,7 +5201,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5217,7 +5237,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5253,7 +5273,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5289,7 +5309,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5325,7 +5345,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5361,7 +5381,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5397,7 +5417,7 @@
       },
       "kind": "capability",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5433,7 +5453,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5486,7 +5506,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5539,7 +5559,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5592,7 +5612,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5645,7 +5665,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5698,7 +5718,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5751,7 +5771,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5804,7 +5824,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5857,7 +5877,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5893,7 +5913,7 @@
       },
       "kind": "operation",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5929,7 +5949,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -5982,7 +6002,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -6035,7 +6055,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
@@ -6088,7 +6108,7 @@
       },
       "kind": "fact",
       "disposition": "unknown",
-      "reason": "no accepted exact pinned Matter mapping for this semantic item",
+      "reason": "matter.unmapped.v1",
       "loss": [
         {
           "kind": "policy",
