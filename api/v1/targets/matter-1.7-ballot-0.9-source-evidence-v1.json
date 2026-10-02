@@ -1,0 +1,11 @@
+{
+  "contract": "helianthus.gateway.matter-source-evidence/v1",
+  "target": {"name": "matter.data-model", "version": "1.7-draft-ballot-0.9+29b4768a513cf566011ab8cd60df1bc495204953"},
+  "public_source": {"repository": "AryaHassanli/connectedhomeip", "commit": "29b4768a513cf566011ab8cd60df1bc495204953"},
+  "xml": [
+    {"path": "data_model/1.7/device_types/ElectricalSensor.xml", "blob_sha": "b6235fc64f44d4db2c42d05dc1e9b1f6f51dedfd"},
+    {"path": "data_model/1.7/clusters/ElectricalPowerMeasurement.xml", "blob_sha": "3349108215d56ad61a950a3ad874ea9773499cb5"}
+  ],
+  "positive_tuple": {"device_type_id": 1296, "cluster_id": 144, "attribute_id": 5, "target_unit": "amperage-mA"},
+  "boundary": "public path and blob identity only; no standard prose, conformance, runtime, or certification claim"
+}

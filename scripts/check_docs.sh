@@ -29,6 +29,7 @@ required_files=(
   api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.json
   api/v1/targets/matter-1.7-ballot-0.9-v1.md
   api/v1/targets/matter-1.7-ballot-0.9-v1.json
+  api/v1/targets/matter-1.7-ballot-0.9-source-evidence-v1.json
   api/v1/packs/pv-inverter-v1.md
   api/v1/packs/pv-inverter-acceptance-vectors.json
   api/v1/packs/evse-v1.md
