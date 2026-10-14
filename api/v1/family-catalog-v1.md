@@ -17,8 +17,14 @@ only. It states no family's state, composition or evidence; those live in the
 fixture with their evidence references.
 
 Evidence basis: the SemReg decoder and validator, the fixture README, and the
-fixture's own reason statements at the revision above, which agree on every
-vocabulary and rule stated here. Compatibility effect: new contract; no
+fixture's own reason statements at the revision above. They agree on the
+vocabularies, the state set, the composition rules and the gateway pin form.
+Contract requirements are broader than validator coverage in two places: the
+`@`/`#` evidence-owner forms are not enforced (the validator checks only a
+non-empty `owner` and the gateway pin), and member presence is not enforced for
+every member (an omitted `native_owner` or `semantic_pack` decodes to an empty
+string, which the contract also permits, but the decoder cannot distinguish
+omission from an explicit empty value). Compatibility effect: new contract; no
 existing contract changes.
 
 A catalog row never creates a native mapping, route, authority, consumer
@@ -119,7 +125,7 @@ within v1.
 | `qualification_test_ready_offline` | A native qualification card reports the qualification as test-ready. Source wording: "QUALIFICATION_TEST_READY; HardwareTestReady, LiveQualified, CatalogRegistered, SupportClaim, WriteAuthority all false". |
 | `evidence_blocked` | A native qualification card or disposition reports the qualification as blocked on evidence. Source wording: "QUALIFICATION_EVIDENCE_BLOCKED". |
 | `no_go_missing_evidence` | The native owner recorded a no-go for lack of evidence. Source wording: "NO_GO / missing evidence; typed decoding, discovery and acquisition removed". |
-| `offline_replay_only` | The cited evidence is offline replay qualification of receive-only observations. Source wording: "replay-qualified offline; receive-only". |
+| `offline_replay_only` | The cited evidence is offline replay qualification of receive-only observations. Source wording: "replay-qualified offline" ... "receive-only" (the fixture inserts a pull-request reference between the fragments). |
 | `semantic_mapping_unknown` | Native receive-side evidence exists but the family's semantic mapping is not established. Source wording: "state cells remain native and opaque"; "no mapping is normative". |
 | `legacy_layer_composition` | The cited gateway composition evidence shows the family reaching consumers through the legacy semantic layer, not a SemReg pack publication. Source wording: "the legacy semantic layer, not a SemReg thermal pack publication". |
 | `unknown_pending_std_01` | The family stays unknown while the dependency named `unknown_pending_std_01` in the accepted packs is unresolved. Source wording: "remains unknown_pending_std_01 in every pack; no normative mapping or conformance claim". |
