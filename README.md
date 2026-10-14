@@ -36,6 +36,9 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
   negative vectors required of later code.
 - [Immutable pack metadata v1](api/v1/pack-metadata-v1.md) freezes the exact
   five-pack read-only facts required by the future SemReg descriptor validator.
+- [Family catalog contract v1](api/v1/family-catalog-v1.md) defines the
+  protocol-neutral per-family state, composition, reason and evidence-reference
+  contract; it states no family's state.
 - [Thermal/HVAC pack v1](api/v1/packs/thermal-hvac-v1.md) defines the accepted
   first capability pack and its native-evidence boundary.
 - [Storage/BMS pack v1.1](api/v1/packs/storage-bms-v1.md) defines accepted typed

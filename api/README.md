@@ -100,6 +100,14 @@ operation evidence, causal budgets, projection loss, and compatibility aliases.
 It deliberately contains no protocol/vendor/gateway import or arbitrary public
 value bag.
 
+## Family catalog v1
+
+The [family catalog contract v1](v1/family-catalog-v1.md) defines the
+`helianthus.semreg.family-catalog/v1` document: per-family `state` (the kernel
+`Qualification` set), `composition`, `reason` and evidence references. It is
+checked by `scripts/validate_family_catalog_v1.py` and states no family's actual
+state; states live in the SemReg fixture with their evidence.
+
 ## Remaining contracts
 
 The accepted [immutable pack metadata v1](v1/pack-metadata-v1.md) exports exact
