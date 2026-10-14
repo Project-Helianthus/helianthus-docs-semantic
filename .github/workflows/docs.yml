@@ -8,11 +8,17 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, synology]
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
+          clean: true
           persist-credentials: false
       - run: ./scripts/check_docs.sh
