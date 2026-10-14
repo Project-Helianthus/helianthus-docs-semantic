@@ -5,12 +5,21 @@ for a catalog that records, for each device or protocol family, the
 qualification state its published evidence supports today, why that state is
 not stronger, how the family reaches consumers, and where the evidence lives.
 
-Status: accepted contract definition. Owning implementation package:
-[`semreg/v1/catalog`](https://github.com/Project-Helianthus/helianthus-semreg)
+Status: accepted contract definition, compared against SemReg revision
+`455d902aa231ec4baef741dbfe9a719455c28362`. Owning implementation package:
+[`semreg/v1/catalog`](https://github.com/Project-Helianthus/helianthus-semreg/blob/455d902aa231ec4baef741dbfe9a719455c28362/semreg/v1/catalog/catalog.go)
 in `Project-Helianthus/helianthus-semreg`, which also owns the fixture
-`fixtures/v1/family-catalog-v1.json`. This page defines the contract only. It
-states no family's state, composition or evidence; those live in the fixture
-with their evidence references.
+[`fixtures/v1/family-catalog-v1.json`](https://github.com/Project-Helianthus/helianthus-semreg/blob/455d902aa231ec4baef741dbfe9a719455c28362/fixtures/v1/family-catalog-v1.json)
+and its [`fixtures/README.md`](https://github.com/Project-Helianthus/helianthus-semreg/blob/455d902aa231ec4baef741dbfe9a719455c28362/fixtures/README.md).
+The `Qualification` vocabulary it reuses is defined in this repository at
+[`api/v1/kernel.md`](kernel.md#type-quality). This page defines the contract
+only. It states no family's state, composition or evidence; those live in the
+fixture with their evidence references.
+
+Evidence basis: the SemReg decoder and validator, the fixture README, and the
+fixture's own reason statements at the revision above, which agree on every
+vocabulary and rule stated here. Compatibility effect: new contract; no
+existing contract changes.
 
 A catalog row never creates a native mapping, route, authority, consumer
 binding or live operation. It records a state and points at evidence owned
@@ -88,8 +97,9 @@ revision.
   `composition_verified=true` and at least one `gateway_composition` evidence
   entry pinned to a full gateway commit.
 - `composition_verified=true` requires such a `gateway_composition` entry.
-- `not_composed` rows stay `composition_verified=false`: verification applies
-  only to a claimed composition.
+- A `not_composed` row MUST have `composition_verified=false` and MUST NOT carry
+  any `gateway_composition` evidence entry: verification and gateway-composition
+  evidence apply only to a claimed composition.
 - `composition_verified=false` means the composition is **unverified**. It does
   not assert that the family is absent from the gateway, and `not_composed`
   with `composition_verified=false` means only that no composition is claimed.
@@ -102,18 +112,18 @@ within v1.
 
 | Value | Definition |
 | --- | --- |
-| `offline_profile_only` | Evidence is an admitted offline profile only; no live qualification, write authority or support claim exists. |
-| `offline_mapping_gate_only` | Evidence is an accepted source-specific mapping gate exercised over offline observations only; it is neither device support nor physical qualification. |
-| `family_compatible_offline` | Evidence shows offline family-level compatibility only; no exact build, absolute value, sender or live authority is established. |
-| `no_admissible_profile` | The pinned sources establish no exact, admissible profile tuple for the family. |
-| `qualification_test_ready_offline` | A native qualification card reports the family ready for a qualification test; no live qualification or support claim exists. |
-| `evidence_blocked` | A native qualification card or disposition reports qualification blocked by missing or insufficient evidence. |
-| `no_go_missing_evidence` | The native owner decided no-go for typed decoding or acquisition because required evidence is missing. |
-| `offline_replay_only` | Evidence is offline replay qualification of received observations only. |
-| `semantic_mapping_unknown` | Native receive-side evidence exists, but no semantic mapping of the family is established. |
-| `legacy_layer_composition` | The family reaches consumers through a legacy composition layer rather than a SemReg pack. |
-| `unknown_pending_std_01` | The family is unknown pending the STD-01 standards-evidence work; no normative mapping or conformance claim exists. |
-| `no_producer` | No producer, topology instance or mapping exists for the family. |
+| `offline_profile_only` | The cited native disposition admits an offline profile only. Source wording: "outcome OFFLINE_PROFILE_ADMITTED; live_qualified=false, write_authority=false, support_claim=false". |
+| `offline_mapping_gate_only` | The cited evidence is an accepted source-specific read-only mapping gate over offline observations. Source wording: "neither device support nor physical qualification". |
+| `family_compatible_offline` | The cited native evidence is offline and family-compatible only. Source wording: "offline family-compatible native evidence only"; "no sender, control route or live authority". Any narrower restriction, such as absolute allocation being withheld for a relative or unknown state while allocated and actual current stay separate native candidates, is the conditional rule of the owning pack or mapping and is not implied by this reason. |
+| `no_admissible_profile` | The pinned native sources establish no admissible exact profile tuple. Source wording: "establishes no admissible exact device-type/model-build/protocol tuple". |
+| `qualification_test_ready_offline` | A native qualification card reports the qualification as test-ready. Source wording: "QUALIFICATION_TEST_READY; HardwareTestReady, LiveQualified, CatalogRegistered, SupportClaim, WriteAuthority all false". |
+| `evidence_blocked` | A native qualification card or disposition reports the qualification as blocked on evidence. Source wording: "QUALIFICATION_EVIDENCE_BLOCKED". |
+| `no_go_missing_evidence` | The native owner recorded a no-go for lack of evidence. Source wording: "NO_GO / missing evidence; typed decoding, discovery and acquisition removed". |
+| `offline_replay_only` | The cited evidence is offline replay qualification of receive-only observations. Source wording: "replay-qualified offline; receive-only". |
+| `semantic_mapping_unknown` | Native receive-side evidence exists but the family's semantic mapping is not established. Source wording: "state cells remain native and opaque"; "no mapping is normative". |
+| `legacy_layer_composition` | The cited gateway composition evidence shows the family reaching consumers through the legacy semantic layer, not a SemReg pack publication. Source wording: "the legacy semantic layer, not a SemReg thermal pack publication". |
+| `unknown_pending_std_01` | The family stays unknown while the dependency named `unknown_pending_std_01` in the accepted packs is unresolved. Source wording: "remains unknown_pending_std_01 in every pack; no normative mapping or conformance claim". |
+| `no_producer` | No producer, topology instance or mapping is established for the family. Source wording: "no producer, topology instance or mapping exists". |
 
 ## Evidence references
 
@@ -121,13 +131,13 @@ Each `evidence` entry is an object with exactly four non-empty string members.
 
 | Member | Rule |
 | --- | --- |
-| `owner` | Public repository pinned to an immutable revision, as `Project-Helianthus/<repository>@<revision>`. |
+| `owner` | Public repository reference in one of two forms. `Project-Helianthus/<repository>@<revision>` pins an immutable revision, so the `locator` path at that revision is reproducible. `Project-Helianthus/<repository>#<number>` names an issue or pull request thread; it pins no revision and its content can change, so it is used only for kinds `issue` and `pull_request`, and the `statement` records what the thread established when cited. |
 | `kind` | Evidence kind, for example `native_disposition`, `native_evidence`, `native_qualification_card`, `native_registry`, `semantic_contract`, `semreg_fixture`, `issue`, `pull_request` or `gateway_composition`. Kinds are an open, additive vocabulary. |
-| `locator` | Path inside the repository at that revision, or issue or pull-request reference. |
+| `locator` | Path inside the repository at the pinned revision (`@` form), or the URL of the issue or pull request (`#` form). |
 | `statement` | What the cited material establishes, stated without copying restricted text and without claiming more than the source. |
 
-A `gateway_composition` entry cites gateway code for a composition claim. Its
-`owner` MUST be `Project-Helianthus/helianthus-ebusgateway@` followed by the
+A `gateway_composition` entry cites gateway code for a composition claim. It
+MUST use the `@` form and its `owner` MUST be `Project-Helianthus/helianthus-ebusgateway@` followed by the
 full 40-character commit SHA; an abbreviated revision is rejected. Evidence
 MUST be publishable: no private material, device capture, serial, network
 coordinate or credential.
@@ -162,6 +172,36 @@ correct state: insufficient evidence remains `unknown` or `candidate`, is not
 excluded from scope, and is not fabricated. Accordingly a row is never silently
 dropped for lack of evidence, and a state is never raised above what its
 evidence references support.
+
+## Unresolved questions
+
+- The `reason` definitions quote the evidence statements in the fixture; the
+  SemReg README lists the values without definitions, so the definitions here
+  are the contract's own wording over those sources.
+- The `unknown_pending_std_01` dependency is defined by the accepted packs, not
+  by this contract; this page does not restate it.
+- Completeness against a family list is checked by the consumer against a list it
+  pins; this contract names no list.
+- The SemReg validator checks only that `owner` is non-empty, apart from the
+  `gateway_composition` pin; the two `owner` forms above are a documentation
+  rule that the validator does not yet enforce.
+
+## Falsifiers
+
+This contract is wrong, and a correction is required, if any of the following is
+shown at a pinned revision:
+
+- a fixture or decoder accepts a `state` outside the kernel `Qualification` set,
+  or a document whose `states` member differs from it;
+- a row with a claimed composition is accepted without `composition_verified=true`
+  and a full-SHA `gateway_composition` entry;
+- a `not_composed` row is accepted with `composition_verified=true` or with a
+  `gateway_composition` entry;
+- a document with an unknown or repeated member, or trailing data, is accepted;
+- a `reason` value is used with a meaning that contradicts its definition above,
+  or a row's `state` is `qualified` without the owning native qualification;
+- a family is dropped, or given a fabricated state, because its evidence is
+  insufficient.
 
 ## Validation and limits
 

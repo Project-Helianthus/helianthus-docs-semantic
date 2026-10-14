@@ -24,42 +24,62 @@ REASONS = [
     "no_go_missing_evidence", "offline_replay_only", "semantic_mapping_unknown",
     "legacy_layer_composition", "unknown_pending_std_01", "no_producer",
 ]
-PHRASES = [
-    "gateway_composition",
-    "full 40-character commit SHA",
-    "composition_verified=true",
-    "unverified",
+RULES = [
+    "`candidate`, `qualified`, `unsupported`, `unknown`, `rejected`, with the semantics",
+    "no other member is allowed at any object level",
+    "a repeated member name in any object is rejected",
+    "Trailing data after the document is rejected",
+    "It MUST equal the `Qualification` set below exactly",
+    "MUST have `composition_verified=false` and MUST NOT carry any `gateway_composition` evidence entry",
+    "Any `composition` other than `not_composed` requires `composition_verified=true`",
+    "`composition_verified=true` requires such a `gateway_composition` entry",
+    "MUST be `Project-Helianthus/helianthus-ebusgateway@` followed by the full 40-character commit SHA",
+    "`Project-Helianthus/<repository>@<revision>` pins an immutable revision",
+    "`Project-Helianthus/<repository>#<number>` names an issue or pull request thread",
     "new contract version",
     "insufficient evidence remains `unknown` or `candidate`",
     "is not excluded from scope",
     "is not fabricated",
 ]
+SECTIONS = ["Unresolved questions", "Falsifiers"]
+
+
+def section(text: str, heading: str) -> str:
+    match = re.search(rf"^#+ {re.escape(heading)}\n(.*?)(?=^#+ |\Z)", text, flags=re.M | re.S)
+    return match.group(1) if match else ""
 
 
 def table_values(text: str, heading: str) -> list[str]:
     """Return the first-column code values of the table under a heading."""
-    section = text.split(f"## {heading}", 1)[1].split("\n## ", 1)[0]
-    return re.findall(r"^\| `([a-z0-9_]+)` \|", section, flags=re.M)
+    return re.findall(r"^\| `([^`]+)` \|", section(text, heading), flags=re.M)
 
 
 def check(text: str) -> list[str]:
     errors: list[str] = []
     if CONTRACT not in text:
         errors.append("contract identifier missing")
-    for name in MEMBERS + FAMILY_MEMBERS + EVIDENCE_MEMBERS:
-        if f"`{name}`" not in text:
-            errors.append(f"member not documented: {name}")
+    tables = {
+        "Document": MEMBERS,
+        "Family row": FAMILY_MEMBERS,
+        "Composition": COMPOSITIONS,
+        "Reason": REASONS,
+    }
+    for heading, expected in tables.items():
+        if table_values(text, heading) != expected:
+            errors.append(f"{heading} table differs from the contract")
+    evidence = [v for v in table_values(text, "Evidence references") if v in EVIDENCE_MEMBERS]
+    if evidence != EVIDENCE_MEMBERS:
+        errors.append("evidence table differs from the contract")
     for state in STATES:
         if f"`{state}`" not in text:
             errors.append(f"state not named: {state}")
-    if table_values(text, "Reason") != REASONS:
-        errors.append("reason table differs from the contract vocabulary")
-    if [v for v in table_values(text, "Composition") if v in COMPOSITIONS] != COMPOSITIONS:
-        errors.append("composition table differs from the contract vocabulary")
     flat = " ".join(text.split())
-    for phrase in PHRASES:
-        if phrase not in flat:
-            errors.append(f"required statement missing: {phrase}")
+    for rule in RULES:
+        if rule not in flat:
+            errors.append(f"required statement missing: {rule}")
+    for heading in SECTIONS:
+        if not section(text, heading).strip():
+            errors.append(f"section missing or empty: {heading}")
     return errors
 
 
