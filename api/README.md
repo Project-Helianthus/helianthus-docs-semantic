@@ -39,6 +39,15 @@ freezes the source-specific read-only mapping of persistent configured current
 and an evidence-qualified provisional allocated current. It exposes no sender,
 route, authority, consumer binding, or control.
 
+The [Huawei SUN2000 PV mapping gate](v1/mappings/huawei-sun2000-pv-v1.md) maps the
+admitted facts of the two offline monitoring profiles to the PV pack, with grades
+inherited from the native contract and every other native item withheld or
+native-only with a stated loss. The [LUNA2000 storage gate](v1/mappings/huawei-luna2000-storage-v1.md)
+and the [gateway-meter Infrastructure gate](v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
+publish nothing today: no battery profile is admitted and no meter is decoded. They
+record where the existing Storage and Infrastructure packs will take the facts, keep
+capacity in energy units withheld, and expose no consumer binding or control.
+
 ## PV/inverter pack v1
 
 [`helianthus.pack.pv/v1`](v1/packs/pv-inverter-v1.md) is the accepted third

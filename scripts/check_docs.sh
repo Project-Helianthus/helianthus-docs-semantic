@@ -28,6 +28,12 @@ required_files=(
   api/v1/mappings/growatt-bms-rs485-v202-storage-v1.json
   api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md
   api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.json
+  api/v1/mappings/huawei-sun2000-pv-v1.md
+  api/v1/mappings/huawei-sun2000-pv-v1.json
+  api/v1/mappings/huawei-luna2000-storage-v1.md
+  api/v1/mappings/huawei-luna2000-storage-v1.json
+  api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md
+  api/v1/mappings/huawei-gateway-meter-infrastructure-v1.json
   api/v1/targets/matter-1.7-ballot-0.9-v1.md
   api/v1/targets/matter-1.7-ballot-0.9-v1.json
   api/v1/targets/matter-1.7-ballot-0.9-source-evidence-v1.json
@@ -71,6 +77,12 @@ python3 scripts/validate_growatt_bms_rs485_v202_storage_mapping.py
 python3 scripts/test_validate_growatt_bms_rs485_v202_storage_mapping.py
 python3 scripts/validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py
 python3 scripts/test_validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py
+python3 scripts/validate_huawei_sun2000_pv_mapping.py
+python3 scripts/test_validate_huawei_sun2000_pv_mapping.py
+python3 scripts/validate_huawei_luna2000_storage_mapping.py
+python3 scripts/test_validate_huawei_luna2000_storage_mapping.py
+python3 scripts/validate_huawei_gateway_meter_infrastructure_mapping.py
+python3 scripts/test_validate_huawei_gateway_meter_infrastructure_mapping.py
 python3 scripts/validate_matter_17_projection_v1.py
 python3 scripts/test_validate_matter_17_projection_v1.py
 python3 scripts/validate_pv_inverter_pack_v1.py
