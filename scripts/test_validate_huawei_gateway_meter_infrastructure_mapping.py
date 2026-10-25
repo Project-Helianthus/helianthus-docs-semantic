@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
-"""Mutation controls for the Huawei gateway-meter Infrastructure gate (run with python3 -m pytest)."""
+"""Mutation controls for the Huawei gateway-meter Infrastructure gate (run with python3 or python3 -m pytest)."""
 import copy
 import importlib.util
 import re
 import sys
 from pathlib import Path
 
-import pytest
-
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("validate_huawei_gateway_meter_infrastructure_mapping", ROOT / "scripts/validate_huawei_gateway_meter_infrastructure_mapping.py")
 v = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = v
 SPEC.loader.exec_module(v)
+
+SUPPORT_SPEC = importlib.util.spec_from_file_location("huawei_mapping_test_support", ROOT / "scripts/huawei_mapping_test_support.py")
+support = importlib.util.module_from_spec(SUPPORT_SPEC)
+sys.modules[SUPPORT_SPEC.name] = support
+SUPPORT_SPEC.loader.exec_module(support)
+parametrize, raises = support.parametrize, support.raises
 
 
 def contract():
@@ -38,19 +42,19 @@ def test_gate_passes_with_its_page():
 
 
 def test_no_binary_floating_point():
-    with pytest.raises(ValueError, match="binary floating point"):
+    with raises(ValueError, match="binary floating point"):
         v.loads('{"gain": 1000.0}')
     float_case = case()
     float_case["routed_unit"] = 11.0
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         project(float_case)
     document = contract()
     set_path(document, "admission.decoded_meter_words", 0.0)
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.validate_contract(document)
 
 
-@pytest.mark.parametrize("name,mutation,message", [
+@parametrize("name,mutation,message", [
     ("pack", lambda d: set_path(d, "pack.id", "helianthus.pack.pv"), "contract"),
     ("pack-version", lambda d: set_path(d, "pack.version", "1.1.0"), "contract"),
     ("status", lambda d: set_path(d, "status", "accepted_source_specific_read_only_mapping_gate"), "contract"),
@@ -103,16 +107,16 @@ def test_no_binary_floating_point():
 def test_contract_mutations_are_rejected(name, mutation, message):
     document = contract()
     mutation(document)
-    with pytest.raises(ValueError) as error:
+    with raises(ValueError) as error:
         v.validate_contract(document)
     assert message in str(error.value)
 
 
-@pytest.mark.parametrize("field,value", [("loss_kind", "native_enum"), ("description", ""), ("reversible", "yes")])
+@parametrize("field,value", [("loss_kind", "native_enum"), ("description", ""), ("reversible", "yes")])
 def test_every_reason_declares_its_loss(field, value):
     document = contract()
     document["reasons"]["infrastructure.reason.profile_withholds_meter"][field] = value
-    with pytest.raises(ValueError, match="reason loss"):
+    with raises(ValueError, match="reason loss"):
         v.validate_contract(document)
 
 
@@ -145,7 +149,7 @@ def test_completeness_check_catches_damage():
             broken["native_dispositions"][0]["outcome"] = "exact"
         else:
             broken["native_dispositions"][0]["reason"] = "infrastructure.reason.invented"
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             v.assert_complete(broken, document)
 
 
@@ -160,7 +164,7 @@ def test_an_answering_group_is_neither_a_value_nor_an_identity():
     assert rows["profile_meter_groups"] == "infrastructure.reason.profile_withholds_meter"
 
 
-@pytest.mark.parametrize("read", [
+@parametrize("read", [
     {"native_id": "sdongle_plant_grid_power", "outcome": "ANSWERED", "words": [0, 1200]},
     {"native_id": "sdongle_plant_grid_power", "outcome": "ANSWERED", "value": 1200},
     {"native_id": "sdongle_plant_grid_power", "outcome": "EXCEPTION"},
@@ -175,7 +179,7 @@ def test_an_answering_group_is_neither_a_value_nor_an_identity():
 def test_invalid_reads_are_rejected(read):
     document = case()
     document["reads"] = [read]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -183,7 +187,7 @@ def test_a_duplicate_read_is_rejected():
     document = case()
     read = {"native_id": "emma_built_in_sensor_group", "outcome": "FAILED"}
     document["reads"] = [read, copy.deepcopy(read)]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -195,7 +199,7 @@ def test_an_exception_negates_nothing_and_publishes_no_value():
     assert rows["emma_external_sensor_group"] == "infrastructure.reason.no_meter_class_contract"
 
 
-@pytest.mark.parametrize("declared,expected", [
+@parametrize("declared,expected", [
     ("grid_connection", {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}),
     ("feeder", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}),
     ("circuit", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}),
@@ -210,7 +214,7 @@ def test_the_configured_role_selects_the_dimension_and_publishes_nothing(declare
     assert output["facts"] == []
 
 
-@pytest.mark.parametrize("role", [
+@parametrize("role", [
     {"declared": "grid_connection", "source": "derived_from_power_sign"}, {"declared": "grid_connection", "source": "derived_from_registers"},
     {"declared": "grid_connection", "source": "listing_label"}, {"declared": "grid_connection"}, {"declared": "consumption", "source": "operator_configuration"},
     {"declared": "", "source": "operator_configuration"}, {"declared": ["grid_connection"], "source": "operator_configuration"}, None, "grid_connection",
@@ -218,26 +222,26 @@ def test_the_configured_role_selects_the_dimension_and_publishes_nothing(declare
 def test_a_role_is_configuration_and_never_derived(role):
     document = case()
     document["role"] = role
-    with pytest.raises(ValueError, match="role_invalid"):
+    with raises(ValueError, match="role_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("unit", [0, 248, -1, True, "11", 11.5])
+@parametrize("unit", [0, 248, -1, True, "11", 11.5])
 def test_the_routed_unit_that_keys_the_role_is_bounded(unit):
     document = case()
     document["routed_unit"] = unit
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         project(document)
 
 
-@pytest.mark.parametrize("outcome,message", [("PROFILE_SELECTED", "gate_revision_required"), ("INSUFFICIENT_EVIDENCE", None), ("NO_ADMISSIBLE_PROFILE", None), ("AMBIGUOUS", None), ("", "native_evidence_invalid"), (None, "native_evidence_invalid")])
+@parametrize("outcome,message", [("PROFILE_SELECTED", "gate_revision_required"), ("INSUFFICIENT_EVIDENCE", None), ("NO_ADMISSIBLE_PROFILE", None), ("AMBIGUOUS", None), ("", "native_evidence_invalid"), (None, "native_evidence_invalid")])
 def test_a_selected_meter_fails_closed(outcome, message):
     document = case()
     document["selection"]["outcome"] = outcome
     if message is None:
         project(document)
         return
-    with pytest.raises(ValueError, match=message):
+    with raises(ValueError, match=message):
         project(document)
 
 
@@ -245,39 +249,39 @@ def test_a_meter_identity_is_never_claimed():
     for identity in ({"asset_id": "meter-asset-demo-delta"}, {"asset_id": ""}, {"asset_id": None}):
         document = case()
         document["identity"] = identity
-        with pytest.raises(ValueError, match="gate_revision_required"):
+        with raises(ValueError, match="gate_revision_required"):
             project(document)
 
 
-@pytest.mark.parametrize("source", ["", None, "source gateway", "source:serial-1", "source:ESN-1", "source:10.1.2.3", "source:host:502", "11", "source:meter-huawei", "source:emma-a"])
+@parametrize("source", ["", None, "source gateway", "source:serial-1", "source:ESN-1", "source:10.1.2.3", "source:host:502", "11", "source:meter-huawei", "source:emma-a"])
 def test_source_identifier_never_comes_from_forbidden_inputs(source):
     document = case()
     document["source"]["source_id"] = source
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("path,value", [("lifecycle.observation_id", ""), ("lifecycle.observation_revision", 0), ("lifecycle.receipt_wall", "2026-01-01T00:00:00"), ("lifecycle.receipt_monotonic", None), ("lifecycle.clock_epoch", "bad epoch"), ("lifecycle.source_epoch", None), ("lifecycle.driver_generation", True), ("lifecycle.connection_generation", 0)])
+@parametrize("path,value", [("lifecycle.observation_id", ""), ("lifecycle.observation_revision", 0), ("lifecycle.receipt_wall", "2026-01-01T00:00:00"), ("lifecycle.receipt_monotonic", None), ("lifecycle.clock_epoch", "bad epoch"), ("lifecycle.source_epoch", None), ("lifecycle.driver_generation", True), ("lifecycle.connection_generation", 0)])
 def test_every_lifecycle_axis_is_required(path, value):
     document = case()
     set_path(document, path, value)
-    with pytest.raises(ValueError, match="lifecycle_missing"):
+    with raises(ValueError, match="lifecycle_missing"):
         project(document)
 
 
-@pytest.mark.parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
+@parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
 def test_every_qualification_flag_is_pinned(flag):
     document = case()
     document["qualification"][flag] = not document["qualification"][flag]
-    with pytest.raises(ValueError, match="mapping_unqualified"):
+    with raises(ValueError, match="mapping_unqualified"):
         project(document)
 
 
-@pytest.mark.parametrize("member,value", [("request_operation", "any"), ("request_direction_split", "signed_power_to_import_export"), ("request_mixed_sign_references", True)])
+@parametrize("member,value", [("request_operation", "any"), ("request_direction_split", "signed_power_to_import_export"), ("request_mixed_sign_references", True)])
 def test_no_operation_split_or_mixed_sign_is_available(member, value):
     document = case()
     document[member] = value
-    with pytest.raises(ValueError, match="unsupported_or_withheld"):
+    with raises(ValueError, match="unsupported_or_withheld"):
         project(document)
 
 
@@ -287,17 +291,17 @@ def test_first_error_of_the_precedence_list_wins():
     document["source"]["source_id"] = ""
     document["role"] = {"declared": "x", "source": "y"}
     document["request_operation"] = "any"
-    with pytest.raises(ValueError, match="gate_revision_required"):
+    with raises(ValueError, match="gate_revision_required"):
         project(document)
     document["selection"]["outcome"] = "AMBIGUOUS"
     document["reads"] = [{"native_id": "invented", "outcome": "ANSWERED"}]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
     document["reads"] = []
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
     document["source"]["source_id"] = "source:gateway-demo-d"
-    with pytest.raises(ValueError, match="role_invalid"):
+    with raises(ValueError, match="role_invalid"):
         project(document)
 
 
@@ -323,7 +327,7 @@ def test_scenario_expectations_are_executed_not_trusted():
     ):
         document = contract()
         damage(document)
-        with pytest.raises(ValueError) as error:
+        with raises(ValueError) as error:
             v.validate_scenarios(document)
         assert message in str(error.value)
 
@@ -332,14 +336,14 @@ def test_scenario_coverage_is_enforced():
     for dropped, message in ((("MTR-POS-004-groups-answer-nothing-decoded",), "cover every reason"), (("MTR-POS-005-meter-read-exception",), "cover every reason"), (("MTR-NEG-007-role-derived-from-sign", "MTR-NEG-008-role-outside-set"), "cover every error")):
         document = contract()
         document["scenarios"] = [s for s in document["scenarios"] if s["id"] not in dropped]
-        with pytest.raises(ValueError, match=message):
+        with raises(ValueError, match=message):
             v.validate_scenarios(document)
 
 
 def test_a_negative_scenario_that_is_accepted_fails():
     document = contract()
     next(s for s in document["scenarios"] if s["id"] == "MTR-NEG-006-source-missing")["mutations"] = []
-    with pytest.raises(ValueError, match="accepted"):
+    with raises(ValueError, match="accepted"):
         v.validate_scenarios(document)
 
 
@@ -347,7 +351,7 @@ def page():
     return v.DOC.read_text(encoding="utf-8")
 
 
-@pytest.mark.parametrize("old,new", [
+@parametrize("old,new", [
     ("| `emma_external_sensor_group` | emma | Unknown | `infrastructure.reason.no_meter_class_contract` | policy |", "| `emma_external_sensor_group` | emma | Proven | `infrastructure.reason.no_meter_class_contract` | policy |"),
     ("| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_import` | `grid_connection` |", "| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_export` | `grid_connection` |"),
     ("| `feeder` | withheld | `infrastructure.dimension.meter` | none decided |", "| `feeder` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | none decided |"),
@@ -360,20 +364,20 @@ def test_page_must_match_the_contract(old, new):
     pattern = re.escape(old).replace(r"\ ", r"\s+")
     mutated, count = re.subn(pattern, lambda _: new, page())
     assert count >= 1
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.check_document(v.load(), mutated)
 
 
 def test_a_dropped_table_row_is_rejected():
     for prefix in ("| `profile_meter_groups` |", "| `circuit` |"):
         lines = [line for line in page().splitlines(keepends=True) if not line.startswith(prefix)]
-        with pytest.raises(ValueError, match="document tables"):
+        with raises(ValueError, match="document tables"):
             v.check_document(v.load(), "".join(lines))
 
 
-@pytest.mark.parametrize("literal", ["c" * 40, "0123456789abcdef" * 4, "E1" * 20])
+@parametrize("literal", ["c" * 40, "0123456789abcdef" * 4, "E1" * 20])
 def test_publication_rule_rejects_revision_and_digest_literals(literal):
-    with pytest.raises(ValueError, match="publication"):
+    with raises(ValueError, match="publication"):
         v.check_document(v.load(), page() + "\n" + literal + "\n")
 
 
@@ -382,3 +386,7 @@ def test_published_files_cite_no_revision_link_or_endpoint():
         text = path.read_text(encoding="utf-8")
         assert not v.HEX_RUN_RE.search(text)
         assert "/blob/" not in text and "/commit/" not in text and "#L" not in text and "tcp://" not in text
+
+
+if __name__ == "__main__":
+    raise SystemExit(support.run(globals()))

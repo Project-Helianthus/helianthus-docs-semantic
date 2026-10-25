@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
-"""Mutation controls for the Huawei LUNA2000 storage gate (run with python3 -m pytest)."""
+"""Mutation controls for the Huawei LUNA2000 storage gate (run with python3 or python3 -m pytest)."""
 import copy
 import importlib.util
 import re
 import sys
 from pathlib import Path
 
-import pytest
-
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("validate_huawei_luna2000_storage_mapping", ROOT / "scripts/validate_huawei_luna2000_storage_mapping.py")
 v = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = v
 SPEC.loader.exec_module(v)
+
+SUPPORT_SPEC = importlib.util.spec_from_file_location("huawei_mapping_test_support", ROOT / "scripts/huawei_mapping_test_support.py")
+support = importlib.util.module_from_spec(SUPPORT_SPEC)
+sys.modules[SUPPORT_SPEC.name] = support
+SUPPORT_SPEC.loader.exec_module(support)
+parametrize, raises = support.parametrize, support.raises
 
 
 def contract():
@@ -42,19 +46,19 @@ def test_gate_passes_with_its_page():
 
 
 def test_no_binary_floating_point():
-    with pytest.raises(ValueError, match="binary floating point"):
+    with raises(ValueError, match="binary floating point"):
         v.loads('{"gain": 100.0}')
     document = contract()
     set_path(document, "admission.registry_disposition.decoder_keys", 0.0)
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.validate_contract(document)
     float_case = case()
     float_case["reads"] = [{"offset": 37066, "quantity": 4, "outcome": "ANSWERED", "words": [1.0, 2, 3, 4]}]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(float_case)
 
 
-@pytest.mark.parametrize("name,mutation,message", [
+@parametrize("name,mutation,message", [
     ("pack", lambda d: set_path(d, "pack.id", "helianthus.pack.pv"), "contract"),
     ("pack-version", lambda d: set_path(d, "pack.version", "1.0.0"), "contract"),
     ("status", lambda d: set_path(d, "status", "accepted_source_specific_read_only_mapping_gate"), "contract"),
@@ -108,16 +112,16 @@ def test_no_binary_floating_point():
 def test_contract_mutations_are_rejected(name, mutation, message):
     document = contract()
     mutation(document)
-    with pytest.raises(ValueError) as error:
+    with raises(ValueError) as error:
         v.validate_contract(document)
     assert message in str(error.value)
 
 
-@pytest.mark.parametrize("field,value", [("loss_kind", "native_enum"), ("description", ""), ("reversible", "yes")])
+@parametrize("field,value", [("loss_kind", "native_enum"), ("description", ""), ("reversible", "yes")])
 def test_every_reason_declares_its_loss(field, value):
     document = contract()
     document["reasons"]["storage.reason.no_energy_capacity_fact_in_pack"][field] = value
-    with pytest.raises(ValueError, match="reason loss"):
+    with raises(ValueError, match="reason loss"):
         v.validate_contract(document)
 
 
@@ -150,11 +154,11 @@ def test_completeness_check_catches_damage():
             broken["native_dispositions"][0]["outcome"] = "exact"
         else:
             broken["native_dispositions"][0]["reason"] = "storage.reason.invented"
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             v.assert_complete(broken, document)
 
 
-@pytest.mark.parametrize("reads,expected", [
+@parametrize("reads,expected", [
     ([], {"battery_group_37000_30": "battery_group_not_read", "battery_single_read_37000_1": "battery_group_not_read", "battery_group_37066_4": "battery_group_not_read", "battery_group_47000_1": "battery_group_not_read"}),
     ([{"offset": 37000, "quantity": 1, "outcome": "ANSWERED", "words": [0]}, {"offset": 47000, "quantity": 1, "outcome": "ANSWERED", "words": [0]}],
      {"battery_group_37000_30": "battery_group_not_read", "battery_single_read_37000_1": "zero_word_is_not_a_battery_value", "battery_group_37066_4": "battery_group_not_read", "battery_group_47000_1": "zero_word_is_not_a_battery_value"}),
@@ -183,7 +187,7 @@ def test_planned_items_keep_their_reason_whatever_is_read():
     assert rows["site_battery_energy_charged_day"] == "storage.reason.period_counter_time_domain_not_represented"
 
 
-@pytest.mark.parametrize("read", [
+@parametrize("read", [
     {"offset": 30368, "quantity": 1, "outcome": "ANSWERED", "words": [7550]},
     {"offset": 37000, "quantity": 29, "outcome": "ANSWERED", "words": [0] * 29},
     {"offset": 37066, "quantity": 4, "outcome": "ANSWERED", "words": [1, 2]},
@@ -199,7 +203,7 @@ def test_planned_items_keep_their_reason_whatever_is_read():
 def test_invalid_or_planned_reads_are_rejected(read):
     document = case()
     document["reads"] = [read]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -207,18 +211,18 @@ def test_a_duplicate_read_is_rejected():
     document = case()
     read = {"offset": 37066, "quantity": 4, "outcome": "FAILED"}
     document["reads"] = [read, copy.deepcopy(read)]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("outcome,message", [("PROFILE_SELECTED", "gate_revision_required"), ("INSUFFICIENT_EVIDENCE", None), ("NO_ADMISSIBLE_PROFILE", None), ("AMBIGUOUS", None), ("", "native_evidence_invalid"), (None, "native_evidence_invalid"), ("OFFLINE_PROFILE_ADMITTED", "native_evidence_invalid")])
+@parametrize("outcome,message", [("PROFILE_SELECTED", "gate_revision_required"), ("INSUFFICIENT_EVIDENCE", None), ("NO_ADMISSIBLE_PROFILE", None), ("AMBIGUOUS", None), ("", "native_evidence_invalid"), (None, "native_evidence_invalid"), ("OFFLINE_PROFILE_ADMITTED", "native_evidence_invalid")])
 def test_a_selected_battery_profile_fails_closed(outcome, message):
     document = case()
     document["luna_selection"]["outcome"] = outcome
     if message is None:
         project(document)
         return
-    with pytest.raises(ValueError, match=message):
+    with raises(ValueError, match=message):
         project(document)
 
 
@@ -226,7 +230,7 @@ def test_capacity_is_never_converted_to_energy_units_or_published():
     for member, value in (("request_conversion", "ampere_hour_to_kilowatt_hour"), ("request_conversion", "voltage_times_ampere_hour"), ("request_item", "storage.capacity.charge")):
         document = case()
         document[member] = value
-        with pytest.raises(ValueError, match="unsupported_or_withheld"):
+        with raises(ValueError, match="unsupported_or_withheld"):
             project(document)
     output = project(case())
     assert not [item for item in output["requested"] if "capacity" in item["item_id"]]
@@ -237,14 +241,14 @@ def test_no_limit_interlock_or_operation_is_requested_or_available():
     for operation in ("storage.operation.set_charge_limit", "storage.operation.set_discharge_limit"):
         document = case()
         document["request_operation"] = operation
-        with pytest.raises(ValueError, match="unsupported_or_withheld"):
+        with raises(ValueError, match="unsupported_or_withheld"):
             project(document)
     requested = {item["item_id"] for item in project(case())["requested"]}
     assert requested == set(v.REQUESTED) and not requested & set(v.NEVER_REQUESTED)
     for item in v.NEVER_REQUESTED:
         document = case()
         document["request_item"] = item
-        with pytest.raises(ValueError, match="unsupported_or_withheld"):
+        with raises(ValueError, match="unsupported_or_withheld"):
             project(document)
 
 
@@ -265,35 +269,35 @@ def test_prospective_rows_are_not_in_force_and_match_the_pack():
     assert not any(token in str(document["field_rules"]) for token in ("storage.limit.", "storage.status.interlock", "storage.operation."))
 
 
-@pytest.mark.parametrize("asset", ["", None, "storage asset", "storage-asset-serial-1", "storage-asset-ESN-1", "storage-asset-10.2.3.4", "storage-asset-host:502", "source:gateway-demo-c", "binding:semantic-storage:demo-gamma", "storage-asset-luna", "storage-asset-huawei"])
+@parametrize("asset", ["", None, "storage asset", "storage-asset-serial-1", "storage-asset-ESN-1", "storage-asset-10.2.3.4", "storage-asset-host:502", "source:gateway-demo-c", "binding:semantic-storage:demo-gamma", "storage-asset-luna", "storage-asset-huawei"])
 def test_asset_identifier_never_comes_from_forbidden_inputs(asset):
     document = case()
     document["identity"]["asset_id"] = asset
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:192.168.0.1"), ("identity.binding_id", None), ("identity.binding_id", "storage-asset-demo-gamma"), ("source", None)])
+@parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:192.168.0.1"), ("identity.binding_id", None), ("identity.binding_id", "storage-asset-demo-gamma"), ("source", None)])
 def test_source_and_binding_identifiers_fail_closed(path, value):
     document = case()
     set_path(document, path, value)
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("path,value", [("lifecycle.observation_id", ""), ("lifecycle.observation_revision", 0), ("lifecycle.receipt_wall", "2026-01-01T00:00:00"), ("lifecycle.receipt_wall", None), ("lifecycle.receipt_monotonic", 0), ("lifecycle.clock_epoch", "bad epoch"), ("lifecycle.source_epoch", None), ("lifecycle.driver_generation", True), ("lifecycle.connection_generation", 0)])
+@parametrize("path,value", [("lifecycle.observation_id", ""), ("lifecycle.observation_revision", 0), ("lifecycle.receipt_wall", "2026-01-01T00:00:00"), ("lifecycle.receipt_wall", None), ("lifecycle.receipt_monotonic", 0), ("lifecycle.clock_epoch", "bad epoch"), ("lifecycle.source_epoch", None), ("lifecycle.driver_generation", True), ("lifecycle.connection_generation", 0)])
 def test_every_lifecycle_axis_is_required(path, value):
     document = case()
     set_path(document, path, value)
-    with pytest.raises(ValueError, match="lifecycle_missing"):
+    with raises(ValueError, match="lifecycle_missing"):
         project(document)
 
 
-@pytest.mark.parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
+@parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
 def test_every_qualification_flag_is_pinned(flag):
     document = case()
     document["qualification"][flag] = not document["qualification"][flag]
-    with pytest.raises(ValueError, match="mapping_unqualified"):
+    with raises(ValueError, match="mapping_unqualified"):
         project(document)
 
 
@@ -302,14 +306,14 @@ def test_first_error_of_the_precedence_list_wins():
     document["luna_selection"]["outcome"] = "PROFILE_SELECTED"
     document["identity"]["asset_id"] = ""
     document["request_operation"] = "storage.operation.set_charge_limit"
-    with pytest.raises(ValueError, match="gate_revision_required"):
+    with raises(ValueError, match="gate_revision_required"):
         project(document)
     document["luna_selection"]["outcome"] = "AMBIGUOUS"
     document["reads"] = [{"offset": 1, "quantity": 1, "outcome": "ANSWERED", "words": [0]}]
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
     document["reads"] = []
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
@@ -321,7 +325,7 @@ def test_scenario_expectations_are_executed_not_trusted():
     ):
         document = contract()
         damage(document)
-        with pytest.raises(ValueError) as error:
+        with raises(ValueError) as error:
             v.validate_scenarios(document)
         assert message in str(error.value)
 
@@ -330,14 +334,14 @@ def test_scenario_coverage_is_enforced():
     for dropped, message in (("STG-POS-002-zero-words-without-battery", "cover every reason"), ("STG-POS-004-battery-read-exception", "cover every reason"), ("STG-NEG-005-lifecycle-missing", "cover every error")):
         document = contract()
         document["scenarios"] = [s for s in document["scenarios"] if s["id"] != dropped]
-        with pytest.raises(ValueError, match=message):
+        with raises(ValueError, match=message):
             v.validate_scenarios(document)
 
 
 def test_a_negative_scenario_that_is_accepted_fails():
     document = contract()
     next(s for s in document["scenarios"] if s["id"] == "STG-NEG-004-asset-missing")["mutations"] = []
-    with pytest.raises(ValueError, match="accepted"):
+    with raises(ValueError, match="accepted"):
         v.validate_scenarios(document)
 
 
@@ -345,7 +349,7 @@ def page():
     return v.DOC.read_text(encoding="utf-8")
 
 
-@pytest.mark.parametrize("old,new", [
+@parametrize("old,new", [
     ("| `site_rated_storage_capacity` | monitoring_contract_planned | Hypothesis | `storage.reason.no_energy_capacity_fact_in_pack` | capability |", "| `site_rated_storage_capacity` | monitoring_contract_planned | Hypothesis | `storage.reason.planned_group_not_observed` | provenance |"),
     ("| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | none | Hypothesis |", "| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 10 | none | Hypothesis |"),
     ("| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unknown_no_value_without_a_graded_sign` | Hypothesis |", "| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `positive_while_charging_negative_while_discharging` | Hypothesis |"),
@@ -358,20 +362,20 @@ def test_page_must_match_the_contract(old, new):
     pattern = re.escape(old).replace(r"\ ", r"\s+")
     mutated, count = re.subn(pattern, lambda _: new, page())
     assert count >= 1
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.check_document(v.load(), mutated)
 
 
 def test_a_dropped_table_row_is_rejected():
     for prefix in ("| `battery_group_37066_4` |", "| `storage.energy.discharged` |"):
         lines = [line for line in page().splitlines(keepends=True) if not line.startswith(prefix)]
-        with pytest.raises(ValueError, match="document tables"):
+        with raises(ValueError, match="document tables"):
             v.check_document(v.load(), "".join(lines))
 
 
-@pytest.mark.parametrize("literal", ["b" * 40, "0123456789abcdef" * 4, "F0" * 20])
+@parametrize("literal", ["b" * 40, "0123456789abcdef" * 4, "F0" * 20])
 def test_publication_rule_rejects_revision_and_digest_literals(literal):
-    with pytest.raises(ValueError, match="publication"):
+    with raises(ValueError, match="publication"):
         v.check_document(v.load(), page() + "\n" + literal + "\n")
 
 
@@ -380,3 +384,7 @@ def test_published_files_cite_no_revision_link_or_endpoint():
         text = path.read_text(encoding="utf-8")
         assert not v.HEX_RUN_RE.search(text)
         assert "/blob/" not in text and "/commit/" not in text and "#L" not in text and "tcp://" not in text
+
+
+if __name__ == "__main__":
+    raise SystemExit(support.run(globals()))

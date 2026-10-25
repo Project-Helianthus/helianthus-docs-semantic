@@ -231,8 +231,9 @@ atomic cutover and keep `outbound_allowed=false`.
 ## Validation
 
 Run `python3 scripts/validate_huawei_gateway_meter_infrastructure_mapping.py`,
-`python3 -m pytest scripts/test_validate_huawei_gateway_meter_infrastructure_mapping.py -q`,
-and `./scripts/check_docs.sh`. The validator executes every vector, checks each
+`python3 scripts/test_validate_huawei_gateway_meter_infrastructure_mapping.py`
+(also collected by `python3 -m pytest`), and `./scripts/check_docs.sh`, which runs
+both. The validator executes every vector, checks each
 prospective target against the Infrastructure pack catalog, checks that every
 native item has exactly one disposition, and compares the tables of this page with
 the contract.

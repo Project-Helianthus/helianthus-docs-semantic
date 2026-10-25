@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutation controls for the Huawei SUN2000 PV mapping gate (run with python3 -m pytest)."""
+"""Mutation controls for the Huawei SUN2000 PV mapping gate (run with python3 or python3 -m pytest)."""
 import copy
 import importlib.util
 import json
@@ -7,13 +7,17 @@ import re
 import sys
 from pathlib import Path
 
-import pytest
-
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("validate_huawei_sun2000_pv_mapping", ROOT / "scripts/validate_huawei_sun2000_pv_mapping.py")
 v = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = v
 SPEC.loader.exec_module(v)
+
+SUPPORT_SPEC = importlib.util.spec_from_file_location("huawei_mapping_test_support", ROOT / "scripts/huawei_mapping_test_support.py")
+support = importlib.util.module_from_spec(SUPPORT_SPEC)
+sys.modules[SUPPORT_SPEC.name] = support
+SUPPORT_SPEC.loader.exec_module(support)
+parametrize, raises = support.parametrize, support.raises
 
 M1, M3 = v.M1, v.M3
 
@@ -37,7 +41,7 @@ def set_path(document, path, value):
 def assert_rejected(mutation, message):
     document = contract()
     mutation(document)
-    with pytest.raises(ValueError) as error:
+    with raises(ValueError) as error:
         v.validate_contract(document)
     assert message in str(error.value)
 
@@ -64,19 +68,19 @@ def test_gate_passes_with_its_page():
 
 
 def test_no_binary_floating_point_anywhere():
-    with pytest.raises(ValueError, match="binary floating point"):
+    with raises(ValueError, match="binary floating point"):
         v.loads('{"coefficient": 601.2}')
     document = contract()
     set_path(document, "decimal_policy.exponent10_range.0", -18.0)
-    with pytest.raises(ValueError, match="binary floating point"):
+    with raises(ValueError, match="binary floating point"):
         v.validate_contract(document)
     float_case = case()
     set_path(float_case, "lifecycle.receipt_monotonic", 5.0e9)
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(float_case)
 
 
-@pytest.mark.parametrize("name,mutation,message", [
+@parametrize("name,mutation,message", [
     ("pack", lambda d: set_path(d, "pack.id", "helianthus.pack.storage"), "contract"),
     ("pack-version", lambda d: set_path(d, "pack.version", "1.1.0"), "contract"),
     ("status", lambda d: set_path(d, "status", "accepted"), "contract"),
@@ -150,13 +154,13 @@ def test_contract_mutations_are_rejected(name, mutation, message):
     assert_rejected(mutation, message)
 
 
-@pytest.mark.parametrize("reason,field,value", [
+@parametrize("reason,field,value", [
     ("loss kind", "loss_kind", "native_enum"), ("description", "description", ""), ("reversible flag", "reversible", "yes"),
 ])
 def test_every_reason_declares_its_loss(reason, field, value):
     document = contract()
     document["reasons"]["pv.reason.value_outside_pack_range"][field] = value
-    with pytest.raises(ValueError, match="reason loss"):
+    with raises(ValueError, match="reason loss"):
         v.validate_contract(document)
 
 
@@ -197,7 +201,7 @@ def test_completeness_check_catches_a_dropped_duplicated_or_unexplained_row():
             del next(row for row in rows if row["outcome"] == "withheld")["reason"]
         else:
             next(row for row in rows if row["outcome"] == "withheld")["target"] = "pv.dc.voltage"
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             v.assert_complete(broken, profile, rules)
 
 
@@ -207,7 +211,7 @@ def test_quantities_are_canonical_decimals():
     assert v.canonical(0, -3) == {"coefficient": "0", "exponent10": 0}
     assert v.canonical(-300, 0) == {"coefficient": "-3", "exponent10": 2}
     assert v.canonical(1234567, -2) == {"coefficient": "1234567", "exponent10": -2}
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.canonical(1, 19)
 
 
@@ -219,7 +223,7 @@ def test_words_decode_with_the_contract_word_form():
     assert v.decode([0xFFFF, 0xFED4], "I32") == -300
     assert v.decode([0xD687, 0x0012], "U32") != 1234567
     for bad in ([], [1, 2], [0x10000], [-1], [True]):
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             v.decode(bad, "I16")
 
 
@@ -231,7 +235,7 @@ OWN_FACT = {("pv_string_voltage", 1): ("pv.dc.voltage", "input:1"), ("pv_string_
             ("energy_accumulated", 0): ("pv.energy.generated", "system:demo-alpha"), ("energy_current_hour", 0): None, ("energy_current_day", 0): None}
 
 
-@pytest.mark.parametrize("key,index", ADMITTED)
+@parametrize("key,index", ADMITTED)
 def test_each_consumed_word_changes_exactly_its_own_fact(key, index):
     base = case()
     before = by_key(project(base))
@@ -260,7 +264,7 @@ def test_a_gain_or_word_order_mistake_is_rejected():
     for path, value in (("value.exponent10", -2), ("value.coefficient", "90000"), ("words", [9000, 0])):
         document = case()
         set_path(document, "facts.%d.%s" % (fact_position(document, "input_power", 0), path), value)
-        with pytest.raises(ValueError, match="native_evidence_invalid"):
+        with raises(ValueError, match="native_evidence_invalid"):
             project(document)
 
 
@@ -307,7 +311,7 @@ def test_unknown_fact_that_carries_a_value_is_rejected():
     document = case()
     position = fact_position(document, "input_power", 0)
     document["facts"][position].update({"availability": "UNKNOWN", "grade": "unknown"})
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -317,7 +321,7 @@ def test_status_publishes_only_the_observed_state():
     assert symbol == {"namespace": "pv.status.operating", "token": "generating", "known": True}
     document = case()
     document["facts"][fact_position(document, "device_status", 0)]["state"] = "standby"
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -331,7 +335,7 @@ def test_energy_counter_policy_publishes_one_counter_and_no_derivation():
     assert [loss["kind"] for loss in disposition["loss"]] == ["policy"] and disposition["loss"][0]["reversible"] is False
     document = case()
     document["derive_energy"] = "difference_of_counters"
-    with pytest.raises(ValueError, match="unsupported_or_withheld"):
+    with raises(ValueError, match="unsupported_or_withheld"):
         project(document)
 
 
@@ -360,7 +364,7 @@ def test_refused_power_group_withholds_power_and_status_on_the_m3_profile():
     assert all(item["loss"] and item["reason"] == "pv.reason.power_group_refused" for item in withheld.values())
     document = case("m3")
     document["facts"].append(copy.deepcopy(case()["facts"][fact_position(case(), "input_power", 0)]))
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -375,7 +379,7 @@ def test_retained_reading_keeps_its_original_observation():
     for member, value in (("observation_revision", 5), ("observation_id", "observation:demo-0005")):
         broken = copy.deepcopy(document)
         broken["facts"][fact_position(broken, "energy_accumulated", 0)][member] = value
-        with pytest.raises(ValueError, match="native_evidence_invalid"):
+        with raises(ValueError, match="native_evidence_invalid"):
             project(broken)
 
 
@@ -393,7 +397,7 @@ def test_fact_keys_follow_the_pack_dimensions_and_relationships():
 
 
 # Identity and key coverage. Each row varies one field and names the production mutation the assertion catches.
-@pytest.mark.parametrize("path,value,check", [
+@parametrize("path,value,check", [
     ("identity.asset_id", "pv-asset-demo-omega", lambda a, b: a["key"]["dimensions"][0]["value"]["text"] != b["key"]["dimensions"][0]["value"]["text"]),  # system/inverter text must follow the asset
     ("identity.binding_id", "binding:semantic-pv:demo-omega", lambda a, b: a["source_path"]["binding_id"] != b["source_path"]["binding_id"]),  # binding dropped from the source path
     ("source.source_id", "source:gateway-demo-z", lambda a, b: a["source_path"]["source_id"] != b["source_path"]["source_id"]),  # source taken from the asset
@@ -417,62 +421,62 @@ def test_input_dimension_does_not_depend_on_the_asset():
     assert left == right == {"input:1", "input:2"}
 
 
-@pytest.mark.parametrize("asset", ["", None, "pv asset", "pv-asset-serial-0001", "pv-asset-ESN-1", "pv-asset-10.0.0.7", "pv-asset-host:502", "1", "source:gateway-demo-a", "binding:semantic-pv:demo-alpha", "pv-asset-sun2000-a", "pv-asset-huawei", "pv-asset-smartlogger-a"])
+@parametrize("asset", ["", None, "pv asset", "pv-asset-serial-0001", "pv-asset-ESN-1", "pv-asset-10.0.0.7", "pv-asset-host:502", "1", "source:gateway-demo-a", "binding:semantic-pv:demo-alpha", "pv-asset-sun2000-a", "pv-asset-huawei", "pv-asset-smartlogger-a"])
 def test_asset_identifier_never_comes_from_forbidden_inputs(asset):
     document = case()
     document["identity"]["asset_id"] = asset
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:10.1.1.1"), ("identity.binding_id", None), ("identity.binding_id", "pv-asset-demo-alpha"), ("source", None), ("identity", {})])
+@parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:10.1.1.1"), ("identity.binding_id", None), ("identity.binding_id", "pv-asset-demo-alpha"), ("source", None), ("identity", {})])
 def test_source_and_binding_identifiers_fail_closed(path, value):
     document = case()
     set_path(document, path, value)
-    with pytest.raises(ValueError, match="identity_missing_or_invalid"):
+    with raises(ValueError, match="identity_missing_or_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
+@parametrize("flag", sorted(v.REGISTRY_FLAGS) + ["mapping_qualified", "outbound_allowed"])
 def test_every_qualification_flag_is_pinned(flag):
     document = case()
     document["qualification"][flag] = not document["qualification"][flag]
-    with pytest.raises(ValueError, match="mapping_unqualified"):
+    with raises(ValueError, match="mapping_unqualified"):
         project(document)
 
 
-@pytest.mark.parametrize("outcome", ["INSUFFICIENT_EVIDENCE", "NO_ADMISSIBLE_PROFILE", "AMBIGUOUS", "", None])
+@parametrize("outcome", ["INSUFFICIENT_EVIDENCE", "NO_ADMISSIBLE_PROFILE", "AMBIGUOUS", "", None])
 def test_only_a_selected_exact_profile_maps(outcome):
     document = case()
     document["selection"]["outcome"] = outcome
-    with pytest.raises(ValueError, match="profile_not_selected"):
+    with raises(ValueError, match="profile_not_selected"):
         project(document)
 
 
-@pytest.mark.parametrize("profile_id", ["huawei.sun2000.map0.monitoring-readonly@1.0.0", "huawei.sun2000.m1.monitoring-readonly@1.0.1", "huawei.sun2000.m1.monitoring-readonly", "huawei.sun2000.m1", ""])
+@parametrize("profile_id", ["huawei.sun2000.map0.monitoring-readonly@1.0.0", "huawei.sun2000.m1.monitoring-readonly@1.0.1", "huawei.sun2000.m1.monitoring-readonly", "huawei.sun2000.m1", ""])
 def test_profile_identifier_must_be_exact(profile_id):
     document = case()
     document["selection"]["profile_id"] = profile_id
-    with pytest.raises(ValueError, match="profile_not_selected"):
+    with raises(ValueError, match="profile_not_selected"):
         project(document)
 
 
 def test_a_group_outside_the_plan_or_a_refused_group_that_answered_is_rejected():
     document = case("m3")
     document["groups"][2]["outcome"] = "ANSWERED"
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
     document = case()
     document["groups"].append({"offset": 37000, "quantity": 30, "outcome": "ANSWERED"})
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
-@pytest.mark.parametrize("group,member,value", [(0, "outcome", "EXCEPTION"), (0, "exception_code", 3), (0, "outcome", "TIMEOUT"), (3, "exception_code", 3)])
+@parametrize("group,member,value", [(0, "outcome", "EXCEPTION"), (0, "exception_code", 3), (0, "outcome", "TIMEOUT"), (3, "exception_code", 3)])
 def test_group_outcomes_and_exception_codes_must_agree(group, member, value):
     document = case()
     document["groups"][group][member] = value
-    with pytest.raises(ValueError, match="native_evidence_invalid"):
+    with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 
 
@@ -480,7 +484,7 @@ def test_operations_are_never_available():
     for member, value in (("request_operation", "pv.operation.set_export_limit"), ("request_operation", "pv.operation.set_active_power_limit")):
         document = case()
         document[member] = value
-        with pytest.raises(ValueError, match="unsupported_or_withheld"):
+        with raises(ValueError, match="unsupported_or_withheld"):
             project(document)
     assert project(case())["operations"] == []
 
@@ -494,7 +498,7 @@ def test_scenario_expectations_are_executed_not_trusted():
     ):
         document = contract()
         damage(document)
-        with pytest.raises(ValueError) as error:
+        with raises(ValueError) as error:
             v.validate_scenarios(document)
         assert message in str(error.value)
 
@@ -502,15 +506,15 @@ def test_scenario_expectations_are_executed_not_trusted():
 def test_scenario_coverage_is_enforced():
     document = contract()
     document["scenarios"] = [s for s in document["scenarios"] if s["id"] != "PV-POS-005-unobserved-status-code"]
-    with pytest.raises(ValueError, match="cover every reason"):
+    with raises(ValueError, match="cover every reason"):
         v.validate_scenarios(document)
     document = contract()
     document["scenarios"] = [s for s in document["scenarios"] if s["id"] != "PV-NEG-014-lifecycle-missing"]
-    with pytest.raises(ValueError, match="cover every error"):
+    with raises(ValueError, match="cover every error"):
         v.validate_scenarios(document)
     document = contract()
     document["scenarios"][1]["mutations"] = [{"path": "identity.asset_id", "value": "pv-asset-demo-omega"}]
-    with pytest.raises(ValueError, match="scenario baselines"):
+    with raises(ValueError, match="scenario baselines"):
         v.validate_scenarios(document)
 
 
@@ -518,7 +522,7 @@ def test_a_negative_scenario_that_is_accepted_fails():
     document = contract()
     negative = next(s for s in document["scenarios"] if s["id"] == "PV-NEG-010-asset-missing")
     negative["mutations"] = []
-    with pytest.raises(ValueError, match="accepted"):
+    with raises(ValueError, match="accepted"):
         v.validate_scenarios(document)
 
 
@@ -526,7 +530,7 @@ def page():
     return v.DOC.read_text(encoding="utf-8")
 
 
-@pytest.mark.parametrize("old,new", [
+@parametrize("old,new", [
     ("| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `pv.dimension.input` | exact |", "| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `pv.dimension.input` | transformed |"),
     ("| `input_power` | I32, kW, gain 1000 | `pv.dc.aggregate_power` |", "| `input_power` | I32, kW, gain 1000 | `pv.dc.power` |"),
     ("| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `pv.dimension.input` | exact | none | Hypothesis | Proven |", "| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `pv.dimension.input` | exact | none | Proven | Proven |"),
@@ -539,19 +543,19 @@ def test_page_must_match_the_contract(old, new):
     pattern = re.escape(old).replace(r"\ ", r"\s+")
     mutated, count = re.subn(pattern, lambda _: new, page())
     assert count >= 1
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         v.check_document(v.load(), mutated)
 
 
 def test_a_dropped_table_row_is_rejected():
     lines = [line for line in page().splitlines(keepends=True) if not line.startswith("| `energy_current_day` |")]
-    with pytest.raises(ValueError, match="document tables"):
+    with raises(ValueError, match="document tables"):
         v.check_document(v.load(), "".join(lines))
 
 
-@pytest.mark.parametrize("literal", ["a" * 40, "0123456789abcdef" * 4, "A1" * 20])
+@parametrize("literal", ["a" * 40, "0123456789abcdef" * 4, "A1" * 20])
 def test_publication_rule_rejects_revision_and_digest_literals(literal):
-    with pytest.raises(ValueError, match="publication"):
+    with raises(ValueError, match="publication"):
         v.check_document(v.load(), page() + "\n" + literal + "\n")
 
 
@@ -572,3 +576,7 @@ def test_baselines_are_synthetic():
         assert baseline["lifecycle"]["receipt_wall"] == "2026-01-01T00:00:00Z"
         assert baseline["identity"]["asset_id"].startswith("pv-asset-demo-")
         assert baseline["source"]["source_id"].startswith("source:gateway-demo-")
+
+
+if __name__ == "__main__":
+    raise SystemExit(support.run(globals()))
