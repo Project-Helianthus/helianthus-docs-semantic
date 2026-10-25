@@ -383,6 +383,18 @@ def test_retained_reading_keeps_its_original_observation():
             project(broken)
 
 
+def test_retained_group_with_mixed_observations_is_rejected():
+    for member, value in (("observation_id", "observation:demo-0002"), ("observation_revision", 2)):
+        broken = retained_case()
+        broken["facts"][fact_position(broken, "energy_current_day", 0)][member] = value
+        with raises(ValueError, match="native_evidence_invalid"):
+            project(broken)
+    broken = retained_case()
+    broken["facts"][fact_position(broken, "energy_current_day", 0)]["origin"]["receipt_monotonic"] = 2999999999
+    with raises(ValueError, match="native_evidence_invalid"):
+        project(broken)
+
+
 def test_retained_reading_rejects_invalid_lineage():
     for member, value in (("observation_id", ""), ("observation_revision", -1), ("observation_revision", 0)):
         broken = retained_case()
@@ -412,11 +424,13 @@ def test_retained_reading_preserves_its_original_receipt_coordinates():
 
 def test_retained_reading_orders_ticks_only_within_its_clock_epoch():
     document = retained_case()
-    origin = document["facts"][fact_position(document, "energy_accumulated", 0)]["origin"]
-    origin["receipt_monotonic"] = 9000000000
+    origins = [document["facts"][fact_position(document, key, 0)]["origin"] for key in ("energy_accumulated", "energy_current_hour", "energy_current_day")]
+    for origin in origins:
+        origin["receipt_monotonic"] = 9000000000
     energy = next(f for f in project(document)["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
     assert energy["receipt_monotonic"] == 9000000000 and energy["clock_epoch"] == "clock-epoch:demo-0"
-    origin["clock_epoch"] = "clock-epoch:demo-1"
+    for origin in origins:
+        origin["clock_epoch"] = "clock-epoch:demo-1"
     with raises(ValueError, match="native_evidence_invalid"):
         project(document)
 

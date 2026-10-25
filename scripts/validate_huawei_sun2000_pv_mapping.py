@@ -327,6 +327,13 @@ def validate_case(case, contract):
             check_fact(fact, rules[nid], groups, life, selection)
         except ValueError:
             errors.add("native_evidence_invalid")
+    lineage = {}
+    for (nid, index), fact in facts.items():
+        if (nid, index) in wanted and fact.get("retained") is True and isinstance(fact.get("origin"), dict):
+            offset = rules[nid]["native"]["group_offset"]
+            mark = (fact.get("observation_id"), fact.get("observation_revision"), tuple(sorted(fact["origin"].items(), key=str)))
+            if lineage.setdefault(offset, mark) != mark:
+                errors.add("native_evidence_invalid")
     identity, source = case.get("identity"), case.get("source")
     asset = identity.get("asset_id") if isinstance(identity, dict) else None
     binding = identity.get("binding_id") if isinstance(identity, dict) else None
