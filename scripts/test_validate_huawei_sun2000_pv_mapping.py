@@ -386,7 +386,7 @@ def test_retained_reading_keeps_its_original_observation():
 def retained_case():
     document = case()
     document["groups"][3]["outcome"] = "FAILED"
-    origin = {"receipt_wall": "2025-12-31T23:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-0", "connection_generation": 1,
+    origin = {"receipt_wall": "2025-12-31T23:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-0", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1,
               "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}
     for key in ("energy_accumulated", "energy_current_hour", "energy_current_day"):
         document["facts"][fact_position(document, key, 0)].update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3, "origin": dict(origin)})
@@ -401,9 +401,25 @@ def test_retained_reading_preserves_its_original_receipt_coordinates():
     assert current["receipt_monotonic"] == 5000000000 and current["clock_epoch"] == "clock-epoch:demo-1"
 
 
+def test_retained_reading_orders_ticks_only_within_its_clock_epoch():
+    document = retained_case()
+    origin = document["facts"][fact_position(document, "energy_accumulated", 0)]["origin"]
+    origin["receipt_monotonic"] = 9000000000
+    energy = next(f for f in project(document)["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
+    assert energy["receipt_monotonic"] == 9000000000 and energy["clock_epoch"] == "clock-epoch:demo-0"
+    origin["clock_epoch"] = "clock-epoch:demo-1"
+    with raises(ValueError, match="native_evidence_invalid"):
+        project(document)
+
+
+def test_retained_reading_publishes_its_original_source_lineage():
+    energy = next(f for f in project(retained_case())["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
+    assert energy["source_path"]["source_epoch_id"] == "source-epoch:1" and energy["source_path"]["driver_generation"] == 1
+
+
 def test_retained_reading_is_fenced_by_its_original_lineage():
     for member, value in (("connection_generation", 2), ("profile_id", "huawei.sun2000.m3.monitoring-readonly@1.0.0"), ("routed_unit", 2),
-                          ("receipt_monotonic", 5000000000), ("receipt_wall", "not-a-time"), ("clock_epoch", "")):
+                          ("source_epoch", "source-epoch:2"), ("driver_generation", 2), ("receipt_wall", "not-a-time"), ("clock_epoch", "")):
         broken = retained_case()
         broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"][member] = value
         with raises(ValueError, match="native_evidence_invalid"):
