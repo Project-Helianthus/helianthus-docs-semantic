@@ -373,7 +373,7 @@ def test_retained_reading_keeps_its_original_observation():
     document["groups"][3]["outcome"] = "FAILED"
     for key in ("energy_accumulated", "energy_current_hour", "energy_current_day"):
         fact = document["facts"][fact_position(document, key, 0)]
-        fact.update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3})
+        fact.update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3, "origin": retained_case()["facts"][fact_position(document, key, 0)]["origin"]})
     energy = next(f for f in project(document)["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
     assert energy["retained"] is True and energy["observation_id"] == "observation:demo-0003" and energy["observation_revision"] == 3
     for member, value in (("observation_revision", 5), ("observation_id", "observation:demo-0005")):
@@ -381,6 +381,37 @@ def test_retained_reading_keeps_its_original_observation():
         broken["facts"][fact_position(broken, "energy_accumulated", 0)][member] = value
         with raises(ValueError, match="native_evidence_invalid"):
             project(broken)
+
+
+def retained_case():
+    document = case()
+    document["groups"][3]["outcome"] = "FAILED"
+    origin = {"receipt_wall": "2025-12-31T23:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-0", "connection_generation": 1,
+              "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}
+    for key in ("energy_accumulated", "energy_current_hour", "energy_current_day"):
+        document["facts"][fact_position(document, key, 0)].update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3, "origin": dict(origin)})
+    return document
+
+
+def test_retained_reading_preserves_its_original_receipt_coordinates():
+    document = retained_case()
+    energy = next(f for f in project(document)["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
+    assert (energy["receipt_wall"], energy["receipt_monotonic"], energy["clock_epoch"]) == ("2025-12-31T23:00:00Z", 3000000000, "clock-epoch:demo-0")
+    current = next(f for f in project(case())["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
+    assert current["receipt_monotonic"] == 5000000000 and current["clock_epoch"] == "clock-epoch:demo-1"
+
+
+def test_retained_reading_is_fenced_by_its_original_lineage():
+    for member, value in (("connection_generation", 2), ("profile_id", "huawei.sun2000.m3.monitoring-readonly@1.0.0"), ("routed_unit", 2),
+                          ("receipt_monotonic", 5000000000), ("receipt_wall", "not-a-time"), ("clock_epoch", "")):
+        broken = retained_case()
+        broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"][member] = value
+        with raises(ValueError, match="native_evidence_invalid"):
+            project(broken)
+    broken = retained_case()
+    del broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"]
+    with raises(ValueError, match="native_evidence_invalid"):
+        project(broken)
 
 
 def test_fact_keys_follow_the_pack_dimensions_and_relationships():
@@ -494,7 +525,7 @@ def test_scenario_expectations_are_executed_not_trusted():
         (lambda d: d["scenarios"][0]["expect"]["output"]["facts"][0]["value"]["quantity"]["number"].update({"coefficient": "999"}), "scenario output"),
         (lambda d: d["scenarios"][4]["expect"]["summary"]["facts"].pop(), "scenario summary"),
         (lambda d: d["scenarios"][2]["expect"]["summary"]["native_dispositions"][0].update({"outcome": "withheld"}), "scenario summary"),
-        (lambda d: d["scenarios"][-1]["expect"].update({"error": "lifecycle_missing"}), "profile_not_selected"),
+        (lambda d: next(x for x in d["scenarios"] if x["id"] == "PV-NEG-018-error-precedence")["expect"].update({"error": "lifecycle_missing"}), "profile_not_selected"),
     ):
         document = contract()
         damage(document)

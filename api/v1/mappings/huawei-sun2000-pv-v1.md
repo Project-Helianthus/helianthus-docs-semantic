@@ -223,8 +223,10 @@ or withheld.
 Publication is partial. A fact the profile did not supply is withheld with its
 reason while the others publish. When a group fails in the current observation,
 the registry keeps its last complete reading with its original observation; the
-gate publishes those facts with that observation and marks them `retained`,
-without raising their grade. A retained reading never crosses a profile, a unit
+gate publishes those facts with that observation and its original receipt wall
+time, monotonic time and clock epoch, and marks them `retained`, without raising
+their grade. Each retained fact carries its original connection generation,
+profile and routed unit, and the gate rejects it when any of them differs. A retained reading never crosses a profile, a unit
 or a connection identity, and a changed identity fences earlier readings.
 Withdrawal is explicit and generation-fenced.
 
@@ -265,6 +267,9 @@ files use synthetic identifiers and values only.
 | `PV-NEG-016-operation` | The gate has no operation, route or authority. |
 | `PV-NEG-017-derived-energy` | No energy is derived or summed. |
 | `PV-NEG-018-error-precedence` | The first error of the precedence list is reported. |
+| `PV-NEG-019-retained-from-other-connection` | A retained reading from an earlier connection generation is fenced. |
+| `PV-NEG-020-retained-from-other-profile` | A retained reading never crosses a profile. |
+| `PV-NEG-021-retained-without-origin` | A retained reading must carry its original receipt coordinates and lineage. |
 
 ## Unresolved and falsifiers
 

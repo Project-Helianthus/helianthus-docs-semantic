@@ -299,6 +299,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.ac.aggregate_active_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -308,6 +309,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.aggregate_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -317,6 +319,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -326,6 +329,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -335,6 +339,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -344,6 +349,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -353,6 +359,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -362,6 +369,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.status.operating", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
               "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -484,6 +492,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -493,6 +502,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -502,6 +512,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -511,6 +522,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -520,6 +532,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -529,6 +542,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -538,6 +552,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -547,6 +562,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -556,6 +572,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -565,6 +582,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -574,6 +592,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -583,6 +602,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -592,6 +612,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -601,6 +622,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -610,6 +632,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -619,6 +642,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -628,6 +652,7 @@
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-beta"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}},
+              "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
               "observation_revision": 5,
@@ -823,12 +848,15 @@
         {"path": "facts.19.retained", "value": true},
         {"path": "facts.19.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.19.observation_revision", "value": 3},
+        {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}},
         {"path": "facts.20.retained", "value": true},
         {"path": "facts.20.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.20.observation_revision", "value": 3},
+        {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}},
         {"path": "facts.21.retained", "value": true},
         {"path": "facts.21.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.21.observation_revision", "value": 3},
+        {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}},
         {"path": "groups.3.outcome", "value": "FAILED"}
       ],
       "expect": {
@@ -1438,6 +1466,9 @@
     {"id": "PV-NEG-015-live-qualified", "polarity": "negative", "baseline": "m1", "note": "a live qualification requires a revision of this gate", "mutations": [{"path": "qualification.live_qualified", "value": true}], "expect": {"error": "mapping_unqualified"}},
     {"id": "PV-NEG-016-operation", "polarity": "negative", "baseline": "m1", "note": "the gate has no operation, route or authority", "mutations": [{"path": "request_operation", "value": "pv.operation.set_active_power_limit"}], "expect": {"error": "unsupported_or_withheld"}},
     {"id": "PV-NEG-017-derived-energy", "polarity": "negative", "baseline": "m1", "note": "no energy is derived or summed", "mutations": [{"path": "derive_energy", "value": "sum_of_inverters"}], "expect": {"error": "unsupported_or_withheld"}},
-    {"id": "PV-NEG-018-error-precedence", "polarity": "negative", "baseline": "m1", "note": "the first error of the precedence list is reported", "mutations": [{"path": "selection.outcome", "value": "INSUFFICIENT_EVIDENCE"}, {"path": "identity.asset_id", "value": ""}], "expect": {"error": "profile_not_selected"}}
+    {"id": "PV-NEG-018-error-precedence", "polarity": "negative", "baseline": "m1", "note": "the first error of the precedence list is reported", "mutations": [{"path": "selection.outcome", "value": "INSUFFICIENT_EVIDENCE"}, {"path": "identity.asset_id", "value": ""}], "expect": {"error": "profile_not_selected"}},
+    {"id": "PV-NEG-019-retained-from-other-connection", "polarity": "negative", "baseline": "m1", "note": "a retained reading from an earlier connection generation is fenced", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.connection_generation", "value": 2}], "expect": {"error": "native_evidence_invalid"}},
+    {"id": "PV-NEG-020-retained-from-other-profile", "polarity": "negative", "baseline": "m1", "note": "a retained reading never crosses a profile", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.profile_id", "value": "huawei.sun2000.m3.monitoring-readonly@1.0.0"}], "expect": {"error": "native_evidence_invalid"}},
+    {"id": "PV-NEG-021-retained-without-origin", "polarity": "negative", "baseline": "m1", "note": "a retained reading must carry its original receipt coordinates and lineage", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin", "remove": true}], "expect": {"error": "native_evidence_invalid"}}
   ]
 }

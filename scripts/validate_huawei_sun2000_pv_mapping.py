@@ -324,7 +324,7 @@ def validate_case(case, contract):
         if (nid, index) not in wanted:
             continue
         try:
-            check_fact(fact, rules[nid], groups, life)
+            check_fact(fact, rules[nid], groups, life, selection)
         except ValueError:
             errors.add("native_evidence_invalid")
     identity, source = case.get("identity"), case.get("source")
@@ -352,14 +352,31 @@ def validate_case(case, contract):
     return profile, rules, facts, groups, asset, binding, source_id, life
 
 
-def check_fact(fact, rule, groups, life):
+def check_origin(fact, life, selection):
+    """A retained reading carries the receipt coordinates and lineage of the observation that produced it."""
+    origin = fact.get("origin")
+    keys = {"receipt_wall", "receipt_monotonic", "clock_epoch", "connection_generation", "profile_id", "routed_unit"}
+    if not isinstance(origin, dict) or set(origin) != keys:
+        fail("retained origin")
+    try:
+        if datetime.fromisoformat(origin["receipt_wall"].replace("Z", "+00:00")).tzinfo is None:
+            raise ValueError
+    except (AttributeError, ValueError):
+        fail("retained origin")
+    if type(origin["receipt_monotonic"]) is not int or not 1 <= origin["receipt_monotonic"] < life.get("receipt_monotonic", 0) or not isinstance(origin["clock_epoch"], str) or not OPAQUE_RE.fullmatch(origin["clock_epoch"]):
+        fail("retained origin")
+    if origin["connection_generation"] != life.get("connection_generation") or origin["profile_id"] != selection.get("profile_id") or origin["routed_unit"] != selection.get("routed_unit"):
+        fail("retained reading crosses a connection, profile or unit identity")
+
+
+def check_fact(fact, rule, groups, life, selection):
     spec = rule["native"]
     required = {"key", "index", "unit", "availability", "grade", "retained", "observation_id", "observation_revision"}
     if not required <= set(fact) or fact["unit"] != spec["unit"] or type(fact["retained"]) is not bool or fact["grade"] not in GRADES or type(fact["observation_revision"]) is not int or not isinstance(fact["observation_id"], str):
         fail("fact shape")
     group = groups.get(next((g for g in groups if g[0] == spec["group_offset"]), None))
     if fact["availability"] == "UNKNOWN":
-        if set(fact) & {"value", "words", "state"} or fact["grade"] != "unknown" or fact["retained"]:
+        if set(fact) & {"value", "words", "state", "origin"} or fact["grade"] != "unknown" or fact["retained"]:
             fail("unknown fact carries a value")
         return
     if fact["availability"] != "VALUE" or fact["grade"] == "unknown":
@@ -367,6 +384,7 @@ def check_fact(fact, rule, groups, life):
     if fact["retained"]:
         if group == "ANSWERED" or fact["observation_revision"] >= life.get("observation_revision", 0) or fact["observation_id"] == life.get("observation_id"):
             fail("retained fact")
+        check_origin(fact, life, selection)
     elif group != "ANSWERED" or fact["observation_id"] != life.get("observation_id") or fact["observation_revision"] != life.get("observation_revision"):
         fail("fact without an answered group")
     if rule["native_id"] == "device_status":
@@ -434,7 +452,9 @@ def project(case, contract):
                 continue
             text = "input:%d" % n if rule["dimension"] == "pv.dimension.input" else texts[rule["dimension"]]
             key = {"pack_id": PACK["id"], "pack_version": PACK["version"], "fact_id": rule["target"], "dimensions": [{"id": rule["dimension"], "value": {"kind": "text", "text": text}}]}
-            published.append({"key": key, "value": value, "source_path": {"binding_id": binding, "source_id": source_id, "source_epoch_id": life["source_epoch"], "driver_generation": life["driver_generation"]},
+            origin = fact["origin"] if fact["retained"] else life
+            published.append({"key": key, "value": value, "receipt_wall": origin["receipt_wall"], "receipt_monotonic": origin["receipt_monotonic"], "clock_epoch": origin["clock_epoch"],
+                              "connection_generation": origin.get("connection_generation"), "source_path": {"binding_id": binding, "source_id": source_id, "source_epoch_id": life["source_epoch"], "driver_generation": life["driver_generation"]},
                               "observation_id": fact["observation_id"], "observation_revision": fact["observation_revision"],
                               "evidence_grade": grade_min(fact["grade"], rule["grade_ceiling"][key_of]), "retained": fact["retained"]})
             sources.setdefault(rule["target"], []).append(key)
