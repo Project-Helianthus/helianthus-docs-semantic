@@ -387,7 +387,8 @@ def retained_case():
     document = case()
     document["groups"][3]["outcome"] = "FAILED"
     origin = {"receipt_wall": "2025-12-31T23:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-0", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1,
-              "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1}
+              "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1,
+              "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}
     for key in ("energy_accumulated", "energy_current_hour", "energy_current_day"):
         document["facts"][fact_position(document, key, 0)].update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3, "origin": dict(origin)})
     return document
@@ -426,6 +427,22 @@ def test_retained_reading_is_fenced_by_its_original_lineage():
             project(broken)
     broken = retained_case()
     del broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"]
+    with raises(ValueError, match="native_evidence_invalid"):
+        project(broken)
+
+
+def test_retained_reading_is_fenced_by_its_original_identity():
+    for member, value in (("asset_id", "pv-asset-demo-beta"), ("binding_id", "binding:semantic-pv:demo-beta"), ("source_id", "source:gateway-demo-b")):
+        broken = retained_case()
+        broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"][member] = value
+        with raises(ValueError, match="native_evidence_invalid"):
+            project(broken)
+    reassigned = retained_case()
+    reassigned["identity"] = {"asset_id": "pv-asset-demo-beta", "binding_id": "binding:semantic-pv:demo-beta"}
+    with raises(ValueError, match="native_evidence_invalid"):
+        project(reassigned)
+    broken = retained_case()
+    del broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"]["asset_id"]
     with raises(ValueError, match="native_evidence_invalid"):
         project(broken)
 

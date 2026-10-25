@@ -226,7 +226,8 @@ the registry keeps its last complete reading with its original observation; the
 gate publishes those facts with that observation and its original receipt wall
 time, monotonic time and clock epoch, and marks them `retained`, without raising
 their grade. Each retained fact carries its original source epoch, driver
-generation, connection generation, profile and routed unit, and the gate rejects
+generation, connection generation, profile, routed unit, asset, binding and source
+identifiers, and the gate rejects
 it when any of them differs. Monotonic ticks are ordered only within one clock
 epoch. A retained reading never crosses a profile, a unit
 or a connection identity, and a changed identity fences earlier readings.

@@ -334,6 +334,10 @@ def validate_case(case, contract):
     values = (asset, binding, source_id)
     if any(not isinstance(item, str) or not OPAQUE_RE.fullmatch(item) or any(token in item.lower() for token in ID_FORBIDDEN_TEXT) or ID_ADDRESS_RE.search(item) or item == str(unit) for item in values) or len(set(values)) != 3:
         errors.add("identity_missing_or_invalid")
+    for fact in case.get("facts") or []:
+        origin = fact.get("retained") and fact.get("origin") if isinstance(fact, dict) else None
+        if isinstance(origin, dict) and (origin.get("asset_id"), origin.get("binding_id"), origin.get("source_id")) != values:
+            errors.add("native_evidence_invalid")
     opaque, numeric = ("observation_id", "clock_epoch", "source_epoch"), ("observation_revision", "driver_generation", "connection_generation")
     if any(not isinstance(life.get(key), str) or not OPAQUE_RE.fullmatch(life[key]) for key in opaque) or any(type(life.get(key)) is not int or life[key] < 1 for key in numeric) or type(life.get("receipt_monotonic")) is not int or life.get("receipt_monotonic", 0) < 1:
         errors.add("lifecycle_missing")
@@ -355,7 +359,7 @@ def validate_case(case, contract):
 def check_origin(fact, life, selection):
     """A retained reading carries the receipt coordinates and lineage of the observation that produced it."""
     origin = fact.get("origin")
-    keys = {"receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_id", "routed_unit"}
+    keys = {"receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_id", "routed_unit", "asset_id", "binding_id", "source_id"}
     if not isinstance(origin, dict) or set(origin) != keys:
         fail("retained origin")
     try:
