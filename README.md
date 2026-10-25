@@ -50,6 +50,13 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
 - [Tesla Gen3 WC3 24.44.3 EVSE current-limit mapping gate](api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md)
   freezes read-only configured and evidence-qualified provisional-current facts;
   it has no sender, control route, authority, consumer binding, or live action.
+- [Huawei SUN2000 PV mapping gate](api/v1/mappings/huawei-sun2000-pv-v1.md)
+  maps the facts of two offline monitoring profiles to the PV pack with graded,
+  lossy-where-stated dispositions; it qualifies no device and publishes no
+  consumer binding. The [LUNA2000 storage gate](api/v1/mappings/huawei-luna2000-storage-v1.md)
+  and the [gateway-meter Infrastructure gate](api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
+  withhold every battery and meter item until a profile or class contract
+  exists, and state where the existing packs will take it.
 - [PV/inverter pack v1](api/v1/packs/pv-inverter-v1.md) defines accepted
   electrical and topology vocabulary with conservative admitted limit actions.
 - [EVSE pack v1](api/v1/packs/evse-v1.md) defines accepted charging topology,
