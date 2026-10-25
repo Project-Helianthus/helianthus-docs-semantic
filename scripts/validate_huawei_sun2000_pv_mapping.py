@@ -390,6 +390,8 @@ def check_fact(fact, rule, groups, life, selection):
     if fact["availability"] != "VALUE" or fact["grade"] == "unknown":
         fail("fact availability")
     if fact["retained"]:
+        if not fact["observation_id"] or type(fact["observation_revision"]) is not int or fact["observation_revision"] < 1:
+            fail("retained fact lineage")
         if group == "ANSWERED" or fact["observation_revision"] >= life.get("observation_revision", 0) or fact["observation_id"] == life.get("observation_id"):
             fail("retained fact")
         check_origin(fact, life, selection)

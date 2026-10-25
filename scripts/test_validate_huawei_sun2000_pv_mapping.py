@@ -383,6 +383,14 @@ def test_retained_reading_keeps_its_original_observation():
             project(broken)
 
 
+def test_retained_reading_rejects_invalid_lineage():
+    for member, value in (("observation_id", ""), ("observation_revision", -1), ("observation_revision", 0)):
+        broken = retained_case()
+        broken["facts"][fact_position(broken, "energy_accumulated", 0)][member] = value
+        with raises(ValueError, match="native_evidence_invalid"):
+            project(broken)
+
+
 def retained_case():
     document = case()
     document["groups"][3]["outcome"] = "FAILED"
