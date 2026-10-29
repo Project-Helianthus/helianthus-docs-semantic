@@ -141,3 +141,12 @@ compatibility policy, owning implementation package, validation commands,
 unresolved questions, and correction criteria. A breaking change requires a new
 major contract directory. Illustrative planning sketches and conceptual examples
 outside an accepted directory are not stable or executable API.
+
+## Matter 1.6.1 target
+
+The [Matter 1.6.1 adoption projection contract](v1/targets/matter-1.6.1-v1.md)
+and [accounting ledger](v1/targets/matter-1.6.1-v1.json) retain the five-pack
+roster with one phase-qualified current projection and explicit irreversible
+loss. Source-model inspection is separate from execution qualification. This
+pre-1.0 target does not activate the pinned feed or replace the historical
+Matter 1.7 ledger and checker.
