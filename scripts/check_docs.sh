@@ -85,6 +85,7 @@ python3 scripts/validate_huawei_gateway_meter_infrastructure_mapping.py
 python3 scripts/test_validate_huawei_gateway_meter_infrastructure_mapping.py
 python3 scripts/validate_matter_17_projection_v1.py
 python3 scripts/test_validate_matter_17_projection_v1.py
+python3 tests/test_matter161_target.py
 python3 scripts/validate_pv_inverter_pack_v1.py
 python3 scripts/test_validate_pv_inverter_pack_v1.py
 python3 scripts/validate_evse_pack_v1.py
