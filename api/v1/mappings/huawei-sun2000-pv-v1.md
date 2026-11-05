@@ -20,7 +20,7 @@ The same family set has two sibling gates that map nothing today:
 | Native monitoring contract | `helianthus-docs-modbus` issue 242, pull request 253: `protocols/huawei/monitoring-readonly-v1.md` and `protocols/huawei/read-pacing-v1.md` | Owns every register group, word form, gain, unit, sign and grade. This gate restates none of them as new protocol fact. |
 | Registry profiles | `helianthus-modbusreg` issue 348, pull request 357 | Two inert monitoring profiles, the typed facts they decode, the refusal map and the dispositions. |
 | Program | `helianthus-modbusreg` issues 199 and 201 | The Huawei read-only program this gate belongs to. |
-| Multi-endpoint contract | `helianthus-docs-ebus` issue 746, pull request 748 | Asset and source keying per endpoint instance. Its text was not final when this gate was written. |
+| Multi-endpoint contract | `helianthus-docs-ebus` issue 746, pull request 748 | Finalized asset and source keying per endpoint instance. |
 
 No revision, digest or pinned link is cited: the references above are issue and
 pull request numbers. Grades are those of the monitoring contract. Proven means
@@ -65,20 +65,41 @@ cross-family Hypothesis). Vector `PV-NEG-001-emma-map0-not-admitted` pins that.
 
 ## Identity and keying
 
-The asset identifier and the source identifier are gateway-configured,
-non-secret and opaque to this gate, and they are distinct. A binding identifier
-is derived by the gateway over the asset, the source and the profile only; it
-never selects or changes the asset. None of the three may be derived from a
-serial number, an ESN, the vendor, the model, firmware or any version text, a
-routed unit alone, or an endpoint address. The validator rejects an identifier
-that visibly embeds such text or equals the routed unit; that is a lint, not a
-proof of derivation. A missing or invalid identity fails closed.
+The asset identifier is gateway-derived under the finalized multi-endpoint
+contract of `helianthus-docs-ebus` issue 746 (merged pull request 748). For an
+admitted PV child, the gateway joins these UTF-8 fields in order, each followed
+by a NUL byte: `helianthus.modbus.asset.v1`, the configured instance label, the
+class token `pv`, and the routed unit in decimal. The identifier is `pv-asset-`
+followed by the first 32 lowercase hexadecimal characters of the SHA-256 digest.
+A per-asset configuration field is not required and is not part of that
+endpoints-document contract. This identity rule retains the contract's
+Hypothesis grade; it does not establish native admission.
 
-Granularity follows the multi-endpoint contract of `helianthus-docs-ebus` issue
-746 (pull request 748, open): one source per endpoint instance and one PV asset
-per admitted inverter child within it. The gate publishes nothing at endpoint or
-gateway level. The grade is Hypothesis because that contract is not final; a
-different granularity would change this section and none of the field mappings.
+The source identifier is the existing managed instance identifier, derived from
+its DriverID and configured owner identity, with exactly one source per endpoint
+instance. Its fixed family namespace is configuration, not observed native
+identity. Asset and source identifiers are non-secret, distinct and opaque to
+the projection. A binding identifier is derived by the gateway over the asset,
+the source and the profile only; it never selects or changes the asset.
+Neither asset nor source derives from a serial number, an ESN, observed vendor
+or model text, firmware, an endpoint address, or a routed unit alone. Missing or
+invalid identity fails closed. The validator permits the managed Huawei source
+namespace with an owner GUID while rejecting native identity text; this is a
+syntax lint, not proof of how an identifier was derived.
+
+There is one PV asset per admitted inverter child and class within an instance,
+all using that instance's source. A family without distinct class and unit pairs
+withholds ambiguous children. Changing label, class or routed unit changes the
+asset identity; changing the endpoint or native device text does not. The gate
+publishes nothing at endpoint or gateway level. The projection vectors below
+use short synthetic opaque identifiers to isolate mapping behavior; they are
+not evidence of gateway identity construction. Focused validator tests also
+project identifiers constructed by the finalized rule.
+
+This reconciles the earlier pending-contract assumption without changing the
+versioned field mappings, dimensions, native qualification, retention rules or
+consumer boundary. Gateway composition must enforce the finalized derivation;
+no new native profile or acquisition path is admitted here.
 
 Fact keys use the pack's own dimensions with these values:
 
@@ -278,7 +299,7 @@ files use synthetic identifiers and values only.
 
 | Question | Falsifier | Grade |
 | --- | --- | --- |
-| Is the asset one inverter child or one endpoint? | The final multi-endpoint contract states another granularity; only the keying section changes. | Hypothesis |
+| Can an admitted instance distinguish its children by class and routed unit? | Two admitted children share that pair; the ambiguous children must be withheld under the finalized multi-endpoint contract. | Hypothesis |
 | Do the string slots map to the pack's input one to one? | A ratings read that gives the string and tracker counts, or a disagreeing independent check. | Hypothesis |
 | Is an all-zero pair an absent input? | A second operating point or a ratings read that shows a present input reading zero. | Hypothesis |
 | Does the observed grid-connected state mean generating? | An observation where that state reads zero active power while producing nothing, or a consulted edition that states another meaning. | Hypothesis |
