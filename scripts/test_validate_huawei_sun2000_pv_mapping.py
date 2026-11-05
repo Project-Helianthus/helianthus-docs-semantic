@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Mutation controls for the Huawei SUN2000 PV mapping gate (run with python3 or python3 -m pytest)."""
 import copy
+import hashlib
 import importlib.util
 import json
 import re
@@ -662,6 +663,73 @@ def test_baselines_are_synthetic():
         assert baseline["lifecycle"]["receipt_wall"] == "2026-01-01T00:00:00Z"
         assert baseline["identity"]["asset_id"].startswith("pv-asset-demo-")
         assert baseline["source"]["source_id"].startswith("source:gateway-demo-")
+
+
+def test_finalized_gateway_identity_rules_are_declared():
+    identity = contract()["identity"]
+    assert identity["asset_id"]["source"] == "gateway_derived_semantic_asset_id"
+    assert identity["asset_id"]["derivation"] == {
+        "algorithm": "sha256", "domain": "helianthus.modbus.asset.v1",
+        "input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"],
+        "field_encoding": "utf8_each_followed_by_nul", "routed_unit_encoding": "decimal",
+        "class_token": "pv", "prefix": "pv-asset-", "digest_case": "lowercase", "digest_characters": 32,
+    }
+    assert identity["source_id"]["source"] == "gateway_managed_instance_source_id"
+
+
+@parametrize("path,value", [
+    ("algorithm", "sha1"), ("domain", "different.domain"),
+    ("input_fields", ["domain", "class_token", "configured_instance_label", "routed_unit"]),
+    ("input_fields", ["domain", "configured_instance_label", "class_token", "endpoint_address"]),
+    ("field_encoding", "utf8_nul_separated_without_final_nul"),
+    ("routed_unit_encoding", "binary"), ("class_token", "inverter"),
+    ("prefix", "asset-"), ("digest_case", "uppercase"), ("digest_characters", 64),
+])
+def test_asset_derivation_contract_cannot_drift(path, value):
+    assert_rejected(lambda d: set_path(d, "identity.asset_id.derivation." + path, value), "identity contract")
+
+
+def test_source_identity_contract_cannot_return_to_per_asset_configuration():
+    assert_rejected(lambda d: set_path(d, "identity.source_id.source", "gateway_configured_semantic_source_id"), "identity contract")
+
+
+def test_obsolete_per_child_configured_asset_requirement_is_rejected():
+    assert_rejected(lambda d: set_path(d, "identity.asset_id.source", "gateway_configured_semantic_asset_id"), "identity contract")
+
+
+@parametrize("family,baseline,label", [
+    ("sdongle", "m1", "default"), ("sdongle", "m1", "roof"),
+    ("smartlogger", "m3", "default"), ("smartlogger", "m3", "roof"),
+])
+def test_final_gateway_identifiers_project_without_per_child_configuration(family, baseline, label):
+    document = case(baseline)
+    # NUL separates every field; the unit is decimal text, not a byte value.
+    unit = str(document["selection"]["routed_unit"]).encode()
+    payload = b"\0".join([b"helianthus.modbus.asset.v1", label.encode(), b"pv", unit]) + b"\0"
+    asset = "pv-asset-" + hashlib.sha256(payload).hexdigest()[:32]
+    document["identity"]["asset_id"] = asset
+    suffix = "" if label == "default" else "." + label
+    source = "modbus.huawei." + family + suffix + ":00000000-0000-4000-8000-0000000000d5"
+    document["source"]["source_id"] = source
+    out = project(document)
+    assert out["facts"]
+    assert all(f["source_path"]["source_id"] == source for f in out["facts"])
+    energy = next(f for f in out["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
+    assert energy["key"]["dimensions"][0]["value"]["text"] == "system:" + asset.removeprefix("pv-asset-")
+
+
+@parametrize("source", [
+    "modbus.huawei.sdongle:serial-private", "modbus.huawei.sdongle:502",
+    "modbus.huawei.sdongle.bad.label:00000000-0000-4000-8000-0000000000d5",
+    "modbus.huawei.unknown:00000000-0000-4000-8000-0000000000d5",
+    "modbus.huawei.sdongle.serial-private:00000000-0000-4000-8000-0000000000d5",
+    "modbus.huawei.sdongle." + "a" * 33 + ":00000000-0000-4000-8000-0000000000d5",
+])
+def test_managed_namespace_exception_does_not_allow_native_identity_text(source):
+    document = case()
+    document["source"]["source_id"] = source
+    with raises(ValueError, match="identity_missing_or_invalid"):
+        project(document)
 
 
 if __name__ == "__main__":

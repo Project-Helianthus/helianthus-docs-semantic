@@ -31,6 +31,18 @@ WORD_TYPES = {"I16": (1, True), "U16": (1, False), "I32": (2, True), "U32": (2, 
 GAIN_EXPONENT = {1: 0, 10: -1, 100: -2, 1000: -3}
 UNIT_SHIFT = {("V", "unit.volt"): 0, ("A", "unit.ampere"): 0, ("kW", "unit.watt"): 3, ("kWh", "unit.kilowatt_hour"): 0}
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
+ASSET_DERIVATION = {
+    "algorithm": "sha256", "domain": "helianthus.modbus.asset.v1",
+    "input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"],
+    "field_encoding": "utf8_each_followed_by_nul", "routed_unit_encoding": "decimal",
+    "class_token": "pv", "prefix": "pv-asset-", "digest_case": "lowercase", "digest_characters": 32,
+}
+# The family segment is a fixed gateway namespace, not a device observation.
+MANAGED_SOURCE_RE = re.compile(
+    r"^modbus\.huawei\.(?:smartlogger|sdongle)(?:\.(?P<label>[a-z][a-z0-9]*(?:-[a-z0-9]+)*))?:"
+    r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+)
+
 EDITION = {"title": "SUN2000MC V200R023C00 Modbus Interface Definitions", "issue": "Issue 01", "date": "2023-03-17", "use": "identity_only_inspection_only_never_quoted"}
 REGISTRY_FLAGS = {"catalog_registered": False, "automatic_runtime_admission": False, "live_qualified": False, "support_claim": False, "write_authority": False}
 QUALIFICATION = {**REGISTRY_FLAGS, "mapping_qualified": True, "outbound_allowed": False}
@@ -60,7 +72,7 @@ RUNTIME_REASONS = {"pv.reason.native_fact_unknown", "pv.reason.value_outside_pac
 UNSUPPORTED = ["per_phase_values", "array_or_string_topology", "tracker_pairing", "plant_or_site_aggregate", "planned_plant_groups", "derived_energy", "active_power_limit", "export_power_limit", "enable_disable", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
 REQUESTED = ["pv.ac.aggregate_active_power", "pv.dc.aggregate_power", "pv.dc.current", "pv.dc.voltage", "pv.energy.generated", "pv.status.operating"]
 DIMENSION_TEXT = {"asset_suffix": {"strip_prefix": "pv-asset-"}, "pv.dimension.system": "system:{asset_suffix}", "pv.dimension.inverter": "inverter:{asset_suffix}", "pv.dimension.input": "input:{n}", "pv.dimension.phase": None}
-DOC_TOKENS = ("gateway-configured", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
+DOC_TOKENS = ("gateway-derived", "helianthus.modbus.asset.v1", "per-asset configuration field is not required", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
 
 
 def fail(code):
@@ -244,6 +256,10 @@ def validate_contract(document):
         entry = identity.get(key, {})
         if entry.get("required") is not True or entry.get("non_secret") is not True or entry.get("granularity") != granularity or entry.get("forbidden_derivations") != FORBIDDEN_DERIVATIONS:
             fail("identity contract")
+    if identity.get("asset_id", {}).get("source") != "gateway_derived_semantic_asset_id" or identity.get("asset_id", {}).get("derivation") != ASSET_DERIVATION:
+        fail("identity contract")
+    if identity.get("source_id", {}).get("source") != "gateway_managed_instance_source_id":
+        fail("identity contract")
     if identity.get("source_id", {}).get("distinct_from") != "asset_id" or identity.get("failure") != "missing_or_invalid_asset_or_source_identity_fails_closed":
         fail("identity contract")
     if identity.get("binding_id") != {"source": "gateway_domain_separated_asset_source_profile_binding", "required": True, "non_secret": True, "stable_inputs": ["asset_id", "source_id", "profile_id"]}:
@@ -339,7 +355,16 @@ def validate_case(case, contract):
     binding = identity.get("binding_id") if isinstance(identity, dict) else None
     source_id = source.get("source_id") if isinstance(source, dict) else None
     values = (asset, binding, source_id)
-    if any(not isinstance(item, str) or not OPAQUE_RE.fullmatch(item) or any(token in item.lower() for token in ID_FORBIDDEN_TEXT) or ID_ADDRESS_RE.search(item) or item == str(unit) for item in values) or len(set(values)) != 3:
+    def valid_identity(item, managed_source=False):
+        if not isinstance(item, str) or not OPAQUE_RE.fullmatch(item) or item == str(unit):
+            return False
+        managed = MANAGED_SOURCE_RE.fullmatch(item) if managed_source else None
+        if managed:
+            label = managed.group("label") or "default"
+            return len(label) <= 32 and not any(token in label for token in ID_FORBIDDEN_TEXT)
+        return not any(token in item.lower() for token in ID_FORBIDDEN_TEXT) and not ID_ADDRESS_RE.search(item)
+
+    if not valid_identity(asset) or not valid_identity(binding) or not valid_identity(source_id, managed_source=True) or len(set(values)) != 3:
         errors.add("identity_missing_or_invalid")
     for fact in case.get("facts") or []:
         origin = fact.get("retained") and fact.get("origin") if isinstance(fact, dict) else None
