@@ -474,7 +474,7 @@ design cycle.
 ## Retained-observation falsifiers
 
 The companion [retained-observation fixture](retained-observation-acceptance.json)
-is normative for the lifecycle behavior introduced by issue #22. Its nineteen vectors
+is normative for the lifecycle behavior introduced by issue #22. Its original nineteen vectors
 cover generation fence, source retirement, same-ID current replacement, explicit
 withdrawal, deadline-only expiry, multiple retained revisions, tampering,
 selection/operation rejection, rejected-transition non-advance, and mismatched
@@ -485,8 +485,26 @@ implementation must execute each vector and preserve the stated canonical tuple,
 original candidate bytes, and result. The fixture is checked by
 `scripts/validate_retained_observation_v1.py` and mutation-tested by
 `scripts/test_validate_retained_observation_v1.py`. The fixture declares and the
-validator derives its 9-positive, 10-negative, 19-total count; a drift or omitted
+validator derives the complete positive, negative and total counts; a drift or omitted
 sequential-lifecycle vector rejects validation.
+
+Issue #46 adds bounded-admission rows for H+C boundary/excess, two unexpired
+sets of twenty and third-set refusal, repeated refresh, inferred exclusion,
+mixed-source paths, expiry versus unknown clocks, conservative legacy import,
+overcommit recovery, replay/non-advance, and fence headroom. Inputs are synthetic
+counts describing existing and proposed state; canonical pruning is permitted
+only with proven expiry. `current_unfenced_tuples` counts existing live paths,
+whereas `future_fence_tuples` counts proposed paths. Recovery-blocked status
+includes existing fence debt even for empty generations; refusal of a new
+generation alone does not mark the unchanged prior state as overcommitted. A path group denotes `count` synthetic instances whose candidate IDs
+are its `candidate_id` prefix followed by `:` and a zero-based ordinal; other
+identity axes are shared within the group. It is not repeated use of one literal
+candidate ID. Each input member and expected result has a discriminating mutation test.
+These are declarative contract falsifiers, not execution of a publication kernel.
+The validator checks arithmetic and exact controls; runtime enforcement, maximum
+native-profile proof, restore/startup behavior and physical qualification are not
+established by a green documentation check. SemReg and gateway must execute the
+corresponding behavior tests. Retained observations remain non-actionable.
 
 ## PublicationKernel fork falsifiers
 

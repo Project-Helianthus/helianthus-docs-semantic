@@ -9,6 +9,7 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("retained_validator", ROOT / "scripts" / "validate_retained_observation_v1.py")
 if SPEC is None or SPEC.loader is None:
@@ -18,21 +19,24 @@ sys.modules[SPEC.name] = validator
 SPEC.loader.exec_module(validator)
 
 def execute(document: dict, kernel_text: str | None = None) -> bool:
-    with tempfile.TemporaryDirectory() as directory:
-        fixture = Path(directory) / "retained.json"
-        fixture.write_text(json.dumps(document), encoding="utf-8")
-        original_fixture, original_kernel = validator.FIXTURE, validator.KERNEL
-        validator.FIXTURE = fixture
-        if kernel_text is not None:
-            candidate = Path(directory) / "kernel.md"
-            candidate.write_text(kernel_text, encoding="utf-8")
-            validator.KERNEL = candidate
-        try:
-            validator.main()
-        except ValueError:
-            return False
-        finally:
-            validator.FIXTURE, validator.KERNEL = original_fixture, original_kernel
+    # Keep artifacts for review: no automatic removal under worker constraints.
+    retained_root = ROOT / ".tmp" / "retained-validator"
+    retained_root.mkdir(parents=True, exist_ok=True)
+    directory = tempfile.mkdtemp(dir=retained_root)
+    fixture = Path(directory) / "retained.json"
+    fixture.write_text(json.dumps(document), encoding="utf-8")
+    original_fixture, original_kernel = validator.FIXTURE, validator.KERNEL
+    validator.FIXTURE = fixture
+    if kernel_text is not None:
+        candidate = Path(directory) / "kernel.md"
+        candidate.write_text(kernel_text, encoding="utf-8")
+        validator.KERNEL = candidate
+    try:
+        validator.main()
+    except ValueError:
+        return False
+    finally:
+        validator.FIXTURE, validator.KERNEL = original_fixture, original_kernel
     return True
 
 def main() -> None:
@@ -57,10 +61,49 @@ def main() -> None:
     cross_source = copy.deepcopy(baseline)
     scenario(cross_source, "RO-NEG-007")["input"]["retirement_source_id"] = "source:meter"
     count_drift = copy.deepcopy(baseline)
-    count_drift["scenario_counts"]["total"] = 20
+    count_drift["scenario_counts"]["total"] += 1
     omitted_vector = copy.deepcopy(baseline)
     omitted_vector["scenarios"] = [item for item in omitted_vector["scenarios"] if item["id"] != "RO-POS-008"]
     missing_path = kernel.replace("Retained-path validation is separate from current-fact validation.", "Retained-path validation is unspecified.", 1)
+    # Vary every declared identity axis independently. These catch omission,
+    # reordering or aliasing of candidate ID, revision, JCS key, binding, epoch,
+    # and generation in the contract identity declaration, not runtime identity.
+    for axis in validator.AXES:
+        document = copy.deepcopy(baseline)
+        document["identity_axes"][validator.AXES.index(axis)] = "omitted:" + axis
+        if execute(document):
+            raise AssertionError(f"identity axis accepted: {axis}")
+        print(f"identity axis {axis}: REJECTED")
+    # Mutate every input/output member: counts catch off-by-one, refresh debt,
+    # inferred debt, pruning/clock, fence headroom and restore/replay precedence
+    # contract drift. Every unchanged-state axis must survive refusal and replay.
+    for ident in validator.CAPACITY_CASES:
+        for section in ("input", "expect"):
+            for field, value in scenario(baseline, ident)[section].items():
+                document = copy.deepcopy(baseline)
+                replacement = (not value if isinstance(value, bool) else
+                               value + 1 if isinstance(value, int) else
+                               value + ["unexpected"] if isinstance(value, list) else
+                               value + ":mutant")
+                scenario(document, ident)[section][field] = replacement
+                if execute(document):
+                    raise AssertionError(f"capacity mutant accepted: {ident}.{section}.{field}")
+        for index, group in enumerate(scenario(baseline, ident)["input"].get("path_groups", [])):
+            for field, value in group.items():
+                document = copy.deepcopy(baseline)
+                scenario(document, ident)["input"]["path_groups"][index][field] = value + 1 if isinstance(value, int) else value + ":mutant"
+                if execute(document):
+                    raise AssertionError(f"mixed path accepted: {index}.{field}")
+        unchanged = scenario(baseline, ident)["expect"]["unchanged"]
+        for field in unchanged:
+            document = copy.deepcopy(baseline)
+            scenario(document, ident)["expect"]["unchanged"].remove(field)
+            if execute(document):
+                raise AssertionError(f"non-advance mutant accepted: {ident}.{field}")
+        print(f"{ident}: all input/output and non-advance mutants REJECTED")
+    for clause in validator.CLAUSES:
+        if execute(baseline, kernel.replace(clause, "omitted normative clause", 1)):
+            raise AssertionError(f"contract clause mutant accepted: {clause}")
     for name, document, kernel_text, expected in (
         ("baseline", baseline, None, True),
         ("identity_axes", mutated_axes, None, False),

@@ -12,14 +12,14 @@ SERIALIZATION = ROOT / "api/v1/serialization.md"
 FIXTURE = ROOT / "api/v1/retained-observation-acceptance.json"
 
 AXES = ["candidate_id", "candidate_revision", "jcs_key", "binding_id", "source_epoch_id", "driver_generation"]
-SCENARIO_COUNTS = {"positive": 9, "negative": 10, "total": 19}
+SCENARIO_COUNTS = {'positive': 22, 'negative': 19, 'total': 41}
 EXPECTED = {
     "RO-POS-001": ("positive", "generation_fence", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "fenced_non_actionable", "matching_fenced_binding_and_fence_path"}),
     "RO-POS-002": ("positive", "source_retirement", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "retired_non_actionable", "matching_retired_binding_and_source_path"}),
     "RO-POS-003": ("positive", "same_id_replacement", {"current_replacement_visible", "retained_prior_visible", "identity_axes_distinguish_instances", "canonical_tuple_order"}),
     "RO-POS-004": ("positive", "withdraw_retained_id", {"all_matching_retained_id_instances_removed", "no_dangling_current_lookup", "current_unrelated_unchanged"}),
     "RO-POS-005": ("positive", "evaluate_after_original_deadline", {"retained_absent_from_current_view", "retained_absent_from_readback_view", "snapshot_bytes_unchanged", "no_publication_required"}),
-    "RO-POS-006": ("positive", "successive_fences", {"multiple_revisions_retained", "bounded_at_32", "canonical_tuple_order", "individual_original_deadlines"}),
+    "RO-POS-006": ("positive", "successive_fences", {"multiple_revisions_retained", "bounded_at_40", "canonical_tuple_order", "individual_original_deadlines"}),
     "RO-POS-007": ("positive", "fence_then_source_retirement", {"original_candidate_and_removal_byte_identical", "fence_preserved", "binding_monotonically_retired", "retained_visible_until_original_deadline", "non_actionable"}),
     "RO-POS-008": ("positive", "multiple_fences_then_source_retirement", {"all_fenced_bindings_monotonically_retired", "all_original_fences_and_removals_preserved", "canonical_tuple_order", "current_facts_advance_independently"}),
     "RO-POS-009": ("positive", "replay_source_retirement", {"identical_batch_returns_prior_snapshot", "no_revision_advance", "no_retained_rewrite"}),
@@ -35,12 +35,121 @@ EXPECTED = {
     "RO-NEG-010": ("negative", "retire_already_retired_epoch", {"reject", "error_id:stale_source_epoch", "current_and_retained_state_unchanged"}),
 }
 
+# Exact synthetic controls are independent of the fixture. Each row contains
+# input values in CAPACITY_FIELDS order, then (result, H, C, recovery_blocked).
+CAPACITY_FIELDS = ('history', 'current', 'upserts', 'same_binding_replacements', 'inferred', 'expiry_candidates', 'clock', 'fences', 'future_fence_tuples', 'mode', 'replay', 'earlier_error')
+CAPACITY_CONTROLS = {
+    'RO-CAP-boundary': (
+        (20, 20, 0, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-excess': (
+        (21, 20, 0, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('bounds_exceeded', 21, 20, True)),
+    'RO-CAP-first_twenty': (
+        (0, 0, 20, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 0, 20, False)),
+    'RO-CAP-second_twenty': (
+        (20, 0, 20, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-second_fence': (
+        (40, 0, 0, 0, 0, 0, 'comparable', 2, 0, 'publish', False, ''),
+        ('accept', 40, 0, False)),
+    'RO-CAP-third_twenty': (
+        (40, 0, 20, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('bounds_exceeded', 40, 20, False)),
+    'RO-CAP-refresh': (
+        (20, 20, 20, 20, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-inferred': (
+        (20, 20, 0, 0, 20, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-mixed_paths': (
+        (20, 10, 10, 0, 0, 0, 'comparable', 0, 2, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-expiry': (
+        (40, 0, 20, 0, 0, 20, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-unknown_clock': (
+        (40, 0, 20, 0, 0, 20, 'unknown', 0, 1, 'publish', False, ''),
+        ('bounds_exceeded', 40, 20, False)),
+    'RO-CAP-expired_current_reserved': (
+        (21, 20, 0, 0, 0, 0, 'comparable', 0, 1, 'publish', False, ''),
+        ('bounds_exceeded', 21, 20, True)),
+    'RO-CAP-legacy_import': (
+        (30, 20, 0, 0, 0, 0, 'unknown', 0, 1, 'restore', False, ''),
+        ('import', 30, 20, True)),
+    'RO-CAP-legacy_refusal': (
+        (30, 20, 1, 0, 0, 0, 'unknown', 0, 1, 'publish', False, ''),
+        ('bounds_exceeded', 30, 21, True)),
+    'RO-CAP-legacy_expiry_recovery': (
+        (30, 20, 0, 0, 0, 10, 'comparable', 0, 1, 'publish', False, ''),
+        ('accept', 20, 20, False)),
+    'RO-CAP-replay': (
+        (40, 0, 20, 0, 0, 0, 'comparable', 0, 1, 'publish', True, ''),
+        ('prior_result', 40, 20, False)),
+    'RO-CAP-precedence': (
+        (40, 0, 20, 0, 0, 0, 'comparable', 0, 1, 'publish', False, 'invalid_time'),
+        ('invalid_time', 40, 20, False)),
+    'RO-CAP-fence_boundary': (
+        (0, 20, 0, 0, 0, 0, 'comparable', 127, 1, 'publish', False, ''),
+        ('accept', 0, 20, False)),
+    'RO-CAP-fence_excess': (
+        (0, 20, 0, 0, 0, 0, 'comparable', 128, 1, 'publish', False, ''),
+        ('bounds_exceeded', 0, 20, True)),
+    'RO-CAP-legacy_fence_import': (
+        (0, 20, 0, 0, 0, 0, 'unknown', 128, 1, 'restore', False, ''),
+        ('import', 0, 20, True)),
+    'RO-CAP-legacy_empty_fence_refusal': (
+        (0, 0, 0, 0, 0, 0, 'unknown', 128, 1, 'publish', False, ''),
+        ('bounds_exceeded', 0, 0, True)),
+    'RO-CAP-empty_generation_fence_reservation': (
+        (0, 0, 0, 0, 0, 0, 'comparable', 128, 1, 'publish', False, ''),
+        ('bounds_exceeded', 0, 0, False)),
+}
+NON_ADVANCE = ["state", "revisions", "sequence", "replay", "claims", "evidence_ownership"]
+CAPACITY_CASES = {
+    ident: {
+        "id": ident,
+        "polarity": "positive" if outcome[0] in ("accept", "import", "prior_result") else "negative",
+        "operation": "bounded_admission",
+        "input": dict(zip(CAPACITY_FIELDS, values)),
+        "expect": dict(zip(("result", "H", "C", "recovery_blocked"), outcome),
+                       unchanged=[] if outcome[0] in ("accept", "import") else NON_ADVANCE),
+    }
+    for ident, (values, outcome) in CAPACITY_CONTROLS.items()
+}
+# Existing live tuples differ from proposed tuples when admitting a generation.
+# An empty legacy generation still owes a fence; a refused new one does not.
+for ident, row in CAPACITY_CASES.items():
+    row['input']['current_unfenced_tuples'] = (
+        1 if row['input']['current'] or ident == 'RO-CAP-legacy_empty_fence_refusal' else 0)
+
+CAPACITY_CASES['RO-CAP-refresh']["input"]['refresh_repetitions'] = 3
+CAPACITY_CASES['RO-CAP-mixed_paths']["input"]['path_groups'] = [
+    {'count': 10, 'candidate_id': 'candidate:meter:voltage', 'candidate_revision': '7', 'jcs_key': '{"field":"voltage"}', 'binding_id': 'binding:meter:a', 'source_id': 'source:meter', 'source_epoch_id': 'epoch:meter:1', 'driver_generation': '4'},
+    {'count': 10, 'candidate_id': 'candidate:other:voltage', 'candidate_revision': '7', 'jcs_key': '{"field":"voltage"}', 'binding_id': 'binding:meter:b', 'source_id': 'source:other', 'source_epoch_id': 'epoch:meter:2', 'driver_generation': '1'},
+]
+CAPACITY_CASES['RO-CAP-expired_current_reserved']["input"]['currently_expired_observed'] = 20
+CAPACITY_CASES['RO-CAP-fence_boundary']["input"]['path_groups'] = [
+    {'count': 10, 'candidate_id': 'candidate:meter:voltage', 'candidate_revision': '7', 'jcs_key': '{"field":"voltage"}', 'binding_id': 'binding:meter:a', 'source_id': 'source:meter', 'source_epoch_id': 'epoch:meter:1', 'driver_generation': '4'},
+    {'count': 10, 'candidate_id': 'candidate:other:voltage', 'candidate_revision': '7', 'jcs_key': '{"field":"voltage"}', 'binding_id': 'binding:meter:b', 'source_id': 'source:meter', 'source_epoch_id': 'epoch:meter:1', 'driver_generation': '4'},
+]
+
 CLAUSES = (
+    "Require `H+C<=40`.",
+    "C includes every current observed instance even if presently evaluated expired:",
+    "existing retained fences plus\nall distinct unfenced `(source_id,source_epoch_id,driver_generation)` tuples",
+    "Import\nis not publication admission of new debt.",
+    "A capacity-admitted generation can be fenced without capacity-induced failure.",
+    "new debt is refused, and ordinary admission remains blocked while overcommitted.",
+    "An identical accepted replay returns its prior result before new admission checks;",
+    "Managed\nstartup MUST await the outcome of every required initial publication before",
+    "A snapshot with more than the former 32 retained instances cannot be rolled back",
     "`retained` is separately sorted by retained-instance identity.",
     "an expired record is absent even when no later publication\noccurred.",
     "MUST NOT expose an unevaluated\n`Snapshot` as current state.",
     "`(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)`",
-    "At most\n32 retained instances exist per asset; an excess rejects atomically with\n`bounds_exceeded`.",
+    "40 retained instances exist per asset on new publication admission; an excess\nrejects atomically with `bounds_exceeded`.",
     "it removes the current candidate and every matching retained\ninstance.",
     "Retained-path validation is separate from current-fact validation.",
     "For `removal=source_retirement`, the binding and matching source descriptor MUST\nbe `retired` for the copied source ID and source epoch ID.",
@@ -48,6 +157,32 @@ CLAUSES = (
     "including its original `Removal=generation_fence`, and preserves the matching\ngeneration fence.",
     "A later distinct batch that retires an already retired epoch is\n`stale_source_epoch`.",
 )
+
+def validate_capacity(row: dict) -> None:
+    """Check synthetic proposed-state arithmetic, not runtime admission."""
+    if row != CAPACITY_CASES[row["id"]]:
+        raise ValueError(f"bounded admission control differs: {row['id']}")
+    x, expected = row["input"], row["expect"]
+    h = x["history"] - (x["expiry_candidates"] if x["clock"] == "comparable" else 0)
+    c = x["current"] + x["upserts"] - x["same_binding_replacements"]
+    if "path_groups" in x:
+        groups = x["path_groups"]
+        if sum(group["count"] for group in groups) != c:
+            raise ValueError("mixed-path current count differs")
+        tuples = {(group["source_id"], group["source_epoch_id"], group["driver_generation"]) for group in groups}
+        identities = {
+            tuple(f"{group[axis]}:{ordinal}" if axis == "candidate_id" else group[axis]
+                  for axis in AXES)
+            for group in groups for ordinal in range(group["count"])
+        }
+        if len(tuples) != x["future_fence_tuples"] or len(identities) != c:
+            raise ValueError("mixed-path identity or fence reservations differ")
+    over = h + c > 40 or x["fences"] + x["future_fence_tuples"] > 128
+    result = ("prior_result" if x["replay"] else x["earlier_error"] or
+              ("import" if x["mode"] == "restore" else "bounds_exceeded" if over else "accept"))
+    if (expected["H"], expected["C"], expected["result"], expected["recovery_blocked"]) != (h, c, result, over if x["mode"] == "restore" else h + x["current"] > 40 or x["fences"] + x["current_unfenced_tuples"] > 128):
+        raise ValueError("bounded admission arithmetic differs")
+
 
 def main() -> None:
     kernel, acceptance, serialization = (path.read_text(encoding="utf-8") for path in (KERNEL, ACCEPTANCE, SERIALIZATION))
@@ -67,16 +202,19 @@ def main() -> None:
     if data.get("scenario_counts") != SCENARIO_COUNTS:
         raise ValueError("retained fixture scenario counts differ")
     rows = data.get("scenarios")
-    if not isinstance(rows, list) or len(rows) != len(EXPECTED):
+    if not isinstance(rows, list) or len(rows) != len(EXPECTED) + len(CAPACITY_CASES):
         raise ValueError("retained scenario count differs")
     seen = set()
     for row in rows:
         if not isinstance(row, dict) or not {"id", "polarity", "operation", "expect"}.issubset(row):
             raise ValueError("retained scenario shape differs")
         ident = row["id"]
-        if ident in seen or ident not in EXPECTED:
+        if ident in seen or (ident not in EXPECTED and ident not in CAPACITY_CASES):
             raise ValueError(f"retained scenario id differs: {ident!r}")
         seen.add(ident)
+        if ident in CAPACITY_CASES:
+            validate_capacity(row)
+            continue
         polarity, operation, outcome = EXPECTED[ident]
         if row["polarity"] != polarity or row["operation"] != operation or set(row["expect"]) != outcome or len(row["expect"]) != len(outcome):
             raise ValueError(f"retained scenario differs: {ident}")

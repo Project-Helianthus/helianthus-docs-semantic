@@ -774,14 +774,92 @@ from `Candidate`. Every axis is required for retained observed candidates. The
 tuple, not `CandidateID` alone, permits a stable logical CandidateID to be
 reused by a later current revision or binding without collision or loss. It is
 unique and the canonical ascending order for every retained collection. At most
-32 retained instances exist per asset; an excess rejects atomically with
-`bounds_exceeded`. Multiple successive revisions are retained separately only
+40 retained instances exist per asset on new publication admission; an excess
+rejects atomically with `bounds_exceeded`. Conservative legacy import is the
+explicit exception defined below. Multiple successive revisions are retained separately only
 while each original deadline is unexpired.
 
 The original deadline is calculated only from `Candidate.Times` and
 `Candidate.FreshnessPolicy.retain_for_ns`, using the normal monotonic and
 conservative cross-epoch rules. It never moves because of a fence, retirement,
 new clock epoch, replacement candidate, or later publication.
+
+### Bounded retained admission and migration
+
+Status: accepted protocol-neutral correction for issue #46. Compatibility effect:
+the retained bound increases from 32 to 40 and publication now reserves future
+retention and fence capacity; wire types and operation authority are unchanged.
+Its evidence basis
+is synthetic contract acceptance, not runtime enforcement, native-profile maximum
+proof, or physical qualification. Proven here means a validated contract vector;
+implementation conformance remains Unknown. A family with twenty observed
+candidates is an example, not a qualified profile maximum or a promoted mapping.
+
+Publication admission is per asset. After applying the proposed batch in detached
+state and canonical expiry pruning, let H be the remaining retained-instance
+count and C the count of all fence-eligible current observed instances in that
+proposed state. Require `H+C<=40`. Canonical pruning removes only history whose
+original deadline is provably expired under the trusted publication evaluation
+context and existing clock rules. Unknown expiry, including restore across
+incomparable clocks, is not permission to delete debt. Read-only evaluation
+continues to leave snapshot bytes unchanged.
+
+C includes every current observed instance even if presently evaluated expired:
+a future cross-clock evaluation can be unknown. Repeated same-binding upserts
+replace the current instance and count once, rather than accumulating every
+refresh as history. Different current paths count separately even for equal keys
+or values; exact binding/source/epoch/generation paths remain distinct. Inferred
+candidates add no observed debt. Fencing transfers reserved current debt into H;
+it preserves original values, evidence, receipt times, deadlines, and exact paths.
+
+Admission also reserves fence representability: existing retained fences plus
+all distinct unfenced `(source_id,source_epoch_id,driver_generation)` tuples
+eligible for a future fence MUST fit the existing 128-fence bound. Count each
+tuple once across bindings and candidates, including generations with live
+bindings but no observed candidates; an existing matching fence is not counted
+twice. Reservation is canonical snapshot state reasoning, not a driver estimate.
+No truncation, oldest-first eviction, deadline extension, rebinding, or evidence
+ownership transfer may manufacture room.
+
+A capacity-admitted generation can be fenced without capacity-induced failure.
+This promise does not exclude other failures, such as malformed input, stale
+revision, or invalid time; existing validation and error precedence remain in
+force. Capacity rejection is atomic `bounds_exceeded`: no state, component or
+semantic revision, sequence, replay cursor, claim, or evidence ownership advances.
+An identical accepted replay returns its prior result before new admission checks;
+a refused attempt does not consume its sequence or establish a replay result.
+It preserves partial last-known-good state and unrelated facts.
+
+Two unexpired sets of twenty fit: after the first generation is fenced, H=20
+and the next generation reserves C=20. Fencing the second leaves H=40, C=0;
+a third full set is refused until truthful expiry or supported recovery frees
+capacity. Publication is not whole-source atomicity across assets. Managed
+startup MUST await the outcome of every required initial publication before
+claiming readiness. It visibly refuses or defers on capacity failure and closes
+or fences partially admitted work using its reserved capacity. This defines no
+protocol-specific startup API and changes neither eBUS MCP compatibility nor
+GraphQL projection parity.
+
+Restore/migration imports structurally valid legacy state without deleting its
+existing debt, including H+C or fence reservations above the new bound. Import
+is not publication admission of new debt. Such an asset exposes recovery blocked;
+new debt is refused, and ordinary admission remains blocked while overcommitted.
+Recovery requires truthful canonical expiry or an explicitly supported, reviewed
+action, such as an evidenced explicit withdrawal under the existing contract.
+No automatic reset, truncation, invented expiry, or silent generation change is
+recovery. Existing retained data remains excluded from selection, operation
+admission and confirming-readback authority throughout import and recovery.
+Import never promotes unknown freshness or qualification. Structurally invalid
+legacy state still fails validation; migration is not a validation bypass.
+
+A snapshot with more than the former 32 retained instances cannot be rolled back
+into an implementation enforcing that bound. Preserve the new snapshot and
+refuse the downgrade until a reviewed compatible migration or truthful canonical
+expiry produces representable state; never discard history to force rollback.
+SemReg canonical enforcement and fixture synchronization follow this contract;
+gateway restore/startup integration follows reviewed SemReg. Maximum native-profile
+proof remains Unknown pending gateway evidence. HW10 remains draft and HW11
+undispatched until those dependencies pass.
 
 ### Type: Selection
 
@@ -1267,9 +1345,10 @@ binding must resolve through its fence or retired source descriptor. Collections
 are sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
 unique across all fact envelopes in one snapshot. Limits are 32 sources, 128
 bindings, 128 identity links, 4096 fact
-envelopes, 32 retained observations, 1024 services, 2048 capabilities, and 128
+envelopes, 40 retained observations, 1024 services, 2048 capabilities, and 128
 retained fences per asset.
-Exceeding a limit rejects the batch; it never truncates a snapshot. Up to 128
+Exceeding a limit rejects the batch; it never truncates a snapshot. Conservative
+legacy import preserves debt as specified above and is not new batch admission. Up to 128
 publication cursors are retained while their source epochs remain relevant to
 replay/fence validation.
 
