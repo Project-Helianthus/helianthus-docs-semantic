@@ -494,9 +494,14 @@ mixed-source paths, expiry versus unknown clocks, conservative legacy import,
 overcommit recovery, replay/non-advance, and fence headroom. Inputs are synthetic
 counts describing existing and proposed state; canonical pruning is permitted
 only with proven expiry. `current_unfenced_tuples` counts existing live paths,
-whereas `future_fence_tuples` counts proposed paths. Recovery-blocked status
-includes existing fence debt even for empty generations; refusal of a new
-generation alone does not mark the unchanged prior state as overcommitted. A path group denotes `count` synthetic instances whose candidate IDs
+whereas `future_fence_tuples` counts proposed paths. Valid legacy H+C overcommit
+exposes recovery blocked. Fence-only overcommit
+cannot satisfy the existing cursor bound: each fence and each live tuple requires
+a distinct cursor. The `structural_restore` rows describe rejected input and
+assert an unchanged empty destination, not imported debt. Publication excess
+starts from a valid state with 128 fences and no live tuples; refusing a new
+generation does not mark that unchanged prior state as overcommitted. A path group
+denotes `count` synthetic instances whose candidate IDs
 are its `candidate_id` prefix followed by `:` and a zero-based ordinal; other
 identity axes are shared within the group. It is not repeated use of one literal
 candidate ID. Each input member and expected result has a discriminating mutation test.

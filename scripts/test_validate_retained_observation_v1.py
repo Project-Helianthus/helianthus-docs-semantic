@@ -44,6 +44,17 @@ def main() -> None:
     kernel = validator.KERNEL.read_text(encoding="utf-8")
     def scenario(document: dict, ident: str) -> dict:
         return next(item for item in document["scenarios"] if item["id"] == ident)
+    for ident in ('RO-CAP-invalid_fence_restore', 'RO-CAP-invalid_empty_fence_restore'):
+        row = scenario(baseline, ident)
+        assert row['operation'] == 'structural_restore'
+        assert row['input']['fences'] + row['input']['current_unfenced_tuples'] == 129
+        assert row['expect']['result'] == 'bounds_exceeded'
+        assert row['expect']['H'] == row['expect']['C'] == 0
+        assert row['expect']['recovery_blocked'] is False
+        assert 'empty_state' in row['expect']['unchanged']
+    excess = scenario(baseline, 'RO-CAP-fence_excess')
+    assert excess['input']['fences'] + excess['input']['current_unfenced_tuples'] == 128
+    assert excess['input']['upserts'] == 20 and excess['expect']['recovery_blocked'] is False
     mutated_axes = copy.deepcopy(baseline)
     mutated_axes["identity_axes"] = mutated_axes["identity_axes"][:-1]
     missing_expiry = kernel.replace("an expired record is absent even when no later publication\noccurred.", "an expired record may remain visible.", 1)

@@ -12,7 +12,7 @@ SERIALIZATION = ROOT / "api/v1/serialization.md"
 FIXTURE = ROOT / "api/v1/retained-observation-acceptance.json"
 
 AXES = ["candidate_id", "candidate_revision", "jcs_key", "binding_id", "source_epoch_id", "driver_generation"]
-SCENARIO_COUNTS = {'positive': 22, 'negative': 19, 'total': 41}
+SCENARIO_COUNTS = {'positive': 21, 'negative': 20, 'total': 41}
 EXPECTED = {
     "RO-POS-001": ("positive", "generation_fence", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "fenced_non_actionable", "matching_fenced_binding_and_fence_path"}),
     "RO-POS-002": ("positive", "source_retirement", {"current_removed", "original_candidate_byte_identical", "retained_visible_before_original_deadline", "retired_non_actionable", "matching_retired_binding_and_source_path"}),
@@ -94,14 +94,14 @@ CAPACITY_CONTROLS = {
         (0, 20, 0, 0, 0, 0, 'comparable', 127, 1, 'publish', False, ''),
         ('accept', 0, 20, False)),
     'RO-CAP-fence_excess': (
-        (0, 20, 0, 0, 0, 0, 'comparable', 128, 1, 'publish', False, ''),
-        ('bounds_exceeded', 0, 20, True)),
-    'RO-CAP-legacy_fence_import': (
+        (0, 0, 20, 0, 0, 0, 'comparable', 128, 1, 'publish', False, ''),
+        ('bounds_exceeded', 0, 20, False)),
+    'RO-CAP-invalid_fence_restore': (
         (0, 20, 0, 0, 0, 0, 'unknown', 128, 1, 'restore', False, ''),
-        ('import', 0, 20, True)),
-    'RO-CAP-legacy_empty_fence_refusal': (
-        (0, 0, 0, 0, 0, 0, 'unknown', 128, 1, 'publish', False, ''),
-        ('bounds_exceeded', 0, 0, True)),
+        ('bounds_exceeded', 0, 0, False)),
+    'RO-CAP-invalid_empty_fence_restore': (
+        (0, 0, 0, 0, 0, 0, 'unknown', 128, 1, 'restore', False, ''),
+        ('bounds_exceeded', 0, 0, False)),
     'RO-CAP-empty_generation_fence_reservation': (
         (0, 0, 0, 0, 0, 0, 'comparable', 128, 1, 'publish', False, ''),
         ('bounds_exceeded', 0, 0, False)),
@@ -119,10 +119,14 @@ CAPACITY_CASES = {
     for ident, (values, outcome) in CAPACITY_CONTROLS.items()
 }
 # Existing live tuples differ from proposed tuples when admitting a generation.
-# An empty legacy generation still owes a fence; a refused new one does not.
+# Proposed restore input may be structurally invalid; it never becomes committed.
 for ident, row in CAPACITY_CASES.items():
     row['input']['current_unfenced_tuples'] = (
-        1 if row['input']['current'] or ident == 'RO-CAP-legacy_empty_fence_refusal' else 0)
+        1 if row['input']['current'] or ident == 'RO-CAP-invalid_empty_fence_restore' else 0)
+
+for ident in ('RO-CAP-invalid_fence_restore', 'RO-CAP-invalid_empty_fence_restore'):
+    CAPACITY_CASES[ident]['operation'] = 'structural_restore'
+    CAPACITY_CASES[ident]['expect']['unchanged'] = ['empty_state', 'revisions', 'sequence', 'replay', 'claims', 'evidence_ownership']
 
 CAPACITY_CASES['RO-CAP-refresh']["input"]['refresh_repetitions'] = 3
 CAPACITY_CASES['RO-CAP-mixed_paths']["input"]['path_groups'] = [
@@ -140,6 +144,7 @@ CLAUSES = (
     "C includes every current observed instance even if presently evaluated expired:",
     "existing retained fences plus\nall distinct unfenced `(source_id,source_epoch_id,driver_generation)` tuples",
     "Import\nis not publication admission of new debt.",
+    "Fence-only overcommit is structurally invalid under the existing cursor bound.",
     "A capacity-admitted generation can be fenced without capacity-induced failure.",
     "new debt is refused, and ordinary admission remains blocked while overcommitted.",
     "An identical accepted replay returns its prior result before new admission checks;",
@@ -163,6 +168,16 @@ def validate_capacity(row: dict) -> None:
     if row != CAPACITY_CASES[row["id"]]:
         raise ValueError(f"bounded admission control differs: {row['id']}")
     x, expected = row["input"], row["expect"]
+    if row['operation'] == 'structural_restore':
+        # Each distinct fence and live tuple needs a distinct cursor. Rejection
+        # leaves an empty destination, not an imported recovery-blocked asset.
+        if x['mode'] != 'restore' or x['fences'] + x['current_unfenced_tuples'] <= 128:
+            raise ValueError('structural restore control must exceed cursor capacity')
+        if (expected['result'], expected['H'], expected['C'], expected['recovery_blocked']) != ('bounds_exceeded', 0, 0, False):
+            raise ValueError('invalid restore must preserve the empty destination')
+        return
+    if x['fences'] + x['current_unfenced_tuples'] > 128:
+        raise ValueError('committed prior state exceeds cursor capacity')
     h = x["history"] - (x["expiry_candidates"] if x["clock"] == "comparable" else 0)
     c = x["current"] + x["upserts"] - x["same_binding_replacements"]
     if "path_groups" in x:
