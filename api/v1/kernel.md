@@ -841,7 +841,7 @@ protocol-specific startup API and changes neither eBUS MCP compatibility nor
 GraphQL projection parity.
 
 Restore/migration imports structurally valid legacy state without deleting its
-existing debt, including H+C or fence reservations above the new bound. Import
+existing H+C debt above the new admission bound. Import
 is not publication admission of new debt. Such an asset exposes recovery blocked;
 new debt is refused, and ordinary admission remains blocked while overcommitted.
 Recovery requires truthful canonical expiry or an explicitly supported, reviewed
@@ -851,6 +851,12 @@ recovery. Existing retained data remains excluded from selection, operation
 admission and confirming-readback authority throughout import and recovery.
 Import never promotes unknown freshness or qualification. Structurally invalid
 legacy state still fails validation; migration is not a validation bypass.
+Fence-only overcommit is structurally invalid under the existing cursor bound.
+Every distinct fence requires a matching fenced cursor and every live tuple a
+matching unfenced cursor; both cursor and fence collections remain bounded at 128.
+An attempted restore with 128 fences and an additional live tuple therefore
+rejects atomically with `bounds_exceeded`, leaving the destination empty.
+The same structural rule applies when that live tuple has no observations.
 
 A snapshot with more than the former 32 retained instances cannot be rolled back
 into an implementation enforcing that bound. Preserve the new snapshot and
