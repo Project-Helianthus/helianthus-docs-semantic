@@ -1,0 +1,315 @@
+{
+  "contract": "helianthus.storage.cell-voltage.candidate/v1",
+  "status": "candidate",
+  "proposed_pack_version": "1.2.0",
+  "accepted_pack_version": "1.1.0",
+  "typed_runtime_input": false,
+  "physical_qualified": false,
+  "receive_only": true,
+  "field": {
+    "id": "storage.measurement.cell_voltage",
+    "kind": "quantity",
+    "unit": "unit.volt",
+    "optional": true,
+    "dimensions": [
+      "system",
+      "battery",
+      "pack",
+      "module",
+      "cell",
+      "interface"
+    ],
+    "bounds": {
+      "minimum": {
+        "coefficient": "0",
+        "exponent10": 0
+      },
+      "maximum": null
+    },
+    "conversion": "Decimal(mV) / Decimal(1000)"
+  },
+  "coverage": {
+    "scope": "module",
+    "tuple": [
+      "configured_count",
+      "addressable_slots",
+      "received_indices",
+      "valid_indices",
+      "vector_span"
+    ],
+    "configured_count": {
+      "type": "integer_or_null",
+      "minimum": 1,
+      "maximum": null
+    },
+    "addressable_slots": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "indices": "sorted_unique_positive_integers",
+    "vector_span": {
+      "unit": "synthetic_monotonic_ms",
+      "shape": [
+        "minimum",
+        "maximum",
+        "width"
+      ],
+      "empty": null
+    },
+    "completeness": "known count <= capacity; every configured index received and valid in exact context; span within explicit policy"
+  },
+  "schema": {
+    "dimensions": {
+      "system": "nonempty synthetic identifier",
+      "battery": "nonempty synthetic identifier",
+      "pack": "nonempty synthetic identifier",
+      "module": "nonempty synthetic identifier",
+      "cell": "nonempty synthetic identifier; cell is integer 1..16 for this layout",
+      "interface": "nonempty synthetic identifier"
+    },
+    "context_key": [
+      "system",
+      "battery",
+      "pack",
+      "module",
+      "cell",
+      "interface",
+      "source_epoch",
+      "driver_generation"
+    ],
+    "channel_required": [
+      "index",
+      "block",
+      "word",
+      "mv",
+      "state",
+      "dimensions",
+      "associated",
+      "sensor_location_proven",
+      "native",
+      "measurement_gate"
+    ],
+    "native_required": [
+      "payload",
+      "interface",
+      "ide",
+      "dlc",
+      "raw_dlc",
+      "endpoint",
+      "group",
+      "slot",
+      "source_epoch",
+      "driver_generation",
+      "sequence",
+      "monotonic_ms",
+      "field_age_ms",
+      "grade"
+    ],
+    "native_types": {
+      "payload": "8-byte hex string retained verbatim",
+      "interface": "nonempty string",
+      "ide": "boolean, retained without inferred meaning",
+      "dlc": "integer",
+      "raw_dlc": "integer",
+      "endpoint": "string",
+      "group": "string",
+      "slot": "integer",
+      "source_epoch": "string",
+      "driver_generation": "integer",
+      "sequence": "integer",
+      "monotonic_ms": "nonnegative integer, synthetic clock",
+      "field_age_ms": "nonnegative integer, independent per channel",
+      "grade": [
+        "Proven",
+        "Hypothesis",
+        "Unknown"
+      ]
+    },
+    "value": "canonical Decimal object {coefficient: integer string without trailing zeros, exponent10: integer}; no binary floats",
+    "states": [
+      "valid",
+      "absent",
+      "invalid",
+      "unsupported",
+      "stale",
+      "conflict",
+      "unavailable"
+    ],
+    "coverage_required": [
+      "configured_count",
+      "addressable_slots",
+      "received_indices",
+      "valid_indices",
+      "vector_span"
+    ],
+    "accepted_value_required": [
+      "index",
+      "value",
+      "dimensions",
+      "native"
+    ],
+    "result_required": [
+      "values",
+      "coverage",
+      "complete",
+      "retained_raw",
+      "last_known_good",
+      "withheld_indices",
+      "losses"
+    ]
+  },
+  "native_facts": [
+    {
+      "id": "voltage-blocks",
+      "grade": "Proven",
+      "blocks": [
+        {
+          "selector": "1810",
+          "cells": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "selector": "1811",
+          "cells": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "selector": "1812",
+          "cells": [
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "selector": "1813",
+          "cells": [
+            13,
+            14,
+            15,
+            16
+          ]
+        }
+      ],
+      "encoding": "four LE16 mV; own selected measurement gate required"
+    },
+    {
+      "id": "fine-temperature",
+      "grade": "Proven",
+      "selector": "1830",
+      "encoding": "four LE16; code / 8 - 40 C; FFFF invalid",
+      "reuse": "storage.temperature.cell; no new temperature definition or physical association"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H-pcs",
+      "grade": "Hypothesis",
+      "rule": "PCS extrema do not supply an individual-cell vector."
+    },
+    {
+      "id": "H-count",
+      "grade": "Hypothesis",
+      "rule": "Configured count is required; positive count beyond 16 cannot be complete in this layout."
+    },
+    {
+      "id": "H-slots",
+      "grade": "Hypothesis",
+      "rule": "Addressable slots express capacity, not configured count or received coverage."
+    },
+    {
+      "id": "H-received",
+      "grade": "Hypothesis",
+      "rule": "Received indices do not imply valid indices."
+    },
+    {
+      "id": "H-valid",
+      "grade": "Hypothesis",
+      "rule": "Valid indices do not imply complete configured coverage."
+    },
+    {
+      "id": "H-age",
+      "grade": "Hypothesis",
+      "rule": "Every channel keeps its own age; another channel cannot refresh it."
+    },
+    {
+      "id": "H-span",
+      "grade": "Hypothesis",
+      "rule": "Blocks are not atomic; retain vector time span independently of per-channel age."
+    },
+    {
+      "id": "H-sensor",
+      "grade": "Hypothesis",
+      "rule": "Sensor channel number does not establish physical location."
+    },
+    {
+      "id": "H-topology",
+      "grade": "Hypothesis",
+      "rule": "Slot/group/LINK-address relationships require explicit topology."
+    }
+  ],
+  "policy": {
+    "scope": "invented finite fixture policy, not a native freshness threshold",
+    "max_age_ms": 20,
+    "max_span_ms": 10
+  },
+  "losses": [
+    "precision_range",
+    "topology",
+    "partial_coverage",
+    "time_span",
+    "stale",
+    "conflict",
+    "unavailable",
+    "unsupported_selector",
+    "identity_or_generation",
+    "unqualified"
+  ],
+  "publication": "withheld until typed-owner acceptance and qualified current admission; candidate grade never grants qualification",
+  "compatibility": "proposed additive minor only; no accepted index, operations, temperature or topology meanings change; older consumers may omit the extension with explicit loss; nothing stable before 1.0",
+  "unknowns": [
+    "native measurement selector details",
+    "native voltage invalid sentinels or upper bounds",
+    "physical sensor locations",
+    "slot/group/LINK-address topology",
+    "native freshness limits"
+  ],
+  "references": [
+    {
+      "page": "helianthus-docs-canbus/protocols/growatt/growatt-low-voltage-bms-can-link-protocol-v1.md",
+      "sections": [
+        "Cell and sensor counts",
+        "Cell voltages, temperatures and balancing"
+      ]
+    },
+    {
+      "page": "helianthus-docs-canbus/protocols/growatt/growatt-low-voltage-bms-can-pcs-protocol-v1.md",
+      "sections": [
+        "Data validity and consumer obligations"
+      ]
+    }
+  ]
+}
