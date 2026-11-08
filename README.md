@@ -28,6 +28,8 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
 
 ## Documentation map
 
+- [Cross-repository glossary](architecture/glossary.md) defines epoch, driver,
+  profile, and snapshot without changing existing typed or wire contracts.
 - [Repository ownership and boundaries](architecture/repository-ownership-v1.md)
   records the accepted owner split without publishing an executable schema.
 - [API publication status](api/README.md) defines how a future version becomes
