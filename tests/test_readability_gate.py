@@ -59,6 +59,30 @@ class ReadabilityGateTests(unittest.TestCase):
         self.assertEqual(GATE.lexical_symbol("\n\n" + source, 4), "Parser.evaluate")
         self.assertNotEqual(GATE.lexical_symbol(source.replace("Parser", "Reader"), 2), "Parser.evaluate")
 
+    def test_scopes_nested_in_conditionals_keep_lexical_identity(self):
+        source = (
+            "import sys\n"
+            "if sys.platform:\n"
+            "    def first():\n"
+            "        return 1\n"
+            "else:\n"
+            "    class Box:\n"
+            "        def second(self):\n"
+            "            return 2\n"
+            "try:\n"
+            "    pass\n"
+            "except ImportError:\n"
+            "    for item in []:\n"
+            "        def third():\n"
+            "            return 3\n"
+        )
+        self.assertEqual(GATE.lexical_symbol(source, 4), "first")
+        self.assertEqual(GATE.lexical_symbol(source, 8), "Box.second")
+        self.assertEqual(GATE.lexical_symbol(source, 14), "third")
+        self.assertEqual(GATE.lexical_symbol(source, 10), "<module>")
+        renamed = source.replace("first", "other")
+        self.assertNotEqual(GATE.lexical_symbol(renamed, 4), GATE.lexical_symbol(source, 4))
+
     def test_tool_failures_and_malformed_json_fail_closed(self):
         version = subprocess.CompletedProcess([], 0, f"ruff {GATE.RUFF_VERSION}\n", "")
         for code, output in [(2, "[]"), (0, "broken"), (0, "{}"), (1, "[]"), (0, "[{}]")]:

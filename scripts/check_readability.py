@@ -74,11 +74,24 @@ def compare_records(current, baseline):
 def lexical_symbol(source, row):
     tree = ast.parse(source)
 
-    def walk_scope(node, parents):
+    scopes = (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
+
+    def find_scope(node):
+        # Descend through non-scope nodes (if/try/loops/with) to reach nested scopes.
         for child in ast.iter_child_nodes(node):
-            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            if isinstance(child, scopes):
                 if child.lineno <= row <= child.end_lineno:
-                    return walk_scope(child, parents + [child.name])
+                    return child
+            else:
+                found = find_scope(child)
+                if found is not None:
+                    return found
+        return None
+
+    def walk_scope(node, parents):
+        child = find_scope(node)
+        if child is not None:
+            return walk_scope(child, parents + [child.name])
         return ".".join(parents) or "<module>"
 
     return walk_scope(tree, [])
