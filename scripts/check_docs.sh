@@ -63,6 +63,7 @@ fi
 git diff --check
 python3 scripts/check_local_links.py
 python3 scripts/validate_kernel_v1.py
+python3 scripts/test_validate_kernel_rules.py
 python3 scripts/validate_publication_kernel_fork.py
 python3 scripts/test_validate_publication_kernel_fork.py
 python3 scripts/validate_retained_observation_v1.py

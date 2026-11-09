@@ -1114,6 +1114,7 @@ def check_k_neg_054_derived_conflict_mismatch_control_is_incomplete(
 def check_k_pos_025_snapshot_candidate_input_is_incomplete(
     bindings, requested_key, required_candidate_fields, snapshot, snapshot_candidates
 ):
+    requested_envelope: dict[str, Any] | None = None
     for envelope in snapshot.get("facts", []):
         key_bytes = json.dumps(envelope.get("key"), sort_keys=True)
         if envelope.get("key") == requested_key:

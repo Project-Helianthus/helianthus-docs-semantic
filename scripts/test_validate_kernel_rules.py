@@ -171,6 +171,13 @@ class KernelRuleTests(unittest.TestCase):
 
         self.vectors_case(mutate, "snapshot/evaluation binding")
 
+    def test_requested_key_absent_from_snapshot(self):
+        def mutate(data):
+            vector = next(v for v in data["vectors"] if v["id"] == "K-POS-025")
+            vector["input"]["requested_key"] = {"kind": "absent"}
+
+        self.vectors_case(mutate, "K-POS-025: snapshot/evaluation binding is incomplete")
+
     def test_changed_revision_formula(self):
         def mutate(data):
             vector = next(v for v in data["vectors"] if v["id"] == "K-POS-024")
@@ -204,6 +211,7 @@ class KernelRuleTests(unittest.TestCase):
         self.compare(inputs, "duplicate JSON key")
 
     def load_text(self, text):
+        (ROOT / ".tmp").mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".tmp") as directory:
             path = Path(directory) / "rules.json"
             path.write_text(text)
