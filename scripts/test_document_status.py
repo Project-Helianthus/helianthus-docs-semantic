@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Exercise status parsing and path-specific baseline behavior."""
+import json
 import tempfile
 import unittest
 from pathlib import Path
-from check_document_status import check, status
+from check_document_status import BASELINE, ROOT, check, status
 
 
 class StatusTests(unittest.TestCase):
+    def test_repository_baseline(self):
+        baseline = json.loads(BASELINE.read_text(encoding='utf-8'))
+        self.assertEqual(check(ROOT, baseline), [])
+
     def test_preserves_free_text(self):
         for value in ('candidate, proposed and not accepted', 'accepted without qualification'):
             self.assertEqual(status('---\nstatus: "' + value + '"\n---\n'), value)
