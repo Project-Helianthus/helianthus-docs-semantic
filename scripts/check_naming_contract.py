@@ -11,6 +11,14 @@ MAP = {
     'thermal.setpoint.dhw_temperature': 'thermal.setpoint.dhw_temperature_setpoint',
 }
 
+def validate_row(row):
+    if row['status'] == 'proven_rename':
+        if row['question'] is not None or row['kind'] != 'definition_literal' or row['source'] != 'semreg/v1/packs/thermal/definitions.go':
+            raise ValueError('invalid proof row')
+    elif row['status'] != 'provisional' or not row['question'] or row['canonical_name'] != row['historical_name']:
+        raise ValueError('unresolved row changed or lacks question')
+
+
 def validate(data):
     rows = data['rows']
     expected_counts = dict(zip(('pv', 'storage', 'evse', 'thermal', 'infrastructure'), (61, 63, 52, 61, 57)))
@@ -23,11 +31,7 @@ def validate(data):
     if {r['historical_name']: r['canonical_name'] for r in rows if r['status'] == 'proven_rename'} != MAP:
         raise ValueError('supported map differs')
     for row in rows:
-        if row['status'] == 'proven_rename':
-            if row['question'] is not None or row['kind'] != 'definition_literal' or row['source'] != 'semreg/v1/packs/thermal/definitions.go':
-                raise ValueError('invalid proof row')
-        elif row['status'] != 'provisional' or not row['question'] or row['canonical_name'] != row['historical_name']:
-            raise ValueError('unresolved row changed or lacks question')
+        validate_row(row)
     if set(data['consumer_correspondence']) != set(MAP):
         raise ValueError('missing consumer correspondence')
     for old, new in MAP.items():

@@ -1,3 +1,7 @@
+---
+status: "unreleased change record; implementation and consumer adoption remain pending."
+---
+
 # Changelog
 
 ## Unreleased

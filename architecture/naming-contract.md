@@ -1,3 +1,7 @@
+---
+status: "candidate naming contract; coordinated implementation and consumer adoption remain pending."
+---
+
 # SemReg value-member naming contract
 
 This bounded contract records the implementation-name change required before the
