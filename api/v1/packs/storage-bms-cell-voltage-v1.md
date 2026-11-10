@@ -1,3 +1,7 @@
+---
+status: "**candidate**, proposed additive Storage **1.2.0** extension to\n[accepted Storage1.1.0](storage-bms-v1.md). This is not an accepted typed runtime\ninput, definition index, qualified mapping, operation, or publication authority.\nNothing is stable before 1.0. Acceptance by the typed owner in\n`helianthus-semreg` is a later prerequisite; this change makes no semreg change."
+---
+
 # Candidate Storage individual-cell voltage and coverage v1
 
 Status: **candidate**, proposed additive Storage **1.2.0** extension to

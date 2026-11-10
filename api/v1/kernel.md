@@ -1,3 +1,7 @@
+---
+status: "normative for the Helianthus v1 kernel when merged into `main`"
+---
+
 # Project Helianthus semantic kernel v1
 
 Contract ID: `helianthus.semantic.kernel/v1`

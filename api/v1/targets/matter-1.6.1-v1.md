@@ -1,3 +1,7 @@
+---
+status: "adoption contract under `helianthus.gateway.matter-projection/v1`,\npre-1.0 and not stable before Helianthus 1.0. The\n[machine-readable descriptor](matter-1.6.1-v1.json) is a separate target in the\nexisting versioned contract. It does not introduce a major or experimental\nnamespace. It does not activate the existing pinned HTTP feed or replace its\nchecker. Those migration edges remain owner-controlled."
+---
+
 # Matter 1.6.1 projection contract v1
 
 Status: adoption contract under `helianthus.gateway.matter-projection/v1`,

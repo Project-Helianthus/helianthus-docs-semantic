@@ -1,3 +1,7 @@
+---
+status: "pinned public inputs and migration comparators for the v1 kernel\ncontract. Each source was reconciled again while preparing the contract.\nInclusion does not promote the donor into a universal model, prove current\nnormative completeness, or accept a migration."
+---
+
 # Kernel v1 compatibility donor ledger
 
 Status: pinned public inputs and migration comparators for the v1 kernel

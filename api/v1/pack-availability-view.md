@@ -1,3 +1,7 @@
+---
+status: "proposed read-helper contract for review, normative on merge. This page\nspecifies derivation rules over accepted v1 inputs; it does not define a new\nserialized contract identifier, exported function signature or endpoint. Examples\nare conceptual, not executable API fixtures. The helper remains pre-stable;\npack definition versions do not promise a stable consumer API before 1.0."
+---
+
 # Derived five-pack availability view
 
 Status: proposed read-helper contract for review, normative on merge. This page
