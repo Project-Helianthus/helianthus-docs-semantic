@@ -1,3 +1,7 @@
+---
+status: "proposed application-mapping assessment for issue #36; no executable\nmapping or stable API is established. This is a partial INT-04 / INT-05 / INT-08\nslice. The evidence basis is the accepted\n[Infrastructure pack v1](../../api/v1/packs/infrastructure-v1.md), its\n[typed catalog](../../api/v1/packs/infrastructure-acceptance-vectors.json), and the\n[ownership contract](../../architecture/repository-ownership-v1.md)."
+---
+
 # Gateway-local runtime and Infrastructure pack boundary
 
 Status: proposed application-mapping assessment for issue #36; no executable

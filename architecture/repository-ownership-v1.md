@@ -1,3 +1,7 @@
+---
+status: "accepted bootstrap ownership boundary. This document does not define a\ncomplete semantic schema, freeze an executable API, complete INT-04, implement\nINT-05, or establish normative, conformance, release, or hardware acceptance."
+---
+
 # Protocol-neutral semantic repository ownership v1
 
 Status: accepted bootstrap ownership boundary. This document does not define a

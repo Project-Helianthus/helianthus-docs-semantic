@@ -1,3 +1,7 @@
+---
+status: "normative companion to [kernel.md](kernel.md) when merged into `main`"
+---
+
 # Semantic kernel v1 acceptance contract
 
 Status: normative companion to [kernel.md](kernel.md) when merged into `main`

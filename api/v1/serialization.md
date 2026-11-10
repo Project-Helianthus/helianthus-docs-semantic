@@ -1,3 +1,7 @@
+---
+status: "normative companion to\n[`helianthus.semantic.kernel/v1`](kernel.md) when merged into `main`"
+---
+
 # Semantic kernel v1 serialization
 
 Status: normative companion to

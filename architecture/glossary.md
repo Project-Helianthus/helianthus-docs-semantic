@@ -1,3 +1,7 @@
+---
+status: "documentation vocabulary based on the [semantic kernel v1](../api/v1/kernel.md)\nand [repository ownership contract](repository-ownership-v1.md). Existing typed\nand wire contracts retain their narrower meanings and compatibility rules;\nthis page introduces no API, member rename, schema change, or protocol fact.\nA conflicting type-level usage is an open question for its owner, not authority\nto reinterpret it here."
+---
+
 # Cross-repository glossary
 
 Status: documentation vocabulary based on the [semantic kernel v1](../api/v1/kernel.md)

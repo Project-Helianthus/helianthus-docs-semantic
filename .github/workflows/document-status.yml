@@ -1,0 +1,22 @@
+name: Document status
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  document-status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check document status
+        run: python scripts/check_document_status.py
+      - name: Test document status
+        run: python scripts/test_document_status.py
