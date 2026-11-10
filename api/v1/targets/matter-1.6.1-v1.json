@@ -5603,7 +5603,7 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
-        "id": "thermal.measurement.humidity_relative",
+        "id": "thermal.measurement.humidity",
         "version": "1.0.0"
       },
       "kind": "fact",
@@ -5613,7 +5613,7 @@
         {
           "kind": "policy",
           "source_items": [
-            "thermal.measurement.humidity_relative"
+            "thermal.measurement.humidity"
           ],
           "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
           "reversible": false
@@ -5623,7 +5623,7 @@
         "kernel_contract": "helianthus.semantic.kernel/v1",
         "requested": {
           "kind": "fact",
-          "item_id": "thermal.measurement.humidity_relative",
+          "item_id": "thermal.measurement.humidity",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -5634,7 +5634,7 @@
           {
             "pack_id": "helianthus.pack.thermal",
             "pack_version": "1.0.0",
-            "fact_id": "thermal.measurement.humidity_relative",
+            "fact_id": "thermal.measurement.humidity",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {
@@ -5940,7 +5940,7 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
-        "id": "thermal.setpoint.dhw_temperature",
+        "id": "thermal.setpoint.dhw_temperature_setpoint",
         "version": "1.0.0"
       },
       "kind": "fact",
@@ -5950,7 +5950,7 @@
         {
           "kind": "policy",
           "source_items": [
-            "thermal.setpoint.dhw_temperature"
+            "thermal.setpoint.dhw_temperature_setpoint"
           ],
           "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
           "reversible": false
@@ -5960,7 +5960,7 @@
         "kernel_contract": "helianthus.semantic.kernel/v1",
         "requested": {
           "kind": "fact",
-          "item_id": "thermal.setpoint.dhw_temperature",
+          "item_id": "thermal.setpoint.dhw_temperature_setpoint",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -5971,7 +5971,7 @@
           {
             "pack_id": "helianthus.pack.thermal",
             "pack_version": "1.0.0",
-            "fact_id": "thermal.setpoint.dhw_temperature",
+            "fact_id": "thermal.setpoint.dhw_temperature_setpoint",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {
@@ -5993,7 +5993,7 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
-        "id": "thermal.setpoint.temperature",
+        "id": "thermal.setpoint.temperature_setpoint",
         "version": "1.0.0"
       },
       "kind": "fact",
@@ -6003,7 +6003,7 @@
         {
           "kind": "policy",
           "source_items": [
-            "thermal.setpoint.temperature"
+            "thermal.setpoint.temperature_setpoint"
           ],
           "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
           "reversible": false
@@ -6013,7 +6013,7 @@
         "kernel_contract": "helianthus.semantic.kernel/v1",
         "requested": {
           "kind": "fact",
-          "item_id": "thermal.setpoint.temperature",
+          "item_id": "thermal.setpoint.temperature_setpoint",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -6024,7 +6024,7 @@
           {
             "pack_id": "helianthus.pack.thermal",
             "pack_version": "1.0.0",
-            "fact_id": "thermal.setpoint.temperature",
+            "fact_id": "thermal.setpoint.temperature_setpoint",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {

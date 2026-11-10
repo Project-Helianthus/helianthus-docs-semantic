@@ -1,0 +1,2396 @@
+{
+  "purpose": "Documentary correspondence only; historical names are never runtime fallback keys.",
+  "rows": [
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "go_identifier",
+      "historical_name": "Metadata",
+      "canonical_name": "Metadata",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.evse",
+      "canonical_name": "helianthus.pack.evse",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.active_power",
+      "canonical_name": "evse.ac.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.phase",
+      "canonical_name": "evse.dimension.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.current",
+      "canonical_name": "evse.ac.current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere",
+      "canonical_name": "unit.ampere",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.frequency",
+      "canonical_name": "evse.ac.frequency",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.hertz",
+      "canonical_name": "unit.hertz",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.evse",
+      "canonical_name": "evse.dimension.evse",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.voltage",
+      "canonical_name": "evse.ac.voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt",
+      "canonical_name": "unit.volt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.energy.lifetime",
+      "canonical_name": "evse.energy.lifetime",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.kilowatt_hour",
+      "canonical_name": "unit.kilowatt_hour",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.meter",
+      "canonical_name": "evse.dimension.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.energy.session",
+      "canonical_name": "evse.energy.session",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.session",
+      "canonical_name": "evse.dimension.session",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.actual_current",
+      "canonical_name": "evse.limit.actual_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.connector",
+      "canonical_name": "evse.dimension.connector",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.advertised_current",
+      "canonical_name": "evse.limit.advertised_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.allocated_current",
+      "canonical_name": "evse.limit.allocated_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.configured_current",
+      "canonical_name": "evse.limit.configured_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.charging",
+      "canonical_name": "evse.status.charging",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.charging.charging",
+      "canonical_name": "evse.status.charging.charging",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.charging.complete",
+      "canonical_name": "evse.status.charging.complete",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.charging.idle",
+      "canonical_name": "evse.status.charging.idle",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.connection",
+      "canonical_name": "evse.status.connection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.connection.connected",
+      "canonical_name": "evse.status.connection.connected",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.connection.disconnected",
+      "canonical_name": "evse.status.connection.disconnected",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.fault",
+      "canonical_name": "evse.status.fault",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.fault.clear",
+      "canonical_name": "evse.status.fault.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.fault.present",
+      "canonical_name": "evse.status.fault.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.interlock",
+      "canonical_name": "evse.status.interlock",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.interlock.active",
+      "canonical_name": "evse.status.interlock.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.interlock.clear",
+      "canonical_name": "evse.status.interlock.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.readiness",
+      "canonical_name": "evse.status.readiness",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.readiness.not_ready",
+      "canonical_name": "evse.status.readiness.not_ready",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.readiness.ready",
+      "canonical_name": "evse.status.readiness.ready",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.asset",
+      "canonical_name": "evse.dimension.asset",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.evse",
+      "canonical_name": "evse.service.evse",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.connector",
+      "canonical_name": "evse.service.connector",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.phase",
+      "canonical_name": "evse.service.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.session",
+      "canonical_name": "evse.service.session",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.meter",
+      "canonical_name": "evse.service.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.evse",
+      "canonical_name": "evse.capability.read.evse",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.connector",
+      "canonical_name": "evse.capability.read.connector",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.phase",
+      "canonical_name": "evse.capability.read.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.session",
+      "canonical_name": "evse.capability.read.session",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.meter",
+      "canonical_name": "evse.capability.read.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_allocated_current",
+      "canonical_name": "evse.capability.set_allocated_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_allocated_current",
+      "canonical_name": "evse.operation.set_allocated_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_allocated_current",
+      "canonical_name": "evse.effect.set_allocated_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "go_identifier",
+      "historical_name": "Metadata",
+      "canonical_name": "Metadata",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.infrastructure",
+      "canonical_name": "helianthus.pack.infrastructure",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.active_power",
+      "canonical_name": "infrastructure.ac.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.phase",
+      "canonical_name": "infrastructure.dimension.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.apparent_power",
+      "canonical_name": "infrastructure.ac.apparent_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt_ampere",
+      "canonical_name": "unit.volt_ampere",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.current",
+      "canonical_name": "infrastructure.ac.current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere",
+      "canonical_name": "unit.ampere",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.frequency",
+      "canonical_name": "infrastructure.ac.frequency",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.hertz",
+      "canonical_name": "unit.hertz",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.grid_connection",
+      "canonical_name": "infrastructure.dimension.grid_connection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.power_factor",
+      "canonical_name": "infrastructure.ac.power_factor",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ratio",
+      "canonical_name": "unit.ratio",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.reactive_power",
+      "canonical_name": "infrastructure.ac.reactive_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt_ampere_reactive",
+      "canonical_name": "unit.volt_ampere_reactive",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.voltage",
+      "canonical_name": "infrastructure.ac.voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt",
+      "canonical_name": "unit.volt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.export",
+      "canonical_name": "infrastructure.energy.export",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.kilowatt_hour",
+      "canonical_name": "unit.kilowatt_hour",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.meter",
+      "canonical_name": "infrastructure.dimension.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.import",
+      "canonical_name": "infrastructure.energy.import",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.apparent",
+      "canonical_name": "infrastructure.power.apparent",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.export_active",
+      "canonical_name": "infrastructure.power.export_active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.export_reactive",
+      "canonical_name": "infrastructure.power.export_reactive",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.import_active",
+      "canonical_name": "infrastructure.power.import_active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.import_reactive",
+      "canonical_name": "infrastructure.power.import_reactive",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.breaker",
+      "canonical_name": "infrastructure.status.breaker",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.circuit",
+      "canonical_name": "infrastructure.dimension.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.breaker.closed",
+      "canonical_name": "infrastructure.status.breaker.closed",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.breaker.open",
+      "canonical_name": "infrastructure.status.breaker.open",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.connection",
+      "canonical_name": "infrastructure.status.connection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.connection.connected",
+      "canonical_name": "infrastructure.status.connection.connected",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.connection.disconnected",
+      "canonical_name": "infrastructure.status.connection.disconnected",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.fault",
+      "canonical_name": "infrastructure.status.fault",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.site",
+      "canonical_name": "infrastructure.dimension.site",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.fault.clear",
+      "canonical_name": "infrastructure.status.fault.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.fault.present",
+      "canonical_name": "infrastructure.status.fault.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.interlock",
+      "canonical_name": "infrastructure.status.interlock",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.interlock.active",
+      "canonical_name": "infrastructure.status.interlock.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.interlock.clear",
+      "canonical_name": "infrastructure.status.interlock.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.readiness",
+      "canonical_name": "infrastructure.status.readiness",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.readiness.not_ready",
+      "canonical_name": "infrastructure.status.readiness.not_ready",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.readiness.ready",
+      "canonical_name": "infrastructure.status.readiness.ready",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.feeder",
+      "canonical_name": "infrastructure.dimension.feeder",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.site",
+      "canonical_name": "infrastructure.service.site",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.grid_connection",
+      "canonical_name": "infrastructure.service.grid_connection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.feeder",
+      "canonical_name": "infrastructure.service.feeder",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.circuit",
+      "canonical_name": "infrastructure.service.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.phase",
+      "canonical_name": "infrastructure.service.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.meter",
+      "canonical_name": "infrastructure.service.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.site",
+      "canonical_name": "infrastructure.capability.read.site",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.grid_connection",
+      "canonical_name": "infrastructure.capability.read.grid_connection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.feeder",
+      "canonical_name": "infrastructure.capability.read.feeder",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.circuit",
+      "canonical_name": "infrastructure.capability.read.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.phase",
+      "canonical_name": "infrastructure.capability.read.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.capability.read.meter",
+      "canonical_name": "infrastructure.capability.read.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "go_identifier",
+      "historical_name": "Metadata",
+      "canonical_name": "Metadata",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.pv",
+      "canonical_name": "helianthus.pack.pv",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.voltage",
+      "canonical_name": "pv.dc.voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt",
+      "canonical_name": "unit.volt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.input",
+      "canonical_name": "pv.dimension.input",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.current",
+      "canonical_name": "pv.dc.current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere",
+      "canonical_name": "unit.ampere",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.power",
+      "canonical_name": "pv.dc.power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.voltage",
+      "canonical_name": "pv.ac.voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.phase",
+      "canonical_name": "pv.dimension.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.current",
+      "canonical_name": "pv.ac.current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.active_power",
+      "canonical_name": "pv.ac.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.frequency",
+      "canonical_name": "pv.ac.frequency",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.hertz",
+      "canonical_name": "unit.hertz",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.inverter",
+      "canonical_name": "pv.dimension.inverter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.power_factor",
+      "canonical_name": "pv.ac.power_factor",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ratio",
+      "canonical_name": "unit.ratio",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.generated",
+      "canonical_name": "pv.energy.generated",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.kilowatt_hour",
+      "canonical_name": "unit.kilowatt_hour",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.system",
+      "canonical_name": "pv.dimension.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.temperature.inverter",
+      "canonical_name": "pv.temperature.inverter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.celsius",
+      "canonical_name": "unit.celsius",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.limit.active_power",
+      "canonical_name": "pv.limit.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.limit.export_power",
+      "canonical_name": "pv.limit.export_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.operating",
+      "canonical_name": "pv.status.operating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.operating.generating",
+      "canonical_name": "pv.status.operating.generating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.operating.idle",
+      "canonical_name": "pv.status.operating.idle",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.operating.standby",
+      "canonical_name": "pv.status.operating.standby",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.derating",
+      "canonical_name": "pv.status.derating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.derating.active",
+      "canonical_name": "pv.status.derating.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.derating.clear",
+      "canonical_name": "pv.status.derating.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.fault",
+      "canonical_name": "pv.status.fault",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.fault.clear",
+      "canonical_name": "pv.status.fault.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.fault.present",
+      "canonical_name": "pv.status.fault.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.aggregate_voltage",
+      "canonical_name": "pv.dc.aggregate_voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.aggregate_current",
+      "canonical_name": "pv.dc.aggregate_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.aggregate_power",
+      "canonical_name": "pv.dc.aggregate_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.aggregate_voltage",
+      "canonical_name": "pv.ac.aggregate_voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.aggregate_current",
+      "canonical_name": "pv.ac.aggregate_current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.aggregate_active_power",
+      "canonical_name": "pv.ac.aggregate_active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.array",
+      "canonical_name": "pv.dimension.array",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.string",
+      "canonical_name": "pv.dimension.string",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.system",
+      "canonical_name": "pv.service.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.inverter",
+      "canonical_name": "pv.service.inverter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.array",
+      "canonical_name": "pv.service.array",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.string",
+      "canonical_name": "pv.service.string",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.input",
+      "canonical_name": "pv.service.input",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.service.phase",
+      "canonical_name": "pv.service.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.system",
+      "canonical_name": "pv.capability.read.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.inverter",
+      "canonical_name": "pv.capability.read.inverter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.array",
+      "canonical_name": "pv.capability.read.array",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.string",
+      "canonical_name": "pv.capability.read.string",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.input",
+      "canonical_name": "pv.capability.read.input",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.read.phase",
+      "canonical_name": "pv.capability.read.phase",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.set_active_power_limit",
+      "canonical_name": "pv.capability.set_active_power_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.capability.set_export_limit",
+      "canonical_name": "pv.capability.set_export_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.operation.set_active_power_limit",
+      "canonical_name": "pv.operation.set_active_power_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.effect.set_active_power_limit",
+      "canonical_name": "pv.effect.set_active_power_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.operation.set_export_limit",
+      "canonical_name": "pv.operation.set_export_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.effect.set_export_limit",
+      "canonical_name": "pv.effect.set_export_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "go_identifier",
+      "historical_name": "Metadata",
+      "canonical_name": "Metadata",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.storage",
+      "canonical_name": "helianthus.pack.storage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.state.soc",
+      "canonical_name": "storage.state.soc",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.percent",
+      "canonical_name": "unit.percent",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.pack",
+      "canonical_name": "storage.dimension.pack",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.state.soh",
+      "canonical_name": "storage.state.soh",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.pack.voltage",
+      "canonical_name": "storage.pack.voltage",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt",
+      "canonical_name": "unit.volt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.pack.current",
+      "canonical_name": "storage.pack.current",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere",
+      "canonical_name": "unit.ampere",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.pack.power",
+      "canonical_name": "storage.pack.power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.energy.charged",
+      "canonical_name": "storage.energy.charged",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.kilowatt_hour",
+      "canonical_name": "unit.kilowatt_hour",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.energy.discharged",
+      "canonical_name": "storage.energy.discharged",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capacity.charge",
+      "canonical_name": "storage.capacity.charge",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere_hour",
+      "canonical_name": "unit.ampere_hour",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capacity.discharge",
+      "canonical_name": "storage.capacity.discharge",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.temperature.pack",
+      "canonical_name": "storage.temperature.pack",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.celsius",
+      "canonical_name": "unit.celsius",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.temperature.cell",
+      "canonical_name": "storage.temperature.cell",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.cell",
+      "canonical_name": "storage.dimension.cell",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cell.voltage_minimum",
+      "canonical_name": "storage.cell.voltage_minimum",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cell.voltage_maximum",
+      "canonical_name": "storage.cell.voltage_maximum",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.charge_power",
+      "canonical_name": "storage.limit.charge_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.interface",
+      "canonical_name": "storage.dimension.interface",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.discharge_power",
+      "canonical_name": "storage.limit.discharge_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.operating",
+      "canonical_name": "storage.status.operating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.operating.active",
+      "canonical_name": "storage.status.operating.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.operating.idle",
+      "canonical_name": "storage.status.operating.idle",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.operating.standby",
+      "canonical_name": "storage.status.operating.standby",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.alarm",
+      "canonical_name": "storage.status.alarm",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.alarm.clear",
+      "canonical_name": "storage.status.alarm.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.alarm.present",
+      "canonical_name": "storage.status.alarm.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.protection",
+      "canonical_name": "storage.status.protection",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.protection.active",
+      "canonical_name": "storage.status.protection.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.protection.clear",
+      "canonical_name": "storage.status.protection.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.warning",
+      "canonical_name": "storage.status.warning",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.warning.clear",
+      "canonical_name": "storage.status.warning.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.warning.present",
+      "canonical_name": "storage.status.warning.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.interlock",
+      "canonical_name": "storage.status.interlock",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.interlock.active",
+      "canonical_name": "storage.status.interlock.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.interlock.clear",
+      "canonical_name": "storage.status.interlock.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.system",
+      "canonical_name": "storage.service.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.system",
+      "canonical_name": "storage.dimension.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.battery",
+      "canonical_name": "storage.service.battery",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.battery",
+      "canonical_name": "storage.dimension.battery",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.pack",
+      "canonical_name": "storage.service.pack",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.module",
+      "canonical_name": "storage.service.module",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.module",
+      "canonical_name": "storage.dimension.module",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.cell",
+      "canonical_name": "storage.service.cell",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.string",
+      "canonical_name": "storage.service.string",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.dimension.string",
+      "canonical_name": "storage.dimension.string",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.service.interface",
+      "canonical_name": "storage.service.interface",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.read.pack",
+      "canonical_name": "storage.capability.read.pack",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.read.cell",
+      "canonical_name": "storage.capability.read.cell",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.read.interface",
+      "canonical_name": "storage.capability.read.interface",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_charge_limit",
+      "canonical_name": "storage.capability.set_charge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_discharge_limit",
+      "canonical_name": "storage.capability.set_discharge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_charge_limit",
+      "canonical_name": "storage.operation.set_charge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_charge_limit",
+      "canonical_name": "storage.effect.set_charge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_discharge_limit",
+      "canonical_name": "storage.operation.set_discharge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_discharge_limit",
+      "canonical_name": "storage.effect.set_discharge_limit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "go_identifier",
+      "historical_name": "Metadata",
+      "canonical_name": "Metadata",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.thermal",
+      "canonical_name": "helianthus.pack.thermal",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state",
+      "canonical_name": "thermal.action.state",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.system",
+      "canonical_name": "thermal.dimension.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state.cooling",
+      "canonical_name": "thermal.action.state.cooling",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state.dhw",
+      "canonical_name": "thermal.action.state.dhw",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state.heating",
+      "canonical_name": "thermal.action.state.heating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state.idle",
+      "canonical_name": "thermal.action.state.idle",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.state.ventilating",
+      "canonical_name": "thermal.action.state.ventilating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.demand.level",
+      "canonical_name": "thermal.demand.level",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.percent",
+      "canonical_name": "unit.percent",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.ratio",
+      "canonical_name": "thermal.dimension.ratio",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.air_temperature",
+      "canonical_name": "thermal.measurement.air_temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.celsius",
+      "canonical_name": "unit.celsius",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.temperature",
+      "canonical_name": "thermal.dimension.temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.flow_rate",
+      "canonical_name": "thermal.measurement.flow_rate",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.litre_per_minute",
+      "canonical_name": "unit.litre_per_minute",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.volumetric_flow",
+      "canonical_name": "thermal.dimension.volumetric_flow",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.humidity_relative",
+      "canonical_name": "thermal.measurement.humidity",
+      "status": "proven_rename",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.power",
+      "canonical_name": "thermal.measurement.power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.power",
+      "canonical_name": "thermal.dimension.power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.water_temperature",
+      "canonical_name": "thermal.measurement.water_temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.system",
+      "canonical_name": "thermal.mode.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.system.auto",
+      "canonical_name": "thermal.mode.system.auto",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.system.cool",
+      "canonical_name": "thermal.mode.system.cool",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.system.heat",
+      "canonical_name": "thermal.mode.system.heat",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.system.off",
+      "canonical_name": "thermal.mode.system.off",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone",
+      "canonical_name": "thermal.mode.zone",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.zone",
+      "canonical_name": "thermal.dimension.zone",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone.auto",
+      "canonical_name": "thermal.mode.zone.auto",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone.comfort",
+      "canonical_name": "thermal.mode.zone.comfort",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone.eco",
+      "canonical_name": "thermal.mode.zone.eco",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone.off",
+      "canonical_name": "thermal.mode.zone.off",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.dhw_temperature",
+      "canonical_name": "thermal.setpoint.dhw_temperature_setpoint",
+      "status": "proven_rename",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.temperature",
+      "canonical_name": "thermal.setpoint.temperature_setpoint",
+      "status": "proven_rename",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.fault",
+      "canonical_name": "thermal.status.fault",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.fault.clear",
+      "canonical_name": "thermal.status.fault.clear",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.fault.present",
+      "canonical_name": "thermal.status.fault.present",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.operation",
+      "canonical_name": "thermal.status.operation",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.operation.active",
+      "canonical_name": "thermal.status.operation.active",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.operation.idle",
+      "canonical_name": "thermal.status.operation.idle",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.circuit",
+      "canonical_name": "thermal.dimension.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.dhw",
+      "canonical_name": "thermal.dimension.dhw",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.ventilation",
+      "canonical_name": "thermal.dimension.ventilation",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.system",
+      "canonical_name": "thermal.service.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.zone",
+      "canonical_name": "thermal.service.zone",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.circuit",
+      "canonical_name": "thermal.service.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.dhw",
+      "canonical_name": "thermal.service.dhw",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.ventilation",
+      "canonical_name": "thermal.service.ventilation",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.system",
+      "canonical_name": "thermal.capability.read.system",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.zone",
+      "canonical_name": "thermal.capability.read.zone",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.circuit",
+      "canonical_name": "thermal.capability.read.circuit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.dhw",
+      "canonical_name": "thermal.capability.read.dhw",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.ventilation",
+      "canonical_name": "thermal.capability.read.ventilation",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_temperature",
+      "canonical_name": "thermal.capability.set_temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_mode",
+      "canonical_name": "thermal.capability.set_mode",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_temperature",
+      "canonical_name": "thermal.operation.set_temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_temperature",
+      "canonical_name": "thermal.effect.set_temperature",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_mode",
+      "canonical_name": "thermal.operation.set_mode",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_mode",
+      "canonical_name": "thermal.effect.set_mode",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    }
+  ],
+  "consumer_correspondence": {
+    "thermal.measurement.humidity_relative": [
+      "ebusgateway/docs/metrics-inventory.json",
+      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
+      "ebusgateway/internal/semanticmetrics/metrics.go",
+      "ebusgateway/internal/semanticmetrics/metrics_test.go",
+      "ebusgateway/cmd/gateway/thermal_humidity_mapping_test.go",
+      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "ebusgateway/cmd/gateway/thermal_humidity_mapping.go",
+      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matter-binding/docs/target-profile/thermostats.md",
+      "matter-binding/docs/target-profile/heating.md",
+      "matter-binding/docs/target-profile/air-conditioning.md"
+    ],
+    "thermal.setpoint.dhw_temperature": [
+      "ebusgateway/docs/metrics-inventory.json",
+      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
+      "ebusgateway/internal/semanticmetrics/metrics.go",
+      "ebusgateway/internal/semanticmetrics/metrics_test.go",
+      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "ebusgateway/cmd/gateway/thermal_dhw_setpoint_mapping_test.go",
+      "ebusgateway/cmd/gateway/thermal_dhw_setpoint_mapping.go",
+      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matter-binding/docs/target-profile/heating.md"
+    ],
+    "thermal.setpoint.temperature": [
+      "ebusgateway/docs/metrics-inventory.json",
+      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
+      "ebusgateway/internal/semanticmetrics/metrics.go",
+      "ebusgateway/internal/semanticmetrics/metrics_test.go",
+      "ebusgateway/cmd/gateway/thermal_zone_setpoint_mapping.go",
+      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "ebusgateway/cmd/gateway/thermal_zone_setpoint_mapping_test.go",
+      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matter-binding/docs/target-profile/thermostats.md",
+      "matter-binding/docs/target-profile/heating.md",
+      "matter-binding/docs/target-profile/air-conditioning.md"
+    ]
+  }
+}
