@@ -1,0 +1,1095 @@
+{
+  "contract": "helianthus.semantic.kernel.validation-rules/v1",
+  "rules": {
+    "required-type-fields": {
+      "kind": "expected-value",
+      "value": {
+        "SourceDescriptor": [
+          "profile_id",
+          "profile_version",
+          "protocol_id",
+          "registry_evidence",
+          "revision",
+          "source_epoch_id",
+          "source_id",
+          "started_at",
+          "state"
+        ],
+        "NativeBinding": [
+          "asset_id",
+          "binding_id",
+          "driver_generation",
+          "native_resource",
+          "revision",
+          "source_epoch_id",
+          "source_id",
+          "state"
+        ],
+        "SourcePathRef": [
+          "binding_id",
+          "driver_generation",
+          "source_epoch_id",
+          "source_id"
+        ],
+        "DerivationInput": [
+          "candidate_id",
+          "candidate_revision",
+          "source_paths"
+        ],
+        "EvaluationView": [
+          "context",
+          "contract",
+          "evaluation_digest",
+          "facts",
+          "retained",
+          "revisions",
+          "snapshot_id"
+        ],
+        "EvaluatedRetainedObservation": [
+          "freshness",
+          "observation"
+        ],
+        "RetainedObservation": [
+          "candidate",
+          "contract",
+          "removal"
+        ],
+        "PackRef": [
+          "id",
+          "version"
+        ],
+        "DefinitionRef": [
+          "id",
+          "pack",
+          "version"
+        ],
+        "DefinitionIndex": [
+          "capabilities",
+          "effect_rules",
+          "fields",
+          "operations",
+          "pack",
+          "services"
+        ],
+        "CapabilityRequirement": [
+          "allow_degraded",
+          "definition_id",
+          "instance_id",
+          "pack",
+          "versions"
+        ],
+        "Precondition": [
+          "candidate_id",
+          "candidate_revision",
+          "expected",
+          "fact",
+          "operator"
+        ],
+        "ExpectedEffect": [
+          "expected",
+          "fact",
+          "operator",
+          "rule"
+        ],
+        "Selection": [
+          "candidate_revision",
+          "context",
+          "contract",
+          "evaluation_digest",
+          "key",
+          "policy_id",
+          "policy_version",
+          "presentation_only",
+          "revisions",
+          "selected_candidate",
+          "snapshot_id"
+        ],
+        "FactEnvelope": [
+          "asset_id",
+          "candidates",
+          "conflicts",
+          "key",
+          "revision"
+        ],
+        "Conflict": [
+          "candidates",
+          "conflict_id",
+          "evidence",
+          "kind",
+          "state"
+        ],
+        "DispatchEvidence": [
+          "attempt_id",
+          "completed",
+          "delivery",
+          "evidence",
+          "possible_side_effect",
+          "started"
+        ],
+        "Intent": [
+          "arguments",
+          "asset_id",
+          "authority",
+          "causal",
+          "contract",
+          "deadline",
+          "expected_capability_instance_revision",
+          "expected_capability_revision",
+          "expected_driver_generation",
+          "expected_effect",
+          "expected_semantic_revision",
+          "expected_source_epoch_id",
+          "idempotency_key",
+          "intent_id",
+          "kind",
+          "preconditions",
+          "required_capability"
+        ],
+        "Readback": [
+          "binding_id",
+          "candidate_id",
+          "candidate_revision",
+          "driver_generation",
+          "evaluation",
+          "evidence",
+          "relation",
+          "revisions",
+          "snapshot_id",
+          "source_epoch_id",
+          "source_id"
+        ],
+        "ProjectionDisposition": [
+          "item_id",
+          "kind",
+          "loss",
+          "outcome",
+          "reason",
+          "source_keys"
+        ]
+      }
+    },
+    "factenvelope-must-not-persist-presentation-selection": {
+      "kind": "expected-value",
+      "value": "selection"
+    },
+    "forbidden-publication-metadata": {
+      "kind": "expected-value",
+      "value": [
+        "conflicts",
+        "selection",
+        "selections"
+      ]
+    },
+    "required-hooks": {
+      "kind": "expected-value",
+      "value": [
+        "Definitions() DefinitionIndex",
+        "EvaluatePredicate(FactCandidate, PredicateOp, Value) (bool, error)",
+        "ValidateIntent(Intent) error",
+        "EvaluateReadback(Intent, v1.FactCandidate) (ReadbackRelation, error)",
+        "Select(FactEnvelope, []EvaluatedFact) (CandidateID, error)"
+      ]
+    },
+    "selectpresentation-must-receive-complete-immutable-inputs": {
+      "kind": "expected-value",
+      "value": "SelectPresentation\\(Snapshot, EvaluationView, FactKey, PolicyID,\\s+SemanticVersion\\) \\(Selection, error\\)"
+    },
+    "required-correction-vectors": {
+      "kind": "expected-value",
+      "value": {
+        "K-POS-018": [
+          "PublicationBatch",
+          "positive"
+        ],
+        "K-POS-019": [
+          "EvaluationView",
+          "positive"
+        ],
+        "K-POS-020": [
+          "PublicationBatch",
+          "positive"
+        ],
+        "K-NEG-034": [
+          "PublicationBatch",
+          "negative"
+        ],
+        "K-NEG-036": [
+          "Readback",
+          "negative"
+        ],
+        "K-NEG-037": [
+          "ProjectionReport",
+          "negative"
+        ],
+        "K-NEG-038": [
+          "Intent",
+          "negative"
+        ],
+        "K-POS-021": [
+          "PublicationBatch",
+          "positive"
+        ],
+        "K-POS-022": [
+          "DefinitionIndex",
+          "positive"
+        ],
+        "K-NEG-039": [
+          "Intent",
+          "negative"
+        ],
+        "K-NEG-040": [
+          "Intent",
+          "negative"
+        ],
+        "K-NEG-041": [
+          "ExecutionRecord",
+          "negative"
+        ],
+        "K-NEG-042": [
+          "PublicationBatch",
+          "negative"
+        ],
+        "K-NEG-043": [
+          "DefinitionIndex",
+          "negative"
+        ],
+        "K-NEG-044": [
+          "Intent",
+          "negative"
+        ],
+        "K-POS-023": [
+          "CausalContext",
+          "positive"
+        ],
+        "K-NEG-045": [
+          "ExecutionRecord",
+          "negative"
+        ],
+        "K-NEG-046": [
+          "ExecutionRecord",
+          "negative"
+        ],
+        "K-NEG-047": [
+          "IdentityLink",
+          "negative"
+        ],
+        "K-NEG-048": [
+          "CapabilityInstance",
+          "negative"
+        ],
+        "K-NEG-049": [
+          "Precondition",
+          "negative"
+        ],
+        "K-NEG-050": [
+          "Precondition",
+          "negative"
+        ],
+        "K-NEG-051": [
+          "CausalContext",
+          "negative"
+        ],
+        "K-POS-024": [
+          "PublicationBatch",
+          "positive"
+        ],
+        "K-NEG-052": [
+          "CausalContext",
+          "negative"
+        ],
+        "K-NEG-053": [
+          "CausalContext",
+          "negative"
+        ],
+        "K-NEG-054": [
+          "FactEnvelope",
+          "negative"
+        ],
+        "K-NEG-055": [
+          "PublicationBatch",
+          "negative"
+        ],
+        "K-POS-025": [
+          "Selection",
+          "positive"
+        ],
+        "K-NEG-056": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-057": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-058": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-059": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-060": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-061": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-062": [
+          "Selection",
+          "negative"
+        ],
+        "K-NEG-063": [
+          "SelectionPolicy",
+          "negative"
+        ],
+        "K-NEG-064": [
+          "SelectionPolicy",
+          "negative"
+        ],
+        "K-NEG-065": [
+          "Selection",
+          "negative"
+        ]
+      }
+    },
+    "k-pos-019-time-only-evaluation-assertions-are-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "fresh_stale_expired_thresholds_exact",
+        "revision_vector_unchanged",
+        "snapshot_canonical_bytes_unchanged"
+      ]
+    },
+    "k-pos-019-freshness-thresholds-are-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "expired",
+        "fresh",
+        "stale"
+      ]
+    },
+    "required-readback": {
+      "kind": "expected-value",
+      "value": [
+        "binding_id",
+        "candidate_id",
+        "candidate_revision",
+        "driver_generation",
+        "evaluation",
+        "revisions",
+        "snapshot_id",
+        "source_epoch_id",
+        "source_id"
+      ]
+    },
+    "k-pos-016-equal-ids-across-kinds-are-not-exercised": {
+      "kind": "expected-value",
+      "value": 1
+    },
+    "k-pos-020-multi-source-derivation-is-incomplete": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "require-correction-vectors": {
+      "kind": "expected-value",
+      "value": [
+        "K-NEG-039",
+        "K-NEG-040"
+      ]
+    },
+    "exact-precondition-binding-is-missing": {
+      "kind": "expected-value",
+      "value": [
+        "candidate_id",
+        "candidate_revision"
+      ]
+    },
+    "mixed-candidate-evidence-is-incomplete": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "mixed-candidate-evidence-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "equal-revision-negative-control-is-missing": {
+      "kind": "expected-value",
+      "value": 1
+    },
+    "k-neg-039-unqualified-selected-candidate-is-missing": {
+      "kind": "expected-value",
+      "value": "K-NEG-039"
+    },
+    "k-neg-039-unqualified-selected-candidate-is-missing-requirement-2": {
+      "kind": "expected-value",
+      "value": "qualified"
+    },
+    "k-neg-040-exact-candidate-negative-control-is-invalid": {
+      "kind": "expected-value",
+      "value": "K-NEG-040"
+    },
+    "k-pos-014-typed-expected-effect-is-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "expected",
+        "fact",
+        "operator",
+        "rule"
+      ]
+    },
+    "k-neg-041-unrelated-readback-is-not-otherwise-eligible": {
+      "kind": "expected-value",
+      "value": {
+        "assertion": "observed",
+        "qualification": "qualified",
+        "promotion": "promoted",
+        "validity": "good",
+        "evaluated_freshness": "fresh",
+        "effective_availability": "available",
+        "open_conflict": false
+      }
+    },
+    "k-pos-014-context-is-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "evaluate_monotonic",
+        "evaluated_at"
+      ]
+    },
+    "k-neg-045-retained-pre-dispatch-negative-control-is-invalid": {
+      "kind": "expected-value",
+      "value": "invalid_outcome"
+    },
+    "k-neg-046-unverifiable-freshness-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "evaluate_monotonic",
+        "evaluated_at"
+      ]
+    },
+    "k-neg-046-unverifiable-freshness-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "unknown"
+    },
+    "k-neg-046-unverifiable-freshness-control-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": "invalid_outcome"
+    },
+    "expected-partition": {
+      "kind": "expected-value",
+      "value": {
+        "K-NEG-047": "identity_not_qualified",
+        "K-NEG-048": "capability_not_qualified",
+        "K-NEG-049": "precondition_failed",
+        "K-NEG-050": "precondition_failed"
+      }
+    },
+    "k-neg-047-empty-identity-basis-control-is-missing": {
+      "kind": "expected-value",
+      "value": []
+    },
+    "k-neg-048-empty-capability-proof-control-is-missing": {
+      "kind": "expected-value",
+      "value": []
+    },
+    "expected-states": {
+      "kind": "expected-value",
+      "value": {
+        "created_at_a": [
+          [],
+          0,
+          [
+            "target:a"
+          ],
+          1
+        ],
+        "b_ingress": [
+          [
+            "target:a"
+          ],
+          1,
+          [
+            "target:a",
+            "target:b"
+          ],
+          2
+        ],
+        "c_ingress": [
+          [
+            "target:a",
+            "target:b"
+          ],
+          2,
+          [
+            "target:a",
+            "target:b",
+            "target:c"
+          ],
+          3
+        ]
+      }
+    },
+    "require-correction-vectors-requirement-2": {
+      "kind": "expected-value",
+      "value": [
+        [
+          "a_emits_to_b",
+          [
+            "target:a"
+          ],
+          1
+        ],
+        [
+          "b_emits_to_c",
+          [
+            "target:a",
+            "target:b"
+          ],
+          2
+        ]
+      ]
+    },
+    "k-neg-051-c-to-a-reflection-control-is-invalid": {
+      "kind": "expected-value",
+      "value": "echo_suppressed"
+    },
+    "k-neg-021-causal-domain-error-partition-is-incomplete": {
+      "kind": "expected-value",
+      "value": "causal_budget_exceeded"
+    },
+    "k-neg-021-causal-domain-error-partition-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-021-causal-domain-error-partition-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-021-causal-domain-error-partition-is-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": 16
+    },
+    "k-neg-021-causal-domain-error-partition-is-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": 300000000000
+    },
+    "k-neg-052-malformed-causal-time-overlap-is-incomplete": {
+      "kind": "expected-value",
+      "value": "invalid_time"
+    },
+    "k-neg-052-malformed-causal-time-overlap-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "-1"
+    },
+    "k-neg-052-malformed-causal-time-overlap-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": 16
+    },
+    "k-neg-053-causal-append-capacity-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "causal_budget_exceeded"
+    },
+    "k-neg-053-causal-append-capacity-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-pos-024-exact-derived-conflict-is-missing": {
+      "kind": "expected-value",
+      "value": 1
+    },
+    "conflict-source": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.conflict-id/v1"
+    },
+    "conflict-source-requirement-2": {
+      "kind": "expected-value",
+      "value": "value"
+    },
+    "conflict-source-requirement-3": {
+      "kind": "expected-value",
+      "value": [
+        "candidate:source:a",
+        "candidate:source:b"
+      ]
+    },
+    "k-pos-024-kernel-owned-conflict-derivation-is-incomplete": {
+      "kind": "expected-value",
+      "value": false
+    },
+    "k-pos-024-kernel-owned-conflict-derivation-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": false
+    },
+    "k-pos-024-kernel-owned-conflict-derivation-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": [
+        "candidate:source:a",
+        "candidate:source:b"
+      ]
+    },
+    "k-pos-024-kernel-owned-conflict-derivation-is-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": [
+        "evidence:source:a",
+        "evidence:source:b"
+      ]
+    },
+    "k-pos-024-kernel-owned-conflict-derivation-is-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "kpos024-selection-binding-valid": {
+      "kind": "expected-value",
+      "value": "candidate:source:a"
+    },
+    "kpos024-selection-binding-valid-requirement-2": {
+      "kind": "expected-value",
+      "value": "4"
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete": {
+      "kind": "expected-value",
+      "value": false
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.selection/v1"
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.evaluation/v1"
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": [
+        {
+          "candidate_id": "candidate:source:a",
+          "candidate_revision": "4",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:source:b",
+          "candidate_revision": "2",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        }
+      ]
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": "presentation_evaluation_digest_recomputed"
+    },
+    "k-pos-024-snapshot-bound-pure-selection-is-incomplete-requirement-6": {
+      "kind": "expected-value",
+      "value": [
+        "evaluate_monotonic",
+        "evaluated_at"
+      ]
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "candidate:source:a"
+      ]
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": [
+        "candidate:source:b@2"
+      ]
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": []
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": false
+    },
+    "k-pos-024-withdrawal-metadata-cleanup-is-incomplete-requirement-6": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-054-derived-conflict-mismatch-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "invalid_value"
+    },
+    "k-neg-055-publisher-metadata-rejection-is-incomplete": {
+      "kind": "expected-value",
+      "value": "unknown_member"
+    },
+    "k-neg-055-publisher-metadata-rejection-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "conflicts"
+    },
+    "required-snapshot-fields": {
+      "kind": "expected-value",
+      "value": [
+        "asset_id",
+        "bindings",
+        "capabilities",
+        "contract",
+        "cursors",
+        "evaluate_monotonic",
+        "evaluated_at",
+        "facts",
+        "fences",
+        "identity_links",
+        "revisions",
+        "services",
+        "snapshot_id",
+        "sources"
+      ]
+    },
+    "required-candidate-fields": {
+      "kind": "expected-value",
+      "value": [
+        "binding_id",
+        "candidate_id",
+        "driver_generation",
+        "evidence",
+        "freshness_policy",
+        "key",
+        "origin",
+        "quality",
+        "revision",
+        "source_epoch_id",
+        "times",
+        "value"
+      ]
+    },
+    "k-pos-025-snapshot-candidate-path-is-inconsistent": {
+      "kind": "expected-value",
+      "value": "current"
+    },
+    "k-pos-025-snapshot-evaluation-binding-is-incomplete": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "requested-candidates-complete": {
+      "kind": "expected-value",
+      "value": [
+        "candidate_id",
+        "origin",
+        "quality",
+        "revision",
+        "value"
+      ]
+    },
+    "requested-candidates-complete-requirement-2": {
+      "kind": "expected-value",
+      "value": "conflicts"
+    },
+    "k-pos-025-exact-envelope-policy-input-is-incomplete": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-pos-025-deterministic-selection-result-is-incomplete": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-pos-025-deterministic-selection-result-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.selection/v1"
+    },
+    "k-pos-025-deterministic-selection-result-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "require-correction-vectors-requirement-3": {
+      "kind": "expected-value",
+      "value": [
+        "K-NEG-056",
+        "K-NEG-057",
+        "K-NEG-058",
+        "K-NEG-059",
+        "K-NEG-060",
+        "K-NEG-061",
+        "K-NEG-062",
+        "K-NEG-063",
+        "K-NEG-065"
+      ]
+    },
+    "complete-selection-base-input-is-missing": {
+      "kind": "expected-value",
+      "value": "K-POS-025"
+    },
+    "k-neg-056-wrong-envelope-result-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "invalid_value"
+    },
+    "k-neg-056-wrong-envelope-result-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "K-POS-025"
+    },
+    "k-neg-057-snapshot-id-mismatch-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "revision_conflict"
+    },
+    "k-neg-057-snapshot-id-mismatch-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "evaluation_view.snapshot_id"
+    },
+    "k-neg-057-snapshot-id-mismatch-control-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-058-revision-mismatch-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "revision_conflict"
+    },
+    "k-neg-058-revision-mismatch-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "evaluation_view.revisions.facts"
+    },
+    "k-neg-058-revision-mismatch-control-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-059-evaluation-digest-mismatch-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "digest_mismatch"
+    },
+    "k-neg-059-evaluation-digest-mismatch-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "evaluation_view.evaluation_digest"
+    },
+    "k-neg-059-evaluation-digest-mismatch-control-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-060-absent-selection-key-control-is-incomplete": {
+      "kind": "expected-value",
+      "value": "dangling_reference"
+    },
+    "k-neg-060-absent-selection-key-control-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "requested_key"
+    },
+    "k-neg-061-incomplete-evaluation-view-control-is-missing": {
+      "kind": "expected-value",
+      "value": "dangling_reference"
+    },
+    "k-neg-061-incomplete-evaluation-view-control-is-missing-requirement-2": {
+      "kind": "expected-value",
+      "value": "evaluation_view.facts"
+    },
+    "k-neg-061-incomplete-evaluation-view-control-is-missing-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-neg-062-selection-context-mismatch-is-incomplete": {
+      "kind": "expected-value",
+      "value": "revision_conflict"
+    },
+    "k-neg-062-selection-context-mismatch-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "selection.context.evaluate_monotonic.nanoseconds"
+    },
+    "selection-policy-ownership-controls-are-incomplete": {
+      "kind": "expected-value",
+      "value": "definition_owner_missing"
+    },
+    "selection-policy-ownership-controls-are-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "selection-policy-ownership-controls-are-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": "definition_owner_conflict"
+    },
+    "selection-policy-ownership-controls-are-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "target-candidate-id": {
+      "kind": "expected-value",
+      "value": "candidate:voltage:b"
+    },
+    "k-neg-065-candidate-revision-mismatch-is-incomplete": {
+      "kind": "expected-value",
+      "value": "revision_conflict"
+    },
+    "k-neg-065-candidate-revision-mismatch-is-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "evaluation_view.facts[candidate:voltage:b].candidate_revision"
+    },
+    "k-neg-065-candidate-revision-mismatch-is-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "k-pos-018-resolvable-retirement-tombstones-are-incomplete": {
+      "kind": "expected-value",
+      "value": {
+        "source-epoch:after-restart": "current",
+        "source-epoch:before-restart": "retired"
+      }
+    },
+    "k-pos-018-resolvable-retirement-tombstones-are-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "retired"
+    },
+    "k-pos-018-resolvable-retirement-tombstones-are-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": []
+    },
+    "k-pos-018-resolvable-retirement-tombstones-are-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": "accept"
+    },
+    "k-pos-018-resolvable-retirement-tombstones-are-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": "accept"
+    },
+    "k-pos-021-atomic-supersession-assertions-are-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "all_tombstone_references_resolve",
+        "full_post_transition_snapshot_valid_and_canonical",
+        "generation_7_callback_rejected",
+        "generation_8_only_actionable",
+        "old_observed_and_derived_candidates_removed"
+      ]
+    },
+    "k-neg-042-omitted-fence-negative-control-is-missing": {
+      "kind": "expected-value",
+      "value": []
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete": {
+      "kind": "expected-value",
+      "value": {
+        "binding:evse:01": "fenced",
+        "binding:evse:02": "current"
+      }
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-2": {
+      "kind": "expected-value",
+      "value": "withdrawn"
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-3": {
+      "kind": "expected-value",
+      "value": "withdrawn"
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-4": {
+      "kind": "expected-value",
+      "value": "available"
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-5": {
+      "kind": "expected-value",
+      "value": "available"
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-6": {
+      "kind": "expected-value",
+      "value": "accept"
+    },
+    "k-pos-021-resolvable-transition-tombstones-are-incomplete-requirement-7": {
+      "kind": "expected-value",
+      "value": "accept"
+    },
+    "k-pos-022-deterministic-multi-pack-dispatch-is-incomplete": {
+      "kind": "expected-value",
+      "value": 2
+    },
+    "k-pos-022-definition-index-collections-are-incomplete": {
+      "kind": "expected-value",
+      "value": [
+        "capabilities",
+        "effect_rules",
+        "fields",
+        "operations",
+        "pack",
+        "services"
+      ]
+    },
+    "require-correction-vectors-requirement-4": {
+      "kind": "expected-value",
+      "value": [
+        "fields",
+        "services",
+        "capabilities",
+        "operations",
+        "effect_rules"
+      ]
+    },
+    "unexpected-acceptance-vector-contract": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.kernel.acceptance/v1"
+    },
+    "unexpected-kernel-contract-reference": {
+      "kind": "expected-value",
+      "value": "helianthus.semantic.kernel/v1"
+    },
+    "class-map": {
+      "kind": "expected-value",
+      "value": "## Normative rejection class map"
+    },
+    "class-map-text": {
+      "kind": "expected-value",
+      "value": "## Acceptance procedure"
+    },
+    "precedence-text": {
+      "kind": "expected-value",
+      "value": "## Error determinism"
+    },
+    "expected-prefix": {
+      "kind": "expected-value",
+      "value": "positive"
+    },
+    "expected-prefix-requirement-2": {
+      "kind": "expected-value",
+      "value": "negative"
+    },
+    "input-members": {
+      "kind": "expected-value",
+      "value": [
+        "input",
+        "input_json"
+      ]
+    },
+    "exactly-one-of-input-or-input-json-is-required": {
+      "kind": "expected-value",
+      "value": 1
+    },
+    "positive-expectation-is-invalid": {
+      "kind": "expected-value",
+      "value": "positive"
+    },
+    "positive-expectation-is-invalid-requirement-2": {
+      "kind": "expected-value",
+      "value": "accept"
+    },
+    "positive-expectation-is-invalid-requirement-3": {
+      "kind": "expected-value",
+      "value": "error_id"
+    },
+    "negative-expectation-is-invalid": {
+      "kind": "expected-value",
+      "value": "reject"
+    },
+    "rejection-must-assert-unchanged-state": {
+      "kind": "expected-value",
+      "value": true
+    },
+    "incomplete-coverage": {
+      "kind": "expected-value",
+      "value": [
+        "negative",
+        "positive"
+      ]
+    },
+    "incomplete-coverage-requirement-2": {
+      "kind": "expected-value",
+      "value": [
+        "negative",
+        "positive"
+      ]
+    }
+  }
+}
