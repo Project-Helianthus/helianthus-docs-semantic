@@ -15,11 +15,11 @@ units and kernel Decimal bounds; symbols carry declared semantic symbols.
 |---|---|---|
 | `thermal.measurement.air_temperature` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
 | `thermal.measurement.water_temperature` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
-| `thermal.measurement.humidity_relative` | quantity | `unit.percent`, `thermal.dimension.ratio` |
+| `thermal.measurement.humidity` | quantity | `unit.percent`, `thermal.dimension.ratio` |
 | `thermal.measurement.flow_rate` | quantity | `unit.litre_per_minute`, `thermal.dimension.volumetric_flow` |
 | `thermal.measurement.power` | quantity | `unit.watt`, `thermal.dimension.power` |
-| `thermal.setpoint.temperature` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
-| `thermal.setpoint.dhw_temperature` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
+| `thermal.setpoint.temperature_setpoint` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
+| `thermal.setpoint.dhw_temperature_setpoint` | quantity | `unit.celsius`, `thermal.dimension.temperature` |
 | `thermal.mode.system` | symbol | `thermal.dimension.system` |
 | `thermal.mode.zone` | symbol | `thermal.dimension.zone` |
 | `thermal.demand.level` | quantity | `unit.percent`, `thermal.dimension.ratio` |
@@ -49,7 +49,7 @@ and `thermal.capability.set_mode`.
 
 ## Operations, effects, and readback
 
-`thermal.operation.set_temperature` takes `thermal.setpoint.temperature` with
+`thermal.operation.set_temperature` takes `thermal.setpoint.temperature_setpoint` with
 `thermal.effect.set_temperature`; `thermal.operation.set_mode` takes
 `thermal.mode.system` with `thermal.effect.set_mode`. A zone-mode operation is
 not published because the catalog cannot imply a native route. Both require
@@ -119,7 +119,7 @@ evidence cannot promote or authorize; retained tombstone evidence is
 non-actionable.
 
 `thermal.capability.set_temperature` constrains exactly
-`thermal.setpoint.temperature`; `thermal.capability.set_mode` constrains exactly
+`thermal.setpoint.temperature_setpoint`; `thermal.capability.set_mode` constrains exactly
 `thermal.mode.system`. Stages are admission, dispatch, acknowledgement,
 readback, and terminal outcome. Outcomes are `rejected`,
 `failed_no_contact`, `acknowledged_unverified`, `applied`, `no_effect`,
