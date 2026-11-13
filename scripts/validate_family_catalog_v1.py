@@ -22,7 +22,7 @@ REASONS = [
     "offline_profile_only", "offline_mapping_gate_only", "family_compatible_offline",
     "no_admissible_profile", "qualification_test_ready_offline", "evidence_blocked",
     "no_go_missing_evidence", "offline_replay_only", "semantic_mapping_unknown",
-    "legacy_layer_composition", "unknown_pending_std_01", "no_producer",
+    "legacy_layer_composition", "unknown_pending_normative_source", "no_producer",
 ]
 RULES = [
     "`candidate`, `qualified`, `unsupported`, `unknown`, `rejected`, with the semantics",

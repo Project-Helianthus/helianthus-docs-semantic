@@ -112,7 +112,7 @@ identity/provenance-only unknown evidence. Modbus evidence catalogs
 profile-specific candidates, but this infrastructure row remains unknown until
 an exact relevant profile is selected; neither gains projection, promotion,
 control route, or live authority. eeBUS is
-`unknown_pending_std_01`; Matter is a design input, not conformance. No mapping
+`unknown_pending_normative_source`; Matter is a design input, not conformance. No mapping
 in this pack is normative or operation authority.
 
 ## Compatibility and validation

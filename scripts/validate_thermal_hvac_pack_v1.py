@@ -92,7 +92,7 @@ def validate_catalog(c):
  if set(c.get("loss_dispositions",[]))!=LOSS:raise ValueError("projection-loss coverage")
  m={x.get("native_owner"):x for x in c.get("candidate_mappings",[]) if isinstance(x,dict)}
  if any(m.get(k,{}).get("state")!="candidate" or m[k].get("qualification")!="native_owner_required" for k in ("helianthus-docs-ebus","helianthus-docs-canbus")):raise ValueError("native mapping boundary")
- if m.get("helianthus-docs-eebus",{}).get("state")!="unknown_pending_std_01":raise ValueError("eeBUS mapping")
+ if m.get("helianthus-docs-eebus",{}).get("state")!="unknown_pending_normative_source":raise ValueError("eeBUS mapping")
  validate_defs(c)
 def resolve(c,path):
  x=c;parts=path.split(".")

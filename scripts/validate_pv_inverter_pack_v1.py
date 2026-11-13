@@ -133,7 +133,7 @@ PORTAL_OPS = {"pv.portal.operation.set_active_power_limit": "pv.operation.set_ac
 MAPPINGS = {
     "pv.mapping.growatt.protocol_ii": {"id": "pv.mapping.growatt.protocol_ii", "native_owner": "helianthus-docs-modbus", "source_refs": ["growatt_docs_modbus", "growatt_modbusreg"], "state": "candidate", "qualification": "blocked_docs_modbus_143_modbusreg_196", "applicability": "tl3_x_offsets_59_124_unresolved", "loss": "unknown"},
     "pv.mapping.fronius.readiness": {"id": "pv.mapping.fronius.readiness", "native_owner": "helianthus-docs-modbus", "source_refs": ["fronius_docs_modbus", "fronius_modbusreg"], "state": "candidate", "qualification": "offline_candidate_live_qualified_false", "live_qualified": False, "write_authority": False, "loss": "unknown"},
-    "pv.mapping.eebus": {"id": "pv.mapping.eebus", "native_owner": "helianthus-docs-eebus", "source_refs": ["eebus_ledger", "eebus_m625_donor"], "state": "unknown_pending_std_01", "qualification": "unresolved", "loss": "unknown"},
+    "pv.mapping.eebus": {"id": "pv.mapping.eebus", "native_owner": "helianthus-docs-eebus", "source_refs": ["eebus_ledger", "eebus_m625_donor"], "state": "unknown_pending_normative_source", "qualification": "unresolved", "loss": "unknown"},
 }
 
 
