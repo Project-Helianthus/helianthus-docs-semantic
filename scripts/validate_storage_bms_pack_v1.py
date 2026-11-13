@@ -90,7 +90,7 @@ def validate(catalog,table=None):
  exact(d.get('relationships'),[entry['id'].removeprefix('storage.relationship.') for entry in table['relationships']],'relationships')
  exact(d.get('operations'),[entry['id'].removeprefix('storage.operation.') for entry in table['operations']],'operations')
  exact(d.get('portal'),{'read':'all_fields_exactly_once','operation':'current_admission_only'},'Portal')
- expected=[{'id':'storage.mapping.growatt.can.v104','native_owner':'helianthus-docs-canbus','source_refs':['can_docs','canbusreg'],'state':'candidate','qualification':'synthetic_offline_selected_interface_only','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.growatt.rs485.1xsxxp','native_owner':'helianthus-docs-modbus','source_refs':['rs485_docs','modbusreg'],'state':'candidate','qualification':'observation_fixture_no_runtime_or_command','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.eebus','native_owner':'helianthus-docs-eebus','source_refs':['eebus_ledger'],'state':'unknown_pending_std_01','qualification':'unresolved','loss':'unknown'}]
+ expected=[{'id':'storage.mapping.growatt.can.v104','native_owner':'helianthus-docs-canbus','source_refs':['can_docs','canbusreg'],'state':'candidate','qualification':'synthetic_offline_selected_interface_only','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.growatt.rs485.1xsxxp','native_owner':'helianthus-docs-modbus','source_refs':['rs485_docs','modbusreg'],'state':'candidate','qualification':'observation_fixture_no_runtime_or_command','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.eebus','native_owner':'helianthus-docs-eebus','source_refs':['eebus_ledger'],'state':'unknown_pending_normative_source','qualification':'unresolved','loss':'unknown'}]
  exact(catalog.get('candidate_mappings'),expected,'mapping boundary')
 
 def mutate(target,mutation):
@@ -114,7 +114,7 @@ def document(data,table=None):
 def main():
  document(load())
  text=DOCUMENT.read_text()
- for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_std_01','No generic contactor','unbounded maximum','no live authority'):
+ for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority'):
   if token not in text: raise ValueError('document boundary')
  print('storage/BMS pack v1.1: PASS')
 if __name__=='__main__': main()

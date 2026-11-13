@@ -103,7 +103,7 @@ PORTAL = {
 MAPPINGS = {
     "infrastructure.mapping.ebus": {"id":"infrastructure.mapping.ebus","native_owner":"helianthus-docs-ebus","source_refs":["ebus_docs"],"state":"unknown_profile_specific","qualification":"identity_provenance_only","control_route":"none","live_authority":False,"loss":"unknown"},
     "infrastructure.mapping.modbus": {"id":"infrastructure.mapping.modbus","native_owner":"helianthus-docs-modbus","source_refs":["modbus_docs","modbusreg"],"state":"unknown_profile_specific","qualification":"no_profile_selected_no_projection","control_route":"none","live_authority":False,"loss":"unknown"},
-    "infrastructure.mapping.eebus": {"id":"infrastructure.mapping.eebus","native_owner":"helianthus-docs-eebus","source_refs":["eebus_ledger","eebus_m625_donor"],"state":"unknown_pending_std_01","qualification":"unresolved","control_route":"none","live_authority":False,"loss":"unknown"},
+    "infrastructure.mapping.eebus": {"id":"infrastructure.mapping.eebus","native_owner":"helianthus-docs-eebus","source_refs":["eebus_ledger","eebus_m625_donor"],"state":"unknown_pending_normative_source","qualification":"unresolved","control_route":"none","live_authority":False,"loss":"unknown"},
     "infrastructure.mapping.matter": {"id":"infrastructure.mapping.matter","native_owner":"matter_draft","source_refs":["matter_draft"],"state":"candidate_design_input_only","qualification":"not_conformance","control_route":"none","live_authority":False,"loss":"unknown"},
 }
 

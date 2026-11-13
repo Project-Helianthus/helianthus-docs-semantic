@@ -28,7 +28,7 @@ second typed capability pack at exact PackRef `1.1.0`. Its vectors are checked
 by `scripts/validate_storage_bms_pack_v1.py`. Version 1.0.0 is superseded and
 non-implementable for operations because its interlock was not machine-identifiable.
 CAN V1.04 and RS-485 1xSxxP rows are offline candidate evidence only; eeBUS
-remains `unknown_pending_std_01`.
+remains `unknown_pending_normative_source`.
 
 The [Growatt BMS RS-485 v2.02 mapping gate](v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
 freezes the accepted read-only source-specific field and lifecycle boundary for
@@ -59,7 +59,7 @@ vectors](v1/packs/pv-inverter-acceptance-vectors.json) are checked by
 candidate-only native-owner evidence; Fronius is offline-only with no write
 authority. Growatt TL3-X applicability is blocked by docs-modbus #143 and
 modbusreg #196. Affected eeBUS rows remain
-`unknown_pending_std_01`.
+`unknown_pending_normative_source`.
 
 ## EVSE pack v1
 
@@ -70,7 +70,7 @@ allocated-current operations, and Portal contributions. Its
 [positive and negative vectors](v1/packs/evse-acceptance-vectors.json) are
 checked by `scripts/validate_evse_pack_v1.py`. Tesla FBE0/FDE0 is offline
 candidate evidence with no sender, control route, or live authority. eeBUS
-remains `unknown_pending_std_01`; the Matter draft is not conformance.
+remains `unknown_pending_normative_source`; the Matter draft is not conformance.
 
 ## Electrical infrastructure pack v1
 
@@ -82,7 +82,7 @@ contributions. Its [positive and negative vectors](v1/packs/infrastructure-accep
 are checked by `scripts/validate_infrastructure_pack_v1.py`. It publishes no
 operation, breaker actuation, import/export control, sender, control route, or
 live authority. eBUS and Modbus are non-universal evidence only, eeBUS remains
-`unknown_pending_std_01`, and Matter is not conformance.
+`unknown_pending_normative_source`, and Matter is not conformance.
 
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use

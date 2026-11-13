@@ -110,7 +110,7 @@ The Tesla FBE0/FDE0 row is an offline `family_compatible` native candidate.
 It retains allocated and actual current separately, preserves the state byte,
 and maps relative/unknown state to no absolute semantic allocation. It has no
 sender, control route, or live authority. eeBUS remains
-`unknown_pending_std_01`; Matter is a design input, not conformance. No mapping
+`unknown_pending_normative_source`; Matter is a design input, not conformance. No mapping
 in this pack is normative or an operation authority.
 
 ## Compatibility and validation

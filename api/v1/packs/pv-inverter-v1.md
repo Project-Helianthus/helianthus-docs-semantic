@@ -135,7 +135,7 @@ documentation `7ba9c333539c4381c06584cab0dc86c7e9280767`, Growatt registry
 Growatt and Fronius rows are candidates only. The Fronius sources are offline
 readiness candidates with `live_qualified=false` and no write authority.
 Growatt TL3-X applicability and offsets 59--124 remain blocked by docs-modbus
-#143 and modbusreg #196. Affected eeBUS mapping is `unknown_pending_std_01`;
+#143 and modbusreg #196. Affected eeBUS mapping is `unknown_pending_normative_source`;
 the Matter draft is not conformance. No mapping in this pack is normative or an
 operation authority.
 

@@ -128,8 +128,13 @@ within v1.
 | `offline_replay_only` | The cited evidence is offline replay qualification of receive-only observations. Source wording: "replay-qualified offline" ... "receive-only" (the fixture inserts a pull-request reference between the fragments). |
 | `semantic_mapping_unknown` | Native receive-side evidence exists but the family's semantic mapping is not established. Source wording: "state cells remain native and opaque"; "no mapping is normative". |
 | `legacy_layer_composition` | The cited gateway composition evidence shows the family reaching consumers through the legacy semantic layer, not a SemReg pack publication. Source wording: "the legacy semantic layer, not a SemReg thermal pack publication". |
-| `unknown_pending_std_01` | The family stays unknown while the dependency named `unknown_pending_std_01` in the accepted packs is unresolved. Source wording: "remains unknown_pending_std_01 in every pack; no normative mapping or conformance claim". |
+| `unknown_pending_normative_source` | The family stays unknown while the dependency named `unknown_pending_normative_source` in the accepted packs is unresolved. Source wording: "remains unknown_pending_normative_source in every pack; no normative mapping or conformance claim". |
 | `no_producer` | No producer, topology instance or mapping is established for the family. Source wording: "no producer, topology instance or mapping exists". |
+
+Name correspondence (documentary only): `unknown_pending_normative_source` was
+formerly spelled `unknown_pending_std_01`. The rename keeps the definition; the
+old spelling is not a v1 value, and a document carrying it is rejected like any
+other value outside this table.
 
 ## Evidence references
 
@@ -184,8 +189,8 @@ evidence references support.
 - The `reason` definitions quote the evidence statements in the fixture; the
   SemReg README lists the values without definitions, so the definitions here
   are the contract's own wording over those sources.
-- The `unknown_pending_std_01` dependency is defined by the accepted packs, not
-  by this contract; this page does not restate it.
+- The `unknown_pending_normative_source` dependency is defined by the accepted
+  packs, not by this contract; this page does not restate it.
 - Completeness against a family list is checked by the consumer against a list it
   pins; this contract names no list.
 - The SemReg validator checks only that `owner` is non-empty, apart from the
