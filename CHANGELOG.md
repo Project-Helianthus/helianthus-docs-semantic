@@ -6,6 +6,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: a family row of the
+  [family catalog contract](api/v1/family-catalog-v1.md) may name every
+  accepted capability pack its elements belong to. The optional member
+  `further_semantic_packs` holds 1 through 4 unique exact `PackRef` strings,
+  none equal to `semantic_pack`, sorted in canonical order after it. It is
+  allowed only with a non-empty `semantic_pack` and omitted when empty, so every
+  existing row keeps its bytes. No pack of a row is primary, and a row's packs
+  must include the pack of every accepted mapping gate of its family.
+  [`scripts/validate_family_catalog_v1.py`](scripts/validate_family_catalog_v1.py)
+  pins the new member list, the unchanged `semantic_pack` row and these rules,
+  and its test rejects each of them removed or weakened. `semantic_pack` and
+  the state, composition and reason vocabularies are unchanged. A SemReg
+  follow-up adds the member to the family-catalog fixture and decoder and adds
+  the cross-check of rows against the accepted mapping gates.
 - Add the publication vectors of PUB-3 in [`api/v1/graph.md`](api/v1/graph.md)
   to the [graph acceptance vectors](api/v1/graph-acceptance-vectors.json), in
   place: one prior state where the configuration provider publishes into a

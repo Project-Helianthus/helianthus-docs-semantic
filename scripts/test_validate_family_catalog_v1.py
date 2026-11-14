@@ -68,5 +68,66 @@ class FamilyCatalogPageTest(unittest.TestCase):
         self.rejected(mutate("is not fabricated", "is fine"))
 
 
+def mutate_once(old, new):
+    assert TEXT.count(old) == 1, old
+    return TEXT.replace(old, new, 1)
+
+
+class FurtherSemanticPacksTest(unittest.TestCase):
+    def rejected(self, text):
+        self.assertTrue(v.check(text))
+
+    def test_member_list_names_further_packs_after_semantic_pack(self):
+        self.assertEqual(v.FAMILY_MEMBERS, [
+            "family_id", "name", "native_owner", "semantic_pack",
+            "further_semantic_packs", "state", "composition",
+            "composition_verified", "reason", "evidence",
+        ])
+
+    def test_further_packs_row_deleted_renamed_or_moved(self):
+        row = next(line for line in TEXT.splitlines(keepends=True) if line.startswith("| `further_semantic_packs` |"))
+        self.rejected(mutate_once(row, ""))
+        self.rejected(mutate_once("| `further_semantic_packs` |", "| `further_semantic_pack` |"))
+        self.rejected(mutate_once(row, "").replace("| `semantic_pack` |", row + "| `semantic_pack` |", 1))
+
+    def test_semantic_pack_row_kept(self):
+        self.rejected(mutate_once(
+            "Exact `PackRef` of the accepted capability pack the family maps to, or empty.",
+            "The primary pack of the family.",
+        ))
+
+    def test_optional_member_rule(self):
+        self.rejected(mutate_once("Every member except `further_semantic_packs` is required", "All members are required"))
+
+    def test_list_bound(self):
+        self.rejected(mutate_once("1 through 4", "1 through 5"))
+        self.rejected(mutate_once("1 through 4", "0 through 4"))
+
+    def test_uniqueness_and_semantic_pack_exclusion(self):
+        self.rejected(mutate_once("Its entries are unique", "Its entries may repeat"))
+        self.rejected(mutate_once("no entry equals `semantic_pack`", "an entry may equal `semantic_pack`"))
+
+    def test_requires_non_empty_semantic_pack(self):
+        self.rejected(mutate_once("allowed only when `semantic_pack` is non-empty", "allowed with an empty `semantic_pack`"))
+
+    def test_omitted_when_empty(self):
+        self.rejected(mutate_once("It is omitted when the family has no further pack", "It may be empty"))
+        self.rejected(mutate_once("A present empty array is rejected", "A present empty array is accepted"))
+
+    def test_canonical_order(self):
+        self.rejected(mutate_once("ascending byte order", "any order"))
+        self.rejected(mutate_once("`semantic_pack` sorts before every entry", "`semantic_pack` may sort anywhere"))
+
+    def test_no_primary_pack(self):
+        self.rejected(mutate_once("No pack is primary", "`semantic_pack` is primary"))
+
+    def test_mapping_gate_cross_check(self):
+        self.rejected(mutate_once("include the gate's pack", "may omit the gate's pack"))
+        self.rejected(mutate_once("for every accepted mapping gate", "for some accepted mapping gate"))
+
+    def test_rules_bound_to_their_section(self):
+        self.rejected(mutate_once("## Packs of a row", "## Other"))
+
+
 if __name__ == "__main__":
     unittest.main()

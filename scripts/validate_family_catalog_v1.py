@@ -12,8 +12,28 @@ PAGE = ROOT / "api/v1/family-catalog-v1.md"
 CONTRACT = "helianthus.semreg.family-catalog/v1"
 MEMBERS = ["contract", "semantic_docs_pin", "states", "families"]
 FAMILY_MEMBERS = [
-    "family_id", "name", "native_owner", "semantic_pack", "state",
-    "composition", "composition_verified", "reason", "evidence",
+    "family_id", "name", "native_owner", "semantic_pack", "further_semantic_packs",
+    "state", "composition", "composition_verified", "reason", "evidence",
+]
+SEMANTIC_PACK_ROW = (
+    "| `semantic_pack` | string | Exact `PackRef` of the accepted capability pack"
+    " the family maps to, or empty. |"
+)
+FAMILY_ROW_RULES = [
+    "Every member except `further_semantic_packs` is required",
+]
+PACKS_SECTION = "Packs of a row"
+PACK_RULES = [
+    "`further_semantic_packs` is an array of 1 through 4 exact `PackRef` strings",
+    "Its entries are unique, and no entry equals `semantic_pack`",
+    "It is allowed only when `semantic_pack` is non-empty",
+    "It is omitted when the family has no further pack",
+    "A present empty array is rejected",
+    "Canonical order is ascending byte order of the `PackRef` strings",
+    "The entries are sorted in canonical order and `semantic_pack` sorts before every entry",
+    "No pack is primary: `semantic_pack` is the first in canonical order",
+    "for every accepted mapping gate of a family, the row's packs (`semantic_pack`"
+    " and every entry of `further_semantic_packs`) include the gate's pack",
 ]
 EVIDENCE_MEMBERS = ["owner", "kind", "locator", "statement"]
 STATES = ["candidate", "qualified", "unsupported", "unknown", "rejected"]
@@ -54,6 +74,22 @@ def table_values(text: str, heading: str) -> list[str]:
     return re.findall(r"^\| `([^`]+)` \|", section(text, heading), flags=re.M)
 
 
+def missing(text: str, rules: list[str]) -> list[str]:
+    """Return the rules not stated in the whitespace-normalized text."""
+    flat = " ".join(text.split())
+    return [rule for rule in rules if rule not in flat]
+
+
+def check_packs(text: str) -> list[str]:
+    """Check the semantic_pack row and the rules for further_semantic_packs."""
+    family_row = section(text, "Family row")
+    errors = [] if SEMANTIC_PACK_ROW in family_row.splitlines() else ["semantic_pack row differs from the contract"]
+    errors += [f"family row statement missing: {rule}" for rule in missing(family_row, FAMILY_ROW_RULES)]
+    packs = section(text, PACKS_SECTION)
+    errors += [f"packs-of-a-row statement missing: {rule}" for rule in missing(packs, PACK_RULES)]
+    return errors
+
+
 def check(text: str) -> list[str]:
     errors: list[str] = []
     if CONTRACT not in text:
@@ -77,6 +113,7 @@ def check(text: str) -> list[str]:
     for rule in RULES:
         if rule not in flat:
             errors.append(f"required statement missing: {rule}")
+    errors.extend(check_packs(text))
     for heading in SECTIONS:
         if not section(text, heading).strip():
             errors.append(f"section missing or empty: {heading}")
