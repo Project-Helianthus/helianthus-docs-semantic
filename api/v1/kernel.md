@@ -22,7 +22,8 @@ The contract is normative only for Project Helianthus. It does not define the
 thermal, PV, storage, EVSE, or infrastructure capability-pack catalogs; native
 protocol mappings; gateway lifecycle interfaces; Portal descriptors; consumer
 schemas; or target conformance. Those owners may depend on these records but may
-not redefine them.
+not redefine them. [graph.md](graph.md) defines resources, relations, planes,
+lenses and the element catalog.
 
 Canonical kernel packages must not import a transport, protocol, native
 registry, gateway, vendor, output, UI, sibling-checkout, or private package.
@@ -31,8 +32,10 @@ native identity, and raw evidence. The gateway retains live composition and the
 native adapter retains every live handle. A semantic selection or projection
 never grants authority or supplies a route around guarded native admission.
 
-The wire rules in [serialization.md](serialization.md) and the scenarios in
-[acceptance.md](acceptance.md) are part of this contract.
+The wire rules in [serialization.md](serialization.md), the scenarios in
+[acceptance.md](acceptance.md) and the resource graph, plane, lens,
+element-catalog and activation rules, errors and vectors in
+[graph.md](graph.md) are part of this contract.
 
 Public top-level records use these exact contract IDs:
 
@@ -66,7 +69,8 @@ INT-05 must provide these public packages without cyclic imports:
 
 | Package | Owns |
 |---|---|
-| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, predicates, quality, services, capabilities, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
+| `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, predicates, quality, services, capabilities, resources, relation instances and absence statements, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
+| `semreg/v1/graph` | the element catalog, planes, lenses, and graph-cut assembly |
 | `semreg/v1/operation` | intent, preconditions, admitted routes, dispatch/acknowledgement/readback evidence, and outcomes |
 | `semreg/v1/projection` | target manifests, requested items, dispositions, loss details, and compatibility aliases |
 
@@ -100,7 +104,9 @@ observable. Duplicate validator/definition ownership is
 `definition_owner_conflict`; a missing validator/index entry is
 `definition_owner_missing`. The kernel MUST NOT infer ownership from an ID
 prefix, probe validators in registration order, or accept the first validator
-that returns success.
+that returns success. A registry constructed with the element catalog is
+graph-enforced; [graph.md](graph.md) section 5 defines its construction checks
+and the inadmissible-operation flag.
 
 A record that needs a pack definition cannot be qualified, promoted, or made
 actionable unless its exact owner and validator are registered. The interface
@@ -147,11 +153,13 @@ following are distinct aliases of `OpaqueID` and are never interchangeable:
 - `IdempotencyKey`
 - `PolicyID`
 - `TargetID`
+- `ResourceID`
 
 String equality between two different aliases does not make them the same
 identity. In particular, a bus address is not an `AssetID`, a source epoch is
-not a driver generation, a driver generation is not a semantic revision, and a
-lifecycle operation identifier is not an intent or causal correlation.
+not a driver generation, a driver generation is not a semantic revision, a
+lifecycle operation identifier is not an intent or causal correlation, and an
+`AssetID` is not a `ResourceID`.
 
 ### Type: Uint64
 
@@ -324,6 +332,8 @@ type IdentityLink struct {
     State     LinkState      `json:"state"`
     Basis     []EvidenceRef  `json:"basis"`
     Revision  Uint64         `json:"revision"`
+    Resource  *ResourceID    `json:"resource,omitempty"`
+    Key       *Digest        `json:"key,omitempty"`
 }
 ```
 
@@ -337,6 +347,8 @@ become `conflict`; the kernel does not choose one silently. A non-withdrawn link
 must resolve a current binding. A withdrawn link must resolve a retained fenced
 or retired binding tombstone, or a retained current binding when withdrawal is
 an explicit identity decision. It is never identity or route authority.
+The optional `resource` and `key` members are defined in [graph.md](graph.md)
+section 6.4; a link without `resource` keeps its asset-level meaning.
 
 ### Type: SourcePathRef
 
@@ -1079,8 +1091,12 @@ type ServiceInstance struct {
     Qualification    Qualification      `json:"qualification"`
     Availability     Availability       `json:"availability"`
     Revision         Uint64             `json:"revision"`
+    Resource         *ResourceID        `json:"resource,omitempty"`
 }
 ```
+
+The optional `resource` member names the subject resource of the service
+instance; [graph.md](graph.md) section 6.2 defines when it is carried.
 
 ### Type: CapabilityInstance
 
@@ -1116,7 +1132,9 @@ An actionable capability is exactly one instance whose definition pack, ID, and
 version match the request, `qualification=qualified`, availability is
 `available` or explicitly permitted `degraded`, binding/source/generation are
 current, activation evidence is non-empty, and every constraint admits the
-arguments. Catalog completeness cannot create an instance. A pack or native
+arguments. Catalog completeness cannot create an instance. Plane membership,
+lens inclusion and relation instances cannot create, select or authorize an
+instance. A pack or native
 mapping decides which degraded capabilities remain actionable; absence of that
 decision means unavailable.
 
@@ -1139,7 +1157,9 @@ A fence is monotonic and irreversible for its source epoch and generation.
 Accepting a fence happens before publication of the resulting snapshot. Every
 binding from that generation is retained as `state=fenced`; its identity links
 are retained as `state=withdrawn`; its services and capabilities are retained as
-`availability=withdrawn`. Their object revisions increment exactly once. Their
+`availability=withdrawn`. Its relation instances and absence statements with a
+native basis are removed from the current snapshot; resources are not affected.
+Their object revisions increment exactly once. Their
 references resolve through the retained binding and fence but are non-actionable.
 Observed candidates and the transitive derived-dependency closure are removed
 from the new current snapshot. Before that removal, each affected observed
@@ -1179,8 +1199,17 @@ type PublicationBatch struct {
     CapabilityUpserts        []CapabilityInstance  `json:"capability_upserts"`
     CapabilityWithdrawals    []CapabilityInstanceID `json:"capability_withdrawals"`
     GenerationFences         []GenerationFence     `json:"generation_fences"`
+    ResourceUpserts          []Resource            `json:"resource_upserts,omitempty"`
+    RelationUpserts          []RelationInstance    `json:"relation_upserts,omitempty"`
+    RelationWithdrawals      []RelationKey         `json:"relation_withdrawals,omitempty"`
+    AbsenceUpserts           []RelationAbsence     `json:"absence_upserts,omitempty"`
+    AbsenceWithdrawals       []RelationAbsenceKey  `json:"absence_withdrawals,omitempty"`
 }
 ```
+
+The optional graph members are defined in [graph.md](graph.md) section 11.2.
+A `RelationAbsenceKey` holds the `definition`, `resource` and `side` of the
+absence statement it withdraws.
 
 The batch is one atomic change for one asset/source/epoch/generation. Collection
 members are unique and canonically sorted. `batch_digest` is the digest of the
@@ -1195,7 +1224,8 @@ generation under the same source. An inferred fact upsert belongs to the header
 asset but derives lifecycle from its typed input paths; the batch header orders
 the publishing attempt and does not become a synthetic native dependency.
 Cross-asset changes require a separate batch and cannot be partially committed
-together.
+together. A relation instance whose `to` endpoint is homed in another asset is a
+change of the holding asset only; [graph.md](graph.md) defines its coherence.
 
 `expected_semantic_revision` must equal the current asset revision. Any invalid
 member, stale source epoch, fenced generation, revision mismatch, or withdrawal
@@ -1294,10 +1324,14 @@ type RevisionVector struct {
     Facts      Uint64 `json:"facts"`
     Services   Uint64 `json:"services"`
     Capabilities Uint64 `json:"capabilities"`
+    Structure  *Uint64 `json:"structure,omitempty"`
 }
 ```
 
-Each value is monotonic per asset and greater than zero in a published snapshot.
+Each present value is monotonic per asset and greater than zero in a published
+snapshot. `structure` is omitted until the asset's first accepted change to
+resources, relation instances or absence statements and is present in every
+later snapshot of that asset.
 `semantic` increments once for every accepted non-idempotent batch. Component
 revisions increment only when that component changes.
 
@@ -1340,14 +1374,20 @@ type Snapshot struct {
     Capabilities   []CapabilityInstance `json:"capabilities"`
     Fences         []GenerationFence    `json:"fences"`
     Cursors        []PublicationCursor  `json:"cursors"`
+    Resources      []Resource           `json:"resources,omitempty"`
+    Relations      []RelationInstance   `json:"relations,omitempty"`
+    RelationAbsences []RelationAbsence  `json:"relation_absences,omitempty"`
 }
 ```
 
 A snapshot is immutable, self-consistent, and complete for one asset at one
-semantic revision. It contains all current alternatives/open conflicts and the
+semantic revision. It holds the resources homed in that asset and every relation
+instance and absence statement the asset holds. It contains all current alternatives/open conflicts and the
 bounded retained store. `Facts` contains current candidates only;
 `RetainedObservations` contains no current candidate and is never an envelope.
-Every reference resolves inside the snapshot or to an `EvidenceRef`. Current
+Every reference resolves inside the snapshot or to an `EvidenceRef`, except the
+`to` endpoint of a relation instance homed in another asset, which resolves in a
+graph cut. Current
 facts and actionable identity/service/capability records resolve only through
 current source/binding paths. Withdrawn identity/service/capability records
 remain non-actionable and resolve through a retained binding; a non-current
@@ -1356,7 +1396,9 @@ are sorted by their primary ID/key and contain no duplicate. A `CandidateID` is
 unique across all fact envelopes in one snapshot. Limits are 32 sources, 128
 bindings, 128 identity links, 4096 fact
 envelopes, 40 retained observations, 1024 services, 2048 capabilities, and 128
-retained fences per asset.
+retained fences per asset. The 128 identity links are those without `resource`;
+[graph.md](graph.md) section 11.5 adds 4096 resources, 8192 relation instances,
+1024 absence statements and 1024 identity links that carry `resource` per asset.
 Exceeding a limit rejects the batch; it never truncates a snapshot. Conservative
 legacy import preserves debt as specified above and is not new batch admission. Up to 128
 publication cursors are retained while their source epochs remain relevant to
@@ -1365,7 +1407,7 @@ replay/fence validation.
 The snapshot ID is `sha256:` over canonical `Snapshot` JSON with `snapshot_id`
 omitted, and is therefore unique for the exact canonical bytes. A reader either
 sees the complete prior snapshot or complete new snapshot. It never observes mixed
-identity, fact, service, capability, or fence revisions.
+identity, fact, service, capability, structure or fence revisions.
 
 `evaluated_at` and `evaluate_monotonic` record the publication-time evaluation
 stored in these immutable bytes. Passage of time never mutates this snapshot or
@@ -1558,8 +1600,8 @@ fact predicates through their one exact pack/index/hook. It must produce exactly
 one route or fail before dispatch. Every route field resolves through a
 `current` source descriptor and `current` binding; fenced/retired tombstones and
 withdrawn records can never form a route. Presentation `Selection`,
-compatibility aliases, projections, or caller-supplied native IDs cannot select
-the route.
+compatibility aliases, projections, plane membership, lens results, relation
+instances, or caller-supplied native IDs cannot select the route.
 
 The runtime owns the admitted, generation-bound guarded callback. It MUST
 revalidate the current generation and fence under its lifecycle lock immediately
@@ -1719,7 +1761,8 @@ type RequestedItem struct {
 }
 ```
 
-`ItemKind` is `fact`, `relation`, `capability`, or `operation`.
+`ItemKind` is `fact`, `relation`, `capability`, or `operation`. A `relation`
+item names a relation definition of the element catalog.
 
 ### Type: LossDetail
 

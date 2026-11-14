@@ -7,6 +7,8 @@ The versioned kernel contract consists of:
 - [typed records and invariants](v1/kernel.md);
 - [deterministic JSON serialization](v1/serialization.md);
 - [acceptance rules and stable errors](v1/acceptance.md);
+- [resource graph, relations, planes, lenses and element catalog
+  rules](v1/graph.md);
 - [positive and negative acceptance vectors](v1/acceptance-vectors.json); and
 - [detached PublicationKernel fork falsifiers](v1/kernel-fork-acceptance.json).
 
@@ -154,6 +156,7 @@ Each in-place change made under the exception of the version rule before the
 | Date | Change | Locks moved |
 |---|---|---|
 | 2026-11-14 | Version rule exception for the 0.7 release cycle; pack metadata "immutable" means read-only at run time; family-catalog compatibility applies from the release on; the ownership layering names the semantic resource graph; the PV, EVSE and infrastructure pack pages point to the version rule. | None: no vector, fixture, schema, digest or validator changes. |
+| 2026-11-14 | Graph contract page [graph.md](v1/graph.md) added and the kernel, serialization and acceptance pages amended in place (graph.md section 17). | `scripts/validate_kernel_v1.py` and `scripts/test_validate_kernel_rules.py` take the documented error set as the union of the acceptance.md and graph.md headings; `api/v1/acceptance-vectors.json`, its `error_ids` and every pinned digest unchanged. |
 
 ## Matter 1.6.1 target
 

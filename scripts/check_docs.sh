@@ -15,6 +15,7 @@ required_files=(
   api/v1/acceptance.md
   api/v1/kernel.md
   api/v1/serialization.md
+  api/v1/graph.md
   api/v1/pack-metadata-v1.md
   api/v1/pack-metadata-v1.json
   api/v1/pack-metadata-v1.schema.json

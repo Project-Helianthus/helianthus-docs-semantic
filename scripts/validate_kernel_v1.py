@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 KERNEL = ROOT / "api/v1/kernel.md"
 ACCEPTANCE = ROOT / "api/v1/acceptance.md"
 SERIALIZATION = ROOT / "api/v1/serialization.md"
+GRAPH = ROOT / "api/v1/graph.md"
 VECTORS = ROOT / "api/v1/acceptance-vectors.json"
 TYPE_HEADING = re.compile("^### Type: ([A-Za-z][A-Za-z0-9]*)$", re.MULTILINE)
 TYPE_BLOCK = re.compile(
@@ -494,6 +495,16 @@ def heading_set(text: str, pattern: re.Pattern[str], label: str) -> set[str]:
     values = pattern.findall(text)
     if not values or len(values) != len(set(values)):
         raise ValueError(f"{label} headings are missing or duplicated")
+    return set(values)
+
+
+def graph_error_set(graph_text: str, acceptance_errors: set[str]) -> set[str]:
+    values = ERROR_HEADING.findall(graph_text)
+    if len(values) != len(set(values)):
+        raise ValueError("graph error headings are duplicated")
+    repeated = sorted(acceptance_errors.intersection(values))
+    if repeated:
+        raise ValueError(f"graph error headings repeat acceptance headings: {repeated}")
     return set(values)
 
 
@@ -1750,6 +1761,7 @@ def check_unexpected_acceptance_vector_contract():
     kernel_text = KERNEL.read_text(encoding="utf-8")
     acceptance_text = ACCEPTANCE.read_text(encoding="utf-8")
     serialization_text = SERIALIZATION.read_text(encoding="utf-8")
+    graph_text = GRAPH.read_text(encoding="utf-8")
     data = json.loads(
         VECTORS.read_text(encoding="utf-8"), object_pairs_hook=unique_object
     )
@@ -1761,9 +1773,10 @@ def check_unexpected_acceptance_vector_contract():
     coverage_ids = require_unique_sorted(data.get("coverage_ids"), "coverage_ids")
     types = heading_set(kernel_text, TYPE_HEADING, "type")
     require_type_fields(kernel_text)
-    documented_errors = heading_set(acceptance_text, ERROR_HEADING, "error")
+    acceptance_errors = heading_set(acceptance_text, ERROR_HEADING, "error")
+    graph_errors = graph_error_set(graph_text, acceptance_errors)
     documented_coverage = heading_set(acceptance_text, COVERAGE_HEADING, "coverage")
-    if set(error_ids) != documented_errors:
+    if set(error_ids) != acceptance_errors:
         raise ValueError("vector error_ids do not match documented error headings")
     if set(coverage_ids) != documented_coverage:
         raise ValueError(
@@ -1777,7 +1790,7 @@ def check_unexpected_acceptance_vector_contract():
     return (
         coverage_ids,
         data,
-        documented_errors,
+        acceptance_errors | graph_errors,
         error_ids,
         mapped_errors,
         serialization_text,

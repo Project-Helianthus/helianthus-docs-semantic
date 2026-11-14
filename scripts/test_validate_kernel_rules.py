@@ -50,6 +50,7 @@ class KernelRuleTests(unittest.TestCase):
             "KERNEL": (ROOT / "api/v1/kernel.md").read_text(),
             "ACCEPTANCE": (ROOT / "api/v1/acceptance.md").read_text(),
             "SERIALIZATION": (ROOT / "api/v1/serialization.md").read_text(),
+            "GRAPH": (ROOT / "api/v1/graph.md").read_text(),
             "VECTORS": (ROOT / "api/v1/acceptance-vectors.json").read_text(),
         }
         cls.rules_text = (ROOT / "scripts/kernel-validation-rules.json").read_text()
@@ -209,6 +210,55 @@ class KernelRuleTests(unittest.TestCase):
             "{", '{"extension":1,"extension":2,', 1
         )
         self.compare(inputs, "duplicate JSON key")
+
+    def graph_errors(self):
+        errors = self.current.ERROR_HEADING.findall(self.inputs["GRAPH"])
+        self.assertTrue(errors)
+        return errors
+
+    def test_graph_error_missing_from_precedence(self):
+        # Each graph heading must be listed once after the precedence heading.
+        for error in self.graph_errors():
+            with self.subTest(error=error):
+                inputs = dict(self.inputs)
+                head, tail = inputs["SERIALIZATION"].split("## Error determinism", 1)
+                self.assertIn(f"`{error}`", tail)
+                tail = tail.replace(f"`{error}`", error)
+                inputs["SERIALIZATION"] = head + "## Error determinism" + tail
+                self.compare(inputs, "error precedence does not list every stable")
+
+    def test_graph_error_missing_from_class_map(self):
+        # Each graph heading must have exactly one class-map row.
+        for error in self.graph_errors():
+            with self.subTest(error=error):
+                inputs = dict(self.inputs)
+                lines = inputs["ACCEPTANCE"].split("\n")
+                kept = [line for line in lines if not line.endswith(f"| `{error}` |")]
+                self.assertEqual(len(lines) - 1, len(kept))
+                inputs["ACCEPTANCE"] = "\n".join(kept)
+                self.compare(inputs, "rejection class map does not cover")
+
+    def test_graph_heading_repeats_acceptance_heading(self):
+        inputs = dict(self.inputs)
+        inputs["GRAPH"] += "\n### Error: `invalid_json`\n"
+        self.compare(inputs, "graph error headings repeat acceptance headings")
+
+    def test_graph_error_in_vector_error_ids(self):
+        # The vector file lists acceptance headings only.
+        for error in self.graph_errors():
+            with self.subTest(error=error):
+                self.vectors_case(
+                    lambda data: data.update(
+                        error_ids=sorted(data["error_ids"] + [error])
+                    ),
+                    "vector error_ids do not match documented error headings",
+                )
+
+    def test_duplicated_graph_heading(self):
+        inputs = dict(self.inputs)
+        heading = f"### Error: `{self.graph_errors()[0]}`"
+        inputs["GRAPH"] += f"\n{heading}\n"
+        self.compare(inputs, "graph error headings are duplicated")
 
     def load_text(self, text):
         (ROOT / ".tmp").mkdir(parents=True, exist_ok=True)
