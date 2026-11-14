@@ -227,6 +227,7 @@ type Resource struct {
 type ResourceAnchor struct {
     Class    AnchorClass   `json:"class"`
     Basis    AnchorBasis   `json:"basis"`
+    Scheme   *string       `json:"scheme,omitempty"`
     Key      *Digest       `json:"key,omitempty"`
     Parent   *ResourceID   `json:"parent,omitempty"`
     Slot     *string       `json:"slot,omitempty"`
@@ -246,8 +247,10 @@ through 128 bytes without control characters. `Evidence` holds 1 through 32
 unique references. `Revision` is greater than zero and increments whenever any
 other member changes.
 
-`Key` is present exactly when the basis is `native_identity`. It is
-`sha256:` over the JCS bytes of the identity object
+`Scheme` and `Key` are present exactly when the basis is `native_identity`.
+`Scheme` is the identifier of an identification scheme from the catalog's list
+(section 6.3), carried in clear so that the kernel can check it (RES-2). `Key`
+is `sha256:` over the JCS bytes of the identity object
 `{scheme, issuer, token}`:
 
 - `scheme` names an identification scheme from the catalog's list (section
@@ -257,7 +260,11 @@ other member changes.
   code, never a name.
 - `token` is the token in the scheme's canonical form.
 
-The gateway computes the key; the token itself stays native evidence.
+`Scheme` equals the `scheme` member of the identity object that `Key` digests.
+Issuer and token stay inside the digest and are never carried in clear; the
+token itself stays native evidence. The gateway computes the key and is
+responsible for the consistency of `Scheme` with the digested object: the
+kernel sees only the digest and cannot verify its content.
 
 The **anchor key** of a resource is `(kind, key)` for `native_identity` and
 `(kind, parent, slot)` otherwise.
@@ -305,9 +312,12 @@ gateway-allocated `ResourceID`, so one thing has one identifier in every pack,
 plane, lens and target.
 
 Identification schemes are listed in the element catalog
-(`identification_schemes`). docs-semantic owns the list. A native owner
-proposes an entry with public evidence of the scheme and its issuer registry,
-and documents how its native tokens map to a listed scheme and canonical form.
+(`identification_schemes`). docs-semantic owns the list. A `native_identity`
+anchor names its scheme in clear (`scheme`), and the kernel checks that it is
+listed (RES-2); issuer and token are known to the kernel only through the key.
+A native owner proposes an entry with public evidence of the scheme and its
+issuer registry, and documents how its native tokens map to a listed scheme and
+canonical form.
 Two native owners that observe one unit through two protocols map its token to
 the same scheme, issuer and token, so the keys match. Two units of different
 manufacturers with the same serial text differ by issuer, so they do not
@@ -447,8 +457,10 @@ observed is computed by evaluation from its current bindings.
   installation, `parent`. `equipment` anchors carry `key` when the basis is
   `native_identity` and `slot` when it is `operator_slot`. Basis
   `native_identity` or `native_slot` requires origin kind `native_observation`;
-  `operator_slot` requires origin kind `operator`. A `key` names a scheme listed
-  in the catalog. Check: `invalid_value`.
+  `operator_slot` requires origin kind `operator`. An anchor with basis
+  `native_identity` carries `scheme`, and `scheme` is listed in the catalog's
+  identification schemes; an anchor with another basis carries no `scheme`.
+  Check: `invalid_value` (G-NEG-ID-8, G-NEG-ID-9).
 - **RES-3** The kind of a `ResourceID` never changes, and its anchor key
   changes only by a supersession that satisfies RES-9. Check: `identity_drift`
   (G-NEG-ID-2).
@@ -798,7 +810,8 @@ These values are separate from `ProjectionOutcome`; `withheld` or
   `noncanonical_order`.
 - **CAT-9 Identification schemes.** Scheme identifiers are unique, each scheme
   carries an admission record, and every scheme that a gate references is
-  listed. Check: validator; RES-2 in the kernel.
+  listed. Check: validator; in the kernel, RES-2 checks the `scheme` an anchor
+  carries in clear against the list.
 
 ### 10.5 Change rule and admission
 
@@ -1251,6 +1264,8 @@ Negative vectors and cut outcomes, as testable statements:
 | Identity | G-NEG-ID-6 | `apply` an anchor change without `supersedes`, or with a `previous` that differs from the prior anchor | reject `identity_drift` |
 | Identity | G-NEG-ID-7 | `apply` a supersession from `native_identity` to `operator_slot` | reject `identity_drift` |
 | Identity | G-POS-ID-3 | `apply` two resources of one kind whose tokens are equal but whose issuers differ | accept; two resources, no duplicate |
+| Identity | G-NEG-ID-8 | `apply` a resource anchored on `native_identity` whose `scheme` is not listed in the catalog's identification schemes | reject `invalid_value` |
+| Identity | G-NEG-ID-9 | `apply` a resource anchored on `operator_slot` that carries a `scheme` | reject `invalid_value` |
 | Plane membership | G-POS-PLN-1 | an equipment resource that only relays, beside another equipment resource with an energy relation | the first is in physical and provenance only |
 | Unauthorized control | G-NEG-AUT-1 | `admit` a zone-effect intent when only the controller has a capability and a `controls` instance links them | reject `ambiguous_route`; the graph is not searched |
 | Unauthorized control | G-NEG-AUT-2 | `admit` an intent asserting an expected-effect subject other than its capability's service resource | reject `invalid_value` |

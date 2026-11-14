@@ -6,6 +6,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the scheme of a native identity
+  is carried on the anchor. A resource anchor with basis `native_identity` in
+  the [graph contract](api/v1/graph.md) carries `scheme`, the identifier of an
+  identification scheme of the element catalog's list, equal to the `scheme`
+  of the identity object its key digests; issuer and token stay inside the
+  digest, and the gateway answers for the consistency of the two. RES-2 now
+  checks that the scheme is listed and that an anchor of another basis carries
+  none (`invalid_value`).
+  [`api/v1/graph-acceptance-vectors.json`](api/v1/graph-acceptance-vectors.json)
+  adds the member to every `native_identity` anchor and gains G-NEG-ID-8 and
+  G-NEG-ID-9. No version is raised.
 - Add one shared checker for the resource, relation and identity statements
   every mapping gate makes under section 15 of the
   [graph contract](api/v1/graph.md).

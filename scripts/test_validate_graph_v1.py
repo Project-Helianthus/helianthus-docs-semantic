@@ -57,6 +57,113 @@ class CommittedDocumentTest(unittest.TestCase):
         self.assertEqual(validator.validate(DOCUMENT, CONTEXT), [])
 
 
+SCHEME_VECTORS = ("G-NEG-ID-8", "G-NEG-ID-9")
+
+
+def anchors(value, found):
+    if isinstance(value, dict):
+        if "class" in value and "basis" in value:
+            found.append(value)
+        for item in value.values():
+            anchors(item, found)
+    elif isinstance(value, list):
+        for item in value:
+            anchors(item, found)
+    return found
+
+
+def registered_schemes(document, state_name):
+    state = next(s for s in document["prior_states"] if s["name"] == state_name)
+    return set((state.get("registry") or {}).get("identification_schemes", []))
+
+
+def declared_identities(document):
+    return {entry["key"]: entry["identity"] for item in document["vectors"] for entry in item.get("anchor_keys", [])}
+
+
+def anchor_scheme_problems(document):
+    """RES-2 on the committed vectors outside the two scheme vectors: a native_identity anchor
+    carries a registered scheme equal to the scheme its key digests; any other anchor carries none."""
+    identities = declared_identities(document)
+    problems = []
+    places = [(s["name"], s) for s in document["prior_states"]]
+    places += [(item["prior_state"], item["input"]) for item in document["vectors"] if item["id"] not in SCHEME_VECTORS]
+    for state_name, value in places:
+        registered = registered_schemes(document, state_name)
+        for anchor in anchors(value, []):
+            if anchor["basis"] != "native_identity":
+                if "scheme" in anchor:
+                    problems.append(f"{state_name}: {anchor['basis']} anchor carries a scheme")
+                continue
+            scheme = anchor.get("scheme")
+            if scheme is None:
+                problems.append(f"{state_name}: native_identity anchor without scheme")
+                continue
+            if scheme not in registered:
+                problems.append(f"{state_name}: scheme {scheme} is not registered")
+            identity = identities.get(anchor.get("key"))
+            if identity is None or identity["scheme"] != scheme:
+                problems.append(f"{state_name}: scheme {scheme} differs from the digested identity")
+    return problems
+
+
+def scheme_vector_anchor(document, vector_id):
+    return vector(document, vector_id)["input"]["resource_upserts"][0]["anchor"]
+
+
+class AnchorSchemeTest(unittest.TestCase):
+    def test_committed_anchors_carry_the_digested_scheme(self):
+        self.assertEqual(anchor_scheme_problems(DOCUMENT), [])
+        self.assertTrue(any(a["basis"] == "native_identity" for a in anchors(DOCUMENT, [])))
+
+    def test_each_scheme_member_mutation_is_caught(self):
+        def native(document):
+            return next(a for a in anchors(document["vectors"], []) if a["basis"] == "native_identity"
+                        and a.get("scheme") == "synthetic.serial")
+
+        def other(document):
+            return next(a for a in anchors(document["vectors"], []) if a["basis"] != "native_identity")
+
+        def renamed_identity(document):
+            for item in document["vectors"]:
+                for entry in item.get("anchor_keys", []):
+                    entry["identity"] = dict(entry["identity"], scheme="synthetic.other")
+
+        mutations = {
+            "presence": lambda d: native(d).pop("scheme"),
+            "listed": lambda d: native(d).update(scheme="synthetic.unlisted"),
+            "digested": renamed_identity,
+            "absence": lambda d: other(d).update(scheme="synthetic.serial"),
+        }
+        for name, change in mutations.items():
+            with self.subTest(field=name):
+                self.assertNotEqual(anchor_scheme_problems(mutated(change)), [])
+
+    def test_unlisted_scheme_vector_has_only_that_fault(self):
+        item = vector(DOCUMENT, "G-NEG-ID-8")
+        anchor = scheme_vector_anchor(DOCUMENT, "G-NEG-ID-8")
+        self.assertEqual(item["expect"]["error_id"], "invalid_value")
+        self.assertEqual(anchor["basis"], "native_identity")
+        self.assertNotIn(anchor["scheme"], registered_schemes(DOCUMENT, item["prior_state"]))
+        self.assertIn(anchor["key"], declared_identities(DOCUMENT))
+
+    def test_scheme_on_another_basis_vector_has_only_that_fault(self):
+        item = vector(DOCUMENT, "G-NEG-ID-9")
+        anchor = scheme_vector_anchor(DOCUMENT, "G-NEG-ID-9")
+        self.assertEqual(item["expect"]["error_id"], "invalid_value")
+        self.assertEqual(anchor["basis"], "operator_slot")
+        self.assertNotIn("key", anchor)
+        self.assertIn(anchor["scheme"], registered_schemes(DOCUMENT, item["prior_state"]))
+
+    def test_scheme_vectors_are_required_by_section_19(self):
+        for vector_id in SCHEME_VECTORS:
+            def change(document, vector_id=vector_id):
+                document["vectors"] = [v for v in document["vectors"] if v["id"] != vector_id]
+            with self.subTest(vector=vector_id):
+                problems = validator.check_statements(mutated(change), CONTEXT)
+                self.assertTrue(any(vector_id in problem for problem in problems), problems)
+
+
 class MutationTest(unittest.TestCase):
     def assert_rule_rejects(self, rule, document, fragment):
         problems = rule(document, CONTEXT)

@@ -1185,6 +1185,7 @@
               "anchor": {
                 "class": "equipment",
                 "basis": "native_identity",
+                "scheme": "synthetic.serial",
                 "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
                 "evidence": [
                   {
@@ -1911,6 +1912,7 @@
               "anchor": {
                 "class": "equipment",
                 "basis": "native_identity",
+                "scheme": "synthetic.serial",
                 "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9",
                 "evidence": [
                   {
@@ -4788,6 +4790,7 @@
             "anchor": {
               "class": "equipment",
               "basis": "native_identity",
+              "scheme": "synthetic.serial",
               "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
               "evidence": [
                 {
@@ -4917,6 +4920,7 @@
             "anchor": {
               "class": "equipment",
               "basis": "native_identity",
+              "scheme": "synthetic.serial",
               "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
               "evidence": [
                 {
@@ -4955,6 +4959,7 @@
             "anchor": {
               "class": "equipment",
               "basis": "native_identity",
+              "scheme": "synthetic.serial",
               "key": "sha256:87a51bb77c34ecad4b6427398df5f041dd477e1c22918b130af92a5657fac49a",
               "evidence": [
                 {
@@ -5621,6 +5626,7 @@
             "anchor": {
               "class": "equipment",
               "basis": "native_identity",
+              "scheme": "synthetic.serial",
               "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
               "evidence": [
                 {
@@ -5736,6 +5742,7 @@
               "previous": {
                 "class": "equipment",
                 "basis": "native_identity",
+                "scheme": "synthetic.serial",
                 "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
                 "evidence": [
                   {
@@ -5806,6 +5813,167 @@
         }
       ],
       "criterion": "A supersession from native_identity to operator_slot is a downgrade and never a supersession."
+    },
+    {
+      "id": "G-NEG-ID-8",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["resource"],
+      "prior_state": "pv-system-before-native-inverters",
+      "input": {
+        "batch_id": "batch:pv:01:pv:01:2",
+        "asset_id": "asset:pv:01",
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:pv:01",
+        "driver_generation": "1",
+        "sequence": "2",
+        "expected_semantic_revision": "2",
+        "resource_upserts": [
+          {
+            "resource_id": "resource:inverter:03",
+            "kind": "resource.inverter",
+            "anchor": {
+              "class": "equipment",
+              "basis": "native_identity",
+              "scheme": "synthetic.unlisted",
+              "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c",
+              "evidence": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:80c4771771f63c9269c76e20e2d3afbad8c47eb01aaa4d893e2657d6f1405325",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ]
+            },
+            "state": "current",
+            "origin": {
+              "origin_id": "origin:binding:pv:01",
+              "kind": "native_observation",
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:pv:01",
+              "binding_id": "binding:pv:01",
+              "evidence": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:a55ca4d43689b052122a0bf4a2bdd7f8e0a8c7b2a3d8d89b7502a5eedb1b354e",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ]
+            },
+            "revision": "1"
+          }
+        ]
+      },
+      "expect": {"result": "reject", "error_id": "invalid_value", "state_unchanged": true},
+      "definitions": [
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        }
+      ],
+      "anchor_keys": [
+        {
+          "identity": {"scheme": "synthetic.serial", "issuer": "0001", "token": "TOKEN-0001"},
+          "key": "sha256:25ff4e62368b0e376a9cc9f6433af4bf476f2ddcd32497a382857a0a1971275c"
+        }
+      ],
+      "criterion": "A native_identity anchor whose scheme is not listed in the registered identification schemes is rejected on the scheme carried in clear; the kernel cannot read the key's digest and does not need to."
+    },
+    {
+      "id": "G-NEG-ID-9",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["resource"],
+      "prior_state": "pv-system-before-native-inverters",
+      "input": {
+        "batch_id": "batch:pv:01:configuration:01:2",
+        "asset_id": "asset:pv:01",
+        "source_id": "source:configuration:01",
+        "source_epoch_id": "source-epoch:configuration:01",
+        "driver_generation": "1",
+        "sequence": "2",
+        "expected_semantic_revision": "2",
+        "resource_upserts": [
+          {
+            "resource_id": "resource:inverter:03",
+            "kind": "resource.inverter",
+            "anchor": {
+              "class": "equipment",
+              "basis": "operator_slot",
+              "scheme": "synthetic.serial",
+              "slot": "inverter-3",
+              "evidence": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:f5d301b21a518752765fcaa9fb5d1edee6c670e9d807ff9b74641cce44268c6c",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ]
+            },
+            "state": "current",
+            "origin": {
+              "origin_id": "origin:operator:inverter-3",
+              "kind": "operator",
+              "source_id": "source:configuration:01",
+              "source_epoch_id": "source-epoch:configuration:01",
+              "evidence": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:2fa03c9fbdf88564ca2c6e7d5c569bf957f443da48eeddf8a7531147d103873b",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ]
+            },
+            "revision": "1"
+          }
+        ]
+      },
+      "expect": {"result": "reject", "error_id": "invalid_value", "state_unchanged": true},
+      "definitions": [
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        }
+      ],
+      "criterion": "An anchor whose basis is not native_identity carries no scheme, even a listed one."
     },
     {
       "id": "G-POS-RES-1",
@@ -9602,7 +9770,7 @@
           },
           {
             "contract": "helianthus.semantic.kernel/v1",
-            "snapshot_id": "sha256:00bfc72828233c66a3c4ae24dd10b4f1b909378a9a1d2ac0a9b95dcd15939eee",
+            "snapshot_id": "sha256:9ad5900d832b423efeeab8ca62a9f29ff088a50cd1d9064b2761d5225adec7f8",
             "asset_id": "asset:inverter:01",
             "revisions": {
               "semantic": "1",
@@ -9706,6 +9874,7 @@
                 "anchor": {
                   "class": "equipment",
                   "basis": "native_identity",
+                  "scheme": "synthetic.serial",
                   "key": "sha256:a2c2c4bdb81355fbd38a567f27078b3d387e088b5252c784723e01b2e7aa2241",
                   "evidence": [
                     {
@@ -9742,7 +9911,7 @@
           },
           {
             "contract": "helianthus.semantic.kernel/v1",
-            "snapshot_id": "sha256:037188f93c94e2f92a0d2772b0b8e6fd95e4a33948de5fb44f7018aa7467e65d",
+            "snapshot_id": "sha256:1b63a4dba0c52399585c16d33c798abe02fe7823938f3ca4e16a2def5c586976",
             "asset_id": "asset:inverter:02",
             "revisions": {
               "semantic": "1",
@@ -9846,6 +10015,7 @@
                 "anchor": {
                   "class": "equipment",
                   "basis": "native_identity",
+                  "scheme": "synthetic.serial",
                   "key": "sha256:a2c2c4bdb81355fbd38a567f27078b3d387e088b5252c784723e01b2e7aa2241",
                   "evidence": [
                     {
@@ -9890,7 +10060,7 @@
           "both_resources_kept"
         ],
         "cut": {
-          "cut_id": "sha256:2b5278c8e79a452a8d47d9bf15500d45a2d68e97aa6e0401552cef60792f92e4",
+          "cut_id": "sha256:66068c0b059591860a4b69450272a6b83776daa7b38a64c6d9245513e9a92388",
           "completeness": "complete",
           "members": [
             {
@@ -9899,11 +10069,11 @@
             },
             {
               "asset_id": "asset:inverter:01",
-              "snapshot_id": "sha256:00bfc72828233c66a3c4ae24dd10b4f1b909378a9a1d2ac0a9b95dcd15939eee"
+              "snapshot_id": "sha256:9ad5900d832b423efeeab8ca62a9f29ff088a50cd1d9064b2761d5225adec7f8"
             },
             {
               "asset_id": "asset:inverter:02",
-              "snapshot_id": "sha256:037188f93c94e2f92a0d2772b0b8e6fd95e4a33948de5fb44f7018aa7467e65d"
+              "snapshot_id": "sha256:1b63a4dba0c52399585c16d33c798abe02fe7823938f3ca4e16a2def5c586976"
             },
             {
               "asset_id": "asset:site:01",
@@ -10887,7 +11057,7 @@
         "snapshots": [
           {
             "contract": "helianthus.semantic.kernel/v1",
-            "snapshot_id": "sha256:1ef97619cf5c2d9cf7f259d72a6e0dece7d77cdc6c4a633f21f2bf806471cd34",
+            "snapshot_id": "sha256:070e39dd13293d084e76b06416e35151e8acf0ebab836a5729d2aa91bd511329",
             "asset_id": "asset:meter:01",
             "revisions": {
               "semantic": "1",
@@ -10991,6 +11161,7 @@
                 "anchor": {
                   "class": "equipment",
                   "basis": "native_identity",
+                  "scheme": "synthetic.serial",
                   "key": "sha256:7b3f7e3147d3a9119bbcda6cb0ebd426a171623ddf361cbdceafee9de6913ea5",
                   "evidence": [
                     {
@@ -11027,7 +11198,7 @@
           },
           {
             "contract": "helianthus.semantic.kernel/v1",
-            "snapshot_id": "sha256:ffa38f03694edccf79bf2e268b223e8e883c2ca312dd87993bde5d592011d01b",
+            "snapshot_id": "sha256:91f393c90d051dde56e3745e9d071a02acd71b0052604a9029da152ad8e243e7",
             "asset_id": "asset:meter:02",
             "revisions": {
               "semantic": "1",
@@ -11131,6 +11302,7 @@
                 "anchor": {
                   "class": "equipment",
                   "basis": "native_identity",
+                  "scheme": "synthetic.serial",
                   "key": "sha256:7b3f7e3147d3a9119bbcda6cb0ebd426a171623ddf361cbdceafee9de6913ea5",
                   "evidence": [
                     {
@@ -11171,16 +11343,16 @@
         "result": "accept",
         "assertions": ["finding_same_unit", "keys_equal_across_protocols", "both_resources_kept"],
         "cut": {
-          "cut_id": "sha256:7b3bda7755e454536c8b5495c3d459a0cdbdc1fc7d90912564757ac35f0c1261",
+          "cut_id": "sha256:b2b9cdf65349a55184e597ab796f1c90b013089733e631667f0475c3924e64aa",
           "completeness": "complete",
           "members": [
             {
               "asset_id": "asset:meter:01",
-              "snapshot_id": "sha256:1ef97619cf5c2d9cf7f259d72a6e0dece7d77cdc6c4a633f21f2bf806471cd34"
+              "snapshot_id": "sha256:070e39dd13293d084e76b06416e35151e8acf0ebab836a5729d2aa91bd511329"
             },
             {
               "asset_id": "asset:meter:02",
-              "snapshot_id": "sha256:ffa38f03694edccf79bf2e268b223e8e883c2ca312dd87993bde5d592011d01b"
+              "snapshot_id": "sha256:91f393c90d051dde56e3745e9d071a02acd71b0052604a9029da152ad8e243e7"
             }
           ],
           "excluded_members": [],
@@ -12025,7 +12197,7 @@
           },
           {
             "contract": "helianthus.semantic.kernel/v1",
-            "snapshot_id": "sha256:50b66a37b08e1c16c26245bf2d6d86ba3cb23980bafb2abbd79b4f7e994bd329",
+            "snapshot_id": "sha256:360382d36e1cf5f697426ccba4299320ecc6ab59a09f6bb4eb8248240711088d",
             "asset_id": "asset:battery:01",
             "revisions": {
               "semantic": "1",
@@ -12129,6 +12301,7 @@
                 "anchor": {
                   "class": "equipment",
                   "basis": "native_identity",
+                  "scheme": "synthetic.serial",
                   "key": "sha256:f20796fc95deb1d9887d52805e8c93098c9c24a5a492de4dcc90b0d96d21033d",
                   "evidence": [
                     {
@@ -12169,12 +12342,12 @@
         "result": "accept",
         "assertions": ["no_finding", "not_detectable_without_a_shared_key", "two_resources"],
         "cut": {
-          "cut_id": "sha256:e826c5d3c8a1ccf41a1fa3110f7042468b94e956ae64b2b991b7126df8ee5a95",
+          "cut_id": "sha256:19d49a31feb7047f9a7e0c586615eb8ce3b17dbae77cf7a56df6ad92dd18174d",
           "completeness": "complete",
           "members": [
             {
               "asset_id": "asset:battery:01",
-              "snapshot_id": "sha256:50b66a37b08e1c16c26245bf2d6d86ba3cb23980bafb2abbd79b4f7e994bd329"
+              "snapshot_id": "sha256:360382d36e1cf5f697426ccba4299320ecc6ab59a09f6bb4eb8248240711088d"
             },
             {
               "asset_id": "asset:inverter:01",
