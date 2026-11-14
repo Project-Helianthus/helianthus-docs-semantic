@@ -25,7 +25,9 @@ non-empty `owner` and the gateway pin), and member presence is not enforced for
 every member (an omitted `native_owner` or `semantic_pack` decodes to an empty
 string, which the contract also permits, but the decoder cannot distinguish
 omission from an explicit empty value). Compatibility effect: new contract; no
-existing contract changes.
+existing contract changes. The optional row member `further_semantic_packs` was
+added after that revision: the SemReg decoder there rejects it as an unknown
+member until the SemReg fixture, decoder and mapping-gate cross-check adopt it.
 
 A catalog row never creates a native mapping, route, authority, consumer
 binding or live operation. It records a state and points at evidence owned
@@ -47,9 +49,10 @@ Trailing data after the document is rejected.
 
 ### Family row
 
-All members are required. `native_owner` and `semantic_pack` MAY be empty
-strings when no native owner or capability pack exists; every other string MUST
-be non-empty.
+Every member except `further_semantic_packs` is required; see
+[Packs of a row](#packs-of-a-row). `native_owner` and `semantic_pack` MAY be
+empty strings when no native owner or capability pack exists; every other string
+MUST be non-empty.
 
 | Member | Type | Rule |
 | --- | --- | --- |
@@ -57,6 +60,7 @@ be non-empty.
 | `name` | string | Human-readable family name. |
 | `native_owner` | string | Public registry repository that owns the family's native evidence, or empty. |
 | `semantic_pack` | string | Exact `PackRef` of the accepted capability pack the family maps to, or empty. |
+| `further_semantic_packs` | array of string | Optional. Further exact `PackRef` values of the accepted capability packs the family maps to; see [Packs of a row](#packs-of-a-row). |
 | `state` | string | One `Qualification` value; see [State](#state). |
 | `composition` | string | One composition value; see [Composition](#composition). |
 | `composition_verified` | boolean | See [Composition](#composition). |
@@ -67,6 +71,31 @@ A catalog is complete only against a family list that its consumer pins (for
 INT-05, the family list of the INT-07 draft). Completeness is a consumer check:
 a missing or unlisted family is rejected, but this contract does not itself
 enumerate families.
+
+## Packs of a row
+
+A family whose elements belong to more than one accepted capability pack names
+every such pack in its row. `semantic_pack` holds the first of them and the
+optional `further_semantic_packs` holds the others:
+
+- `further_semantic_packs` is an array of 1 through 4 exact `PackRef` strings,
+  in the same form as `semantic_pack`. Its entries are unique, and
+  no entry equals `semantic_pack`. The bound follows from the five accepted
+  capability packs.
+- It is allowed only when `semantic_pack` is non-empty.
+- It is omitted when the family has no further pack.
+  A present empty array is rejected, so a row that names one pack or none
+  keeps its bytes.
+- Canonical order is ascending byte order of the `PackRef` strings. The
+  entries are sorted in canonical order and
+  `semantic_pack` sorts before every entry. A row in any other order is
+  rejected, not reordered.
+- No pack is primary: `semantic_pack` is the first in canonical order. It
+  carries no precedence, default or ownership over the further packs.
+- Cross-check: for every accepted mapping gate of a family, the row's packs
+  (`semantic_pack` and every entry of `further_semantic_packs`)
+  include the gate's pack. A row that leaves out the pack of an accepted
+  mapping gate of its family is rejected.
 
 ## State
 
@@ -169,15 +198,20 @@ A v1 reader rejects an unknown member and an out-of-vocabulary value; a v1
 reader that does not know an additively added value fails closed rather than
 mapping it to a known one.
 
+The family-row member `further_semantic_packs` was added in place before the
+0.7 release; the [in-place change record](../README.md#in-place-change-record)
+lists it. It is optional and omitted when empty, so every existing row keeps its
+bytes; a reader that does not know the member rejects a row that carries it.
+
 ## Relation to packs and INT-05
 
 The accepted capability packs
 ([thermal/HVAC](packs/thermal-hvac-v1.md), [storage/BMS](packs/storage-bms-v1.md),
 [PV/inverter](packs/pv-inverter-v1.md), [EVSE](packs/evse-v1.md),
 [infrastructure](packs/infrastructure-v1.md)) define typed vocabulary. A
-family's `semantic_pack` names a pack; it does not turn a candidate native row
-into a normative mapping, and the pack specifications keep ownership of what a
-row may expose.
+family's `semantic_pack` and `further_semantic_packs` name packs; they do not
+turn a candidate native row into a normative mapping, and the pack
+specifications keep ownership of what a row may expose.
 
 INT-05 acceptance requires that every existing family has a catalog row and a
 correct state: insufficient evidence remains `unknown` or `candidate`, is not
@@ -197,6 +231,10 @@ evidence references support.
 - The SemReg validator checks only that `owner` is non-empty, apart from the
   `gateway_composition` pin; the two `owner` forms above are a documentation
   rule that the validator does not yet enforce.
+- An accepted mapping gate names its pack but no `family_id`. How the
+  cross-check of [Packs of a row](#packs-of-a-row) associates a gate with a
+  family row is for the SemReg cross-check to state; this page does not decide
+  it.
 
 ## Falsifiers
 
@@ -213,7 +251,12 @@ shown at a pinned revision:
 - a `reason` value is used with a meaning that contradicts its definition above,
   or a row's `state` is `qualified` without the owning native qualification;
 - a family is dropped, or given a fabricated state, because its evidence is
-  insufficient.
+  insufficient;
+- a row is accepted whose `further_semantic_packs` is present but empty, holds
+  more than four entries, repeats an entry, holds `semantic_pack`, is not in
+  canonical order or follows an empty `semantic_pack`;
+- a row is accepted whose packs leave out the pack of an accepted mapping gate
+  of its family.
 
 ## Validation and limits
 
@@ -221,4 +264,6 @@ Run `python3 scripts/validate_family_catalog_v1.py`,
 `python3 scripts/test_validate_family_catalog_v1.py`, then
 `./scripts/check_docs.sh`. These check that this page states the exact
 vocabularies and rules of the contract; they do not read the SemReg fixture and
-establish no family state, native qualification or live behavior.
+establish no family state, native qualification or live behavior. The
+cross-check of a row's packs against accepted mapping gates is not run here; it
+belongs to the SemReg validator, which reads the fixture.
