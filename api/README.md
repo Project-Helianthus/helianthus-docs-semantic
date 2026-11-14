@@ -9,6 +9,8 @@ The versioned kernel contract consists of:
 - [acceptance rules and stable errors](v1/acceptance.md);
 - [resource graph, relations, planes, lenses and element catalog
   rules](v1/graph.md);
+- [graph acceptance vectors](v1/graph-acceptance-vectors.json), checked by
+  `scripts/validate_graph_v1.py`;
 - [positive and negative acceptance vectors](v1/acceptance-vectors.json); and
 - [detached PublicationKernel fork falsifiers](v1/kernel-fork-acceptance.json).
 
@@ -148,6 +150,27 @@ dimensions, services and read capabilities, and the set-temperature operation
 and its effect rule. The hydraulic plane is empty. Relation identifiers use
 the pack spelling `<pack>.relation.<name>`. The identification-scheme and lens
 lists are empty.
+
+## Graph acceptance vectors v1
+
+The [graph acceptance vectors](v1/graph-acceptance-vectors.json) are the
+`helianthus.semantic.graph.acceptance/v1` document of the
+[graph contract](v1/graph.md) section 19. They record the path and SHA-256 of
+the element catalog they were written against and cover activation, resources,
+relations, the element catalog and authority through the operations
+`construct_registry`, `register_catalog`, `apply` and `admit`. Each vector
+names one prior state, built from publication batches and defined once in the
+document, one operation and one expectation: the accepted result or the exact
+stable error. `scripts/validate_graph_v1.py` checks the shape and repeated
+keys, the identifiers, a positive and a negative vector per coverage area,
+that every expected error is a documented heading, that every definition
+reference resolves in the element catalog with the disposition the vector
+assumes, that every anchor key is `sha256:` over the JCS bytes of its
+`{scheme, issuer, token}` object, that every section 19 statement of the
+covered classes has a vector, and that the recorded catalog digest equals the
+file's. The seed catalog lists no identification scheme, so the vectors that
+need a native anchor key register the synthetic scheme the document declares.
+The graph-cut and plane-membership vectors follow in a later change.
 
 ## Remaining contracts
 

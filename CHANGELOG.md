@@ -6,6 +6,18 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Add the graph acceptance vectors
+  [`api/v1/graph-acceptance-vectors.json`](api/v1/graph-acceptance-vectors.json)
+  (`helianthus.semantic.graph.acceptance/v1`) with their validator
+  [`scripts/validate_graph_v1.py`](scripts/validate_graph_v1.py) and its
+  mutation test. The 37 vectors cover activation, resources, relations, the
+  element catalog and authority: every section 19 statement of those classes
+  that uses `construct_registry`, `register_catalog`, `apply` or `admit`, the
+  decode statement for an extra plane-scoped member, and the listed positives
+  that need no graph cut. The document records the element catalog's path and
+  SHA-256. `scripts/check_docs.sh` runs both new commands. Additive: the
+  contract pages, the element catalog and the kernel vectors are unchanged.
+  The graph-cut and plane-membership vectors follow in a later change.
 - Breaking, in place before the 0.7 release: the 21 pack relation definitions
   are spelled `<pack>.relation.<name>` and listed under the member `relations`
   in the PV, EVSE, infrastructure and storage pack vectors and the

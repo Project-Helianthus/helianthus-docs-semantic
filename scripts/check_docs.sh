@@ -16,6 +16,7 @@ required_files=(
   api/v1/kernel.md
   api/v1/serialization.md
   api/v1/graph.md
+  api/v1/graph-acceptance-vectors.json
   api/v1/pack-metadata-v1.md
   api/v1/pack-metadata-v1.json
   api/v1/pack-metadata-v1.schema.json
@@ -108,3 +109,5 @@ python3 scripts/validate_element_catalog_v1.py
 python3 scripts/test_validate_element_catalog_v1.py
 python3 scripts/test_json_schema_subset_v1.py
 python3 scripts/test_element_catalog_schema_v1.py
+python3 scripts/validate_graph_v1.py
+python3 scripts/test_validate_graph_v1.py
