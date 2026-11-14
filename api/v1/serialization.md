@@ -44,8 +44,11 @@ valid UTF-8/NFC validation and cannot become known pack symbols merely by
 round-trip.
 
 This strict member rule prevents a v1 reader from silently discarding a safety
-or authority field. A later contract version may add members with an explicit
-migration; v1 does not provide an arbitrary extension map.
+or authority field. Members are added only by an explicit contract change with
+a stated migration. The graph members of [graph.md](graph.md) were added in
+place to v1 as optional members that are omitted when empty, so a record without
+graph content keeps its earlier canonical bytes. v1 provides no arbitrary
+extension map.
 
 ## Canonical identifiers and text
 
@@ -123,6 +126,11 @@ digested input.
 | `EvaluationView.retained`, `Snapshot.retained_observations` | `(candidate_id,candidate_revision,JCS(key),binding_id,source_epoch_id,driver_generation)` |
 | fences and publication cursors | `(source_id, source_epoch_id, driver_generation)` |
 | publication upserts/withdrawals | primary ID or canonical fact key |
+| resources and resource upserts | `resource_id` |
+| relation instances, relation upserts and relation withdrawals | `(canonical definition, from, to)` |
+| absence statements, absence upserts and absence withdrawals | `(canonical definition, resource, side)` |
+| graph-cut members | asset identifier |
+| graph-cut findings | `(kind, canonical subject)` |
 | projection requested/dispositions | `(kind, item_id)` |
 | loss details | `(kind, canonical source_items, description)` |
 | causal path | sequence order; never sorted |
@@ -363,11 +371,12 @@ this exact precedence, from first to last:
    `invalid_evidence`, `invalid_enum`, `bounds_exceeded`;
 4. `noncanonical_order`, `digest_mismatch`, `dangling_reference`,
    `derivation_cycle`;
-5. `stale_source_epoch`, `stale_driver_generation`, `sequence_conflict`,
-   `revision_conflict`, `incomparable_clock_epoch`,
+5. `stale_source_epoch`, `stale_driver_generation`, `stale_relation`,
+   `sequence_conflict`, `revision_conflict`, `incomparable_clock_epoch`,
    `generation_transition_incomplete`;
 6. `definition_owner_conflict`, `definition_owner_missing`,
-   `identity_not_qualified`, `capability_not_qualified`,
+   `membership_missing`, `identity_not_qualified`, `duplicate_identity`,
+   `identity_drift`, `relation_not_qualified`, `capability_not_qualified`,
    `capability_unavailable`, `authority_missing`, `deadline_expired`,
    `precondition_failed`;
 7. `route_selection_forbidden`, `ambiguous_route`, `retry_forbidden`;

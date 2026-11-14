@@ -161,8 +161,10 @@ weaken, or reinterpret these vectors under the same contract version.
 
 ## Stable error identifiers
 
-This list is exhaustive for v1 public validation. A conforming implementation
-MUST NOT mint an additional public rejection ID under the same contract version.
+This list and the list of stable graph errors in
+[graph.md](graph.md#18-stable-graph-errors) are together exhaustive for v1
+public validation. A conforming implementation MUST NOT mint any other public
+rejection ID under the same contract version.
 The exact overlap precedence is defined in
 [serialization.md](serialization.md#error-determinism).
 
@@ -334,8 +336,9 @@ not authorize this exact intent and route.
 
 ### Error: `route_selection_forbidden`
 
-A caller, presentation selection, projection, compatibility alias, or native
-address attempts to choose/bypass the guarded route.
+A caller, presentation selection, projection, compatibility alias, plane
+membership, lens result, relation instance, or native address attempts to
+choose/bypass the guarded route.
 
 ### Error: `causal_budget_exceeded`
 
@@ -448,13 +451,18 @@ serialization precedence list chooses one when an input violates several rows.
 | expired or uncertainty-failed deadline | `deadline_expired` |
 | false or non-exact candidate/unqualified/unpromoted/suspect/bad/unknown/stale/expired/conflicted/degraded/unavailable/revision-changed precondition | `precondition_failed` |
 | missing/unresolved/expired/out-of-scope authority | `authority_missing` |
-| route selected from presentation/projection/alias/caller native ID | `route_selection_forbidden` |
+| route selected from presentation/projection/alias/caller native ID/plane membership/lens result/relation instance | `route_selection_forbidden` |
 | expired/inconsistent/duplicate-history causal context or no capacity to append a new receiver | `causal_budget_exceeded` |
 | ingress receiver already in path or attempted authority minting from reflection | `echo_suppressed` |
 | unsafe blind retry or route fallback after possible side effect | `retry_forbidden` |
 | missing/duplicate/mismatched requested `(kind,item_id)` disposition or required accounting | `projection_incomplete` |
 | compatibility alias marked or used as routable | `alias_not_routable` |
 | contradictory/incomplete dispatch, ACK, readback, side-effect, and outcome combination | `invalid_outcome` |
+| two current resources with one `ResourceID` or anchor key, or a reused retired `ResourceID` | `duplicate_identity` |
+| changed kind or anchor of a `ResourceID`, or an endpoint or subject of a non-admitted kind | `identity_drift` |
+| graph record without a member catalog entry, graph member in a non-enforced kernel, uncovered pack in a graph-enforced registry, inadmissible operation, or invalid catalog membership | `membership_missing` |
+| relation instance or absence statement with an empty, non-admitted or origin-inconsistent basis | `relation_not_qualified` |
+| relation upsert to a withdrawn or retired same-asset resource | `stale_relation` |
 
 ## Acceptance procedure for INT-05
 

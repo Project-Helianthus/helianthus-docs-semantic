@@ -6,6 +6,14 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The [semantic resource graph contract](api/v1/graph.md) of increment 1
+  defines resources and their identity, typed relations, planes, lenses, the
+  element catalog rules, activation, publication and coherence, and amends the
+  kernel, serialization and acceptance pages in place. The five stable graph
+  errors join the exhaustive v1 list. The new record members are optional and
+  omitted when empty, so records without graph content keep their canonical
+  bytes and identifiers, and the kernel vectors run unchanged without the
+  catalog. Implementations follow in semreg and the gateway.
 - Add the element catalog schema
   [`api/v1/element-catalog-v1.schema.json`](api/v1/element-catalog-v1.schema.json)
   for the contract `helianthus.semantic.element-catalog/v1`, and its

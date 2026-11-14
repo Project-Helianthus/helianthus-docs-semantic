@@ -92,3 +92,63 @@ evidence and partial last-known-good state where the contract permits retention;
 retained observations remain non-actionable. Operation admission re-evaluates
 current evidence and fences, and fails closed. This glossary changes neither
 existing eBUS MCP behavior nor GraphQL parity or projection loss.
+
+## Resource
+
+A **resource** is an identifiable thing of the installation with its own
+lifecycle that facts, services, capabilities and relations can be about: a
+piece of equipment, a component, a function of the installation, or a bounded
+episode. The gateway allocates its `ResourceID`, which keeps one identity in
+every pack, plane, lens and target; an `AssetID` is not a `ResourceID`. The
+[graph contract](../api/v1/graph.md#6-resources-and-identity) defines its
+anchor, home asset and lifecycle.
+
+## Relation
+
+A **relation** is a published, typed, directed link between two resources
+under one relation definition, with state, evidence and provenance. Each
+relation definition specializes one of seven core relation types. When neither
+a relation instance nor an absence statement exists, the relation is unknown,
+never "none". See the [graph contract](../api/v1/graph.md#7-relations).
+
+## Plane
+
+A **plane** is a view over the one semantic resource graph, defined by the
+relation definitions and elements the element catalog makes members of it. A
+plane owns no second truth and no command authority, and no plane is primary.
+See the [graph contract](../api/v1/graph.md#8-planes).
+
+## Lens
+
+A **lens** is a named, bounded combination of planes, root kinds and relation
+definitions that answers one question. It creates no identity, fact, relation
+or membership; it selects from the graph. See the
+[graph contract](../api/v1/graph.md#9-lenses).
+
+## Element catalog
+
+The **element catalog** is the machine-checked inventory of ownership,
+admission, plane membership and catalog disposition (`member`, `unsupported`
+or `unknown`) of every semantic element. Plane membership is declared there
+once per definition; a catalog disposition is not a target projection outcome.
+See the [graph contract](../api/v1/graph.md#10-element-catalog).
+
+## Graph cut
+
+A **graph cut** is a set of per-asset snapshots read together, at most one per
+asset, in which relation coherence is evaluated. Its coherent revision is the
+vector of member snapshot identifiers; there is no global revision. See the
+[graph contract](../api/v1/graph.md#113-graph-cut-and-coherence).
+
+## Qualified exceptions
+
+Within the semantic API the words resource, relation, plane, lens, element
+catalog and graph cut have only the meanings above. These existing terms keep
+their word with a qualifier, as listed in the
+[graph contract](../api/v1/graph.md#3-definitions): **readback relation** (the
+kernel's `Readback.relation` and `ReadbackRelation`); **native resource** (the
+kernel's `NativeBinding.native_resource`); **Portal resource key** (the Portal
+catalog's `resource_id`); **registry plane** and **registry projection** (the
+native eBUS registry terms of its registry tools, device GraphQL types and
+Portal registry routes); and **SPINE topology** (the eeBUS `TopologyV1`
+record). No alias is created.
