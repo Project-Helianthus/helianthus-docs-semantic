@@ -31,6 +31,22 @@ def first_with_anchor_key(document):
     return next(item for item in document["vectors"] if item.get("anchor_keys"))
 
 
+def cut(document, vector_id):
+    return vector(document, vector_id)["expect"]["cut"]
+
+
+def jcs(value):
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode("utf-8")
+
+
+def cut_identifier(members, contract="helianthus.semantic.graph-cut/v1"):
+    return "sha256:" + hashlib.sha256(jcs({"contract": contract, "members": members})).hexdigest()
+
+
+def snapshot_identifier(snapshot):
+    return "sha256:" + hashlib.sha256(jcs({k: v for k, v in snapshot.items() if k != "snapshot_id"})).hexdigest()
+
+
 class CommittedDocumentTest(unittest.TestCase):
     def test_every_rule_passes(self):
         for name, rule in validator.RULES:
@@ -58,8 +74,9 @@ class MutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_shape, document, "plane")
 
     def test_unlisted_operation_is_rejected(self):
-        document = mutated(lambda d: d["vectors"][0].update(operation="assemble_cut"))
-        self.assert_rule_rejects(validator.check_shape, document, "operation")
+        def change(document):
+            document["operations"] = [o for o in document["operations"] if o != "assemble_cut"]
+        self.assert_rule_rejects(validator.check_shape, mutated(change), "assemble_cut")
 
     def test_malformed_identifier_is_rejected(self):
         document = mutated(lambda d: d["vectors"][0].update(id="G-POS-act-1"))
@@ -90,8 +107,23 @@ class MutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_coverage, mutated(change), "element_catalog")
 
     def test_undeclared_coverage_area_is_rejected(self):
-        document = mutated(lambda d: d["vectors"][0]["coverage"].append("graph_cut"))
-        self.assert_rule_rejects(validator.check_coverage, document, "graph_cut")
+        document = mutated(lambda d: d["vectors"][0]["coverage"].append("spatial"))
+        self.assert_rule_rejects(validator.check_coverage, document, "spatial")
+
+    def test_coverage_list_shorter_than_seven_is_rejected(self):
+        def change(document):
+            document["coverage_ids"].remove("plane_membership")
+            for item in document["vectors"]:
+                item["coverage"] = [a for a in item["coverage"] if a != "plane_membership"] or ["graph_cut"]
+        self.assert_rule_rejects(validator.check_coverage, mutated(change), "coverage_ids")
+
+    def test_operations_must_be_the_section_19_operations(self):
+        def change(document):
+            document["operations"] = [o for o in document["operations"] if o != "assemble_cut"]
+            for item in document["vectors"]:
+                if item["operation"] == "assemble_cut":
+                    item["operation"] = "apply"
+        self.assert_rule_rejects(validator.check_coverage, mutated(change), "operations")
 
     def test_vector_without_documented_error_is_rejected(self):
         def change(document):
@@ -179,6 +211,140 @@ class MutationTest(unittest.TestCase):
         def change(document):
             vector(document, "G-NEG-ACT-2")["operation"] = "apply"
         self.assert_rule_rejects(validator.check_statements, mutated(change), "G-NEG-ACT-2")
+
+    def test_section_19_cut_identifier_without_vector_is_rejected(self):
+        for identifier in ("G-POS-CUT-3", "G-POS-CUT-11", "G-POS-PLN-1"):
+            with self.subTest(identifier=identifier):
+                def change(document, identifier=identifier):
+                    document["vectors"] = [v for v in document["vectors"] if v["id"] != identifier]
+                self.assert_rule_rejects(validator.check_statements, mutated(change), identifier)
+
+    def test_cut_statement_must_be_assembled(self):
+        def change(document):
+            vector(document, "G-POS-CUT-6")["operation"] = "apply"
+        self.assert_rule_rejects(validator.check_statements, mutated(change), "G-POS-CUT-6")
+
+    def test_wrong_cut_identifier_is_rejected_for_every_field(self):
+        # contract: a cut identifier over another contract string; asset_id and snapshot_id: an
+        # identifier over a member list with that field changed; order: an identifier over the
+        # members in reverse order. Each is the identifier a faulty AssembleCut would produce.
+        def wrong(members, field):
+            members = copy.deepcopy(members)
+            if field == "contract":
+                return cut_identifier(members, "helianthus.semantic.graph-cut/v2")
+            if field == "order":
+                return cut_identifier(list(reversed(members)))
+            members[0][field] = members[0][field] + "-changed"
+            return cut_identifier(members)
+        for field in ("contract", "asset_id", "snapshot_id", "order"):
+            with self.subTest(field=field):
+                def change(document, field=field):
+                    expected = cut(document, "G-POS-CUT-12")
+                    expected["cut_id"] = wrong(expected["members"], field)
+                self.assert_rule_rejects(validator.check_cuts, mutated(change), "cut_id")
+
+    def test_committed_cut_identifier_is_the_contract_digest(self):
+        for item in DOCUMENT["vectors"]:
+            expected = item["expect"].get("cut")
+            if expected is not None:
+                with self.subTest(vector=item["id"]):
+                    self.assertEqual(expected["cut_id"], cut_identifier(expected["members"]))
+
+    def test_snapshot_identifier_must_be_content_derived(self):
+        def change(document):
+            vector(document, "G-POS-CUT-12")["input"]["snapshots"][0]["revisions"]["semantic"] = "99"
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "snapshot_id")
+
+    def test_committed_snapshot_identifiers_are_content_derived(self):
+        for item in DOCUMENT["vectors"]:
+            if item["operation"] == "assemble_cut":
+                for snapshot in item["input"]["snapshots"]:
+                    self.assertEqual(snapshot["snapshot_id"], snapshot_identifier(snapshot))
+
+    def test_members_must_be_the_input_snapshots(self):
+        for field in ("asset_id", "snapshot_id"):
+            with self.subTest(field=field):
+                def change(document, field=field):
+                    expected = cut(document, "G-POS-CUT-12")
+                    expected["members"][0][field] = expected["members"][0][field] + "-changed"
+                    expected["cut_id"] = cut_identifier(expected["members"])
+                self.assert_rule_rejects(validator.check_cuts, mutated(change), "members")
+
+    def test_members_out_of_canonical_order_are_rejected(self):
+        def change(document):
+            expected = cut(document, "G-POS-CUT-12")
+            expected["members"].reverse()
+            expected["cut_id"] = cut_identifier(expected["members"])
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "order")
+
+    def test_finding_out_of_canonical_order_is_rejected_for_every_key_field(self):
+        # subject: two same_unit findings swapped; kind: a finding moved behind one of a later kind.
+        def by_subject(document):
+            cut(document, "G-POS-CUT-4")["findings"].reverse()
+
+        def by_kind(document):
+            findings = cut(document, "G-POS-CUT-4")["findings"]
+            findings[0] = {"kind": "ungraphed", "subject": findings[0]["subject"]}
+        for name, change in (("subject", by_subject), ("kind", by_kind)):
+            with self.subTest(field=name):
+                self.assert_rule_rejects(validator.check_cuts, mutated(change), "order")
+
+    def test_finding_subject_lists_must_be_sorted(self):
+        def change(document):
+            cut(document, "G-POS-CUT-8")["findings"][0]["subject"]["resource_ids"].reverse()
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "sorted")
+
+    def test_relation_coherence_out_of_canonical_order_is_rejected(self):
+        def change(document):
+            cut(document, "G-POS-CUT-4")["relation_coherence"].reverse()
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "order")
+
+    def test_every_relation_instance_needs_a_coherence(self):
+        def change(document):
+            cut(document, "G-POS-CUT-6")["relation_coherence"].pop()
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "coherence")
+
+    def test_unknown_finding_kind_is_rejected(self):
+        def change(document):
+            cut(document, "G-POS-CUT-7")["findings"][0]["kind"] = "possibly_same"
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "possibly_same")
+
+    def test_finding_subject_must_have_the_shape_of_its_kind(self):
+        def change(document):
+            cut(document, "G-POS-CUT-5")["findings"][0]["subject"] = {"resource_id": "resource:pv:01"}
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "subject")
+
+    def test_exclusion_makes_the_cut_partial(self):
+        def change(document):
+            cut(document, "G-POS-CUT-1")["completeness"] = "complete"
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "partial")
+
+    def test_excluded_members_follow_duplicate_identity_findings(self):
+        def change(document):
+            cut(document, "G-POS-CUT-9")["excluded_members"].pop()
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "excluded")
+
+    def test_plane_membership_follows_the_catalog_and_coherence(self):
+        def dropped(document):
+            entry = cut(document, "G-POS-PLN-1")["plane_membership"][0]
+            entry["planes"] = [p for p in entry["planes"] if p != "provenance"]
+
+        def added(document):
+            entry = cut(document, "G-POS-PLN-1")["plane_membership"][0]
+            entry["planes"] = sorted(set(entry["planes"]) | {"energy"})
+        for name, change in (("dropped", dropped), ("added", added)):
+            with self.subTest(change=name):
+                self.assert_rule_rejects(validator.check_cuts, mutated(change), "planes")
+
+    def test_every_finding_kind_and_coherence_state_is_exercised(self):
+        def change(document):
+            document["vectors"] = [v for v in document["vectors"] if v["id"] != "G-POS-CUT-13"]
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "outside_cut")
+
+    def test_rejected_cut_keeps_the_stable_error(self):
+        def change(document):
+            vector(document, "G-NEG-CUT-2")["input"]["snapshots"].pop()
+        self.assert_rule_rejects(validator.check_cuts, mutated(change), "G-NEG-CUT-2")
 
     def test_catalog_digest_must_match_file(self):
         def change(document):

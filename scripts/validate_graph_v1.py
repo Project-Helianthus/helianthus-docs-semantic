@@ -4,9 +4,12 @@
 The document is ``api/v1/graph-acceptance-vectors.json``
 (``helianthus.semantic.graph.acceptance/v1``). Each rule returns a list of
 problems; an empty list from every rule means the document is valid. The
-rules check the shape and repeated keys, the identifiers, the coverage areas,
-the stable errors, the definition references, the anchor keys, the section 19
-statements of the covered classes and the recorded catalog digest.
+rules check the shape and repeated keys, the identifiers, the coverage areas
+and operations against section 19, the stable errors, the definition
+references, the anchor keys, every section 19 statement, the graph cuts and the
+recorded catalog digest. For a graph cut the rules recompute every snapshot and
+cut identifier, check the canonical order of members, findings and relation
+coherence, and recompute the plane membership of every resource a member holds.
 """
 from __future__ import annotations
 
@@ -18,7 +21,7 @@ from pathlib import Path
 from typing import Any, NamedTuple
 
 import json_schema_subset_v1 as subset
-from check_snapshot_vector_ids import canonical
+from check_snapshot_vector_ids import canonical, digest_without
 
 ROOT = Path(__file__).resolve().parent.parent
 VECTORS = ROOT / "api/v1/graph-acceptance-vectors.json"
@@ -27,6 +30,10 @@ ACCEPTANCE = ROOT / "api/v1/acceptance.md"
 CATALOG_PATH = "api/v1/element-catalog-v1.json"
 CATALOG = ROOT / CATALOG_PATH
 KERNEL_CONTRACT = "helianthus.semantic.kernel/v1"
+CUT_CONTRACT = "helianthus.semantic.graph-cut/v1"
+MAX_CUT_MEMBERS = 256
+FINDING_KINDS = ("anchor_parent_unresolved", "contradicted_absence", "duplicate_identity", "same_unit", "ungraphed")
+COHERENCE_STATES = ("coherent", "stale", "dangling", "outside_cut", "excluded", "conflict")
 
 VECTOR_ID = re.compile("^G-(POS|NEG)-[A-Z]+-[0-9]+$")
 ERROR_HEADING = re.compile("^### Error: `([a-z][a-z0-9_]*)`$", re.MULTILINE)
@@ -37,13 +44,10 @@ STATEMENT_ROW = re.compile(
 IDENTIFIER = re.compile(r"G-(?:POS|NEG)-[A-Z]+-[0-9]+")
 LEADING_OPERATION = re.compile(r"^`([a-z_]+)`")
 REJECTED_ERROR = re.compile(r"^reject `([a-z_]+)`")
+COVERAGE_SENTENCE = re.compile(r"Coverage identifiers of the graph acceptance document:(.*?)\.\s+Each", re.DOTALL)
+OPERATIONS_SENTENCE = re.compile(r"Operations\s+are(.*?)\.\s", re.DOTALL)
+CODE = re.compile(r"`([a-z_]+)`")
 POLARITY = {"POS": "positive", "NEG": "negative"}
-
-# Section 19 classes whose statements this document covers; the cut and plane classes follow later.
-SLICE_CLASSES = frozenset({
-    "Activation", "Duplicate identity", "Identity drift", "False join", "Missing membership",
-    "Stale relation", "Dangling endpoint", "Conflict in one asset", "Identity", "Unauthorized control",
-})
 
 DIGEST = {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
 TEXT = {"type": "string", "minLength": 1}
@@ -69,6 +73,84 @@ PRIOR_STATE = {
         "admission_context": {"type": "object"},
     },
 }
+MEMBER = {
+    "type": "object", "required": ["asset_id", "snapshot_id"], "additionalProperties": False,
+    "properties": {"asset_id": TEXT, "snapshot_id": DIGEST},
+}
+FINDING = {
+    "type": "object", "required": ["kind", "subject"], "additionalProperties": False,
+    "properties": {"kind": TEXT, "subject": {"type": "object"}},
+}
+COHERENCE = {
+    "type": "object", "required": ["asset_id", "definition", "from", "to", "state", "coherence"],
+    "additionalProperties": False,
+    "properties": {
+        "asset_id": TEXT, "definition": {"type": "object"}, "from": TEXT, "to": TEXT,
+        "state": {"enum": ["candidate", "qualified", "rejected", "conflict"]},
+        "coherence": {"enum": list(COHERENCE_STATES)},
+    },
+}
+PLANE_MEMBERSHIP = {
+    "type": "object", "required": ["resource_id", "planes"], "additionalProperties": False,
+    "properties": {"resource_id": TEXT, "planes": TEXT_LIST},
+}
+CUT = {
+    "type": "object",
+    "required": ["cut_id", "completeness", "members", "excluded_members", "findings", "relation_coherence",
+                 "plane_membership"],
+    "additionalProperties": False,
+    "properties": {
+        "cut_id": DIGEST,
+        "completeness": {"enum": ["complete", "partial"]},
+        "members": {"type": "array", "items": MEMBER, "minItems": 1},
+        "excluded_members": TEXT_LIST,
+        "findings": {"type": "array", "items": FINDING},
+        "relation_coherence": {"type": "array", "items": COHERENCE},
+        "plane_membership": {"type": "array", "items": PLANE_MEMBERSHIP},
+    },
+}
+CUT_INPUT = {
+    "type": "object", "required": ["completeness", "snapshots"], "additionalProperties": False,
+    "properties": {
+        "completeness": {"enum": ["complete", "partial"]},
+        "snapshots": {"type": "array", "items": {"type": "object"}, "minItems": 1},
+    },
+}
+SUBJECT_TEXT = {"type": "string", "minLength": 1}
+SUBJECT_KEY = {
+    "type": "object", "additionalProperties": False,
+    "required": ["asset_id", "definition"],
+    "properties": {
+        "asset_id": SUBJECT_TEXT, "definition": {"type": "object"}, "resource": SUBJECT_TEXT,
+        "side": {"enum": ["from", "to"]}, "from": SUBJECT_TEXT, "to": SUBJECT_TEXT,
+    },
+}
+SUBJECTS = {
+    "anchor_parent_unresolved": {
+        "type": "object", "required": ["resource_id"], "additionalProperties": False,
+        "properties": {"resource_id": SUBJECT_TEXT},
+    },
+    "contradicted_absence": {
+        "type": "object", "required": ["absence", "relation"], "additionalProperties": False,
+        "properties": {
+            "absence": dict(SUBJECT_KEY, required=["asset_id", "definition", "resource", "side"]),
+            "relation": dict(SUBJECT_KEY, required=["asset_id", "definition", "from", "to"]),
+        },
+    },
+    "duplicate_identity": {
+        "type": "object", "required": ["resource_id", "asset_ids"], "additionalProperties": False,
+        "properties": {"resource_id": SUBJECT_TEXT,
+                       "asset_ids": {"type": "array", "items": SUBJECT_TEXT, "minItems": 2, "uniqueItems": True}},
+    },
+    "same_unit": {
+        "type": "object", "required": ["resource_ids"], "additionalProperties": False,
+        "properties": {"resource_ids": {"type": "array", "items": SUBJECT_TEXT, "minItems": 2, "uniqueItems": True}},
+    },
+    "ungraphed": {
+        "type": "object", "required": ["asset_id"], "additionalProperties": False,
+        "properties": {"asset_id": SUBJECT_TEXT},
+    },
+}
 REJECT = {
     "type": "object", "required": ["result", "error_id", "state_unchanged"], "additionalProperties": False,
     "properties": {"result": {"const": "reject"}, "error_id": TEXT, "state_unchanged": {"const": True}},
@@ -79,6 +161,7 @@ ACCEPT = {
         "result": {"const": "accept"},
         "assertions": dict(TEXT_LIST, minItems=1),
         "relation_states": {"type": "array", "items": {"type": "object"}},
+        "cut": CUT,
         "resources": {"type": "array", "items": {"type": "object"}},
         "inadmissible_operations": {"type": "array", "items": {"type": "object"}},
         "multiple_membership": {"type": "array", "items": {"type": "object"}},
@@ -110,7 +193,7 @@ VECTOR = {
     "properties": {
         "id": TEXT,
         "polarity": {"enum": ["positive", "negative"]},
-        "record_type": {"enum": ["Registry", "ElementCatalog", "PublicationBatch", "Intent"]},
+        "record_type": {"enum": ["Registry", "ElementCatalog", "PublicationBatch", "GraphCut", "Intent"]},
         "operation": {"enum": ["construct_registry", "register_catalog", "apply", "assemble_cut", "admit"]},
         "coverage": dict(TEXT_LIST, minItems=1),
         "prior_state": TEXT,
@@ -210,10 +293,23 @@ def check_identifiers(document: dict[str, Any], context: Context) -> list[str]:
     return sorted_problems(problems)
 
 
+def section_19_names(context: Context, sentence: re.Pattern[str]) -> list[str]:
+    match = sentence.search(section_19(context.graph_text))
+    if match is None:
+        raise ValueError("graph.md section 19 does not list its coverage identifiers and operations")
+    return sorted(CODE.findall(match.group(1)))
+
+
 def check_coverage(document: dict[str, Any], context: Context) -> list[str]:
     listed = set(document["coverage_ids"])
     found: dict[str, set[str]] = {area: set() for area in listed}
     problems = []
+    areas = section_19_names(context, COVERAGE_SENTENCE)
+    if document["coverage_ids"] != areas:
+        problems.append(f"coverage_ids must be the {len(areas)} section 19 coverage areas: {areas}")
+    operations = section_19_names(context, OPERATIONS_SENTENCE)
+    if document["operations"] != operations:
+        problems.append(f"operations must be the section 19 operations: {operations}")
     for vector in document["vectors"]:
         for area in vector["coverage"]:
             if area not in listed:
@@ -430,10 +526,8 @@ def statements(graph_text: str) -> tuple[dict[str, Statement], set[str]]:
     return rows, outside
 
 
-def required_identifiers(rows: dict[str, Statement], outside: set[str], operations: set[str]) -> set[str]:
-    required = {identifier for identifier, row in rows.items()
-                if row.klass in SLICE_CLASSES and row.operation in operations}
-    return required | (outside - set(rows))
+def required_identifiers(rows: dict[str, Statement], outside: set[str]) -> set[str]:
+    return set(rows) | outside
 
 
 def statement_problems(vector: dict[str, Any], row: Statement, operations: set[str]) -> list[str]:
@@ -450,10 +544,212 @@ def check_statements(document: dict[str, Any], context: Context) -> list[str]:
     operations = set(document["operations"])
     by_id = {vector["id"]: vector for vector in document["vectors"]}
     problems = [f"{identifier}: section 19 statement has no vector"
-                for identifier in sorted(required_identifiers(rows, outside, operations) - set(by_id))]
+                for identifier in sorted(required_identifiers(rows, outside) - set(by_id))]
     for identifier, vector in by_id.items():
         if identifier in rows:
             problems += statement_problems(vector, rows[identifier], operations)
+    return sorted_problems(problems)
+
+
+def snapshot_identifier(snapshot: dict[str, Any]) -> str:
+    return digest_without(snapshot, "snapshot_id")
+
+
+def cut_identifier(members: list[dict[str, Any]]) -> str:
+    return "sha256:" + hashlib.sha256(canonical({"contract": CUT_CONTRACT, "members": members})).hexdigest()
+
+
+def finding_order(finding: dict[str, Any]) -> tuple[bytes, bytes]:
+    return finding["kind"].encode("utf-8"), canonical(finding["subject"])
+
+
+def relation_order(entry: dict[str, Any]) -> tuple[bytes, bytes, bytes]:
+    return canonical(entry["definition"]), entry["from"].encode("utf-8"), entry["to"].encode("utf-8")
+
+
+def snapshot_problems(vector: dict[str, Any]) -> list[str]:
+    problems = subset.errors(vector["input"], CUT_INPUT)
+    if problems:
+        return [f"{vector['id']}: {problem}" for problem in problems]
+    for snapshot in vector["input"]["snapshots"]:
+        if snapshot.get("snapshot_id") != snapshot_identifier(snapshot):
+            problems.append(f"{vector['id']}: snapshot_id of {snapshot.get('asset_id')} is not content-derived")
+    return problems
+
+
+def rejected_cut_problems(vector: dict[str, Any]) -> list[str]:
+    snapshots = vector["input"]["snapshots"]
+    assets = [snapshot.get("asset_id") for snapshot in snapshots]
+    error_id = vector["expect"]["error_id"]
+    if error_id == "duplicate_key" and len(assets) == len(set(assets)):
+        return [f"{vector['id']}: duplicate_key needs two snapshots of one asset"]
+    if error_id == "bounds_exceeded" and (len(snapshots) <= MAX_CUT_MEMBERS or len(assets) != len(set(assets))):
+        return [f"{vector['id']}: bounds_exceeded needs more than {MAX_CUT_MEMBERS} snapshots of distinct assets"]
+    if error_id not in ("duplicate_key", "bounds_exceeded"):
+        return [f"{vector['id']}: assemble_cut rejects only duplicate_key or bounds_exceeded here, not {error_id}"]
+    return []
+
+
+def member_problems(vector: dict[str, Any], cut: dict[str, Any]) -> list[str]:
+    snapshots = vector["input"]["snapshots"]
+    label = vector["id"]
+    problems = []
+    if len(snapshots) > MAX_CUT_MEMBERS or len({s["asset_id"] for s in snapshots}) != len(snapshots):
+        problems.append(f"{label}: accepted cut input needs at most {MAX_CUT_MEMBERS} snapshots of distinct assets")
+    members = cut["members"]
+    if members != sorted(members, key=lambda member: member["asset_id"].encode("utf-8")):
+        problems.append(f"{label}: members are not in canonical order (by asset identifier)")
+    given = sorted((s["asset_id"], s["snapshot_id"]) for s in snapshots)
+    if sorted((m["asset_id"], m["snapshot_id"]) for m in members) != given:
+        problems.append(f"{label}: members differ from the input snapshots")
+    if cut["cut_id"] != cut_identifier(members):
+        problems.append(f"{label}: cut_id is not sha256 over the JCS bytes of the contract and the members")
+    return problems
+
+
+def finding_problems(vector: dict[str, Any], cut: dict[str, Any]) -> list[str]:
+    label = vector["id"]
+    problems = []
+    for finding in cut["findings"]:
+        schema = SUBJECTS.get(finding["kind"])
+        if schema is None:
+            problems.append(f"{label}: finding kind {finding['kind']} is not a CutFindingKind")
+        elif subset.errors(finding["subject"], schema):
+            problems.append(f"{label}: {finding['kind']} subject does not have the shape of its kind")
+        elif any(value != sorted(value) for value in finding["subject"].values() if isinstance(value, list)):
+            problems.append(f"{label}: {finding['kind']} subject lists are not sorted")
+    if cut["findings"] != sorted(cut["findings"], key=finding_order):
+        problems.append(f"{label}: findings are not in canonical order (kind, canonical subject)")
+    excluded = sorted({asset for finding in cut["findings"] if finding["kind"] == "duplicate_identity"
+                       for asset in finding["subject"].get("asset_ids", [])})
+    if cut["excluded_members"] != excluded:
+        problems.append(f"{label}: excluded_members must be the members named by duplicate_identity: {excluded}")
+    wanted = "partial" if excluded else vector["input"]["completeness"]
+    if cut["completeness"] != wanted:
+        problems.append(f"{label}: completeness must be {wanted}; an excluded member makes the cut partial")
+    return problems
+
+
+def held_relations(snapshots: list[dict[str, Any]], excluded: set[str]) -> dict[tuple[bytes, bytes, bytes], Any]:
+    held = {}
+    for snapshot in snapshots:
+        if snapshot["asset_id"] in excluded:
+            continue
+        for relation in snapshot.get("relations", []):
+            held[relation_order(relation)] = (snapshot["asset_id"], relation["state"])
+    return held
+
+
+def coherence_problems(vector: dict[str, Any], cut: dict[str, Any]) -> list[str]:
+    label = vector["id"]
+    entries = cut["relation_coherence"]
+    problems = []
+    if entries != sorted(entries, key=relation_order):
+        problems.append(f"{label}: relation_coherence is not in canonical order (definition, from, to)")
+    held = held_relations(vector["input"]["snapshots"], set(cut["excluded_members"]))
+    given = {relation_order(entry): (entry["asset_id"], entry["state"]) for entry in entries}
+    if given != held or len(given) != len(entries):
+        problems.append(f"{label}: every relation instance of an included member needs exactly one coherence "
+                        "with its holder and state")
+    return problems
+
+
+def subject_resources(snapshot: dict[str, Any], entries: dict[str, dict[str, Any]]) -> dict[str, set[str]]:
+    planes: dict[str, set[str]] = {}
+    for envelope in snapshot.get("facts", []):
+        key = envelope["key"]
+        entry = entries.get(ref_key(fact_refs(key)[0]))
+        if entry is None or entry["disposition"] != "member":
+            continue
+        dimension = entry.get("attributes", {}).get("subject", {}).get("dimension", {}).get("id")
+        for item in key["dimensions"]:
+            if item["id"] == dimension:
+                planes.setdefault(item["value"].get("text", ""), set()).update(entry["planes"])
+    services = {}
+    for service in snapshot.get("services", []):
+        definition = service["definition"]
+        entry = entries.get(ref_key(catalog_ref(definition["pack"], definition["id"], definition["version"])))
+        if "resource" in service and entry is not None:
+            services[service["instance_id"]] = service["resource"]
+            planes.setdefault(service["resource"], set()).update(entry["planes"])
+    for capability in snapshot.get("capabilities", []):
+        definition = capability["definition"]
+        entry = entries.get(ref_key(catalog_ref(definition["pack"], definition["id"], definition["version"])))
+        if capability.get("service_instance") in services and entry is not None:
+            planes.setdefault(services[capability["service_instance"]], set()).update(entry["planes"])
+    return planes
+
+
+def catalog_planes(entries: dict[str, dict[str, Any]], ref: dict[str, Any]) -> list[str]:
+    return entries.get(ref_key(ref), {}).get("planes", [])
+
+
+def resource_planes(cut: dict[str, Any], snapshots: list[dict[str, Any]], entries: dict[str, dict[str, Any]],
+                    order: list[str]) -> dict[str, list[str]]:
+    excluded = set(cut["excluded_members"])
+    reached: dict[str, set[str]] = {}
+    for entry in cut["relation_coherence"]:
+        if entry["coherence"] == "coherent" and entry["state"] == "qualified":
+            for end in (entry["from"], entry["to"]):
+                reached.setdefault(end, set()).update(catalog_planes(entries, entry["definition"]))
+    result: dict[str, list[str]] = {}
+    for snapshot in snapshots:
+        subjects = subject_resources(snapshot, entries)
+        for resource in snapshot.get("resources", []):
+            rid = resource["resource_id"]
+            if snapshot["asset_id"] in excluded or resource["state"] != "current":
+                result.setdefault(rid, [])
+                continue
+            planes = reached.get(rid, set()) | subjects.get(rid, set())
+            if resource["anchor"]["class"] in ("equipment", "component"):
+                planes.add("physical")
+            admitted = catalog_planes(entries, core_ref(resource["kind"]))
+            result[rid] = [plane for plane in order if plane in planes and plane in admitted]
+    return result
+
+
+def plane_problems(vector: dict[str, Any], cut: dict[str, Any], context: Context) -> list[str]:
+    entries = {ref_key(entry["ref"]): entry for entry in context.catalog["elements"]}
+    order = [plane["id"] for plane in context.catalog["planes"]]
+    wanted = resource_planes(cut, vector["input"]["snapshots"], entries, order)
+    listed = cut["plane_membership"]
+    problems = []
+    if [entry["resource_id"] for entry in listed] != sorted(wanted, key=lambda rid: rid.encode("utf-8")):
+        problems.append(f"{vector['id']}: plane_membership must list every resource a member holds, "
+                        "sorted by resource_id")
+    for entry in listed:
+        if entry["resource_id"] in wanted and entry["planes"] != wanted[entry["resource_id"]]:
+            problems.append(f"{vector['id']}: {entry['resource_id']} planes {entry['planes']} differ from "
+                            f"PLN-3 {wanted[entry['resource_id']]}")
+    return problems
+
+
+def check_cuts(document: dict[str, Any], context: Context) -> list[str]:
+    problems = []
+    kinds: set[str] = set()
+    states: set[str] = set()
+    for vector in document["vectors"]:
+        if vector["operation"] != "assemble_cut":
+            continue
+        if vector["record_type"] != "GraphCut":
+            problems.append(f"{vector['id']}: assemble_cut takes record_type GraphCut")
+        found = snapshot_problems(vector)
+        if found:
+            problems += found
+            continue
+        if vector["expect"]["result"] == "reject":
+            problems += rejected_cut_problems(vector)
+            continue
+        cut = vector["expect"].get("cut")
+        if cut is None:
+            problems.append(f"{vector['id']}: an accepted assemble_cut states its cut")
+            continue
+        problems += member_problems(vector, cut) + finding_problems(vector, cut)
+        problems += coherence_problems(vector, cut) + plane_problems(vector, cut, context)
+        kinds |= {finding["kind"] for finding in cut["findings"]}
+        states |= {entry["coherence"] for entry in cut["relation_coherence"]}
+    problems += [f"no accepted cut vector has finding {kind}" for kind in sorted(set(FINDING_KINDS) - kinds)]
+    problems += [f"no accepted cut vector has coherence {state}" for state in sorted(set(COHERENCE_STATES) - states)]
     return sorted_problems(problems)
 
 
@@ -478,6 +774,7 @@ RULES = (
     ("definitions", check_definitions),
     ("anchor_keys", check_anchor_keys),
     ("statements", check_statements),
+    ("cuts", check_cuts),
     ("catalog_digest", check_catalog_digest),
 )
 

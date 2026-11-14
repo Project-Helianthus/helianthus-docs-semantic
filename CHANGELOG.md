@@ -6,6 +6,11 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Complete the [graph acceptance vectors](api/v1/graph-acceptance-vectors.json)
+  in place with 18 graph-cut and plane-membership vectors, so all seven
+  coverage areas and every section 19 identifier are covered and SemReg
+  executes every graph vector by identifier with the element catalog and every
+  kernel vector without it.
 - Add the graph acceptance vectors
   [`api/v1/graph-acceptance-vectors.json`](api/v1/graph-acceptance-vectors.json)
   (`helianthus.semantic.graph.acceptance/v1`) with their validator
