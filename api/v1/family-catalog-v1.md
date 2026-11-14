@@ -156,8 +156,9 @@ coordinate or credential.
 ## Compatibility
 
 Within v1 only additive vocabulary values are allowed: new families, new
-`reason` values, new `composition` values and new evidence kinds. The following
-require a new contract version (`v2`):
+`reason` values, new `composition` values and new evidence kinds. From the 0.7
+release on, the following require a new contract version (`v2`); until then the
+in-place rule of [api/README.md](../README.md#version-rule) applies:
 
 - a new `state` value, since `state` is the kernel `Qualification` set;
 - removing or renaming any member or vocabulary value;

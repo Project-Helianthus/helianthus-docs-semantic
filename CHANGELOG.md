@@ -15,6 +15,19 @@ status: "unreleased change record; implementation and consumer adoption remain p
   other keyword in a schema. Additive: no existing document, schema or
   validator changes. The catalog data and its cross-entry validator follow in
   later changes.
+- Until the 0.7 release a breaking change may be made in place in an existing
+  versioned directory, and each such change is listed in the new
+  [in-place change record](api/README.md#in-place-change-record) of the
+  [version rule](api/README.md#version-rule); from the release on a breaking
+  change requires a new major directory. The PV, EVSE and infrastructure pack
+  pages point to the version rule, the
+  [pack metadata](api/v1/pack-metadata-v1.md) states that immutable means
+  read-only at run time, the
+  [family-catalog](api/v1/family-catalog-v1.md) compatibility rule applies from
+  the release on, and the
+  [ownership layering](architecture/repository-ownership-v1.md) names the
+  semantic resource graph. No contract data, vector, fixture or validator
+  changes; consumers need no action.
 - Breaking: rename the three thermal value members as recorded in the
   [naming contract](architecture/naming-contract.md). Coordinate consumers in
   one wave; no alias or migration path is provided before 1.0.

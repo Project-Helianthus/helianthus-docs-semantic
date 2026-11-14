@@ -22,6 +22,7 @@ The intended layering is:
 protocol-native transport and evidence
   -> protocol/profile registry and qualification
   -> protocol-neutral semantic facts and capabilities
+  -> semantic resource graph with planes and lenses
   -> target-specific projection with declared loss
   -> consumers and output bindings
 ```
@@ -44,7 +45,8 @@ protocols.
 The semantic kernel must build without transport, protocol, registry, gateway,
 vendor, output, UI, sibling-checkout, or private dependencies. A device may
 expose several independently versioned capability packages; packages do not own
-native mappings.
+native mappings. The device stays one resource of the semantic graph; packages
+own neither its identity, its relations nor its plane membership.
 
 ## Evidence and state boundary
 
