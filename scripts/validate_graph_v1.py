@@ -6,8 +6,8 @@ The document is ``api/v1/graph-acceptance-vectors.json``
 problems; an empty list from every rule means the document is valid. The
 rules check the shape and repeated keys, the identifiers, the coverage areas
 and operations against section 19, the stable errors, the definition
-references, the anchor keys, every section 19 statement, the graph cuts and the
-recorded catalog digest. For a graph cut the rules recompute every snapshot and
+references, the anchor keys, every section 19 statement and the PUB-3 statements,
+the graph cuts and the recorded catalog digest. For a graph cut the rules recompute every snapshot and
 cut identifier, check the canonical order of members, findings and relation
 coherence, and recompute the plane membership of every resource a member holds.
 """
@@ -508,6 +508,14 @@ class Statement(NamedTuple):
     error_id: str | None
 
 
+# PUB-3 states the publication of operator records in prose; section 19 has no row for it, so its
+# vectors are required here by identifier. A section 19 row with the same identifier takes precedence.
+PUBLICATION_STATEMENTS = {
+    "G-POS-PUB-1": Statement("Publication", "apply", None),
+    "G-NEG-PUB-1": Statement("Publication", "apply", "relation_not_qualified"),
+}
+
+
 def section_19(graph_text: str) -> str:
     match = SECTION_19.search(graph_text)
     if match is None:
@@ -541,6 +549,7 @@ def statement_problems(vector: dict[str, Any], row: Statement, operations: set[s
 
 def check_statements(document: dict[str, Any], context: Context) -> list[str]:
     rows, outside = statements(context.graph_text)
+    rows = {**PUBLICATION_STATEMENTS, **rows}
     operations = set(document["operations"])
     by_id = {vector["id"]: vector for vector in document["vectors"]}
     problems = [f"{identifier}: section 19 statement has no vector"

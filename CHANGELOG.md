@@ -6,6 +6,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Add the publication vectors of PUB-3 in [`api/v1/graph.md`](api/v1/graph.md)
+  to the [graph acceptance vectors](api/v1/graph-acceptance-vectors.json), in
+  place: one prior state where the configuration provider publishes into a
+  driver's asset as a second source, and three vectors. `G-POS-PUB-1`: a fence
+  of the driver's generation removes the driver's gate-rule relation instance
+  and keeps the provider's configured instance, whose starting end the driver
+  observes (REL-5). `G-NEG-PUB-1`: a configured instance under a
+  native-observation origin is `relation_not_qualified`. `G-NEG-PUB-2`: an
+  identity link for the driver's binding published by the provider is refused
+  with `invalid_value` by the kernel's batch ownership rule.
+  [`scripts/validate_graph_v1.py`](scripts/validate_graph_v1.py) requires
+  `G-POS-PUB-1` and `G-NEG-PUB-1` by identifier with their operation and
+  expected error, and its mutation test covers both. The contract pages, the
+  element catalog and the kernel vectors are unchanged.
 - Complete the [graph acceptance vectors](api/v1/graph-acceptance-vectors.json)
   in place with 18 graph-cut and plane-membership vectors, so all seven
   coverage areas and every section 19 identifier are covered and SemReg

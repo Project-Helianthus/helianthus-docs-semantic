@@ -219,6 +219,32 @@ class MutationTest(unittest.TestCase):
                     document["vectors"] = [v for v in document["vectors"] if v["id"] != identifier]
                 self.assert_rule_rejects(validator.check_statements, mutated(change), identifier)
 
+    def test_publication_identifier_without_vector_is_rejected(self):
+        for identifier in ("G-POS-PUB-1", "G-NEG-PUB-1"):
+            with self.subTest(identifier=identifier):
+                def change(document, identifier=identifier):
+                    document["vectors"] = [v for v in document["vectors"] if v["id"] != identifier]
+                self.assert_rule_rejects(validator.check_statements, mutated(change), identifier)
+
+    def test_publication_statement_must_match_vector_for_every_field(self):
+        # operation: the contributor's batch is applied, never assembled; error_id: the positive
+        # accepts and the negative rejects with relation_not_qualified, never another error.
+        cases = (
+            ("G-POS-PUB-1", "operation", "assemble_cut"),
+            ("G-NEG-PUB-1", "operation", "admit"),
+            ("G-POS-PUB-1", "error_id", "relation_not_qualified"),
+            ("G-NEG-PUB-1", "error_id", "invalid_value"),
+        )
+        for identifier, field, value in cases:
+            with self.subTest(identifier=identifier, field=field):
+                def change(document, identifier=identifier, field=field, value=value):
+                    item = vector(document, identifier)
+                    if field == "operation":
+                        item["operation"] = value
+                    else:
+                        item["expect"] = {"result": "reject", "error_id": value, "state_unchanged": True}
+                self.assert_rule_rejects(validator.check_statements, mutated(change), identifier)
+
     def test_cut_statement_must_be_assembled(self):
         def change(document):
             vector(document, "G-POS-CUT-6")["operation"] = "apply"
