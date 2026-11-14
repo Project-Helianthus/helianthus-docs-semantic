@@ -133,6 +133,11 @@ list of references that may carry the `accepted_pack` admission arm,
 [`scripts/element-catalog-seed-refs.json`](../scripts/element-catalog-seed-refs.json).
 From now on its entries change only by reviewed edits; the generator is not
 re-run over reviewed decisions.
+`scripts/validate_element_catalog_v1.py` checks the catalog independently of
+the generator: it recomputes completeness, agreement with pack metadata,
+dispositions, plane closure, ownership, admission arms, sign references,
+canonical order and the identification-scheme rules (CAT-1 to CAT-9) from the
+accepted pack documents, the seed reference list and the graph contract.
 
 The 26 thermal entries are `unknown`, in no plane, pending the thermal
 placement work tracked on

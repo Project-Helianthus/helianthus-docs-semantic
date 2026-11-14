@@ -104,5 +104,7 @@ python3 scripts/validate_family_catalog_v1.py
 python3 scripts/test_validate_family_catalog_v1.py
 python3 scripts/json_schema_subset_v1.py api/v1/element-catalog-v1.schema.json
 python3 scripts/json_schema_subset_v1.py api/v1/element-catalog-v1.schema.json api/v1/element-catalog-v1.json
+python3 scripts/validate_element_catalog_v1.py
+python3 scripts/test_validate_element_catalog_v1.py
 python3 scripts/test_json_schema_subset_v1.py
 python3 scripts/test_element_catalog_schema_v1.py
