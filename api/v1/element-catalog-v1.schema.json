@@ -1,0 +1,1321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/api/v1/element-catalog-v1.schema.json",
+  "title": "Helianthus element catalog v1",
+  "description": "Structural shape of the element catalog. The repository module scripts/json_schema_subset_v1.py enforces this schema; it supports a fixed keyword subset and refuses any other keyword in a schema. The cross-entry rules are enforced in code by the catalog validator of graph contract section 10.4: completeness against the pack vectors (CAT-1), agreement with pack metadata (CAT-2), closure and core-type plane limits with unique plane and core-type identifiers (CAT-4), ownership (CAT-5), the admission arm allowed per element and the frozen seed reference list for accepted_pack (CAT-6), the sign reference naming a supplies definition (CAT-7), canonical order (CAT-8) and the identification scheme list (CAT-9).",
+  "type": "object",
+  "required": [
+    "contract",
+    "kernel_contract",
+    "status",
+    "catalog_order",
+    "planes",
+    "core_relation_types",
+    "identification_schemes",
+    "elements",
+    "lenses"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "contract": {
+      "const": "helianthus.semantic.element-catalog/v1"
+    },
+    "kernel_contract": {
+      "const": "helianthus.semantic.kernel/v1"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "accepted"
+      ]
+    },
+    "catalog_order": {
+      "const": "owner kind, pack id, pack version, element id, element version as canonical UTF-8 byte sequence"
+    },
+    "planes": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/$defs/plane"
+      }
+    },
+    "core_relation_types": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "$ref": "#/$defs/coreRelationType"
+      }
+    },
+    "identification_schemes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/identificationScheme"
+      }
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/element"
+      }
+    },
+    "lenses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lens"
+      }
+    }
+  },
+  "$defs": {
+    "definitionId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 160,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "packRef": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/definitionId"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        }
+      }
+    },
+    "publicUrl": {
+      "description": "Evidence pinned to a revision: a GitHub issue, a GitHub file at a full 40-hexadecimal commit, or a published specification outside GitHub.",
+      "type": "string",
+      "pattern": "^https://(github\\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/(issues/[1-9][0-9]*|blob/[0-9a-f]{40}/[^\\s]+)|(?!github\\.com/)[^\\s/]+\\.[^\\s/]+/[^\\s]*)$"
+    },
+    "issueUrl": {
+      "type": "string",
+      "pattern": "^https://github\\.com/Project-Helianthus/[a-z0-9.-]+/issues/[1-9][0-9]*$"
+    },
+    "planeId": {
+      "enum": [
+        "physical",
+        "energy",
+        "hydraulic",
+        "control",
+        "diagnostic",
+        "provenance"
+      ]
+    },
+    "planeList": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/planeId"
+      }
+    },
+    "coreRelationTypeId": {
+      "enum": [
+        "contains",
+        "groups",
+        "supplies",
+        "measures",
+        "controls",
+        "hosts",
+        "relays"
+      ]
+    },
+    "owner": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "pack"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "pack"
+            },
+            "pack": {
+              "$ref": "#/$defs/packRef"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "contract"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "core"
+            },
+            "contract": {
+              "const": "helianthus.semantic.kernel/v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "repository"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "native"
+            },
+            "repository": {
+              "type": "string",
+              "pattern": "^https://github\\.com/Project-Helianthus/helianthus-docs-[a-z0-9-]+$"
+            }
+          }
+        }
+      ]
+    },
+    "elementRef": {
+      "type": "object",
+      "required": [
+        "owner",
+        "id",
+        "version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "owner": {
+          "$ref": "#/$defs/owner"
+        },
+        "id": {
+          "$ref": "#/$defs/definitionId"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        }
+      }
+    },
+    "admission": {
+      "description": "Admission record under the owner's rule. accepted_pack and accepted_kernel: already in the accepted common model; owner_decision: admitted by the owner's acceptance of this contract (planes, contract-structure state types, or a core type the owner admits directly); matter_baseline and eebus: representability in the adopted baseline, with the citation as evidence; two_vendors: common to two or more vendors, with the deep-research report in its issue. public_registry: an identification scheme admitted on public evidence of the scheme and its issuing registry.",
+      "type": "object",
+      "required": [
+        "arm",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "arm": {
+          "enum": [
+            "accepted_pack",
+            "accepted_kernel",
+            "owner_decision",
+            "matter_baseline",
+            "eebus",
+            "two_vendors",
+            "public_registry"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/publicUrl"
+          }
+        },
+        "research_report": {
+          "$ref": "#/$defs/issueUrl"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "two_vendors"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "research_report"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "research_report"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "owner_decision"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "items": {
+                  "$ref": "#/$defs/issueUrl"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plane": {
+      "type": "object",
+      "required": [
+        "id",
+        "question",
+        "admission"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/planeId"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "admission": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/admission"
+            },
+            {
+              "properties": {
+                "arm": {
+                  "enum": [
+                    "owner_decision",
+                    "matter_baseline",
+                    "eebus",
+                    "two_vendors"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "coreRelationType": {
+      "type": "object",
+      "required": [
+        "id",
+        "reads",
+        "structure",
+        "allowed_planes",
+        "required_planes",
+        "admission"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/coreRelationTypeId"
+        },
+        "reads": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "structure": {
+          "enum": [
+            "forest",
+            "acyclic",
+            "graph"
+          ]
+        },
+        "allowed_planes": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/planeList"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "required_planes": {
+          "$ref": "#/$defs/planeList"
+        },
+        "admission": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/admission"
+            },
+            {
+              "properties": {
+                "arm": {
+                  "enum": [
+                    "owner_decision",
+                    "matter_baseline",
+                    "eebus",
+                    "two_vendors"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "kindList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/definitionId"
+      }
+    },
+    "resourceKindAttributes": {
+      "type": "object",
+      "required": [
+        "anchor_class"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "anchor_class": {
+          "enum": [
+            "equipment",
+            "component",
+            "function",
+            "episode"
+          ]
+        }
+      }
+    },
+    "relationAttributes": {
+      "type": "object",
+      "required": [
+        "core_type",
+        "orientation",
+        "from_kinds",
+        "to_kinds",
+        "cardinality",
+        "over_time",
+        "basis_classes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "core_type": {
+          "$ref": "#/$defs/coreRelationTypeId"
+        },
+        "orientation": {
+          "enum": [
+            "as_core",
+            "inverse"
+          ]
+        },
+        "from_kinds": {
+          "$ref": "#/$defs/kindList"
+        },
+        "to_kinds": {
+          "$ref": "#/$defs/kindList"
+        },
+        "cardinality": {
+          "enum": [
+            "one_to_one",
+            "one_to_many",
+            "many_to_many"
+          ]
+        },
+        "over_time": {
+          "type": "boolean"
+        },
+        "medium": {
+          "enum": [
+            "electrical",
+            "heat_transfer_fluid",
+            "refrigerant",
+            "air"
+          ]
+        },
+        "basis_classes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "native_observation",
+              "configuration",
+              "gate_rule"
+            ]
+          }
+        },
+        "endpoint_dimensions": {
+          "type": "object",
+          "required": [
+            "from",
+            "to"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "$ref": "#/$defs/elementRef"
+            },
+            "to": {
+              "$ref": "#/$defs/elementRef"
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "core_type": {
+            "const": "supplies"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "medium"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "medium"
+          ]
+        }
+      }
+    },
+    "dimensionAttributes": {
+      "type": "object",
+      "required": [
+        "role"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "resource",
+            "qualifier"
+          ]
+        },
+        "resource_kind": {
+          "$ref": "#/$defs/definitionId"
+        }
+      },
+      "if": {
+        "properties": {
+          "role": {
+            "const": "resource"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "resource_kind"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "resource_kind"
+          ]
+        }
+      }
+    },
+    "serviceAttributes": {
+      "type": "object",
+      "required": [
+        "fact_key_dimension",
+        "subject_kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fact_key_dimension": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "subject_kind": {
+          "$ref": "#/$defs/definitionId"
+        }
+      }
+    },
+    "factAttributes": {
+      "type": "object",
+      "required": [
+        "value_kind",
+        "subject",
+        "aggregation",
+        "direction"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "value_kind": {
+          "enum": [
+            "quantity",
+            "boolean",
+            "text",
+            "symbol",
+            "symbols",
+            "time"
+          ]
+        },
+        "subject": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "status",
+                "dimension",
+                "kind"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "const": "resolved"
+                },
+                "dimension": {
+                  "$ref": "#/$defs/elementRef"
+                },
+                "kind": {
+                  "$ref": "#/$defs/definitionId"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "const": "unresolved"
+                },
+                "qualifier_dimension": {
+                  "$ref": "#/$defs/elementRef"
+                }
+              }
+            }
+          ]
+        },
+        "aggregation": {
+          "enum": [
+            "member",
+            "aggregate",
+            "not_applicable"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "not_applicable",
+            "non_negative",
+            "signed"
+          ]
+        },
+        "sign_reference": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/elementRef"
+            },
+            {
+              "const": "native_convention"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "direction": {
+                "const": "signed"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "sign_reference"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "sign_reference"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "not": {
+              "properties": {
+                "value_kind": {
+                  "const": "quantity"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "direction": {
+                "const": "not_applicable"
+              },
+              "aggregation": {
+                "const": "not_applicable"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "capabilityAttributes": {
+      "type": "object",
+      "required": [
+        "service"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "service": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "operation": {
+          "$ref": "#/$defs/elementRef"
+        }
+      }
+    },
+    "operationAttributes": {
+      "type": "object",
+      "required": [
+        "capability",
+        "argument",
+        "effect_rule"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "argument": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "effect_rule": {
+          "$ref": "#/$defs/elementRef"
+        }
+      }
+    },
+    "effectRuleAttributes": {
+      "type": "object",
+      "required": [
+        "operation",
+        "fact"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operation": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "fact": {
+          "$ref": "#/$defs/elementRef"
+        }
+      }
+    },
+    "kernelStateAttributes": {
+      "type": "object",
+      "required": [
+        "kernel_type",
+        "values"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kernel_type": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Za-z0-9]*$"
+        },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        }
+      }
+    },
+    "presentationAttributes": {
+      "type": "object",
+      "required": [
+        "target"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "enum": [
+            "portal",
+            "projection_vocabulary"
+          ]
+        }
+      }
+    },
+    "element": {
+      "type": "object",
+      "required": [
+        "ref",
+        "element_kind",
+        "disposition",
+        "planes",
+        "admission",
+        "attributes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "element_kind": {
+          "enum": [
+            "resource_kind",
+            "relation",
+            "dimension",
+            "service",
+            "fact",
+            "capability",
+            "operation",
+            "effect_rule",
+            "evidence_state",
+            "lifecycle_state",
+            "presentation"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "member",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "planes": {
+          "$ref": "#/$defs/planeList"
+        },
+        "reason": {
+          "$ref": "#/$defs/definitionId"
+        },
+        "tracking": {
+          "$ref": "#/$defs/issueUrl"
+        },
+        "admission": {
+          "$ref": "#/$defs/admission"
+        },
+        "attributes": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "member"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "planes": {
+                "minItems": 1
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "reason"
+                  ]
+                },
+                {
+                  "required": [
+                    "tracking"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "unsupported"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "planes": {
+                "maxItems": 0
+              }
+            },
+            "not": {
+              "required": [
+                "tracking"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason",
+              "tracking"
+            ],
+            "properties": {
+              "planes": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "ref": {
+                "properties": {
+                  "owner": {
+                    "properties": {
+                      "kind": {
+                        "const": "native"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "disposition": {
+                "const": "unknown"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "enum": [
+                  "evidence_state",
+                  "lifecycle_state"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "arm": {
+                    "enum": [
+                      "accepted_kernel",
+                      "owner_decision"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "relation"
+              },
+              "ref": {
+                "properties": {
+                  "owner": {
+                    "properties": {
+                      "kind": {
+                        "const": "core"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "arm": {
+                    "enum": [
+                      "matter_baseline",
+                      "eebus",
+                      "two_vendors",
+                      "owner_decision"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "ref": {
+                "properties": {
+                  "owner": {
+                    "properties": {
+                      "kind": {
+                        "const": "pack"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "arm": {
+                    "not": {
+                      "enum": [
+                        "accepted_kernel",
+                        "owner_decision"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "resource_kind"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "properties": {
+                  "owner": {
+                    "properties": {
+                      "kind": {
+                        "enum": [
+                          "core",
+                          "native"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "attributes": {
+                "$ref": "#/$defs/resourceKindAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "relation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/relationAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "dimension"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/dimensionAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "service"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/serviceAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "fact"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/factAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "capability"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/capabilityAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "operation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/operationAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "effect_rule"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/effectRuleAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "enum": [
+                  "evidence_state",
+                  "lifecycle_state"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "properties": {
+                  "owner": {
+                    "properties": {
+                      "kind": {
+                        "const": "core"
+                      }
+                    }
+                  }
+                }
+              },
+              "attributes": {
+                "$ref": "#/$defs/kernelStateAttributes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "presentation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "disposition": {
+                "const": "unsupported"
+              },
+              "attributes": {
+                "$ref": "#/$defs/presentationAttributes"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "admission": {
+              "properties": {
+                "arm": {
+                  "not": {
+                    "const": "public_registry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lens": {
+      "type": "object",
+      "required": [
+        "id",
+        "question",
+        "planes",
+        "root_kinds",
+        "max_depth"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/definitionId"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "planes": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/planeList"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "root_kinds": {
+          "$ref": "#/$defs/kindList"
+        },
+        "relations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/elementRef"
+          }
+        },
+        "max_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        }
+      }
+    },
+    "identificationScheme": {
+      "type": "object",
+      "required": [
+        "id",
+        "issuer_registry",
+        "token_form",
+        "admission"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/definitionId"
+        },
+        "issuer_registry": {
+          "description": "Identifier of the public registry that issues issuer codes, or the constant none when the scheme is globally unique. A registry, never a manufacturer.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/definitionId"
+            },
+            {
+              "const": "none"
+            }
+          ]
+        },
+        "token_form": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "admission": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/admission"
+            },
+            {
+              "properties": {
+                "arm": {
+                  "const": "public_registry"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
