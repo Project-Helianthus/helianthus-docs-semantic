@@ -6,6 +6,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Add the element catalog seed
+  [`api/v1/element-catalog-v1.json`](api/v1/element-catalog-v1.json): 307
+  entries generated once from the accepted packs and the kernel vocabulary by
+  [`scripts/generate_element_catalog_v1.py`](scripts/generate_element_catalog_v1.py),
+  with the frozen list of the 277 references that may carry the
+  `accepted_pack` admission arm in
+  [`scripts/element-catalog-seed-refs.json`](scripts/element-catalog-seed-refs.json).
+  246 entries are members of at least one plane, 35 presentation entries are
+  `unsupported`, and 26 thermal entries are `unknown`, in no plane, pending
+  the thermal placement work of docs-semantic#68. The identification-scheme
+  and lens lists are empty. `scripts/check_docs.sh` checks the catalog against
+  its schema. Additive: no pack, vector, table, metadata or kernel change.
+  Later entries change by reviewed edits; the cross-entry validator follows in
+  a later change.
 - The [semantic resource graph contract](api/v1/graph.md) of increment 1
   defines resources and their identity, typed relations, planes, lenses, the
   element catalog rules, activation, publication and coherence, and amends the

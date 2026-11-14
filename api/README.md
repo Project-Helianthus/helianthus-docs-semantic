@@ -119,6 +119,31 @@ The [family catalog contract v1](v1/family-catalog-v1.md) defines the
 checked by `scripts/validate_family_catalog_v1.py` and states no family's actual
 state; states live in the SemReg fixture with their evidence.
 
+## Element catalog v1
+
+The [element catalog](v1/element-catalog-v1.json) is the
+`helianthus.semantic.element-catalog/v1` document of the
+[graph contract](v1/graph.md) section 10. It lists every accepted element of
+the five packs and of the kernel vocabulary with its plane membership or an
+explicit `unknown` or `unsupported` disposition, and is checked against its
+[schema](v1/element-catalog-v1.schema.json) by
+`scripts/json_schema_subset_v1.py`. It was generated once from the accepted
+packs by `scripts/generate_element_catalog_v1.py`, which also wrote the frozen
+list of references that may carry the `accepted_pack` admission arm,
+[`scripts/element-catalog-seed-refs.json`](../scripts/element-catalog-seed-refs.json).
+From now on its entries change only by reviewed edits; the generator is not
+re-run over reviewed decisions.
+
+The 26 thermal entries are `unknown`, in no plane, pending the thermal
+placement work tracked on
+[docs-semantic#68](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/68):
+the eight facts whose only dimension is a qualifier, their four qualifier
+dimensions, the circuit, hot-water and ventilation kinds with their
+dimensions, services and read capabilities, and the set-temperature operation
+and its effect rule. The hydraulic plane is empty. Relation identifiers keep
+the pack spelling `<pack>.relationship.<name>` and follow the pack relation
+rename when it lands. The identification-scheme and lens lists are empty.
+
 ## Remaining contracts
 
 The accepted [immutable pack metadata v1](v1/pack-metadata-v1.md) exports exact
