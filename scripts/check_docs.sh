@@ -20,6 +20,7 @@ required_files=(
   api/v1/pack-metadata-v1.json
   api/v1/pack-metadata-v1.schema.json
   api/v1/element-catalog-v1.schema.json
+  api/v1/element-catalog-v1.json
   api/v1/family-catalog-v1.md
   api/v1/packs/thermal-hvac-v1.md
   api/v1/packs/thermal-hvac-acceptance-vectors.json
@@ -102,5 +103,6 @@ python3 scripts/test_validate_pack_metadata_v1.py
 python3 scripts/validate_family_catalog_v1.py
 python3 scripts/test_validate_family_catalog_v1.py
 python3 scripts/json_schema_subset_v1.py api/v1/element-catalog-v1.schema.json
+python3 scripts/json_schema_subset_v1.py api/v1/element-catalog-v1.schema.json api/v1/element-catalog-v1.json
 python3 scripts/test_json_schema_subset_v1.py
 python3 scripts/test_element_catalog_schema_v1.py

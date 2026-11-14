@@ -39,6 +39,9 @@ authority exist. Affected eeBUS rows remain unknown pending STD-01.
 - [Semantic resource graph v1](api/v1/graph.md) defines resources, relations,
   planes, lenses, the element catalog rules and the stable graph errors of the
   kernel contract.
+- [Element catalog v1](api/v1/element-catalog-v1.json) lists every accepted
+  pack and kernel element with its plane membership or an explicit `unknown`
+  or `unsupported` disposition; see the [API index](api/README.md#element-catalog-v1).
 - [Immutable pack metadata v1](api/v1/pack-metadata-v1.md) freezes the exact
   five-pack read-only facts required by the future SemReg descriptor validator.
 - [Family catalog contract v1](api/v1/family-catalog-v1.md) defines the
