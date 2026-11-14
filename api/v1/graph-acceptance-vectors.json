@@ -1811,6 +1811,233 @@
       ]
     },
     {
+      "name": "pv-driver-asset-with-configuration-contributor",
+      "registry": {
+        "element_catalog": "registered",
+        "packs": [{"id": "helianthus.pack.pv", "version": "1.0.0"}],
+        "identification_schemes": ["synthetic.serial"]
+      },
+      "batches": [
+        {
+          "batch_id": "batch:pv:01:pv:01:1",
+          "asset_id": "asset:pv:01",
+          "source_id": "source:pv:01",
+          "source_epoch_id": "source-epoch:pv:01",
+          "driver_generation": "1",
+          "sequence": "1",
+          "expected_semantic_revision": "0",
+          "binding_upserts": [
+            {
+              "binding_id": "binding:pv:01",
+              "asset_id": "asset:pv:01",
+              "source_id": "source:pv:01",
+              "source_epoch_id": "source-epoch:pv:01",
+              "driver_generation": "1",
+              "native_resource": {
+                "owner": "helianthus.example",
+                "kind": "evidence.synthetic",
+                "digest": "sha256:e9c098f73c0bad20d2e64b67c2c871ebd0b28e6d0ec5cdc5ea6dd930a286f169",
+                "contract": "helianthus.example.evidence/v1",
+                "access": "public",
+                "redaction": "none"
+              },
+              "state": "current",
+              "revision": "1"
+            }
+          ],
+          "identity_link_upserts": [
+            {
+              "asset_id": "asset:pv:01",
+              "binding_id": "binding:pv:01",
+              "state": "qualified",
+              "basis": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:0bf2e9472d26fe8c4df8a4f4cbc91492ca2c83b4bdd26e2ecfba2f8714bccb80",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1",
+              "resource": "resource:inverter:01",
+              "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9"
+            }
+          ],
+          "resource_upserts": [
+            {
+              "resource_id": "resource:dc-input:01",
+              "kind": "resource.dc_input",
+              "anchor": {
+                "class": "component",
+                "basis": "native_slot",
+                "parent": "resource:inverter:01",
+                "slot": "1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:a05161ea0988323c1f5e4ed99ba9be97e2d99e5bde981698c8c1a4475051c150",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "state": "current",
+              "origin": {
+                "origin_id": "origin:binding:pv:01",
+                "kind": "native_observation",
+                "source_id": "source:pv:01",
+                "source_epoch_id": "source-epoch:pv:01",
+                "binding_id": "binding:pv:01",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:dbbfc2edfb7b10e6a10d12fab0f1c1223aad77ba0f9b3dd7d985ba205c4dca5d",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "revision": "1"
+            },
+            {
+              "resource_id": "resource:inverter:01",
+              "kind": "resource.inverter",
+              "anchor": {
+                "class": "equipment",
+                "basis": "native_identity",
+                "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:45b95643abfb25cbc17b36ca991a85f7cb73e3528da7cac432fe429ff7339731",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "state": "current",
+              "origin": {
+                "origin_id": "origin:binding:pv:01",
+                "kind": "native_observation",
+                "source_id": "source:pv:01",
+                "source_epoch_id": "source-epoch:pv:01",
+                "binding_id": "binding:pv:01",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:dbbfc2edfb7b10e6a10d12fab0f1c1223aad77ba0f9b3dd7d985ba205c4dca5d",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "revision": "1"
+            }
+          ],
+          "relation_upserts": [
+            {
+              "definition": {
+                "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+                "id": "pv.relation.inverter_input",
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "to": "resource:dc-input:01",
+              "state": "qualified",
+              "basis_class": "gate_rule",
+              "basis": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:06324756a1dcdb8ec89a991093c9e54f5f94b97886656a38a034c857c86f4ce0",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "origin": {
+                "origin_id": "origin:binding:pv:01",
+                "kind": "native_observation",
+                "source_id": "source:pv:01",
+                "source_epoch_id": "source-epoch:pv:01",
+                "binding_id": "binding:pv:01",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:dbbfc2edfb7b10e6a10d12fab0f1c1223aad77ba0f9b3dd7d985ba205c4dca5d",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "revision": "1"
+            }
+          ]
+        },
+        {
+          "batch_id": "batch:pv:01:configuration:01:1",
+          "asset_id": "asset:pv:01",
+          "source_id": "source:configuration:01",
+          "source_epoch_id": "source-epoch:configuration:01",
+          "driver_generation": "1",
+          "sequence": "1",
+          "expected_semantic_revision": "1",
+          "relation_upserts": [
+            {
+              "definition": {
+                "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+                "id": "pv.relation.inverter_array",
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "to": "resource:pv-array:01",
+              "state": "qualified",
+              "basis_class": "configuration",
+              "basis": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:b5e41c2833b30f111a3950e0502ad7e67db7f2322d86ab23964482eab5f40faf",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "origin": {
+                "origin_id": "origin:operator:inverter-array",
+                "kind": "operator",
+                "source_id": "source:configuration:01",
+                "source_epoch_id": "source-epoch:configuration:01",
+                "evidence": [
+                  {
+                    "owner": "helianthus.example",
+                    "kind": "evidence.synthetic",
+                    "digest": "sha256:c5f3b73b196b290fb60d53b45fda4d70d9637630216eeb501988721feb7468d6",
+                    "contract": "helianthus.example.evidence/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "revision": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "pv-inverter-on-operator-slot-observed-by-binding",
       "registry": {
         "element_catalog": "registered",
@@ -7185,6 +7412,297 @@
         }
       ],
       "criterion": "The starting end of a relation instance is a current resource homed in the publishing asset."
+    },
+    {
+      "id": "G-POS-PUB-1",
+      "polarity": "positive",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["relation"],
+      "prior_state": "pv-driver-asset-with-configuration-contributor",
+      "input": {
+        "batch_id": "batch:pv:01:pv:01:2",
+        "asset_id": "asset:pv:01",
+        "source_id": "source:pv:01",
+        "source_epoch_id": "source-epoch:pv:01",
+        "driver_generation": "2",
+        "sequence": "2",
+        "expected_semantic_revision": "2",
+        "generation_fences": [
+          {
+            "source_id": "source:pv:01",
+            "source_epoch_id": "source-epoch:pv:01",
+            "driver_generation": "1",
+            "reason": "helianthus.fence.driver_restart",
+            "evidence": [
+              {
+                "owner": "helianthus.example",
+                "kind": "evidence.synthetic",
+                "digest": "sha256:ca8683441c08df4b3640200b637b5cd2bf2d4ea389484f3edc76d2a861259dbb",
+                "contract": "helianthus.example.evidence/v1",
+                "access": "public",
+                "redaction": "none"
+              }
+            ],
+            "revision": "1"
+          }
+        ]
+      },
+      "expect": {
+        "result": "accept",
+        "assertions": ["native_basis_instance_removed", "contributor_instance_kept", "resources_unaffected"],
+        "relation_states": [
+          {
+            "definition": {
+              "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+              "id": "pv.relation.inverter_array",
+              "version": "1.0.0"
+            },
+            "from": "resource:inverter:01",
+            "to": "resource:pv-array:01",
+            "state": "qualified"
+          }
+        ]
+      },
+      "definitions": [
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_array",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        }
+      ],
+      "anchor_keys": [
+        {
+          "identity": {"scheme": "synthetic.serial", "issuer": "0001", "token": "TOKEN-0401"},
+          "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9"
+        }
+      ],
+      "criterion": "The configuration provider publishes into the driver's asset as a second source: its configured instance starts at the inverter the driver observes and ends at an array homed in another asset. A fence of the driver's generation removes the driver's gate-rule instance and keeps the contributor's instance; resources stay."
+    },
+    {
+      "id": "G-NEG-PUB-1",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["relation"],
+      "prior_state": "pv-driver-asset-with-configuration-contributor",
+      "input": {
+        "batch_id": "batch:pv:01:configuration:01:2",
+        "asset_id": "asset:pv:01",
+        "source_id": "source:configuration:01",
+        "source_epoch_id": "source-epoch:configuration:01",
+        "driver_generation": "1",
+        "sequence": "2",
+        "expected_semantic_revision": "2",
+        "binding_upserts": [
+          {
+            "binding_id": "binding:configuration:01",
+            "asset_id": "asset:pv:01",
+            "source_id": "source:configuration:01",
+            "source_epoch_id": "source-epoch:configuration:01",
+            "driver_generation": "1",
+            "native_resource": {
+              "owner": "helianthus.example",
+              "kind": "evidence.synthetic",
+              "digest": "sha256:c32df60d79f5b22b8d8f6103c28ad4c5305190ad477a3fba08fce8817b614168",
+              "contract": "helianthus.example.evidence/v1",
+              "access": "public",
+              "redaction": "none"
+            },
+            "state": "current",
+            "revision": "1"
+          }
+        ],
+        "relation_upserts": [
+          {
+            "definition": {
+              "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+              "id": "pv.relation.inverter_array",
+              "version": "1.0.0"
+            },
+            "from": "resource:inverter:01",
+            "to": "resource:pv-array:02",
+            "state": "qualified",
+            "basis_class": "configuration",
+            "basis": [
+              {
+                "owner": "helianthus.example",
+                "kind": "evidence.synthetic",
+                "digest": "sha256:9b6211cd962feae5c940b94815533c3cf726747e1fd29fdb247ff725df1d4c73",
+                "contract": "helianthus.example.evidence/v1",
+                "access": "public",
+                "redaction": "none"
+              }
+            ],
+            "origin": {
+              "origin_id": "origin:binding:configuration:01",
+              "kind": "native_observation",
+              "source_id": "source:configuration:01",
+              "source_epoch_id": "source-epoch:configuration:01",
+              "binding_id": "binding:configuration:01",
+              "evidence": [
+                {
+                  "owner": "helianthus.example",
+                  "kind": "evidence.synthetic",
+                  "digest": "sha256:e1b979bbfd2bfe55fd29f968f46483da7360b2444bdd59ff7a3416871f1a6a10",
+                  "contract": "helianthus.example.evidence/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ]
+            },
+            "revision": "1"
+          }
+        ]
+      },
+      "expect": {"result": "reject", "error_id": "relation_not_qualified", "state_unchanged": true},
+      "definitions": [
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_array",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        }
+      ],
+      "anchor_keys": [
+        {
+          "identity": {"scheme": "synthetic.serial", "issuer": "0001", "token": "TOKEN-0401"},
+          "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9"
+        }
+      ],
+      "criterion": "A contributor's configured instance needs an operator origin. The origin here names the contributor's own binding upserted in the same batch, so it resolves and belongs to the batch; only the native-observation origin disagrees with the basis class configuration."
+    },
+    {
+      "id": "G-NEG-PUB-2",
+      "polarity": "negative",
+      "record_type": "PublicationBatch",
+      "operation": "apply",
+      "coverage": ["resource"],
+      "prior_state": "pv-driver-asset-with-configuration-contributor",
+      "input": {
+        "batch_id": "batch:pv:01:configuration:01:2",
+        "asset_id": "asset:pv:01",
+        "source_id": "source:configuration:01",
+        "source_epoch_id": "source-epoch:configuration:01",
+        "driver_generation": "1",
+        "sequence": "2",
+        "expected_semantic_revision": "2",
+        "identity_link_upserts": [
+          {
+            "asset_id": "asset:pv:01",
+            "binding_id": "binding:pv:01",
+            "state": "qualified",
+            "basis": [
+              {
+                "owner": "helianthus.example",
+                "kind": "evidence.synthetic",
+                "digest": "sha256:e83fca4938d7e89559319d55de9444e75c1f08403e91f68d63914ecebc32010f",
+                "contract": "helianthus.example.evidence/v1",
+                "access": "public",
+                "redaction": "none"
+              }
+            ],
+            "revision": "2",
+            "resource": "resource:inverter:01",
+            "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9"
+          }
+        ]
+      },
+      "expect": {"result": "reject", "error_id": "invalid_value", "state_unchanged": true},
+      "definitions": [
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_input",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        },
+        {
+          "ref": {
+            "owner": {"kind": "pack", "pack": {"id": "helianthus.pack.pv", "version": "1.0.0"}},
+            "id": "pv.relation.inverter_array",
+            "version": "1.0.0"
+          },
+          "disposition": "member"
+        }
+      ],
+      "anchor_keys": [
+        {
+          "identity": {"scheme": "synthetic.serial", "issuer": "0001", "token": "TOKEN-0401"},
+          "key": "sha256:fabf3e2ddbfd07085583a46a78cd6148f32c4fdad5020f699054c41719234bf9"
+        }
+      ],
+      "criterion": "An identity link belongs to the source of the binding it names. The contributor's link for the driver's binding is refused by the kernel's batch ownership rule although its key equals the anchor key, so an operator identity declaration travels in the driver's own batch."
     },
     {
       "id": "G-POS-CAT-1",
