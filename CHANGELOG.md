@@ -14,6 +14,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
   omitted when empty, so records without graph content keep their canonical
   bytes and identifiers, and the kernel vectors run unchanged without the
   catalog. Implementations follow in semreg and the gateway.
+- Add the element catalog schema
+  [`api/v1/element-catalog-v1.schema.json`](api/v1/element-catalog-v1.schema.json)
+  for the contract `helianthus.semantic.element-catalog/v1`, and its
+  repository-contained, dependency-free checker
+  [`scripts/json_schema_subset_v1.py`](scripts/json_schema_subset_v1.py), which
+  supports a fixed keyword subset including the conditionals and refuses every
+  other keyword in a schema. Additive: no existing document, schema or
+  validator changes. The catalog data and its cross-entry validator follow in
+  later changes.
 - Until the 0.7 release a breaking change may be made in place in an existing
   versioned directory, and each such change is listed in the new
   [in-place change record](api/README.md#in-place-change-record) of the
