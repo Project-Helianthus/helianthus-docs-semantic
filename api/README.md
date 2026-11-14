@@ -52,6 +52,24 @@ publish nothing today: no battery profile is admitted and no meter is decoded. T
 record where the existing Storage and Infrastructure packs will take the facts, keep
 capacity in energy units withheld, and expose no consumer binding or control.
 
+Every mapping gate shares one set of graph rules, checked by
+`scripts/mapping_gate_graph_rules.py` against the
+[element catalog](v1/element-catalog-v1.json) under section 15 of the
+[graph contract](v1/graph.md). A gate's `graph` member states its resource
+kinds with anchor class, basis, source, identification scheme and parent kind;
+its relation definitions with basis class, endpoint kinds, evidence, validity
+scope and absence sides; its relayed units, joins, aggregates and native
+interpretation selectors. The checker rejects an anchor source other than a
+native token, native position or operator label (section 6.3), a kind or
+relation definition that is not a catalog member or disagrees with it (RES-1,
+RES-2, REL-1, REL-3), an endpoint kind the gate does not publish, a join of
+observations whose native tokens differ or that rests on a label, ordinal or
+address (section 6.4, RES-7), an aggregate without its catalog subject kind
+(EN-1, EN-5), and any `planes` or `plane` member anywhere in the gate (PLN-1).
+Each failure carries a stable error identifier and the offending path. A gate
+without a `graph` member is reported as `graph_not_stated` and is not rejected
+until its own change adds the member; no accepted gate states one yet.
+
 ## PV/inverter pack v1
 
 [`helianthus.pack.pv/v1`](v1/packs/pv-inverter-v1.md) is the accepted third

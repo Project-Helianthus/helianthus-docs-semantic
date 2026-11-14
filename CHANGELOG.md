@@ -6,6 +6,22 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Add one shared checker for the resource, relation and identity statements
+  every mapping gate makes under section 15 of the
+  [graph contract](api/v1/graph.md).
+  [`scripts/mapping_gate_graph_rules.py`](scripts/mapping_gate_graph_rules.py)
+  reads the [element catalog](api/v1/element-catalog-v1.json) and checks a
+  gate's `graph` member: anchor source, class, basis, scheme and parent kind of
+  each published resource kind; definition, admitted basis class and published
+  endpoint kinds of each relation; relayed units; joins, rejecting a false join
+  and a join by label; aggregates and their catalog subject kind; interpretation
+  selectors; and no plane member anywhere in the gate. It returns a stable error
+  identifier and path per failure and has a `--self-test` mode.
+  [`scripts/test_mapping_gate_graph_rules.py`](scripts/test_mapping_gate_graph_rules.py)
+  covers a valid synthetic member and each rejection, and both run in
+  `scripts/check_docs.sh`. A gate without a `graph` member is reported, not
+  rejected; every gate file and validator, the element catalog and the pack
+  documents are unchanged, and no lock moves.
 - Breaking, in place before the 0.7 release: a family row of the
   [family catalog contract](api/v1/family-catalog-v1.md) may name every
   accepted capability pack its elements belong to. The optional member

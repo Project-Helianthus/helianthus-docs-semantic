@@ -111,3 +111,5 @@ python3 scripts/test_json_schema_subset_v1.py
 python3 scripts/test_element_catalog_schema_v1.py
 python3 scripts/validate_graph_v1.py
 python3 scripts/test_validate_graph_v1.py
+python3 scripts/mapping_gate_graph_rules.py --self-test
+python3 scripts/test_mapping_gate_graph_rules.py
