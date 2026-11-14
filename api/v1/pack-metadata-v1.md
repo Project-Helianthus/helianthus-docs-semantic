@@ -2,6 +2,8 @@
 
 `helianthus.semantic.pack-metadata/v1` is an accepted, protocol-neutral read-only contract for the five accepted capability packs. Its machine-readable fixture is [pack-metadata-v1.json](pack-metadata-v1.json), constrained by the [JSON Schema](pack-metadata-v1.schema.json) and validated against the exact accepted source contracts by `scripts/validate_pack_metadata_v1.py`.
 
+Immutable means read-only at run time. Until the 0.7 release the metadata changes in place whenever an accepted pack changes in place ([api/README.md](../README.md#version-rule)).
+
 This contract provides SemReg's future external descriptor validator with already accepted pack facts. It does not define Portal descriptors, labels or views; native membership; protocol mappings; operation admission; runtime composition; compatibility aliases; or control behavior. eeBUS normative mappings remain unresolved where their owning contract says so.
 
 ## Data and ordering

@@ -138,9 +138,22 @@ become normative merely because the kernel v1 types can represent them.
 
 An accepted API lives in an explicit versioned directory and states its status,
 compatibility policy, owning implementation package, validation commands,
-unresolved questions, and correction criteria. A breaking change requires a new
-major contract directory. Illustrative planning sketches and conceptual examples
-outside an accepted directory are not stable or executable API.
+unresolved questions, and correction criteria. Until the Helianthus 0.7
+release, the project owner may require a breaking change to be made in place in
+an existing versioned directory; each such change is listed in this page's
+in-place change record with its date, scope and the locks it moves. From the
+0.7 release on, a breaking change requires a new major contract directory.
+Illustrative planning sketches and conceptual examples outside an accepted
+directory are not stable or executable API.
+
+## In-place change record
+
+Each in-place change made under the exception of the version rule before the
+0.7 release is listed here, oldest first; the record closes at the release.
+
+| Date | Change | Locks moved |
+|---|---|---|
+| 2026-11-14 | Version rule exception for the 0.7 release cycle; pack metadata "immutable" means read-only at run time; family-catalog compatibility applies from the release on; the ownership layering names the semantic resource graph; the PV, EVSE and infrastructure pack pages point to the version rule. | None: no vector, fixture, schema, digest or validator changes. |
 
 ## Matter 1.6.1 target
 
