@@ -156,21 +156,25 @@ lists are empty.
 The [graph acceptance vectors](v1/graph-acceptance-vectors.json) are the
 `helianthus.semantic.graph.acceptance/v1` document of the
 [graph contract](v1/graph.md) section 19. They record the path and SHA-256 of
-the element catalog they were written against and cover activation, resources,
-relations, the element catalog and authority through the operations
-`construct_registry`, `register_catalog`, `apply` and `admit`. Each vector
-names one prior state, built from publication batches and defined once in the
-document, one operation and one expectation: the accepted result or the exact
-stable error. `scripts/validate_graph_v1.py` checks the shape and repeated
-keys, the identifiers, a positive and a negative vector per coverage area,
+the element catalog they were written against and cover the seven coverage
+areas of section 19 through the operations `construct_registry`,
+`register_catalog`, `apply`, `assemble_cut` and `admit`. Each vector names one
+prior state, defined once in the document, one operation and one expectation:
+the accepted result or the exact stable error. `scripts/validate_graph_v1.py`
+checks the shape and repeated keys, the identifiers, a positive and a negative
+vector per coverage area,
 that every expected error is a documented heading, that every definition
 reference resolves in the element catalog with the disposition the vector
 assumes, that every anchor key is `sha256:` over the JCS bytes of its
-`{scheme, issuer, token}` object, that every section 19 statement of the
-covered classes has a vector, and that the recorded catalog digest equals the
-file's. The seed catalog lists no identification scheme, so the vectors that
-need a native anchor key register the synthetic scheme the document declares.
-The graph-cut and plane-membership vectors follow in a later change.
+`{scheme, issuer, token}` object, that every section 19 identifier has a
+vector, and that the recorded catalog digest equals the file's. For a graph
+cut it also recomputes every snapshot and cut identifier, checks the canonical
+order of members, findings and relation coherence, and recomputes the plane
+membership of every resource a member holds. The seed catalog lists no
+identification scheme, so the vectors that need a native anchor key register
+the synthetic scheme the document declares.
+Coverage is complete: SemReg executes every graph vector by identifier with
+the element catalog and every kernel vector without it.
 
 ## Remaining contracts
 
