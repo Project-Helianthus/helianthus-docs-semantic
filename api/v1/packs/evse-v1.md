@@ -119,8 +119,9 @@ The five-domain catalog has thermal/HVAC, PV/inverter, storage/BMS, and EVSE
 accepted; infrastructure remains the required follow-on. This is typed 0.7
 documentation only. It creates no semreg runtime, native driver, gateway,
 Portal UI, Home Assistant entity, deployment, hardware qualification, live
-action, 0.8 IR, or code generation. Breaking change requires a new major pack
-directory.
+action, 0.8 IR, or code generation. The version rule of
+[api/README.md](../../README.md#version-rule) applies, including its rule for
+in-place changes until the 0.7 release.
 
 Run `python3 scripts/validate_evse_pack_v1.py`,
 `python3 scripts/test_validate_evse_pack_v1.py`, and `./scripts/check_docs.sh`.

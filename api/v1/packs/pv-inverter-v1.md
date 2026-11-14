@@ -145,7 +145,8 @@ The full five-domain catalog has thermal/HVAC, PV/inverter, and storage/BMS
 accepted, with EVSE and infrastructure as required follow-ons. This is typed
 0.7 documentation only: it introduces no 0.8 IR, HWIR, code generation,
 runtime, native driver, gateway, consumer, Portal UI, deployment, or live
-action. Breaking change requires a new major pack directory.
+action. The version rule of [api/README.md](../../README.md#version-rule)
+applies, including its rule for in-place changes until the 0.7 release.
 
 Run `python3 scripts/validate_pv_inverter_pack_v1.py`,
 `python3 scripts/test_validate_pv_inverter_pack_v1.py`, and
