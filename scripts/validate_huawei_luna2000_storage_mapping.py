@@ -262,14 +262,14 @@ def project(case, contract):
     spec = contract["reasons"][PRIMARY_REASON]
     dispositions = [{"kind": "fact", "item_id": item["item_id"], "outcome": "withheld", "source_keys": [], "reason": PRIMARY_REASON,
                      "loss": [{"kind": spec["loss_kind"], "source_items": [NATIVE_PREFIX + "battery"], "description": spec["description"], "reversible": spec["reversible"]}]} for item in contract["projection"]["requested_items"]]
-    output = {"facts": [], "relationships": [], "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": rows, "operations": []}
+    output = {"facts": [], "relations": [], "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": rows, "operations": []}
     assert_complete(output, contract)
     return output
 
 
 def assert_complete(output, contract):
     """Every native item carries exactly one disposition, a reason, and no value."""
-    if [row["native_id"] for row in output["native_dispositions"]] != [nid for nid, _, _ in INVENTORY] or output["facts"] or output["relationships"]:
+    if [row["native_id"] for row in output["native_dispositions"]] != [nid for nid, _, _ in INVENTORY] or output["facts"] or output["relations"]:
         fail("native disposition completeness")
     if any(row["outcome"] != "withheld" or row["reason"] not in contract["reasons"] for row in output["native_dispositions"]):
         fail("withheld without reason")

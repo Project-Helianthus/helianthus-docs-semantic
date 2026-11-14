@@ -42,9 +42,9 @@ evse.dimension.session             evse.dimension.meter
 evse.service.evse                  evse.service.connector
 evse.service.phase                 evse.service.session
 evse.service.meter
-evse.relationship.asset_evse       evse.relationship.evse_connector
-evse.relationship.connector_phase  evse.relationship.connector_session
-evse.relationship.evse_meter
+evse.relation.asset_evse           evse.relation.evse_connector
+evse.relation.connector_phase      evse.relation.connector_session
+evse.relation.evse_meter
 evse.capability.read.evse          evse.capability.read.connector
 evse.capability.read.phase         evse.capability.read.session
 evse.capability.read.meter         evse.capability.set_allocated_current

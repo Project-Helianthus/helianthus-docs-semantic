@@ -56,11 +56,11 @@ VECTOR_FILES = tuple(ROOT / "api/v1/packs" / name for name in (
 
 VECTOR_GROUPS = (
     ("fields", "fact"), ("fact_dimensions", "dimension"), ("services", "service"),
-    ("relationships", "relation"), ("capabilities", "capability"), ("operations", "operation"),
+    ("relations", "relation"), ("capabilities", "capability"), ("operations", "operation"),
     ("effect_rules", "effect_rule"), ("portal_contributions", "presentation"),
 )
 STORAGE_GROUPS = (
-    ("field_specs", "fact"), ("services", "service"), ("relationships", "relation"),
+    ("field_specs", "fact"), ("services", "service"), ("relations", "relation"),
     ("capabilities", "capability"), ("operations", "operation"), ("effects", "effect_rule"),
     ("portal_contributions", "presentation"),
 )
@@ -242,8 +242,6 @@ class PackModel:
         for side, dimension in zip(("from", "to"), ends):
             self.expect(dimension, "dimension")
             self.agree(key, "relation", f"endpoint {side}", dimension, endpoint_at(side))
-        if cardinality is None:
-            return
         self.agree(key, "relation", "cardinality", cardinality.removesuffix(OVER_TIME), value_at("cardinality"))
         self.agree(key, "relation", "over_time", cardinality.endswith(OVER_TIME), value_at("over_time"))
 
@@ -255,6 +253,9 @@ class PackModel:
 def load_vector_pack(path, model):
     catalog = subset.load_json(path)["catalog"]
     pack, defs = catalog["pack"], catalog["definitions"]
+    unknown = sorted(set(defs) - {group for group, _ in VECTOR_GROUPS})
+    if unknown:
+        raise ValueError(f"{path.name}: definition groups outside the catalog inputs: {unknown}")
     for group, element_kind in VECTOR_GROUPS:
         for item in defs.get(group, []):
             model.expect(item_key(item["ref"]), element_kind)
@@ -269,9 +270,9 @@ def load_vector_pack(path, model):
         model.resource_dimension(dimension(item["fact_key_dimension"]))
     for item in defs.get("fields", []):
         model.field(item_key(item["ref"]), item["kind"], dimension(item["dimension"]))
-    for item in defs.get("relationships", []):
+    for item in defs.get("relations", []):
         ends = (dimension(item["from"]), dimension(item["to"]))
-        model.relation(item_key(item["ref"]), ends, item.get("cardinality"))
+        model.relation(item_key(item["ref"]), ends, item["cardinality"])
 
 
 def load_storage_pack(path, model):
@@ -298,9 +299,9 @@ def load_storage_pack(path, model):
         model.resource_dimension(value)
     for item in tables["field_specs"]:
         model.field(key(item["id"]), item["kind"], dimension(item["dimension"]))
-    for item in tables["relationships"]:
-        ends = (service_dimension[item["source"]], service_dimension[item["target"]])
-        model.relation(key(item["id"]), ends, item.get("cardinality"))
+    for item in tables["relations"]:
+        ends = (service_dimension[item["from"]], service_dimension[item["to"]])
+        model.relation(key(item["id"]), ends, item["cardinality"])
 
 
 def metadata_agreements(metadata):

@@ -14,6 +14,8 @@ if SPEC is None or SPEC.loader is None:
 validator = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = validator
 SPEC.loader.exec_module(validator)
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER = "relation" + "ships"
 
 
 def reject(document, expected):
@@ -43,7 +45,10 @@ def main():
     case(document, "evse_downgraded", "five-domain catalog", lambda c: c["domain_catalog"][3].update(state="follow_on"))
     case(document, "bound_drift", "quantity contract", lambda c: c["definitions"]["fields"][0]["bounds"].update(maximum={"coefficient":"9", "exponent10":2}))
     case(document, "dimension_drift", "noncanonical kind", lambda c: c["definitions"]["fields"][0].update(dimension="infrastructure.dimension.site"))
-    case(document, "topology_drift", "relationship association", lambda c: c["definitions"]["relationships"][2].update(cardinality="one_to_one"))
+    case(document, "topology_drift", "relation association", lambda c: c["definitions"]["relations"][2].update(cardinality="one_to_one"))
+    case(document, "relation_cardinality_missing", "relation association", lambda c: c["definitions"]["relations"][0].pop("cardinality"))
+    case(document, "relation_member_earlier_name", "definition groups", lambda c: c["definitions"].update({EARLIER_MEMBER: c["definitions"].pop("relations")}))
+    case(document, "relation_member_duplicated", "definition groups", lambda c: c["definitions"].update({EARLIER_MEMBER: copy.deepcopy(c["definitions"]["relations"])}))
     case(document, "capability_drift", "capability association", lambda c: c["definitions"]["capabilities"][0].update(service="infrastructure.service.meter"))
     case(document, "operation_published", "read-only operation boundary", lambda c: c["definitions"].update(operations=[{"id":"infrastructure.operation.open_breaker"}]))
     case(document, "breaker_actuation_published", "read-only operation boundary", lambda c: c["read_only_operation_boundary"].update(breaker_actuation="published"))
@@ -56,7 +61,7 @@ def main():
     case(document, "counter_weakened", "counter policy", lambda c: c["counter_policy"].update(decrease="infer_reset"))
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
     case(document, "loss_omitted", "projection-loss coverage", lambda c: c["loss_dispositions"].remove("aggregation"))
-    print("focused_mutations: 17 REJECTED")
+    print("focused_mutations: 20 REJECTED")
 
 
 if __name__ == "__main__":

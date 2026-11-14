@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('storage',ROOT/'scripts/validate_storage_bms_pack_v1.py')
 v=importlib.util.module_from_spec(spec); sys.modules[spec.name]=v; spec.loader.exec_module(v)
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER='relation'+'ships'
 
 def reject_catalog(data,error):
  try: v.document(data)
@@ -43,6 +45,9 @@ def main():
   ('loss_of_qualified_current',lambda c:c['publication_withdrawal_policy']['admission'].remove('qualified_active_capability'),'publication lifecycle'),
   ('supersession_weakened',lambda c:c['supersession'].update(operation_use='implemented'),'supersession'),
   ('fail_closed_state_removed',lambda c:c['interlock_fail_closed_states'].pop(),'fail-closed states'),
+  ('relation_list_earlier_name',lambda c:c['definitions'].update({EARLIER_MEMBER:c['definitions'].pop('relations')}),'definition groups'),
+  ('relation_list_duplicated',lambda c:c['definitions'].update({EARLIER_MEMBER:list(c['definitions']['relations'])}),'definition groups'),
+  ('relation_list_drift',lambda c:c['definitions']['relations'].reverse(),'relations'),
  ]
  for case in catalog_cases: catalog_case(*case)
  table_cases=[
@@ -55,8 +60,13 @@ def main():
   ('interlock_field_drift',lambda t:t['field_specs'][19].update(dimension='storage.dimension.pack'),'interlock field'),
   ('interlock_symbol_drift',lambda t:t['field_specs'][19]['symbols'].reverse(),'interlock field'),
   ('service_dimension_crosswire',lambda t:t['services'][2].update(dimension='storage.dimension.cell'),'exact contract tables'),
-  ('relationship_endpoint_crosswire',lambda t:t['relationships'][0].update(target='storage.service.pack'),'exact contract tables'),
-  ('relationship_cardinality_drift',lambda t:t['relationships'][0].update(cardinality='one_to_one'),'exact contract tables'),
+  ('relation_endpoint_crosswire',lambda t:t['relations'][0].update(to='storage.service.pack'),'exact contract tables'),
+  ('relation_origin_crosswire',lambda t:t['relations'][1].update(**{'from':'storage.service.system'}),'exact contract tables'),
+  ('relation_cardinality_drift',lambda t:t['relations'][0].update(cardinality='one_to_one'),'exact contract tables'),
+  ('relation_cardinality_missing',lambda t:t['relations'][2].pop('cardinality'),'relation encoding'),
+  ('relation_endpoint_earlier_names',lambda t:t['relations'][3].update(source=t['relations'][3].pop('from'),target=t['relations'][3].pop('to')),'relation encoding'),
+  ('relation_member_earlier_name',lambda t:t.update({EARLIER_MEMBER:t.pop('relations')}),'exact table members'),
+  ('relation_member_duplicated',lambda t:t.update({EARLIER_MEMBER:copy.deepcopy(t['relations'])}),'exact table members'),
   ('interface_capability_field_drift',lambda t:t['capabilities'][2]['field_ids'].reverse(),'qualified-current interface capability'),
   ('interface_capability_binding_drift',lambda t:t['capabilities'][2].update(binding='unqualified'),'qualified-current interface capability'),
   ('portal_capability_drift',lambda t:t['portal_contributions'][2].update(capability=None),'Portal interface contribution'),
@@ -88,6 +98,6 @@ def main():
   ('decimal_reversed_bounds',lambda t:t['field_specs'][0].update(bounds={'minimum':{'coefficient':'1','exponent10':2},'maximum':{'coefficient':'0','exponent10':0}}),'reversed bounds'),
  ]
  for case in table_cases: table_case(*case)
- print('baseline: PASS; 13 catalog and 40 table mutations rejected')
+ print('baseline: PASS; 16 catalog and 45 table mutations rejected')
 
 if __name__=='__main__': main()

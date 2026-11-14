@@ -75,8 +75,18 @@ DIMENSION_TEXT = {"asset_suffix": {"strip_prefix": "pv-asset-"}, "pv.dimension.s
 DOC_TOKENS = ("gateway-derived", "helianthus.modbus.asset.v1", "per-asset configuration field is not required", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
 
 
+IDENTITY_MEMBERS = {"asset_id", "source_id", "binding_id", "failure", "dimension_text", "relations"}
+
+
 def fail(code):
     raise ValueError(code)
+
+
+def identity_members(document):
+    identity = document.get("identity", {})
+    if set(identity) != IDENTITY_MEMBERS:
+        fail("identity contract")
+    return identity
 
 
 def _no_float(text):
@@ -122,7 +132,7 @@ def mutate(value, mutation):
 
 def pack_catalog():
     catalog = json.loads(PACK_CATALOG.read_text(encoding="utf-8"))["catalog"]["definitions"]
-    return {field["id"]: field for field in catalog["fields"]}, {rel["id"]: rel for rel in catalog["relationships"]}, {dim["id"] for dim in catalog["fact_dimensions"]}
+    return {field["id"]: field for field in catalog["fields"]}, {rel["id"]: rel for rel in catalog["relations"]}, {dim["id"] for dim in catalog["fact_dimensions"]}
 
 
 def decimal_of(number):
@@ -159,7 +169,7 @@ def grade_min(left, right):
 
 
 def validate_contract(document):
-    fields, relationships, dimensions = pack_catalog()
+    fields, relations, dimensions = pack_catalog()
     if document.get("contract") != "helianthus.semantic.mapping.huawei-sun2000.pv/v1" or document.get("mapping_id") != "pv.mapping.huawei.sun2000.monitoring" or document.get("pack") != PACK or document.get("status") != "accepted_source_specific_read_only_mapping_gate":
         fail("contract")
     if document.get("evidence") != EVIDENCE:
@@ -251,7 +261,7 @@ def validate_contract(document):
     for rule in rules:
         if rule.get("native_id") in ("pv_string_voltage", "pv_string_current") and rule["grade_ceiling"]["m1"] != "proven":
             fail("grade ceiling")
-    identity = document.get("identity", {})
+    identity = identity_members(document)
     for key, granularity in (("asset_id", "one_asset_per_admitted_inverter_child_within_an_endpoint_instance"), ("source_id", "one_source_per_endpoint_instance")):
         entry = identity.get(key, {})
         if entry.get("required") is not True or entry.get("non_secret") is not True or entry.get("granularity") != granularity or entry.get("forbidden_derivations") != FORBIDDEN_DERIVATIONS:
@@ -264,7 +274,7 @@ def validate_contract(document):
         fail("identity contract")
     if identity.get("binding_id") != {"source": "gateway_domain_separated_asset_source_profile_binding", "required": True, "non_secret": True, "stable_inputs": ["asset_id", "source_id", "profile_id"]}:
         fail("identity contract")
-    if identity.get("dimension_text") != DIMENSION_TEXT or identity.get("relationships") != ["pv.relationship.system_inverter", "pv.relationship.inverter_input"] or any(name not in relationships for name in identity["relationships"]):
+    if identity.get("dimension_text") != DIMENSION_TEXT or identity.get("relations") != ["pv.relation.system_inverter", "pv.relation.inverter_input"] or any(name not in relations for name in identity["relations"]):
         fail("identity contract")
     if document.get("lifecycle") != {
         "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_selection", "groups", "facts"],
@@ -504,12 +514,12 @@ def project(case, contract):
             if index is not None:
                 row["index"] = index
             native_rows.append({**row, "outcome": rule["disposition"]["outcome"], "target": rule["target"]})
-    relationships = []
+    relations = []
     if any(item["key"]["dimensions"][0]["id"] in texts for item in published):
-        relationships.append({"id": "pv.relationship.system_inverter", "from": {"id": "pv.dimension.system", "text": texts["pv.dimension.system"]}, "to": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}})
+        relations.append({"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": texts["pv.dimension.system"]}, "to": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}})
     for n in range(1, 9):
         if any(item["key"]["dimensions"][0]["value"]["text"] == "input:%d" % n for item in published):
-            relationships.append({"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}, "to": {"id": "pv.dimension.input", "text": "input:%d" % n}})
+            relations.append({"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}, "to": {"id": "pv.dimension.input", "text": "input:%d" % n}})
     published.sort(key=lambda item: (item["key"]["fact_id"], item["key"]["dimensions"][0]["value"]["text"]))
     dispositions = []
     for requested in contract["projection"]["requested_items"]:
@@ -523,7 +533,7 @@ def project(case, contract):
         spec = contract["reasons"][reason]
         dispositions.append({"kind": "fact", "item_id": item_id, "outcome": "withheld", "source_keys": [], "reason": reason,
                              "loss": [{"kind": spec["loss_kind"], "source_items": [NATIVE_PREFIX + rule["native_id"]], "description": spec["description"], "reversible": spec["reversible"]}]})
-    output = {"facts": published, "relationships": relationships, "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": native_rows, "operations": []}
+    output = {"facts": published, "relations": relations, "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": native_rows, "operations": []}
     assert_complete(output, profile, rules)
     return output
 
@@ -544,14 +554,14 @@ def assert_complete(output, profile, rules):
 
 def summarize(output):
     facts = [{"fact_id": item["key"]["fact_id"], "dimension": item["key"]["dimensions"][0]["value"]["text"], "value": item["value"], "evidence_grade": item["evidence_grade"], "retained": item["retained"], "observation_revision": item["observation_revision"]} for item in output["facts"]]
-    relationships = [{"id": item["id"], "from": item["from"]["text"], "to": item["to"]["text"]} for item in output["relationships"]]
+    relations = [{"id": item["id"], "from": item["from"]["text"], "to": item["to"]["text"]} for item in output["relations"]]
     dispositions = []
     for item in output["dispositions"]:
         row = {"item_id": item["item_id"], "outcome": item["outcome"], "published": len(item["source_keys"]), "loss": [loss["kind"] for loss in item["loss"]]}
         if "reason" in item:
             row["reason"] = item["reason"]
         dispositions.append(row)
-    return {"facts": facts, "relationships": relationships, "dispositions": dispositions, "native_dispositions": output["native_dispositions"], "operations": output["operations"]}
+    return {"facts": facts, "relations": relations, "dispositions": dispositions, "native_dispositions": output["native_dispositions"], "operations": output["operations"]}
 
 
 def run_scenario(scenario, contract):

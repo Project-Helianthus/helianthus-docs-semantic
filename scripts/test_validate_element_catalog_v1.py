@@ -23,15 +23,20 @@ FIELD = "evse.ac.voltage"
 SIGNED_FIELD = "evse.ac.active_power"
 SERVICE = "evse.service.connector"
 OTHER_DIMENSION = "evse.dimension.evse"
-CONTAINS_RELATION = "evse.relationship.connector_phase"
-PHYSICAL_ONLY_RELATION = "pv.relationship.array_string"
-REQUIRED_PLANE_RELATION = "evse.relationship.asset_evse"
-CROSSING_RELATION = "pv.relationship.inverter_array"
+CONTAINS_RELATION = "evse.relation.connector_phase"
+PHYSICAL_ONLY_RELATION = "pv.relation.array_string"
+REQUIRED_PLANE_RELATION = "evse.relation.asset_evse"
+CROSSING_RELATION = "pv.relation.inverter_array"
 FOREIGN_DIMENSION = "storage.dimension.battery"
 CORE_KIND = "resource.equipment"
 KERNEL_TYPE = "kernel.ack_state"
 LENS_ROOT = "resource.pv_system"
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
+# One relation definition of each pack that declares relations.
+PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
+                  "infrastructure.relation.feeder_circuit", "storage.relation.pack_module")
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER = "relation" + "ships"
 
 
 def entry_of(catalog, ident):
@@ -157,6 +162,19 @@ class Mutations(unittest.TestCase):
             entry_of(catalog, SERVICE)["attributes"]["fact_key_dimension"] = ref_of(catalog, OTHER_DIMENSION)
         self.rejects(mutate, "invalid_value", "CAT-2", SERVICE, "pack metadata fact_key_dimension")
 
+    def test_relation_cardinality_disagrees_with_its_pack(self):
+        # The cardinality of every pack is read from the pack: the PV pack declares it too.
+        for ident in PACK_RELATIONS:
+            with self.subTest(relation=ident):
+                def mutate(catalog, ident=ident):
+                    entry_of(catalog, ident)["attributes"]["cardinality"] = "many_to_many"
+                self.rejects(mutate, "invalid_value", "CAT-2", ident, "cardinality")
+
+    def test_relation_over_time_disagrees_with_its_pack(self):
+        def mutate(catalog):
+            entry_of(catalog, "evse.relation.connector_session")["attributes"]["over_time"] = False
+        self.rejects(mutate, "invalid_value", "CAT-2", "evse.relation.connector_session", "over_time")
+
     # CAT-3
     def test_member_with_empty_planes(self):
         self.rejects(lambda c: entry_of(c, FIELD).update(planes=[]), "membership_missing", "CAT-3", FIELD)
@@ -225,6 +243,60 @@ class Mutations(unittest.TestCase):
         def mutate(catalog):
             catalog["identification_schemes"] = [scheme("scheme.synthetic"), scheme("scheme.synthetic")]
         self.rejects(mutate, "duplicate_identity", "CAT-9", "scheme.synthetic")
+
+
+class PackInputs(unittest.TestCase):
+    """The validator reads the relation definitions only in their one encoding."""
+
+    def load_with(self, path, mutate):
+        original = subset.load_json
+
+        def patched(target):
+            document = original(target)
+            if validator.Path(target) == path:
+                mutate(document)
+            return document
+
+        validator.subset.load_json = patched
+        try:
+            return validator.load_inputs()
+        finally:
+            validator.subset.load_json = original
+
+    def test_vector_pack_with_the_earlier_member_name(self):
+        def mutate(document):
+            definitions = document["catalog"]["definitions"]
+            definitions[EARLIER_MEMBER] = definitions.pop("relations")
+        for path in validator.VECTOR_FILES[1:]:
+            with self.subTest(pack=path.name), self.assertRaisesRegex(ValueError, "definition groups outside"):
+                self.load_with(path, mutate)
+
+    def test_vector_pack_with_both_member_names(self):
+        def mutate(document):
+            definitions = document["catalog"]["definitions"]
+            definitions[EARLIER_MEMBER] = copy.deepcopy(definitions["relations"])
+        with self.assertRaisesRegex(ValueError, "definition groups outside"):
+            self.load_with(validator.VECTOR_FILES[1], mutate)
+
+    def test_vector_relation_without_cardinality(self):
+        for path in validator.VECTOR_FILES[1:]:
+            with self.subTest(pack=path.name), self.assertRaises(KeyError):
+                self.load_with(path, lambda d: d["catalog"]["definitions"]["relations"][0].pop("cardinality"))
+
+    def test_storage_relation_with_the_earlier_endpoint_names(self):
+        def mutate(document):
+            relation = document["relations"][0]
+            relation["source"], relation["target"] = relation.pop("from"), relation.pop("to")
+        with self.assertRaises(KeyError):
+            self.load_with(validator.STORAGE_TABLES, mutate)
+
+    def test_storage_tables_with_the_earlier_member_name(self):
+        with self.assertRaises(KeyError):
+            self.load_with(validator.STORAGE_TABLES, lambda d: d.update({EARLIER_MEMBER: d.pop("relations")}))
+
+    def test_storage_relation_without_cardinality(self):
+        with self.assertRaises(KeyError):
+            self.load_with(validator.STORAGE_TABLES, lambda d: d["relations"][0].pop("cardinality"))
 
 
 if __name__ == "__main__":

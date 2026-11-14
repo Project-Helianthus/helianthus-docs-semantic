@@ -111,8 +111,8 @@ Fact keys use the pack's own dimensions with these values:
 | `pv.dimension.phase` | no value is published | Proven as a statement of the profiles: neither admits a per-phase word |
 
 The asset is its own PV system with one inverter, so the gate emits one
-`pv.relationship.system_inverter` record when a system or inverter fact is
-published, and one `pv.relationship.inverter_input` record for each published
+`pv.relation.system_inverter` record when a system or inverter fact is
+published, and one `pv.relation.inverter_input` record for each published
 input. No array or string topology, no tracker pairing and no member the profile
 does not evidence is created (Unknown: the ratings group that would state the
 string and tracker counts is not consumed).
@@ -270,7 +270,7 @@ files use synthetic identifiers and values only.
 | `PV-POS-006-unobserved-unit-grade-cap` | A unit that was not read for monitoring carries Hypothesis and the gate keeps it. |
 | `PV-POS-007-grade-capped-at-contract-ceiling` | A grade above the contract's grade is capped at the ceiling. |
 | `PV-POS-008-voltage-out-of-range` | A voltage beyond the pack bound is withheld and not clamped. |
-| `PV-POS-009-all-inputs-zero` | Zero pairs publish no input and create no input relationship. |
+| `PV-POS-009-all-inputs-zero` | Zero pairs publish no input and create no input relation. |
 | `PV-POS-010-power-group-not-answered` | A power group that did not answer leaves the three power facts unknown and publishes the rest. |
 | `PV-POS-011-canonical-decimal` | A trailing zero moves into the exponent and a zero power has exponent zero. |
 | `PV-NEG-001-emma-map0-not-admitted` | The MAP0 series has no consulted edition and publishes nothing. |

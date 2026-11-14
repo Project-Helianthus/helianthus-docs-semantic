@@ -14,6 +14,8 @@ if SPEC is None or SPEC.loader is None:
 validator = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = validator
 SPEC.loader.exec_module(validator)
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER = "relation" + "ships"
 
 
 def reject(document, expected):
@@ -50,14 +52,17 @@ def main():
     case(document, "tesla_control_route", "native mapping boundary", lambda c: c["candidate_mappings"][0].update(control_route="fbe0"))
     case(document, "eebus_conformance", "native mapping boundary", lambda c: c["candidate_mappings"][1].update(state="qualified"))
     case(document, "matter_conformance", "native mapping boundary", lambda c: c["candidate_mappings"][2].update(qualification="conformant"))
-    case(document, "relationship_cardinality", "relationship association", lambda c: c["definitions"]["relationships"][3].update(cardinality="one_to_one"))
+    case(document, "relation_cardinality", "relation association", lambda c: c["definitions"]["relations"][3].update(cardinality="one_to_one"))
+    case(document, "relation_cardinality_missing", "relation association", lambda c: c["definitions"]["relations"][0].pop("cardinality"))
+    case(document, "relation_member_earlier_name", "definition groups", lambda c: c["definitions"].update({EARLIER_MEMBER: c["definitions"].pop("relations")}))
+    case(document, "relation_member_duplicated", "definition groups", lambda c: c["definitions"].update({EARLIER_MEMBER: copy.deepcopy(c["definitions"]["relations"])}))
     case(document, "operation_precondition", "operation safety", lambda c: c["definitions"]["operations"][0].update(preconditions=["exact_route"]))
     case(document, "operation_retry", "operation safety", lambda c: c["definitions"]["operations"][0].update(retry="retry"))
     case(document, "effect_crosswire", "effect association", lambda c: c["definitions"]["effect_rules"][0].update(fact="evse.limit.actual_current"))
     case(document, "portal_authority", "Portal operation", lambda c: c["definitions"]["portal_contributions"][5].update(admission="always"))
     case(document, "counter_weakened", "counter policy", lambda c: c["counter_policy"].update(decrease="infer_reset"))
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
-    print("focused_mutations: 18 REJECTED")
+    print("focused_mutations: 21 REJECTED")
 
 
 if __name__ == "__main__":

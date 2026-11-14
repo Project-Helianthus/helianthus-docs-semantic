@@ -12,14 +12,17 @@ VECTORS=ROOT/'api/v1/packs/storage-bms-acceptance-vectors.json'
 TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
-COUNTS={'field_specs':20,'services':7,'capabilities':5,'relationships':6,'operations':2,'effects':2,'portal_contributions':5}
+COUNTS={'field_specs':20,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
+TABLE_MEMBERS={'capabilities','contract','definition_index','effects','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
+RELATION_MEMBERS={'id','from','to','cardinality','order'}
+DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
 DOMAINS={'thermal_hvac':('helianthus.pack.thermal','accepted'),'pv_inverter':('helianthus.pack.pv','exact_head_review'),'storage_bms':('helianthus.pack.storage','accepted'),'evse':('helianthus.pack.evse','follow_on'),'infrastructure':('helianthus.pack.infrastructure','follow_on')}
 PINS={'semantic_docs':'346cda9b675a03a7d1a8c886a3467eab84ce8fb2','semreg_projection':'cc9b324225e945598128eeabe977e7fa0af6dc93','can_docs':'665a5f22f78c349b5e3063bda158af250a3f44b6','canbusreg':'8c827ea26ffbad8b50aba2c6ae89028622ba4343','rs485_docs':'c9d37b7f7cd5ebc6c4125565648a7deb094aaa7a','modbusreg':'f1e593995576fdfbbc64fd879b47abff8bd2cc0e','eebus_ledger':'81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1','matter_draft':'29b4768a513cf566011ab8cd60df1bc495204953'}
 LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_direction','aggregation_reference','counter_reset_wrap','unavailable_fields','conflicting_sources','vendor_extensions','unsupported_operations'}
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='0f8e09043ad20dc75e94ebaf7d27f42e9b5c49b8eb0a014a8e33a28449e8c53a'
+TABLE_SHA256='7cb32b4b02284f4af6cdd905c52a8bcca560eb793428ed1903ba5fc239269c68'
 
 INTERLOCK_FIELD={'id':'storage.status.interlock','kind':'symbol','dimension':'storage.dimension.interface','optional':True,'symbols':['storage.status.interlock.active','storage.status.interlock.clear']}
 INTERLOCK_PREDICATE={'cardinality':'exactly_one','definition':{'pack':PACK,'id':'storage.status.interlock','version':'1.1.0'},'fact_key_dimensions':['storage.dimension.interface'],'operator':'equal','expected_value':{'kind':'symbol','symbol':{'namespace':'storage.status.interlock','token':'clear','known':True}}}
@@ -74,8 +77,22 @@ def validate_tables(table):
   if effect is None or effect.get('comparator')!='equal' or effect.get('fact_key_dimensions')!=INTERLOCK_PREDICATE['fact_key_dimensions']: raise ValueError('same-interface equal predicate')
  if canonical_digest(table)!=TABLE_SHA256: raise ValueError('exact contract tables')
 
+
+def validate_relation_encoding(table,catalog):
+ """One relation encoding: the table members, each relation's members and the catalog's definition groups."""
+ if set(table)!=TABLE_MEMBERS:
+  raise ValueError('exact table members')
+ if any(set(entry)!=RELATION_MEMBERS for entry in table['relations']):
+  raise ValueError('relation encoding')
+ definitions=catalog.get('definitions',{})
+ if not isinstance(definitions,dict) or set(definitions)!=DEFINITION_GROUPS:
+  raise ValueError('definition groups')
+
+
 def validate(catalog,table=None):
- table=tables() if table is None else table; validate_tables(table)
+ table=tables() if table is None else table
+ validate_relation_encoding(table,catalog)
+ validate_tables(table)
  if catalog.get('pack')!=PACK or catalog.get('kernel_contract')!='helianthus.semantic.kernel/v1': raise ValueError('PackRef')
  exact(catalog.get('supersession'),SUPERSESSION,'supersession')
  exact(catalog.get('interlock_fail_closed_states'),FAIL_CLOSED,'fail-closed states')
@@ -87,7 +104,7 @@ def validate(catalog,table=None):
  d=catalog.get('definitions',{}); outline=[{key:field[key] for key in ('id','kind','unit','dimension','symbols') if key in field} for field in table['field_specs']]
  exact(d.get('fields'),outline,'field catalog')
  exact(d.get('dimensions'),['system','battery','pack','module','cell','string','interface'],'dimensions')
- exact(d.get('relationships'),[entry['id'].removeprefix('storage.relationship.') for entry in table['relationships']],'relationships')
+ exact(d.get('relations'),[entry['id'].removeprefix('storage.relation.') for entry in table['relations']],'relations')
  exact(d.get('operations'),[entry['id'].removeprefix('storage.operation.') for entry in table['operations']],'operations')
  exact(d.get('portal'),{'read':'all_fields_exactly_once','operation':'current_admission_only'},'Portal')
  expected=[{'id':'storage.mapping.growatt.can.v104','native_owner':'helianthus-docs-canbus','source_refs':['can_docs','canbusreg'],'state':'candidate','qualification':'synthetic_offline_selected_interface_only','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.growatt.rs485.1xsxxp','native_owner':'helianthus-docs-modbus','source_refs':['rs485_docs','modbusreg'],'state':'candidate','qualification':'observation_fixture_no_runtime_or_command','physical_qualified':False,'control_route':False,'loss':'unknown'},{'id':'storage.mapping.eebus','native_owner':'helianthus-docs-eebus','source_refs':['eebus_ledger'],'state':'unknown_pending_normative_source','qualification':'unresolved','loss':'unknown'}]

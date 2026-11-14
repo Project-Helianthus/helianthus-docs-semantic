@@ -82,7 +82,7 @@
     "binding_id": {"source": "gateway_domain_separated_asset_source_profile_binding", "required": true, "non_secret": true, "stable_inputs": ["asset_id", "source_id", "profile_id"]},
     "failure": "missing_or_invalid_asset_or_source_identity_fails_closed",
     "dimension_text": {"asset_suffix": {"strip_prefix": "pv-asset-"}, "pv.dimension.system": "system:{asset_suffix}", "pv.dimension.inverter": "inverter:{asset_suffix}", "pv.dimension.input": "input:{n}", "pv.dimension.phase": null},
-    "relationships": ["pv.relationship.system_inverter", "pv.relationship.inverter_input"]
+    "relations": ["pv.relation.system_inverter", "pv.relation.inverter_input"]
   },
   "lifecycle": {
     "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_selection", "groups", "facts"],
@@ -377,10 +377,10 @@
               "retained": false
             }
           ],
-          "relationships": [
-            {"id": "pv.relationship.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-alpha"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:2"}}
+          "relations": [
+            {"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-alpha"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:2"}}
           ],
           "requested": [
             {"kind": "fact", "item_id": "pv.ac.aggregate_active_power"},
@@ -660,16 +660,16 @@
               "retained": false
             }
           ],
-          "relationships": [
-            {"id": "pv.relationship.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-beta"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:2"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:3"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:4"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:5"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:6"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:7"}},
-            {"id": "pv.relationship.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:8"}}
+          "relations": [
+            {"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-beta"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:2"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:3"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:4"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:5"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:6"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:7"}},
+            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:8"}}
           ],
           "requested": [
             {"kind": "fact", "item_id": "pv.ac.aggregate_active_power"},
@@ -795,7 +795,7 @@
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.negative_active_power_sign_unknown"},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -871,7 +871,7 @@
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": true, "observation_revision": 3},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -932,7 +932,7 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1013,16 +1013,16 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [
-            {"id": "pv.relationship.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
+          "relations": [
+            {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
           ],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
@@ -1102,16 +1102,16 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [
-            {"id": "pv.relationship.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
-            {"id": "pv.relationship.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
+          "relations": [
+            {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
+            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
           ],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
@@ -1172,7 +1172,7 @@
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1220,7 +1220,7 @@
       "id": "PV-POS-009-all-inputs-zero",
       "polarity": "positive",
       "baseline": "m1",
-      "note": "every input pair is zero: no input is published and no relationship is created",
+      "note": "every input pair is zero: no input is published and no relation is created",
       "mutations": [
         {"path": "facts.0.value", "value": {"coefficient": "0", "exponent10": -1}},
         {"path": "facts.0.words", "value": [0]},
@@ -1263,7 +1263,7 @@
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1336,7 +1336,7 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"},
             {"item_id": "pv.dc.aggregate_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"},
@@ -1398,7 +1398,7 @@
             {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relationships": [{"id": "pv.relationship.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relationship.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},

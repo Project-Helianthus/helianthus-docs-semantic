@@ -105,11 +105,13 @@ SERVICE_DIMENSIONS = {"pv.service.system": "pv.dimension.system",
                       "pv.service.string": "pv.dimension.string",
                       "pv.service.input": "pv.dimension.input",
                       "pv.service.phase": "pv.dimension.phase"}
-RELATIONSHIPS = {"pv.relationship.system_inverter": ("pv.dimension.system", "pv.dimension.inverter"),
-                 "pv.relationship.inverter_array": ("pv.dimension.inverter", "pv.dimension.array"),
-                 "pv.relationship.array_string": ("pv.dimension.array", "pv.dimension.string"),
-                 "pv.relationship.inverter_input": ("pv.dimension.inverter", "pv.dimension.input"),
-                 "pv.relationship.inverter_phase": ("pv.dimension.inverter", "pv.dimension.phase")}
+RELATIONS = {"pv.relation.system_inverter": ("pv.dimension.system", "pv.dimension.inverter", "one_to_many"),
+             "pv.relation.inverter_array": ("pv.dimension.inverter", "pv.dimension.array", "one_to_many"),
+             "pv.relation.array_string": ("pv.dimension.array", "pv.dimension.string", "one_to_many"),
+             "pv.relation.inverter_input": ("pv.dimension.inverter", "pv.dimension.input", "one_to_many"),
+             "pv.relation.inverter_phase": ("pv.dimension.inverter", "pv.dimension.phase", "one_to_many")}
+DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
+                     "effect_rules", "portal_contributions"}
 CAPS = {"pv.capability.read.system": ("pv.service.system", None),
         "pv.capability.read.inverter": ("pv.service.inverter", None),
         "pv.capability.read.array": ("pv.service.array", None),
@@ -212,8 +214,15 @@ def validate_field(field):
         raise ValueError("field has invalid canonical symbol contract")
 
 
-def validate_defs(catalog):
+def definition_groups(catalog):
     definitions = catalog.get("definitions", {})
+    if not isinstance(definitions, dict) or set(definitions) != DEFINITION_GROUPS:
+        raise ValueError("definition groups must be exactly " + ", ".join(sorted(DEFINITION_GROUPS)))
+    return definitions
+
+
+def validate_defs(catalog):
+    definitions = definition_groups(catalog)
     fields = refs(definitions.get("fields"), "fields", FIELD_CONTRACTS)
     for field in fields.values():
         validate_field(field)
@@ -224,10 +233,10 @@ def validate_defs(catalog):
     for identifier, service in services.items():
         if service.get("fact_key_dimension") != SERVICE_DIMENSIONS[identifier] or set(service) != {"id", "ref", "fact_key_dimension", "order"}:
             raise ValueError("service dimension association")
-    relationships = refs(definitions.get("relationships"), "relationships", RELATIONSHIPS)
-    for identifier, relation in relationships.items():
-        if (relation.get("from"), relation.get("to")) != RELATIONSHIPS[identifier] or set(relation) != {"id", "ref", "from", "to", "order"}:
-            raise ValueError("topology relationship association")
+    relations = refs(definitions.get("relations"), "relations", RELATIONS)
+    for identifier, relation in relations.items():
+        if (relation.get("from"), relation.get("to"), relation.get("cardinality")) != RELATIONS[identifier] or set(relation) != {"id", "ref", "from", "to", "cardinality", "order"}:
+            raise ValueError("topology relation association")
     capabilities = refs(definitions.get("capabilities"), "capabilities", CAPS)
     for identifier, capability in capabilities.items():
         service, constraints = CAPS[identifier]

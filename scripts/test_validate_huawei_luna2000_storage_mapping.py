@@ -134,7 +134,7 @@ def test_every_native_item_has_exactly_one_withheld_disposition_and_nothing_is_p
         output = v.run_scenario(scenario, document)
         assert [row["native_id"] for row in output["native_dispositions"]] == [nid for nid, _, _ in v.INVENTORY]
         assert {row["outcome"] for row in output["native_dispositions"]} == {"withheld"}
-        assert output["facts"] == [] and output["relationships"] == [] and output["operations"] == []
+        assert output["facts"] == [] and output["relations"] == [] and output["operations"] == []
         assert [item["outcome"] for item in output["dispositions"]] == ["withheld"] * 5
         assert all(item["source_keys"] == [] and item["reason"] and item["loss"] for item in output["dispositions"])
 
@@ -384,6 +384,19 @@ def test_published_files_cite_no_revision_link_or_endpoint():
         text = path.read_text(encoding="utf-8")
         assert not v.HEX_RUN_RE.search(text)
         assert "/blob/" not in text and "/commit/" not in text and "#L" not in text and "tcp://" not in text
+
+
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER = "relation" + "ships"
+
+
+def test_expected_output_rejects_the_earlier_relation_member():
+    document = contract()
+    expected = next(s for s in document["scenarios"] if s["id"] == "STG-POS-001-no-battery-read")["expect"]["output"]
+    expected[EARLIER_MEMBER] = expected.pop("relations")
+    with raises(ValueError) as error:
+        v.validate_scenarios(document)
+    assert str(error.value) == "scenario output STG-POS-001-no-battery-read"
 
 
 if __name__ == "__main__":

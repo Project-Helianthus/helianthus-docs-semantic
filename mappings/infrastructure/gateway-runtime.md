@@ -33,7 +33,7 @@ blocked pending that contract; no protocol-native fact is inferred.
 | Runtime ready or healthy state | `infrastructure.status.readiness` | Unsupported: runtime readiness does not prove electrical grid readiness. Source implementation Unknown. |
 | Acquisition success, failure, or missing observation | `infrastructure.status.fault` | Unsupported: acquisition failure does not prove an electrical site fault; success does not prove clear. Source implementation Unknown. |
 | Local error, retry, latency, or resource diagnostics | No target definition | Unsupported: local diagnostic quantities are outside this electrical pack. Their availability, units, and time domains are Unknown. |
-| Driver instance or source attachment | Electrical dimensions and relationships below | Unsupported: runtime composition does not prove electrical topology or asset identity. Source implementation Unknown. |
+| Driver instance or source attachment | Electrical dimensions and relations below | Unsupported: runtime composition does not prove electrical topology or asset identity. Source implementation Unknown. |
 
 Proven: the cited pack defines electrical semantics and excludes host/network/
 deployment semantics. Hypothesis: a future supplied gateway source may expose
@@ -84,11 +84,11 @@ zero, or a healthy state. No implemented Infrastructure field is verified here.
 | `infrastructure.service.circuit` | Unknown / unsupported | No qualified electrical asset/service binding. |
 | `infrastructure.service.phase` | Unknown / unsupported | No qualified electrical asset/service binding. |
 | `infrastructure.service.meter` | Unknown / unsupported | No qualified electrical asset/service binding. |
-| `infrastructure.relationship.site_grid_connection` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
-| `infrastructure.relationship.grid_connection_feeder` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
-| `infrastructure.relationship.feeder_circuit` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
-| `infrastructure.relationship.circuit_phase` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
-| `infrastructure.relationship.grid_connection_meter` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
+| `infrastructure.relation.site_grid_connection` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
+| `infrastructure.relation.grid_connection_feeder` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
+| `infrastructure.relation.feeder_circuit` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
+| `infrastructure.relation.circuit_phase` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
+| `infrastructure.relation.grid_connection_meter` | Unknown / unsupported | No evidenced electrical membership; runtime attachment is not topology. |
 | `infrastructure.capability.read.site` | Unknown / unsupported | No current qualified active electrical read capability is established. |
 | `infrastructure.capability.read.grid_connection` | Unknown / unsupported | No current qualified active electrical read capability is established. |
 | `infrastructure.capability.read.feeder` | Unknown / unsupported | No current qualified active electrical read capability is established. |

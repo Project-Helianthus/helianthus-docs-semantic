@@ -6,6 +6,22 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the 21 pack relation definitions
+  are spelled `<pack>.relation.<name>` and listed under the member `relations`
+  in the PV, EVSE, infrastructure and storage pack vectors and the
+  [storage contract tables](api/v1/packs/storage-bms-contract-tables.json).
+  Every relation definition uses one encoding (`id`, `ref` where the pack
+  vectors carry one, `from`, `to`, `cardinality`, `order`): the storage tables
+  name their endpoints `from` and `to` with unchanged values, and the five PV
+  definitions declare `one_to_many`. The PV, hybrid-family storage and
+  gateway-meter gates, the pack and gate pages, the storage cell-voltage
+  contract, the [element catalog](api/v1/element-catalog-v1.json) and its seed
+  references follow; the [thermal pack](api/v1/packs/thermal-hvac-v1.md) states
+  that it declares no relation definition. The validators read only the new
+  members and reject any other definition member, so no alias or migration
+  path exists. The storage `TABLE_SHA256` and `COUNTS` key move; the change is
+  listed in the [in-place change record](api/README.md#in-place-change-record).
+  Consumers that copy the pack vectors or the storage tables re-copy them.
 - Add the element catalog seed
   [`api/v1/element-catalog-v1.json`](api/v1/element-catalog-v1.json): 307
   entries generated once from the accepted packs and the kernel vocabulary by

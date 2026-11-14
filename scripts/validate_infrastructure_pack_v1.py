@@ -84,13 +84,15 @@ FIELD_CONTRACTS = {
 }
 DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
 SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
-RELATIONSHIPS = {
-    "infrastructure.relationship.site_grid_connection": ("infrastructure.dimension.site", "infrastructure.dimension.grid_connection", "one_to_many"),
-    "infrastructure.relationship.grid_connection_feeder": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.feeder", "one_to_many"),
-    "infrastructure.relationship.feeder_circuit": ("infrastructure.dimension.feeder", "infrastructure.dimension.circuit", "one_to_many"),
-    "infrastructure.relationship.circuit_phase": ("infrastructure.dimension.circuit", "infrastructure.dimension.phase", "one_to_many"),
-    "infrastructure.relationship.grid_connection_meter": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.meter", "one_to_many"),
+RELATIONS = {
+    "infrastructure.relation.site_grid_connection": ("infrastructure.dimension.site", "infrastructure.dimension.grid_connection", "one_to_many"),
+    "infrastructure.relation.grid_connection_feeder": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.feeder", "one_to_many"),
+    "infrastructure.relation.feeder_circuit": ("infrastructure.dimension.feeder", "infrastructure.dimension.circuit", "one_to_many"),
+    "infrastructure.relation.circuit_phase": ("infrastructure.dimension.circuit", "infrastructure.dimension.phase", "one_to_many"),
+    "infrastructure.relation.grid_connection_meter": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.meter", "one_to_many"),
 }
+DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
+                     "effect_rules", "portal_contributions"}
 CAPS = {f"infrastructure.capability.read.{name}": f"infrastructure.service.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
 PORTAL = {
     "infrastructure.portal.read.site": ("infrastructure.service.site", ("infrastructure.status.fault",)),
@@ -163,8 +165,15 @@ def less(left, right):
     return lc * 10 ** (le - shared) < rc * 10 ** (rexp - shared)
 
 
-def validate_defs(catalog):
+def definition_groups(catalog):
     definitions = catalog.get("definitions", {})
+    if not isinstance(definitions, dict) or set(definitions) != DEFINITION_GROUPS:
+        raise ValueError("definition groups must be exactly " + ", ".join(sorted(DEFINITION_GROUPS)))
+    return definitions
+
+
+def validate_defs(catalog):
+    definitions = definition_groups(catalog)
     fields = refs(definitions.get("fields"), "fields", FIELD_CONTRACTS)
     for identifier, item in fields.items():
         kind, unit, dimension, optional, symbols, minimum, maximum = FIELD_CONTRACTS[identifier]
@@ -183,9 +192,9 @@ def validate_defs(catalog):
     services = refs(definitions.get("services"), "services", SERVICES)
     if any(set(item) != {"id", "ref", "fact_key_dimension", "order"} or item.get("fact_key_dimension") != SERVICES[key] for key, item in services.items()):
         raise ValueError("service association")
-    relations = refs(definitions.get("relationships"), "relationships", RELATIONSHIPS)
-    if any(set(item) != {"id", "ref", "from", "to", "cardinality", "order"} or (item.get("from"), item.get("to"), item.get("cardinality")) != RELATIONSHIPS[key] for key, item in relations.items()):
-        raise ValueError("relationship association")
+    relations = refs(definitions.get("relations"), "relations", RELATIONS)
+    if any(set(item) != {"id", "ref", "from", "to", "cardinality", "order"} or (item.get("from"), item.get("to"), item.get("cardinality")) != RELATIONS[key] for key, item in relations.items()):
+        raise ValueError("relation association")
     capabilities = refs(definitions.get("capabilities"), "capabilities", CAPS)
     if any(set(item) != {"id", "ref", "service", "activation", "order"} or item.get("service") != CAPS[key] or item.get("activation") != "qualified_current_binding" for key, item in capabilities.items()):
         raise ValueError("capability association")
