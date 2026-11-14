@@ -46,7 +46,7 @@ that decides it, and who runs it: the kernel (semreg), the catalog validator
 
 **Problem.** The kernel publishes one snapshot per asset. Zones, circuits,
 inverter inputs, phases, meters, connectors and cells exist only as text in a
-fact-key dimension. The 21 accepted pack relationship definitions have no
+fact-key dimension. The 21 accepted pack relation definitions have no
 instance record. No plane, lens or element catalog exists. Drivers, the gateway
 and consumers therefore build their own groupings, identity tables and joins,
 and a target projection report is mistaken for an internal view.
@@ -849,7 +849,7 @@ The seed is generated from the accepted pack vectors by fixed rules and
 reviewed as data; rules and counts are in the catalog seed outline
 (docs-semantic#68). Every resource dimension maps to one core kind: the three
 phase and two meter dimensions share one kind each, while the thermal and the
-electrical circuit become two kinds. The 21 relationship definitions become
+electrical circuit become two kinds. The 21 relation definitions become
 relation definitions with an explicit core type, orientation and kinds. Every
 element whose subject or membership cannot be decided from accepted text
 receives `unknown` with a tracking issue instead of being dropped.
@@ -1160,7 +1160,7 @@ present sentence stays and the amendment follows it.
 | same, Ownership split | "A device may expose several independently versioned capability packages; packages do not own native mappings." | Kept; adds "The device stays one resource of the semantic graph; packages own neither its identity, its relations nor its plane membership." |
 | `api/v1/packs/pv-inverter-v1.md`, `api/v1/packs/evse-v1.md`, `api/v1/packs/infrastructure-v1.md`, Compatibility and validation | "Breaking change requires a new major pack directory." | Replaced by: "The version rule of api/README.md applies, including its rule for in-place changes until the 0.7 release." |
 | `architecture/glossary.md` | (no entry) | Adds entries for resource, relation, plane, lens, element catalog and graph cut, and the qualified exceptions of section 3. |
-| Pack vectors and pages, storage contract tables, the PV, storage and gateway-meter gates | identifiers `<pack>.relationship.<name>`, the member `relationships` and the word "relationship" | Renamed to `<pack>.relation.<name>`, `relations` and "relation", with one shared encoding (`from`, `to`, `cardinality`, `order`). The rename is decided (docs-semantic#67) and is made in place by a later change of this wave with no alias; it is listed in the in-place change record of [`api/README.md`](../README.md) when it lands. Until then the pack documents keep the `relationship` spelling. |
+| Pack vectors and pages, storage contract tables, the PV, storage and gateway-meter gates | the identifiers, members and prose word of the 21 pack relation definitions | Renamed in place to `<pack>.relation.<name>`, the member `relations` (the gateway-meter gate: `relation`) and the word "relation", with one shared encoding (`id`, `ref` where the pack vectors carry one, `from`, `to`, `cardinality`, `order`); the five PV definitions declare `one_to_many`. The rename is decided (docs-semantic#67), is made with no alias, and is listed in the in-place change record of [`api/README.md`](../README.md). |
 
 Not amended in increment 1: `DefinitionIndex` (relation definitions are
 indexed by the catalog registry), `pack-availability-view.md` (*Increment 2*),

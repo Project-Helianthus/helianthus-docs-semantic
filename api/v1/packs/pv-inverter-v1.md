@@ -23,9 +23,12 @@ availability, and operation records, never symbols.
 
 Fact-key dimensions are `pv.dimension.system`, `pv.dimension.inverter`,
 `pv.dimension.array`, `pv.dimension.string`, `pv.dimension.input`, and
-`pv.dimension.phase`. The corresponding services and explicit relationship
+`pv.dimension.phase`. The corresponding services and explicit relation
 definitions preserve system-to-inverter, inverter-to-array, array-to-string,
-inverter-to-input, and inverter-to-phase records. A publisher MUST NOT flatten
+inverter-to-input, and inverter-to-phase records. Each of the five relation
+definitions declares the cardinality `one_to_many` of
+[graph section 7.2](../graph.md#72-relation-definitions), with `from`, `to`,
+`cardinality` and `order` as in the other packs. A publisher MUST NOT flatten
 per-string, per-input, per-phase, or richer native topology into an aggregate
 record. Missing topology is unavailable evidence, not guessed membership.
 
@@ -46,9 +49,9 @@ pv.status.fault
 pv.service.system                 pv.service.inverter
 pv.service.array                  pv.service.string
 pv.service.input                  pv.service.phase
-pv.relationship.system_inverter   pv.relationship.inverter_array
-pv.relationship.array_string      pv.relationship.inverter_input
-pv.relationship.inverter_phase
+pv.relation.system_inverter       pv.relation.inverter_array
+pv.relation.array_string          pv.relation.inverter_input
+pv.relation.inverter_phase
 pv.capability.read.system         pv.capability.read.inverter
 pv.capability.read.array          pv.capability.read.string
 pv.capability.read.input          pv.capability.read.phase

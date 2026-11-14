@@ -145,9 +145,9 @@ placement work tracked on
 the eight facts whose only dimension is a qualifier, their four qualifier
 dimensions, the circuit, hot-water and ventilation kinds with their
 dimensions, services and read capabilities, and the set-temperature operation
-and its effect rule. The hydraulic plane is empty. Relation identifiers keep
-the pack spelling `<pack>.relationship.<name>` and follow the pack relation
-rename when it lands. The identification-scheme and lens lists are empty.
+and its effect rule. The hydraulic plane is empty. Relation identifiers use
+the pack spelling `<pack>.relation.<name>`. The identification-scheme and lens
+lists are empty.
 
 ## Remaining contracts
 
@@ -187,6 +187,7 @@ Each in-place change made under the exception of the version rule before the
 |---|---|---|
 | 2026-11-14 | Version rule exception for the 0.7 release cycle; pack metadata "immutable" means read-only at run time; family-catalog compatibility applies from the release on; the ownership layering names the semantic resource graph; the PV, EVSE and infrastructure pack pages point to the version rule. | None: no vector, fixture, schema, digest or validator changes. |
 | 2026-11-14 | Graph contract page [graph.md](v1/graph.md) added and the kernel, serialization and acceptance pages amended in place (graph.md section 17). | `scripts/validate_kernel_v1.py` and `scripts/test_validate_kernel_rules.py` take the documented error set as the union of the acceptance.md and graph.md headings; `api/v1/acceptance-vectors.json`, its `error_ids` and every pinned digest unchanged. |
+| 2026-11-14 | The 21 pack relation definitions renamed in place to `<pack>.relation.<name>` under the member `relations` in the PV, EVSE and infrastructure pack vectors, the storage vectors and contract tables; the PV, hybrid-family storage and gateway-meter gates (the gateway-meter role member is `relation`), the pack and gate pages, the storage cell-voltage contract wording, the element catalog and its seed references follow. Every relation definition uses one encoding (`id`, `ref` where the pack vectors carry one, `from`, `to`, `cardinality`, `order`): the storage tables name their endpoints `from` and `to`, and the five PV definitions declare `one_to_many`. The thermal pack page states that it declares no relation definition. No alias of the earlier spelling remains. | The pack vectors of PV, EVSE, infrastructure and storage and the storage contract tables; `TABLE_SHA256` and the `COUNTS` key `relations` in `scripts/validate_storage_bms_pack_v1.py`; the four pack validators and the catalog validator and generator read `relations` and reject any other definition member, and the PV, hybrid-family storage and gateway-meter gate validators read `relations` (gateway-meter roles: `relation`) and reject the earlier members through their exact identity, role and output comparisons; the bytes of `api/v1/element-catalog-v1.json` and `scripts/element-catalog-seed-refs.json`; the PV, hybrid-family storage and gateway-meter gate JSON files. |
 
 ## Matter 1.6.1 target
 

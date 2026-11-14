@@ -4,7 +4,7 @@
 
 The companion [exact contract tables](storage-bms-contract-tables.json) fix each
 field's kind, unit, dimension, optionality and bounded/unbounded shape; service,
-relationship, capability, operation, effect, and Portal tuples are fixed there
+relation, capability, operation, effect, and Portal tuples are fixed there
 as well. They require admission, interlock, authority, exact route and current
 generation before operation dispatch, then separate acknowledgement, readback,
 terminal outcome, and applied effect confirmation.
@@ -31,7 +31,7 @@ indeterminate outcome.
 
 The catalog defines state of charge/health, pack voltage/current/power, charged and discharged energy/capacity, pack/cell temperature, cell voltage extrema, alarms/protection/warnings, operating state, and charge/discharge limits. Canonical units are percent, volt, ampere, watt, kilowatt-hour, ampere-hour, and celsius. Missing data is unavailable evidence, never zero. Raw native bitfields and validity remain native evidence whenever a symbol is lossy.
 
-System, battery, pack, module, cell, string, and inverter/charger interface remain separate FactKey dimensions and relationship records. Aggregate fields retain native aggregation/reference/sign evidence; this pack never infers membership, a cell count, sign, or arithmetic aggregate.
+System, battery, pack, module, cell, string, and inverter/charger interface remain separate FactKey dimensions and relation records. Aggregate fields retain native aggregation/reference/sign evidence; this pack never infers membership, a cell count, sign, or arithmetic aggregate.
 
 Publication requires exact source epoch, current driver generation, exact semantic revision, and qualified active capability. Partial publication changes supplied valid fields only and preserves permitted last-known-good data. Withdrawal is explicit and generation-fenced; stale/unknown evidence cannot promote or authorize. Counter decrease never proves reset/wrap; native evidence is required.
 

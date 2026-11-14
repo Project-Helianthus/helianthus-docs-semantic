@@ -2913,7 +2913,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "evse.relationship.asset_evse",
+        "id": "evse.relation.asset_evse",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -2978,7 +2978,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "evse.relationship.connector_phase",
+        "id": "evse.relation.connector_phase",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -3042,7 +3042,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "evse.relationship.connector_session",
+        "id": "evse.relation.connector_session",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -3105,7 +3105,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "evse.relationship.evse_connector",
+        "id": "evse.relation.evse_connector",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -3170,7 +3170,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "evse.relationship.evse_meter",
+        "id": "evse.relation.evse_meter",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -4838,7 +4838,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "infrastructure.relationship.circuit_phase",
+        "id": "infrastructure.relation.circuit_phase",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -4902,7 +4902,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "infrastructure.relationship.feeder_circuit",
+        "id": "infrastructure.relation.feeder_circuit",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -4966,7 +4966,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "infrastructure.relationship.grid_connection_feeder",
+        "id": "infrastructure.relation.grid_connection_feeder",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -5030,7 +5030,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "infrastructure.relationship.grid_connection_meter",
+        "id": "infrastructure.relation.grid_connection_meter",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -5093,7 +5093,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "infrastructure.relationship.site_grid_connection",
+        "id": "infrastructure.relation.site_grid_connection",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -7306,7 +7306,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "pv.relationship.array_string",
+        "id": "pv.relation.array_string",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -7369,7 +7369,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "pv.relationship.inverter_array",
+        "id": "pv.relation.inverter_array",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -7433,7 +7433,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "pv.relationship.inverter_input",
+        "id": "pv.relation.inverter_input",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -7497,7 +7497,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "pv.relationship.inverter_phase",
+        "id": "pv.relation.inverter_phase",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -7561,7 +7561,7 @@
             "version": "1.0.0"
           }
         },
-        "id": "pv.relationship.system_inverter",
+        "id": "pv.relation.system_inverter",
         "version": "1.0.0"
       },
       "element_kind": "relation",
@@ -9306,7 +9306,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.battery_pack",
+        "id": "storage.relation.battery_pack",
         "version": "1.1.0"
       },
       "element_kind": "relation",
@@ -9371,7 +9371,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.module_cell",
+        "id": "storage.relation.module_cell",
         "version": "1.1.0"
       },
       "element_kind": "relation",
@@ -9436,7 +9436,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.pack_interface",
+        "id": "storage.relation.pack_interface",
         "version": "1.1.0"
       },
       "element_kind": "relation",
@@ -9501,7 +9501,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.pack_module",
+        "id": "storage.relation.pack_module",
         "version": "1.1.0"
       },
       "element_kind": "relation",
@@ -9564,7 +9564,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.pack_string",
+        "id": "storage.relation.pack_string",
         "version": "1.1.0"
       },
       "element_kind": "relation",
@@ -9627,7 +9627,7 @@
             "version": "1.1.0"
           }
         },
-        "id": "storage.relationship.system_battery",
+        "id": "storage.relation.system_battery",
         "version": "1.1.0"
       },
       "element_kind": "relation",

@@ -71,9 +71,9 @@ and `MTR-NEG-008-role-outside-set` pin these rules.
 The meter dimension or the grid-connection dimension follows the configured role
 (Hypothesis, because no meter is decoded):
 
-| Role | Power | Energy counters | Relationship |
+| Role | Power | Energy counters | Relation |
 | --- | --- | --- | --- |
-| `grid_connection` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | `infrastructure.relationship.grid_connection_meter` |
+| `grid_connection` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | `infrastructure.relation.grid_connection_meter` |
 | `feeder` | withheld | `infrastructure.dimension.meter` | none decided |
 | `circuit` | withheld | `infrastructure.dimension.meter` | none decided |
 | undeclared | withheld | withheld | none |

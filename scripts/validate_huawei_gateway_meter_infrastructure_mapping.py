@@ -52,9 +52,9 @@ ROLE = {
     "undeclared": "role_unknown_and_role_dependent_facts_not_published",
     "never_derived_from": ["registers", "sign_or_magnitude_of_a_power_value", "label", "unit_number", "listing_order", "model", "presence_of_another_meter"],
     "dimension_by_role": {
-        "grid_connection": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"},
-        "feeder": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"},
-        "circuit": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"},
+        "grid_connection": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"},
+        "feeder": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"},
+        "circuit": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"},
     },
 }
 INVENTORY = [
@@ -117,11 +117,11 @@ def mutate(value, mutation):
 
 def pack_catalog():
     catalog = json.loads(PACK_CATALOG.read_text(encoding="utf-8"))["catalog"]["definitions"]
-    return {field["id"]: field for field in catalog["fields"]}, {dimension["id"] for dimension in catalog["fact_dimensions"]}, {rel["id"] for rel in catalog["relationships"]}
+    return {field["id"]: field for field in catalog["fields"]}, {dimension["id"] for dimension in catalog["fact_dimensions"]}, {rel["id"] for rel in catalog["relations"]}
 
 
 def validate_contract(document):
-    fields, dimensions, relationships = pack_catalog()
+    fields, dimensions, relations = pack_catalog()
     if document.get("contract") != "helianthus.semantic.mapping.huawei-gateway-meter.infrastructure/v1" or document.get("mapping_id") != "infrastructure.mapping.huawei.gateway_meter" or document.get("pack") != PACK or document.get("status") != "accepted_withheld_mapping_gate_no_meter_decoded":
         fail("contract")
     if document.get("evidence") != EVIDENCE or not LOCAL_ASSESSMENT.is_file():
@@ -132,7 +132,7 @@ def validate_contract(document):
     if role != ROLE:
         fail("role")
     for entry in ROLE["dimension_by_role"].values():
-        if entry["power"] != "withheld" and entry["power"] not in dimensions or entry["energy"] not in dimensions or (entry["relationship"] != "none_decided" and entry["relationship"] not in relationships):
+        if entry["power"] != "withheld" and entry["power"] not in dimensions or entry["energy"] not in dimensions or (entry["relation"] != "none_decided" and entry["relation"] not in relations):
             fail("role dimensions")
     rules = document.get("field_rules", [])
     if [(rule.get("native_id"), rule.get("gateway_path")) for rule in rules] != INVENTORY:
@@ -247,14 +247,14 @@ def project(case, contract):
                      "loss": [{"kind": spec["loss_kind"], "source_items": [NATIVE_PREFIX + "meter"], "description": spec["description"], "reversible": spec["reversible"]}]} for item in contract["projection"]["requested_items"]]
     dimensions = contract["role"]["dimension_by_role"].get(declared) if declared else None
     role = {"declared": declared, "keyed_to": {"source_id": source_id, "routed_unit": unit}, "dimension_if_admitted": copy.deepcopy(dimensions) if dimensions else "role_unknown_role_dependent_facts_not_published"}
-    output = {"facts": [], "relationships": [], "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": rows, "role": role, "operations": []}
+    output = {"facts": [], "relations": [], "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": rows, "role": role, "operations": []}
     assert_complete(output, contract)
     return output
 
 
 def assert_complete(output, contract):
     """Every native item carries exactly one disposition, a reason, and no value."""
-    if [row["native_id"] for row in output["native_dispositions"]] != [nid for nid, _ in INVENTORY] or output["facts"] or output["relationships"]:
+    if [row["native_id"] for row in output["native_dispositions"]] != [nid for nid, _ in INVENTORY] or output["facts"] or output["relations"]:
         fail("native disposition completeness")
     if any(row["outcome"] != "withheld" or row["reason"] not in contract["reasons"] for row in output["native_dispositions"]):
         fail("withheld without reason")
@@ -344,7 +344,7 @@ def expected_tables(contract):
 
 def check_document(contract, text):
     withheld, prospective = expected_tables(contract)
-    roles = [[role, entry["power"], entry["energy"], entry["relationship"].replace("none_decided", "none decided")] for role, entry in contract["role"]["dimension_by_role"].items()] + [["undeclared", "withheld", "withheld", "none"]]
+    roles = [[role, entry["power"], entry["energy"], entry["relation"].replace("none_decided", "none decided")] for role, entry in contract["role"]["dimension_by_role"].items()] + [["undeclared", "withheld", "withheld", "none"]]
     if table(text, "## Withheld items") != withheld or table(text, "## Prospective intake") != prospective or table(text, "## Role and dimension") != roles:
         fail("document tables")
     if [row[0] for row in table(text, "## Acceptance vectors")] != [scenario["id"] for scenario in contract["scenarios"]]:

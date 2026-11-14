@@ -67,11 +67,13 @@ SERVICES = {"evse.service.evse": "evse.dimension.evse",
             "evse.service.phase": "evse.dimension.phase",
             "evse.service.session": "evse.dimension.session",
             "evse.service.meter": "evse.dimension.meter"}
-RELATIONSHIPS = {"evse.relationship.asset_evse": ("evse.dimension.asset", "evse.dimension.evse", "one_to_many"),
-                 "evse.relationship.evse_connector": ("evse.dimension.evse", "evse.dimension.connector", "one_to_many"),
-                 "evse.relationship.connector_phase": ("evse.dimension.connector", "evse.dimension.phase", "one_to_many"),
-                 "evse.relationship.connector_session": ("evse.dimension.connector", "evse.dimension.session", "one_to_many_over_time"),
-                 "evse.relationship.evse_meter": ("evse.dimension.evse", "evse.dimension.meter", "one_to_many")}
+RELATIONS = {"evse.relation.asset_evse": ("evse.dimension.asset", "evse.dimension.evse", "one_to_many"),
+             "evse.relation.evse_connector": ("evse.dimension.evse", "evse.dimension.connector", "one_to_many"),
+             "evse.relation.connector_phase": ("evse.dimension.connector", "evse.dimension.phase", "one_to_many"),
+             "evse.relation.connector_session": ("evse.dimension.connector", "evse.dimension.session", "one_to_many_over_time"),
+             "evse.relation.evse_meter": ("evse.dimension.evse", "evse.dimension.meter", "one_to_many")}
+DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
+                     "effect_rules", "portal_contributions"}
 CAPS = {"evse.capability.read.evse": ("evse.service.evse", ()),
         "evse.capability.read.connector": ("evse.service.connector", ()),
         "evse.capability.read.phase": ("evse.service.phase", ()),
@@ -166,8 +168,15 @@ def validate_fields(fields):
     return records
 
 
-def validate_defs(catalog):
+def definition_groups(catalog):
     definitions = catalog.get("definitions", {})
+    if not isinstance(definitions, dict) or set(definitions) != DEFINITION_GROUPS:
+        raise ValueError("definition groups must be exactly " + ", ".join(sorted(DEFINITION_GROUPS)))
+    return definitions
+
+
+def validate_defs(catalog):
+    definitions = definition_groups(catalog)
     fields = validate_fields(definitions.get("fields"))
     dimensions = refs(definitions.get("fact_dimensions"), "fact dimensions", DIMS)
     if any(item.get("value_kind") != "text" or set(item) != {"id", "ref", "value_kind", "order"} for item in dimensions.values()):
@@ -175,9 +184,9 @@ def validate_defs(catalog):
     services = refs(definitions.get("services"), "services", SERVICES)
     if any(item.get("fact_key_dimension") != SERVICES[key] or set(item) != {"id", "ref", "fact_key_dimension", "order"} for key, item in services.items()):
         raise ValueError("service association")
-    relationships = refs(definitions.get("relationships"), "relationships", RELATIONSHIPS)
-    if any((item.get("from"), item.get("to"), item.get("cardinality")) != RELATIONSHIPS[key] or set(item) != {"id", "ref", "from", "to", "cardinality", "order"} for key, item in relationships.items()):
-        raise ValueError("relationship association")
+    relations = refs(definitions.get("relations"), "relations", RELATIONS)
+    if any((item.get("from"), item.get("to"), item.get("cardinality")) != RELATIONS[key] or set(item) != {"id", "ref", "from", "to", "cardinality", "order"} for key, item in relations.items()):
+        raise ValueError("relation association")
     capabilities = refs(definitions.get("capabilities"), "capabilities", CAPS)
     for key, item in capabilities.items():
         service, constraints = CAPS[key]

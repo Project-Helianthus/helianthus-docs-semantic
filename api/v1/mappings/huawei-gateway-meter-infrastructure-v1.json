@@ -28,9 +28,9 @@
     "undeclared": "role_unknown_and_role_dependent_facts_not_published",
     "never_derived_from": ["registers", "sign_or_magnitude_of_a_power_value", "label", "unit_number", "listing_order", "model", "presence_of_another_meter"],
     "dimension_by_role": {
-      "grid_connection": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"},
-      "feeder": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"},
-      "circuit": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}
+      "grid_connection": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"},
+      "feeder": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"},
+      "circuit": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}
     }
   },
   "identity": {
@@ -144,7 +144,7 @@
       "expect": {
         "output": {
           "facts": [],
-          "relationships": [],
+          "relations": [],
           "requested": [
             {"kind": "fact", "item_id": "infrastructure.ac.active_power"},
             {"kind": "fact", "item_id": "infrastructure.ac.current"},
@@ -231,7 +231,7 @@
             {"native_id": "sun2000_inverter_exposed_meter_group_refused", "outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"},
             {"native_id": "profile_meter_groups", "outcome": "withheld", "reason": "infrastructure.reason.profile_withholds_meter"}
           ],
-          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}},
+          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}},
           "operations": []
         }
       }
@@ -299,7 +299,7 @@
             {"native_id": "sun2000_inverter_exposed_meter_group_refused", "outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"},
             {"native_id": "profile_meter_groups", "outcome": "withheld", "reason": "infrastructure.reason.profile_withholds_meter"}
           ],
-          "role": {"declared": "feeder", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}},
+          "role": {"declared": "feeder", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}},
           "operations": []
         }
       }
@@ -333,7 +333,7 @@
             {"native_id": "sun2000_inverter_exposed_meter_group_refused", "outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"},
             {"native_id": "profile_meter_groups", "outcome": "withheld", "reason": "infrastructure.reason.profile_withholds_meter"}
           ],
-          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}},
+          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}},
           "operations": []
         }
       }
@@ -367,7 +367,7 @@
             {"native_id": "sun2000_inverter_exposed_meter_group_refused", "outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"},
             {"native_id": "profile_meter_groups", "outcome": "withheld", "reason": "infrastructure.reason.profile_withholds_meter"}
           ],
-          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}},
+          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}},
           "operations": []
         }
       }
@@ -401,7 +401,7 @@
             {"native_id": "sun2000_inverter_exposed_meter_group_refused", "outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"},
             {"native_id": "profile_meter_groups", "outcome": "withheld", "reason": "infrastructure.reason.profile_withholds_meter"}
           ],
-          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}},
+          "role": {"declared": "grid_connection", "keyed_to": {"source_id": "source:gateway-demo-d", "routed_unit": 11}, "dimension_if_admitted": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}},
           "operations": []
         }
       }

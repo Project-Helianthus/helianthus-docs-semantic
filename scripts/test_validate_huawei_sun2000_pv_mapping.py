@@ -21,6 +21,8 @@ SUPPORT_SPEC.loader.exec_module(support)
 parametrize, raises = support.parametrize, support.raises
 
 M1, M3 = v.M1, v.M3
+# The member name used before the in-place rename, assembled so that no file spells it.
+EARLIER_MEMBER = "relation" + "ships"
 
 
 def contract():
@@ -139,6 +141,9 @@ def test_no_binary_floating_point_anywhere():
     ("identity-granularity", lambda d: set_path(d, "identity.asset_id.granularity", "one_asset_per_endpoint"), "identity contract"),
     ("identity-dimension-text", lambda d: d["identity"]["dimension_text"].update({"pv.dimension.system": "system:{n}"}), "identity contract"),
     ("identity-phase-value", lambda d: d["identity"]["dimension_text"].update({"pv.dimension.phase": "phase:L1"}), "identity contract"),
+    ("identity-relation-member-earlier-name", lambda d: d["identity"].update({EARLIER_MEMBER: d["identity"].pop("relations")}), "identity contract"),
+    ("identity-relation-member-duplicated", lambda d: d["identity"].update({EARLIER_MEMBER: list(d["identity"]["relations"])}), "identity contract"),
+    ("identity-relation-dropped", lambda d: d["identity"]["relations"].pop(), "identity contract"),
     ("lifecycle-retention", lambda d: set_path(d, "lifecycle.retention_fence", "none"), "lifecycle contract"),
     ("lifecycle-device-time", lambda d: set_path(d, "lifecycle.device_time", "statistics_time_used"), "lifecycle contract"),
     ("decimal-policy", lambda d: set_path(d, "decimal_policy.binary_floating_point", "allowed"), "decimal policy"),
@@ -470,7 +475,7 @@ def test_retained_reading_is_fenced_by_its_original_identity():
         project(broken)
 
 
-def test_fact_keys_follow_the_pack_dimensions_and_relationships():
+def test_fact_keys_follow_the_pack_dimensions_and_relations():
     out = project(case())
     pack = v.pack_catalog()[0]
     for fact in out["facts"]:
@@ -478,9 +483,22 @@ def test_fact_keys_follow_the_pack_dimensions_and_relationships():
         assert key["pack_id"] == "helianthus.pack.pv" and key["pack_version"] == "1.0.0"
         assert [dimension["id"] for dimension in key["dimensions"]] == [pack[key["fact_id"]]["dimension"]]
         assert not any(dimension["id"] == "pv.dimension.phase" for dimension in key["dimensions"])
-    assert {(r["id"], r["from"]["text"], r["to"]["text"]) for r in out["relationships"]} == {
-        ("pv.relationship.system_inverter", "system:demo-alpha", "inverter:demo-alpha"),
-        ("pv.relationship.inverter_input", "inverter:demo-alpha", "input:1"), ("pv.relationship.inverter_input", "inverter:demo-alpha", "input:2")}
+    assert {(r["id"], r["from"]["text"], r["to"]["text"]) for r in out["relations"]} == {
+        ("pv.relation.system_inverter", "system:demo-alpha", "inverter:demo-alpha"),
+        ("pv.relation.inverter_input", "inverter:demo-alpha", "input:1"), ("pv.relation.inverter_input", "inverter:demo-alpha", "input:2")}
+
+
+@parametrize("scenario_id,member,message", [
+    ("PV-POS-001-m1-baseline", "output", "scenario output PV-POS-001-m1-baseline"),
+    ("PV-POS-003-negative-active-power", "summary", "scenario summary PV-POS-003-negative-active-power"),
+])
+def test_expected_outputs_reject_the_earlier_relation_member(scenario_id, member, message):
+    document = contract()
+    expected = next(s for s in document["scenarios"] if s["id"] == scenario_id)["expect"][member]
+    expected[EARLIER_MEMBER] = expected.pop("relations")
+    with raises(ValueError) as error:
+        v.validate_scenarios(document)
+    assert str(error.value) == message
 
 
 # Identity and key coverage. Each row varies one field and names the production mutation the assertion catches.

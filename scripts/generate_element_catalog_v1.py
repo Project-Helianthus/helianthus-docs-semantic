@@ -61,6 +61,8 @@ VECTOR_PACKS = (
     ("api/v1/packs/evse-acceptance-vectors.json", "evse-v1.md"),
     ("api/v1/packs/infrastructure-acceptance-vectors.json", "infrastructure-v1.md"),
 )
+VECTOR_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
+                 "effect_rules", "portal_contributions"}
 
 DOCS_BLOB = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/"
 CONTRACT_ISSUE = "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
@@ -140,27 +142,27 @@ KIND_RULES = {
 
 # Rule R1: pack relation -> (core type, orientation, basis classes).
 RELATION_RULES = {
-    "pv.relationship.system_inverter": ("groups", "as_core", ("gate_rule", "configuration")),
-    "pv.relationship.inverter_array": ("supplies", "inverse", ("configuration",)),
-    "pv.relationship.array_string": ("contains", "as_core", ("configuration",)),
-    "pv.relationship.inverter_input": ("contains", "as_core", ("gate_rule",)),
-    "pv.relationship.inverter_phase": ("contains", "as_core", ("gate_rule",)),
-    "infrastructure.relationship.site_grid_connection": ("contains", "as_core", ("configuration",)),
-    "infrastructure.relationship.grid_connection_feeder": ("supplies", "as_core", ("configuration",)),
-    "infrastructure.relationship.feeder_circuit": ("supplies", "as_core", ("configuration",)),
-    "infrastructure.relationship.circuit_phase": ("contains", "as_core", ("configuration",)),
-    "infrastructure.relationship.grid_connection_meter": ("measures", "inverse", ("configuration",)),
-    "evse.relationship.asset_evse": ("contains", "as_core", ("configuration",)),
-    "evse.relationship.evse_connector": ("contains", "as_core", ("configuration",)),
-    "evse.relationship.connector_phase": ("contains", "as_core", ("gate_rule",)),
-    "evse.relationship.connector_session": ("hosts", "as_core", ("gate_rule",)),
-    "evse.relationship.evse_meter": ("measures", "inverse", ("configuration",)),
-    "storage.relationship.system_battery": ("groups", "as_core", ("configuration",)),
-    "storage.relationship.battery_pack": ("contains", "as_core", ("gate_rule",)),
-    "storage.relationship.pack_module": ("contains", "as_core", ("gate_rule",)),
-    "storage.relationship.module_cell": ("contains", "as_core", ("gate_rule",)),
-    "storage.relationship.pack_string": ("contains", "as_core", ("gate_rule",)),
-    "storage.relationship.pack_interface": ("contains", "as_core", ("gate_rule",)),
+    "pv.relation.system_inverter": ("groups", "as_core", ("gate_rule", "configuration")),
+    "pv.relation.inverter_array": ("supplies", "inverse", ("configuration",)),
+    "pv.relation.array_string": ("contains", "as_core", ("configuration",)),
+    "pv.relation.inverter_input": ("contains", "as_core", ("gate_rule",)),
+    "pv.relation.inverter_phase": ("contains", "as_core", ("gate_rule",)),
+    "infrastructure.relation.site_grid_connection": ("contains", "as_core", ("configuration",)),
+    "infrastructure.relation.grid_connection_feeder": ("supplies", "as_core", ("configuration",)),
+    "infrastructure.relation.feeder_circuit": ("supplies", "as_core", ("configuration",)),
+    "infrastructure.relation.circuit_phase": ("contains", "as_core", ("configuration",)),
+    "infrastructure.relation.grid_connection_meter": ("measures", "inverse", ("configuration",)),
+    "evse.relation.asset_evse": ("contains", "as_core", ("configuration",)),
+    "evse.relation.evse_connector": ("contains", "as_core", ("configuration",)),
+    "evse.relation.connector_phase": ("contains", "as_core", ("gate_rule",)),
+    "evse.relation.connector_session": ("hosts", "as_core", ("gate_rule",)),
+    "evse.relation.evse_meter": ("measures", "inverse", ("configuration",)),
+    "storage.relation.system_battery": ("groups", "as_core", ("configuration",)),
+    "storage.relation.battery_pack": ("contains", "as_core", ("gate_rule",)),
+    "storage.relation.pack_module": ("contains", "as_core", ("gate_rule",)),
+    "storage.relation.module_cell": ("contains", "as_core", ("gate_rule",)),
+    "storage.relation.pack_string": ("contains", "as_core", ("gate_rule",)),
+    "storage.relation.pack_interface": ("contains", "as_core", ("gate_rule",)),
 }
 SUPPLIES_MEDIUM = "electrical"
 MEDIUM_PLANES = {
@@ -169,7 +171,6 @@ MEDIUM_PLANES = {
     "heat_transfer_fluid": ("energy", "hydraulic"),
     "refrigerant": ("energy", "hydraulic"),
 }
-DEFAULT_CARDINALITY = "one_to_many"
 
 # Rule F2: second segment of the field identifier -> planes.
 FIELD_CLASS_PLANES = {
@@ -276,7 +277,7 @@ def accepted_pack(pages):
 
 
 def vector_relation(item):
-    cardinality = item.get("cardinality", DEFAULT_CARDINALITY)
+    cardinality = item["cardinality"]
     over_time = cardinality.endswith("_over_time")
     return {
         "id": item["id"], "version": item["ref"]["version"],
@@ -297,6 +298,9 @@ def vector_field(item):
 def load_vector_pack(path, page):
     catalog = read_json(path)["catalog"]
     defs = catalog["definitions"]
+    unknown = sorted(set(defs) - VECTOR_GROUPS)
+    if unknown:
+        raise SeedError(f"{path}: definition groups outside the seed inputs: {unknown}")
     for group in defs.values():
         for item in group:
             if item["ref"]["pack"] != catalog["pack"] or item["ref"]["id"] != item["id"]:
@@ -307,7 +311,7 @@ def load_vector_pack(path, page):
         "fields": [vector_field(item) for item in defs["fields"]],
         "services": [{"id": item["id"], "version": item["ref"]["version"],
                       "dimension": item["fact_key_dimension"]} for item in defs["services"]],
-        "relations": [vector_relation(item) for item in defs.get("relationships", [])],
+        "relations": [vector_relation(item) for item in defs.get("relations", [])],
         "capabilities": [{"id": item["id"], "version": item["ref"]["version"],
                           "service": item["service"]} for item in defs["capabilities"]],
         "operations": [{"id": item["id"], "version": item["ref"]["version"],
@@ -355,8 +359,8 @@ def load_storage_pack():
         "services": [{"id": item["id"], "version": versions[item["id"]],
                       "dimension": item["dimension"]} for item in tables["services"]],
         "relations": [{"id": item["id"], "version": pack["version"],
-                       "from": service_dimension[item["source"]], "to": service_dimension[item["target"]],
-                       "cardinality": item["cardinality"], "over_time": False} for item in tables["relationships"]],
+                       "from": service_dimension[item["from"]], "to": service_dimension[item["to"]],
+                       "cardinality": item["cardinality"], "over_time": False} for item in tables["relations"]],
         "capabilities": [{"id": item["id"], "version": versions[item["id"]],
                           "service": item["service"]} for item in tables["capabilities"]],
         "operations": [{"id": item["id"], "version": versions[item["id"]], "capability": item["capability"],

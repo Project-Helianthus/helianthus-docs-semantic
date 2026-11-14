@@ -129,7 +129,7 @@ def test_every_native_item_has_exactly_one_withheld_disposition_and_nothing_is_p
         output = v.run_scenario(scenario, document)
         assert [row["native_id"] for row in output["native_dispositions"]] == [nid for nid, _ in v.INVENTORY]
         assert {row["outcome"] for row in output["native_dispositions"]} == {"withheld"}
-        assert output["facts"] == [] and output["relationships"] == [] and output["operations"] == []
+        assert output["facts"] == [] and output["relations"] == [] and output["operations"] == []
         assert [item["outcome"] for item in output["dispositions"]] == ["withheld"] * 8
         assert all(item["source_keys"] == [] and item["reason"] == v.PRIMARY_REASON and item["loss"] for item in output["dispositions"])
 
@@ -200,9 +200,9 @@ def test_an_exception_negates_nothing_and_publishes_no_value():
 
 
 @parametrize("declared,expected", [
-    ("grid_connection", {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relationship": "infrastructure.relationship.grid_connection_meter"}),
-    ("feeder", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}),
-    ("circuit", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relationship": "none_decided"}),
+    ("grid_connection", {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}),
+    ("feeder", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}),
+    ("circuit", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}),
     (None, "role_unknown_role_dependent_facts_not_published"),
 ])
 def test_the_configured_role_selects_the_dimension_and_publishes_nothing(declared, expected):
@@ -306,7 +306,7 @@ def test_first_error_of_the_precedence_list_wins():
 
 
 def test_prospective_rows_are_not_in_force_and_match_the_pack():
-    fields, dimensions, relationships = v.pack_catalog()
+    fields, dimensions, relations = v.pack_catalog()
     document = v.load()
     for rule in document["field_rules"]:
         for row in rule.get("prospective", []):
@@ -386,6 +386,40 @@ def test_published_files_cite_no_revision_link_or_endpoint():
         text = path.read_text(encoding="utf-8")
         assert not v.HEX_RUN_RE.search(text)
         assert "/blob/" not in text and "/commit/" not in text and "#L" not in text and "tcp://" not in text
+
+
+# The member names used before the in-place rename, assembled so that no file spells them.
+EARLIER_MEMBER = "relation" + "ships"
+EARLIER_ROLE_MEMBER = "relation" + "ship"
+
+
+@parametrize("role", ["grid_connection", "feeder", "circuit"])
+def test_role_dimensions_reject_the_earlier_relation_member(role):
+    document = contract()
+    entry = document["role"]["dimension_by_role"][role]
+    entry[EARLIER_ROLE_MEMBER] = entry.pop("relation")
+    with raises(ValueError) as error:
+        v.validate_contract(document)
+    assert str(error.value) == "role"
+
+
+@parametrize("scenario_id,member,path", [
+    ("MTR-POS-001-grid-role-no-meter-read", "output", ()),
+    ("MTR-POS-001-grid-role-no-meter-read", "output", ("role", "dimension_if_admitted")),
+    ("MTR-POS-003-feeder-role", "summary", ("role", "dimension_if_admitted")),
+])
+def test_expected_outputs_reject_the_earlier_relation_members(scenario_id, member, path):
+    document = contract()
+    target = next(s for s in document["scenarios"] if s["id"] == scenario_id)["expect"][member]
+    for key in path:
+        target = target[key]
+    if path:
+        target[EARLIER_ROLE_MEMBER] = target.pop("relation")
+    else:
+        target[EARLIER_MEMBER] = target.pop("relations")
+    with raises(ValueError) as error:
+        v.validate_scenarios(document)
+    assert str(error.value) == "scenario %s %s" % (member, scenario_id)
 
 
 if __name__ == "__main__":

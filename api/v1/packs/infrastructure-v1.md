@@ -26,11 +26,11 @@ infrastructure.dimension.meter            infrastructure.service.site
 infrastructure.service.grid_connection    infrastructure.service.feeder
 infrastructure.service.circuit            infrastructure.service.phase
 infrastructure.service.meter
-infrastructure.relationship.site_grid_connection
-infrastructure.relationship.grid_connection_feeder
-infrastructure.relationship.feeder_circuit
-infrastructure.relationship.circuit_phase
-infrastructure.relationship.grid_connection_meter
+infrastructure.relation.site_grid_connection
+infrastructure.relation.grid_connection_feeder
+infrastructure.relation.feeder_circuit
+infrastructure.relation.circuit_phase
+infrastructure.relation.grid_connection_meter
 infrastructure.capability.read.site
 infrastructure.capability.read.grid_connection
 infrastructure.capability.read.feeder

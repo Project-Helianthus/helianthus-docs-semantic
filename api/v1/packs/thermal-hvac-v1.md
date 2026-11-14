@@ -32,7 +32,7 @@ availability, and operation records. They are never semantic symbols. Action is
 heating, cooling, DHW, ventilating, or idle. Schedules and vendor extensions
 remain native evidence and projection loss until separately typed.
 
-## Services, capabilities, and relationships
+## Services, capabilities, and relations
 
 The FactKey dimension contracts are `thermal.dimension.system`,
 `thermal.dimension.zone`, `thermal.dimension.circuit`, `thermal.dimension.dhw`,
@@ -46,6 +46,12 @@ dimension. Read coverage is `thermal.capability.read.system`,
 `thermal.capability.read.dhw`, and `thermal.capability.read.ventilation`.
 Operations require qualified current binding: `thermal.capability.set_temperature`
 and `thermal.capability.set_mode`.
+
+The thermal pack declares no relation definition, so system, zone, circuit, hot
+water and ventilation records are not related by this pack. The
+[element catalog](../element-catalog-v1.json) records that absence: it holds no
+thermal relation, and the thermal kinds that no fact or relation places carry
+the reason `catalog.reason.no_fact_or_relation`.
 
 ## Operations, effects, and readback
 
