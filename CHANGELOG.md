@@ -7,6 +7,25 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [storage gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md) of the
+  low-voltage BMS family over RS-485 states its resource, join and selectors
+  under section 15 of the [graph contract](api/v1/graph.md) and passes the
+  shared graph rules. The battery pack is its only resource, anchored by an
+  operator label. Every fact key carries the gateway-allocated resource
+  identifier of the pack as the value of the pack dimension (RES-5), no longer
+  the asset identifier. A key that carries the asset, source or binding
+  identifier fails closed. The gate's evidence supports no relation, so it
+  states none, and every Storage relation stays unknown, not absent. A
+  module-to-cell relation keyed by a cell index without a published module is
+  rejected as a dangling endpoint. The profile, the native revision and the
+  routed unit number are selectors classed as provenance, and the routed unit
+  number is no longer listed as identity evidence. Each field rule names its
+  subject kind, looked up in the element catalog, and its measurement point
+  (EN-1). Conversions, dispositions, policies and outcomes are unchanged.
+  Gateway follow-up: the gateway's mapping-gate check for this family pins
+  this repository and must allocate a resource identifier for the pack; it
+  moves with the family's publication slice. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [gateway-meter gate](api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
   of the hybrid inverter family states its resources, relations, join and
   selectors under section 15 of the [graph contract](api/v1/graph.md) and
