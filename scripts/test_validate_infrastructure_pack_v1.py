@@ -83,6 +83,47 @@ def case(document, name, expected, mutate):
     print(f"{name}: REJECTED")
 
 
+class TestLineToLineVoltageStaysOffPhase:
+    """Line-to-line voltage is a different field from phase voltage.
+
+    Fields and the production mutation each check catches:
+    - ``infrastructure.ac.voltage`` dimension: setting it to
+      ``infrastructure.dimension.line_pair`` is rejected as a noncanonical dimension.
+    - ``infrastructure.ac.voltage_line_line`` id: absence of the field fails.
+    - ``infrastructure.ac.voltage_line_line`` dimension: setting it to
+      ``infrastructure.dimension.phase`` is rejected as a noncanonical dimension.
+    """
+
+    PHASE = "infrastructure.dimension.phase"
+    LINE_PAIR = "infrastructure.dimension.line_pair"
+    VOLTAGE = "infrastructure.ac.voltage"
+    LINE_LINE = "infrastructure.ac.voltage_line_line"
+
+    def __init__(self, document):
+        fields = document["catalog"]["definitions"]["fields"]
+        by_id = {field["id"]: field for field in fields}
+        if by_id.get(self.VOLTAGE, {}).get("dimension") != self.PHASE:
+            raise AssertionError(f"{self.VOLTAGE} must stay on {self.PHASE}")
+        if self.LINE_LINE not in by_id:
+            raise AssertionError(f"{self.LINE_LINE} is absent")
+        if by_id[self.LINE_LINE]["dimension"] != self.LINE_PAIR:
+            raise AssertionError(f"{self.LINE_LINE} must stay off {self.PHASE}")
+        positions = {field["id"]: index for index, field in enumerate(fields)}
+        case(
+            document,
+            "voltage_moved_onto_line_pair",
+            "noncanonical kind, dimension, or optionality",
+            lambda catalog, index=positions[self.VOLTAGE]: catalog["definitions"]["fields"][index].update(dimension=self.LINE_PAIR),
+        )
+        case(
+            document,
+            "line_line_voltage_on_phase",
+            "noncanonical kind, dimension, or optionality",
+            lambda catalog, index=positions[self.LINE_LINE]: catalog["definitions"]["fields"][index].update(dimension=self.PHASE),
+        )
+        print("line_to_line_voltage_off_phase: PASS")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -90,6 +131,7 @@ def main():
     print("baseline_exact_chain: PASS")
     print("close_decimal_interval: PASS")
     check_si_units(document)
+    TestLineToLineVoltageStaysOffPhase(document)
     positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
     for identifier in CONVERTED:
         for unit in NOT_SI:

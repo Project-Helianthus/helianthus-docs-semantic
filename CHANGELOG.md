@@ -7,6 +7,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [infrastructure pack](api/v1/packs/infrastructure-v1.md) adds line-to-line
+  voltage `infrastructure.ac.voltage_line_line` in volt on its own line-pair
+  dimension. Phase voltage `infrastructure.ac.voltage` stays on the phase
+  dimension. The line-pair kind, dimension and service are physical and
+  energy. The line-pair read descriptor lists only the new field. No
+  capability is added. Pack metadata, the element catalog, both Matter
+  rosters and the naming contract follow. SemReg follow-up: re-copy the
+  pack bytes and do not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [PV pack](api/v1/packs/pv-inverter-v1.md) adds per-string DC energy
   `pv.dc.energy` in joule on the string dimension, and per-phase apparent
   power `pv.ac.apparent_power` and reactive power `pv.ac.reactive_power`.
