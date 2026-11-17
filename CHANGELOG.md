@@ -7,6 +7,22 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [LUNA2000 storage gate](api/v1/mappings/huawei-luna2000-storage-v1.md) of
+  the hybrid inverter family states its resources, relations, relayed unit,
+  join and selectors under section 15 of the
+  [graph contract](api/v1/graph.md) and passes the shared graph rules. The
+  battery and its pack are resources of their own, anchored by an operator
+  label, instead of registers keyed through the inverter's asset. The inverter
+  relays the battery, and its attachment is configuration because no native
+  owner documents it as observable. The relaying path exposes no anchor key
+  source for the battery, so a second view of it joins only by an operator
+  declaration; a join by name or position and a module or cell relation are
+  rejected. The module, cell, string, interface and storage-system relations
+  stay unknown, not absent, and each prospective row names its subject kind and
+  measurement point. Nothing is published. Gateway follow-up: the gateway's
+  mapping-gate check for this family pins this repository; it moves with the
+  family's storage publication slice. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [storage pack](api/v1/packs/storage-bms-v1.md) moves to the
   [unit rule](api/README.md#unit-rule), whose strict reading stays a working
   reading. State of charge and state of health are in `unit.ratio` with bounds

@@ -65,17 +65,127 @@ Before any row below may be mapped, a revision of this gate must show that:
 5. the storage asset granularity is settled;
 6. executable vectors for that profile are added.
 
+The resource kinds and anchors of item 5 are fixed below. Item 5 stays open
+because no read path states how many packs a battery holds.
+
 ## Identity and keying
 
-The asset identifier and the source identifier are gateway-configured,
-non-secret and distinct, and a binding identifier is derived by the gateway over
-the asset, the source and the profile only. None may be derived from a serial
-number, an ESN, the vendor, the model, firmware or any version text, a routed
-unit alone, or an endpoint address; a missing or invalid identity fails closed.
-The storage asset granularity is Unknown: the batteries are registers of the
-inverter units and not units of their own (Proven), and the multi-endpoint
-contract of `helianthus-docs-ebus` issue 746 (pull request 748, open) is not
-final. Nothing is keyed today because nothing is published.
+Identity follows sections 6.3 and 15 of the [graph contract](../graph.md), the
+rule the PV gate of the same hybrid inverter family follows. The gateway
+allocates every identifier; this gate states what each one names and what never
+derives it.
+
+- The home asset is gateway-allocated: it is the home asset of the inverter
+  child that relays the battery. The asset is kernel lineage only, and no fact
+  key and no relation endpoint carries it.
+- The source identifier is the managed instance identifier of the endpoint
+  instance, one source per endpoint instance. A binding identifier is derived
+  by the gateway over the asset, the source and the profile only.
+- Every resource dimension value and every relation endpoint is a
+  gateway-allocated resource identifier (RES-5, REL-8): one for the inverter
+  and one for the battery. No pack identifier is allocated, because no profile
+  states the packs of a battery.
+
+The class token of the Storage pack and the registry profile identifier are
+native interpretation selectors, and the gate classifies both as provenance
+(section 6.3). A hybrid inverter whose PV and storage facts both publish
+therefore stays one inverter and one home asset. Neither the asset, the source
+nor a resource identifier derives from a serial number, an ESN, the vendor, the
+model, firmware or any version text, a routed unit alone, an endpoint address, a
+class token or a profile identifier. Missing, invalid, reused or ambiguous
+identity fails closed. Nothing is keyed today because nothing is published.
+
+## Resources
+
+This is section 15 item 1. The element catalog lists no identification scheme
+for this family, so every resource below is anchored by an operator label. An
+address, a routed unit, a credential, a class token or a profile identifier is
+never an anchor source.
+
+| Kind | Anchor class | Basis | Anchor source | Parent kind |
+| --- | --- | --- | --- | --- |
+| `resource.inverter` | equipment | `operator_slot` | `operator_label` | none |
+| `resource.battery` | equipment | `operator_slot` | `operator_label` | none |
+| `resource.battery_pack` | equipment | `operator_slot` | `operator_label` | none |
+
+- The inverter is the same resource as in the PV gate, with the same anchor.
+  The child key of the native monitoring contract is its future native token,
+  and its stability is Unknown until the native owner states it.
+- The battery is equipment of its own, relayed by the inverter. The batteries
+  are registers of the inverter units (Proven), and the relaying path exposes
+  no anchor key source for the battery: no battery token is on it.
+- The native evidence separates the battery from its packs only in kind: the
+  planned site and plant values are stated over packs whose number is Unknown.
+  No pack count, position or token is on the relaying path. The pack kind is
+  stated so that its anchor is fixed, but no pack is allocated or published
+  until a battery profile states the packs.
+
+## Relations
+
+This is section 15 item 2. The validity scope of every row is the registry
+profile `huawei.luna2000` with no admitted version, so no record is emitted
+today.
+
+| Definition | Basis class | From kind | To kind | Scope of the rule |
+| --- | --- | --- | --- | --- |
+| `relation.relays` | `configuration` | `resource.inverter` | `resource.battery` | `each_battery_the_operator_attaches_to_an_inverter_child` |
+| `storage.relation.battery_pack` | `gate_rule` | `resource.battery` | `resource.battery_pack` | `one_record_per_pack_an_admitted_battery_profile_reads_none_before_admission` |
+
+- The battery's attachment to an inverter is configuration. No native owner
+  documents it as observable, and a zero word at a battery offset never decides
+  presence. It becomes a native observation only when the native owner
+  documents it as observable for a stated scope.
+- The battery-to-pack relation is a gate rule. The catalog admits no other
+  basis, and its records wait for a profile that reads the packs.
+- The gate makes no absence statement. A withheld battery group is not an
+  absent battery.
+
+Relayed values follow section 15 item 3. The inverter relays the battery, and
+no direct path to the same battery is documented for this family, so the gate
+states that no anchor key source exists for a direct view. A second view of the
+same battery, for example through its own management bus, is therefore one
+resource only by an operator declaration that gives both views one slot
+(section 6.4). Without a shared key the pair is not detectable (section 6.3). A
+join by a name, a label text, a position or an ordinal is rejected, and so is a
+join of views whose native tokens differ (a false join). A relation record
+whose endpoint is a module or a cell is rejected as a dangling endpoint,
+because the gate publishes neither.
+
+Aggregates follow section 15 item 4 and EN-5. Every requested Storage fact is a
+member fact of the pack in the element catalog, so the gate states no
+aggregate. The planned site and plant values remain withheld (rule 4 below).
+Selectors follow section 15 item 5: the registry profile identifier and the
+pack class token are the only interpretation selectors, and both are
+provenance. The gate states no plane membership (section 15 item 6, PLN-1).
+
+## Unknown, not absent
+
+Section 7.2: when neither an instance nor an absence statement exists, a
+relation is unknown, not absent. These Storage relations stay unknown here.
+
+| Definition | From kind | To kind | Withheld by |
+| --- | --- | --- | --- |
+| `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `unsupported:cell_and_module_values` |
+| `storage.relation.pack_interface` | `resource.battery_pack` | `resource.storage_interface` | `unsupported:charge_and_discharge_power_limits` |
+| `storage.relation.pack_module` | `resource.battery_pack` | `resource.battery_module` | `unsupported:cell_and_module_values` |
+| `storage.relation.pack_string` | `resource.battery_pack` | `resource.battery_string` | `registry_disposition:no_string_structure_admitted` |
+| `storage.relation.system_battery` | `resource.storage_system` | `resource.battery` | `configuration:no_storage_system_declared_by_this_gate` |
+
+## Subjects and measurement points
+
+Under EN-1 each prospective row names its subject kind and its measurement
+point. The subject kind and the dimension are looked up in the
+[element catalog](../element-catalog-v1.json), not repeated by the validator,
+and the measurement points are a Hypothesis of this gate.
+
+| Native item | Storage fact | Subject kind | Measurement point |
+| --- | --- | --- | --- |
+| `battery_group_37000_30` | `storage.status.operating` | `resource.battery_pack` | `pack_as_a_whole` |
+| `site_battery_soc` | `storage.state.soc` | `resource.battery_pack` | `pack_as_a_whole` |
+| `site_battery_power` | `storage.pack.power` | `resource.battery_pack` | `pack_terminals` |
+| `plant_battery_power` | `storage.pack.power` | `resource.battery_pack` | `pack_terminals` |
+| `site_battery_energy_charged_total` | `storage.energy.charged` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
+| `site_battery_energy_discharged_total` | `storage.energy.discharged` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
 
 ## Withheld items
 
@@ -120,8 +230,8 @@ five requested items.
 
 These rows are not in force. They record only where a fact will land if the
 preconditions above are met, so that a later profile does not need a new family.
-Each target, dimension and unit is checked against the Storage pack's contract
-tables. Each quantity row names the SI unit of its pack field under the
+Each target and unit is checked against the Storage pack's contract tables, and
+each dimension against the element catalog. Each quantity row names the SI unit of its pack field under the
 [unit rule](../../README.md#unit-rule) and the exact factor and offset of its
 conversion, so that the SI value is the native value times the factor plus the
 offset. Percent is published as a ratio from 0 to 1 by the exact factor 0.01,
@@ -224,7 +334,8 @@ generation-fenced.
 | Which word, if any, states battery presence? | The candidate presence word checked against a site with and without a battery. | Unknown |
 | Do the planned site and plant groups answer? | An operator-approved observation. | Unknown |
 | What is the sign of the EMMA site battery power? | A reading at charge and at discharge with an independent check. | Unknown |
-| Is the storage asset one per inverter child or one per site? | The final multi-endpoint contract. | Hypothesis |
+| How many packs does a battery hold, and at which positions? | A battery profile that reads the packs. | Unknown |
+| Is the battery's attachment to an inverter observable natively? | The native owner documents it as observable for a stated scope. | Unknown |
 
 ## Later consumer cutover
 
@@ -240,4 +351,7 @@ Run `python3 scripts/validate_huawei_luna2000_storage_mapping.py`,
 by `python3 -m pytest`), and `./scripts/check_docs.sh`, which runs both. The validator executes every vector, checks each
 prospective target against the Storage pack tables, checks that every native item
 has exactly one disposition, and compares the tables of this page with the
-contract.
+contract. It runs the shared graph rules of `scripts/mapping_gate_graph_rules.py`
+first and then its own resource, relation, relay, join, selector and subject
+rules, looking up kinds, dimensions, subjects, relation definitions, directions
+and aggregations in the element catalog.

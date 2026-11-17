@@ -26,12 +26,41 @@
     ]
   },
   "identity": {
-    "asset_id": {"source": "gateway_configured_semantic_asset_id", "required": true, "non_secret": true, "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]},
-    "source_id": {"source": "gateway_configured_semantic_source_id", "required": true, "non_secret": true, "distinct_from": "asset_id", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]},
+    "asset_id": {"source": "gateway_allocated_asset_id", "required": true, "non_secret": true, "granularity": "the_home_asset_of_the_inverter_child_that_relays_the_battery", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address", "class_token", "profile_id"]},
+    "source_id": {"source": "gateway_managed_instance_source_id", "required": true, "non_secret": true, "granularity": "one_source_per_endpoint_instance", "distinct_from": "asset_id", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]},
     "binding_id": {"source": "gateway_domain_separated_asset_source_profile_binding", "required": true, "non_secret": true, "stable_inputs": ["asset_id", "source_id", "profile_id"]},
-    "failure": "missing_or_invalid_asset_or_source_identity_fails_closed",
-    "storage_asset_granularity": "unresolved_batteries_are_registers_of_the_inverter_units_not_units_of_their_own"
+    "resources": {
+      "inverter": {"kind": "resource.inverter", "source": "gateway_allocated_resource_id", "required": true},
+      "battery": {"dimension": "storage.dimension.battery", "source": "gateway_allocated_resource_id", "required": true},
+      "packs": {"dimension": "storage.dimension.pack", "source": "not_allocated_no_profile_states_the_packs_of_a_battery", "required": false}
+    },
+    "failure": "missing_invalid_reused_or_ambiguous_identity_fails_closed"
   },
+  "graph": {
+    "resources": [
+      {"kind": "resource.inverter", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["native_contract:monitoring_contract", "future_native_token:logger_child_key_of_the_native_monitoring_contract", "native_owner_token_stability:unknown_until_the_native_owner_states_it", "identification_scheme:none_listed_for_family"]},
+      {"kind": "resource.battery", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["registry_disposition:battery_groups_present_not_admitted", "relaying_path:no_battery_anchor_key_source", "native_owner_token_stability:no_battery_token_on_the_relaying_path", "identification_scheme:none_listed_for_family"]},
+      {"kind": "resource.battery_pack", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["native_contract:planned_site_and_plant_values_are_stated_over_packs", "native_contract:no_pack_count_or_position_on_the_relaying_path", "native_owner_token_stability:no_pack_token_on_the_relaying_path"]}
+    ],
+    "relations": [
+      {"definition": "relation.relays", "basis_class": "configuration", "from_kind": "resource.inverter", "to_kind": "resource.battery", "evidence": ["operator_configuration:battery_attached_to_inverter_child", "native_contract:battery_attachment_not_documented_as_observable"], "validity_scope": {"profile": "huawei.luna2000", "version": "no_admitted_profile", "rule_scope": "each_battery_the_operator_attaches_to_an_inverter_child"}, "absence_sides": []},
+      {"definition": "storage.relation.battery_pack", "basis_class": "gate_rule", "from_kind": "resource.battery", "to_kind": "resource.battery_pack", "evidence": ["pack_contract:storage.relation.battery_pack", "registry_disposition:no_pack_structure_admitted"], "validity_scope": {"profile": "huawei.luna2000", "version": "no_admitted_profile", "rule_scope": "one_record_per_pack_an_admitted_battery_profile_reads_none_before_admission"}, "absence_sides": []}
+    ],
+    "relayed": [{"relaying_kind": "resource.inverter", "relayed_kind": "resource.battery", "direct_anchor_key_source": "none"}],
+    "joins": [{"kind": "resource.battery", "observations": ["relayed_by_the_inverter", "seen_through_another_path"], "basis": "operator_declaration", "native_tokens": "not_exposed"}],
+    "aggregates": [],
+    "selectors": [
+      {"selector": "profile_id", "classification": "provenance", "evidence": ["admission:registry_disposition_profile", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+      {"selector": "class_token", "classification": "provenance", "evidence": ["graph:6.3:a_pack_class_is_never_an_anchor", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]}
+    ]
+  },
+  "unstated_relations": [
+    {"definition": "storage.relation.module_cell", "from_kind": "resource.battery_module", "to_kind": "resource.battery_cell", "outcome": "unknown_not_absent", "withheld_by": "unsupported:cell_and_module_values"},
+    {"definition": "storage.relation.pack_interface", "from_kind": "resource.battery_pack", "to_kind": "resource.storage_interface", "outcome": "unknown_not_absent", "withheld_by": "unsupported:charge_and_discharge_power_limits"},
+    {"definition": "storage.relation.pack_module", "from_kind": "resource.battery_pack", "to_kind": "resource.battery_module", "outcome": "unknown_not_absent", "withheld_by": "unsupported:cell_and_module_values"},
+    {"definition": "storage.relation.pack_string", "from_kind": "resource.battery_pack", "to_kind": "resource.battery_string", "outcome": "unknown_not_absent", "withheld_by": "registry_disposition:no_string_structure_admitted"},
+    {"definition": "storage.relation.system_battery", "from_kind": "resource.storage_system", "to_kind": "resource.battery", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_storage_system_declared_by_this_gate"}
+  ],
   "lifecycle": {
     "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "luna_selection", "reads"],
     "absent_optional_group": "unknown_never_zero",
@@ -57,7 +86,7 @@
       "native": null,
       "grade": "unknown",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.battery_group_not_read"},
-      "prospective": {"in_force": false, "target": "storage.status.operating", "dimension": "storage.dimension.pack", "unit": null, "native": null, "symbols": []}
+      "prospective": {"in_force": false, "target": "storage.status.operating", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_as_a_whole", "unit": null, "native": null, "symbols": []}
     },
     {"native_id": "battery_single_read_37000_1", "source": "registry_disposition", "read": {"offset": 37000, "quantity": 1}, "native": null, "grade": "proven", "disposition": {"outcome": "withheld", "reason": "storage.reason.battery_group_not_read"}},
     {"native_id": "battery_group_37066_4", "source": "registry_disposition", "read": {"offset": 37066, "quantity": 4}, "native": null, "grade": "unknown", "disposition": {"outcome": "withheld", "reason": "storage.reason.battery_group_not_read"}},
@@ -68,7 +97,7 @@
       "native": {"type": "U16", "gain": 100, "unit": "%"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.state.soc", "dimension": "storage.dimension.pack", "unit": "unit.ratio", "native": {"type": "U16", "gain": 100, "unit": "%"}, "conversion": {"factor": {"coefficient": "1", "exponent10": -2}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"]}
+      "prospective": {"in_force": false, "target": "storage.state.soc", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_as_a_whole", "unit": "unit.ratio", "native": {"type": "U16", "gain": 100, "unit": "%"}, "conversion": {"factor": {"coefficient": "1", "exponent10": -2}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"]}
     },
     {
       "native_id": "site_battery_power",
@@ -76,7 +105,7 @@
       "native": {"type": "I32", "gain": 1000, "unit": "kW"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "unknown_no_value_without_a_graded_sign"}
+      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_terminals", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "unknown_no_value_without_a_graded_sign"}
     },
     {
       "native_id": "plant_battery_power",
@@ -84,7 +113,7 @@
       "native": {"type": "I32", "gain": 1000, "unit": "kW"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "positive_while_charging_negative_while_discharging"}
+      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_terminals", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "positive_while_charging_negative_while_discharging"}
     },
     {
       "native_id": "site_battery_energy_charged_total",
@@ -92,7 +121,7 @@
       "native": {"type": "U64", "gain": 100, "unit": "kWh"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.energy.charged", "dimension": "storage.dimension.pack", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
+      "prospective": {"in_force": false, "target": "storage.energy.charged", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_terminals_lifetime_counter", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
     },
     {
       "native_id": "site_battery_energy_discharged_total",
@@ -100,7 +129,7 @@
       "native": {"type": "U64", "gain": 100, "unit": "kWh"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.energy.discharged", "dimension": "storage.dimension.pack", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
+      "prospective": {"in_force": false, "target": "storage.energy.discharged", "dimension": "storage.dimension.pack", "subject_kind": "resource.battery_pack", "measurement_point": "pack_terminals_lifetime_counter", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
     },
     {"native_id": "site_battery_energy_charged_day", "source": "monitoring_contract_planned", "native": {"type": "U32", "gain": 100, "unit": "kWh"}, "grade": "hypothesis", "disposition": {"outcome": "withheld", "reason": "storage.reason.period_counter_time_domain_not_represented"}},
     {"native_id": "site_battery_energy_discharged_day", "source": "monitoring_contract_planned", "native": {"type": "U32", "gain": 100, "unit": "kWh"}, "grade": "hypothesis", "disposition": {"outcome": "withheld", "reason": "storage.reason.period_counter_time_domain_not_represented"}},
