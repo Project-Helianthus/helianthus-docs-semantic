@@ -68,20 +68,33 @@ a declared role has role Unknown, and a fact that depends on the role is not
 published without a declaration. The vectors `MTR-NEG-007-role-derived-from-sign`
 and `MTR-NEG-008-role-outside-set` pin these rules.
 
-The meter dimension or the grid-connection dimension follows the configured role
-(Hypothesis, because no meter is decoded):
+Under EN-8 of the [graph contract](../graph.md), a meter's role is an instance
+of a `measures` relation definition between the meter and the resource it
+measures. The grid connection's home asset holds it, and its basis class is
+`configuration` because the native meter contract states that the role is
+configuration. The role never changes a fact definition. The validator takes
+each role's relation from the [element catalog](../element-catalog-v1.json): it
+is the catalog's `measures` definition between the measured resource and the
+meter, and it is unknown when the catalog has none. A stated role relation
+needs its instance in the gate's graph. A role relation with a
+`native_observation` basis is rejected, even if the catalog admitted one.
+
+Where each quantity lands follows EN-1, not the role. The catalog places the
+direction-separated power and the power factor on the grid connection and the
+energy counters on the meter. A role whose relation is unknown therefore takes
+no power (Hypothesis, because no meter is decoded):
 
 | Role | Power | Energy counters | Relation |
 | --- | --- | --- | --- |
 | `grid_connection` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | `infrastructure.relation.grid_connection_meter` |
-| `feeder` | withheld | `infrastructure.dimension.meter` | none decided |
-| `circuit` | withheld | `infrastructure.dimension.meter` | none decided |
+| `feeder` | withheld | `infrastructure.dimension.meter` | unknown |
+| `circuit` | withheld | `infrastructure.dimension.meter` | unknown |
 | undeclared | withheld | withheld | none |
 
-The Infrastructure pack defines its direction-separated power on the grid
-connection and its energy counters on the meter, so a feeder or circuit role has
-no power fact in the pack and only the meter counters could follow. The gate
-never invents a feeder, circuit, phase or meter member.
+The catalog has no `measures` definition between a feeder or a circuit and a
+meter. For those roles the gate states neither an instance nor an absence
+statement, so the relation is unknown. It is not absent. The gate never invents
+a feeder, circuit, phase or meter member.
 
 ## Identity and keying
 
@@ -93,6 +106,95 @@ make, model or firmware of any meter is established. The routed unit and the
 source key the role. The keying follows the multi-endpoint contract of
 `helianthus-docs-ebus` issue 746 (pull request 748, open): one source per
 endpoint instance. Nothing is published today.
+
+## Resources
+
+This is section 15 item 1 of the [graph contract](../graph.md). The element
+catalog lists no identification scheme for this family, so every resource below
+is anchored by an operator label. An address, a routed unit, a credential, a
+gateway path or a profile identifier is never an anchor source. The routed unit
+keys a read and never an anchor.
+
+| Kind | Anchor class | Basis | Anchor source | Parent kind |
+| --- | --- | --- | --- | --- |
+| `resource.site` | function | `operator_slot` | `operator_label` | none |
+| `resource.grid_connection` | function | `operator_slot` | `operator_label` | none |
+| `resource.meter` | equipment | `operator_slot` | `operator_label` | none |
+
+- The site and the grid connection are functions that the operator declares.
+  No native token exists for them.
+- The meter is equipment. The native meter contract gives it no identity read
+  until a meter class contract exists, so the stability of any meter token is
+  Unknown. The meter's operator label is not a meter asset identifier, and the
+  identity outcome stays as above.
+
+## Relations
+
+This is section 15 item 2. The validity scope of every row is "no meter class
+contract" with no admitted profile, so no record is emitted today.
+
+| Definition | Basis class | From kind | To kind | Scope of the rule |
+| --- | --- | --- | --- | --- |
+| `infrastructure.relation.site_grid_connection` | `configuration` | `resource.site` | `resource.grid_connection` | `each_grid_connection_the_operator_declares_in_a_site` |
+| `infrastructure.relation.grid_connection_meter` | `configuration` | `resource.grid_connection` | `resource.meter` | `each_meter_the_operator_declares_with_role_grid_connection` |
+
+- The grid-connection-to-meter row is the meter role of EN-8. A declared
+  `grid_connection` role without this instance is rejected.
+- The gate makes no absence statement. A withheld meter group is not an absent
+  meter.
+
+Relayed values follow section 15 item 3. Whether a meter's values sit at its
+own unit or at the gateway unit is Unknown, so the gate names no relaying
+resource and states no relay until the exposure path is observed. One meter may
+be seen at a gateway meter unit and through an inverter child. Without a meter
+identity read those two views are one resource only by an operator declaration
+that gives both one slot (section 6.4). A join by a name, a routed unit or a
+position is rejected, and so is a join of views whose native tokens differ (a
+false join). A feeder or circuit relation is rejected as a dangling endpoint,
+because the gate publishes neither.
+
+Aggregates follow section 15 item 4 and EN-5. Every prospective target is a
+member fact in the element catalog, so the gate states no aggregate. Selectors
+follow section 15 item 5: the gateway path and the registry profile identifier
+are the only interpretation selectors, and both are provenance. The gate states
+no plane membership (section 15 item 6, PLN-1).
+
+## Unknown, not absent
+
+Section 7.2: when neither an instance nor an absence statement exists, a
+relation is unknown, not absent. These Infrastructure relations stay unknown
+here.
+
+| Definition | From kind | To kind | Withheld by |
+| --- | --- | --- | --- |
+| `infrastructure.relation.circuit_phase` | `resource.electrical_circuit` | `resource.phase` | `native_contract:phase_assignment_not_stated` |
+| `infrastructure.relation.feeder_circuit` | `resource.feeder` | `resource.electrical_circuit` | `configuration:no_feeder_or_circuit_declared_by_this_gate` |
+| `infrastructure.relation.grid_connection_feeder` | `resource.grid_connection` | `resource.feeder` | `configuration:no_feeder_or_circuit_declared_by_this_gate` |
+
+## Subjects and measurement points
+
+Under EN-1 each prospective row names its subject kind and its measurement
+point. The subject is the resource the quantity is measured at, never the
+device that reports it: the plant grid power of a dongle and the power of an
+inverter-exposed group belong to the grid connection, not to the dongle, the
+inverter or the meter. The subject kind and the dimension are looked up in the
+element catalog, not repeated by the validator. The measurement points are a
+Hypothesis of this gate. A withheld item without a prospective row names no
+target, so it has no subject.
+
+| Native item | Infrastructure fact | Subject kind | Measurement point |
+| --- | --- | --- | --- |
+| `smartlogger_meter_electrical_group` | `infrastructure.power.import_active` | `resource.grid_connection` | `grid_connection_point` |
+| `smartlogger_meter_electrical_group` | `infrastructure.power.export_active` | `resource.grid_connection` | `grid_connection_point` |
+| `smartlogger_meter_electrical_group` | `infrastructure.ac.power_factor` | `resource.grid_connection` | `grid_connection_point` |
+| `smartlogger_meter_energy_totals` | `infrastructure.energy.import` | `resource.meter` | `meter_register` |
+| `smartlogger_meter_energy_totals` | `infrastructure.energy.export` | `resource.meter` | `meter_register` |
+| `sdongle_inverter_exposed_meter_group` | `infrastructure.power.import_active` | `resource.grid_connection` | `grid_connection_point` |
+| `sdongle_inverter_exposed_meter_group` | `infrastructure.power.export_active` | `resource.grid_connection` | `grid_connection_point` |
+| `sdongle_inverter_exposed_meter_group` | `infrastructure.energy.import` | `resource.meter` | `meter_register` |
+| `sdongle_inverter_exposed_meter_group` | `infrastructure.energy.export` | `resource.meter` | `meter_register` |
+| `sdongle_plant_grid_power` | `infrastructure.power.import_active` | `resource.grid_connection` | `grid_connection_point` |
+| `sdongle_plant_grid_power` | `infrastructure.power.export_active` | `resource.grid_connection` | `grid_connection_point` |
 
 ## Withheld items
 
@@ -239,7 +341,9 @@ atomic cutover and keep `outbound_allowed=false`.
 Run `python3 scripts/validate_huawei_gateway_meter_infrastructure_mapping.py`,
 `python3 scripts/test_validate_huawei_gateway_meter_infrastructure_mapping.py`
 (also collected by `python3 -m pytest`), and `./scripts/check_docs.sh`, which runs
-both. The validator executes every vector, checks each
-prospective target against the Infrastructure pack catalog, checks that every
-native item has exactly one disposition, and compares the tables of this page with
-the contract.
+both. The validator first runs the shared graph rules of
+`scripts/mapping_gate_graph_rules.py` and then its own rules. It executes every
+vector, checks each prospective target against the Infrastructure pack catalog
+and the element catalog, takes each role's relation and each subject kind from
+the element catalog, checks that every native item has exactly one disposition,
+and compares the tables of this page with the contract.

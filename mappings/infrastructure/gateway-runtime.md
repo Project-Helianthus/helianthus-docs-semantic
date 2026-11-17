@@ -102,6 +102,28 @@ zero, or a healthy state. No implemented Infrastructure field is verified here.
 | `infrastructure.portal.read.phase` | Unknown / unsupported | No promoted electrical facts and qualified binding support this read descriptor. |
 | `infrastructure.portal.read.meter` | Unknown / unsupported | No promoted electrical facts and qualified binding support this read descriptor. |
 
+## Meter role and the subject of power and energy
+
+A driver attachment never states a meter's role. Under EN-8 of the
+[graph contract](../../api/v1/graph.md), a meter's role is an instance of a
+`measures` relation definition between the meter and the resource it measures.
+For `infrastructure.relation.grid_connection_meter` the grid connection's home
+asset holds it. Its basis class is `configuration` while no native owner
+documents the role as observable. The
+[element catalog](../../api/v1/element-catalog-v1.json) has no `measures`
+definition for a feeder or a circuit, so such a role relation stays unknown. It
+is not absent.
+
+Under EN-1 a power or energy value has as subject the resource at whose boundary
+or terminal it is measured or defined, never the device that reports it. A
+gateway, logger or inverter that relays a meter value is not its subject. The
+catalog places direction-separated power on the grid connection and the energy
+counters on the meter. The
+[gateway-meter gate of the hybrid inverter family](../../api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
+states these rules in its graph, names a subject kind and a measurement point on
+every prospective row, and publishes nothing until a meter is decoded. This
+assessment still maps no runtime state to either relation.
+
 ## State separation, retention, and admission
 
 Apply the [kernel contract](../../api/v1/kernel.md) independently of electrical
