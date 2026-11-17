@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import re
 from datetime import datetime
@@ -11,7 +12,27 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.json"
 DOC = ROOT / "api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md"
+_GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(_GRAPH_SPEC)
+_GRAPH_SPEC.loader.exec_module(graph_rules)
 PACK = {"id": "helianthus.pack.evse", "version": "1.0.0"}
+DIMENSION_PREFIX = "evse.dimension."
+# Identity keys name the pack's resource dimensions; each value is the gateway-allocated ResourceID (graph.md 6.3).
+IDENTITY_KEYS = ("asset_id", "evse_id", "connector_id")
+IDENTITY_SOURCE = "gateway_allocated_resource_id"
+FORBIDDEN_DERIVATIONS = ["unit_id", "firmware_text", "observation_values", "payload_bytes", "request_order", "network_address", "ordinal_of_sorted_identifiers", "asset_identifier"]
+IDENTITY_FAILURE = "missing_blank_invalid_reused_or_ambiguous_identity_fails_closed"
+# Section 15 item 2: the relations this gate states, all declared by configuration.
+STATED_RELATIONS = ["evse.relation.asset_evse", "evse.relation.evse_connector"]
+STATED_BASIS = "configuration"
+NATIVE_VERSION = "24.44.3"
+UNSTATED_OUTCOME = "unknown_not_absent"
+SELECTORS = [{"selector": "profile", "classification": "provenance", "evidence": ["native_contract:profile", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]}]
+# EN-1: subject kind and dimension come from the element catalog; the gate states the measurement point.
+FIELD_RULES = [
+    {"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "measurement_point": "limit_defined_at_evse_output", "unit": "unit.ampere", "disposition": "exact"},
+    {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "measurement_point": "limit_defined_at_connector_output", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"},
+]
 PINS = {"docs_semantic_base": "f830ace6c2b9dd1af0e87ce808fa545662578418", "semreg": "f3f761bc67e10d6a65eba6c13cb4dc51002d6955", "docs_modbus_current_limit": "6611e20ac8b2c3e8b953934757346f8a847b30bf", "docs_modbus_native_projection": "1127c333de1f1d02305952a58f8745ee05c42e12", "modbusreg": "57f7eb84f7d4e1173621711bf64624726c71bc75", "gateway_main": "32244901c4c8337266cd348bdad90fb9e8eb0a61"}
 ERRORS = ["profile_or_version_invalid", "identity_invalid", "source_path_invalid", "evidence_binding_invalid", "lifecycle_invalid", "unsupported_fact_or_operation"]
 OPAQUE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
@@ -40,19 +61,146 @@ def mutate(value, mutation):
         current[key] = mutation["value"]
 
 
-def validate_contract(contract):
+class Catalog:
+    """Element-catalog lookups for the pack of this gate."""
+
+    def __init__(self, document):
+        self.document = document
+        self.index = graph_rules.Index(document)
+        self.dimensions = {}
+        self.pack_relations = []
+        for element in document.get("elements", []):
+            ref = element["ref"]
+            if element.get("disposition") != "member" or ref["owner"].get("pack") != PACK:
+                continue
+            if element["element_kind"] == "dimension":
+                self.dimensions[ref["id"]] = element["attributes"]
+            elif element["element_kind"] == "relation":
+                self.pack_relations.append(ref["id"])
+
+    def dimension_kind(self, stem):
+        attributes = self.dimensions.get(DIMENSION_PREFIX + stem)
+        if attributes is None:
+            fail("catalog_dimension_missing")
+        return attributes["resource_kind"]
+
+
+def identity_stem(key):
+    return key.removesuffix("_id")
+
+
+def published_kinds(contract, catalog):
+    """RES-1 and section 6.1: one resource kind per identity dimension; a session only with a native session token."""
+    kinds = [catalog.dimension_kind(identity_stem(key)) for key in IDENTITY_KEYS]
+    if "session_token" in contract.get("native_contract", {}):
+        kinds.append(catalog.dimension_kind("session"))
+    return kinds
+
+
+def expected_basis(resource, native):
+    """Section 6.3: a listed scheme gives a native identity, a native position a native slot, else an operator label."""
+    if resource["identification_scheme"] != graph_rules.NONE_LISTED:
+        return "native_identity"
+    if resource["anchor_class"] != "equipment" and "position" in native:
+        return "native_slot"
+    return "operator_slot"
+
+
+def check_graph_parents(graph, catalog):
+    """RES-2: a component's parent kind is the whole of the contains relation the gate states for it."""
+    wholes = {}
+    for relation in graph["relations"]:
+        definition = catalog.index.relations.get(relation["definition"], {})
+        if definition.get("core_type") == "contains":
+            whole, part = (relation["from_kind"], relation["to_kind"]) if definition["orientation"] == "as_core" else (relation["to_kind"], relation["from_kind"])
+            wholes[part] = whole
+    for resource in graph["resources"]:
+        if resource["parent_kind"] != wholes.get(resource["kind"]):
+            fail("graph_parent")
+
+
+def check_graph_relations(graph, native):
+    """Section 15 item 2 and REL-3: configuration basis, the native profile scope and no absence statement."""
+    if [relation["definition"] for relation in graph["relations"]] != STATED_RELATIONS:
+        fail("graph_relations")
+    scope = {"profile": native.get("profile"), "version": NATIVE_VERSION}
+    for relation in graph["relations"]:
+        stated_scope = {key: relation["validity_scope"].get(key) for key in scope}
+        if relation["basis_class"] != STATED_BASIS or relation["absence_sides"] or stated_scope != scope:
+            fail("graph_relations")
+
+
+def expected_unstated(catalog, stated, published):
+    """Section 7.2: a pack relation the gate does not state stays unknown, never absent."""
+    result = []
+    for name in catalog.pack_relations:
+        if name in stated:
+            continue
+        definition = catalog.index.relations[name]
+        missing = [kind for kind in definition["from_kinds"] + definition["to_kinds"] if kind not in published]
+        if not missing:
+            fail("unstated_relations")
+        result.append({"definition": name, "outcome": UNSTATED_OUTCOME, "unpublished_endpoint": missing[0]})
+    return result
+
+
+def validate_graph(contract, catalog):
+    """Section 15: the shared checker first, then this gate's own resource and relation rules."""
+    failures = graph_rules.check(contract, catalog.document)
+    if failures:
+        fail("graph {} {}".format(*failures[0]))
+    if not graph_rules.graph_stated(contract):
+        fail("graph_not_stated")
+    graph, native = contract["graph"], contract.get("native_contract", {})
+    published = published_kinds(contract, catalog)
+    if [resource["kind"] for resource in graph["resources"]] != published:
+        fail("graph_resources")
+    if any(resource["anchor_basis"] != expected_basis(resource, native) for resource in graph["resources"]):
+        fail("graph_anchor")
+    check_graph_parents(graph, catalog)
+    check_graph_relations(graph, native)
+    for member in ("relayed", "joins", "aggregates"):
+        if graph[member]:
+            fail(f"graph_{member}")
+    if graph["selectors"] != SELECTORS:
+        fail("graph_selectors")
+    stated = [relation["definition"] for relation in graph["relations"]]
+    if contract.get("unstated_relations") != expected_unstated(catalog, stated, published):
+        fail("unstated_relations")
+
+
+def validate_identity(identity):
+    expected = {key: {"source": IDENTITY_SOURCE, "dimension": DIMENSION_PREFIX + identity_stem(key), "required": True, "non_secret": True} for key in IDENTITY_KEYS}
+    expected.update(forbidden_derivations=FORBIDDEN_DERIVATIONS, failure=IDENTITY_FAILURE)
+    if identity != expected:
+        fail("identity_contract")
+
+
+def expected_field_rules(catalog):
+    """EN-1: each rule names the catalog subject kind of its target and the measurement point."""
+    rules = []
+    for rule in FIELD_RULES:
+        fact = catalog.index.facts.get(rule["target"])
+        if fact is None:
+            fail("field_rules")
+        subject = fact["subject"]
+        rules.append({"source": rule["source"], "target": rule["target"], "subject_kind": subject["kind"], "dimension": subject["dimension"]["id"].removeprefix(DIMENSION_PREFIX), "measurement_point": rule["measurement_point"], "unit": rule["unit"], "disposition": rule["disposition"]})
+    return rules
+
+
+def validate_contract(contract, catalog=None):
+    catalog = Catalog(graph_rules.load_catalog() if catalog is None else catalog)
     if contract.get("contract") != "helianthus.semantic.mapping.tesla-gen3-wc3-24443.evse-current-limit/v1" or contract.get("pack") != PACK or contract.get("pins") != PINS:
         fail("contract")
     native = contract.get("native_contract")
     if native != {"profile": "wc3_24_44_3", "source_path": "modbus.v1.tesla.gen3.evse.current_limit.get", "function": "FC100", "read_only": True, "outbound_allowed": False, "persistent": {"request_response": "family_6.t7_to_t8", "field": "MaxOutputCurrentAmps", "unit": "unit.ampere"}, "provisional": {"set_ack": "family_6.t25_to_t26", "readback": "family_6.t27_to_t28", "field": "LimitCurrentMaxAmps", "timeout": "LimitTimeoutSeconds", "inhibit": "InhibitCharging", "unit": "unit.ampere"}}:
         fail("native_contract")
-    identity = contract.get("identity", {})
-    if set(identity) != {"asset_id", "evse_id", "connector_id", "forbidden_derivations", "failure"} or identity.get("forbidden_derivations") != ["unit_id", "firmware_text", "observation_values", "payload_bytes", "request_order"] or identity.get("failure") != "missing_blank_invalid_reused_or_ambiguous_identity_fails_closed" or any(identity.get(k) != {"source": f"gateway_configured_semantic_{k}", "required": True, "non_secret": True} for k in ("asset_id", "evse_id", "connector_id")):
-        fail("identity_contract")
+    validate_graph(contract, catalog)
+    validate_identity(contract.get("identity", {}))
     lifecycle = contract.get("lifecycle", {})
     if lifecycle != {"required": ["receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"], "per_fact_evidence": {"persistent": ["immutable_evidence_id", "payload_digest", "persistent_request", "persistent_terminal"], "provisional": ["immutable_evidence_id", "payload_digest", "correlation_id", "provisional_set", "provisional_ack", "provisional_readback_request", "provisional_readback_terminal"]}, "atomicity": "persistent_and_provisional_each_have_one_evidence_id_one_source_epoch_one_driver_generation_one_semantic_revision", "withdrawal": "explicit_generation_fenced", "retention": "native_owner_only_permitted_last_known_good", "physical_qualified": False, "mapping_qualified": True}:
         fail("lifecycle_contract")
-    if contract.get("field_rules") != [{"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "dimension": "evse", "unit": "unit.ampere", "disposition": "exact"}, {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "dimension": "connector", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"}]:
+    if contract.get("field_rules") != expected_field_rules(catalog):
         fail("field_rules")
     if len(contract.get("withheld", [])) != 3 or contract.get("unsupported") != ["power", "energy", "phase", "session", "readiness", "connector_topology", "state_of_charge", "thermal", "fault", "interlock", "meter", "set_allocated_current", "sender", "route", "authority", "acknowledgement_authority", "readback_authority", "retry", "live_control"]:
         fail("withheld_or_unsupported")
@@ -132,7 +280,7 @@ def document(contract):
 def main():
     contract = load(); document(contract)
     text = DOC.read_text(encoding="utf-8")
-    for token in ("FC100", "outbound_allowed=false", "field-scoped immutable evidence", "Every operation is unavailable", "mTLS GraphQL"):
+    for token in ("FC100", "outbound_allowed=false", "field-scoped immutable evidence", "Every operation is unavailable", "mTLS GraphQL", "operator label", "unknown, not absent", "EN-1", "section 15"):
         if token not in text: fail("document_boundary")
     positive = sum(s["polarity"] == "positive" for s in contract["scenarios"])
     print(f"Tesla Gen3 WC3 24.44.3 EVSE current-limit mapping: PASS; {positive} executable outputs and {len(contract['scenarios']) - positive} rejected scenarios")

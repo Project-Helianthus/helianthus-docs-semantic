@@ -44,13 +44,56 @@ Evidence from observations, epochs, generations, or revisions cannot be
 combined within either fact path. Permitted last-known-good retention remains
 the native owner's lifecycle decision.
 
-## Identity, loss, and operations
+## Resources, relations, and identity
 
-The gateway must configure stable, non-secret asset, EVSE, and connector IDs.
-They must be distinct and cannot be derived from unit ID, firmware text,
-observation values, payload bytes, or request order. Missing, blank, invalid,
-reused, or ambiguous IDs fail closed. This gate establishes no connector
-topology beyond that configured semantic connector identity.
+The gate states its resources and relations in the member `graph`, in the
+form that section 15 of the [graph contract](../graph.md) requires. Its
+validator runs the [shared checker](../../../scripts/mapping_gate_graph_rules.py)
+first and then its own rules. Kinds, anchor classes, dimensions, relation
+definitions and admitted basis classes are looked up in the
+[element catalog](../element-catalog-v1.json); the gate repeats none of them as
+a constant.
+
+- The charging station is equipment. No identification scheme is listed for
+  this family and the native current-limit path carries no unit token, so its
+  anchor is an operator label (RES-2, section 6.3).
+- The EVSE is a component of the station, and the connector a component of the
+  EVSE. The native current-limit evidence gives neither a position, so both
+  are anchored by an operator label. A native slot would need a native
+  position.
+- A charging session is an episode hosted by the connector. The native
+  current-limit evidence carries no session token, so no session resource is
+  published.
+- A network address, a unit number, firmware text, an ordinal of sorted
+  identifiers or the asset identifier never anchors or names a resource. A
+  connector numbered by sort order, a join by that order, and a station keyed
+  by an address are rejected. The gate states no relayed value, join or
+  aggregate.
+
+The asset, EVSE and connector identity values are the resource identifiers the
+gateway allocates for these three resources. Each names its pack dimension,
+whose resource kind comes from the catalog; equal text with the asset
+identifier never makes two identities one. The identifiers must be stable,
+non-secret and distinct, and cannot be derived from unit ID, firmware text,
+observation values, payload bytes, request order, a network address, an
+ordinal of sorted identifiers, or the asset identifier. Missing, blank,
+invalid, reused, or ambiguous identifiers fail closed.
+
+The station-to-EVSE and EVSE-to-connector relations are stated with basis
+class `configuration`, scoped to this profile and its version, and with no
+absence statement (REL-3, REL-8). The connector-to-phase, connector-to-session
+and EVSE-to-meter relations are listed in `unstated_relations` as
+unknown, not absent: the gate publishes no phase, session or meter, and it
+never claims that a meter is missing. Native connector topology stays unsupported.
+
+Under EN-1 each field rule names its subject kind and measurement point. The
+configured current limit's subject is the EVSE it applies to, defined at the
+EVSE output; the allocated current's subject is the connector, defined at the
+connector output. Both subject kinds and dimensions come from the catalog. The
+profile is an interpretation selector and stays provenance until the native
+owner states otherwise. No plane membership appears in the gate.
+
+## Loss and operations
 
 Power, energy, phase, session, readiness, SOC, thermal, fault, interlock,
 meter, and all unsupported native facts remain withheld or native-only. There
@@ -69,4 +112,5 @@ Until that implementation is accepted, this mapping exposes no consumer binding.
 
 Run `python3 scripts/validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py`,
 `python3 scripts/test_validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py`,
+`python3 scripts/mapping_gate_graph_rules.py api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.json`,
 and `./scripts/check_docs.sh`.
