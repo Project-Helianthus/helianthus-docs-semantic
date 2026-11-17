@@ -6,6 +6,19 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the
+  [PV gate](api/v1/mappings/huawei-sun2000-pv-v1.md) states its resources,
+  relations, relayed unit, join, aggregates and selectors under section 15 of
+  the [graph contract](api/v1/graph.md) and passes the shared graph rules. Its
+  fact keys and relation records carry gateway-allocated resource identifiers
+  instead of dimension text, and each relation record names its definition and
+  basis class. The pack class token and the profile identifier are provenance
+  selectors and leave identity, so a hybrid inverter stays one inverter and one
+  home asset. The array, string, phase, battery and meter relations stay
+  unknown, not absent, and each mapped field rule names its subject kind and
+  measurement point. Gateway follow-up: the gateway's mapping-gate check for
+  this family reads the gate's `identity` member and pins this repository; it
+  moves with the family's gateway publication slice. No version is raised.
 - Breaking, in place before the 0.7 release: the [unit rule](api/README.md#unit-rule)
   states that canonical units in the semantic registry are SI and that a
   customary unit appears only at display, in a consumer; its strict reading is

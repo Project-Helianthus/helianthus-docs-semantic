@@ -3,16 +3,21 @@
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import re
 from datetime import datetime
 from decimal import Decimal, localcontext
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "api/v1/mappings/huawei-sun2000-pv-v1.json"
 DOC = ROOT / "api/v1/mappings/huawei-sun2000-pv-v1.md"
 PACK_CATALOG = ROOT / "api/v1/packs/pv-inverter-acceptance-vectors.json"
+_GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(_GRAPH_SPEC)
+_GRAPH_SPEC.loader.exec_module(graph_rules)
 
 PACK = {"id": "helianthus.pack.pv", "version": "1.0.0"}
 M3 = "huawei.sun2000.m3.monitoring-readonly@1.0.0"
@@ -39,15 +44,52 @@ UNIT_CONVERSION = {
     ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
 }
 # Members of a mapped rule; no other member, and so no second statement of a conversion, is accepted.
-QUANTITY_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "dimension_text", "unit", "conversion", "disposition", "grade_ceiling", "sign"}
-STATUS_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "dimension_text", "unit", "disposition", "grade_ceiling", "symbols"}
-FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
-ASSET_DERIVATION = {
-    "algorithm": "sha256", "domain": "helianthus.modbus.asset.v1",
-    "input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"],
-    "field_encoding": "utf8_each_followed_by_nul", "routed_unit_encoding": "decimal",
-    "class_token": "pv", "prefix": "pv-asset-", "digest_case": "lowercase", "digest_characters": 32,
+QUANTITY_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "subject_kind", "measurement_point", "unit", "conversion", "disposition", "grade_ceiling", "sign"}
+STATUS_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "subject_kind", "measurement_point", "unit", "disposition", "grade_ceiling", "symbols"}
+# EN-1: the measurement point of each mapped native fact. Subject kind and dimension come from the element catalog.
+MEASUREMENT_POINTS = {
+    "pv_string_voltage": "dc_input_terminals", "pv_string_current": "dc_input_terminals",
+    "input_power": "inverter_dc_side", "active_power": "inverter_ac_output",
+    "device_status": "inverter_as_a_whole", "energy_accumulated": "inverter_ac_output_lifetime_counter",
 }
+FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
+# Section 6.3: a pack class token and a profile identifier are interpretation selectors, so neither derives the home asset.
+ASSET_FORBIDDEN = FORBIDDEN_DERIVATIONS + ["class_token", "profile_id"]
+ALLOCATED = "gateway_allocated_resource_id"
+# One gateway-allocated ResourceID per resource role (section 6.3); a role's kind is its dimension's kind in the element catalog.
+RESOURCE_ROLES = {
+    "logger": {"kind": "resource.equipment", "source": ALLOCATED, "required": True},
+    "system": {"dimension": "pv.dimension.system", "source": ALLOCATED, "required": True},
+    "inverter": {"dimension": "pv.dimension.inverter", "source": ALLOCATED, "required": True},
+    "inputs": {"dimension": "pv.dimension.input", "source": ALLOCATED, "required": True, "slots": 8},
+    "phases": {"dimension": "pv.dimension.phase", "source": "not_allocated_no_profile_admits_a_per_phase_word", "required": False},
+}
+IDENTITY_CONTRACT = {
+    "asset_id": {"source": "gateway_allocated_asset_id", "required": True, "non_secret": True, "granularity": "one_home_asset_per_admitted_inverter_child_within_an_endpoint_instance", "forbidden_derivations": ASSET_FORBIDDEN},
+    "source_id": {"source": "gateway_managed_instance_source_id", "required": True, "non_secret": True, "granularity": "one_source_per_endpoint_instance", "distinct_from": "asset_id", "forbidden_derivations": FORBIDDEN_DERIVATIONS},
+    "binding_id": {"source": "gateway_domain_separated_asset_source_profile_binding", "required": True, "non_secret": True, "stable_inputs": ["asset_id", "source_id", "profile_id"]},
+    "resources": RESOURCE_ROLES,
+    "failure": "missing_invalid_reused_or_ambiguous_identity_fails_closed",
+}
+# Section 15 item 2: (definition, basis class, scope of the rule) in the order the gate states them. A pack relation's
+# endpoint kinds come from the element catalog; those of relays from the resource roles.
+STATED_RELATIONS = [
+    ("relation.relays", "native_observation", "each_admitted_child_is_read_through_the_gateway_path_its_profile_names"),
+    ("pv.relation.system_inverter", "gate_rule", "one_pv_system_per_admitted_inverter_child"),
+    ("pv.relation.inverter_input", "gate_rule", "native_string_index_1_to_8_with_a_nonzero_voltage_or_current_word"),
+]
+# Section 6.4: an inverter relayed by its gateway path and also seen directly.
+TWO_PATHS = ["relayed_by_the_gateway_path", "observed_directly"]
+# EN-5: the native power words state no aggregation basis, so their aggregates stay on the inverter without coverage.
+COVERAGE = {"pv.energy.generated": ["pv.relation.system_inverter"]}
+SELECTORS = [
+    {"selector": "profile_id", "classification": "provenance", "evidence": ["native_contract:selection_outcomes", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+    {"selector": "class_token", "classification": "provenance", "evidence": ["graph:6.3:a_pack_class_is_never_an_anchor", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+]
+# Section 7.2: what withholds each pack relation the gate does not state, and the child kind of each withheld group.
+UNSTATED_BY = {"pv.relation.array_string": "unsupported:array_or_string_topology", "pv.relation.inverter_array": "unsupported:array_or_string_topology", "pv.relation.inverter_phase": "unsupported:per_phase_values"}
+WITHHELD_CHILDREN = {"battery": "resource.battery", "meter": "resource.meter"}
+UNSTATED_OUTCOME = "unknown_not_absent"
 # The family segment is a fixed gateway namespace, not a device observation.
 MANAGED_SOURCE_RE = re.compile(
     r"^modbus\.huawei\.(?:smartlogger|sdongle)(?:\.(?P<label>[a-z][a-z0-9]*(?:-[a-z0-9]+)*))?:"
@@ -82,22 +124,50 @@ REFUSED = {M3: [(32064, 32, 3), (37100, 38, 3)], M1: []}
 RUNTIME_REASONS = {"pv.reason.native_fact_unknown", "pv.reason.value_outside_pack_range", "pv.reason.input_presence_unknown", "pv.reason.negative_active_power_sign_unknown", "pv.reason.state_code_not_observed", "pv.reason.power_group_refused"}
 UNSUPPORTED = ["per_phase_values", "array_or_string_topology", "tracker_pairing", "plant_or_site_aggregate", "planned_plant_groups", "derived_energy", "active_power_limit", "export_power_limit", "enable_disable", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
 REQUESTED = ["pv.ac.aggregate_active_power", "pv.dc.aggregate_power", "pv.dc.current", "pv.dc.voltage", "pv.energy.generated", "pv.status.operating"]
-DIMENSION_TEXT = {"asset_suffix": {"strip_prefix": "pv-asset-"}, "pv.dimension.system": "system:{asset_suffix}", "pv.dimension.inverter": "inverter:{asset_suffix}", "pv.dimension.input": "input:{n}", "pv.dimension.phase": None}
-DOC_TOKENS = ("gateway-derived", "helianthus.modbus.asset.v1", "per-asset configuration field is not required", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
-
-
-IDENTITY_MEMBERS = {"asset_id", "source_id", "binding_id", "failure", "dimension_text", "relations"}
+DOC_TOKENS = ("gateway-allocated", "operator label", "class token", "unknown, not absent", "section 15", "en-1", "per-asset configuration field is not required", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
 
 
 def fail(code):
     raise ValueError(code)
 
 
-def identity_members(document):
-    identity = document.get("identity", {})
-    if set(identity) != IDENTITY_MEMBERS:
-        fail("identity contract")
-    return identity
+class Catalog:
+    """Element-catalog lookups for this gate: kinds, relations, facts, and the PV pack's dimensions and relations."""
+
+    def __init__(self, document):
+        self.document = document
+        self.index = graph_rules.Index(document)
+        self.dimensions, self.pack_relations = {}, []
+        for element in document.get("elements", []):
+            ref = element["ref"]
+            if element.get("disposition") != "member" or ref["owner"].get("pack") != PACK:
+                continue
+            if element["element_kind"] == "dimension":
+                self.dimensions[ref["id"]] = element["attributes"]["resource_kind"]
+            elif element["element_kind"] == "relation":
+                self.pack_relations.append(ref["id"])
+
+    def subject(self, fact_id):
+        attributes = self.index.facts.get(fact_id) if isinstance(fact_id, str) else None
+        return attributes["subject"] if attributes else {}
+
+    def parent(self, kind):
+        """RES-2: a component's parent is the whole of the pack's contains definition whose part is its kind."""
+        for name in self.pack_relations:
+            definition = self.index.relations[name]
+            whole, part = (definition["from_kinds"], definition["to_kinds"]) if definition["orientation"] == "as_core" else (definition["to_kinds"], definition["from_kinds"])
+            if definition["core_type"] == "contains" and part == [kind]:
+                return whole[0]
+        return None
+
+    def role_kinds(self):
+        """RES-1 and section 6.1: the kind of each resource role, through its pack dimension."""
+        return {role: spec.get("kind") or self.dimensions.get(spec["dimension"]) for role, spec in RESOURCE_ROLES.items()}
+
+
+@lru_cache(maxsize=1)
+def element_catalog():
+    return Catalog(graph_rules.load_catalog())
 
 
 def _no_float(text):
@@ -206,8 +276,122 @@ def grade_min(left, right):
     return GRADES[min(GRADES.index(left), GRADES.index(right))]
 
 
-def validate_contract(document):
-    fields, relations, dimensions = pack_catalog()
+def check_shared(document, catalog):
+    """Section 15: the shared graph rules first; a gate of this family states its graph."""
+    failures = graph_rules.check(document, catalog.document)
+    if failures:
+        fail("graph {} {}".format(*failures[0]))
+    if not graph_rules.graph_stated(document):
+        fail("graph_not_stated")
+
+
+def check_subject(rule, catalog):
+    """EN-1: a mapped rule names its target's catalog subject kind and dimension and the gate's measurement point."""
+    subject = catalog.subject(rule.get("target"))
+    if rule.get("subject_kind") != subject.get("kind") or rule.get("dimension") != subject.get("dimension", {}).get("id") or rule.get("measurement_point") != MEASUREMENT_POINTS.get(rule["native_id"]):
+        fail("field rule subject")
+
+
+def validate_identity(document):
+    """Section 6.3: kernel lineage plus one gateway-allocated ResourceID per role; no derivation, class token or dimension text."""
+    if document.get("identity") != IDENTITY_CONTRACT:
+        fail("identity contract")
+
+
+def expected_basis(resource, anchor_class):
+    """Section 6.3: a listed scheme anchors on a native token, a component on its native position, anything else on an operator label."""
+    if resource["identification_scheme"] != graph_rules.NONE_LISTED:
+        return "native_identity"
+    return "native_slot" if anchor_class == "component" else "operator_slot"
+
+
+def check_graph_resources(graph, catalog):
+    """Section 15 item 1, RES-1 and RES-2: one resource per role, in role order, with its anchor, parent and token-stability statement."""
+    kinds = catalog.role_kinds()
+    if [resource["kind"] for resource in graph["resources"]] != list(kinds.values()):
+        fail("graph_resources")
+    for resource in graph["resources"]:
+        anchor_class = catalog.index.kinds[resource["kind"]]["anchor_class"]
+        if resource["anchor_basis"] != expected_basis(resource, anchor_class):
+            fail("graph_anchor")
+        if resource["parent_kind"] != (catalog.parent(resource["kind"]) if anchor_class == "component" else None):
+            fail("graph_parent")
+        stated = {item.split(":")[0] for item in resource["evidence"]}
+        if "native_owner_token_stability" not in stated or (resource["kind"] == kinds["inverter"] and "future_native_token" not in stated):
+            fail("graph_evidence")
+
+
+def check_graph_paths(graph, catalog):
+    """Section 15 item 3 and section 6.4: the gateway path relays the inverter; seen directly too, it joins on a shared key only."""
+    kinds = catalog.role_kinds()
+    inverter = next(resource for resource in graph["resources"] if resource["kind"] == kinds["inverter"])
+    relayed = {"relaying_kind": kinds["logger"], "relayed_kind": kinds["inverter"], "direct_anchor_key_source": inverter["anchor_source"]}
+    if graph["relayed"] != [relayed]:
+        fail("graph_relayed")
+    native = inverter["anchor_basis"] == "native_identity"
+    join = {"kind": kinds["inverter"], "observations": TWO_PATHS, "basis": "same_anchor_key" if native else "operator_declaration", "native_tokens": "equal" if native else "not_exposed"}
+    if graph["joins"] != [join]:
+        fail("graph_joins")
+
+
+def check_graph_relations(graph, document, catalog):
+    """Section 15 item 2, REL-3 and section 7.2: stated basis and rule scope, the admitted profiles' scope, no absence statement."""
+    profiles = document["native_contract"]["profiles"]
+    scope = {"profile": "_and_".join(profile["key"] for profile in profiles), "version": "+".join(sorted({profile["profile_id"].rsplit("@", 1)[-1] for profile in profiles}))}
+    kinds = catalog.role_kinds()
+    if [(relation["definition"], relation["basis_class"], relation["validity_scope"]["rule_scope"]) for relation in graph["relations"]] != STATED_RELATIONS:
+        fail("graph_relations")
+    for relation in graph["relations"]:
+        definition = catalog.index.relations[relation["definition"]]
+        ends = (kinds["logger"], kinds["inverter"]) if definition["core_type"] == "relays" else (definition["from_kinds"][0], definition["to_kinds"][0])
+        stated_scope = {key: relation["validity_scope"][key] for key in scope}
+        if (relation["from_kind"], relation["to_kind"]) != ends or relation["absence_sides"] or stated_scope != scope:
+            fail("graph_relations")
+
+
+def expected_aggregates(document, catalog):
+    """Section 15 item 4, EN-1 and EN-5: each mapped aggregate with its catalog subject kind and the coverage the gate can state."""
+    aggregates = []
+    for rule in document["field_rules"]:
+        fact = catalog.index.facts.get(rule.get("target"))
+        if fact is not None and fact.get("aggregation") == "aggregate":
+            aggregates.append({"fact": rule["target"], "subject_kind": fact["subject"]["kind"], "coverage": COVERAGE.get(rule["target"], [])})
+    return aggregates
+
+
+def expected_unstated(document, catalog):
+    """Section 7.2: a pack relation the gate does not state, and the relay of each withheld child group, stay unknown, never absent."""
+    stated = {relation["definition"] for relation in document["graph"]["relations"]}
+    rows = []
+    for name in catalog.pack_relations:
+        if name not in stated:
+            definition = catalog.index.relations[name]
+            rows.append({"definition": name, "from_kind": definition["from_kinds"][0], "to_kind": definition["to_kinds"][0], "outcome": UNSTATED_OUTCOME, "withheld_by": UNSTATED_BY.get(name)})
+    inverter = catalog.role_kinds()["inverter"]
+    for rule in document["field_rules"]:
+        if rule.get("native_id") in WITHHELD_CHILDREN:
+            rows.append({"definition": "relation.relays", "from_kind": inverter, "to_kind": WITHHELD_CHILDREN[rule["native_id"]], "outcome": UNSTATED_OUTCOME, "withheld_by": rule["disposition"].get("reason")})
+    return rows
+
+
+def validate_graph(document, catalog):
+    """Section 15: this gate's own rules after the shared checker; no member decides a plane."""
+    graph = document["graph"]
+    check_graph_resources(graph, catalog)
+    check_graph_paths(graph, catalog)
+    check_graph_relations(graph, document, catalog)
+    if graph["aggregates"] != expected_aggregates(document, catalog):
+        fail("graph_aggregates")
+    if graph["selectors"] != SELECTORS:
+        fail("graph_selectors")
+    if document.get("unstated_relations") != expected_unstated(document, catalog):
+        fail("unstated_relations")
+
+
+def validate_contract(document, catalog=None):
+    catalog = element_catalog() if catalog is None else Catalog(catalog)
+    check_shared(document, catalog)
+    fields, _, _ = pack_catalog()
     if document.get("contract") != "helianthus.semantic.mapping.huawei-sun2000.pv/v1" or document.get("mapping_id") != "pv.mapping.huawei.sun2000.monitoring" or document.get("pack") != PACK or document.get("status") != "accepted_source_specific_read_only_mapping_gate":
         fail("contract")
     if document.get("evidence") != EVIDENCE:
@@ -265,8 +449,7 @@ def validate_contract(document):
         losses = disposition.get("loss")
         if pack_field is None or rule.get("requested") != {"kind": "fact", "item_id": target} or rule.get("dimension") != pack_field["dimension"] or rule.get("unit") != pack_field.get("unit"):
             fail("target definition")
-        if rule.get("dimension_text") != DIMENSION_TEXT[rule["dimension"]]:
-            fail("dimension text")
+        check_subject(rule, catalog)
         spec = rule.get("native", {})
         words, signed = WORD_TYPES.get(spec.get("type"), (None, None))
         if spec.get("words") != words or spec.get("gain") not in GAIN_EXPONENT or type(spec.get("count")) is not int or spec.get("group_offset") not in (32016, 32064, 32106):
@@ -295,21 +478,8 @@ def validate_contract(document):
     for rule in rules:
         if rule.get("native_id") in ("pv_string_voltage", "pv_string_current") and rule["grade_ceiling"]["m1"] != "proven":
             fail("grade ceiling")
-    identity = identity_members(document)
-    for key, granularity in (("asset_id", "one_asset_per_admitted_inverter_child_within_an_endpoint_instance"), ("source_id", "one_source_per_endpoint_instance")):
-        entry = identity.get(key, {})
-        if entry.get("required") is not True or entry.get("non_secret") is not True or entry.get("granularity") != granularity or entry.get("forbidden_derivations") != FORBIDDEN_DERIVATIONS:
-            fail("identity contract")
-    if identity.get("asset_id", {}).get("source") != "gateway_derived_semantic_asset_id" or identity.get("asset_id", {}).get("derivation") != ASSET_DERIVATION:
-        fail("identity contract")
-    if identity.get("source_id", {}).get("source") != "gateway_managed_instance_source_id":
-        fail("identity contract")
-    if identity.get("source_id", {}).get("distinct_from") != "asset_id" or identity.get("failure") != "missing_or_invalid_asset_or_source_identity_fails_closed":
-        fail("identity contract")
-    if identity.get("binding_id") != {"source": "gateway_domain_separated_asset_source_profile_binding", "required": True, "non_secret": True, "stable_inputs": ["asset_id", "source_id", "profile_id"]}:
-        fail("identity contract")
-    if identity.get("dimension_text") != DIMENSION_TEXT or identity.get("relations") != ["pv.relation.system_inverter", "pv.relation.inverter_input"] or any(name not in relations for name in identity["relations"]):
-        fail("identity contract")
+    validate_identity(document)
+    validate_graph(document, catalog)
     if document.get("lifecycle") != {
         "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_selection", "groups", "facts"],
         "freshness": "native_receipt_axes_preserved", "device_time": "statistics_time_words_never_used",
@@ -399,16 +569,8 @@ def validate_case(case, contract):
     binding = identity.get("binding_id") if isinstance(identity, dict) else None
     source_id = source.get("source_id") if isinstance(source, dict) else None
     values = (asset, binding, source_id)
-    def valid_identity(item, managed_source=False):
-        if not isinstance(item, str) or not OPAQUE_RE.fullmatch(item) or item == str(unit):
-            return False
-        managed = MANAGED_SOURCE_RE.fullmatch(item) if managed_source else None
-        if managed:
-            label = managed.group("label") or "default"
-            return len(label) <= 32 and not any(token in label for token in ID_FORBIDDEN_TEXT)
-        return not any(token in item.lower() for token in ID_FORBIDDEN_TEXT) and not ID_ADDRESS_RE.search(item)
-
-    if not valid_identity(asset) or not valid_identity(binding) or not valid_identity(source_id, managed_source=True) or len(set(values)) != 3:
+    resources = case_resources(identity, unit, values)
+    if not valid_identity(asset, unit) or not valid_identity(binding, unit) or not valid_identity(source_id, unit, managed_source=True) or len(set(values)) != 3 or resources is None:
         errors.add("identity_missing_or_invalid")
     for fact in case.get("facts") or []:
         origin = fact.get("retained") and fact.get("origin") if isinstance(fact, dict) else None
@@ -429,7 +591,29 @@ def validate_case(case, contract):
     for code in ERROR_PRECEDENCE:
         if code in errors:
             fail(code)
-    return profile, rules, facts, groups, asset, binding, source_id, life
+    return profile, rules, facts, groups, resources, binding, source_id, life
+
+
+def valid_identity(item, unit, managed_source=False):
+    if not isinstance(item, str) or not OPAQUE_RE.fullmatch(item) or item == str(unit):
+        return False
+    managed = MANAGED_SOURCE_RE.fullmatch(item) if managed_source else None
+    if managed:
+        label = managed.group("label") or "default"
+        return len(label) <= 32 and not any(token in label for token in ID_FORBIDDEN_TEXT)
+    return not any(token in item.lower() for token in ID_FORBIDDEN_TEXT) and not ID_ADDRESS_RE.search(item)
+
+
+def case_resources(identity, unit, lineage):
+    """Section 6.3: one valid, distinct ResourceID per allocated role and none for a role that is not allocated."""
+    resources = identity.get("resources") if isinstance(identity, dict) else None
+    allocated = [role for role, spec in RESOURCE_ROLES.items() if spec["source"] == ALLOCATED]
+    if not isinstance(resources, dict) or set(resources) != set(allocated) or not isinstance(resources["inputs"], list) or len(resources["inputs"]) != RESOURCE_ROLES["inputs"]["slots"]:
+        return None
+    values = [resources[role] for role in allocated if role != "inputs"] + resources["inputs"]
+    if not all(valid_identity(item, unit) for item in values) or len(set(values)) != len(values) or set(values) & {item for item in lineage if isinstance(item, str)}:
+        return None
+    return resources
 
 
 def check_origin(fact, life, selection):
@@ -485,11 +669,10 @@ def check_fact(fact, rule, groups, life, selection):
 
 
 def project(case, contract):
-    profile, rules, facts, groups, asset, binding, source_id, life = validate_case(case, contract)
+    profile, rules, facts, groups, resources, binding, source_id, life = validate_case(case, contract)
     catalog, _, _ = pack_catalog()
     key_of = profile["key"]
-    suffix = asset[len(DIMENSION_TEXT["asset_suffix"]["strip_prefix"]):] if asset.startswith(DIMENSION_TEXT["asset_suffix"]["strip_prefix"]) else asset
-    texts = {"pv.dimension.system": "system:" + suffix, "pv.dimension.inverter": "inverter:" + suffix}
+    roles = {spec.get("dimension"): role for role, spec in RESOURCE_ROLES.items()}
     published, native_rows, sources, item_reasons = [], [], {}, {}
 
     def hold(rule, index, reason):
@@ -536,7 +719,8 @@ def project(case, contract):
             if reason:
                 hold(rule, index, reason)
                 continue
-            text = "input:%d" % n if rule["dimension"] == "pv.dimension.input" else texts[rule["dimension"]]
+            subject = resources[roles[rule["dimension"]]]
+            text = subject[n - 1] if isinstance(subject, list) else subject
             key = {"pack_id": PACK["id"], "pack_version": PACK["version"], "fact_id": rule["target"], "dimensions": [{"id": rule["dimension"], "value": {"kind": "text", "text": text}}]}
             origin = fact["origin"] if fact["retained"] else life
             published.append({"key": key, "value": value, "receipt_wall": origin["receipt_wall"], "receipt_monotonic": origin["receipt_monotonic"], "clock_epoch": origin["clock_epoch"],
@@ -548,12 +732,7 @@ def project(case, contract):
             if index is not None:
                 row["index"] = index
             native_rows.append({**row, "outcome": rule["disposition"]["outcome"], "target": rule["target"]})
-    relations = []
-    if any(item["key"]["dimensions"][0]["id"] in texts for item in published):
-        relations.append({"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": texts["pv.dimension.system"]}, "to": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}})
-    for n in range(1, 9):
-        if any(item["key"]["dimensions"][0]["value"]["text"] == "input:%d" % n for item in published):
-            relations.append({"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": texts["pv.dimension.inverter"]}, "to": {"id": "pv.dimension.input", "text": "input:%d" % n}})
+    relations, records = graph_records(published, resources, contract)
     published.sort(key=lambda item: (item["key"]["fact_id"], item["key"]["dimensions"][0]["value"]["text"]))
     dispositions = []
     for requested in contract["projection"]["requested_items"]:
@@ -567,9 +746,39 @@ def project(case, contract):
         spec = contract["reasons"][reason]
         dispositions.append({"kind": "fact", "item_id": item_id, "outcome": "withheld", "source_keys": [], "reason": reason,
                              "loss": [{"kind": spec["loss_kind"], "source_items": [NATIVE_PREFIX + rule["native_id"]], "description": spec["description"], "reversible": spec["reversible"]}]})
-    output = {"facts": published, "relations": relations, "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": native_rows, "operations": []}
+    output = {"facts": published, "resources": records, "relations": relations, "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": native_rows, "operations": []}
     assert_complete(output, profile, rules)
+    assert_graph(output)
     return output
+
+
+def graph_records(published, resources, contract):
+    """REL-8 and RES-5: relation endpoints and fact subjects are the ResourceIDs of published resources, never dimension text."""
+    basis = {relation["definition"]: relation["basis_class"] for relation in contract["graph"]["relations"]}
+    subjects = {item["key"]["dimensions"][0]["value"]["text"] for item in published}
+    inverter, system = resources["inverter"], resources["system"]
+    pairs = [("pv.relation.system_inverter", system, inverter)] if subjects & {inverter, system} else []
+    pairs += [("pv.relation.inverter_input", inverter, item) for item in resources["inputs"] if item in subjects]
+    if inverter in subjects or pairs:
+        pairs.append(("relation.relays", resources["logger"], inverter))
+    relations = [{"definition": name, "from": start, "to": end, "basis_class": basis[name]} for name, start, end in sorted(pairs)]
+    kinds = element_catalog().role_kinds()
+    kind_of = {resources[role]: kinds[role] for role in ("logger", "system", "inverter")} | {item: kinds["inputs"] for item in resources["inputs"]}
+    named = subjects | {end for pair in pairs for end in pair[1:]}
+    records = []
+    for item in sorted(named):
+        records.append({"resource_id": item, "kind": kind_of[item], "parent": inverter} if kind_of[item] == kinds["inputs"] else {"resource_id": item, "kind": kind_of[item]})
+    return relations, records
+
+
+def assert_graph(output):
+    """REL-8 and RES-5: every relation endpoint, fact subject and parent names a resource the output publishes."""
+    published = {item["resource_id"] for item in output["resources"]}
+    named = {record[side] for record in output["relations"] for side in ("from", "to")}
+    named |= {fact["key"]["dimensions"][0]["value"]["text"] for fact in output["facts"]}
+    named |= {item["parent"] for item in output["resources"] if "parent" in item}
+    if not named <= published:
+        fail("dangling endpoint")
 
 
 def assert_complete(output, profile, rules):
@@ -588,7 +797,7 @@ def assert_complete(output, profile, rules):
 
 def summarize(output):
     facts = [{"fact_id": item["key"]["fact_id"], "dimension": item["key"]["dimensions"][0]["value"]["text"], "value": item["value"], "evidence_grade": item["evidence_grade"], "retained": item["retained"], "observation_revision": item["observation_revision"]} for item in output["facts"]]
-    relations = [{"id": item["id"], "from": item["from"]["text"], "to": item["to"]["text"]} for item in output["relations"]]
+    relations = [{"definition": item["definition"], "from": item["from"], "to": item["to"]} for item in output["relations"]]
     dispositions = []
     for item in output["dispositions"]:
         row = {"item_id": item["item_id"], "outcome": item["outcome"], "published": len(item["source_keys"]), "loss": [loss["kind"] for loss in item["loss"]]}
@@ -680,10 +889,23 @@ def expected_tables(contract):
     return mapped, held
 
 
+def graph_tables(contract):
+    """The page's resource, relation, unstated-relation and subject tables, as the gate states them."""
+    graph = contract["graph"]
+    return {
+        "## Resources": [[r["kind"], r["anchor_class"], r["anchor_basis"], r["anchor_source"], r["parent_kind"] or "none"] for r in graph["resources"]],
+        "## Relations": [[r["definition"], r["basis_class"], r["from_kind"], r["to_kind"], r["validity_scope"]["rule_scope"]] for r in graph["relations"]],
+        "## Unknown, not absent": [[r["definition"], r["from_kind"], r["to_kind"], r["withheld_by"]] for r in contract["unstated_relations"]],
+        "## Subjects and measurement points": [[r["native_id"], r["target"], r["subject_kind"], r["measurement_point"]] for r in contract["field_rules"] if r.get("target")],
+    }
+
+
 def check_document(contract, text):
     mapped, held = expected_tables(contract)
     if table(text, "## Field mapping") != mapped or table(text, "## Withheld and native-only") != held:
         fail("document tables")
+    if any(table(text, heading) != rows for heading, rows in graph_tables(contract).items()):
+        fail("document graph tables")
     if [row[0] for row in table(text, "## Acceptance vectors")] != [scenario["id"] for scenario in contract["scenarios"]]:
         fail("document vectors")
     flat = " ".join(text.split()).lower()
