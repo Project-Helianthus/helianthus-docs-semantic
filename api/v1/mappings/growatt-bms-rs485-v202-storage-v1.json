@@ -164,10 +164,30 @@
       },
       "target": "storage.state.soc",
       "disposition": {
-        "outcome": "exact",
-        "loss": []
+        "outcome": "transformed",
+        "loss": [
+          {
+            "kind": "unit",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.state_of_charge"
+            ],
+            "description": "percent is published as a ratio from 0 to 1 by the exact factor 0.01; the native value and unit stay in the evidence",
+            "reversible": true
+          }
+        ]
       },
-      "unit": "unit.percent"
+      "unit": "unit.ratio",
+      "native_unit": "%",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": -2
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     },
     {
       "source": "pack_voltage_volts",
@@ -180,7 +200,18 @@
         "outcome": "exact",
         "loss": []
       },
-      "unit": "unit.volt"
+      "unit": "unit.volt",
+      "native_unit": "V",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     },
     {
       "source": "pack_current_amps",
@@ -202,7 +233,18 @@
           }
         ]
       },
-      "unit": "unit.ampere"
+      "unit": "unit.ampere",
+      "native_unit": "A",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     },
     {
       "source": "temperature_celsius",
@@ -212,10 +254,30 @@
       },
       "target": "storage.temperature.pack",
       "disposition": {
-        "outcome": "exact",
-        "loss": []
+        "outcome": "transformed",
+        "loss": [
+          {
+            "kind": "unit",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.temperature"
+            ],
+            "description": "degree Celsius is published as kelvin by the exact offset 273.15; the native value and unit stay in the evidence",
+            "reversible": true
+          }
+        ]
       },
-      "unit": "unit.celsius"
+      "unit": "unit.kelvin",
+      "native_unit": "degC",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "27315",
+          "exponent10": -2
+        }
+      }
     },
     {
       "source": "cumulative_charge_amp_hours",
@@ -237,7 +299,18 @@
           }
         ]
       },
-      "unit": "unit.ampere_hour"
+      "unit": "unit.ampere_hour",
+      "native_unit": "Ah",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     },
     {
       "source": "cumulative_discharge_amp_hours",
@@ -259,7 +332,18 @@
           }
         ]
       },
-      "unit": "unit.ampere_hour"
+      "unit": "unit.ampere_hour",
+      "native_unit": "Ah",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     }
   ],
   "withheld": [
@@ -674,9 +758,9 @@
                 "quantity": {
                   "number": {
                     "coefficient": "75",
-                    "exponent10": 0
+                    "exponent10": -2
                   },
-                  "unit": "unit.percent"
+                  "unit": "unit.ratio"
                 }
               },
               "source_path": {
@@ -739,10 +823,10 @@
                 "kind": "quantity",
                 "quantity": {
                   "number": {
-                    "coefficient": "25",
-                    "exponent10": 0
+                    "coefficient": "29815",
+                    "exponent10": -2
                   },
-                  "unit": "unit.celsius"
+                  "unit": "unit.kelvin"
                 }
               },
               "source_path": {
@@ -904,7 +988,7 @@
             {
               "kind": "fact",
               "item_id": "storage.state.soc",
-              "outcome": "exact",
+              "outcome": "transformed",
               "source_keys": [
                 {
                   "pack_id": "helianthus.pack.storage",
@@ -921,7 +1005,16 @@
                   ]
                 }
               ],
-              "loss": []
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.state_of_charge"
+                  ],
+                  "description": "percent is published as a ratio from 0 to 1 by the exact factor 0.01; the native value and unit stay in the evidence",
+                  "reversible": true
+                }
+              ]
             },
             {
               "kind": "fact",
@@ -957,7 +1050,7 @@
             {
               "kind": "fact",
               "item_id": "storage.temperature.pack",
-              "outcome": "exact",
+              "outcome": "transformed",
               "source_keys": [
                 {
                   "pack_id": "helianthus.pack.storage",
@@ -974,7 +1067,16 @@
                   ]
                 }
               ],
-              "loss": []
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.temperature"
+                  ],
+                  "description": "degree Celsius is published as kelvin by the exact offset 273.15; the native value and unit stay in the evidence",
+                  "reversible": true
+                }
+              ]
             }
           ],
           "withheld_native": [
@@ -1321,9 +1423,9 @@
                 "quantity": {
                   "number": {
                     "coefficient": "75",
-                    "exponent10": 0
+                    "exponent10": -2
                   },
-                  "unit": "unit.percent"
+                  "unit": "unit.ratio"
                 }
               },
               "source_path": {
@@ -1354,10 +1456,10 @@
                 "kind": "quantity",
                 "quantity": {
                   "number": {
-                    "coefficient": "25",
-                    "exponent10": 0
+                    "coefficient": "29815",
+                    "exponent10": -2
                   },
-                  "unit": "unit.celsius"
+                  "unit": "unit.kelvin"
                 }
               },
               "source_path": {
@@ -1519,7 +1621,7 @@
             {
               "kind": "fact",
               "item_id": "storage.state.soc",
-              "outcome": "exact",
+              "outcome": "transformed",
               "source_keys": [
                 {
                   "pack_id": "helianthus.pack.storage",
@@ -1536,7 +1638,16 @@
                   ]
                 }
               ],
-              "loss": []
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.state_of_charge"
+                  ],
+                  "description": "percent is published as a ratio from 0 to 1 by the exact factor 0.01; the native value and unit stay in the evidence",
+                  "reversible": true
+                }
+              ]
             },
             {
               "kind": "fact",
@@ -1549,7 +1660,7 @@
             {
               "kind": "fact",
               "item_id": "storage.temperature.pack",
-              "outcome": "exact",
+              "outcome": "transformed",
               "source_keys": [
                 {
                   "pack_id": "helianthus.pack.storage",
@@ -1566,7 +1677,16 @@
                   ]
                 }
               ],
-              "loss": []
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.temperature"
+                  ],
+                  "description": "degree Celsius is published as kelvin by the exact offset 273.15; the native value and unit stay in the evidence",
+                  "reversible": true
+                }
+              ]
             }
           ],
           "withheld_native": [

@@ -4,6 +4,7 @@ import copy
 import importlib.util
 import re
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,14 @@ support = importlib.util.module_from_spec(SUPPORT_SPEC)
 sys.modules[SUPPORT_SPEC.name] = support
 SUPPORT_SPEC.loader.exec_module(support)
 parametrize, raises = support.parametrize, support.raises
+fraction_of = support.fraction_of
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+# (native unit, canonical SI unit) -> exact factor and offset; the SI value is native x factor + offset.
+CONVERSIONS = {
+    ("%", "unit.ratio"): {"factor": {"coefficient": "1", "exponent10": -2}, "offset": ZERO},
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+}
 
 
 def contract():
@@ -269,6 +278,84 @@ def test_prospective_rows_are_not_in_force_and_match_the_pack():
     assert not any(token in str(document["field_rules"]) for token in ("storage.limit.", "storage.status.interlock", "storage.operation."))
 
 
+def test_the_conversion_table_states_an_exact_factor_and_offset():
+    assert v.UNIT_CONVERSION == CONVERSIONS
+    assert not hasattr(v, "UNIT_SHIFT")
+    assert fraction_of(CONVERSIONS[("%", "unit.ratio")]["factor"]) * 100 == 1
+    assert fraction_of(CONVERSIONS[("kW", "unit.watt")]["factor"]) == 1000
+    assert fraction_of(CONVERSIONS[("kWh", "unit.joule")]["factor"]) == 3600000
+    assert all(fraction_of(entry["offset"]) == 0 for entry in CONVERSIONS.values())
+
+
+def test_each_prospective_row_states_its_si_unit_conversion_and_losses():
+    fields, _ = v.pack_tables()
+    rows = {}
+    for rule in v.load()["field_rules"]:
+        plan = rule.get("prospective")
+        if not plan:
+            continue
+        rows.setdefault(plan["target"], []).append(plan)
+        if fields[plan["target"]]["kind"] == "symbol":
+            assert "conversion" not in plan and "loss" not in plan and plan["unit"] is None
+            continue
+        assert plan["conversion"] == CONVERSIONS[(plan["native"]["unit"], plan["unit"])]
+        assert "unit" in plan["loss"] and plan["loss"][0] == "unit"
+    assert [row["unit"] for row in rows["storage.state.soc"]] == ["unit.ratio"]
+    assert [row["loss"] for row in rows["storage.pack.power"]] == [["unit", "provenance"]] * 2
+    assert [(row["unit"], row["loss"]) for row in rows["storage.energy.charged"] + rows["storage.energy.discharged"]] == [("unit.joule", ["unit", "policy"])] * 2
+
+
+def test_a_full_scale_native_value_converts_exactly():
+    """A synthetic native maximum through each row's factor and offset, computed with exact fractions."""
+    for rule in v.load()["field_rules"]:
+        plan = rule.get("prospective")
+        if not plan or not plan.get("conversion"):
+            continue
+        native = plan["native"]
+        raw = {"U16": 0xFFFF, "I32": 0x7FFFFFFF, "U64": 0xFFFFFFFFFFFFFFFF}[native["type"]]
+        value = Fraction(raw, native["gain"])
+        canonical = value * fraction_of(plan["conversion"]["factor"]) + fraction_of(plan["conversion"]["offset"])
+        assert support.kernel_decimal(canonical)
+        assert (canonical - fraction_of(plan["conversion"]["offset"])) / fraction_of(plan["conversion"]["factor"]) == value
+
+
+@parametrize("name,mutation,message", [
+    # Key field native unit: both statements of the native form name a unit with no entry for the canonical unit.
+    ("native-unit", lambda d: [set_path(d, "field_rules.4.native.unit", "permille"), set_path(d, "field_rules.4.prospective.native.unit", "permille")], "prospective conversion"),
+    ("native-unit-energy", lambda d: [set_path(d, "field_rules.7.native.unit", "Wh"), set_path(d, "field_rules.7.prospective.native.unit", "Wh")], "prospective conversion"),
+    # Key field canonical unit: a row naming a customary unit, or an SI unit other than the pack field's.
+    ("canonical-unit-percent", lambda d: set_path(d, "field_rules.4.prospective.unit", "unit.percent"), "prospective target"),
+    ("canonical-unit-kilowatt-hour", lambda d: set_path(d, "field_rules.7.prospective.unit", "unit.kilowatt_hour"), "prospective target"),
+    ("canonical-unit-other-si", lambda d: set_path(d, "field_rules.8.prospective.unit", "unit.watt"), "prospective target"),
+    # Value field factor: coefficient and exponent each varied.
+    ("factor-coefficient", lambda d: set_path(d, "field_rules.7.prospective.conversion.factor", {"coefficient": "1", "exponent10": 5}), "prospective conversion"),
+    ("factor-exponent", lambda d: set_path(d, "field_rules.7.prospective.conversion.factor", {"coefficient": "36", "exponent10": 4}), "prospective conversion"),
+    ("factor-identity", lambda d: set_path(d, "field_rules.4.prospective.conversion.factor", ONE), "prospective conversion"),
+    ("factor-percent-exponent", lambda d: set_path(d, "field_rules.4.prospective.conversion.factor", {"coefficient": "1", "exponent10": -1}), "prospective conversion"),
+    # Value field offset: coefficient and exponent each varied.
+    ("offset-coefficient", lambda d: set_path(d, "field_rules.5.prospective.conversion.offset", {"coefficient": "1", "exponent10": 0}), "prospective conversion"),
+    ("offset-exponent", lambda d: set_path(d, "field_rules.5.prospective.conversion.offset", {"coefficient": "1", "exponent10": -2}), "prospective conversion"),
+    ("conversion-missing", lambda d: v.mutate(d, {"path": "field_rules.6.prospective.conversion", "remove": True}), "prospective conversion"),
+    ("conversion-extra-member", lambda d: d["field_rules"][8]["prospective"]["conversion"].update(rounding="half_even"), "prospective conversion"),
+    ("row-extra-member", lambda d: d["field_rules"][4]["prospective"].update(scale=-2), "prospective conversion"),
+    ("loss-missing", lambda d: v.mutate(d, {"path": "field_rules.4.prospective.loss", "remove": True}), "prospective conversion"),
+    ("loss-kind", lambda d: set_path(d, "field_rules.4.prospective.loss", ["unit", "native_enum"]), "prospective conversion"),
+    ("loss-duplicated", lambda d: set_path(d, "field_rules.4.prospective.loss", ["unit", "unit"]), "prospective conversion"),
+    ("silent-ratio-conversion", lambda d: set_path(d, "field_rules.4.prospective.loss", []), "silent unit conversion"),
+    ("silent-power-conversion", lambda d: set_path(d, "field_rules.6.prospective.loss", ["provenance"]), "silent unit conversion"),
+    ("silent-energy-conversion", lambda d: set_path(d, "field_rules.8.prospective.loss", ["policy"]), "silent unit conversion"),
+    ("power-without-provenance-loss", lambda d: set_path(d, "field_rules.5.prospective.loss", ["unit"]), "prospective sign"),
+    ("counter-without-policy-loss", lambda d: set_path(d, "field_rules.7.prospective.loss", ["unit"]), "prospective counter"),
+    ("symbol-with-conversion", lambda d: d["field_rules"][0]["prospective"].update(conversion={"factor": ONE, "offset": ZERO}), "prospective symbols"),
+])
+def test_conversion_key_and_value_mutations_are_rejected(name, mutation, message):
+    document = contract()
+    mutation(document)
+    with raises(ValueError) as error:
+        v.validate_contract(document)
+    assert message in str(error.value), str(error.value)
+
+
 @parametrize("asset", ["", None, "storage asset", "storage-asset-serial-1", "storage-asset-ESN-1", "storage-asset-10.2.3.4", "storage-asset-host:502", "source:gateway-demo-c", "binding:semantic-storage:demo-gamma", "storage-asset-luna", "storage-asset-huawei"])
 def test_asset_identifier_never_comes_from_forbidden_inputs(asset):
     document = case()
@@ -351,8 +438,11 @@ def page():
 
 @parametrize("old,new", [
     ("| `site_rated_storage_capacity` | monitoring_contract_planned | Hypothesis | `storage.reason.no_energy_capacity_fact_in_pack` | capability |", "| `site_rated_storage_capacity` | monitoring_contract_planned | Hypothesis | `storage.reason.planned_group_not_observed` | provenance |"),
-    ("| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | none | Hypothesis |", "| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 10 | none | Hypothesis |"),
-    ("| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unknown_no_value_without_a_graded_sign` | Hypothesis |", "| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `positive_while_charging_negative_while_discharging` | Hypothesis |"),
+    ("| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | `unit.ratio`, factor 0.01, offset 0 | unit | none | Hypothesis |", "| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 10 | `unit.ratio`, factor 0.01, offset 0 | unit | none | Hypothesis |"),
+    ("| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | `unit.ratio`, factor 0.01, offset 0 | unit | none | Hypothesis |", "| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | `unit.percent`, factor 1, offset 0 | none | none | Hypothesis |"),
+    ("| `storage.energy.charged` | `storage.dimension.pack` | `site_battery_energy_charged_total` | U64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy |", "| `storage.energy.charged` | `storage.dimension.pack` | `site_battery_energy_charged_total` | U64, kWh, gain 100 | `unit.joule`, factor 360000, offset 0 | unit+policy |"),
+    ("| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit+provenance | `unknown_no_value_without_a_graded_sign` | Hypothesis |", "| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `unknown_no_value_without_a_graded_sign` | Hypothesis |"),
+    ("| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit+provenance | `unknown_no_value_without_a_graded_sign` | Hypothesis |", "| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit+provenance | `positive_while_charging_negative_while_discharging` | Hypothesis |"),
     ("| `STG-NEG-010-error-precedence` |", "| `STG-NEG-099-other` |"),
     ("Capacity in energy units is withheld", "Capacity in energy units is published"),
     ("never converted", "converted"),

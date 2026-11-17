@@ -68,7 +68,7 @@
       "native": {"type": "U16", "gain": 100, "unit": "%"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.state.soc", "dimension": "storage.dimension.pack", "unit": "unit.percent", "native": {"type": "U16", "gain": 100, "unit": "%"}}
+      "prospective": {"in_force": false, "target": "storage.state.soc", "dimension": "storage.dimension.pack", "unit": "unit.ratio", "native": {"type": "U16", "gain": 100, "unit": "%"}, "conversion": {"factor": {"coefficient": "1", "exponent10": -2}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"]}
     },
     {
       "native_id": "site_battery_power",
@@ -76,7 +76,7 @@
       "native": {"type": "I32", "gain": 1000, "unit": "kW"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign": "unknown_no_value_without_a_graded_sign"}
+      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "unknown_no_value_without_a_graded_sign"}
     },
     {
       "native_id": "plant_battery_power",
@@ -84,7 +84,7 @@
       "native": {"type": "I32", "gain": 1000, "unit": "kW"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign": "positive_while_charging_negative_while_discharging"}
+      "prospective": {"in_force": false, "target": "storage.pack.power", "dimension": "storage.dimension.pack", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "provenance"], "sign": "positive_while_charging_negative_while_discharging"}
     },
     {
       "native_id": "site_battery_energy_charged_total",
@@ -92,7 +92,7 @@
       "native": {"type": "U64", "gain": 100, "unit": "kWh"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.energy.charged", "dimension": "storage.dimension.pack", "unit": "unit.kilowatt_hour", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "counter": "reset_wrap_and_continuity_never_inferred"}
+      "prospective": {"in_force": false, "target": "storage.energy.charged", "dimension": "storage.dimension.pack", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
     },
     {
       "native_id": "site_battery_energy_discharged_total",
@@ -100,7 +100,7 @@
       "native": {"type": "U64", "gain": 100, "unit": "kWh"},
       "grade": "hypothesis",
       "disposition": {"outcome": "withheld", "reason": "storage.reason.planned_group_not_observed"},
-      "prospective": {"in_force": false, "target": "storage.energy.discharged", "dimension": "storage.dimension.pack", "unit": "unit.kilowatt_hour", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "counter": "reset_wrap_and_continuity_never_inferred"}
+      "prospective": {"in_force": false, "target": "storage.energy.discharged", "dimension": "storage.dimension.pack", "unit": "unit.joule", "native": {"type": "U64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "counter": "reset_wrap_and_continuity_never_inferred"}
     },
     {"native_id": "site_battery_energy_charged_day", "source": "monitoring_contract_planned", "native": {"type": "U32", "gain": 100, "unit": "kWh"}, "grade": "hypothesis", "disposition": {"outcome": "withheld", "reason": "storage.reason.period_counter_time_domain_not_represented"}},
     {"native_id": "site_battery_energy_discharged_day", "source": "monitoring_contract_planned", "native": {"type": "U32", "gain": 100, "unit": "kWh"}, "grade": "hypothesis", "disposition": {"outcome": "withheld", "reason": "storage.reason.period_counter_time_domain_not_represented"}},

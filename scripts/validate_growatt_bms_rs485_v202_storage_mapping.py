@@ -7,12 +7,27 @@ import json
 import re
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
+from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "api/v1/mappings/growatt-bms-rs485-v202-storage-v1.json"
 DOC = ROOT / "api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md"
+PACK_TABLES = ROOT / "api/v1/packs/storage-bms-contract-tables.json"
 PACK = {"id": "helianthus.pack.storage", "version": "1.1.0"}
+# Exact conversions of the unit rule in api/README.md: (native unit, canonical SI unit) -> factor and offset, SI = native x factor + offset.
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+IDENTITY = {"factor": ONE, "offset": ZERO}
+UNIT_CONVERSION = {
+    ("%", "unit.ratio"): {"factor": {"coefficient": "1", "exponent10": -2}, "offset": ZERO},
+    ("V", "unit.volt"): IDENTITY,
+    ("A", "unit.ampere"): IDENTITY,
+    ("degC", "unit.kelvin"): {"factor": ONE, "offset": {"coefficient": "27315", "exponent10": -2}},
+    ("Ah", "unit.ampere_hour"): IDENTITY,
+}
+# Members of a field rule; no other member, and so no second statement of a conversion, is accepted.
+QUANTITY_RULE_MEMBERS = {"source", "requested", "target", "disposition", "unit", "native_unit", "conversion"}
+SYMBOL_RULE_MEMBERS = {"source", "requested", "target", "disposition", "rule"}
 REVISION = {"family": "1xSxxP ESS", "file_revision": "Rev2.01", "header_version": "V2.0", "cumulative_revision": "2.02"}
 SLICES = [
     {"function": "FC03", "offset": "0x0001", "quantity": 7},
@@ -125,6 +140,41 @@ def quantity(value, unit):
     return {"kind": "quantity", "quantity": {"number": decimal(value), "unit": unit}}
 
 
+def fraction_of(number):
+    return Fraction(int(number["coefficient"])) * Fraction(10) ** number["exponent10"]
+
+
+def convert(value, conversion):
+    """Exact native x factor + offset in fractions; every factor and offset of the table terminates in decimal, so no rounding occurs."""
+    result, exponent = Fraction(value) * fraction_of(conversion["factor"]) + fraction_of(conversion["offset"]), 0
+    while result.denominator != 1:
+        result *= 10
+        exponent -= 1
+        if exponent < -18:
+            fail("unit conversion")
+    return Decimal("%dE%d" % (result.numerator, exponent))
+
+
+def pack_fields():
+    return {field["id"]: field for field in json.loads(PACK_TABLES.read_text(encoding="utf-8"))["field_specs"]}
+
+
+def check_conversion(rule, fields):
+    """A quantity rule names the SI unit of its pack field and the exact conversion of its unit pair; one that is not the identity declares a unit loss. A symbol rule names no unit and no conversion."""
+    pack_field = fields.get(rule.get("target"))
+    if pack_field is not None and pack_field.get("kind") == "symbol":
+        if set(rule) != SYMBOL_RULE_MEMBERS:
+            fail("unit conversion")
+        return
+    if pack_field is None or pack_field.get("unit") != rule.get("unit") or set(rule) != QUANTITY_RULE_MEMBERS:
+        fail("unit conversion")
+    expected = UNIT_CONVERSION.get((rule.get("native_unit"), rule.get("unit")))
+    if expected is None or rule.get("conversion") != expected:
+        fail("unit conversion")
+    if (expected != IDENTITY) != ("unit" in [loss.get("kind") for loss in rule["disposition"].get("loss") or []]):
+        fail("silent unit conversion")
+
+
 def symbol(token):
     return {"kind": "symbol", "symbol": {"namespace": "storage.status.operating", "token": token, "known": True}}
 
@@ -149,6 +199,7 @@ def validate_contract(document):
     if lifecycle.get("required_observation_evidence") != required or lifecycle.get("qualification") != "mapping_qualified_and_physical_unqualified":
         fail("lifecycle contract")
     rules = document.get("field_rules", [])
+    fields = pack_fields()
     requested = sorted((rule.get("requested") for rule in rules), key=lambda item: item.get("item_id", ""))
     if len(rules) != 7 or document.get("projection", {}).get("requested_items") != requested:
         fail("requested items")
@@ -159,6 +210,7 @@ def validate_contract(document):
             fail("exact loss")
         if disposition.get("outcome") == "transformed" and (not losses or any(loss.get("kind") not in LOSS_KINDS or not loss.get("source_items") or not loss.get("description") or type(loss.get("reversible")) is not bool for loss in losses)):
             fail("transformed loss")
+        check_conversion(rule, fields)
     if len(document.get("withheld", [])) != 7 or any(not row.get("reason") for row in document["withheld"]) or document.get("unsupported") != UNSUPPORTED:
         fail("withheld unsupported")
     projection = document.get("projection", {})
@@ -252,7 +304,8 @@ def project(case, contract):
         fail("native_evidence_missing")
     requested = contract["projection"]["requested_items"]
     rules = {rule["target"]: rule for rule in contract["field_rules"]}
-    native_values = {"storage.capacity.charge": quantity(raw_values["cumulative_charge_amp_hours"], "unit.ampere_hour"), "storage.capacity.discharge": quantity(raw_values["cumulative_discharge_amp_hours"], "unit.ampere_hour"), "storage.pack.current": quantity(raw_values["pack_current_amps"], "unit.ampere"), "storage.pack.voltage": quantity(raw_values["pack_voltage_volts"], "unit.volt"), "storage.state.soc": quantity(raw_values["soc_percent"], "unit.percent"), "storage.temperature.pack": quantity(raw_values["temperature_celsius"], "unit.celsius")}
+    # Each quantity is published in the SI unit its rule names, by the rule's exact factor and offset; the native value and unit stay in the evidence.
+    native_values = {target: quantity(convert(raw_values[rule["source"]], rule["conversion"]), rule["unit"]) for target, rule in rules.items() if "conversion" in rule}
     operating_token = {"charging": "active", "discharging": "active", "standby": "standby"}.get(native_state)
     facts, dispositions = [], []
     for requested_item in requested:
