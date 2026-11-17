@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/api/v1/element-catalog-v1.schema.json",
   "title": "Helianthus element catalog v1",
-  "description": "Structural shape of the element catalog. The repository module scripts/json_schema_subset_v1.py enforces this schema; it supports a fixed keyword subset and refuses any other keyword in a schema. The cross-entry rules are enforced in code by the catalog validator of graph contract section 10.4: completeness against the pack vectors (CAT-1), agreement with pack metadata (CAT-2), closure and core-type plane limits with unique plane and core-type identifiers (CAT-4), ownership (CAT-5), the admission arm allowed per element and the frozen seed reference list for accepted_pack (CAT-6), the sign reference naming a supplies definition (CAT-7), canonical order (CAT-8) and the identification scheme list (CAT-9).",
+  "description": "Structural shape of the element catalog. The repository module scripts/json_schema_subset_v1.py enforces this schema; it supports a fixed keyword subset and refuses any other keyword in a schema. The cross-entry rules are enforced in code by the catalog validator of graph contract section 10.4: completeness against the pack vectors (CAT-1), agreement with pack metadata (CAT-2), closure and core-type plane limits with unique plane and core-type identifiers and at most one installation root (CAT-4), ownership (CAT-5), the admission arm allowed per element and the frozen seed reference list for accepted_pack (CAT-6), the sign reference naming a supplies definition (CAT-7), canonical order (CAT-8) and the identification scheme list (CAT-9).",
   "type": "object",
   "required": [
     "contract",
@@ -401,6 +401,10 @@
             "function",
             "episode"
           ]
+        },
+        "installation_root": {
+          "description": "True on the resource kind that entry point sites names. Omitted when the kind is not the installation root.",
+          "type": "boolean"
         }
       }
     },

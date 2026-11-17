@@ -23,7 +23,7 @@ generator, which this module never imports:
 | CAT-1 | one entry per pack reference and per kernel state type of section 10.2 | ``membership_missing``, ``definition_owner_missing``, ``duplicate_identity`` |
 | CAT-2 | dimensions, services, capabilities, operation shapes, value kinds, relation endpoints and cardinality, dimension roles, subject kinds | ``invalid_value`` |
 | CAT-3 | section 10.3 per entry | ``membership_missing`` |
-| CAT-4 | the planes and core types of sections 7.1 and 8.1, PLN-5, PLN-6, LNS-1, resolvable references | ``membership_missing``, ``duplicate_identity``, ``invalid_value`` |
+| CAT-4 | the planes and core types of sections 7.1 and 8.1, PLN-5, PLN-6, LNS-1, at most one installation root, resolvable references | ``membership_missing``, ``duplicate_identity``, ``invalid_value`` |
 | CAT-5 | pack-owned definitions stay inside their pack; owners per element kind; the ``native.`` namespace | ``definition_owner_conflict`` |
 | CAT-6 | the admission arm allowed per plane, core type and element; ``accepted_pack`` only for seed references | ``invalid_value`` |
 | CAT-7 | a signed fact names a ``supplies`` relation, or ``native_convention`` for a seed reference | ``invalid_value``, ``membership_missing`` |
@@ -760,10 +760,22 @@ def lns1_findings(catalog, index):
             yield Finding("membership_missing", "CAT-4", f"lens {lens['id']}", problem + " (LNS-1)")
 
 
+def installation_root_findings(catalog):
+    """At most one resource kind carries installation_root true."""
+    roots = [entry for entry in catalog["elements"]
+             if entry["element_kind"] == "resource_kind" and entry["attributes"].get("installation_root") is True]
+    if len(roots) < 2:
+        return
+    claimed = ", ".join(sorted(entry["ref"]["id"] for entry in roots))
+    for entry in roots:
+        yield Finding("duplicate_identity", "CAT-4", entry_name(entry),
+                      f"installation root is claimed by {claimed}")
+
+
 def check_closure(catalog, index, inputs):
     return [*structure_findings(catalog, index, inputs), *plane_name_findings(catalog, index),
             *reference_findings(catalog, index), *pln5_findings(catalog, index), *pln6_findings(catalog, index),
-            *lns1_findings(catalog, index)]
+            *lns1_findings(catalog, index), *installation_root_findings(catalog)]
 
 
 # ---------------------------------------------------------------- CAT-5

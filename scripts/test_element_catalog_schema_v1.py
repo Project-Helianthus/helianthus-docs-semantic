@@ -79,7 +79,8 @@ def fact_attributes(value_kind, subject, direction, **extra):
 def structure_elements():
     endpoints = {"from": ref(PACK, RESOURCE_DIM), "to": ref(PACK, RESOURCE_DIM)}
     return [
-        entry("resource_kind", CORE, KIND, {"anchor_class": "equipment"}, "matter_baseline", PLANES[:2]),
+        entry("resource_kind", CORE, KIND, {"anchor_class": "equipment", "installation_root": True},
+              "matter_baseline", PLANES[:2]),
         entry("relation", CORE, RELAYS, relation_attributes("relays"), "eebus", ["provenance"]),
         entry("relation", PACK, SUPPLIES,
               relation_attributes("supplies", medium="electrical", endpoint_dimensions=endpoints)),
@@ -227,6 +228,8 @@ PROBES = {
                                            "element/allOf/17"),
     "catalog without the scheme list": ([(("identification_schemes",), DROP)], "#/required"),
     "lens with depth 0": ([(("lenses", LENS, "max_depth"), 0)], "lens/properties/max_depth/minimum"),
+    "installation root is not a boolean": ([(at(KIND, "attributes", "installation_root"), "yes")],
+                                            "resourceKindAttributes/properties/installation_root/type"),
 }
 
 # JSON pointer of every if node -> operations of a probe that only that conditional rejects
@@ -308,7 +311,7 @@ class PublishedSchemaTest(unittest.TestCase):
 
 class NegativeProbeTest(unittest.TestCase):
     def test_probe_count(self):
-        self.assertEqual(len(PROBES), 28)
+        self.assertEqual(len(PROBES), 29)
 
     def test_each_probe_rejected_for_its_rule(self):
         for name, (operations, location) in PROBES.items():

@@ -31,6 +31,58 @@ FOREIGN_DIMENSION = "storage.dimension.battery"
 CORE_KIND = "resource.equipment"
 KERNEL_TYPE = "kernel.ack_state"
 LENS_ROOT = "resource.pv_system"
+# Section 29 seeds. Relation definitions stay unnamed. lens.energy_flow omits
+# resource.storage_system: that kind admits physical only, so it admits no
+# energy plane (LNS-1). Provenance roots are the equipment endpoints of
+# relation.relays, the six equipment kinds.
+SEEDED_LENSES = (
+    {
+        "id": "lens.installation_hierarchy",
+        "question": "What is installed here, what is part of what, and what is grouped or controlled together?",
+        "planes": ["physical", "control"],
+        "root_kinds": [
+            "resource.site", "resource.pv_system", "resource.storage_system", "resource.thermal_system",
+            "resource.charging_station", "resource.equipment",
+        ],
+        "max_depth": 16,
+    },
+    {
+        "id": "lens.energy_flow",
+        "question": "Where does electrical energy flow and where is it measured?",
+        "planes": ["energy"],
+        "root_kinds": [
+            "resource.site", "resource.grid_connection", "resource.pv_system", "resource.charging_station",
+        ],
+        "max_depth": 16,
+    },
+    {
+        "id": "lens.equipment_composition",
+        "question": "What is this piece of equipment made of, and how healthy are its parts?",
+        "planes": ["physical", "diagnostic"],
+        "root_kinds": [
+            "resource.inverter", "resource.battery", "resource.battery_pack", "resource.charging_station",
+            "resource.meter", "resource.equipment",
+        ],
+        "max_depth": 8,
+    },
+    {
+        "id": "lens.provenance",
+        "question": "Through which equipment does this information arrive?",
+        "planes": ["provenance"],
+        "root_kinds": [
+            "resource.battery", "resource.battery_pack", "resource.charging_station", "resource.equipment",
+            "resource.inverter", "resource.meter",
+        ],
+        "max_depth": 8,
+    },
+)
+# One member kind per lens that admits none of that lens's planes.
+OUTSIDE_LENS_PLANE = {
+    "lens.installation_hierarchy": "resource.feeder",
+    "lens.energy_flow": "resource.storage_system",
+    "lens.equipment_composition": "resource.feeder",
+    "lens.provenance": "resource.heat_generator",
+}
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
 # One relation definition of each pack that declares relations.
 PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
@@ -259,6 +311,46 @@ class Mutations(unittest.TestCase):
                 "relations": [ref_of(catalog, PHYSICAL_ONLY_RELATION)], "max_depth": 2,
             })
         self.rejects(mutate, "membership_missing", "CAT-4", "lens.synthetic_control", "member of no lens plane")
+
+    def test_four_lenses_match_section_29(self):
+        self.assertEqual(CATALOG["lenses"], [dict(item) for item in SEEDED_LENSES])
+        for lens in CATALOG["lenses"]:
+            self.assertNotIn("relations", lens)
+
+    def test_provenance_roots_are_the_relay_equipment(self):
+        relays = entry_of(CATALOG, "relation.relays")["attributes"]
+        lens = next(item for item in CATALOG["lenses"] if item["id"] == "lens.provenance")
+        self.assertEqual(lens["root_kinds"], relays["from_kinds"])
+        self.assertEqual(lens["root_kinds"], relays["to_kinds"])
+
+    def test_each_seeded_lens_rejects_a_root_outside_its_planes(self):
+        # Field varied: root_kinds of each seeded lens. The production mutation
+        # is one member kind whose planes miss every plane of that lens. A
+        # check that ignored root_kinds would accept the catalog.
+        for ident, kind in OUTSIDE_LENS_PLANE.items():
+            with self.subTest(lens=ident, root=kind):
+                def mutate(catalog, ident=ident, kind=kind):
+                    lens = next(item for item in catalog["lenses"] if item["id"] == ident)
+                    lens["root_kinds"] = [kind]
+                self.rejects(mutate, "membership_missing", "CAT-4", ident, "(LNS-1)")
+
+    def test_exactly_one_installation_root(self):
+        roots = [entry["ref"]["id"] for entry in CATALOG["elements"]
+                 if entry["element_kind"] == "resource_kind" and entry["attributes"].get("installation_root") is True]
+        self.assertEqual(roots, ["resource.site"])
+
+    def test_second_installation_root_is_rejected(self):
+        # Field varied: installation_root on a second resource kind. The
+        # production mutation is a second true flag. A check that ignored the
+        # flag would accept the catalog. False is not a root.
+        def mutate(catalog):
+            entry_of(catalog, "resource.equipment")["attributes"]["installation_root"] = True
+        self.rejects(mutate, "duplicate_identity", "CAT-4", "resource.equipment", "installation root")
+
+    def test_false_installation_root_is_not_a_second_root(self):
+        def mutate(catalog):
+            entry_of(catalog, "resource.equipment")["attributes"]["installation_root"] = False
+        self.assertEqual(validator.check_rules(mutate_copy(mutate), INPUTS), [])
 
     # CAT-5
     def test_pack_relation_crossing_packs(self):
