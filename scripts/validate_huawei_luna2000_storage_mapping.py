@@ -22,7 +22,17 @@ OPAQUE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@-]*$")
 HEX_RUN_RE = re.compile(r"(?<![0-9A-Za-z])[0-9a-fA-F]{32,}(?![0-9A-Za-z])")
 ID_FORBIDDEN_TEXT = ("serial", "esn", "sun2000", "huawei", "luna", "smartlogger", "sdongle", "s-dongle", "emma")
 ID_ADDRESS_RE = re.compile(r"(\d{1,3}\.){3}\d{1,3}|:\d{3,5}$")
-UNIT_SHIFT = {("%", "unit.percent"): 0, ("kW", "unit.watt"): 3, ("kWh", "unit.kilowatt_hour"): 0}
+# Exact conversions of the unit rule in api/README.md: (native unit, canonical SI unit) -> factor and offset, SI = native x factor + offset.
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+IDENTITY = {"factor": ONE, "offset": ZERO}
+UNIT_CONVERSION = {
+    ("%", "unit.ratio"): {"factor": {"coefficient": "1", "exponent10": -2}, "offset": ZERO},
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+}
+# Members of a prospective row; no other member, and so no second statement of a conversion, is accepted.
+QUANTITY_ROW_MEMBERS = {"in_force", "target", "dimension", "unit", "native", "conversion", "loss", "sign", "counter"}
+SYMBOL_ROW_MEMBERS = {"in_force", "target", "dimension", "unit", "native", "symbols"}
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
 REGISTRY_FLAGS = {"catalog_registered": False, "automatic_runtime_admission": False, "live_qualified": False, "support_claim": False, "write_authority": False}
 QUALIFICATION = {**REGISTRY_FLAGS, "mapping_qualified": True, "outbound_allowed": False}
@@ -113,6 +123,23 @@ def mutate(value, mutation):
         cursor[key] = mutation["value"]
 
 
+def check_prospective_conversion(prospective, rule):
+    """A quantity row repeats the rule's native form and states the exact conversion of its unit pair and its loss kinds: a unit loss exactly when the conversion is not the identity, a provenance loss on pack power and a policy loss on every counter."""
+    native = prospective.get("native")
+    if not isinstance(native, dict) or native != rule.get("native"):
+        fail("prospective native form")
+    expected = UNIT_CONVERSION.get((native.get("unit"), prospective["unit"]))
+    losses = prospective.get("loss")
+    if expected is None or prospective.get("conversion") != expected or not set(prospective) <= QUANTITY_ROW_MEMBERS or not isinstance(losses, list) or not all(isinstance(kind, str) and kind in LOSS_KINDS for kind in losses) or len(losses) != len(set(losses)):
+        fail("prospective conversion")
+    if (expected != IDENTITY) != ("unit" in losses):
+        fail("silent unit conversion")
+    if prospective["target"] == "storage.pack.power" and "provenance" not in losses:
+        fail("prospective sign")
+    if prospective["target"] in ("storage.energy.charged", "storage.energy.discharged") and "policy" not in losses:
+        fail("prospective counter")
+
+
 def pack_tables():
     tables = json.loads(PACK_TABLES.read_text(encoding="utf-8"))
     return {field["id"]: field for field in tables["field_specs"]}, {operation["id"] for operation in tables["operations"]}
@@ -149,11 +176,10 @@ def validate_contract(document):
             fail("prospective target")
         native = prospective.get("native")
         if pack_field["kind"] == "symbol":
-            if prospective.get("symbols") != [] or native is not None:
+            if prospective.get("symbols") != [] or native is not None or set(prospective) != SYMBOL_ROW_MEMBERS:
                 fail("prospective symbols")
         else:
-            if native != rule.get("native") or UNIT_SHIFT.get((native.get("unit"), prospective["unit"])) is None:
-                fail("prospective native form")
+            check_prospective_conversion(prospective, rule)
         if target == "storage.pack.power" and prospective.get("sign") not in SIGNS:
             fail("prospective sign")
         if target in ("storage.energy.charged", "storage.energy.discharged") and prospective.get("counter") not in COUNTERS:
@@ -346,6 +372,16 @@ def native_form(native):
     return "%s, %s, gain %d" % (native["type"], native["unit"], native["gain"]) if native else "none decoded"
 
 
+def plain(number):
+    """A kernel Decimal written without an exponent, for the page."""
+    digits, exponent = number["coefficient"].lstrip("-"), number["exponent10"]
+    sign = "-" if number["coefficient"].startswith("-") else ""
+    if exponent >= 0:
+        return sign + digits + "0" * exponent
+    digits = digits.rjust(1 - exponent, "0")
+    return sign + digits[:exponent] + "." + digits[exponent:]
+
+
 def expected_tables(contract):
     withheld, prospective = [], []
     for rule in contract["field_rules"]:
@@ -354,7 +390,8 @@ def expected_tables(contract):
         plan = rule.get("prospective")
         if plan:
             rule_text = plan.get("sign") or plan.get("counter") or ("empty table, observed states only" if plan.get("symbols") == [] else "none")
-            prospective.append([plan["target"], plan["dimension"], rule["native_id"], native_form(plan.get("native") or rule.get("native")), rule_text, rule["grade"].capitalize()])
+            conversion = "%s, factor %s, offset %s" % (plan["unit"], plain(plan["conversion"]["factor"]), plain(plan["conversion"]["offset"])) if plan.get("conversion") else "none"
+            prospective.append([plan["target"], plan["dimension"], rule["native_id"], native_form(plan.get("native") or rule.get("native")), conversion, "+".join(plan.get("loss", [])) or "none", rule_text, rule["grade"].capitalize()])
     return withheld, prospective
 
 

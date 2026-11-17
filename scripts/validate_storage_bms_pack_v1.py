@@ -22,7 +22,9 @@ LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_di
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='7cb32b4b02284f4af6cdd905c52a8bcca560eb793428ed1903ba5fc239269c68'
+TABLE_SHA256='4242c22b8ad8f749a0ee5bd566fd7c27242c38dcbf63249e93ebe7e5533a360b'
+# The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
+CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt'})
 
 INTERLOCK_FIELD={'id':'storage.status.interlock','kind':'symbol','dimension':'storage.dimension.interface','optional':True,'symbols':['storage.status.interlock.active','storage.status.interlock.clear']}
 INTERLOCK_PREDICATE={'cardinality':'exactly_one','definition':{'pack':PACK,'id':'storage.status.interlock','version':'1.1.0'},'fact_key_dimensions':['storage.dimension.interface'],'operator':'equal','expected_value':{'kind':'symbol','symbol':{'namespace':'storage.status.interlock','token':'clear','known':True}}}
@@ -38,6 +40,13 @@ def decimal(value):
  if not isinstance(value,dict) or set(value)!={'coefficient','exponent10'} or not isinstance(value['coefficient'],str) or not re.fullmatch(r'0|-?[1-9][0-9]*',value['coefficient']) or type(value['exponent10']) is not int or not -18<=value['exponent10']<=18 or (value['coefficient']=='0' and value['exponent10']!=0) or (value['coefficient']!='0' and value['coefficient'].endswith('0')): raise ValueError('bounds must use canonical kernel Decimal')
  return int(value['coefficient'])*10**value['exponent10']
 
+def si_bounds(field):
+    """The bounds of a quantity field whose unit is in the canonical SI unit set."""
+    if field['unit'] not in CANONICAL_UNITS:
+        raise ValueError('field unit is outside the canonical SI unit set')
+    return field['bounds']['minimum'], field['bounds']['maximum']
+
+
 def validate_tables(table):
  if table.get('contract')!='helianthus.pack.storage.tables/v1': raise ValueError('table contract')
  for name,count in COUNTS.items():
@@ -51,7 +60,7 @@ def validate_tables(table):
   if field.get('optional') is not True: raise ValueError('field optionality')
   if field.get('kind')=='quantity':
    if set(field)!={'id','kind','unit','dimension','optional','bounds'} or set(field.get('bounds',{}))!={'minimum','maximum'}: raise ValueError('field bounds')
-   low,high=field['bounds']['minimum'],field['bounds']['maximum']
+   low,high=si_bounds(field)
    if low is not None: low=decimal(low)
    if high is not None: high=decimal(high)
    if low is not None and high is not None and low>high: raise ValueError('reversed bounds')

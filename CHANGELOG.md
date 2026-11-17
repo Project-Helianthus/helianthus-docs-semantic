@@ -7,6 +7,30 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [storage pack](api/v1/packs/storage-bms-v1.md) moves to the
+  [unit rule](api/README.md#unit-rule), whose strict reading stays a working
+  reading. State of charge and state of health are in `unit.ratio` with bounds
+  0 to 1, charged and discharged energy in `unit.joule`, and the pack and cell
+  temperatures in `unit.kelvin` with a lower bound of 0; the charge and
+  discharge capacities stay in `unit.ampere_hour`, as decided by the project
+  owner. The contract tables and vectors are converted exactly, the table digest
+  of the storage validator moves, the field counts stay, and the validator
+  rejects a field unit outside the SI set. The
+  [LUNA2000 storage gate](api/v1/mappings/huawei-luna2000-storage-v1.md) and
+  the [Growatt storage gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
+  state each conversion as an exact factor and offset per native and canonical
+  unit pair, with a `unit` loss whenever the conversion is not the identity:
+  percent to ratio by the factor 0.01, kilowatt to watt by the factor 1000,
+  kilowatt-hour to joule by the factor 3 600 000 and degree Celsius to kelvin
+  by the offset 273.15. The Growatt gate publishes state of charge and pack
+  temperature as transformed facts. [Pack metadata](api/v1/pack-metadata-v1.json)
+  and the [naming contract](architecture/naming-contract.json) follow. SemReg
+  follow-up: its byte copies and pins of the storage vectors and contract
+  tables and its metadata registry test move; gateway follow-up: the
+  documentation revision pinned by its gate scripts moves. The cell-voltage
+  contract, the other packs, the relation definitions and the element catalog
+  are unchanged. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [thermal pack](api/v1/packs/thermal-hvac-v1.md) applies the accepted thermal
   placement. Every thermal field declares exactly one resource dimension, the
   subject of the fact, and the four quantity dimensions are removed. The water

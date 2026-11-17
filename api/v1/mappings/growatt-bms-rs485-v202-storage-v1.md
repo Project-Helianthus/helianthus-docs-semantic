@@ -54,9 +54,17 @@ false; it grants no device support claim or operation.
 ## Mapping and loss
 
 The JSON contract fixes every exact, transformed, native-only, and withheld
-field. It preserves volts, amperes, percent, Celsius, seconds, counts, and
-ampere-hours exactly as native units specify. Capacity is never converted to
-kWh and energy is never derived from voltage, current, time, SOC, or a decoded
+field. Each quantity rule names its native unit, the SI unit of its pack field
+under the [unit rule](../../README.md#unit-rule), and the exact factor and
+offset of its conversion, so that the SI value is the native value times the
+factor plus the offset. Volts, amperes, and ampere-hours are published by the
+identity. State of charge in percent is published as a ratio from 0 to 1 by the
+exact factor 0.01, and the pack temperature in degrees Celsius as kelvin by the
+exact offset 273.15; each of these two declares a reversible `unit` loss and is
+transformed. Every factor and offset here terminates in decimal, so no
+conversion of this gate rounds, and the native value and unit stay in the
+evidence. Capacity stays in ampere-hours, is never converted to energy units,
+and energy is never derived from voltage, current, time, SOC, or a decoded
 combination. `charging` and `discharging` become only the semantic `active`
 state with a SemReg `symbol` loss; `soft_starting` withholds only the operating
 state while the six independently valid facts remain available. Current and

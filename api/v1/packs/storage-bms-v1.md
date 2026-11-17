@@ -16,11 +16,12 @@ from a DefinitionID. Quantity bounds use kernel `Decimal` objects
 `{coefficient, exponent10}`, never string or floating-point comparisons.
 
 Each canonical field record declares optionality. State of charge and health are
-bounded from 0 through 100 percent. Energy, capacity, pack voltage, cell-voltage
+ratios bounded from 0 through 1. Energy, capacity, pack voltage, cell-voltage
 extrema, and admitted charge/discharge limits have a minimum of 0 and an explicit
-unbounded maximum. Pack current/power and pack/cell temperatures retain explicit
-unbounded minimum and maximum because their native reference or sign is not
-normalized by this contract. Symbol records carry their complete accepted set.
+unbounded maximum. Pack and cell temperatures are in kelvin with a minimum of 0,
+absolute zero, and an explicit unbounded maximum. Pack current and power retain
+explicit unbounded minimum and maximum because their native reference or sign is
+not normalized by this contract. Symbol records carry their complete accepted set.
 
 Limit operations use the complete kernel outcomes: `rejected`,
 `failed_no_contact`, `acknowledged_unverified`, `applied`, `no_effect`,
@@ -29,7 +30,7 @@ readback is `acknowledged_unverified`; unknown delivery is `indeterminate`.
 Blind retry or route fallback is forbidden after a possible side effect or an
 indeterminate outcome.
 
-The catalog defines state of charge/health, pack voltage/current/power, charged and discharged energy/capacity, pack/cell temperature, cell voltage extrema, alarms/protection/warnings, operating state, and charge/discharge limits. Canonical units are percent, volt, ampere, watt, kilowatt-hour, ampere-hour, and celsius. Missing data is unavailable evidence, never zero. Raw native bitfields and validity remain native evidence whenever a symbol is lossy.
+The catalog defines state of charge/health, pack voltage/current/power, charged and discharged energy/capacity, pack/cell temperature, cell voltage extrema, alarms/protection/warnings, operating state, and charge/discharge limits. Canonical units follow the [unit rule](../../README.md#unit-rule) and are SI: a ratio from 0 to 1 (`unit.ratio`), volt, ampere, watt, joule (`unit.joule`), ampere-hour (`unit.ampere_hour`), and kelvin (`unit.kelvin`). The rule's strict reading is a working reading, not yet confirmed by the project owner; that percent becomes a ratio from 0 to 1 and that ampere-hour is kept, so both capacities stay in ampere-hours, are decided by the project owner. A customary unit appears only at display, in a consumer, and a mapping gate states each conversion as an exact factor and offset with a `unit` loss. Missing data is unavailable evidence, never zero. Raw native bitfields and validity remain native evidence whenever a symbol is lossy.
 
 System, battery, pack, module, cell, string, and inverter/charger interface remain separate FactKey dimensions and relation records. Aggregate fields retain native aggregation/reference/sign evidence; this pack never infers membership, a cell count, sign, or arithmetic aggregate.
 

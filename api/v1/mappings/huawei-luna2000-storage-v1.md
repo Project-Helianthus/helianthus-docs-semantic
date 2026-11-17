@@ -121,16 +121,24 @@ five requested items.
 These rows are not in force. They record only where a fact will land if the
 preconditions above are met, so that a later profile does not need a new family.
 Each target, dimension and unit is checked against the Storage pack's contract
-tables.
+tables. Each quantity row names the SI unit of its pack field under the
+[unit rule](../../README.md#unit-rule) and the exact factor and offset of its
+conversion, so that the SI value is the native value times the factor plus the
+offset. Percent is published as a ratio from 0 to 1 by the exact factor 0.01,
+kilowatt as watt by the factor 1000, and kilowatt-hour as joule by the exact
+factor 3600000. Every conversion that is not the identity declares a reversible
+`unit` loss, and the native value and unit stay in the evidence. Every factor
+here terminates in decimal, so no conversion of this gate rounds. The operating
+symbol has no unit and no conversion.
 
-| Storage fact | Dimension | Native candidate | Native form | Sign or counter rule | Grade |
-| --- | --- | --- | --- | --- | --- |
-| `storage.status.operating` | `storage.dimension.pack` | `battery_group_37000_30` | none decoded | empty table, observed states only | Unknown |
-| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | none | Hypothesis |
-| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unknown_no_value_without_a_graded_sign` | Hypothesis |
-| `storage.pack.power` | `storage.dimension.pack` | `plant_battery_power` | I32, kW, gain 1000 | `positive_while_charging_negative_while_discharging` | Hypothesis |
-| `storage.energy.charged` | `storage.dimension.pack` | `site_battery_energy_charged_total` | U64, kWh, gain 100 | `reset_wrap_and_continuity_never_inferred` | Hypothesis |
-| `storage.energy.discharged` | `storage.dimension.pack` | `site_battery_energy_discharged_total` | U64, kWh, gain 100 | `reset_wrap_and_continuity_never_inferred` | Hypothesis |
+| Storage fact | Dimension | Native candidate | Native form | SI unit and conversion | Loss | Sign or counter rule | Grade |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `storage.status.operating` | `storage.dimension.pack` | `battery_group_37000_30` | none decoded | none | none | empty table, observed states only | Unknown |
+| `storage.state.soc` | `storage.dimension.pack` | `site_battery_soc` | U16, %, gain 100 | `unit.ratio`, factor 0.01, offset 0 | unit | none | Hypothesis |
+| `storage.pack.power` | `storage.dimension.pack` | `site_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit+provenance | `unknown_no_value_without_a_graded_sign` | Hypothesis |
+| `storage.pack.power` | `storage.dimension.pack` | `plant_battery_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit+provenance | `positive_while_charging_negative_while_discharging` | Hypothesis |
+| `storage.energy.charged` | `storage.dimension.pack` | `site_battery_energy_charged_total` | U64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | `reset_wrap_and_continuity_never_inferred` | Hypothesis |
+| `storage.energy.discharged` | `storage.dimension.pack` | `site_battery_energy_discharged_total` | U64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | `reset_wrap_and_continuity_never_inferred` | Hypothesis |
 
 Rules for the intake, each a Hypothesis of this gate unless stated:
 
@@ -139,14 +147,15 @@ Rules for the intake, each a Hypothesis of this gate unless stated:
    symbol table is empty and every code is Unknown and withheld.
 2. **Pack power and sign.** The Storage pack does not normalize the sign of pack
    power, so a mapping keeps the native sign reference as provenance (a reversible
-   `provenance` loss) and converts kilowatt at gain 1000 to watt by an exponent
-   shift of three with a `unit` loss. The S-Dongle plant power states positive
+   `provenance` loss) and converts kilowatt at gain 1000 to watt by the exact
+   factor 1000 with a `unit` loss. The S-Dongle plant power states positive
    while charging; the monitoring contract grades that a Hypothesis. The EMMA
    site power states no sign (Unknown), so no value is published from it until a
    sign is graded. The two sign references are never mixed.
 3. **Energy charged and discharged.** The total counters map to the pack's
-   kilowatt-hour counters as read, with a `policy` loss: reset, rollover and
-   continuity are Unknown and never inferred, and no energy is derived or summed.
+   joule counters by the exact factor 3600000, with a `unit` loss and a `policy`
+   loss: reset, rollover and continuity are Unknown and never inferred, and no
+   energy is derived or summed.
 4. **Aggregation.** The site and plant values are aggregates over an undetermined
    number of packs, while the pack's fact dimension is the pack. A revision must
    either key them to one battery asset with the aggregation basis kept as
