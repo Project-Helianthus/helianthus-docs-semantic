@@ -1,11 +1,12 @@
 ---
-status: "normative companion to [kernel.md](kernel.md) for `helianthus.semantic.kernel/v1` when merged into `main`"
+status: "normative companion to [kernel.md](kernel.md) for `helianthus.semantic.kernel/v1` when merged into `main`; sections 23 to 36 are part of this page"
 ---
 
 # Semantic resource graph, planes and lenses
 
 Status: normative companion to [kernel.md](kernel.md) for
-`helianthus.semantic.kernel/v1` when merged into `main`
+`helianthus.semantic.kernel/v1` when merged into `main`; sections 23 to 36
+are part of this page.
 
 The graph acceptance vectors (`api/v1/graph-acceptance-vectors.json`) and the
 element catalog files named in sections 1, 10 and 19 are added in place by
@@ -20,12 +21,12 @@ Owning Go module: `github.com/Project-Helianthus/helianthus-semreg`. The new
 kernel records live in `semreg/v1`; the element catalog, planes, lenses and
 graph cuts live in a new package `semreg/v1/graph`.
 
-Increment boundary. This page is increment 1: resource identity, relations,
-plane membership, lens definitions, the element catalog, activation,
-publication and coherence. Increment 2 adds bounded retrieval and traversal,
-lens retrieval, target reports over a named lens, consumer identity and API
-and Portal consumption. A sentence marked *Increment 2* names a decision this
-page deliberately leaves open.
+Increment boundary. Sections 1 to 22 are increment 1: resource identity,
+relations, plane membership, lens definitions, the element catalog,
+activation, publication and coherence. Part 2 (sections 23 to 36) is
+normative on merge as part of this page and defines retrieval and
+consumption. The markers of sections 3, 9, 11.3, 12, 14 and 22 name the
+part 2 rule that decides each of them.
 
 ## 1. Conformance language
 
@@ -125,8 +126,8 @@ and GraphQL types, Portal core navigation) *resource*, *relation*, *plane*,
 exceptions that keep their word with a qualifier: the kernel's `Readback.relation`
 and `ReadbackRelation` ("readback relation"); the kernel's
 `NativeBinding.native_resource` ("native resource"); the Portal catalog's
-`resource_id` until the Portal is re-based on `ResourceID` (*Increment 2*;
-"Portal resource key"); the native eBUS registry terms of the
+`resource_id` ("Portal resource key"; this exception ends with PTL-3); the
+native eBUS registry terms of the
 `ebus_v1_registry_*` tools, the eBUS device GraphQL types and the Portal
 registry routes ("registry plane", "registry projection"); the eeBUS
 `TopologyV1` record ("SPINE topology"). Each exception is listed in the
@@ -693,7 +694,8 @@ one through six planes; one or more root kinds that admit at least one of its
 planes; an optional subset of the relation definitions of those planes; and a
 maximum traversal depth from 1 through 32. A lens creates no identity, fact,
 relation or membership; it selects from the graph. Increment 1 defines the
-shape and seeds no lens; *Increment 2* defines lens retrieval and seeds.
+shape and seeds no lens; lens retrieval is LRS-1 to LRS-6 (section 28) and
+the seeds are section 29.
 
 - **LNS-1** Every plane, root kind and relation definition a lens names exists
   in the catalog with disposition `member`, and each named relation definition
@@ -960,8 +962,9 @@ Every relation instance gets one `RelationCoherence`:
   output; assembly is deterministic, so identical inputs give identical bytes.
   Check: vectors compare canonical output.
 
-*Increment 2* decides which cut a retrieval serves, how a lens result carries
-it, and its bounds.
+CUT-1 to CUT-5 (section 25) decide which cut a retrieval serves, LRS-4
+(section 28) decides how a lens result carries it, and TRV-5 (section 27)
+decides its bounds.
 
 ### 11.4 Derived facts across resources
 
@@ -1012,7 +1015,8 @@ These rules decide where a quantity goes. They place no specific quantity.
   aggregate stays on the reporting equipment with aggregation `aggregate` and
   no coverage. An aggregate and its members are never added together, and an
   aggregate is never attached to a control device because that device reports
-  it. Check: catalog `aggregation`; lens enforcement is *Increment 2*.
+  it. Check: catalog `aggregation`; lens enforcement is SUM-1 to SUM-6
+(section 28.1).
 - **EN-6 Usage.** A usage the source distinguishes is published per usage; a
   merged total is a separate aggregate definition. Check: gate review.
 - **EN-7 Units.** Normalization to the highest-precision industry-standard
@@ -1065,8 +1069,9 @@ coverage.
 - **PRJ-3** A gate, hand-off or internal read never records a target outcome as
   an internal disposition. Check: gate validators.
 
-*Increment 2* decides whether reports may cite relation instances and resources
-as sources, and what the present read target becomes.
+TGT-1 and TGT-2 (section 32) decide that reports may cite relation instances
+and resources as sources, and TGT-4 decides what the present read target
+becomes.
 
 ## 15. Hand-off from native owners
 
@@ -1176,7 +1181,7 @@ present sentence stays and the amendment follows it.
 | Pack vectors and pages, storage contract tables, the PV, storage and gateway-meter gates | the identifiers, members and prose word of the 21 pack relation definitions | Renamed in place to `<pack>.relation.<name>`, the member `relations` (the gateway-meter gate: `relation`) and the word "relation", with one shared encoding (`id`, `ref` where the pack vectors carry one, `from`, `to`, `cardinality`, `order`); the five PV definitions declare `one_to_many`. The rename is decided (docs-semantic#67), is made with no alias, and is listed in the in-place change record of [`api/README.md`](../README.md). |
 
 Not amended in increment 1: `DefinitionIndex` (relation definitions are
-indexed by the catalog registry), `pack-availability-view.md` (*Increment 2*),
+indexed by the catalog registry), `pack-availability-view.md` (retired by TGT-6),
 and the kernel `acceptance-vectors.json`. Because the precedence list and the
 class map now name errors whose headings live in graph.md, the kernel
 validator `scripts/validate_kernel_v1.py` and its test take the documented
@@ -1294,7 +1299,7 @@ it.
 | Entry ID unique for one boot only | `ResourceID` stable across restart, re-addressing and rotation | Not borrowed: integrators need identity that outlives a restart. |
 | A plane is the set of parent-child attachments made in that plane | A plane is the catalog's set of relation definitions and elements; one relation instance can be in several planes | Changed: no duplicated attachment per plane; non-tree relations stay typed. |
 | Power plane connections are entries of their own | Relation instances are records with state, evidence and lifecycle | Borrowed in spirit. |
-| Paths are plane-specific and name the entry | Paths are traversal results (*Increment 2*), never identity | Not borrowed: plane-anchored paths cause identity drift. |
+| Paths are plane-specific and name the entry | Paths are traversal results (TRV-8), never identity | Not borrowed: plane-anchored paths cause identity drift. |
 | Matching and probe scores choose drivers automatically | Qualification is native and explicit; selection is presentation-only | Not borrowed. |
 | Untyped property tables | Typed facts with pack-owned definitions | Not borrowed: the kernel forbids property bags. |
 | Live, mutable registry; iterators may need reset | Immutable per-asset snapshots and graph cuts with explicit coherence | Not borrowed: consumers need identified reads. |
@@ -1338,8 +1343,9 @@ stores.
 Left out of increment 1, with reasons:
 
 - retrieval, traversal, lens seeds, consumer identity, target reports over a
-  lens, the read target, Portal descriptors and native typed surfaces: they are
-  increment 2 and need this identity first;
+  lens, the read target, Portal descriptors and native typed surfaces: sections
+  23 to 36 define them (CUT, ENT, TRV, LRS, SUM, API, PTL, TGT, CID, NTV), and
+  they needed this identity first;
 - specific equipment kinds (controller, communication gateway, outdoor and
   indoor unit, refrigerant circuit, heat generator, pump, valve, cylinder):
   each needs the admission rule and native evidence;
@@ -1368,3 +1374,457 @@ Validation commands:
 
 semreg executes every graph vector by identifier with the catalog and every
 kernel vector without it.
+
+Sections 23 to 36 are normative for `helianthus.semantic.kernel/v1` on merge,
+as part of this page, so that the one stable-error list, the one vector
+document (`graph-acceptance-vectors.json`) and the one element catalog stay
+the only graph locks. They build only on the identifiers of sections 1 to 22:
+`ResourceID`, relation keys, catalog definitions, planes, lens definitions and
+graph cuts with their findings. They change no rule of sections 1 to 22 except
+the amendments listed in section 35.
+
+Owning Go module: `github.com/Project-Helianthus/helianthus-semreg`, package
+`semreg/v1/graph` (cut retention, traversal, lens retrieval, sums) and
+`semreg/v1/projection` (target reports over a named lens).
+
+## 23. Scope and what stays out
+
+Part 2 defines: which cut a read serves; entry points; bounded traversal; the
+lens result; the two "never add" rules in sums; the first lens seeds; the names
+of the generic read surfaces; what the Portal takes from the graph; target
+reports over a named lens; consumer identity; and the status of native typed
+surfaces and of the southbound hand-off.
+
+Out of part 2, unchanged from sections 1 to 22:
+
+- no fact is derived from facts of two assets (section 11.4);
+- publication stays per asset; nothing here needs publication above the asset;
+- no thermal quantity is placed on a resource and no thermal relation is
+  defined; lenses work with whatever the catalog holds as `member`;
+- no write path: every operation still goes through the admission chain of the
+  kernel, and nothing in a read result is an authority (section 13).
+
+## 24. Definitions
+
+- **Read**: one request answered from exactly one graph cut.
+- **Served cut**: the cut a read is answered from, identified by its cut
+  identifier and member vector (section 11.3).
+- **Entry point**: where a traversal starts: one resource, the roots of a lens,
+  or the installation's sites.
+- **Traversal**: a breadth-first walk over `coherent`, `qualified` relation
+  instances of a stated set of relation definitions, from an entry point, to a
+  stated depth.
+- **Frontier**: the resources at which a traversal stopped because of a bound,
+  each with the bound that stopped it.
+- **Lens result**: the canonical document a lens retrieval returns
+  (`helianthus.semantic.lens-result/v1`).
+- **Consumer identity**: the key under which a consumer stores something it
+  made from the graph (a device, an endpoint, an entity, a series).
+
+## 25. Coherence unit
+
+- **CUT-1 One cut per read.** Every read is answered from one served cut and
+  carries its identifier, its completeness and its member vector. A reader MUST
+  NOT combine parts of two cuts in one answer, one page sequence or one
+  consumer-side object. Check: vector G-POS-RET-1 (identifier present and equal
+  on every page); G-NEG-RET-1 (a page token used against another cut is
+  rejected with `revision_conflict`).
+- **CUT-2 Which cut.** Without a pin, a read is served from the newest cut the
+  server holds. With a pin (`cut_id`), it is served from exactly that cut, or
+  rejected with `revision_conflict` when the server no longer retains it. The
+  server never substitutes another cut for a pinned one. Check: G-NEG-RET-2.
+- **CUT-3 Retention.** A server retains at least the newest cut and every cut
+  that an unexpired page token names. Retention beyond that is the server's
+  choice and is bounded: at most 8 cuts, each for at most 120 seconds after it
+  stopped being the newest. Check: gateway conformance test (no SemReg vector;
+  retention is a server property).
+- **CUT-4 Completeness is reported, never repaired.** A `partial` cut lists,
+  beside its members, every asset the server knows but did not include, each
+  with one reason: `source_unavailable`, `publication_withheld`, `excluded`
+  (a `duplicate_identity` finding, section 11.3) or `ungraphed`. A reader
+  MUST present a result from a partial cut as partial. Check: G-POS-RET-2.
+- **CUT-5 Stable bytes.** The served cut, the request and the catalog digest
+  determine the result bytes. Check: vectors compare canonical output.
+
+There is still no global revision. A consumer that needs to know whether
+anything changed compares cut identifiers.
+
+## 26. Entry points and listing
+
+- **ENT-1** A traversal starts from exactly one of:
+  - `resource`: one `ResourceID` that is current in the served cut;
+  - `lens_roots`: every current resource whose kind is a root kind of the
+    named lens;
+  - `sites`: every current resource of the kind the catalog marks as the
+    installation root (in the seed, `resource.site`). When the cut holds no
+    such resource, the result is empty and says so; no site is invented.
+  Check: an unknown or non-current `resource` is `dangling_reference`
+  (G-NEG-RET-3); an unknown lens is `membership_missing` (G-NEG-RET-4).
+- **ENT-2 Listing.** `ListResources` returns the current resources of the
+  served cut, optionally filtered by kind and by plane, in `ResourceID` order,
+  in pages of at most 4096. It needs no identifier from the caller: it is the
+  discovery entry that replaces operator-typed asset identifiers. Each entry
+  names the resource's home asset, so the per-asset kernel read stays usable
+  for detail. Check: G-POS-RET-3.
+- **ENT-3** The per-asset snapshot read stays the kernel's detail read. It is
+  no longer an entry point: its asset identifiers come from a cut's member
+  vector or from a listing. Check: gateway API tests.
+
+## 27. Traversal and bounds
+
+A traversal request names: the entry point; either a lens, or a set of planes
+with an optional set of relation definitions; a direction; a depth; and a page
+size.
+
+- **TRV-1 Edges.** Only relation instances that are `qualified` and `coherent`
+  in the served cut are followed (COH-1). Candidate, rejected, conflicting,
+  stale, dangling, outside-cut and excluded instances are never followed.
+- **TRV-2 Direction.** `outgoing` follows an instance from its `from` to its
+  `to`; `incoming` the other way; `both` either way. Direction is always that
+  of the relation definition's own `from` and `to`, whatever its core type's
+  orientation.
+- **TRV-3 Definitions.** With a lens, the followed definitions are the lens's
+  relation definitions, or every relation definition of the lens planes when
+  the lens names none. Without a lens, the followed definitions are those the
+  request names, each a member of at least one requested plane; a definition
+  outside the requested planes is `membership_missing`.
+- **TRV-4 Order.** Breadth-first from the entry resources in `ResourceID`
+  order; at each resource, instances in relation-key order. A resource reached
+  twice appears once, at its smallest depth. Check: G-POS-RET-4 (a diamond).
+- **TRV-5 Bounds.** Depth is at most the lens `max_depth`, and at most 32
+  without a lens. At most 256 instances are followed per resource and
+  definition. One result holds at most 4096 resources, 8192 relation instances
+  and 256 cut members. A request that asks for more than a bound allows is
+  rejected with `bounds_exceeded`.
+- **TRV-6 Nothing is dropped silently.** When a traversal stops at a resource
+  because of the depth or the fan-out bound, that resource is listed in the
+  frontier with the reason `depth_limit` or `fanout_limit` and the count of
+  instances not followed. When the frontier itself would exceed 4096 entries,
+  the read is rejected with `bounds_exceeded`. Check: G-POS-RET-5,
+  G-NEG-RET-5.
+- **TRV-7 Pages.** A result larger than the page size is returned in pages.
+  Every page carries the cut identifier; the page token is bound to the cut
+  identifier and to the digest of the request. A token used with another
+  request or cut is rejected with `revision_conflict`; a malformed token with
+  `invalid_value`. Check: G-NEG-RET-1, G-NEG-RET-6.
+- **TRV-8 No path identity.** A traversal result lists resources and relation
+  instances. A path through them is a presentation of that read and never an
+  identifier that a consumer stores. Check: the result has no path member.
+
+## 28. Lens retrieval
+
+### Type: LensResult
+
+```go
+type LensResult struct {
+    Contract   ContractVersion    `json:"contract"`
+    Lens       DefinitionID       `json:"lens"`
+    Catalog    Digest             `json:"catalog"`
+    Cut        CutRef             `json:"cut"`
+    Entry      EntryRef           `json:"entry"`
+    Resources  []LensResource     `json:"resources"`
+    Relations  []LensRelation     `json:"relations,omitempty"`
+    Absences   []RelationAbsence  `json:"absences,omitempty"`
+    Facts      []EvaluatedFact    `json:"facts,omitempty"`
+    Services   []ServiceInstance  `json:"services,omitempty"`
+    Capabilities []CapabilityInstance `json:"capabilities,omitempty"`
+    Findings   []CutFinding       `json:"findings,omitempty"`
+    Frontier   []FrontierEntry    `json:"frontier,omitempty"`
+    NextPage   *string            `json:"next_page,omitempty"`
+}
+```
+
+`CutRef` holds the cut identifier, its completeness, the member vector and the
+not-included assets with their reasons (CUT-4). `LensResource` is the resource
+record with its depth, its home asset and the lens planes it is in (PLN-3).
+`LensRelation` is the relation instance with its coherence and a boolean
+`in_plane`. Array order: resources by `(depth, resource_id)`; relations by
+relation key; absences by their key; facts by canonical fact key; findings and
+frontier by `(kind, canonical subject)`.
+
+- **LRS-1 Content.** The result holds, for the resources reached: the relation
+  instances among them that belong to a followed definition; the absence
+  statements about them for those definitions; and the facts, services and
+  capabilities whose subject they are and whose definition is a member of a
+  lens plane. Facts carry the kernel's evaluation view (candidates, conflicts,
+  freshness), unchanged. Check: G-POS-LNS-1.
+- **LRS-2 Non-member relations are shown, marked and not followed.** A
+  candidate, rejected or conflicting instance, or one that is not `coherent`,
+  between two reached resources (or from a reached resource to an endpoint
+  outside the result) appears with its state, its coherence and
+  `in_plane: false`. It contributes no resource to the result. A reader MUST
+  NOT present it as a current edge (COH-1). Check: G-POS-LNS-2.
+- **LRS-3 Unknown is not "none".** Where neither an instance nor an absence
+  statement exists for a followed definition at a reached resource, the result
+  says nothing; a reader MUST treat the relation as unknown (section 7.2).
+- **LRS-4 Findings travel with the result.** Every cut finding that names a
+  reached resource, or a member that holds one, is in the result. Check:
+  G-POS-LNS-3 (a `same_unit` pair inside one lens result).
+- **LRS-5 Visibility is not authority.** A capability instance in a lens
+  result is a statement that it exists. Admission of an intent reads no lens
+  result (AUT-1). Check: G-NEG-AUT-1 to G-NEG-AUT-3 hold with a lens result in
+  hand; the operation package still imports neither `semreg/v1/graph` nor
+  anything that does.
+- **LRS-6 Empty is explicit.** A lens whose roots are absent from the served
+  cut returns a result with no resource and the cut reference; it is not an
+  error.
+
+### 28.1 Sums
+
+The kernel computes no total across assets (section 11.4). A reader that adds
+quantities of a lens result does so through `SumMembers(result, fact
+definition, scope resource)`, which applies the rules below; a reader that adds
+by itself MUST apply the same rules.
+
+- **SUM-1** Only facts with catalog aggregation `member` are added. A fact with
+  aggregation `aggregate` is never added to the members of its scope, and
+  never added to another aggregate (EN-5).
+- **SUM-2** The members of a scope are the resources reached from it through
+  `coherent` `groups` or `contains` instances in the result. A scope without
+  such instances has no members; the sum is then `withheld` with reason
+  `no_coverage`, never zero.
+- **SUM-3** When two members form a `same_unit` pair, the sum is `withheld`
+  with reason `same_unit`; neither is chosen (section 11.3).
+- **SUM-4** When a member's fact is unavailable, stale or in conflict, or the
+  result's cut is partial with a not-included asset, the sum is `withheld`
+  with the matching reason (`member_unavailable`, `member_conflict`,
+  `partial_cut`). A partial sum is never presented as a total.
+- **SUM-5** Signed facts are added only when they share one sign reference
+  (EN-4); facts under `native_convention` are never added across sources.
+- **SUM-6** A source-reported aggregate on the scope is returned next to the
+  computed sum, labelled as observed; the two are never merged.
+
+Check: G-POS-SUM-1 (three members), G-NEG-SUM-1 to G-NEG-SUM-4 (aggregate plus
+members, `same_unit` pair, partial cut, mixed sign references), each expecting
+`withheld` with its reason. `SumMembers` returns a value, not a published fact.
+
+## 29. Lens seeds
+
+Four lenses are seeded in the element catalog, owned by docs-semantic, each on
+the admission arm `owner_decision` with docs-semantic#67 as evidence (a lens
+holds no data of its own, as a plane). Their relation definitions are left
+unnamed, so each follows every member relation definition of its planes and
+grows with the catalog without an edit.
+
+| Lens | Question | Planes | Root kinds | Depth |
+|---|---|---|---|---|
+| `lens.installation_hierarchy` | What is installed here, what is part of what, and what is grouped or controlled together? | physical, control | site, PV system, storage system, thermal system, charging station, generic equipment | 16 |
+| `lens.energy_flow` | Where does electrical energy flow and where is it measured? | energy | site, grid connection, PV system, storage system, charging station | 16 |
+| `lens.equipment_composition` | What is this piece of equipment made of, and how healthy are its parts? | physical, diagnostic | inverter, battery, battery pack, charging station, meter, generic equipment | 8 |
+| `lens.provenance` | Through which equipment does this information arrive? | provenance | the six equipment kinds | 8 |
+
+Notes:
+
+- Each root kind admits at least one plane of its lens in the seed (LNS-1);
+  the catalog validator checks it again.
+- "Electrical" is `lens.energy_flow` read with medium `electrical`; no separate
+  lens is seeded.
+- A hierarchy rooted at a controller needs a `controls` relation definition,
+  which the seed does not hold. It enters with the thermal relations, under
+  the admission rule; the lens then follows it without an edit.
+- No hydraulic lens is seeded: the hydraulic plane is empty in the seed.
+- Partitions that consumers show (by domain, by room) are lens content or
+  presentation, never a catalog membership.
+
+## 30. Generic read surfaces
+
+The gateway serves the reads of sections 26 to 28 through GraphQL and the
+protocol-neutral semantic MCP namespace. This contract fixes their names and
+their equality; docs-ebus owns the field-level pages.
+
+| Read | GraphQL field | MCP tool |
+|---|---|---|
+| Listing (ENT-2) | `semantic_resources` | `semantic_v1_resources_list` |
+| Traversal (section 27) | `semantic_traversal` | `semantic_v1_traverse` |
+| Lens retrieval (section 28) | `semantic_lens` | `semantic_v1_lens_get` |
+| Element catalog (planes, lenses, entries, digest) | `semantic_element_catalog` | `semantic_v1_catalog_get` |
+| Per-asset detail (ENT-3) | `semantic_snapshot` (kept) | `semantic_v1_snapshot_get` (kept) |
+
+- **API-1 Names.** No semantic field or tool is called `planes`, `plane`,
+  `projections` or `projection`: on the shared schema those words name the
+  native registry views (section 3). Plane and lens identifiers are arguments
+  and values, not field names.
+- **API-2 Same bytes.** For one served cut and one request, the GraphQL and the
+  MCP answer carry the same canonical `LensResult`, or the same resource list.
+  Check: gateway parity test over the graph vectors.
+- **API-3 One catalog call.** Items and membership come from the SemReg catalog
+  registry. No gateway package enumerates packs to build a read.
+- **API-4 Core addressing only.** A tool or field of the semantic namespace is
+  addressed by resource, lens, plane or definition identifiers. A read keyed by
+  a native profile, a vendor name or a pack belongs to a native namespace; it
+  moves there without an alias.
+- **API-5 Refusals are explicit.** A request beyond a bound, for an unknown
+  lens, or pinned to a cut that is gone is rejected with the stable error of
+  sections 25 to 27; an empty result is not an error.
+
+## 31. Portal
+
+- **PTL-1** Portal navigation (installation, resource and capability trees, and
+  the plane and lens perspectives) comes from the element catalog's planes and
+  lenses and from lens results. The Portal host and driver manifests define no
+  plane, lens or perspective.
+- **PTL-2** A driver manifest contributes presentation only: labels, order,
+  renderers and the view slots it fills. Its `lens` slot names a catalog lens.
+- **PTL-3** A Portal resource is keyed by `ResourceID`. Two assets of one pack
+  therefore render as two resources. The Portal catalog's `resource_id` member
+  carries the `ResourceID`; the qualified exception "Portal resource key" of
+  section 3 ends with that change.
+- **PTL-4** The 32 pack Portal descriptors stay where they are, as target
+  presentation data of the Portal target (catalog disposition `unsupported`,
+  reason `catalog.reason.target_presentation`). They are read through the
+  Portal's own target report (section 32), never as graph content. No pack
+  document changes.
+- **PTL-5** No other target reads through the Portal catalog. Withdrawing a
+  Portal contribution changes no other target's output.
+
+## 32. Target reports over a named lens
+
+- **TGT-1** `ProjectionManifest` gains the optional member `lens`. When
+  present, the report accounts for what its target does with the content of
+  that lens. A manifest without it keeps its present meaning and bytes.
+- **TGT-2** A `ProjectionDisposition` may cite, beside fact keys, the
+  `ResourceID`s and relation keys it was made from (optional members
+  `resources` and `relations`, omitted when empty). Composition in a target
+  (parent and child endpoints, entity trees, power topology) is derived from
+  relation instances cited that way, never from an index, a name or an
+  address.
+- **TGT-3** Every consumer declares its own target and report. None admits
+  from another target's dispositions.
+- **TGT-4** The per-asset snapshot read is the kernel's read, not a target.
+  The target identifier `target:semantic-snapshot-read` is retired in place
+  once the last consumer admits from its own report; until then it is not
+  extended. No alias is kept.
+- **TGT-5** `ProjectionReport` stays the accounting of one target and version
+  (PRJ-1); a lens result is never a report and a report never decides
+  membership.
+- **TGT-6** The derived pack availability view is retired as a read helper: an
+  asset that publishes outside the graph is reported `ungraphed` (ACT-5), and
+  availability per element comes from the lens result. Its page is amended in
+  place to say so.
+
+Check: projection vectors G-POS-TGT-1 (report over a lens citing two resources
+and one relation key), G-NEG-TGT-1 (a disposition citing a relation instance
+that is not `coherent` in the report's cut is `projection_incomplete`).
+
+## 33. Consumer identity
+
+- **CID-1** One consumer object maps to one resource: a Home Assistant device,
+  a Matter endpoint, a SPINE entity, a Portal resource. An object for a
+  service or capability is keyed by its resource plus the definition.
+- **CID-2** A value key (an entity, a series, a characteristic) is
+  `(ResourceID, fact DefinitionID, qualifier dimension values)`. It contains
+  no pack version, no asset identifier, no address and no ordinal.
+- **CID-3** Replacement follows the anchor class (section 6.3): a replaced
+  piece of equipment and its components are new resources and therefore new
+  consumer objects; functions keep theirs; an episode ends. An anchor
+  supersession (section 6.5) keeps the `ResourceID` and therefore the
+  consumer object.
+- **CID-4** A consumer that merges two resources into one object, or flattens
+  a dimension, declares that as loss in its own report (TGT-3).
+- **CID-5** A consumer never stores a traversal path, a cut identifier or a
+  plane as identity.
+
+Check: each consumer's conformance tests; the graph vectors G-POS-ID-1 and
+G-POS-ID-2 give the stable identifiers they rely on.
+
+## 34. Native typed surfaces and the southbound hand-off
+
+- **NTV-1** A native typed surface (the eBUS-typed GraphQL roots, the native
+  registry views, native MCP namespaces, native metric points) is a native
+  view outside the graph. It is named native in its documentation, it is not a
+  lens result, and it carries no catalog entry. It may show the same quantity
+  as a semantic fact only as native evidence of it; a consumer that wants the
+  semantic value reads the graph.
+- **NTV-2** A promoted leaf of a second protocol that describes a resource
+  already in the graph becomes a candidate on that resource, with its own
+  binding and provenance, when one asset holds both sources (section 6.4).
+  "Fill missing only" is then a target policy over candidates, declared by the
+  target, never an internal merge.
+- **NTV-3** The hand-off from a native owner carries no membership data
+  (PLN-1, section 15 item 6) and no projection outcome (PRJ-3).
+- **NTV-4** A fault, alarm or status is published on the resource it is
+  reported about: on the unit when the source localizes it, on the system when
+  the source reports it for the system. When the source cannot localize it, it
+  stays on the reporting equipment (the rule of EN-1 applied to diagnostics).
+- **NTV-5** A communication session is not a resource. The charging session
+  stays the only episode kind until another is admitted.
+- **NTV-6** Provenance is both: per fact, the kernel lineage (origin, binding,
+  source) that every evaluated fact already carries; and navigable, the
+  `relays` instances that `lens.provenance` follows. Neither replaces the
+  other.
+
+## 35. Amendments
+
+Each row is an in-place edit of v1 in the 0.7 release cycle, recorded in the
+in-place change record of `api/README.md`.
+
+| File, heading | Amendment |
+|---|---|
+| `api/v1/graph.md`, Increment boundary | States that part 2 (sections 23 to 36) defines retrieval and consumption; the *Increment 2* markers of sections 9, 11.3, 12 and 14 point to their part 2 rule. |
+| `api/v1/graph.md`, section 3 | The exception "Portal resource key" is marked as ending with PTL-3. |
+| `api/v1/graph.md`, section 19 | Coverage identifiers `retrieval`, `lens_result`, `sum` and `target_report` join the list; operations `list_resources`, `traverse`, `retrieve_lens`, `sum_members` and `project` join the list. |
+| `api/v1/kernel.md`, Type: ProjectionManifest | Adds the optional member `lens`. |
+| `api/v1/kernel.md`, Type: ProjectionDisposition | Adds the optional members `resources` and `relations`, omitted when empty. |
+| `api/v1/kernel.md`, Package surface | `semreg/v1/graph` also owns traversal, lens retrieval and sums; `semreg/v1/projection` holds target records only and imports no pack. |
+| `api/v1/serialization.md`, Array ordering | Adds the orders of section 28. |
+| `api/v1/pack-availability-view.md` | Status changed to retired; one paragraph points to ACT-5 and section 28 (TGT-6). |
+| `api/v1/element-catalog-v1.json` | Adds the four lenses of section 29 and marks `resource.site` as the installation root. |
+| `api/v1/element-catalog-v1.schema.json` | Adds the boolean `installation_root` on `resource_kind` entries. |
+| `architecture/glossary.md` | Adds served cut, traversal, frontier, lens result and consumer identity. |
+
+No stable error is added: retrieval uses `bounds_exceeded`,
+`dangling_reference`, `membership_missing`, `revision_conflict`,
+`invalid_value` and `projection_incomplete`. The acceptance class map gains the
+retrieval rows for these existing identifiers; the precedence list does not
+change. `api/v1/acceptance-vectors.json` and its pins do not move.
+
+Locks part 2 moves: `api/v1/graph-acceptance-vectors.json` (new vectors) and
+its pinned copy in semreg; the element catalog and its pinned copy and digest
+in semreg; the catalog schema; `scripts/validate_graph_v1.py` (new coverage
+identifiers and operations). Downstream, in their own waves: the semantic read
+pages and fixtures of docs-ebus; the gateway GraphQL and MCP read surfaces; the
+Portal contribution contract, its five-domain fixtures and the Portal catalog
+`resource_id`; the Matter rosters and their hash lock; the semantic metric
+series keys and coverage slots; Home Assistant unique identifiers; the add-on
+BOM.
+
+## 36. Conformance, falsifiers and what is left out
+
+Vectors added to `graph-acceptance-vectors.json` (identifiers as used above):
+
+| Identifier | Statement | Expected |
+|---|---|---|
+| G-POS-RET-1 | `retrieve_lens` in two pages | both pages carry one cut identifier; union equals the unpaged result |
+| G-POS-RET-2 | `retrieve_lens` over a partial cut with one excluded member | result marked partial; the asset listed with reason `excluded` |
+| G-POS-RET-3 | `list_resources` filtered by kind and plane | resources in `ResourceID` order with their home assets |
+| G-POS-RET-4 | `traverse` over a diamond | the shared resource appears once at its smallest depth |
+| G-POS-RET-5 | `traverse` with depth 1 over a chain of three | frontier holds the second resource with `depth_limit` |
+| G-NEG-RET-1 | page token of cut A used with cut B | reject `revision_conflict` |
+| G-NEG-RET-2 | `retrieve_lens` pinned to a cut the server does not hold | reject `revision_conflict` |
+| G-NEG-RET-3 | `traverse` from a `ResourceID` not current in the cut | reject `dangling_reference` |
+| G-NEG-RET-4 | `retrieve_lens` for an unknown lens, or a definition outside the requested planes | reject `membership_missing` |
+| G-NEG-RET-5 | `traverse` whose frontier would exceed its bound, or a page size above 4096 | reject `bounds_exceeded` |
+| G-NEG-RET-6 | malformed page token | reject `invalid_value` |
+| G-POS-LNS-1 | `retrieve_lens` of the composition lens over one equipment with two components and facts | resources, relations, facts with evaluation view, in canonical order |
+| G-POS-LNS-2 | a candidate and a conflicting instance among reached resources | both present with `in_plane: false`; no resource reached through them |
+| G-POS-LNS-3 | a `same_unit` pair inside one result | finding present |
+| G-POS-SUM-1 | `sum_members` over three inverters grouped by a system | sum returned; the observed aggregate returned beside it |
+| G-NEG-SUM-1 | members plus the scope's aggregate | aggregate not added |
+| G-NEG-SUM-2 | two members flagged `same_unit` | `withheld`, reason `same_unit` |
+| G-NEG-SUM-3 | partial cut with a not-included asset | `withheld`, reason `partial_cut` |
+| G-NEG-SUM-4 | members with different sign references | `withheld`, reason `mixed_sign_reference` |
+| G-POS-TGT-1 | `project` over a lens, citing two resources and one relation key | report accepted |
+| G-NEG-TGT-1 | disposition citing a relation instance not `coherent` in the cut | reject `projection_incomplete` |
+
+Falsifiers. Part 2 is wrong if a 0.7 consumer needs: a read that spans two
+cuts; a total across assets that `SumMembers` must refuse in the normal case;
+a stored path; or membership decided by a target.
+
+Left out, with reasons: a subscription or change feed over cuts (a consumer
+polls and compares cut identifiers in 0.7); lens-level rollups declared in the
+catalog (`SumMembers` is a function, not a catalog element, until a consumer
+needs a declared rollup); a controller-rooted and a hydraulic lens (they need
+relation definitions that do not exist yet); the composition of an eeBUS
+output (its binding contract is a separate issue).
+
+Validation commands: as in section 22.

@@ -6,6 +6,23 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: part 2 of the
+  [graph contract](api/v1/graph.md) (sections 23 to 36) defines retrieval and
+  consumption on the same page. A read is answered from one served cut. A
+  traversal is bounded and records its frontier. A lens result is the canonical
+  document of a lens retrieval, and sums of its member facts are withheld
+  instead of presented as a total when coverage, identity, freshness or the
+  cut is incomplete. Four lenses are named for later catalog admission. The
+  generic read surfaces keep one answer on GraphQL and the semantic MCP
+  namespace. Portal navigation comes from the catalog and from lens results.
+  A target report may name the lens it accounts for and may cite the resources
+  and relation instances it used. A consumer keys an object by resource, not
+  by a path or a cut. No stable error is added. The derived pack availability
+  view is retired: an asset outside the graph is `ungraphed`, and availability
+  per element comes from the lens result. No thermal quantity is placed, no
+  thermal relation is defined and no hydraulic lens is seeded. No version is
+  raised. The element catalog and the graph acceptance vectors follow in the
+  next slices.
 - Breaking, in place before the 0.7 release: the
   [EVSE pack](api/v1/packs/evse-v1.md) adds phase allocated current
   `evse.limit.allocated_current_phase` in ampere on the phase dimension,

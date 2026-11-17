@@ -427,17 +427,17 @@ serialization precedence list chooses one when an input violates several rows.
 | undeclared member or extension bag | `unknown_member` |
 | malformed, empty, overlength, non-ASCII, or wrong typed identifier | `invalid_identifier` |
 | noncanonical/out-of-range decimal coefficient or exponent | `invalid_decimal` |
-| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, malformed non-evidence digest, mismatched kernel-derived conflict metadata, or zero/multiple/out-of-envelope selection result | `invalid_value` |
+| wrong primitive token type, invalid tagged payload/text/symbol/unit/range, malformed non-evidence digest, mismatched kernel-derived conflict metadata, zero/multiple/out-of-envelope selection result, or a malformed retrieval page token | `invalid_value` |
 | invalid wall/monotonic time, duration, uncertainty, policy, ordering, or arithmetic overflow outside a well-formed over-limit causal lifetime | `invalid_time` |
 | malformed or inaccessible supplied `EvidenceRef` outside the identity/capability proof cases below | `invalid_evidence` |
 | enum token outside its exact declared set | `invalid_enum` |
-| collection/text/graph maximum exceeded outside causal path/hop/lifetime limits | `bounds_exceeded` |
+| collection/text/graph maximum exceeded outside causal path/hop/lifetime limits, or a retrieval depth, fan-out, page, result or frontier beyond its bound | `bounds_exceeded` |
 | valid set members presented outside canonical order | `noncanonical_order` |
 | previously unseen record digest differs from its computed canonical digest | `digest_mismatch` |
-| unresolved candidate/object/revision/source-path/readback-snapshot/selection-key reference outside precondition lookup | `dangling_reference` |
+| unresolved candidate/object/revision/source-path/readback-snapshot/selection-key reference outside precondition lookup, or a traversal entry that is not a current resource of the served cut | `dangling_reference` |
 | derivation self-reference, cycle, or graph-shape violation | `derivation_cycle` |
 | incomparable monotonic epochs without permitted wall evaluation | `incomparable_clock_epoch` |
-| stale expected object/component/semantic revision or mismatched selection snapshot/revision/context/candidate revision outside precondition binding | `revision_conflict` |
+| stale expected object/component/semantic revision or mismatched selection snapshot/revision/context/candidate revision outside precondition binding, or a retrieval page token or cut pin that does not name the served cut | `revision_conflict` |
 | regressed/reused publication sequence or idempotency key with different bytes | `sequence_conflict` |
 | retired or non-current source epoch | `stale_source_epoch` |
 | fenced/superseded generation or readback/route generation mismatch | `stale_driver_generation` |
@@ -455,12 +455,12 @@ serialization precedence list chooses one when an input violates several rows.
 | expired/inconsistent/duplicate-history causal context or no capacity to append a new receiver | `causal_budget_exceeded` |
 | ingress receiver already in path or attempted authority minting from reflection | `echo_suppressed` |
 | unsafe blind retry or route fallback after possible side effect | `retry_forbidden` |
-| missing/duplicate/mismatched requested `(kind,item_id)` disposition or required accounting | `projection_incomplete` |
+| missing/duplicate/mismatched requested `(kind,item_id)` disposition or required accounting, or a disposition citing a relation instance that is not coherent in the report cut | `projection_incomplete` |
 | compatibility alias marked or used as routable | `alias_not_routable` |
 | contradictory/incomplete dispatch, ACK, readback, side-effect, and outcome combination | `invalid_outcome` |
 | two current resources with one `ResourceID` or anchor key, or a reused retired `ResourceID` | `duplicate_identity` |
 | changed kind or anchor of a `ResourceID`, or an endpoint or subject of a non-admitted kind | `identity_drift` |
-| graph record without a member catalog entry, graph member in a non-enforced kernel, uncovered pack in a graph-enforced registry, inadmissible operation, or invalid catalog membership | `membership_missing` |
+| graph record without a member catalog entry, graph member in a non-enforced kernel, uncovered pack in a graph-enforced registry, inadmissible operation, invalid catalog membership, or an unknown lens or a relation definition outside the requested planes | `membership_missing` |
 | relation instance or absence statement with an empty, non-admitted or origin-inconsistent basis | `relation_not_qualified` |
 | relation upsert to a withdrawn or retired same-asset resource | `stale_relation` |
 

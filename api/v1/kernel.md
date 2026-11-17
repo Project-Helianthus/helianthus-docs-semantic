@@ -70,9 +70,9 @@ INT-05 must provide these public packages without cyclic imports:
 | Package | Owns |
 |---|---|
 | `semreg/v1` | identifiers, versions, evidence, bindings, identity, values, facts, predicates, quality, services, capabilities, resources, relation instances and absence statements, causal context, publication batches, fences, immutable snapshots, and pure evaluation views |
-| `semreg/v1/graph` | the element catalog, planes, lenses, and graph-cut assembly |
+| `semreg/v1/graph` | the element catalog, planes, lenses, graph-cut assembly, traversal, lens retrieval and sums |
 | `semreg/v1/operation` | intent, preconditions, admitted routes, dispatch/acknowledgement/readback evidence, and outcomes |
-| `semreg/v1/projection` | target manifests, requested items, dispositions, loss details, and compatibility aliases |
+| `semreg/v1/projection` | target records only: manifests, requested items, dispositions, loss details and compatibility aliases; it imports no pack |
 
 Each package MUST expose validation for its complete public records. The root
 package MUST expose deterministic canonical JSON for any valid v1 record. It
@@ -1749,8 +1749,13 @@ type ProjectionManifest struct {
     KernelVersion   ContractVersion `json:"kernel_version"`
     PackVersions    []PackRef       `json:"pack_versions"`
     MappingRevision Uint64          `json:"mapping_revision"`
+    Lens            *DefinitionID   `json:"lens,omitempty"`
 }
 ```
+
+`lens` is optional and omitted when absent. When present, it names the catalog
+lens whose content the report accounts for (TGT-1). A manifest without it
+keeps its present meaning and bytes.
 
 ### Type: RequestedItem
 
@@ -1789,8 +1794,13 @@ type ProjectionDisposition struct {
     SourceKeys []FactKey      `json:"source_keys"`
     Loss       []LossDetail   `json:"loss"`
     Reason     *DefinitionID  `json:"reason,omitempty"`
+    Resources  []ResourceID   `json:"resources,omitempty"`
+    Relations  []RelationKey  `json:"relations,omitempty"`
 }
 ```
+
+`resources` and `relations` are optional and omitted when empty. They cite the
+`ResourceID` values and relation keys the disposition was made from (TGT-2).
 
 `ProjectionOutcome` is `exact`, `transformed`, `withheld`,
 `unrepresentable`, `unsupported`, or `unknown`. Every requested `(kind,item_id)`
