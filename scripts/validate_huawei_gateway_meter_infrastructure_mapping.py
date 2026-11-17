@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import re
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +15,9 @@ PATH = ROOT / "api/v1/mappings/huawei-gateway-meter-infrastructure-v1.json"
 DOC = ROOT / "api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md"
 PACK_CATALOG = ROOT / "api/v1/packs/infrastructure-acceptance-vectors.json"
 LOCAL_ASSESSMENT = ROOT / "mappings/infrastructure/gateway-runtime.md"
+_GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(_GRAPH_SPEC)
+_GRAPH_SPEC.loader.exec_module(graph_rules)
 
 PACK = {"id": "helianthus.pack.infrastructure", "version": "1.0.0"}
 NATIVE_PREFIX = "native.huawei.gateway_meter."
@@ -33,7 +38,7 @@ UNIT_CONVERSION = {
     ("ratio", "unit.ratio"): IDENTITY,
 }
 # Members of a prospective row; no other member, and so no second statement of a conversion, is accepted.
-PROSPECTIVE_ROW_MEMBERS = {"in_force", "target", "dimension", "unit", "native", "conversion", "loss", "sign_reference", "role", "direction", "counter"}
+PROSPECTIVE_ROW_MEMBERS = {"in_force", "target", "dimension", "subject_kind", "measurement_point", "unit", "native", "conversion", "loss", "sign_reference", "role", "direction", "counter"}
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
 REGISTRY_FLAGS = {"catalog_registered": False, "automatic_runtime_admission": False, "live_qualified": False, "support_claim": False, "write_authority": False}
 QUALIFICATION = {**REGISTRY_FLAGS, "mapping_qualified": True, "outbound_allowed": False}
@@ -61,12 +66,37 @@ ROLE = {
     "values": ["grid_connection", "feeder", "circuit"],
     "undeclared": "role_unknown_and_role_dependent_facts_not_published",
     "never_derived_from": ["registers", "sign_or_magnitude_of_a_power_value", "label", "unit_number", "listing_order", "model", "presence_of_another_meter"],
-    "dimension_by_role": {
-        "grid_connection": {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"},
-        "feeder": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"},
-        "circuit": {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"},
-    },
 }
+# EN-8: each configured role names the pack dimension of the resource the meter measures. The role's relation is the
+# catalog's measures definition between that resource and the meter, or unknown when the catalog has none.
+ROLE_DIMENSIONS = {"grid_connection": "infrastructure.dimension.grid_connection", "feeder": "infrastructure.dimension.feeder", "circuit": "infrastructure.dimension.circuit"}
+UNKNOWN_RELATION = "unknown"
+# Section 15 item 1: one resource per role, in this order; a role's kind is its dimension's kind in the element catalog.
+RESOURCE_ROLES = {"site": "infrastructure.dimension.site", "grid_connection": "infrastructure.dimension.grid_connection", "meter": "infrastructure.dimension.meter"}
+# The statement each resource's evidence must carry, besides the native owner's token stability.
+RESOURCE_STATEMENTS = {"site": "operator_configuration", "grid_connection": "operator_configuration", "meter": "native_contract"}
+# EN-1: each measurement point names the resource role at whose boundary or terminal the quantity is measured or defined.
+MEASUREMENT_POINTS = {"grid_connection_point": "grid_connection", "meter_register": "meter"}
+# Section 15 item 2: (definition, basis class, scope of the rule) in the order the gate states them. Both are
+# configuration: the native meter contract states that the role is configuration, and no site structure is observable.
+STATED_RELATIONS = [
+    ("infrastructure.relation.site_grid_connection", "configuration", "each_grid_connection_the_operator_declares_in_a_site"),
+    ("infrastructure.relation.grid_connection_meter", "configuration", "each_meter_the_operator_declares_with_role_grid_connection"),
+]
+SCOPE = {"profile": "no_meter_class_contract", "version": "no_admitted_profile"}
+# Section 6.4: no meter identity read exists, so two views of one meter join only by an operator declaration.
+TWO_VIEWS = ["exposed_at_a_gateway_meter_unit", "exposed_by_an_inverter_child"]
+SELECTORS = [
+    {"selector": "gateway_path", "classification": "provenance", "evidence": ["native_contract:monitoring_contract", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+    {"selector": "profile_id", "classification": "provenance", "evidence": ["admission:registry_profiles_withhold_every_meter", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+]
+# Section 7.2: what withholds each infrastructure relation the gate does not state.
+UNSTATED_BY = {
+    "infrastructure.relation.circuit_phase": "native_contract:phase_assignment_not_stated",
+    "infrastructure.relation.feeder_circuit": "configuration:no_feeder_or_circuit_declared_by_this_gate",
+    "infrastructure.relation.grid_connection_feeder": "configuration:no_feeder_or_circuit_declared_by_this_gate",
+}
+UNSTATED_OUTCOME = "unknown_not_absent"
 INVENTORY = [
     ("smartlogger_meter_electrical_group", "smartlogger"), ("smartlogger_meter_energy_totals", "smartlogger"), ("emma_built_in_sensor_group", "emma"), ("emma_external_sensor_group", "emma"),
     ("sdongle_inverter_exposed_meter_group", "sdongle"), ("sdongle_plant_grid_power", "sdongle"), ("sun2000_inverter_exposed_meter_group_refused", "sun2000_m3"), ("profile_meter_groups", "sun2000_profiles"),
@@ -77,11 +107,55 @@ RUNTIME_REASONS = {"infrastructure.reason.answered_not_decoded", "infrastructure
 REQUESTED = ["infrastructure.ac.active_power", "infrastructure.ac.current", "infrastructure.ac.power_factor", "infrastructure.ac.voltage", "infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.power.export_active", "infrastructure.power.import_active"]
 UNSUPPORTED = ["role_inference", "direction_split_without_a_stated_sign", "mixed_sign_references", "meter_identity", "connection_readiness_breaker_fault_interlock_state", "gateway_runtime_state_as_electrical_state", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
 SIGN_REFERENCES = {"positive_export", "positive_import", "not_stated"}
-DOC_TOKENS = ("gateway-configured", "unknown, never zero", "no binary floating point", "outbound_allowed=false", "one atomic cutover", "role is configuration", "no meter register is decoded")
+DOC_TOKENS = ("gateway-configured", "unknown, never zero", "no binary floating point", "outbound_allowed=false", "one atomic cutover", "role is configuration", "no meter register is decoded",
+              "section 15", "en-1", "en-8", "operator label", "unknown, not absent", "never the device that reports it")
 
 
 def fail(code):
     raise ValueError(code)
+
+
+class Catalog:
+    """Element-catalog lookups for this gate: kinds, relations, facts, and the infrastructure pack's dimensions and relations."""
+
+    def __init__(self, document):
+        self.document = document
+        self.index = graph_rules.Index(document)
+        self.dimensions, self.pack_relations = {}, []
+        for element in document.get("elements", []):
+            ref = element["ref"]
+            if element.get("disposition") != "member" or ref["owner"].get("pack") != PACK:
+                continue
+            if element["element_kind"] == "dimension":
+                self.dimensions[ref["id"]] = element["attributes"]["resource_kind"]
+            elif element["element_kind"] == "relation":
+                self.pack_relations.append(ref["id"])
+
+    def fact(self, fact_id):
+        return (self.index.facts.get(fact_id) if isinstance(fact_id, str) else None) or {}
+
+    def subject(self, fact_id):
+        return self.fact(fact_id).get("subject", {})
+
+    def role_kinds(self):
+        """RES-1 and section 6.1: the kind of each resource role, through its pack dimension."""
+        return {role: self.dimensions.get(dimension) for role, dimension in RESOURCE_ROLES.items()}
+
+    def role_relation(self, role):
+        """EN-8: the pack's measures definition from the role's measured resource to the meter, or unknown."""
+        measured, meter = self.dimensions.get(ROLE_DIMENSIONS[role]), self.role_kinds()["meter"]
+        found = []
+        for name in self.pack_relations:
+            definition = self.index.relations[name]
+            ends = [[measured], [meter]] if definition["orientation"] == "inverse" else [[meter], [measured]]
+            if definition["core_type"] == "measures" and [definition["from_kinds"], definition["to_kinds"]] == ends:
+                found.append(name)
+        return found[0] if len(found) == 1 else UNKNOWN_RELATION
+
+
+@lru_cache(maxsize=1)
+def element_catalog():
+    return Catalog(graph_rules.load_catalog())
 
 
 def check_prospective_conversion(row):
@@ -152,20 +226,159 @@ def pack_catalog():
     return {field["id"]: field for field in catalog["fields"]}, {dimension["id"] for dimension in catalog["fact_dimensions"]}, {rel["id"] for rel in catalog["relations"]}
 
 
-def validate_contract(document):
-    fields, dimensions, relations = pack_catalog()
+def check_shared(document, catalog):
+    """Section 15: the shared graph rules first; a gate of this family states its graph."""
+    failures = graph_rules.check(document, catalog.document)
+    if failures:
+        fail("graph {} {}".format(*failures[0]))
+    if not graph_rules.graph_stated(document):
+        fail("graph_not_stated")
+
+
+def measured_end(definition):
+    """The measured resource kinds of a measures definition: its starting end when it reads the core type backwards."""
+    return definition["from_kinds"] if definition["orientation"] == "inverse" else definition["to_kinds"]
+
+
+def check_role(document, catalog):
+    """EN-8: each role's relation is the catalog's measures definition, or unknown; a stated role relation has an instance with basis configuration."""
+    if document.get("role") != {**ROLE, "relation_by_role": {role: catalog.role_relation(role) for role in ROLE["values"]}}:
+        fail("role")
+    stated = {relation["definition"]: relation for relation in document["graph"]["relations"]}
+    for relation in document["role"]["relation_by_role"].values():
+        if relation != UNKNOWN_RELATION and stated.get(relation, {}).get("basis_class") != "configuration":
+            fail("role relation")
+
+
+def check_subject(row, catalog):
+    """EN-1: a row names its target's catalog subject kind and a measurement point at the boundary of that kind."""
+    point = row.get("measurement_point")
+    role = MEASUREMENT_POINTS.get(point) if isinstance(point, str) else None
+    if row.get("subject_kind") != catalog.subject(row.get("target")).get("kind") or role is None or catalog.role_kinds()[role] != row["subject_kind"]:
+        fail("field rule subject")
+
+
+def check_row_role(row, document, catalog):
+    """EN-8: a quantity of the measured resource needs a role whose relation measures that resource; a meter quantity takes any role."""
+    if row["subject_kind"] == catalog.role_kinds()["meter"]:
+        if "role" in row:
+            fail("prospective role")
+        return
+    role = row.get("role")
+    relation = document["role"]["relation_by_role"].get(role) if isinstance(role, str) else None
+    definition = catalog.index.relations.get(relation) if isinstance(relation, str) else None
+    if definition is None or row["subject_kind"] not in measured_end(definition):
+        fail("prospective role")
+
+
+def role_placement(contract, role, catalog=None):
+    """Where a role places the measured-resource quantities and the meter quantities: subjects from the catalog, relation from the role."""
+    catalog = element_catalog() if catalog is None else catalog
+    meter = catalog.role_kinds()["meter"]
+    measured, metered = set(), set()
+    for rule in contract["field_rules"]:
+        for row in rule.get("prospective", []):
+            subject = catalog.subject(row.get("target"))
+            (metered if subject.get("kind") == meter else measured).add(subject.get("dimension", {}).get("id"))
+    if len(measured) != 1 or len(metered) != 1:
+        fail("role placement")
+    relation = contract["role"]["relation_by_role"][role]
+    return {"power": "withheld" if relation == UNKNOWN_RELATION else measured.pop(), "energy": metered.pop(), "relation": relation}
+
+
+def expected_basis(resource, anchor_class):
+    """Section 6.3: a listed scheme anchors on a native token, a component on its native position, anything else on an operator label."""
+    if resource["identification_scheme"] != graph_rules.NONE_LISTED:
+        return "native_identity"
+    return "native_slot" if anchor_class == "component" else "operator_slot"
+
+
+def check_graph_resources(graph, catalog):
+    """Section 15 item 1, RES-1 and RES-2: one resource per role, in role order, with its anchor, no parent and its evidence statements."""
+    kinds = catalog.role_kinds()
+    if [resource["kind"] for resource in graph["resources"]] != list(kinds.values()):
+        fail("graph_resources")
+    for role, resource in zip(kinds, graph["resources"]):
+        if resource["anchor_basis"] != expected_basis(resource, catalog.index.kinds[resource["kind"]]["anchor_class"]):
+            fail("graph_anchor")
+        if resource["parent_kind"] is not None:
+            fail("graph_parent")
+        stated = {item.split(":")[0] for item in resource["evidence"]}
+        if not {"native_owner_token_stability", RESOURCE_STATEMENTS[role]} <= stated:
+            fail("graph_evidence")
+
+
+def check_graph_paths(graph, catalog):
+    """Section 15 item 3 and section 6.4: no relay while the exposure path is unobserved; a second view joins on a shared key or a declaration only."""
+    if graph["relayed"] != []:
+        fail("graph_relayed")
+    kind = catalog.role_kinds()["meter"]
+    meter = next(resource for resource in graph["resources"] if resource["kind"] == kind)
+    native = meter["anchor_basis"] == "native_identity"
+    join = {"kind": kind, "observations": TWO_VIEWS, "basis": "same_anchor_key" if native else "operator_declaration", "native_tokens": "equal" if native else "not_exposed"}
+    if graph["joins"] != [join]:
+        fail("graph_joins")
+
+
+def check_graph_relations(graph, catalog):
+    """Section 15 item 2, REL-3 and section 7.2: stated basis and rule scope, catalog endpoints, the gate's scope, no absence statement."""
+    if [(relation["definition"], relation["basis_class"], relation["validity_scope"]["rule_scope"]) for relation in graph["relations"]] != STATED_RELATIONS:
+        fail("graph_relations")
+    for relation in graph["relations"]:
+        definition = catalog.index.relations[relation["definition"]]
+        stated_scope = {key: relation["validity_scope"][key] for key in SCOPE}
+        if (relation["from_kind"], relation["to_kind"]) != (definition["from_kinds"][0], definition["to_kinds"][0]) or relation["absence_sides"] or stated_scope != SCOPE:
+            fail("graph_relations")
+
+
+def expected_aggregates(document, catalog):
+    """Section 15 item 4, EN-1 and EN-5: each prospective target the catalog calls an aggregate, on its catalog subject, without coverage."""
+    aggregates = []
+    for rule in document["field_rules"]:
+        for row in rule.get("prospective", []):
+            fact = catalog.fact(row["target"])
+            entry = {"fact": row["target"], "subject_kind": fact.get("subject", {}).get("kind"), "coverage": []}
+            if fact.get("aggregation") == "aggregate" and entry not in aggregates:
+                aggregates.append(entry)
+    return aggregates
+
+
+def expected_unstated(document, catalog):
+    """Section 7.2: an infrastructure relation the gate does not state stays unknown, never absent."""
+    stated = {relation["definition"] for relation in document["graph"]["relations"]}
+    rows = []
+    for name in catalog.pack_relations:
+        if name not in stated:
+            definition = catalog.index.relations[name]
+            rows.append({"definition": name, "from_kind": definition["from_kinds"][0], "to_kind": definition["to_kinds"][0], "outcome": UNSTATED_OUTCOME, "withheld_by": UNSTATED_BY.get(name)})
+    return rows
+
+
+def validate_graph(document, catalog):
+    """Section 15: this gate's own rules after the shared checker; no member decides a plane."""
+    graph = document["graph"]
+    check_graph_resources(graph, catalog)
+    check_graph_paths(graph, catalog)
+    check_graph_relations(graph, catalog)
+    if graph["aggregates"] != expected_aggregates(document, catalog):
+        fail("graph_aggregates")
+    if graph["selectors"] != SELECTORS:
+        fail("graph_selectors")
+    if document.get("unstated_relations") != expected_unstated(document, catalog):
+        fail("unstated_relations")
+
+
+def validate_contract(document, catalog=None):
+    catalog = element_catalog() if catalog is None else Catalog(catalog)
+    check_shared(document, catalog)
+    fields = pack_catalog()[0]
     if document.get("contract") != "helianthus.semantic.mapping.huawei-gateway-meter.infrastructure/v1" or document.get("mapping_id") != "infrastructure.mapping.huawei.gateway_meter" or document.get("pack") != PACK or document.get("status") != "accepted_withheld_mapping_gate_no_meter_decoded":
         fail("contract")
     if document.get("evidence") != EVIDENCE or not LOCAL_ASSESSMENT.is_file():
         fail("evidence")
     if document.get("admission") != ADMISSION:
         fail("admission")
-    role = document.get("role")
-    if role != ROLE:
-        fail("role")
-    for entry in ROLE["dimension_by_role"].values():
-        if entry["power"] != "withheld" and entry["power"] not in dimensions or entry["energy"] not in dimensions or (entry["relation"] != "none_decided" and entry["relation"] not in relations):
-            fail("role dimensions")
+    check_role(document, catalog)
     rules = document.get("field_rules", [])
     if [(rule.get("native_id"), rule.get("gateway_path")) for rule in rules] != INVENTORY:
         fail("native inventory")
@@ -182,10 +395,10 @@ def validate_contract(document):
         for row in rule.get("prospective", []):
             pack_field = fields.get(row.get("target"))
             native = row.get("native")
-            if row.get("in_force") is not False or pack_field is None or row.get("dimension") != pack_field["dimension"] or row.get("unit") != pack_field.get("unit") or not isinstance(native, dict):
+            if row.get("in_force") is not False or pack_field is None or row.get("dimension") != catalog.subject(row["target"]).get("dimension", {}).get("id") or row.get("unit") != pack_field.get("unit") or not isinstance(native, dict):
                 fail("prospective target")
-            if row["dimension"] == "infrastructure.dimension.grid_connection" and row.get("role") != "grid_connection":
-                fail("prospective role")
+            check_subject(row, catalog)
+            check_row_role(row, document, catalog)
             if row["target"].startswith("infrastructure.power.") and row.get("sign_reference") not in SIGN_REFERENCES:
                 fail("prospective sign")
             check_prospective_conversion(row)
@@ -211,6 +424,9 @@ def validate_contract(document):
         fail("projection")
     if document.get("consumer_cutover") != {"consumers": ["semantic_mcp", "graphql", "portal", "home_assistant"], "path": "shared_semantic_snapshot_only", "until_implemented": "no_public_consumer_binding"}:
         fail("consumer cutover")
+    for role in ROLE["values"]:
+        role_placement(document, role, catalog)
+    validate_graph(document, catalog)
     if contains_float(document):
         fail("binary floating point")
 
@@ -276,8 +492,8 @@ def project(case, contract):
     spec = contract["reasons"][PRIMARY_REASON]
     dispositions = [{"kind": "fact", "item_id": item["item_id"], "outcome": "withheld", "source_keys": [], "reason": PRIMARY_REASON,
                      "loss": [{"kind": spec["loss_kind"], "source_items": [NATIVE_PREFIX + "meter"], "description": spec["description"], "reversible": spec["reversible"]}]} for item in contract["projection"]["requested_items"]]
-    dimensions = contract["role"]["dimension_by_role"].get(declared) if declared else None
-    role = {"declared": declared, "keyed_to": {"source_id": source_id, "routed_unit": unit}, "dimension_if_admitted": copy.deepcopy(dimensions) if dimensions else "role_unknown_role_dependent_facts_not_published"}
+    dimensions = role_placement(contract, declared) if declared else "role_unknown_role_dependent_facts_not_published"
+    role = {"declared": declared, "keyed_to": {"source_id": source_id, "routed_unit": unit}, "dimension_if_admitted": dimensions}
     output = {"facts": [], "relations": [], "requested": copy.deepcopy(contract["projection"]["requested_items"]), "dispositions": dispositions, "native_dispositions": rows, "role": role, "operations": []}
     assert_complete(output, contract)
     return output
@@ -374,10 +590,24 @@ def expected_tables(contract):
     return withheld, prospective
 
 
+def graph_tables(contract):
+    """The page's role, resource, relation, unstated-relation and subject tables, as the gate states them."""
+    graph = contract["graph"]
+    placements = {role: role_placement(contract, role) for role in contract["role"]["values"]}
+    return {
+        "## Role and dimension": [[role, p["power"], p["energy"], p["relation"]] for role, p in placements.items()] + [["undeclared", "withheld", "withheld", "none"]],
+        "## Resources": [[r["kind"], r["anchor_class"], r["anchor_basis"], r["anchor_source"], r["parent_kind"] or "none"] for r in graph["resources"]],
+        "## Relations": [[r["definition"], r["basis_class"], r["from_kind"], r["to_kind"], r["validity_scope"]["rule_scope"]] for r in graph["relations"]],
+        "## Unknown, not absent": [[r["definition"], r["from_kind"], r["to_kind"], r["withheld_by"]] for r in contract["unstated_relations"]],
+        "## Subjects and measurement points": [[rule["native_id"], row["target"], row["subject_kind"], row["measurement_point"]] for rule in contract["field_rules"] for row in rule.get("prospective", [])],
+    }
+
+
 def check_document(contract, text):
     withheld, prospective = expected_tables(contract)
-    roles = [[role, entry["power"], entry["energy"], entry["relation"].replace("none_decided", "none decided")] for role, entry in contract["role"]["dimension_by_role"].items()] + [["undeclared", "withheld", "withheld", "none"]]
-    if table(text, "## Withheld items") != withheld or table(text, "## Prospective intake") != prospective or table(text, "## Role and dimension") != roles:
+    if table(text, "## Withheld items") != withheld or table(text, "## Prospective intake") != prospective:
+        fail("document tables")
+    if any(table(text, heading) != rows for heading, rows in graph_tables(contract).items()):
         fail("document tables")
     if [row[0] for row in table(text, "## Acceptance vectors")] != [scenario["id"] for scenario in contract["scenarios"]]:
         fail("document vectors")

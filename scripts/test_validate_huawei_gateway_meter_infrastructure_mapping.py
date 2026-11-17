@@ -79,8 +79,8 @@ def test_no_binary_floating_point():
     ("role-derived", lambda d: d["role"]["never_derived_from"].remove("sign_or_magnitude_of_a_power_value"), "role"),
     ("role-default", lambda d: set_path(d, "role.undeclared", "assume_grid_connection"), "role"),
     ("role-value-added", lambda d: d["role"]["values"].append("consumption"), "role"),
-    ("role-feeder-power", lambda d: set_path(d, "role.dimension_by_role.feeder.power", "infrastructure.dimension.grid_connection"), "role"),
-    ("role-energy-dimension", lambda d: set_path(d, "role.dimension_by_role.grid_connection.energy", "infrastructure.dimension.grid_connection"), "role"),
+    ("role-feeder-relation", lambda d: set_path(d, "role.relation_by_role.feeder", "infrastructure.relation.grid_connection_meter"), "role"),
+    ("role-grid-relation", lambda d: set_path(d, "role.relation_by_role.grid_connection", "infrastructure.relation.site_grid_connection"), "role"),
     ("native-item-dropped", lambda d: v.mutate(d, {"path": "field_rules.3", "remove": True}), "native inventory"),
     ("native-item-duplicated", lambda d: d["field_rules"].append(copy.deepcopy(d["field_rules"][0])), "native inventory"),
     ("native-item-added", lambda d: d["field_rules"].append({**copy.deepcopy(d["field_rules"][0]), "native_id": "meter_voltage_group"}), "native inventory"),
@@ -212,8 +212,8 @@ def test_an_exception_negates_nothing_and_publishes_no_value():
 
 @parametrize("declared,expected", [
     ("grid_connection", {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": "infrastructure.relation.grid_connection_meter"}),
-    ("feeder", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}),
-    ("circuit", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "none_decided"}),
+    ("feeder", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "unknown"}),
+    ("circuit", {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "unknown"}),
     (None, "role_unknown_role_dependent_facts_not_published"),
 ])
 def test_the_configured_role_selects_the_dimension_and_publishes_nothing(declared, expected):
@@ -419,7 +419,7 @@ def page():
     ("| I64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 |", "| I64, kWh, gain 100 | `unit.kilowatt_hour`, factor 1, offset 0 |"),
     ("| I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy |", "| I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | policy |"),
     ("| I32, W, gain 1 | `unit.watt`, factor 1, offset 0 |", "| I32, W, gain 1 | `unit.watt`, factor 1000, offset 0 |"),
-    ("| `feeder` | withheld | `infrastructure.dimension.meter` | none decided |", "| `feeder` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | none decided |"),
+    ("| `feeder` | withheld | `infrastructure.dimension.meter` | unknown |", "| `feeder` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | unknown |"),
     ("| `MTR-NEG-014-error-precedence` |", "| `MTR-NEG-099-other` |"),
     ("role is configuration", "role is derived"),
     ("no meter register is decoded", "a meter register is decoded"),
@@ -458,11 +458,10 @@ EARLIER_MEMBER = "relation" + "ships"
 EARLIER_ROLE_MEMBER = "relation" + "ship"
 
 
-@parametrize("role", ["grid_connection", "feeder", "circuit"])
-def test_role_dimensions_reject_the_earlier_relation_member(role):
+@parametrize("member", [EARLIER_ROLE_MEMBER + "_by_role", "dimension_by_role"])
+def test_the_role_member_rejects_earlier_spellings(member):
     document = contract()
-    entry = document["role"]["dimension_by_role"][role]
-    entry[EARLIER_ROLE_MEMBER] = entry.pop("relation")
+    document["role"][member] = document["role"].pop("relation_by_role")
     with raises(ValueError) as error:
         v.validate_contract(document)
     assert str(error.value) == "role"
@@ -485,6 +484,226 @@ def test_expected_outputs_reject_the_earlier_relation_members(scenario_id, membe
     with raises(ValueError) as error:
         v.validate_scenarios(document)
     assert str(error.value) == "scenario %s %s" % (member, scenario_id)
+
+
+GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(GRAPH_SPEC)
+GRAPH_SPEC.loader.exec_module(graph_rules)
+GRID_METER = "infrastructure.relation.grid_connection_meter"
+
+
+def graph_rejection(edits, catalog=None):
+    document = contract()
+    for op, path, value in edits:
+        if op == "append":
+            target = document
+            for part in path.split("."):
+                target = target[int(part)] if isinstance(target, list) else target[part]
+            target.append(copy.deepcopy(value))
+        elif op == "delete":
+            v.mutate(document, {"path": path, "remove": True})
+        else:
+            v.mutate(document, {"path": path, "value": copy.deepcopy(value)})
+    try:
+        v.validate_contract(document, catalog)
+    except ValueError as error:
+        return str(error)
+    return None
+
+
+def test_gate_states_its_graph_and_passes_the_shared_checker():
+    document = contract()
+    assert "graph" in document
+    assert graph_rules.check(document, graph_rules.load_catalog()) == []
+    assert not re.search(r'"planes?"', v.PATH.read_text(encoding="utf-8"))
+
+
+def test_the_meter_role_is_a_relation_instance_held_by_the_grid_connection():
+    document = contract()
+    graph = document["graph"]
+    assert [resource["kind"] for resource in graph["resources"]] == ["resource.site", "resource.grid_connection", "resource.meter"]
+    assert {resource["anchor_source"] for resource in graph["resources"]} == {"operator_label"}
+    role = graph["relations"][1]
+    assert (role["definition"], role["basis_class"], role["from_kind"], role["to_kind"]) == (GRID_METER, "configuration", "resource.grid_connection", "resource.meter")
+    assert all(relation["absence_sides"] == [] for relation in graph["relations"])
+    assert document["role"]["relation_by_role"] == {"grid_connection": GRID_METER, "feeder": "unknown", "circuit": "unknown"}
+    assert graph["relayed"] == [] and graph["aggregates"] == []
+
+
+def relation_record(definition, from_kind, to_kind, sides=()):
+    return {"definition": definition, "basis_class": "configuration", "from_kind": from_kind, "to_kind": to_kind, "evidence": ["synthetic:relation"],
+            "validity_scope": {"profile": "no_meter_class_contract", "version": "no_admitted_profile", "rule_scope": "synthetic"}, "absence_sides": list(sides)}
+
+
+GRID_POWER_AGGREGATE = {"fact": "infrastructure.power.import_active", "subject_kind": "resource.grid_connection", "coverage": []}
+GRID_RELAY = {"relaying_kind": "resource.grid_connection", "relayed_kind": "resource.meter", "direct_anchor_key_source": "none"}
+
+# (name, edits, expected error). Indices: resources site, grid connection, meter; relations site to grid connection,
+# grid connection to meter; selectors gateway path, profile identifier. Prospective rows: field rule 0 rows 0-2
+# (logger power and power factor), rule 1 rows 0-1 (logger energy), rule 4 rows 0-3 (inverter-exposed power and
+# energy), rule 5 rows 0-1 (dongle plant grid power).
+GRAPH_NEGATIVES = [
+    # EN-8: a meter role is an instance of the measures definition, held by the grid connection, with basis configuration.
+    ("role_without_relation_instance", [("delete", "graph.relations.1", None)], "role relation"),
+    ("role_relation_native_observation", [("set", "graph.relations.1.basis_class", "native_observation")], "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
+    ("role_relation_gate_rule", [("set", "graph.relations.1.basis_class", "gate_rule")], "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
+    ("role_relation_held_by_the_meter", [("set", "graph.relations.1.from_kind", "resource.meter"), ("set", "graph.relations.1.to_kind", "resource.grid_connection")],
+     "graph endpoint_kind_mismatch $.graph.relations[1].from_kind"),
+    ("role_relation_from_the_site", [("set", "graph.relations.1.from_kind", "resource.site")], "graph endpoint_kind_mismatch $.graph.relations[1].from_kind"),
+    ("role_relation_absence", [("set", "graph.relations.1.absence_sides", ["to"])], "graph_relations"),
+    ("grid_role_stated_unknown", [("set", "role.relation_by_role.grid_connection", "unknown")], "role"),
+    ("feeder_role_given_the_grid_relation", [("set", "role.relation_by_role.feeder", GRID_METER)], "role"),
+    ("feeder_role_given_a_supplies_relation", [("set", "role.relation_by_role.feeder", "infrastructure.relation.grid_connection_feeder")], "role"),
+    ("circuit_role_stated_absent", [("set", "role.relation_by_role.circuit", "absent")], "role"),
+    ("role_member_dropped", [("delete", "role.relation_by_role.circuit", None)], "role"),
+    ("earlier_dimension_member", [("set", "role.dimension_by_role", {"feeder": {"relation": "none_" + "decided"}})], "role"),
+    # Dangling endpoint: a feeder statement whose endpoint the gate does not publish.
+    ("dangling_feeder_absence", [("append", "graph.relations", relation_record("infrastructure.relation.grid_connection_feeder", "resource.grid_connection", "resource.feeder", ["to"]))],
+     "graph dangling_endpoint $.graph.relations[2].to_kind"),
+    ("dangling_feeder_circuit", [("append", "graph.relations", relation_record("infrastructure.relation.feeder_circuit", "resource.feeder", "resource.electrical_circuit"))],
+     "graph dangling_endpoint $.graph.relations[2].from_kind"),
+    ("dangling_site_dropped", [("delete", "graph.resources.0", None)], "graph dangling_endpoint $.graph.relations[0].from_kind"),
+    # EN-1: a power value is placed on the resource it is measured at, never on the device that reports it.
+    ("power_on_the_reporting_meter", [("set", "field_rules.0.prospective.0.subject_kind", "resource.meter"), ("set", "field_rules.0.prospective.0.measurement_point", "meter_register")], "field rule subject"),
+    ("power_on_the_reporting_gateway", [("set", "field_rules.5.prospective.0.subject_kind", "resource.equipment")], "field rule subject"),
+    ("power_on_the_inverter_child", [("set", "field_rules.4.prospective.1.subject_kind", "resource.inverter")], "field rule subject"),
+    ("power_factor_subject_missing", [("delete", "field_rules.0.prospective.2.subject_kind", None)], "field rule subject"),
+    ("energy_on_the_grid_connection", [("set", "field_rules.1.prospective.0.subject_kind", "resource.grid_connection"), ("set", "field_rules.1.prospective.0.measurement_point", "grid_connection_point")], "field rule subject"),
+    ("measurement_point_missing", [("delete", "field_rules.4.prospective.2.measurement_point", None)], "field rule subject"),
+    ("measurement_point_blank", [("set", "field_rules.1.prospective.1.measurement_point", "")], "field rule subject"),
+    ("measurement_point_moved", [("set", "field_rules.5.prospective.1.measurement_point", "meter_register")], "field rule subject"),
+    ("measurement_point_reporting_unit", [("set", "field_rules.4.prospective.0.measurement_point", "gateway_unit")], "field rule subject"),
+    ("energy_row_with_a_role", [("set", "field_rules.1.prospective.0.role", "grid_connection")], "prospective role"),
+    # Resources (section 15 item 1): kind, class, basis, source, scheme, parent and evidence each varied.
+    ("meter_kind_not_member", [("set", "graph.resources.2.kind", "resource.not_a_catalog_kind")], "graph kind_not_member $.graph.resources[2].kind"),
+    ("grid_connection_anchor_class", [("set", "graph.resources.1.anchor_class", "equipment")], "graph anchor_class_mismatch $.graph.resources[1].anchor_class"),
+    ("meter_anchored_on_routed_unit", [("set", "graph.resources.2.anchor_source", "routed_unit")], "graph anchor_source_not_allowed $.graph.resources[2].anchor_source"),
+    ("meter_anchored_on_address", [("set", "graph.resources.2.anchor_source", "network_address")], "graph anchor_source_not_allowed $.graph.resources[2].anchor_source"),
+    ("meter_anchored_on_position", [("set", "graph.resources.2.anchor_basis", "native_slot"), ("set", "graph.resources.2.anchor_source", "native_position")], "graph_anchor"),
+    ("site_basis_source_mismatch", [("set", "graph.resources.0.anchor_basis", "native_identity")], "graph anchor_basis_mismatch $.graph.resources[0].anchor_basis"),
+    ("meter_native_token_without_scheme", [("set", "graph.resources.2.anchor_basis", "native_identity"), ("set", "graph.resources.2.anchor_source", "native_token")],
+     "graph scheme_not_listed $.graph.resources[2].identification_scheme"),
+    ("meter_scheme_unlisted", [("set", "graph.resources.2.identification_scheme", {"id": "scheme.unlisted", "issuer_registry": "none"})], "graph scheme_not_listed $.graph.resources[2].identification_scheme"),
+    ("meter_parent_grid_connection", [("set", "graph.resources.2.parent_kind", "resource.grid_connection")], "graph_parent"),
+    ("grid_connection_parent_site", [("set", "graph.resources.1.parent_kind", "resource.site")], "graph_parent"),
+    ("meter_token_stability_unstated", [("delete", "graph.resources.2.evidence.2", None)], "graph_evidence"),
+    ("meter_native_contract_unstated", [("set", "graph.resources.2.evidence", ["native_owner_token_stability:unknown_until_a_meter_class_contract_states_an_identity_read"])], "graph_evidence"),
+    ("site_configuration_unstated", [("delete", "graph.resources.0.evidence.0", None)], "graph_evidence"),
+    ("grid_connection_token_stability_unstated", [("delete", "graph.resources.1.evidence.1", None)], "graph_evidence"),
+    ("meter_evidence_empty", [("set", "graph.resources.2.evidence", [])], "graph invalid_value $.graph.resources[2].evidence"),
+    ("feeder_resource_added", [("append", "graph.resources", {"kind": "resource.feeder", "anchor_class": "function", "anchor_basis": "operator_slot", "anchor_source": "operator_label",
+                                                              "identification_scheme": "none_listed", "parent_kind": None, "evidence": ["synthetic:feeder"]})], "graph_resources"),
+    # Relations (section 15 item 2): definition, basis class, endpoints, evidence, each scope member and absence sides.
+    ("site_relation_native_observation", [("set", "graph.relations.0.basis_class", "native_observation")], "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+    ("site_relation_reversed", [("set", "graph.relations.0.from_kind", "resource.grid_connection"), ("set", "graph.relations.0.to_kind", "resource.site")],
+     "graph endpoint_kind_mismatch $.graph.relations[0].from_kind"),
+    ("relation_not_member", [("set", "graph.relations.0.definition", "infrastructure.relation.invented")], "graph relation_not_member $.graph.relations[0].definition"),
+    ("relation_evidence_empty", [("set", "graph.relations.1.evidence", [])], "graph invalid_value $.graph.relations[1].evidence"),
+    ("scope_profile", [("set", "graph.relations.1.validity_scope.profile", "synthetic.other_profile")], "graph_relations"),
+    ("scope_version", [("set", "graph.relations.0.validity_scope.version", "1.0.0")], "graph_relations"),
+    ("scope_rule_blank", [("set", "graph.relations.1.validity_scope.rule_scope", "")], "graph invalid_value $.graph.relations[1].validity_scope.rule_scope"),
+    ("scope_rule_widened", [("set", "graph.relations.1.validity_scope.rule_scope", "every_meter_of_the_site")], "graph_relations"),
+    ("site_relation_dropped", [("delete", "graph.relations.0", None)], "graph_relations"),
+    # Joins (section 6.4): one meter seen through two paths joins by an operator declaration only.
+    ("meter_joined_by_name", [("set", "graph.joins.0.basis", "display_name")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("meter_joined_by_routed_unit", [("set", "graph.joins.0.basis", "routed_unit")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("meter_joined_over_differing_tokens", [("set", "graph.joins.0.native_tokens", "differ")], "graph false_join $.graph.joins[0].native_tokens"),
+    ("meter_joined_on_a_key_no_path_exposes", [("set", "graph.joins.0.basis", "same_anchor_key"), ("set", "graph.joins.0.native_tokens", "equal")], "graph_joins"),
+    ("meter_join_dropped", [("set", "graph.joins", [])], "graph_joins"),
+    ("meter_join_of_one_view", [("set", "graph.joins.0.observations", ["exposed_at_a_gateway_meter_unit"])], "graph invalid_value $.graph.joins[0].observations"),
+    ("join_of_the_grid_connection", [("set", "graph.joins.0.kind", "resource.grid_connection")], "graph_joins"),
+    # Relayed (section 15 item 3), aggregates (item 4, EN-5) and selectors (item 5).
+    ("relay_claimed_without_an_observed_path", [("set", "graph.relayed", [GRID_RELAY])], "graph_relayed"),
+    ("relay_by_an_unpublished_kind", [("set", "graph.relayed", [{**GRID_RELAY, "relaying_kind": "resource.equipment"}])], "graph kind_not_published $.graph.relayed[0].relaying_kind"),
+    ("member_as_aggregate", [("append", "graph.aggregates", GRID_POWER_AGGREGATE)], "graph not_an_aggregate $.graph.aggregates[0].fact"),
+    ("gateway_path_as_identity_evidence", [("set", "graph.selectors.0.classification", "identity_evidence")], "graph_selectors"),
+    ("profile_as_resource_attribute", [("set", "graph.selectors.1.classification", "resource_attribute")], "graph_selectors"),
+    ("selector_dropped", [("delete", "graph.selectors.1", None)], "graph_selectors"),
+    # Section 15 item 6 and PLN-1.
+    ("plane_on_resource", [("set", "graph.resources.2.planes", ["physical"])], "graph plane_membership_stated $.graph.resources[2].planes"),
+    ("plane_on_field_rule", [("set", "field_rules.0.planes", ["energy"])], "graph plane_membership_stated $.field_rules[0].planes"),
+    # Section 7.2: the infrastructure relations the gate does not state stay unknown, never absent.
+    ("unstated_dropped", [("delete", "unstated_relations.0", None)], "unstated_relations"),
+    ("unstated_absent", [("set", "unstated_relations.1.outcome", "absent")], "unstated_relations"),
+    ("unstated_endpoint", [("set", "unstated_relations.2.to_kind", "resource.electrical_circuit")], "unstated_relations"),
+    ("unstated_reason", [("set", "unstated_relations.0.withheld_by", "unsupported:breaker_state")], "unstated_relations"),
+]
+
+
+@parametrize("name,edits,expected", GRAPH_NEGATIVES)
+def test_graph_role_and_subject_negatives_are_rejected(name, edits, expected):
+    assert graph_rejection(edits) == expected, name
+
+
+def catalog_with(element_id, mutate_attributes):
+    catalog = copy.deepcopy(graph_rules.load_catalog())
+    for element in catalog["elements"]:
+        if element["ref"]["id"] == element_id:
+            mutate_attributes(element["attributes"])
+    return catalog
+
+
+def as_meter_measures(attributes):
+    attributes.update(core_type="measures", orientation="inverse", from_kinds=["resource.feeder"], to_kinds=["resource.meter"])
+
+
+# Constants that repeat a catalog fact are lookups: a changed catalog entry changes the outcome.
+@parametrize("element_id,mutate_attributes,expected", [
+    ("infrastructure.power.import_active", lambda a: a["subject"].update(kind="resource.meter"), "field rule subject"),
+    ("infrastructure.energy.export", lambda a: a["subject"].update(kind="resource.grid_connection"), "field rule subject"),
+    ("infrastructure.energy.import", lambda a: a["subject"]["dimension"].update(id="infrastructure.dimension.grid_connection"), "prospective target"),
+    ("infrastructure.dimension.meter", lambda a: a.update(resource_kind="resource.equipment"), "role"),
+    ("infrastructure.dimension.site", lambda a: a.update(resource_kind="resource.equipment"), "graph_resources"),
+    (GRID_METER, lambda a: a.update(basis_classes=["native_observation"]), "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
+    (GRID_METER, lambda a: a.update(from_kinds=["resource.site"]), "graph endpoint_kind_mismatch $.graph.relations[1].from_kind"),
+    (GRID_METER, lambda a: a.update(core_type="supplies"), "role"),
+    ("infrastructure.relation.grid_connection_feeder", as_meter_measures, "role"),
+    ("infrastructure.power.import_active", lambda a: a.update(aggregation="aggregate"), "graph_aggregates"),
+    ("infrastructure.relation.feeder_circuit", lambda a: a.update(from_kinds=["resource.grid_connection"]), "unstated_relations"),
+])
+def test_catalog_facts_are_looked_up_not_repeated(element_id, mutate_attributes, expected):
+    assert graph_rejection([], catalog_with(element_id, mutate_attributes)) == expected
+
+
+def test_a_role_relation_admitted_as_native_observation_is_still_configuration():
+    catalog = catalog_with(GRID_METER, lambda a: a.update(basis_classes=["configuration", "native_observation"]))
+    assert graph_rejection([], catalog) is None
+    assert graph_rejection([("set", "graph.relations.1.basis_class", "native_observation")], catalog) == "role relation"
+
+
+def test_each_prospective_row_names_its_catalog_subject_and_a_measurement_point():
+    catalog = graph_rules.load_catalog()
+    facts = {element["ref"]["id"]: element["attributes"] for element in catalog["elements"] if element["element_kind"] == "fact"}
+    rows = [(rule["native_id"], row) for rule in contract()["field_rules"] for row in rule.get("prospective", [])]
+    assert len(rows) == 11
+    for native_id, row in rows:
+        subject = facts[row["target"]]["subject"]
+        assert row["subject_kind"] == subject["kind"] and row["dimension"] == subject["dimension"]["id"], native_id
+        expected = "meter_register" if subject["kind"] == "resource.meter" else "grid_connection_point"
+        assert row["measurement_point"] == expected, native_id
+
+
+def test_the_role_placement_is_derived_from_the_catalog():
+    placement = v.role_placement(v.load(), "grid_connection")
+    assert placement == {"power": "infrastructure.dimension.grid_connection", "energy": "infrastructure.dimension.meter", "relation": GRID_METER}
+    for role in ("feeder", "circuit"):
+        assert v.role_placement(v.load(), role) == {"power": "withheld", "energy": "infrastructure.dimension.meter", "relation": "unknown"}
+
+
+@parametrize("old,new", [
+    ("| `resource.meter` | equipment | `operator_slot` | `operator_label` | none |", "| `resource.meter` | equipment | `native_slot` | `native_position` | none |"),
+    ("| `infrastructure.relation.grid_connection_meter` | `configuration` |", "| `infrastructure.relation.grid_connection_meter` | `native_observation` |"),
+    ("| `infrastructure.relation.feeder_circuit` | `resource.feeder` | `resource.electrical_circuit` |", "| `infrastructure.relation.feeder_circuit` | `resource.feeder` | `resource.phase` |"),
+    ("| `sdongle_plant_grid_power` | `infrastructure.power.import_active` | `resource.grid_connection` | `grid_connection_point` |",
+     "| `sdongle_plant_grid_power` | `infrastructure.power.import_active` | `resource.equipment` | `grid_connection_point` |"),
+    ("| `feeder` | withheld | `infrastructure.dimension.meter` | unknown |", "| `feeder` | withheld | `infrastructure.dimension.meter` | none decided |"),
+])
+def test_page_graph_tables_must_match_the_contract(old, new):
+    pattern = re.escape(old).replace(r"\ ", r"\s+")
+    mutated, count = re.subn(pattern, lambda _: new, page())
+    assert count >= 1
+    with raises(ValueError, match="document tables"):
+        v.check_document(v.load(), mutated)
 
 
 if __name__ == "__main__":

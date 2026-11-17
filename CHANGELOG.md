@@ -7,6 +7,25 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [gateway-meter gate](api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
+  of the hybrid inverter family states its resources, relations, join and
+  selectors under section 15 of the [graph contract](api/v1/graph.md) and
+  passes the shared graph rules. The site and the grid connection are
+  functions and the meter is equipment, each anchored by an operator label. A
+  meter's role is an instance of the grid-connection-to-meter `measures`
+  relation with basis class `configuration`, held by the grid connection's
+  home asset (EN-8), and the validator takes each role's relation from the
+  element catalog instead of its own constants. A role stated without its
+  instance, a role relation with a native-observation basis, a feeder relation
+  whose endpoint the gate does not publish and a join over differing tokens are
+  rejected. A feeder or circuit role has neither an instance nor an absence
+  statement, so its relation is unknown, not absent. Each prospective row
+  names its subject kind and measurement point (EN-1): power stays on the grid
+  connection it is measured at, never on the device that reports it, and the
+  energy counters stay on the meter. Nothing is published. Gateway follow-up:
+  the gateway's mapping-gate check for this family pins this repository; it
+  moves with the family's publication slice. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [LUNA2000 storage gate](api/v1/mappings/huawei-luna2000-storage-v1.md) of
   the hybrid inverter family states its resources, relations, relayed unit,
   join and selectors under section 15 of the
