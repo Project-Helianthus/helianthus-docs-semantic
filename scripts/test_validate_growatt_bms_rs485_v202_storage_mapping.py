@@ -95,7 +95,252 @@ def check_si_conversions():
     print('si-conversions-and-published-values: PASS')
 
 
+PACK_KIND = 'resource.battery_pack'
+ASSET_ID = m.load()['scenarios'][0]['identity']['asset_id']
+SCOPE = {'profile': 'synthetic', 'version': 'synthetic', 'rule_scope': 'synthetic'}
+
+
+def relation(definition, from_kind, to_kind, evidence):
+    return {'definition': definition, 'basis_class': 'gate_rule', 'from_kind': from_kind, 'to_kind': to_kind,
+            'evidence': evidence, 'validity_scope': dict(SCOPE), 'absence_sides': []}
+
+
+def cell_by_index(document):
+    """A cell resource and a module-to-cell relation keyed by the cell index, with no module published."""
+    graph = document['graph']
+    graph['resources'].append({'kind': 'resource.battery_cell', 'anchor_class': 'component', 'anchor_basis': 'native_slot',
+                               'anchor_source': 'native_position', 'identification_scheme': 'none_listed',
+                               'parent_kind': 'resource.battery_module', 'evidence': ['native_position:cell_index']})
+    graph['relations'].append(relation('storage.relation.module_cell', 'resource.battery_module', 'resource.battery_cell',
+                                       ['native_position:cell_index']))
+
+
+def collect(cases, run):
+    """Run every case; report each one accepted or rejected for another reason, so that a RED run lists them all."""
+    problems = []
+    for name, change, error in cases:
+        try:
+            run(change)
+        except (ValueError, KeyError, TypeError, IndexError) as e:
+            if error not in str(e):
+                problems.append(f'{name}: rejected as {e!r}, expected {error}')
+                continue
+        else:
+            problems.append(f'{name}: accepted')
+            continue
+        print(name + ': REJECTED')
+    if problems:
+        raise AssertionError('; '.join(problems))
+    return len(cases)
+
+
+def run_contract(change):
+    document = copy.deepcopy(m.load())
+    change(document)
+    m.validate_contract(document)
+
+
+def res(document):
+    return document['graph']['resources'][0]
+
+
+def join(document):
+    return document['graph']['joins'][0]
+
+
+def selector(document, name):
+    return next(s for s in document['graph']['selectors'] if s['selector'] == name)
+
+
+def row(document, name):
+    return next(r for r in document['unstated_relations'] if r['definition'] == name)
+
+
+def pack(document):
+    return document['identity']['resources']['pack']
+
+
+def ids(case):
+    return case['identity']
+
+
+def key(output):
+    return output['facts'][0]['key']
+
+
+def graph_member_cases():
+    """Section 15 items 1 to 6: every member of each graph entry varied, through the shared checker or the gate's own rules."""
+    return [
+        # Resource: kind, anchor class, anchor basis, anchor source, scheme, parent kind, evidence.
+        ('resource-kind', lambda d: res(d).update(kind='resource.battery'), 'kind_not_published'),
+        ('resource-kind-not-member', lambda d: res(d).update(kind='resource.storage_bank'), 'kind_not_member'),
+        ('resource-anchor-class', lambda d: res(d).update(anchor_class='function'), 'anchor_class_mismatch'),
+        ('resource-anchor-basis', lambda d: res(d).update(anchor_basis='native_identity'), 'anchor_basis_mismatch'),
+        ('resource-anchor-source-address', lambda d: res(d).update(anchor_source='unit_id'), 'anchor_source_not_allowed'),
+        ('resource-native-slot-for-equipment', lambda d: res(d).update(anchor_basis='native_slot', anchor_source='native_position'), 'graph_anchor'),
+        ('resource-scheme-not-listed', lambda d: res(d).update(identification_scheme={'id': 'scheme.pack_serial', 'issuer_registry': 'none'}), 'scheme_not_listed'),
+        ('resource-parent-kind', lambda d: res(d).update(parent_kind='resource.battery'), 'graph_parent'),
+        ('resource-token-stability-unstated', lambda d: res(d).update(evidence=[e for e in res(d)['evidence'] if not e.startswith('native_owner_token_stability:')]), 'graph_evidence'),
+        ('resource-future-token-unstated', lambda d: res(d).update(evidence=[e for e in res(d)['evidence'] if not e.startswith('future_native_token:')]), 'graph_evidence'),
+        ('resource-second-kind', lambda d: d['graph']['resources'].append(dict(res(d), kind='resource.battery')), 'graph_resources'),
+        # Relations: the named negative, a dangling battery endpoint, a stated relation the evidence does not support.
+        ('cell-relation-by-index-without-module', cell_by_index, 'dangling_endpoint $.graph.relations[0].from_kind'),
+        ('battery-pack-relation-without-battery', lambda d: d['graph']['relations'].append(relation('storage.relation.battery_pack', 'resource.battery', PACK_KIND, ['gate_rule:one_pack'])), 'dangling_endpoint $.graph.relations[0].from_kind'),
+        ('relation-not-supported-by-evidence', lambda d: d['graph']['relations'].append(dict(relation('relation.relays', PACK_KIND, PACK_KIND, ['gate_rule:x']), basis_class='configuration')), 'graph_relations'),
+        # Relayed values: the pack is read directly.
+        ('relayed-stated', lambda d: d['graph']['relayed'].append({'relaying_kind': PACK_KIND, 'relayed_kind': PACK_KIND, 'direct_anchor_key_source': 'none'}), 'graph_relayed'),
+        ('relayed-address-key', lambda d: d['graph']['relayed'].append({'relaying_kind': PACK_KIND, 'relayed_kind': PACK_KIND, 'direct_anchor_key_source': 'unit_id'}), 'anchor_source_not_allowed'),
+        # Two paths: kind, observations, basis, native tokens.
+        ('join-kind', lambda d: join(d).update(kind='resource.battery'), 'kind_not_published'),
+        ('join-observations', lambda d: join(d).update(observations=['read_directly_over_rs485', 'seen_by_label']), 'graph_joins'),
+        ('join-by-label', lambda d: join(d).update(basis='label'), 'join_basis_not_allowed'),
+        ('join-false-native-tokens', lambda d: join(d).update(native_tokens='differ'), 'false_join'),
+        ('join-native-tokens-equal-without-token', lambda d: join(d).update(native_tokens='equal'), 'graph_joins'),
+        ('join-removed', lambda d: d['graph'].update(joins=[]), 'graph_joins'),
+        # Aggregates: no fact of this gate is an aggregate.
+        ('aggregate-stated', lambda d: d['graph']['aggregates'].append({'fact': 'storage.pack.voltage', 'subject_kind': PACK_KIND, 'coverage': []}), 'not_an_aggregate'),
+        # Selectors: selector, classification, evidence; the address selector is never identity.
+        ('address-selector-as-identity', lambda d: selector(d, 'unit_id').update(classification='identity_evidence'), 'graph_selectors'),
+        ('address-selector-as-attribute', lambda d: selector(d, 'unit_id').update(classification='resource_attribute'), 'graph_selectors'),
+        ('selector-classification-unknown', lambda d: selector(d, 'revision').update(classification='address'), 'invalid_value'),
+        ('selector-renamed', lambda d: selector(d, 'profile').update(selector='profile_id'), 'graph_selectors'),
+        ('selector-evidence', lambda d: selector(d, 'unit_id').update(evidence=['synthetic:other']), 'graph_selectors'),
+        ('selector-removed', lambda d: d['graph'].update(selectors=[s for s in d['graph']['selectors'] if s['selector'] != 'unit_id']), 'graph_selectors'),
+        ('address-as-identity-evidence', lambda d: d['identity']['native_identity_evidence'].append('unit_id'), 'identity contract'),
+        ('revision-as-identity-evidence', lambda d: d['identity']['native_identity_evidence'].append('revision'), 'identity contract'),
+        # Section 15 item 6 and PLN-1: no plane membership anywhere in the gate.
+        ('plane-on-resource', lambda d: res(d).update(planes=['physical']), 'plane_membership_stated'),
+        ('plane-on-gate', lambda d: d.update(plane='physical'), 'plane_membership_stated'),
+        ('graph-not-stated', lambda d: d.pop('graph'), 'graph_not_stated'),
+        ('graph-member-missing', lambda d: d['graph'].pop('selectors'), 'missing_member'),
+    ]
+
+
+def unstated_cases():
+    """Section 7.2: each storage relation the gate does not state is unknown, never absent, with what withholds it."""
+    return [
+        ('unstated-row-removed', lambda d: d['unstated_relations'].pop(), 'unstated_relations'),
+        ('unstated-definition', lambda d: row(d, 'storage.relation.pack_module').update(definition='storage.relation.pack_modules'), 'unstated_relations'),
+        ('unstated-from-kind', lambda d: row(d, 'storage.relation.module_cell').update(from_kind=PACK_KIND), 'unstated_relations'),
+        ('unstated-to-kind', lambda d: row(d, 'storage.relation.module_cell').update(to_kind='resource.battery_module'), 'unstated_relations'),
+        ('unstated-absent', lambda d: row(d, 'storage.relation.pack_string').update(outcome='absent'), 'unstated_relations'),
+        ('unstated-withheld-by', lambda d: row(d, 'storage.relation.pack_interface').update(withheld_by='unsupported:not_in_the_list'), 'unstated_relations'),
+        ('unstated-system-battery', lambda d: row(d, 'storage.relation.system_battery').update(withheld_by='gate_rule:none'), 'unstated_relations'),
+    ]
+
+
+def subject_cases():
+    """EN-1: each field rule names its catalog subject kind and its measurement point."""
+    cases = []
+    for target, index in RULE.items():
+        cases.append((f'subject-kind-{target}', lambda d, i=index: d['field_rules'][i].update(subject_kind='resource.battery'), 'field rule subject'))
+        cases.append((f'measurement-point-{target}', lambda d, i=index: d['field_rules'][i].update(measurement_point='reporting_device'), 'field rule subject'))
+        cases.append((f'subject-missing-{target}', lambda d, i=index: d['field_rules'][i].pop('subject_kind'), 'field rule subject'))
+    # EN-4: the catalog keeps the native sign convention of pack current, so the rule keeps it as a provenance loss.
+    cases.append(('sign-convention-dropped', lambda d: d['field_rules'][RULE['storage.pack.current']]['disposition']['loss'][0].update(kind='policy'), 'field rule sign'))
+    return cases
+
+
+def resource_identity_cases():
+    """Section 6.3: the pack's ResourceID is gateway-allocated per its pack dimension; each member varied."""
+    return [
+        ('pack-role-dimension', lambda d: pack(d).update(dimension='storage.dimension.battery'), 'identity contract'),
+        ('pack-role-source-asset', lambda d: pack(d).update(source='gateway_configured_semantic_asset_id'), 'identity contract'),
+        ('pack-role-not-required', lambda d: pack(d).update(required=False), 'identity contract'),
+        ('pack-role-extra-member', lambda d: pack(d).update(kind=PACK_KIND), 'identity contract'),
+        ('pack-role-missing', lambda d: d['identity'].pop('resources'), 'identity contract'),
+        ('cell-role-without-fact', lambda d: d['identity']['resources'].update(cells={'dimension': 'storage.dimension.cell', 'source': 'gateway_allocated_resource_id', 'required': True}), 'identity contract'),
+    ]
+
+
+def run_case(change):
+    contract = m.load()
+    case = copy.deepcopy(contract['scenarios'][0])
+    for key in ('expect', 'id', 'polarity'):
+        case.pop(key)
+    change(case)
+    m.project(case, contract)
+
+
+def observation_cases():
+    """RES-5 and REL-8: the pack dimension carries the pack's ResourceID, never the asset, source or binding identifier."""
+    return [
+        ('asset-id-as-pack-dimension-value', lambda c: ids(c)['resources'].update(pack=ids(c)['asset_id']), 'identity_missing_or_invalid'),
+        ('source-id-as-pack-dimension-value', lambda c: ids(c)['resources'].update(pack=c['source']['source_id']), 'identity_missing_or_invalid'),
+        ('binding-id-as-pack-dimension-value', lambda c: ids(c)['resources'].update(pack=ids(c)['binding_id']), 'identity_missing_or_invalid'),
+        ('pack-resource-missing', lambda c: ids(c)['resources'].pop('pack'), 'identity_missing_or_invalid'),
+        ('pack-resources-missing', lambda c: ids(c).pop('resources'), 'identity_missing_or_invalid'),
+        ('pack-resource-invalid', lambda c: ids(c)['resources'].update(pack='!'), 'identity_missing_or_invalid'),
+        ('pack-resource-number', lambda c: ids(c)['resources'].update(pack=7), 'identity_missing_or_invalid'),
+        ('pack-resource-extra-role', lambda c: ids(c)['resources'].update(cell='resource:demo-cell-1'), 'identity_missing_or_invalid'),
+    ]
+
+
+def run_document(change):
+    contract = m.load()
+    change(contract['scenarios'][0]['expect']['output'])
+    m.document(contract)
+
+
+def fact_key_cases():
+    """Every member of the published fact key varied in the expected output; each drift is a scenario output mismatch."""
+    return [
+        ('key-pack-id', lambda o: key(o).update(pack_id='helianthus.pack.other'), 'scenario output'),
+        ('key-pack-version', lambda o: key(o).update(pack_version='1.0.0'), 'scenario output'),
+        ('key-fact-id', lambda o: key(o).update(fact_id='storage.pack.power'), 'scenario output'),
+        ('key-dimension-id', lambda o: key(o)['dimensions'][0].update(id='storage.dimension.battery'), 'scenario output'),
+        ('key-dimension-value-asset-id', lambda o: key(o)['dimensions'][0]['value'].update(text=ASSET_ID), 'scenario output'),
+        ('key-dimension-value-kind', lambda o: key(o)['dimensions'][0]['value'].update(kind='resource'), 'scenario output'),
+        ('key-second-dimension', lambda o: key(o)['dimensions'].append({'id': 'storage.dimension.cell', 'value': {'kind': 'text', 'text': 'resource:demo-cell-1'}}), 'scenario output'),
+        ('disposition-source-key', lambda o: o['dispositions'][0]['source_keys'][0]['dimensions'][0]['value'].update(text=ASSET_ID), 'scenario output'),
+    ]
+
+
+def check_published_subjects():
+    """Each published key's resource dimension is its fact's catalog subject dimension, valued by the pack's ResourceID."""
+    catalog = {e['ref']['id']: e['attributes'] for e in m.graph_rules.load_catalog()['elements'] if e['element_kind'] == 'fact'}
+    contract = m.load()
+    baseline = contract['scenarios'][0]
+    pack = baseline['identity']['resources']['pack']
+    if pack in (baseline['identity']['asset_id'], baseline['identity']['binding_id'], baseline['source']['source_id']):
+        raise AssertionError('the pack ResourceID repeats another identifier')
+    case = copy.deepcopy(baseline)
+    for member in ('expect', 'id', 'polarity'):
+        case.pop(member)
+    projected = m.project(case, contract)
+    m.document(contract)
+    for output in (baseline['expect']['output'], projected):
+        keys = [fact['key'] for fact in output['facts']] + [k for d in output['dispositions'] for k in d['source_keys']]
+        for fact_key in keys:
+            dimension = catalog[fact_key['fact_id']]['subject']['dimension']['id']
+            if fact_key['dimensions'] != [{'id': dimension, 'value': {'kind': 'text', 'text': pack}}]:
+                raise AssertionError(fact_key['fact_id'] + ' key is not its catalog subject with the pack ResourceID')
+    print('published-subjects: PASS')
+
+
+def check_relation_dispositions():
+    """Each relation definition of the storage pack is stated in the graph or in the unknown statements, exactly once."""
+    pack = m.load()['pack']
+    names = sorted(e['ref']['id'] for e in m.graph_rules.load_catalog()['elements']
+                   if e['element_kind'] == 'relation' and e.get('disposition') == 'member' and e['ref']['owner'].get('pack') == pack)
+    contract = m.load()
+    stated = [r['definition'] for r in contract['graph']['relations']] + [r['definition'] for r in contract['unstated_relations']]
+    if sorted(stated) != names or len(names) != 6:
+        raise AssertionError('storage relation definitions are not each disposed once')
+    print('relation-dispositions: PASS')
+
+
+def check_graph():
+    total = collect(graph_member_cases() + unstated_cases() + subject_cases() + resource_identity_cases(), run_contract)
+    total += collect(observation_cases(), run_case)
+    total += collect(fact_key_cases(), run_document)
+    check_published_subjects()
+    check_relation_dispositions()
+    return total
+
+
 def main():
+ graph_total = check_graph()
  check_si_conversions()
  soc,temperature,voltage,charge=RULE['storage.state.soc'],RULE['storage.temperature.pack'],RULE['storage.pack.voltage'],RULE['storage.capacity.charge']
  conversion_cases=[
@@ -136,5 +381,5 @@ def main():
   if str(error)!='scenario output': raise AssertionError(error)
  else: raise AssertionError('scenario output drift accepted')
  print('scenario-output-drift: REJECTED')
- print('baseline: PASS; %d focused mutations rejected'%(len(cases)+1+len(conversion_cases)))
+ print('baseline: PASS; %d focused mutations rejected'%(len(cases)+1+len(conversion_cases)+graph_total))
 if __name__=='__main__': main()

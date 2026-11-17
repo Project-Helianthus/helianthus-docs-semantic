@@ -87,8 +87,6 @@
       ]
     },
     "native_identity_evidence": [
-      "revision",
-      "unit_id",
       "mcu_software_version",
       "gauge_version",
       "bms_company",
@@ -108,8 +106,117 @@
         "source_id",
         "profile"
       ]
+    },
+    "resources": {
+      "pack": {
+        "dimension": "storage.dimension.pack",
+        "source": "gateway_allocated_resource_id",
+        "required": true
+      }
     }
   },
+  "graph": {
+    "resources": [
+      {
+        "kind": "resource.battery_pack",
+        "anchor_class": "equipment",
+        "anchor_basis": "operator_slot",
+        "anchor_source": "operator_label",
+        "identification_scheme": "none_listed",
+        "parent_kind": null,
+        "evidence": [
+          "catalog_subject:storage.dimension.pack",
+          "future_native_token:none_until_the_native_owner_documents_a_stable_pack_token",
+          "native_owner_token_stability:unknown_until_the_native_owner_states_it",
+          "identification_scheme:none_listed_for_family"
+        ]
+      }
+    ],
+    "relations": [],
+    "relayed": [],
+    "joins": [
+      {
+        "kind": "resource.battery_pack",
+        "observations": [
+          "read_directly_over_rs485",
+          "seen_through_another_path"
+        ],
+        "basis": "operator_declaration",
+        "native_tokens": "not_exposed"
+      }
+    ],
+    "aggregates": [],
+    "selectors": [
+      {
+        "selector": "profile",
+        "classification": "provenance",
+        "evidence": [
+          "native_contract:profile",
+          "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"
+        ]
+      },
+      {
+        "selector": "revision",
+        "classification": "provenance",
+        "evidence": [
+          "native_contract:revision",
+          "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"
+        ]
+      },
+      {
+        "selector": "unit_id",
+        "classification": "provenance",
+        "evidence": [
+          "native_contract:unit",
+          "graph:6.3:a_routed_unit_number_is_never_an_anchor"
+        ]
+      }
+    ]
+  },
+  "unstated_relations": [
+    {
+      "definition": "storage.relation.battery_pack",
+      "from_kind": "resource.battery",
+      "to_kind": "resource.battery_pack",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "unsupported:repeated_pack_identity"
+    },
+    {
+      "definition": "storage.relation.module_cell",
+      "from_kind": "resource.battery_module",
+      "to_kind": "resource.battery_cell",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "unsupported:pack_module_cell_string_topology"
+    },
+    {
+      "definition": "storage.relation.pack_interface",
+      "from_kind": "resource.battery_pack",
+      "to_kind": "resource.storage_interface",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "unsupported:charge_discharge_limits"
+    },
+    {
+      "definition": "storage.relation.pack_module",
+      "from_kind": "resource.battery_pack",
+      "to_kind": "resource.battery_module",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "unsupported:pack_module_cell_string_topology"
+    },
+    {
+      "definition": "storage.relation.pack_string",
+      "from_kind": "resource.battery_pack",
+      "to_kind": "resource.battery_string",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "unsupported:pack_module_cell_string_topology"
+    },
+    {
+      "definition": "storage.relation.system_battery",
+      "from_kind": "resource.storage_system",
+      "to_kind": "resource.battery",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "configuration:no_storage_system_declared_by_this_gate"
+    }
+  ],
   "lifecycle": {
     "required_observation_evidence": [
       "observation_id",
@@ -141,6 +248,8 @@
         "item_id": "storage.status.operating"
       },
       "target": "storage.status.operating",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_as_a_whole",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -163,6 +272,8 @@
         "item_id": "storage.state.soc"
       },
       "target": "storage.state.soc",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_as_a_whole",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -196,6 +307,8 @@
         "item_id": "storage.pack.voltage"
       },
       "target": "storage.pack.voltage",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_terminals",
       "disposition": {
         "outcome": "exact",
         "loss": []
@@ -220,6 +333,8 @@
         "item_id": "storage.pack.current"
       },
       "target": "storage.pack.current",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_terminals",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -253,6 +368,8 @@
         "item_id": "storage.temperature.pack"
       },
       "target": "storage.temperature.pack",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_as_a_whole",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -286,6 +403,8 @@
         "item_id": "storage.capacity.charge"
       },
       "target": "storage.capacity.charge",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_terminals_lifetime_counter",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -319,6 +438,8 @@
         "item_id": "storage.capacity.discharge"
       },
       "target": "storage.capacity.discharge",
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_terminals_lifetime_counter",
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -579,7 +700,10 @@
       },
       "identity": {
         "asset_id": "asset:demo-growatt-storage-a",
-        "binding_id": "binding:semantic-storage:demo-growatt-a"
+        "binding_id": "binding:semantic-storage:demo-growatt-a",
+        "resources": {
+          "pack": "resource:demo-pack-a"
+        }
       },
       "source": {
         "source_id": "source:gateway-growatt-bms-a"
@@ -612,7 +736,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -646,7 +770,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -680,7 +804,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -714,7 +838,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -748,7 +872,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -782,7 +906,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -814,7 +938,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -884,7 +1008,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -915,7 +1039,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -946,7 +1070,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -977,7 +1101,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -999,7 +1123,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1030,7 +1154,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1061,7 +1185,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1218,6 +1342,19 @@
       }
     },
     {
+      "id": "negative-asset-id-as-pack-resource",
+      "polarity": "negative",
+      "mutations": [
+        {
+          "path": "identity.resources.pack",
+          "value": "asset:demo-growatt-storage-a"
+        }
+      ],
+      "expect": {
+        "error": "identity_missing_or_invalid"
+      }
+    },
+    {
       "id": "partial-soft-starting-withheld",
       "polarity": "negative",
       "mutations": [
@@ -1277,7 +1414,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1311,7 +1448,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1345,7 +1482,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1379,7 +1516,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1413,7 +1550,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1447,7 +1584,7 @@
                     "id": "storage.dimension.pack",
                     "value": {
                       "kind": "text",
-                      "text": "asset:demo-growatt-storage-a"
+                      "text": "resource:demo-pack-a"
                     }
                   }
                 ]
@@ -1517,7 +1654,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1548,7 +1685,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1579,7 +1716,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1610,7 +1747,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1632,7 +1769,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]
@@ -1671,7 +1808,7 @@
                       "id": "storage.dimension.pack",
                       "value": {
                         "kind": "text",
-                        "text": "asset:demo-growatt-storage-a"
+                        "text": "resource:demo-pack-a"
                       }
                     }
                   ]

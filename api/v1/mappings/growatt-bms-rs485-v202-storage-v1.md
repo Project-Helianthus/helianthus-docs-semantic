@@ -51,6 +51,85 @@ topology, and cell-series evidence remain coherent native provenance. This
 mapping may qualify its offline projection while physical qualification remains
 false; it grants no device support claim or operation.
 
+## Resources
+
+The gate states what section 15 of the [graph contract](../graph.md) asks of
+a mapping gate, and its validator runs the shared graph rules before its own.
+
+This is section 15 item 1. Every fact the gate maps has the battery pack as
+its subject in the [element catalog](../element-catalog-v1.json), so the pack
+is the only resource kind it publishes. The catalog lists no identification
+scheme for this low-voltage BMS family, so an operator label anchors the
+pack. No pack token is read, so none is recorded as a future native token. A
+pack serial becomes one only when the native owner documents it as stable;
+until then its stability is Unknown.
+
+| Kind | Anchor class | Basis | Anchor source | Scheme | Parent kind |
+| --- | --- | --- | --- | --- | --- |
+| `resource.battery_pack` | equipment | `operator_slot` | `operator_label` | none listed | none |
+
+No battery, module, cell, string, interface or storage system is published,
+because the gate maps no fact about any of them. In every fact key, the value
+of the pack dimension is the gateway-allocated resource identifier of the pack
+(RES-5). It is never the asset, source or binding identifier. A key that
+carries one of them, or no pack identifier, fails closed as
+`identity_missing_or_invalid`.
+
+## Relations
+
+This is section 15 item 2. One unit reports the values of one pack. It states
+neither the battery the pack belongs to nor its modules, cells, strings or
+interfaces, so the gate's evidence supports no relation. The gate states none
+and makes no absence statement. A relation record whose endpoint the gate does
+not publish is rejected as a dangling endpoint (REL-8). An example is a
+module-to-cell relation keyed by a cell index with no published module. An
+ordinal position is never a basis (section 7.2).
+
+Section 7.2: when neither an instance nor an absence statement exists, a
+relation is unknown, not absent. Every Storage relation stays unknown here.
+
+| Definition | From kind | To kind | Withheld by |
+| --- | --- | --- | --- |
+| `storage.relation.battery_pack` | `resource.battery` | `resource.battery_pack` | `unsupported:repeated_pack_identity` |
+| `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `unsupported:pack_module_cell_string_topology` |
+| `storage.relation.pack_interface` | `resource.battery_pack` | `resource.storage_interface` | `unsupported:charge_discharge_limits` |
+| `storage.relation.pack_module` | `resource.battery_pack` | `resource.battery_module` | `unsupported:pack_module_cell_string_topology` |
+| `storage.relation.pack_string` | `resource.battery_pack` | `resource.battery_string` | `unsupported:pack_module_cell_string_topology` |
+| `storage.relation.system_battery` | `resource.storage_system` | `resource.battery` | `configuration:no_storage_system_declared_by_this_gate` |
+
+Relayed values follow section 15 item 3. The pack is read directly over RS-485
+and no unit relays it. A second view of the same pack through another path
+shares no native token with this one. The two are one resource only by an
+operator declaration that gives both one slot (section 6.4). A join by a label,
+a position or an ordinal is rejected, and so is a join of views whose native
+tokens differ.
+
+Aggregates follow section 15 item 4 and EN-5. Every mapped fact is a member
+fact or a status of the pack in the catalog, so the gate states no aggregate.
+Selectors follow section 15 item 5. The interpretation selectors are the
+profile, the native revision tuple and the routed unit number, and all three
+are provenance. The routed unit number is an address. It is never an anchor,
+never identity evidence and never a resource dimension (section 6.3). The gate
+states no plane membership (section 15 item 6, PLN-1).
+
+## Subjects and measurement points
+
+Under EN-1 each field rule names its subject kind and its measurement point.
+The validator looks the subject kind up in the element catalog and does not
+repeat it. The measurement points are a Hypothesis of this gate. The catalog
+keeps the native sign convention of pack current, and the rule keeps it as a
+`provenance` loss (EN-4).
+
+| Storage fact | Subject kind | Measurement point |
+| --- | --- | --- |
+| `storage.status.operating` | `resource.battery_pack` | `pack_as_a_whole` |
+| `storage.state.soc` | `resource.battery_pack` | `pack_as_a_whole` |
+| `storage.pack.voltage` | `resource.battery_pack` | `pack_terminals` |
+| `storage.pack.current` | `resource.battery_pack` | `pack_terminals` |
+| `storage.temperature.pack` | `resource.battery_pack` | `pack_as_a_whole` |
+| `storage.capacity.charge` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
+| `storage.capacity.discharge` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
+
 ## Mapping and loss
 
 The JSON contract fixes every exact, transformed, native-only, and withheld
@@ -89,5 +168,6 @@ legacy semantic path and remove fallback, comparator, compatibility-only, and
 dual-publication paths. Until then this gate publishes no consumer binding.
 
 Run `python3 scripts/validate_growatt_bms_rs485_v202_storage_mapping.py`,
-`python3 scripts/test_validate_growatt_bms_rs485_v202_storage_mapping.py`, and
-`./scripts/check_docs.sh`.
+`python3 scripts/test_validate_growatt_bms_rs485_v202_storage_mapping.py`,
+`python3 scripts/mapping_gate_graph_rules.py api/v1/mappings/growatt-bms-rs485-v202-storage-v1.json`,
+and `./scripts/check_docs.sh`.
