@@ -212,6 +212,50 @@ into normative mappings.
 Matter draft and eeBUS source gaps stay explicit. Affected mappings cannot
 become normative merely because the kernel v1 types can represent them.
 
+## Unit rule
+
+Canonical units in the semantic registry are SI. A customary unit appears only
+at display, in a consumer, and display conversion belongs to each consumer.
+This rule is decided by the project owner. A pack field never declares a
+customary or prefixed unit, and each pack validator checks the units of its
+fields against the list below.
+
+The strict reading of the rule is a working reading, not yet confirmed by the
+project owner:
+
+- kelvin (`unit.kelvin`) for temperature points and temperature differences;
+- a ratio from 0 to 1 (`unit.ratio`) for a dimensionless quantity;
+- cubic metre per second (`unit.cubic_metre_per_second`) for volume flow,
+  pascal (`unit.pascal`) for pressure, reciprocal second
+  (`unit.reciprocal_second`) for rotational speed, watt (`unit.watt`) for power
+  and joule (`unit.joule`) for energy;
+- hertz, volt, ampere, volt-ampere and var (`unit.hertz`, `unit.volt`,
+  `unit.ampere`, `unit.volt_ampere`, `unit.volt_ampere_reactive`) unchanged.
+
+Two parts are decided by the project owner: ampere-hour (`unit.ampere_hour`)
+is kept as it is, and percent becomes a ratio from 0 to 1.
+
+These conversions are exact: kelvin is degree Celsius plus 273.15 (a
+temperature difference takes the factor 1 and no offset), a ratio is percent
+divided by 100, joule is kilowatt-hour times 3 600 000, and pascal is bar
+times 100 000. A mapping gate states each conversion as an exact factor and
+offset for its pair of native unit and canonical unit, so that the canonical
+value is the native value times the factor plus the offset. A conversion whose
+factor is not 1 or whose offset is not 0 declares a `unit` loss, and the native
+value and unit stay in the evidence. Where a factor does not terminate in
+decimal (litre per minute divided by 60 000 to cubic metre per second, or
+revolutions per minute divided by 60 to reciprocal second), the mapping gate
+rounds half to even to a declared number of decimal places. The number of
+places is chosen so that converting back and rounding to the native step
+returns the native value.
+
+The PV, EVSE and infrastructure packs and the
+[PV](v1/mappings/huawei-sun2000-pv-v1.md) and
+[gateway-meter](v1/mappings/huawei-gateway-meter-infrastructure-v1.md) gates
+follow the rule. The thermal pack, the storage pack and the storage gates
+still declare customary units until their own in-place slices move them. The
+element catalog has no unit member.
+
 ## Version rule
 
 An accepted API lives in an explicit versioned directory and states its status,
@@ -238,6 +282,7 @@ Each in-place change made under the exception of the version rule before the
 | 2026-11-15 | The anchor of a native identity carries its scheme: a resource anchor with basis `native_identity` carries the member `scheme`, the identifier of a listed identification scheme equal to the `scheme` of the identity object its key digests, while issuer and token stay inside the digest; an anchor of another basis carries none. Rule RES-2 checks it ([graph.md](v1/graph.md), resource and identity sections; RES-2). | The bytes of `api/v1/graph-acceptance-vectors.json` (every `native_identity` anchor gains `scheme`; vectors G-NEG-ID-8 and G-NEG-ID-9 added). Its copies and digests in the typed kernel follow in the kernel's vector slice. |
 | 2026-11-17 | The EVSE current-limit gate [tesla-gen3-wc3-24443-evse-current-limit-v1.json](v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.json) states its resources and relations in place under section 15 of [graph.md](v1/graph.md): a `graph` member names the charging station, EVSE and connector, each anchored by an operator label, and the station-to-EVSE and EVSE-to-connector relations with basis class `configuration`; `unstated_relations` records the connector-to-phase, connector-to-session and EVSE-to-meter relations as unknown, not absent. The identity values become gateway-allocated resource identifiers that name their pack dimension, and each field rule names its subject kind and measurement point (EN-1). No version is raised. | The gate JSON: `identity` (sources, the member `dimension`, three more forbidden derivations), `field_rules` (members `subject_kind` and `measurement_point`; source, target, dimension, unit and disposition unchanged), and the new members `graph` and `unstated_relations`; its page. In `scripts/validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py` the identity and field-rule constants move in place (subject kind and dimension are looked up in the element catalog) and graph constants are added; `scripts/test_validate_tesla_gen3_wc3_24443_evse_current_limit_mapping.py` gains the graph, identity and subject negatives. The gateway's mapping-gate check for this family pins this repository and follows in the family's gateway publication slice. |
 | 2026-11-17 | The [Matter 1.6.1 roster](v1/targets/matter-1.6.1-v1.json) is derived in place from the [element catalog](v1/element-catalog-v1.json): it gains one row for each of the 29 services and 21 relation definitions of the five packs (177 rows in all), and the scope names the five requested kinds. The 127 existing rows keep their dispositions. The five electrical `measures` and `supplies` definitions are `withheld` against the Power Topology construct (equivalence Hypothesis; no endpoint is allocated), the other relation definitions are `unknown`, and services are `unsupported` because a service is not a kernel-v1 requested item; each declares an irreversible identity loss. The positive phase-qualified current row cites `evse.relation.connector_phase` in the member `relations` with reason `matter.phase_association_by_relation.v1` instead of declaring an identity loss. No version is raised. | The bytes and digest of `api/v1/targets/matter-1.6.1-v1.json` (`scope`, the new rows, the positive row's reason, loss and `relations`); `tests/test_matter161_target.py` derives its expected rows from the element catalog instead of pinned counts. The gateway's Matter projection pins the descriptor path and digest; that pin moves in the same in-place wave as helianthus-matter-binding#116. The historical Matter 1.7 ledger and its validator are unchanged. |
+| 2026-11-17 | The [unit rule](#unit-rule) is stated: canonical units are SI, a customary unit appears only at display in a consumer, and its strict reading is a working reading. The PV, EVSE and infrastructure packs move to it in place: `pv.energy.generated`, `evse.energy.session`, `evse.energy.lifetime`, `infrastructure.energy.import` and `infrastructure.energy.export` in `unit.joule`, and `pv.temperature.inverter` in `unit.kelvin`, with bounds converted exactly. The PV and gateway-meter gates state each conversion as an exact factor and offset with a `unit` loss when it is not the identity. No version is raised; `unit.volt_ampere`, `unit.volt_ampere_reactive`, the thermal and storage packs and their gates, the EVSE current-limit gate, the relation definitions, the element catalog and both Matter rosters are unchanged. | The PV, EVSE and infrastructure pack vectors: each energy field from `unit.kilowatt_hour` with bounds 0 to 10^12 to `unit.joule` with bounds 0 to 3.6 x 10^18, and the PV inverter temperature from `unit.celsius` with bounds -50 to 200 to `unit.kelvin` with bounds 223.15 to 473.15; the field contracts of their three validators, which gain the SI unit set `CANONICAL_UNITS` and reject any other field unit; SemReg's byte copies and pins of these vectors follow. The PV, EVSE and infrastructure records of `api/v1/pack-metadata-v1.json` (SemReg's metadata registry test follows) and the matching unit names of `architecture/naming-contract.json`. The PV gate JSON: every quantity rule replaces its decimal shift member by `conversion` (factor and offset), the status rule carries none, the energy rule names `unit.joule` with factor 3 600 000 and a `unit` loss before its `policy` loss, and the expected outputs publish joule. The gateway-meter gate JSON: every prospective row gains `conversion` and `loss`, and the energy rows name `unit.joule`. In both gate validators the decimal-shift table becomes `UNIT_CONVERSION` from (native unit, canonical unit) to factor and offset; their pages gain the SI unit and conversion column. The documentation revision that the gateway's gate scripts pin follows in the gateway. |
 
 ## Matter 1.6.1 target
 

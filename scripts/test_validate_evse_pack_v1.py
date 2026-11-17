@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +17,53 @@ sys.modules[SPEC.name] = validator
 SPEC.loader.exec_module(validator)
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER = "relation" + "ships"
+# The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
+SI_UNITS = {"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
+            "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
+            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"}
+# Each field the rule moved: SI unit, customary bounds before the move, exact factor and offset.
+CONVERTED = {
+    "evse.energy.session": ("unit.joule", ("0", 0), ("1", 12), Fraction(3600000), Fraction(0)),
+    "evse.energy.lifetime": ("unit.joule", ("0", 0), ("1", 12), Fraction(3600000), Fraction(0)),
+}
+# Customary and prefixed units that no pack field may declare.
+NOT_SI = ("unit.kilowatt_hour", "unit.celsius", "unit.percent", "unit.litre_per_minute", "unit.kilowatt", "unit.bar")
+
+
+def kernel_decimal(value):
+    """Exact kernel Decimal of a Fraction; a value that does not terminate in decimal fails."""
+    exponent = 0
+    while value.denominator != 1:
+        value *= 10
+        exponent -= 1
+        if exponent < -18:
+            raise AssertionError("conversion does not terminate in decimal")
+    coefficient = value.numerator
+    if coefficient == 0:
+        return {"coefficient": "0", "exponent10": 0}
+    while coefficient % 10 == 0:
+        coefficient //= 10
+        exponent += 1
+    return {"coefficient": str(coefficient), "exponent10": exponent}
+
+
+def converted(bound, factor, offset):
+    coefficient, exponent = bound
+    return kernel_decimal(Fraction(int(coefficient)) * Fraction(10) ** exponent * factor + offset)
+
+
+def check_si_units(document):
+    if validator.CANONICAL_UNITS != SI_UNITS:
+        raise AssertionError("validator unit set differs from the unit rule")
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    for field in fields.values():
+        if field["kind"] == "quantity" and field["unit"] not in SI_UNITS:
+            raise AssertionError(f"{field['id']} declares {field['unit']}")
+    for identifier, (unit, minimum, maximum, factor, offset) in CONVERTED.items():
+        expected = {"minimum": converted(minimum, factor, offset), "maximum": converted(maximum, factor, offset)}
+        if fields[identifier]["unit"] != unit or fields[identifier]["bounds"] != expected:
+            raise AssertionError(f"{identifier} is not the exact SI conversion")
+    print("si_units_and_exact_bounds: PASS")
 
 
 def reject(document, expected):
@@ -41,6 +89,14 @@ def main():
     validator.decimal_less({"coefficient": "9007199254740992", "exponent10": -18}, {"coefficient": "9007199254740993", "exponent10": -18}) or (_ for _ in ()).throw(AssertionError("exact Decimal comparison"))
     print("baseline_exact_chain: PASS")
     print("close_decimal_interval: PASS")
+    check_si_units(document)
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    for identifier in CONVERTED:
+        for unit in NOT_SI:
+            case(document, f"{identifier}_{unit}", "outside the canonical SI unit set", lambda c, i=positions[identifier], u=unit: c["definitions"]["fields"][i].update(unit=u))
+    case(document, "voltage_customary_unit", "outside the canonical SI unit set", lambda c: c["definitions"]["fields"][0].update(unit="unit.millivolt"))
+    case(document, "session_energy_customary_bounds", "quantity contract", lambda c: c["definitions"]["fields"][positions["evse.energy.session"]]["bounds"].update(maximum={"coefficient": "1", "exponent10": 12}))
+    case(document, "lifetime_energy_customary_bounds", "quantity contract", lambda c: c["definitions"]["fields"][positions["evse.energy.lifetime"]]["bounds"].update(maximum={"coefficient": "1", "exponent10": 12}))
     case(document, "wrong_pack", "exact PackRef", lambda c: c["pack"].update(id="helianthus.pack.pv"))
     case(document, "infrastructure_accepted", "five-domain catalog", lambda c: c["domain_catalog"][4].update(state="accepted"))
     case(document, "field_bound_drift", "quantity contract", lambda c: c["definitions"]["fields"][0]["bounds"].update(maximum={"coefficient":"9","exponent10":2}))
@@ -62,7 +118,7 @@ def main():
     case(document, "portal_authority", "Portal operation", lambda c: c["definitions"]["portal_contributions"][5].update(admission="always"))
     case(document, "counter_weakened", "counter policy", lambda c: c["counter_policy"].update(decrease="infer_reset"))
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
-    print("focused_mutations: 21 REJECTED")
+    print("focused_mutations: 36 REJECTED")
 
 
 if __name__ == "__main__":

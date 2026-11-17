@@ -121,7 +121,7 @@
       "dimension": "pv.dimension.input",
       "dimension_text": "input:{n}",
       "unit": "unit.volt",
-      "exponent10_shift": 0,
+      "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {"outcome": "exact", "loss": []},
       "grade_ceiling": {"m3": "proven", "m1": "proven"}
     },
@@ -133,7 +133,7 @@
       "dimension": "pv.dimension.input",
       "dimension_text": "input:{n}",
       "unit": "unit.ampere",
-      "exponent10_shift": 0,
+      "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {"outcome": "exact", "loss": []},
       "grade_ceiling": {"m3": "hypothesis", "m1": "proven"}
     },
@@ -145,7 +145,7 @@
       "dimension": "pv.dimension.inverter",
       "dimension_text": "inverter:{asset_suffix}",
       "unit": "unit.watt",
-      "exponent10_shift": 3,
+      "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -163,7 +163,7 @@
       "dimension": "pv.dimension.inverter",
       "dimension_text": "inverter:{asset_suffix}",
       "unit": "unit.watt",
-      "exponent10_shift": 3,
+      "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {
         "outcome": "transformed",
         "loss": [
@@ -182,7 +182,6 @@
       "dimension": "pv.dimension.inverter",
       "dimension_text": "inverter:{asset_suffix}",
       "unit": null,
-      "exponent10_shift": 0,
       "disposition": {"outcome": "transformed", "loss": [{"kind": "symbol", "source_items": ["native.huawei.sun2000.device_status"], "description": "the one observed grid-connected state is published as generating; every other code is withheld", "reversible": false}]},
       "grade_ceiling": {"m3": "unknown", "m1": "hypothesis"},
       "symbols": {"grid_connected": "generating"}
@@ -194,9 +193,15 @@
       "target": "pv.energy.generated",
       "dimension": "pv.dimension.system",
       "dimension_text": "system:{asset_suffix}",
-      "unit": "unit.kilowatt_hour",
-      "exponent10_shift": 0,
-      "disposition": {"outcome": "transformed", "loss": [{"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]},
+      "unit": "unit.joule",
+      "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}},
+      "disposition": {
+        "outcome": "transformed",
+        "loss": [
+          {"kind": "unit", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "native kilowatt-hour is published as joule by the exact factor 3600000; the native value and unit stay in the evidence", "reversible": true},
+          {"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}
+        ]
+      },
       "grade_ceiling": {"m3": "proven", "m1": "hypothesis"}
     },
     {"native_id": "energy_current_hour", "native": {"type": "U32", "words": 2, "gain": 100, "unit": "kWh", "count": 1, "group_offset": 32106}, "disposition": {"outcome": "withheld", "reason": "pv.reason.period_counter_time_domain_not_represented"}, "grade_ceiling": {"m3": "hypothesis", "m1": "hypothesis"}},
@@ -358,7 +363,7 @@
             },
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-alpha"}}]},
-              "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}},
+              "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
@@ -436,7 +441,7 @@
               "item_id": "pv.energy.generated",
               "outcome": "transformed",
               "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-alpha"}}]}],
-              "loss": [{"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
+              "loss": [{"kind": "unit", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "native kilowatt-hour is published as joule by the exact factor 3600000; the native value and unit stay in the evidence", "reversible": true}, {"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
             },
             {
               "kind": "fact",
@@ -651,7 +656,7 @@
             },
             {
               "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-beta"}}]},
-              "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}},
+              "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
               "observation_id": "observation:demo-0005",
@@ -733,7 +738,7 @@
               "item_id": "pv.energy.generated",
               "outcome": "transformed",
               "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-beta"}}]}],
-              "loss": [{"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
+              "loss": [{"kind": "unit", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "native kilowatt-hour is published as joule by the exact factor 3600000; the native value and unit stay in the evidence", "reversible": true}, {"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
             },
             {
               "kind": "fact",
@@ -792,7 +797,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
@@ -801,7 +806,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 2, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "transformed", "published": 1, "loss": ["symbol"]}
           ],
           "native_dispositions": [
@@ -868,7 +873,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": true, "observation_revision": 3},
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": true, "observation_revision": 3},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
@@ -877,7 +882,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 2, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "transformed", "published": 1, "loss": ["symbol"]}
           ],
           "native_dispositions": [
@@ -930,7 +935,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
@@ -938,7 +943,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 2, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "withheld", "published": 0, "loss": ["symbol"], "reason": "pv.reason.state_code_not_observed"}
           ],
           "native_dispositions": [
@@ -1011,7 +1016,7 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [
             {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
@@ -1029,7 +1034,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 8, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 8, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"}
           ],
           "native_dispositions": [
@@ -1100,7 +1105,7 @@
             {"fact_id": "pv.dc.voltage", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98765432", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5}
           ],
           "relations": [
             {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
@@ -1118,7 +1123,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 8, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 8, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"}
           ],
           "native_dispositions": [
@@ -1169,7 +1174,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
@@ -1178,7 +1183,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 1, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "transformed", "published": 1, "loss": ["symbol"]}
           ],
           "native_dispositions": [
@@ -1260,7 +1265,7 @@
           "facts": [
             {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}],
@@ -1269,7 +1274,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.input_presence_unknown"},
             {"item_id": "pv.dc.voltage", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.input_presence_unknown"},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "transformed", "published": 1, "loss": ["symbol"]}
           ],
           "native_dispositions": [
@@ -1334,7 +1339,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
           "dispositions": [
@@ -1342,7 +1347,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 2, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"}
           ],
           "native_dispositions": [
@@ -1395,7 +1400,7 @@
             {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6", "exponent10": 2}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
             {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
@@ -1404,7 +1409,7 @@
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.current", "outcome": "exact", "published": 2, "loss": []},
             {"item_id": "pv.dc.voltage", "outcome": "exact", "published": 2, "loss": []},
-            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["policy"]},
+            {"item_id": "pv.energy.generated", "outcome": "transformed", "published": 1, "loss": ["unit", "policy"]},
             {"item_id": "pv.status.operating", "outcome": "transformed", "published": 1, "loss": ["symbol"]}
           ],
           "native_dispositions": [

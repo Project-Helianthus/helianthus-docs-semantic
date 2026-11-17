@@ -12,6 +12,8 @@ Each record is an exact `PackRef` or `DefinitionRef`. The fixture contains therm
 
 `units` and `definitions` are bytewise sorted by `(pack id, pack version, definition id, definition version)`. Fields include their exact canonical unit (or `null` for a non-quantity) and dimension. Services include their exact fact-key dimension. Capabilities include their owning service. Operations use the exact five-part `{operation, capability, service, argument, effect}` shape. `storage.state.soc` has canonical `unit.percent`; neither `storage.state_of_charge` nor `storage.unit.percent` is a definition.
 
+Canonical units follow the [unit rule](../README.md#unit-rule): a canonical unit is SI, and a customary unit appears only at display, in a consumer. The rule's strict reading is a working reading until the project owner confirms it. The PV, EVSE and infrastructure records carry only SI units: `unit.joule` for every energy field and `unit.kelvin` for the PV inverter temperature. The thermal and storage records still carry their customary units, including `unit.percent` above, until their own in-place slices move them; this metadata follows each pack in place.
+
 The constructor required of the owning SemReg implementation rejects duplicate, ambiguous, cross-pack, wrong-version, missing-definition, wrong-unit or malformed relations that differ from the accepted source. It deep-copies inputs and returns deep copies of every collection. This repository does not implement the SemReg runtime API.
 
 ## Required queries

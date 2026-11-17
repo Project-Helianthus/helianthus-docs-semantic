@@ -56,9 +56,12 @@ power; grid frequency and power factor; direction-separated import/export
 active/reactive power plus non-directional apparent power; import/export energy
 counters; and connection, readiness, breaker, fault, and interlock state.
 Quantities use canonical volt,
-ampere, watt, volt-ampere-reactive, volt-ampere, hertz, ratio, and
-kilowatt-hour units. Published Decimal bounds are pack validation bounds, never
-a site capacity or a device nameplate claim.
+ampere, watt, volt-ampere-reactive, volt-ampere, hertz, ratio, and joule units
+under the [unit rule](../../README.md#unit-rule): the import and export energy
+counters are in joule, and their bounds are the exact conversions of their
+earlier customary bounds. A customary unit appears only at display, in a
+consumer. Published Decimal bounds are pack validation bounds, never a site
+capacity or a device nameplate claim.
 
 Unknown, unavailable, unsupported, stale, withdrawn, and conflicting values use
 kernel quality, availability, and conflict records. They are not symbols. Native

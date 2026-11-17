@@ -12,6 +12,10 @@ VECTORS = ROOT / "api/v1/packs/infrastructure-acceptance-vectors.json"
 DOCUMENT = ROOT / "api/v1/packs/infrastructure-v1.md"
 PACK = {"id": "helianthus.pack.infrastructure", "version": "1.0.0"}
 ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+# The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
+CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
+                             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
+                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"})
 DOMAINS = {
     "thermal_hvac": ("helianthus.pack.thermal", "accepted"),
     "pv_inverter": ("helianthus.pack.pv", "accepted"),
@@ -74,8 +78,8 @@ FIELD_CONTRACTS = {
     "infrastructure.power.import_reactive": quantity("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.export_reactive": quantity("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.apparent": quantity("unit.volt_ampere", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
-    "infrastructure.energy.import": quantity("unit.kilowatt_hour", "infrastructure.dimension.meter", ("0", 0), ("1", 12)),
-    "infrastructure.energy.export": quantity("unit.kilowatt_hour", "infrastructure.dimension.meter", ("0", 0), ("1", 12)),
+    "infrastructure.energy.import": quantity("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
+    "infrastructure.energy.export": quantity("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
     "infrastructure.status.connection": symbol("infrastructure.dimension.grid_connection", ["infrastructure.status.connection.connected", "infrastructure.status.connection.disconnected"]),
     "infrastructure.status.readiness": symbol("infrastructure.dimension.grid_connection", ["infrastructure.status.readiness.not_ready", "infrastructure.status.readiness.ready"]),
     "infrastructure.status.breaker": symbol("infrastructure.dimension.circuit", ["infrastructure.status.breaker.closed", "infrastructure.status.breaker.open"]),
@@ -157,6 +161,10 @@ def decimal(value):
         raise ValueError("bounds must use canonical kernel Decimal")
     return int(coefficient), exponent
 
+def require_canonical_unit(unit):
+    if unit not in CANONICAL_UNITS:
+        raise ValueError("field unit is outside the canonical SI unit set")
+
 
 def less(left, right):
     lc, le = decimal(left)
@@ -181,6 +189,7 @@ def validate_defs(catalog):
         if (item.get("kind"), item.get("dimension"), item.get("optional")) != (kind, dimension, optional):
             raise ValueError("field has noncanonical kind, dimension, or optionality")
         if kind == "quantity":
+            require_canonical_unit(item.get("unit"))
             bounds = {"minimum": {"coefficient": minimum[0], "exponent10": minimum[1]}, "maximum": {"coefficient": maximum[0], "exponent10": maximum[1]}}
             if set(item) != base | {"unit", "bounds"} or item.get("unit") != unit or item.get("bounds") != bounds or not less(bounds["minimum"], bounds["maximum"]):
                 raise ValueError("field has invalid canonical quantity contract")

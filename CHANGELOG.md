@@ -6,6 +6,28 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the [unit rule](api/README.md#unit-rule)
+  states that canonical units in the semantic registry are SI and that a
+  customary unit appears only at display, in a consumer; its strict reading is
+  a working reading until the project owner confirms it. The
+  [PV](api/v1/packs/pv-inverter-v1.md), [EVSE](api/v1/packs/evse-v1.md) and
+  [infrastructure](api/v1/packs/infrastructure-v1.md) packs move to it:
+  generated, session, lifetime, import and export energy are in `unit.joule`
+  with bounds 0 to 3.6 x 10^18, and the inverter temperature is in
+  `unit.kelvin` with bounds 223.15 to 473.15, each the exact conversion of the
+  earlier bounds. Each pack validator rejects a field unit outside the SI set.
+  The [PV gate](api/v1/mappings/huawei-sun2000-pv-v1.md) and the
+  [gateway-meter gate](api/v1/mappings/huawei-gateway-meter-infrastructure-v1.md)
+  state every conversion as an exact factor and offset per native and
+  canonical unit pair instead of a decimal shift, with a `unit` loss whenever
+  the conversion is not the identity; the PV gate publishes joule by the factor
+  3 600 000. [Pack metadata](api/v1/pack-metadata-v1.json) and the
+  [naming contract](architecture/naming-contract.json) follow. SemReg follow-up:
+  its byte copies and pins of the three pack vectors and its metadata registry
+  test move; gateway follow-up: the documentation revision pinned by its gate
+  scripts moves. The thermal and storage packs and their gates, the EVSE
+  current-limit gate, the relation definitions, the element catalog and both
+  Matter rosters are unchanged. No version is raised.
 - Breaking, in place before the 0.7 release: the
   [Matter 1.6.1 roster](api/v1/targets/matter-1.6.1-v1.json) is derived from
   the [element catalog](api/v1/element-catalog-v1.json). It gains one row for
