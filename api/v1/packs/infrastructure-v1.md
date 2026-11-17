@@ -10,19 +10,21 @@ Every indexed item is an exact `DefinitionRef` owned by this PackRef.
 The accepted catalog IDs are:
 
 ```text
-infrastructure.ac.voltage                 infrastructure.ac.current
-infrastructure.ac.active_power            infrastructure.ac.reactive_power
-infrastructure.ac.apparent_power          infrastructure.ac.frequency
-infrastructure.ac.power_factor            infrastructure.power.import_active
-infrastructure.power.export_active        infrastructure.power.import_reactive
-infrastructure.power.export_reactive      infrastructure.power.apparent
-infrastructure.energy.import              infrastructure.energy.export
-infrastructure.status.connection          infrastructure.status.readiness
-infrastructure.status.breaker             infrastructure.status.fault
-infrastructure.status.interlock           infrastructure.dimension.site
+infrastructure.ac.voltage                 infrastructure.ac.voltage_line_line
+infrastructure.ac.current                 infrastructure.ac.active_power
+infrastructure.ac.reactive_power          infrastructure.ac.apparent_power
+infrastructure.ac.frequency               infrastructure.ac.power_factor
+infrastructure.power.import_active        infrastructure.power.export_active
+infrastructure.power.import_reactive      infrastructure.power.export_reactive
+infrastructure.power.apparent             infrastructure.energy.import
+infrastructure.energy.export              infrastructure.status.connection
+infrastructure.status.readiness           infrastructure.status.breaker
+infrastructure.status.fault               infrastructure.status.interlock
+infrastructure.dimension.site
 infrastructure.dimension.grid_connection  infrastructure.dimension.feeder
 infrastructure.dimension.circuit          infrastructure.dimension.phase
-infrastructure.dimension.meter            infrastructure.service.site
+infrastructure.dimension.meter            infrastructure.dimension.line_pair
+infrastructure.service.site               infrastructure.service.line_pair
 infrastructure.service.grid_connection    infrastructure.service.feeder
 infrastructure.service.circuit            infrastructure.service.phase
 infrastructure.service.meter
@@ -40,21 +42,28 @@ infrastructure.capability.read.meter
 infrastructure.portal.read.site           infrastructure.portal.read.grid_connection
 infrastructure.portal.read.feeder         infrastructure.portal.read.circuit
 infrastructure.portal.read.phase          infrastructure.portal.read.meter
+infrastructure.portal.read.line_pair
 ```
 
 ## Electrical topology and fields
 
 Infrastructure means electrical site, grid-connection, feeder, circuit, phase,
-and meter semantics. It does not mean host, network, deployment, or building
-automation infrastructure. The catalog records site-to-grid-connection,
+line-pair, and meter semantics. It does not mean host, network, deployment, or
+building automation infrastructure. The catalog records site-to-grid-connection,
 grid-connection-to-feeder, feeder-to-circuit, circuit-to-phase, and
 grid-connection-to-meter membership as explicit one-to-many relations. It never
-invents a site member, phase, meter, circuit, topology, or aggregation.
+invents a site member, phase, meter, circuit, topology, or aggregation. It
+declares no relation that places a line pair in that topology.
 
 The typed fields cover per-phase voltage, current, active/reactive/apparent
-power; grid frequency and power factor; direction-separated import/export
-active/reactive power plus non-directional apparent power; import/export energy
-counters; and connection, readiness, breaker, fault, and interlock state.
+power; line-to-line voltage on the line-pair dimension; grid frequency and
+power factor; direction-separated import/export active/reactive power plus
+non-directional apparent power; import/export energy counters; and connection,
+readiness, breaker, fault, and interlock state. Line-to-line voltage is
+`infrastructure.ac.voltage_line_line` on `infrastructure.dimension.line_pair`.
+It is not the phase voltage `infrastructure.ac.voltage`, and it is not stored
+on `infrastructure.dimension.phase`. The line-pair service has a read
+descriptor and no read capability.
 Quantities use canonical volt,
 ampere, watt, volt-ampere-reactive, volt-ampere, hertz, ratio, and joule units
 under the [unit rule](../../README.md#unit-rule): the import and export energy

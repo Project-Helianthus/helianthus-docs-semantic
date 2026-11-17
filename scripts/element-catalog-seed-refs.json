@@ -126,6 +126,14 @@
         "kind": "core",
         "contract": "helianthus.semantic.kernel/v1"
       },
+      "id": "resource.line_pair",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "core",
+        "contract": "helianthus.semantic.kernel/v1"
+      },
       "id": "resource.meter",
       "version": "1.0.0"
     },
@@ -797,6 +805,17 @@
           "version": "1.0.0"
         }
       },
+      "id": "infrastructure.ac.voltage_line_line",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
       "id": "infrastructure.capability.read.circuit",
       "version": "1.0.0"
     },
@@ -896,6 +915,17 @@
           "version": "1.0.0"
         }
       },
+      "id": "infrastructure.dimension.line_pair",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
       "id": "infrastructure.dimension.meter",
       "version": "1.0.0"
     },
@@ -974,6 +1004,17 @@
         }
       },
       "id": "infrastructure.portal.read.grid_connection",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
+      "id": "infrastructure.portal.read.line_pair",
       "version": "1.0.0"
     },
     {
@@ -1150,6 +1191,17 @@
         }
       },
       "id": "infrastructure.service.grid_connection",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
+      "id": "infrastructure.service.line_pair",
       "version": "1.0.0"
     },
     {

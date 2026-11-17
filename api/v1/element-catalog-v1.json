@@ -1573,6 +1573,33 @@
           "kind": "core",
           "contract": "helianthus.semantic.kernel/v1"
         },
+        "id": "resource.line_pair",
+        "version": "1.0.0"
+      },
+      "element_kind": "resource_kind",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/evse-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/pv-inverter-v1.md"
+        ]
+      },
+      "attributes": {
+        "anchor_class": "component"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
         "id": "resource.meter",
         "version": "1.0.0"
       },
@@ -4158,6 +4185,50 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.ac.voltage_line_line",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.line_pair",
+            "version": "1.0.0"
+          },
+          "kind": "resource.line_pair"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.capability.read.circuit",
         "version": "1.0.0"
       },
@@ -4479,6 +4550,35 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.dimension.line_pair",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "role": "resource",
+        "resource_kind": "resource.line_pair"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.dimension.meter",
         "version": "1.0.0"
       },
@@ -4709,6 +4809,32 @@
           }
         },
         "id": "infrastructure.portal.read.grid_connection",
+        "version": "1.0.0"
+      },
+      "element_kind": "presentation",
+      "disposition": "unsupported",
+      "planes": [],
+      "reason": "catalog.reason.target_presentation",
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "target": "portal"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.portal.read.line_pair",
         "version": "1.0.0"
       },
       "element_kind": "presentation",
@@ -5460,6 +5586,45 @@
           "version": "1.0.0"
         },
         "subject_kind": "resource.grid_connection"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.service.line_pair",
+        "version": "1.0.0"
+      },
+      "element_kind": "service",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "fact_key_dimension": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.dimension.line_pair",
+          "version": "1.0.0"
+        },
+        "subject_kind": "resource.line_pair"
       }
     },
     {

@@ -67,6 +67,7 @@ def symbol(dimension, symbols):
 
 FIELD_CONTRACTS = {
     "infrastructure.ac.voltage": quantity("unit.volt", "infrastructure.dimension.phase", ("0", 0), ("1", 3)),
+    "infrastructure.ac.voltage_line_line": quantity("unit.volt", "infrastructure.dimension.line_pair", ("0", 0), ("1", 3)),
     "infrastructure.ac.current": quantity("unit.ampere", "infrastructure.dimension.phase", ("0", 0), ("1", 3)),
     "infrastructure.ac.active_power": quantity("unit.watt", "infrastructure.dimension.phase", ("-1", 7), ("1", 7)),
     "infrastructure.ac.reactive_power": quantity("unit.volt_ampere_reactive", "infrastructure.dimension.phase", ("-1", 7), ("1", 7)),
@@ -86,8 +87,8 @@ FIELD_CONTRACTS = {
     "infrastructure.status.fault": symbol("infrastructure.dimension.site", ["infrastructure.status.fault.clear", "infrastructure.status.fault.present"]),
     "infrastructure.status.interlock": symbol("infrastructure.dimension.circuit", ["infrastructure.status.interlock.active", "infrastructure.status.interlock.clear"]),
 }
-DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
-SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
+DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
+SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
 RELATIONS = {
     "infrastructure.relation.site_grid_connection": ("infrastructure.dimension.site", "infrastructure.dimension.grid_connection", "one_to_many"),
     "infrastructure.relation.grid_connection_feeder": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.feeder", "one_to_many"),
@@ -104,6 +105,7 @@ PORTAL = {
     "infrastructure.portal.read.feeder": ("infrastructure.service.feeder", ()),
     "infrastructure.portal.read.circuit": ("infrastructure.service.circuit", ("infrastructure.status.breaker", "infrastructure.status.interlock")),
     "infrastructure.portal.read.phase": ("infrastructure.service.phase", ("infrastructure.ac.active_power", "infrastructure.ac.apparent_power", "infrastructure.ac.current", "infrastructure.ac.reactive_power", "infrastructure.ac.voltage")),
+    "infrastructure.portal.read.line_pair": ("infrastructure.service.line_pair", ("infrastructure.ac.voltage_line_line",)),
     "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.energy.export", "infrastructure.energy.import")),
 }
 MAPPINGS = {

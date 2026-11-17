@@ -1506,6 +1506,59 @@
           "id": "helianthus.pack.infrastructure",
           "version": "1.0.0"
         },
+        "id": "infrastructure.ac.voltage_line_line",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "infrastructure.ac.voltage_line_line"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "infrastructure.ac.voltage_line_line",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.infrastructure",
+            "pack_version": "1.0.0",
+            "fact_id": "infrastructure.ac.voltage_line_line",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.infrastructure",
+                  "version": "1.0.0"
+                },
+                "id": "infrastructure.dimension.line_pair",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
         "id": "infrastructure.capability.read.circuit",
         "version": "1.0.0"
       },

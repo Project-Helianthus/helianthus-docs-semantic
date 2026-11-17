@@ -564,6 +564,22 @@
     {
       "source": "semreg/v1/packs/infrastructure/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.voltage_line_line",
+      "canonical_name": "infrastructure.ac.voltage_line_line",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.line_pair",
+      "canonical_name": "infrastructure.dimension.line_pair",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "infrastructure.energy.export",
       "canonical_name": "infrastructure.energy.export",
       "status": "provisional",
@@ -822,6 +838,14 @@
       "kind": "definition_literal",
       "historical_name": "infrastructure.service.meter",
       "canonical_name": "infrastructure.service.meter",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.line_pair",
+      "canonical_name": "infrastructure.service.line_pair",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
