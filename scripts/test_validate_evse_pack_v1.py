@@ -83,6 +83,47 @@ def case(document, name, expected, mutate):
     print(f"{name}: REJECTED")
 
 
+class TestAllocatedCurrentPhaseStaysOffConnector:
+    """Phase allocated current is a different field from the connector allocation.
+
+    Fields and the production mutation each check catches:
+    - ``evse.limit.allocated_current`` dimension: setting it to
+      ``evse.dimension.phase`` is rejected as a noncanonical dimension.
+    - ``evse.limit.allocated_current_phase`` id: absence of the field fails.
+    - ``evse.limit.allocated_current_phase`` dimension: setting it to
+      ``evse.dimension.connector`` is rejected as a noncanonical dimension.
+    """
+
+    CONNECTOR = "evse.dimension.connector"
+    PHASE = "evse.dimension.phase"
+    ALLOCATED = "evse.limit.allocated_current"
+    PHASE_ALLOCATED = "evse.limit.allocated_current_phase"
+
+    def __init__(self, document):
+        fields = document["catalog"]["definitions"]["fields"]
+        by_id = {field["id"]: field for field in fields}
+        if by_id.get(self.ALLOCATED, {}).get("dimension") != self.CONNECTOR:
+            raise AssertionError(f"{self.ALLOCATED} must stay on {self.CONNECTOR}")
+        if self.PHASE_ALLOCATED not in by_id:
+            raise AssertionError(f"{self.PHASE_ALLOCATED} is absent")
+        if by_id[self.PHASE_ALLOCATED]["dimension"] != self.PHASE:
+            raise AssertionError(f"{self.PHASE_ALLOCATED} must stay off {self.CONNECTOR}")
+        positions = {field["id"]: index for index, field in enumerate(fields)}
+        case(
+            document,
+            "allocated_current_moved_onto_phase",
+            "noncanonical kind, dimension, or optionality",
+            lambda catalog, index=positions[self.ALLOCATED]: catalog["definitions"]["fields"][index].update(dimension=self.PHASE),
+        )
+        case(
+            document,
+            "allocated_current_phase_on_connector",
+            "noncanonical kind, dimension, or optionality",
+            lambda catalog, index=positions[self.PHASE_ALLOCATED]: catalog["definitions"]["fields"][index].update(dimension=self.CONNECTOR),
+        )
+        print("allocated_current_phase_off_connector: PASS")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -90,6 +131,7 @@ def main():
     print("baseline_exact_chain: PASS")
     print("close_decimal_interval: PASS")
     check_si_units(document)
+    TestAllocatedCurrentPhaseStaysOffConnector(document)
     positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
     for identifier in CONVERTED:
         for unit in NOT_SI:

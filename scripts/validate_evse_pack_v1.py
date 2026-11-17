@@ -59,6 +59,7 @@ FIELD_CONTRACTS = {
     "evse.limit.advertised_current": ("quantity", "unit.ampere", "evse.dimension.connector", True, None, ("0", 0, "1", 3)),
     "evse.limit.configured_current": ("quantity", "unit.ampere", "evse.dimension.evse", True, None, ("0", 0, "1", 3)),
     "evse.limit.allocated_current": ("quantity", "unit.ampere", "evse.dimension.connector", True, None, ("0", 0, "1", 3)),
+    "evse.limit.allocated_current_phase": ("quantity", "unit.ampere", "evse.dimension.phase", True, None, ("0", 0, "1", 3)),
     "evse.limit.actual_current": ("quantity", "unit.ampere", "evse.dimension.connector", True, None, ("0", 0, "1", 3)),
     "evse.status.connection": ("symbol", None, "evse.dimension.connector", True, ("evse.status.connection.connected", "evse.status.connection.disconnected"), None),
     "evse.status.charging": ("symbol", None, "evse.dimension.connector", True, ("evse.status.charging.charging", "evse.status.charging.complete", "evse.status.charging.idle"), None),
@@ -91,7 +92,7 @@ STAGES = ["admission", "dispatch", "acknowledgement", "readback", "terminal_outc
 OUTCOMES = ["rejected", "failed_no_contact", "acknowledged_unverified", "applied", "no_effect", "conflict", "indeterminate"]
 PORTAL_READS = {"evse.portal.read.evse": ("evse.service.evse", ("evse.ac.frequency", "evse.limit.configured_current", "evse.status.fault", "evse.status.readiness")),
                 "evse.portal.read.connector": ("evse.service.connector", ("evse.limit.actual_current", "evse.limit.advertised_current", "evse.limit.allocated_current", "evse.status.charging", "evse.status.connection", "evse.status.interlock")),
-                "evse.portal.read.phase": ("evse.service.phase", ("evse.ac.active_power", "evse.ac.current", "evse.ac.voltage")),
+                "evse.portal.read.phase": ("evse.service.phase", ("evse.ac.active_power", "evse.ac.current", "evse.ac.voltage", "evse.limit.allocated_current_phase")),
                 "evse.portal.read.session": ("evse.service.session", ("evse.energy.session",)),
                 "evse.portal.read.meter": ("evse.service.meter", ("evse.energy.lifetime",))}
 MAPPINGS = {

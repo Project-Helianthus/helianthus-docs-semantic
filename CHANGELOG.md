@@ -7,6 +7,18 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [EVSE pack](api/v1/packs/evse-v1.md) adds phase allocated current
+  `evse.limit.allocated_current_phase` in ampere on the phase dimension,
+  with the same bounds as the connector allocation
+  `evse.limit.allocated_current`. The connector allocation stays on the
+  connector dimension. The phase read descriptor lists active power,
+  current, voltage and the new field. No service, capability or operation
+  is added, and `evse.operation.set_allocated_current` continues to name
+  the connector field only. Pack metadata, the element catalog, both
+  Matter rosters and the naming contract follow. SemReg follow-up:
+  re-copy the pack bytes and do not invent the elements. No version is
+  raised.
+- Breaking, in place before the 0.7 release: the
   [infrastructure pack](api/v1/packs/infrastructure-v1.md) adds line-to-line
   voltage `infrastructure.ac.voltage_line_line` in volt on its own line-pair
   dimension. Phase voltage `infrastructure.ac.voltage` stays on the phase

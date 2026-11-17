@@ -10,7 +10,12 @@ is an exact `DefinitionRef` owned by this PackRef.
 
 The catalog declares electrical phase measurements, session and lifetime energy
 counters, advertised/configured/allocated/actual current limits, and connection,
-charging, readiness, fault, and interlock facts. Quantities use canonical volt,
+charging, readiness, fault, and interlock facts.
+`evse.limit.allocated_current_phase` is in ampere on the phase dimension, with
+the same bounds as `evse.limit.allocated_current`. The two facts stay
+distinct: the connector allocation remains on the connector dimension, and
+`evse.operation.set_allocated_current` continues to name that field only.
+Quantities use canonical volt,
 ampere, watt, hertz, and joule units under the
 [unit rule](../../README.md#unit-rule): the session and lifetime energy
 counters are in joule, and their bounds are the exact conversions of their
@@ -37,6 +42,7 @@ evse.ac.active_power               evse.ac.frequency
 evse.energy.session                evse.energy.lifetime
 evse.limit.advertised_current      evse.limit.configured_current
 evse.limit.allocated_current       evse.limit.actual_current
+evse.limit.allocated_current_phase
 evse.status.connection             evse.status.charging
 evse.status.readiness              evse.status.fault
 evse.status.interlock
