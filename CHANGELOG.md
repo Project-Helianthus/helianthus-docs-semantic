@@ -7,6 +7,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [storage pack](api/v1/packs/storage-bms-v1.md) adds the joule capacities
+  `storage.energy.remaining`, `storage.energy.usable_capacity` and
+  `storage.energy.nominal_capacity` on the pack dimension, beside the joule
+  counters `storage.energy.charged` and `storage.energy.discharged`. Each is
+  optional, with a minimum of 0 and an unbounded maximum. The charge and
+  discharge capacities stay in `unit.ampere_hour`. No joule capacity is
+  derived from an ampere-hour capacity. No service, capability or operation
+  is added. Pack metadata, the element catalog, both Matter rosters and the
+  naming contract follow. SemReg follow-up: re-copy the pack bytes and do
+  not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [storage gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md) of the
   low-voltage BMS family over RS-485 states its resource, join and selectors
   under section 15 of the [graph contract](api/v1/graph.md) and passes the

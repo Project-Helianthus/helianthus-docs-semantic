@@ -30,6 +30,51 @@ CONVERTED={
 LOWER_BOUND={'storage.temperature.pack':Fraction(0),'storage.temperature.cell':Fraction(0)}
 # Ampere-hour is kept (decided by the project owner): both capacities keep unit and bounds.
 KEPT={'storage.capacity.charge','storage.capacity.discharge'}
+# Joule energy capacities. Each field of the record is compared whole, so a mutation of
+# id, kind, unit, dimension, optional, minimum coefficient, minimum exponent or maximum fails.
+ENERGY_CAPACITIES=(
+ 'storage.energy.remaining',
+ 'storage.energy.usable_capacity',
+ 'storage.energy.nominal_capacity',
+)
+JOULE_CAPACITY_BOUNDS={'minimum':{'coefficient':'0','exponent10':0},'maximum':None}
+
+
+def energy_capacity_record(identifier):
+ return {
+  'bounds': dict(JOULE_CAPACITY_BOUNDS),
+  'dimension': 'storage.dimension.pack',
+  'id': identifier,
+  'kind': 'quantity',
+  'optional': True,
+  'unit': 'unit.joule',
+ }
+
+
+class TestStorageEnergyCapacitiesStayJoule:
+ """Remaining, usable and nominal energy capacity stay joule; ampere-hour capacity stays ampere-hour."""
+
+ def run(self):
+  table = v.tables()
+  specs = {field['id']: field for field in table['field_specs']}
+  outline = {field['id']: field for field in v.load()['catalog']['definitions']['fields']}
+  for identifier in ENERGY_CAPACITIES:
+   if specs.get(identifier) != energy_capacity_record(identifier):
+    raise AssertionError(identifier + ' is absent or is not a joule pack quantity')
+   catalog = outline.get(identifier)
+   expected_outline = {
+    'dimension': 'storage.dimension.pack',
+    'id': identifier,
+    'kind': 'quantity',
+    'unit': 'unit.joule',
+   }
+   if catalog != expected_outline:
+    raise AssertionError(identifier + ' catalog outline differs')
+  for identifier in ('storage.capacity.charge', 'storage.capacity.discharge'):
+   field = specs[identifier]
+   if field['unit'] != 'unit.ampere_hour' or field['bounds'] != JOULE_CAPACITY_BOUNDS:
+    raise AssertionError(identifier + ' must stay in ampere-hours')
+  print('storage_energy_capacities_stay_joule: PASS')
 
 def reject_catalog(data,error):
  try: v.document(data)
@@ -97,13 +142,14 @@ def check_si_units(data, table):
 
 def main():
  data=v.load(); table=v.tables(); v.document(data,table); v.validate(data['catalog'],table)
+ TestStorageEnergyCapacitiesStayJoule().run()
  check_si_units(data,table)
  catalog_cases=[
   ('wrong_pack',lambda c:c['pack'].update(id='helianthus.pack.pv'),'PackRef'),
   ('wrong_pack_version',lambda c:c['pack'].update(version='1.0.0'),'PackRef'),
   ('missing_domain',lambda c:c['domain_catalog'].pop(),'five-domain'),
   ('missing_field',lambda c:c['definitions']['fields'].pop(),'field catalog'),
-  ('interlock_symbol_drift',lambda c:c['definitions']['fields'][19]['symbols'].reverse(),'field catalog'),
+  ('interlock_symbol_drift',lambda c:c['definitions']['fields'][22]['symbols'].reverse(),'field catalog'),
   ('unit_swap',lambda c:c['definitions']['fields'][0].update(unit='unit.volt'),'field catalog'),
   ('dimension_swap',lambda c:c['definitions']['fields'][0].update(dimension='storage.dimension.cell'),'field catalog'),
   ('can_live',lambda c:c['candidate_mappings'][0].update(physical_qualified=True),'mapping'),
@@ -117,7 +163,7 @@ def main():
   ('relation_list_drift',lambda c:c['definitions']['relations'].reverse(),'relations'),
   ('catalog_unit_customary_soc',lambda c:c['definitions']['fields'][0].update(unit='unit.percent'),'field catalog'),
   ('catalog_unit_customary_energy',lambda c:c['definitions']['fields'][5].update(unit='unit.kilowatt_hour'),'field catalog'),
-  ('catalog_unit_customary_temperature',lambda c:c['definitions']['fields'][10].update(unit='unit.celsius'),'field catalog'),
+  ('catalog_unit_customary_temperature',lambda c:c['definitions']['fields'][13].update(unit='unit.celsius'),'field catalog'),
  ]
  for case in catalog_cases: catalog_case(*case)
  table_cases=[
@@ -127,8 +173,8 @@ def main():
   ('quantity_unit_retyped',lambda t:t['field_specs'][0].update(unit='unit.volt'),'exact contract tables'),
   ('quantity_dimension_crosswire',lambda t:t['field_specs'][0].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('duplicate_field_id',lambda t:t['field_specs'][1].update(id='storage.state.soc'),'duplicate field'),
-  ('interlock_field_drift',lambda t:t['field_specs'][19].update(dimension='storage.dimension.pack'),'interlock field'),
-  ('interlock_symbol_drift',lambda t:t['field_specs'][19]['symbols'].reverse(),'interlock field'),
+  ('interlock_field_drift',lambda t:t['field_specs'][22].update(dimension='storage.dimension.pack'),'interlock field'),
+  ('interlock_symbol_drift',lambda t:t['field_specs'][22]['symbols'].reverse(),'interlock field'),
   ('service_dimension_crosswire',lambda t:t['services'][2].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('relation_endpoint_crosswire',lambda t:t['relations'][0].update(to='storage.service.pack'),'exact contract tables'),
   ('relation_origin_crosswire',lambda t:t['relations'][1].update(**{'from':'storage.service.system'}),'exact contract tables'),
@@ -168,11 +214,11 @@ def main():
   ('decimal_reversed_bounds',lambda t:t['field_specs'][0].update(bounds={'minimum':{'coefficient':'1','exponent10':2},'maximum':{'coefficient':'0','exponent10':0}}),'reversed bounds'),
   ('ratio_bound_left_in_percent',lambda t:t['field_specs'][1]['bounds'].update(maximum={'coefficient':'1','exponent10':2}),'exact contract tables'),
   ('energy_minimum_dropped',lambda t:t['field_specs'][6]['bounds'].update(minimum=None),'exact contract tables'),
-  ('kelvin_minimum_dropped',lambda t:t['field_specs'][9]['bounds'].update(minimum=None),'exact contract tables'),
-  ('kelvin_minimum_left_in_celsius',lambda t:t['field_specs'][10]['bounds'].update(minimum={'coefficient':'-27315','exponent10':-2}),'exact contract tables'),
-  ('capacity_moved_to_joule',lambda t:t['field_specs'][7].update(unit='unit.joule'),'exact contract tables'),
+  ('kelvin_minimum_dropped',lambda t:t['field_specs'][12]['bounds'].update(minimum=None),'exact contract tables'),
+  ('kelvin_minimum_left_in_celsius',lambda t:t['field_specs'][13]['bounds'].update(minimum={'coefficient':'-27315','exponent10':-2}),'exact contract tables'),
+  ('capacity_moved_to_joule',lambda t:t['field_specs'][10].update(unit='unit.joule'),'exact contract tables'),
  ]
- table_cases += [('field_%d_unit_%s' % (index, unit.removeprefix('unit.')), lambda t, index=index, unit=unit: t['field_specs'][index].update(unit=unit), 'field unit is outside the canonical SI unit set') for index in (0, 1, 5, 6, 9, 10) for unit in NOT_SI]
+ table_cases += [('field_%d_unit_%s' % (index, unit.removeprefix('unit.')), lambda t, index=index, unit=unit: t['field_specs'][index].update(unit=unit), 'field unit is outside the canonical SI unit set') for index in (0, 1, 5, 6, 12, 13) for unit in NOT_SI]
  for case in table_cases: table_case(*case)
  print('baseline: PASS; %d catalog and %d table mutations rejected'%(len(catalog_cases),len(table_cases)))
 
