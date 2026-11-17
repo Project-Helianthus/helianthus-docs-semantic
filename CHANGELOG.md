@@ -6,6 +6,19 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the
+  [element catalog](api/v1/element-catalog-v1.json) seeds the four lenses of
+  [graph contract](api/v1/graph.md) section 29. Each lens carries that
+  section's question, planes and depth, and names no relation definition, so
+  it follows every member relation of its planes. Root kinds are those of
+  that section, except `lens.energy_flow` does not name
+  `resource.storage_system`: that kind admits the physical plane only, so it
+  admits no energy plane (LNS-1). `resource.site` is the installation root.
+  No kind's planes were changed to make a lens fit. The catalog schema adds the optional boolean `installation_root`
+  on a resource kind, and the catalog validator rejects a second installation
+  root. No version is raised. The graph acceptance vectors record the catalog
+  digest of this seed. SemReg follow-up: re-copy the catalog bytes and move
+  its SHA-256 pin and catalog digest constant.
 - Breaking, in place before the 0.7 release: part 2 of the
   [graph contract](api/v1/graph.md) (sections 23 to 36) defines retrieval and
   consumption on the same page. A read is answered from one served cut. A
