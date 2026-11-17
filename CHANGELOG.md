@@ -6,6 +6,28 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Breaking, in place before the 0.7 release: the
+  [EVSE current-limit gate](api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md)
+  states its resources and relations under section 15 of the
+  [graph contract](api/v1/graph.md). Its new `graph` member names the charging
+  station, EVSE and connector, each anchored by an operator label because the
+  native current-limit evidence carries no listed scheme, token or position,
+  and the station-to-EVSE and EVSE-to-connector relations with basis class
+  `configuration`; no session is published without a native session token.
+  `unstated_relations` keeps the connector-to-phase, connector-to-session and
+  EVSE-to-meter relations unknown, not absent. The asset, EVSE and connector
+  identity values are gateway-allocated resource identifiers naming their pack
+  dimension, never dimension text repeating the asset identifier, an address
+  or a sorted ordinal. Each field rule names its subject kind and measurement
+  point (EN-1); the validator runs the
+  [shared checker](scripts/mapping_gate_graph_rules.py), looks subject kinds,
+  dimensions and relation definitions up in the
+  [element catalog](api/v1/element-catalog-v1.json), and its test rejects a
+  connector numbered by sort order, an ordinal join, a station keyed by an
+  address, a false join and a dangling endpoint. Gateway follow-up for this
+  family: the gateway's mapping-gate check, which pins this repository, moves
+  to these members in the family's gateway publication slice. No version is
+  raised.
 - Breaking, in place before the 0.7 release: the scheme of a native identity
   is carried on the anchor. A resource anchor with basis `native_identity` in
   the [graph contract](api/v1/graph.md) carries `scheme`, the identifier of an

@@ -21,12 +21,34 @@
     "provisional": {"set_ack": "family_6.t25_to_t26", "readback": "family_6.t27_to_t28", "field": "LimitCurrentMaxAmps", "timeout": "LimitTimeoutSeconds", "inhibit": "InhibitCharging", "unit": "unit.ampere"}
   },
   "identity": {
-    "asset_id": {"source": "gateway_configured_semantic_asset_id", "required": true, "non_secret": true},
-    "evse_id": {"source": "gateway_configured_semantic_evse_id", "required": true, "non_secret": true},
-    "connector_id": {"source": "gateway_configured_semantic_connector_id", "required": true, "non_secret": true},
-    "forbidden_derivations": ["unit_id", "firmware_text", "observation_values", "payload_bytes", "request_order"],
+    "asset_id": {"source": "gateway_allocated_resource_id", "dimension": "evse.dimension.asset", "required": true, "non_secret": true},
+    "evse_id": {"source": "gateway_allocated_resource_id", "dimension": "evse.dimension.evse", "required": true, "non_secret": true},
+    "connector_id": {"source": "gateway_allocated_resource_id", "dimension": "evse.dimension.connector", "required": true, "non_secret": true},
+    "forbidden_derivations": ["unit_id", "firmware_text", "observation_values", "payload_bytes", "request_order", "network_address", "ordinal_of_sorted_identifiers", "asset_identifier"],
     "failure": "missing_blank_invalid_reused_or_ambiguous_identity_fails_closed"
   },
+  "graph": {
+    "resources": [
+      {"kind": "resource.charging_station", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["native_contract:modbus.v1.tesla.gen3.evse.current_limit.get", "native_owner_token_stability:no_unit_token_on_current_limit_path", "identification_scheme:none_listed_for_family"]},
+      {"kind": "resource.evse", "anchor_class": "component", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": "resource.charging_station", "evidence": ["native_contract:modbus.v1.tesla.gen3.evse.current_limit.get", "native_position:none_on_current_limit_path", "native_owner_token_stability:no_evse_token_on_current_limit_path"]},
+      {"kind": "resource.connector", "anchor_class": "component", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": "resource.evse", "evidence": ["native_contract:modbus.v1.tesla.gen3.evse.current_limit.get", "native_position:none_on_current_limit_path", "native_owner_token_stability:no_connector_token_on_current_limit_path"]}
+    ],
+    "relations": [
+      {"definition": "evse.relation.asset_evse", "basis_class": "configuration", "from_kind": "resource.charging_station", "to_kind": "resource.evse", "evidence": ["operator_configuration:station_contains_evse", "native_contract:no_station_evse_structure_on_current_limit_path"], "validity_scope": {"profile": "wc3_24_44_3", "version": "24.44.3", "rule_scope": "one_configured_evse_per_configured_station"}, "absence_sides": []},
+      {"definition": "evse.relation.evse_connector", "basis_class": "configuration", "from_kind": "resource.evse", "to_kind": "resource.connector", "evidence": ["operator_configuration:evse_contains_connector", "native_contract:no_evse_connector_structure_on_current_limit_path"], "validity_scope": {"profile": "wc3_24_44_3", "version": "24.44.3", "rule_scope": "one_configured_connector_per_configured_evse"}, "absence_sides": []}
+    ],
+    "relayed": [],
+    "joins": [],
+    "aggregates": [],
+    "selectors": [
+      {"selector": "profile", "classification": "provenance", "evidence": ["native_contract:profile", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]}
+    ]
+  },
+  "unstated_relations": [
+    {"definition": "evse.relation.connector_phase", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.phase"},
+    {"definition": "evse.relation.connector_session", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.charging_session"},
+    {"definition": "evse.relation.evse_meter", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.meter"}
+  ],
   "lifecycle": {
     "required": ["receipt_timestamp", "source_epoch", "driver_generation", "qualification", "semantic_revision", "lifecycle_generation"],
     "per_fact_evidence": {
@@ -40,8 +62,8 @@
     "mapping_qualified": true
   },
   "field_rules": [
-    {"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "dimension": "evse", "unit": "unit.ampere", "disposition": "exact"},
-    {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "dimension": "connector", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"}
+    {"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "subject_kind": "resource.evse", "dimension": "evse", "measurement_point": "limit_defined_at_evse_output", "unit": "unit.ampere", "disposition": "exact"},
+    {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "subject_kind": "resource.connector", "dimension": "connector", "measurement_point": "limit_defined_at_connector_output", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"}
   ],
   "withheld": [
     {"source": "provisional.LimitTimeoutSeconds", "reason": "no_evse_timeout_fact"},
