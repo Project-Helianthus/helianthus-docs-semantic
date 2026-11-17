@@ -121,16 +121,19 @@ string and tracker counts is not consumed).
 
 Native word forms are the contract's: big-endian with the most significant word
 first (Proven at all three inverter families), two's complement, and a physical
-value equal to the raw integer over the gain (graded per field below).
+value equal to the raw integer over the gain (graded per field below). The SI
+unit column names the pack field's unit and the exact factor and offset of the
+conversion, so that the SI value is the native value times the factor plus the
+offset.
 
-| Native fact | Native form | Target fact | Dimension | Disposition | Loss | M3 grade | M1 grade |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `pv.dimension.input` | exact | none | Proven | Proven |
-| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `pv.dimension.input` | exact | none | Hypothesis | Proven |
-| `input_power` | I32, kW, gain 1000 | `pv.dc.aggregate_power` | `pv.dimension.inverter` | transformed | unit+provenance | Unknown | Proven |
-| `active_power` | I32, kW, gain 1000 | `pv.ac.aggregate_active_power` | `pv.dimension.inverter` | transformed | unit+provenance | Unknown | Proven |
-| `device_status` | U16, code | `pv.status.operating` | `pv.dimension.inverter` | transformed | symbol | Unknown | Hypothesis |
-| `energy_accumulated` | U32, kWh, gain 100 | `pv.energy.generated` | `pv.dimension.system` | transformed | policy | Proven | Hypothesis |
+| Native fact | Native form | Target fact | SI unit and conversion | Dimension | Disposition | Loss | M3 grade | M1 grade |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `unit.volt`, factor 1, offset 0 | `pv.dimension.input` | exact | none | Proven | Proven |
+| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `unit.ampere`, factor 1, offset 0 | `pv.dimension.input` | exact | none | Hypothesis | Proven |
+| `input_power` | I32, kW, gain 1000 | `pv.dc.aggregate_power` | `unit.watt`, factor 1000, offset 0 | `pv.dimension.inverter` | transformed | unit+provenance | Unknown | Proven |
+| `active_power` | I32, kW, gain 1000 | `pv.ac.aggregate_active_power` | `unit.watt`, factor 1000, offset 0 | `pv.dimension.inverter` | transformed | unit+provenance | Unknown | Proven |
+| `device_status` | U16, code | `pv.status.operating` | none | `pv.dimension.inverter` | transformed | symbol | Unknown | Hypothesis |
+| `energy_accumulated` | U32, kWh, gain 100 | `pv.energy.generated` | `unit.joule`, factor 3600000, offset 0 | `pv.dimension.system` | transformed | unit+policy | Proven | Hypothesis |
 
 The grade columns are ceilings. A Proven fact is already graded Hypothesis by the
 registry at a unit that was not read for monitoring, and this gate takes the
@@ -146,10 +149,15 @@ Rules, each with the grade of the contract row it restates:
    point: the validator rejects a float literal in the contract and in a case
    (Proven as a statement of the kernel). A coefficient is never read from text
    with a decimal point.
-2. **Units.** Volt, ampere and kilowatt-hour keep the native number. Kilowatt at
-   gain 1000 is published as `unit.watt` with the same integer (an exponent shift
-   of three), recorded as a reversible `unit` loss so that the conversion is
-   never silent (Proven: the integer is the contract's raw value).
+2. **Units.** Each fact is published in the SI unit of its pack field under the
+   [unit rule](../../README.md#unit-rule). Volt and ampere keep the native
+   number. Kilowatt at gain 1000 is published as `unit.watt` with the same
+   integer (factor 1000), and kilowatt-hour as `unit.joule` by the exact factor
+   3600000. Every conversion that is not the identity is recorded as a
+   reversible `unit` loss so that it is never silent, and the native value and
+   unit stay in the evidence (Proven: the integer is the contract's raw value).
+   Every factor here terminates in decimal, so no conversion of this gate
+   rounds.
 3. **Range.** The pack's bounds are exact decimals. A decoded value outside them
    is withheld with `pv.reason.value_outside_pack_range` and is never clamped.
 4. **Sign.** The contract states a sign only for active power: positive while
@@ -182,7 +190,8 @@ Rules, each with the grade of the contract row it restates:
 
 ## Energy counter policy
 
-`energy_accumulated` is published as read as `pv.energy.generated`. Reset,
+`energy_accumulated` is published as read as `pv.energy.generated`, converted
+exactly to joule. Reset,
 rollover and continuity are Unknown because none was observed, so a decrease
 between two observations never proves a reset or a wrap, native evidence is
 required to say so, and the policy loss is not reversible. No delta, rate or

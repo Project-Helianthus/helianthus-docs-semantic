@@ -12,6 +12,10 @@ VECTORS = ROOT / "api/v1/packs/evse-acceptance-vectors.json"
 DOCUMENT = ROOT / "api/v1/packs/evse-v1.md"
 PACK = {"id": "helianthus.pack.evse", "version": "1.0.0"}
 ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+# The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
+CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
+                             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
+                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"})
 DOMAINS = {"thermal_hvac": ("helianthus.pack.thermal", "accepted"),
            "pv_inverter": ("helianthus.pack.pv", "accepted"),
            "storage_bms": ("helianthus.pack.storage", "accepted"),
@@ -50,8 +54,8 @@ FIELD_CONTRACTS = {
     "evse.ac.current": ("quantity", "unit.ampere", "evse.dimension.phase", True, None, ("0", 0, "1", 3)),
     "evse.ac.active_power": ("quantity", "unit.watt", "evse.dimension.phase", True, None, ("-1", 7, "1", 7)),
     "evse.ac.frequency": ("quantity", "unit.hertz", "evse.dimension.evse", True, None, ("0", 0, "1", 3)),
-    "evse.energy.session": ("quantity", "unit.kilowatt_hour", "evse.dimension.session", True, None, ("0", 0, "1", 12)),
-    "evse.energy.lifetime": ("quantity", "unit.kilowatt_hour", "evse.dimension.meter", True, None, ("0", 0, "1", 12)),
+    "evse.energy.session": ("quantity", "unit.joule", "evse.dimension.session", True, None, ("0", 0, "36", 17)),
+    "evse.energy.lifetime": ("quantity", "unit.joule", "evse.dimension.meter", True, None, ("0", 0, "36", 17)),
     "evse.limit.advertised_current": ("quantity", "unit.ampere", "evse.dimension.connector", True, None, ("0", 0, "1", 3)),
     "evse.limit.configured_current": ("quantity", "unit.ampere", "evse.dimension.evse", True, None, ("0", 0, "1", 3)),
     "evse.limit.allocated_current": ("quantity", "unit.ampere", "evse.dimension.connector", True, None, ("0", 0, "1", 3)),
@@ -143,6 +147,10 @@ def decimal(value):
         raise ValueError("bounds must use canonical kernel Decimal")
     return int(coefficient), exponent
 
+def require_canonical_unit(unit):
+    if unit not in CANONICAL_UNITS:
+        raise ValueError("field unit is outside the canonical SI unit set")
+
 
 def decimal_less(left, right):
     lc, le = decimal(left)
@@ -159,6 +167,7 @@ def validate_fields(fields):
         if field.get("kind") != kind or field.get("dimension") != dimension or type(field.get("optional")) is not bool or field["optional"] != optional:
             raise ValueError("field has noncanonical kind, dimension, or optionality")
         if kind == "quantity":
+            require_canonical_unit(field.get("unit"))
             minimum = {"coefficient": bounds[0], "exponent10": bounds[1]}
             maximum = {"coefficient": bounds[2], "exponent10": bounds[3]}
             if set(field) != base | {"unit", "bounds"} or field.get("unit") != unit or not decimal_less(field.get("bounds", {}).get("minimum"), field.get("bounds", {}).get("maximum")) or field.get("bounds") != {"minimum": minimum, "maximum": maximum}:

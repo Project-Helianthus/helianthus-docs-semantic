@@ -5,6 +5,8 @@ The self-tests run as plain scripts from scripts/check_docs.sh and are also
 collected by pytest. `parametrize` runs every case inside one test function and
 names the failing case, `raises` has the semantics of the pytest context manager
 that the tests use, and `run` executes every `test_*` function of a module.
+`fraction_of` and `kernel_decimal` convert between a kernel Decimal and an exact
+fraction, so that a test computes an SI value independently of the validator.
 """
 from __future__ import annotations
 
@@ -12,6 +14,29 @@ import os
 import re
 import sys
 import traceback
+from fractions import Fraction
+
+
+def fraction_of(number):
+    """The exact value of a kernel Decimal {coefficient, exponent10}."""
+    return Fraction(int(number["coefficient"])) * Fraction(10) ** number["exponent10"]
+
+
+def kernel_decimal(value):
+    """The canonical kernel Decimal of an exact fraction; a value that does not terminate in decimal fails."""
+    value, exponent = Fraction(value), 0
+    while value.denominator != 1:
+        value *= 10
+        exponent -= 1
+        if exponent < -18:
+            raise AssertionError("value does not terminate in decimal")
+    coefficient = value.numerator
+    if coefficient == 0:
+        return {"coefficient": "0", "exponent10": 0}
+    while coefficient % 10 == 0:
+        coefficient //= 10
+        exponent += 1
+    return {"coefficient": str(coefficient), "exponent10": exponent}
 
 
 class raises:

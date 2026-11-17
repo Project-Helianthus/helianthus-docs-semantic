@@ -11,8 +11,12 @@ is an exact `DefinitionRef` owned by this PackRef.
 The catalog declares electrical phase measurements, session and lifetime energy
 counters, advertised/configured/allocated/actual current limits, and connection,
 charging, readiness, fault, and interlock facts. Quantities use canonical volt,
-ampere, watt, hertz, and kilowatt-hour units. Published Decimal bounds are pack
-validation bounds, never a claim about a device's nameplate capability.
+ampere, watt, hertz, and joule units under the
+[unit rule](../../README.md#unit-rule): the session and lifetime energy
+counters are in joule, and their bounds are the exact conversions of their
+earlier customary bounds. A customary unit appears only at display, in a
+consumer. Published Decimal bounds are pack validation bounds, never a claim
+about a device's nameplate capability.
 
 Fact keys distinguish asset, EVSE, connector, phase, session, and meter. The
 declared asset-to-EVSE, EVSE-to-connector, connector-to-phase,

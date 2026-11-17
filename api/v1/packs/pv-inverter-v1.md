@@ -12,7 +12,11 @@ The catalog defines canonical quantity fields for aggregate and per-input DC
 voltage, current, and power; aggregate and per-phase AC voltage, current and
 active power; AC frequency; power factor; generated energy; inverter
 temperature; and active-power and export-limit settings. Canonical units are
-volt, ampere, watt, hertz, kilowatt-hour, celsius, and ratio. Operating,
+volt, ampere, watt, hertz, joule, kelvin, and ratio, under the
+[unit rule](../../README.md#unit-rule): generated energy is in joule, inverter
+temperature is in kelvin, and their bounds are the exact conversions of their
+earlier customary bounds. A customary unit appears only at display, in a
+consumer. Operating,
 derating, and fault fields use declared symbols only. Effective observation and
 capability availability stays exclusively in kernel availability state; it is
 not a PV symbol. `pv.status.operating` is a distinct native operating-readiness

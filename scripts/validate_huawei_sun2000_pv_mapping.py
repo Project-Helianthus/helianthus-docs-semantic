@@ -29,7 +29,18 @@ ID_FORBIDDEN_TEXT = ("serial", "esn", "sun2000", "huawei", "luna", "smartlogger"
 ID_ADDRESS_RE = re.compile(r"(\d{1,3}\.){3}\d{1,3}|:\d{3,5}$")
 WORD_TYPES = {"I16": (1, True), "U16": (1, False), "I32": (2, True), "U32": (2, False)}
 GAIN_EXPONENT = {1: 0, 10: -1, 100: -2, 1000: -3}
-UNIT_SHIFT = {("V", "unit.volt"): 0, ("A", "unit.ampere"): 0, ("kW", "unit.watt"): 3, ("kWh", "unit.kilowatt_hour"): 0}
+# Exact conversions of the unit rule in api/README.md: (native unit, canonical SI unit) -> factor and offset, SI = native x factor + offset.
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+IDENTITY = {"factor": ONE, "offset": ZERO}
+UNIT_CONVERSION = {
+    ("V", "unit.volt"): IDENTITY,
+    ("A", "unit.ampere"): IDENTITY,
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+}
+# Members of a mapped rule; no other member, and so no second statement of a conversion, is accepted.
+QUANTITY_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "dimension_text", "unit", "conversion", "disposition", "grade_ceiling", "sign"}
+STATUS_RULE_MEMBERS = {"native_id", "native", "requested", "target", "dimension", "dimension_text", "unit", "disposition", "grade_ceiling", "symbols"}
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
 ASSET_DERIVATION = {
     "algorithm": "sha256", "domain": "helianthus.modbus.asset.v1",
@@ -164,6 +175,33 @@ def canonical(coefficient, exponent):
     return {"coefficient": str(coefficient), "exponent10": exponent}
 
 
+def convert(coefficient, exponent, conversion):
+    """Exact native x factor + offset in integers; the native value and unit stay in the evidence."""
+    factor, offset = conversion["factor"], conversion["offset"]
+    product, product_exponent = coefficient * int(factor["coefficient"]), exponent + factor["exponent10"]
+    shared = min(product_exponent, offset["exponent10"])
+    return canonical(product * 10 ** (product_exponent - shared) + int(offset["coefficient"]) * 10 ** (offset["exponent10"] - shared), shared)
+
+
+def check_conversion(rule, spec, losses):
+    """A quantity rule states the exact conversion of its unit pair; one that is not the identity declares a unit loss."""
+    expected = UNIT_CONVERSION.get((spec.get("unit"), rule.get("unit")))
+    if expected is None or rule.get("conversion") != expected or not set(rule) <= QUANTITY_RULE_MEMBERS:
+        fail("unit conversion")
+    if (expected != IDENTITY) != ("unit" in [loss["kind"] for loss in losses]):
+        fail("silent unit conversion")
+
+
+def plain(number):
+    """A kernel Decimal written without an exponent, for the page."""
+    digits, exponent = number["coefficient"].lstrip("-"), number["exponent10"]
+    sign = "-" if number["coefficient"].startswith("-") else ""
+    if exponent >= 0:
+        return sign + digits + "0" * exponent
+    digits = digits.rjust(1 - exponent, "0")
+    return sign + digits[:exponent] + "." + digits[exponent:]
+
+
 def grade_min(left, right):
     return GRADES[min(GRADES.index(left), GRADES.index(right))]
 
@@ -238,17 +276,13 @@ def validate_contract(document):
         if outcome == "transformed":
             if not losses or any(loss.get("kind") not in LOSS_KINDS or loss.get("source_items") != [NATIVE_PREFIX + rule["native_id"]] or not loss.get("description") or type(loss.get("reversible")) is not bool for loss in losses):
                 fail("transformed loss")
-        shift = rule.get("exponent10_shift")
         if target == "pv.status.operating":
-            if rule.get("symbols") != {"grid_connected": "generating"} or "pv.status.operating." + rule["symbols"]["grid_connected"] not in fields[target]["symbols"] or spec.get("unit") != "" or rule.get("unit") is not None:
+            if rule.get("symbols") != {"grid_connected": "generating"} or "pv.status.operating." + rule["symbols"]["grid_connected"] not in fields[target]["symbols"] or spec.get("unit") != "" or rule.get("unit") is not None or set(rule) != STATUS_RULE_MEMBERS:
                 fail("status symbols")
             if "symbol" not in [loss["kind"] for loss in losses]:
                 fail("status loss")
         else:
-            if UNIT_SHIFT.get((spec.get("unit"), rule.get("unit"))) != shift:
-                fail("unit shift")
-            if shift and "unit" not in [loss["kind"] for loss in losses]:
-                fail("silent unit conversion")
+            check_conversion(rule, spec, losses)
         if rule["native_id"] == "active_power" and (rule.get("sign") != {"native_reference": "positive_while_producing", "negative_value": "withheld"} or "provenance" not in [loss["kind"] for loss in losses]):
             fail("sign convention")
         if rule["native_id"] == "energy_accumulated" and "policy" not in [loss["kind"] for loss in losses]:
@@ -493,7 +527,7 @@ def project(case, contract):
                 if reason is None and nid == "active_power" and raw < 0:
                     reason = "pv.reason.negative_active_power_sign_unknown"
                 if reason is None:
-                    number = canonical(raw, fact["value"]["exponent10"] + rule["exponent10_shift"])
+                    number = convert(raw, fact["value"]["exponent10"], rule["conversion"])
                     bounds = catalog[rule["target"]]["bounds"]
                     if decimal_of(bounds["minimum"]) <= decimal_of(number) <= decimal_of(bounds["maximum"]):
                         value = {"kind": "quantity", "quantity": {"number": number, "unit": rule["unit"]}}
@@ -638,7 +672,8 @@ def expected_tables(contract):
         if outcome in ("exact", "transformed"):
             kinds = "+".join(loss["kind"] for loss in rule["disposition"]["loss"]) or "none"
             ceiling = rule["grade_ceiling"]
-            mapped.append([rule["native_id"], native_form(rule["native"]), rule["target"], rule["dimension"], outcome, kinds, ceiling["m3"].capitalize(), ceiling["m1"].capitalize()])
+            conversion = "%s, factor %s, offset %s" % (rule["unit"], plain(rule["conversion"]["factor"]), plain(rule["conversion"]["offset"])) if rule.get("unit") else "none"
+            mapped.append([rule["native_id"], native_form(rule["native"]), rule["target"], conversion, rule["dimension"], outcome, kinds, ceiling["m3"].capitalize(), ceiling["m1"].capitalize()])
         else:
             reason = rule["disposition"]["reason"]
             held.append([rule["native_id"], outcome, reason, contract["reasons"][reason]["loss_kind"], contract["outcome_vocabulary"][outcome]])

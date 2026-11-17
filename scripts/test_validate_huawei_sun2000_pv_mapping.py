@@ -19,10 +19,22 @@ support = importlib.util.module_from_spec(SUPPORT_SPEC)
 sys.modules[SUPPORT_SPEC.name] = support
 SUPPORT_SPEC.loader.exec_module(support)
 parametrize, raises = support.parametrize, support.raises
+fraction_of, kernel_decimal = support.fraction_of, support.kernel_decimal
 
 M1, M3 = v.M1, v.M3
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER = "relation" + "ships"
+# The member that stated a conversion as a decimal shift before the unit rule, assembled the same way.
+EARLIER_SHIFT = "exponent10" + "_shift"
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+# (native unit, canonical unit) -> exact factor and offset; the SI value is native x factor + offset.
+CONVERSIONS = {
+    ("V", "unit.volt"): {"factor": ONE, "offset": ZERO},
+    ("A", "unit.ampere"): {"factor": ONE, "offset": ZERO},
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+}
+ENERGY_RULE = 5
 
 
 def contract():
@@ -124,14 +136,14 @@ def test_no_binary_floating_point_anywhere():
     ("dimension-text", lambda d: set_path(d, "field_rules.0.dimension_text", "input:{n}:{asset_suffix}"), "dimension text"),
     ("native-gain", lambda d: set_path(d, "field_rules.0.native.gain", 7), "native form"),
     ("native-words", lambda d: set_path(d, "field_rules.2.native.words", 1), "native form"),
-    ("unit-shift", lambda d: set_path(d, "field_rules.2.exponent10_shift", 0), "unit shift"),
+    ("unit-conversion-factor", lambda d: set_path(d, "field_rules.2.conversion.factor", ONE), "unit conversion"),
     ("silent-unit-conversion", lambda d: set_path(d, "field_rules.2.disposition.loss", [{"kind": "provenance", "source_items": ["native.huawei.sun2000.input_power"], "description": "x", "reversible": True}]), "silent unit conversion"),
     ("sign-convention", lambda d: set_path(d, "field_rules.3.sign.negative_value", "published"), "sign convention"),
     ("sign-provenance-loss", lambda d: set_path(d, "field_rules.3.disposition.loss", [d["field_rules"][3]["disposition"]["loss"][0]]), "sign convention"),
     ("status-symbol", lambda d: set_path(d, "field_rules.4.symbols", {"grid_connected": "idle"}), "status symbols"),
     ("status-extra-code", lambda d: set_path(d, "field_rules.4.symbols", {"grid_connected": "generating", "standby": "standby"}), "status symbols"),
     ("status-symbol-loss", lambda d: set_path(d, "field_rules.4.disposition.loss", [{"kind": "policy", "source_items": ["native.huawei.sun2000.device_status"], "description": "x", "reversible": False}]), "status loss"),
-    ("energy-policy-loss", lambda d: set_path(d, "field_rules.5.disposition.loss", [{"kind": "time", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "x", "reversible": False}]), "counter policy loss"),
+    ("energy-policy-loss", lambda d: set_path(d, "field_rules.5.disposition.loss", [d["field_rules"][5]["disposition"]["loss"][0], {"kind": "time", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "x", "reversible": False}]), "counter policy loss"),
     ("ceiling-grade", lambda d: set_path(d, "field_rules.0.grade_ceiling.m3", "certain"), "disposition"),
     ("ceiling-member", lambda d: v.mutate(d, {"path": "field_rules.0.grade_ceiling.m1", "remove": True}), "disposition"),
     ("reason-unused", lambda d: d["reasons"].update({"pv.reason.unused": {"loss_kind": "policy", "description": "x", "reversible": True}}), "reason inventory"),
@@ -263,7 +275,52 @@ def test_scale_gain_and_unit_conversion_for_each_form():
     assert out[("pv.dc.current", "input:1")]["value"]["quantity"] == {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}
     assert out[("pv.dc.aggregate_power", "inverter:demo-alpha")]["value"]["quantity"] == {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}
     assert out[("pv.ac.aggregate_active_power", "inverter:demo-alpha")]["value"]["quantity"] == {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}
-    assert out[("pv.energy.generated", "system:demo-alpha")]["value"]["quantity"] == {"number": {"coefficient": "1234567", "exponent10": -2}, "unit": "unit.kilowatt_hour"}
+    native = next(fact for fact in case()["facts"] if fact["key"] == "energy_accumulated")["value"]
+    joule = kernel_decimal(fraction_of(native) * 3600000)
+    assert out[("pv.energy.generated", "system:demo-alpha")]["value"]["quantity"] == {"number": joule, "unit": "unit.joule"}
+    assert joule == {"coefficient": "44444412", "exponent10": 3} and fraction_of(joule) / 3600000 == fraction_of(native)
+
+
+def test_the_conversion_table_states_an_exact_factor_and_offset():
+    assert v.UNIT_CONVERSION == CONVERSIONS
+    assert not hasattr(v, "UNIT_SHIFT")
+    for (native_unit, unit), conversion in CONVERSIONS.items():
+        identity = conversion == {"factor": ONE, "offset": ZERO}
+        assert identity == (native_unit in ("V", "A")), (native_unit, unit)
+
+
+def test_each_quantity_rule_states_its_conversion_and_a_unit_loss_when_not_identity():
+    for rule in v.load()["field_rules"]:
+        assert EARLIER_SHIFT not in rule
+        if not rule.get("unit"):
+            assert "conversion" not in rule
+            continue
+        assert rule["conversion"] == CONVERSIONS[(rule["native"]["unit"], rule["unit"])]
+        kinds = [loss["kind"] for loss in rule["disposition"]["loss"]]
+        assert ("unit" in kinds) == (rule["conversion"] != {"factor": ONE, "offset": ZERO}), rule["native_id"]
+
+
+@parametrize("name,mutation,message", [
+    # Key field native unit: a rule whose native unit has no entry for its canonical unit.
+    ("native-unit", lambda d: set_path(d, "field_rules.%d.native.unit" % ENERGY_RULE, "Wh"), "unit conversion"),
+    # Key field canonical unit: a rule naming a unit other than the pack field's SI unit.
+    ("canonical-unit-customary", lambda d: set_path(d, "field_rules.%d.unit" % ENERGY_RULE, "unit.kilowatt_hour"), "target definition"),
+    ("canonical-unit-other-si", lambda d: set_path(d, "field_rules.%d.unit" % ENERGY_RULE, "unit.watt"), "target definition"),
+    # Value field factor: coefficient and exponent each varied.
+    ("factor-coefficient", lambda d: set_path(d, "field_rules.%d.conversion.factor" % ENERGY_RULE, {"coefficient": "1", "exponent10": 6}), "unit conversion"),
+    ("factor-exponent", lambda d: set_path(d, "field_rules.%d.conversion.factor" % ENERGY_RULE, {"coefficient": "36", "exponent10": 6}), "unit conversion"),
+    ("factor-identity", lambda d: set_path(d, "field_rules.%d.conversion.factor" % ENERGY_RULE, ONE), "unit conversion"),
+    # Value field offset.
+    ("offset", lambda d: set_path(d, "field_rules.%d.conversion.offset" % ENERGY_RULE, {"coefficient": "27315", "exponent10": -2}), "unit conversion"),
+    ("conversion-missing", lambda d: v.mutate(d, {"path": "field_rules.%d.conversion" % ENERGY_RULE, "remove": True}), "unit conversion"),
+    ("conversion-extra-member", lambda d: d["field_rules"][ENERGY_RULE]["conversion"].update(rounding="half_even"), "unit conversion"),
+    ("earlier-shift-member", lambda d: d["field_rules"][ENERGY_RULE].update({EARLIER_SHIFT: 0}), "unit conversion"),
+    ("identity-earlier-shift-member", lambda d: d["field_rules"][0].update({EARLIER_SHIFT: 0}), "unit conversion"),
+    ("silent-joule-conversion", lambda d: set_path(d, "field_rules.%d.disposition.loss" % ENERGY_RULE, d["field_rules"][ENERGY_RULE]["disposition"]["loss"][1:]), "silent unit conversion"),
+    ("status-with-conversion", lambda d: d["field_rules"][4].update(conversion={"factor": ONE, "offset": ZERO}), "status symbols"),
+])
+def test_conversion_key_and_value_mutations_are_rejected(name, mutation, message):
+    assert_rejected(mutation, message)
 
 
 def test_a_gain_or_word_order_mistake_is_rejected():
@@ -338,7 +395,7 @@ def test_energy_counter_policy_publishes_one_counter_and_no_derivation():
     assert {row["native_id"]: row["reason"] for row in out["native_dispositions"] if row["native_id"] in ("energy_current_hour", "energy_current_day")} == {
         "energy_current_hour": "pv.reason.period_counter_time_domain_not_represented", "energy_current_day": "pv.reason.period_counter_time_domain_not_represented"}
     disposition = next(item for item in out["dispositions"] if item["item_id"] == "pv.energy.generated")
-    assert [loss["kind"] for loss in disposition["loss"]] == ["policy"] and disposition["loss"][0]["reversible"] is False
+    assert [(loss["kind"], loss["reversible"]) for loss in disposition["loss"]] == [("unit", True), ("policy", False)]
     document = case()
     document["derive_energy"] = "difference_of_counters"
     with raises(ValueError, match="unsupported_or_withheld"):
@@ -636,9 +693,13 @@ def page():
 
 
 @parametrize("old,new", [
-    ("| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `pv.dimension.input` | exact |", "| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `pv.dimension.input` | transformed |"),
+    ("| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `unit.volt`, factor 1, offset 0 | `pv.dimension.input` | exact |", "| `pv_string_voltage` | I16, V, gain 10 | `pv.dc.voltage` | `unit.volt`, factor 1, offset 0 | `pv.dimension.input` | transformed |"),
     ("| `input_power` | I32, kW, gain 1000 | `pv.dc.aggregate_power` |", "| `input_power` | I32, kW, gain 1000 | `pv.dc.power` |"),
-    ("| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `pv.dimension.input` | exact | none | Hypothesis | Proven |", "| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `pv.dimension.input` | exact | none | Proven | Proven |"),
+    ("| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `unit.ampere`, factor 1, offset 0 | `pv.dimension.input` | exact | none | Hypothesis | Proven |", "| `pv_string_current` | I16, A, gain 100 | `pv.dc.current` | `unit.ampere`, factor 1, offset 0 | `pv.dimension.input` | exact | none | Proven | Proven |"),
+    ("| `pv.energy.generated` | `unit.joule`, factor 3600000, offset 0 |", "| `pv.energy.generated` | `unit.kilowatt_hour`, factor 1, offset 0 |"),
+    ("| `pv.energy.generated` | `unit.joule`, factor 3600000, offset 0 |", "| `pv.energy.generated` | `unit.joule`, factor 3600, offset 0 |"),
+    ("| `pv.dc.aggregate_power` | `unit.watt`, factor 1000, offset 0 |", "| `pv.dc.aggregate_power` | `unit.watt`, factor 1000, offset 1 |"),
+    ("| transformed | unit+policy | Proven | Hypothesis |", "| transformed | policy | Proven | Hypothesis |"),
     ("| `battery` | withheld | `pv.reason.battery_outside_pv_family` | capability | withheld |", "| `battery` | withheld | `pv.reason.battery_outside_pv_family` | capability | unrepresentable |"),
     ("| `PV-NEG-018-error-precedence` |", "| `PV-NEG-099-other` |"),
     ("Proven only where the monitoring contract is Proven", "Proven where a document says so"),

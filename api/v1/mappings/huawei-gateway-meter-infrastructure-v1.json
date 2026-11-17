@@ -60,9 +60,9 @@
       "grade": "unknown",
       "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.no_meter_class_contract"},
       "prospective": [
-        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign_reference": "not_stated", "role": "grid_connection"},
-        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign_reference": "not_stated", "role": "grid_connection"},
-        {"in_force": false, "target": "infrastructure.ac.power_factor", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.ratio", "native": {"type": "I16", "gain": 1000, "unit": "ratio"}, "role": "grid_connection"}
+        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"], "sign_reference": "not_stated", "role": "grid_connection"},
+        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"], "sign_reference": "not_stated", "role": "grid_connection"},
+        {"in_force": false, "target": "infrastructure.ac.power_factor", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.ratio", "native": {"type": "I16", "gain": 1000, "unit": "ratio"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": [], "role": "grid_connection"}
       ]
     },
     {
@@ -72,8 +72,8 @@
       "grade": "unknown",
       "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.no_meter_class_contract"},
       "prospective": [
-        {"in_force": false, "target": "infrastructure.energy.import", "dimension": "infrastructure.dimension.meter", "unit": "unit.kilowatt_hour", "native": {"type": "I64", "gain": 100, "unit": "kWh"}, "direction": "not_stated", "counter": "reset_wrap_and_continuity_never_inferred"},
-        {"in_force": false, "target": "infrastructure.energy.export", "dimension": "infrastructure.dimension.meter", "unit": "unit.kilowatt_hour", "native": {"type": "I64", "gain": 100, "unit": "kWh"}, "direction": "not_stated", "counter": "reset_wrap_and_continuity_never_inferred"}
+        {"in_force": false, "target": "infrastructure.energy.import", "dimension": "infrastructure.dimension.meter", "unit": "unit.joule", "native": {"type": "I64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "direction": "not_stated", "counter": "reset_wrap_and_continuity_never_inferred"},
+        {"in_force": false, "target": "infrastructure.energy.export", "dimension": "infrastructure.dimension.meter", "unit": "unit.joule", "native": {"type": "I64", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "direction": "not_stated", "counter": "reset_wrap_and_continuity_never_inferred"}
       ]
     },
     {"native_id": "emma_built_in_sensor_group", "gateway_path": "emma", "native": null, "grade": "unknown", "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.no_meter_class_contract"}},
@@ -85,10 +85,10 @@
       "grade": "unknown",
       "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.no_meter_class_contract"},
       "prospective": [
-        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1, "unit": "W"}, "sign_reference": "positive_export", "role": "grid_connection"},
-        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1, "unit": "W"}, "sign_reference": "positive_export", "role": "grid_connection"},
-        {"in_force": false, "target": "infrastructure.energy.import", "dimension": "infrastructure.dimension.meter", "unit": "unit.kilowatt_hour", "native": {"type": "I32", "gain": 100, "unit": "kWh"}, "direction": "stated", "counter": "reset_wrap_and_continuity_never_inferred"},
-        {"in_force": false, "target": "infrastructure.energy.export", "dimension": "infrastructure.dimension.meter", "unit": "unit.kilowatt_hour", "native": {"type": "I32", "gain": 100, "unit": "kWh"}, "direction": "stated", "counter": "reset_wrap_and_continuity_never_inferred"}
+        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1, "unit": "W"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": [], "sign_reference": "positive_export", "role": "grid_connection"},
+        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1, "unit": "W"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": [], "sign_reference": "positive_export", "role": "grid_connection"},
+        {"in_force": false, "target": "infrastructure.energy.import", "dimension": "infrastructure.dimension.meter", "unit": "unit.joule", "native": {"type": "I32", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "direction": "stated", "counter": "reset_wrap_and_continuity_never_inferred"},
+        {"in_force": false, "target": "infrastructure.energy.export", "dimension": "infrastructure.dimension.meter", "unit": "unit.joule", "native": {"type": "I32", "gain": 100, "unit": "kWh"}, "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit", "policy"], "direction": "stated", "counter": "reset_wrap_and_continuity_never_inferred"}
       ]
     },
     {
@@ -98,8 +98,8 @@
       "grade": "unknown",
       "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.no_meter_class_contract"},
       "prospective": [
-        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign_reference": "positive_import", "role": "grid_connection"},
-        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "sign_reference": "positive_import", "role": "grid_connection"}
+        {"in_force": false, "target": "infrastructure.power.import_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"], "sign_reference": "positive_import", "role": "grid_connection"},
+        {"in_force": false, "target": "infrastructure.power.export_active", "dimension": "infrastructure.dimension.grid_connection", "unit": "unit.watt", "native": {"type": "I32", "gain": 1000, "unit": "kW"}, "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}}, "loss": ["unit"], "sign_reference": "positive_import", "role": "grid_connection"}
       ]
     },
     {"native_id": "sun2000_inverter_exposed_meter_group_refused", "gateway_path": "sun2000_m3", "native": null, "grade": "proven", "disposition": {"outcome": "withheld", "reason": "infrastructure.reason.refused_on_family"}},

@@ -128,25 +128,31 @@ an exception negates neither the gateway nor an identified inverter.
 These rows are not in force. They record only where a fact will land if the
 preconditions above are met and the role is `grid_connection` where the pack puts
 the fact on the grid connection. Each target, dimension and unit is checked
-against the Infrastructure pack catalog. Kilowatt at gain 1000 is published as
-watt by an exponent shift of three with a reversible `unit` loss, and every
-counter keeps a `policy` loss: reset, rollover and continuity are Unknown and
-never inferred. Quantities use the kernel coefficient and exponent pair. There is
-no binary floating point, and the validator rejects a float literal.
+against the Infrastructure pack catalog. Each row names the SI unit of its pack
+field under the [unit rule](../../README.md#unit-rule) and the exact factor and
+offset of its conversion, so that the SI value is the native value times the
+factor plus the offset. Kilowatt at gain 1000 is published as watt by the factor
+1000 and kilowatt-hour as joule by the exact factor 3600000. Every conversion
+that is not the identity declares a reversible `unit` loss, the native value and
+unit stay in the evidence, and every counter keeps a `policy` loss: reset,
+rollover and continuity are Unknown and never inferred. Every factor here
+terminates in decimal, so no conversion of this gate rounds. Quantities use the
+kernel coefficient and exponent pair. There is no binary floating point, and
+the validator rejects a float literal.
 
-| Infrastructure fact | Dimension | Native candidate | Native form | Sign, direction or counter rule | Role |
-| --- | --- | --- | --- | --- | --- |
-| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I32, kW, gain 1000 | `not_stated` | `grid_connection` |
-| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I32, kW, gain 1000 | `not_stated` | `grid_connection` |
-| `infrastructure.ac.power_factor` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I16, ratio, gain 1000 | none | `grid_connection` |
-| `infrastructure.energy.import` | `infrastructure.dimension.meter` | `smartlogger_meter_energy_totals` | I64, kWh, gain 100 | direction not_stated; `reset_wrap_and_continuity_never_inferred` | any role |
-| `infrastructure.energy.export` | `infrastructure.dimension.meter` | `smartlogger_meter_energy_totals` | I64, kWh, gain 100 | direction not_stated; `reset_wrap_and_continuity_never_inferred` | any role |
-| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_inverter_exposed_meter_group` | I32, W, gain 1 | `positive_export` | `grid_connection` |
-| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `sdongle_inverter_exposed_meter_group` | I32, W, gain 1 | `positive_export` | `grid_connection` |
-| `infrastructure.energy.import` | `infrastructure.dimension.meter` | `sdongle_inverter_exposed_meter_group` | I32, kWh, gain 100 | direction stated; `reset_wrap_and_continuity_never_inferred` | any role |
-| `infrastructure.energy.export` | `infrastructure.dimension.meter` | `sdongle_inverter_exposed_meter_group` | I32, kWh, gain 100 | direction stated; `reset_wrap_and_continuity_never_inferred` | any role |
-| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_import` | `grid_connection` |
-| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_import` | `grid_connection` |
+| Infrastructure fact | Dimension | Native candidate | Native form | SI unit and conversion | Loss | Sign, direction or counter rule | Role |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `not_stated` | `grid_connection` |
+| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `not_stated` | `grid_connection` |
+| `infrastructure.ac.power_factor` | `infrastructure.dimension.grid_connection` | `smartlogger_meter_electrical_group` | I16, ratio, gain 1000 | `unit.ratio`, factor 1, offset 0 | none | none | `grid_connection` |
+| `infrastructure.energy.import` | `infrastructure.dimension.meter` | `smartlogger_meter_energy_totals` | I64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | direction not_stated; `reset_wrap_and_continuity_never_inferred` | any role |
+| `infrastructure.energy.export` | `infrastructure.dimension.meter` | `smartlogger_meter_energy_totals` | I64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | direction not_stated; `reset_wrap_and_continuity_never_inferred` | any role |
+| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_inverter_exposed_meter_group` | I32, W, gain 1 | `unit.watt`, factor 1, offset 0 | none | `positive_export` | `grid_connection` |
+| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `sdongle_inverter_exposed_meter_group` | I32, W, gain 1 | `unit.watt`, factor 1, offset 0 | none | `positive_export` | `grid_connection` |
+| `infrastructure.energy.import` | `infrastructure.dimension.meter` | `sdongle_inverter_exposed_meter_group` | I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | direction stated; `reset_wrap_and_continuity_never_inferred` | any role |
+| `infrastructure.energy.export` | `infrastructure.dimension.meter` | `sdongle_inverter_exposed_meter_group` | I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy | direction stated; `reset_wrap_and_continuity_never_inferred` | any role |
+| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `positive_import` | `grid_connection` |
+| `infrastructure.power.export_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `positive_import` | `grid_connection` |
 
 Rules for the intake, each a Hypothesis of this gate unless stated:
 

@@ -12,6 +12,10 @@ VECTORS = ROOT / "api/v1/packs/pv-inverter-acceptance-vectors.json"
 DOCUMENT = ROOT / "api/v1/packs/pv-inverter-v1.md"
 PACK = {"id": "helianthus.pack.pv", "version": "1.0.0"}
 ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+# The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
+CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
+                             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
+                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"})
 DOMAINS = {"thermal_hvac": ("helianthus.pack.thermal", "accepted"),
            "pv_inverter": ("helianthus.pack.pv", "accepted"),
            "storage_bms": ("helianthus.pack.storage", "accepted"),
@@ -60,8 +64,8 @@ FIELD_CONTRACTS = {
     "pv.ac.active_power": ("quantity", "unit.watt", "pv.dimension.phase", True, None),
     "pv.ac.frequency": ("quantity", "unit.hertz", "pv.dimension.inverter", True, None),
     "pv.ac.power_factor": ("quantity", "unit.ratio", "pv.dimension.inverter", True, None),
-    "pv.energy.generated": ("quantity", "unit.kilowatt_hour", "pv.dimension.system", True, None),
-    "pv.temperature.inverter": ("quantity", "unit.celsius", "pv.dimension.inverter", True, None),
+    "pv.energy.generated": ("quantity", "unit.joule", "pv.dimension.system", True, None),
+    "pv.temperature.inverter": ("quantity", "unit.kelvin", "pv.dimension.inverter", True, None),
     "pv.limit.active_power": ("quantity", "unit.watt", "pv.dimension.inverter", True, None),
     "pv.limit.export_power": ("quantity", "unit.watt", "pv.dimension.system", True, None),
     "pv.status.operating": ("symbol", None, "pv.dimension.inverter", True,
@@ -86,8 +90,8 @@ FIELD_BOUNDS = {
     "pv.ac.active_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
     "pv.ac.frequency": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":3}),
     "pv.ac.power_factor": ({"coefficient":"-1","exponent10":0},{"coefficient":"1","exponent10":0}),
-    "pv.energy.generated": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":12}),
-    "pv.temperature.inverter": ({"coefficient":"-5","exponent10":1},{"coefficient":"2","exponent10":2}),
+    "pv.energy.generated": ({"coefficient":"0","exponent10":0},{"coefficient":"36","exponent10":17}),
+    "pv.temperature.inverter": ({"coefficient":"22315","exponent10":-2},{"coefficient":"47315","exponent10":-2}),
     "pv.limit.active_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
     "pv.limit.export_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
     "pv.dc.aggregate_voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
@@ -185,6 +189,10 @@ def decimal(value):
         raise ValueError("bounds must use canonical kernel Decimal")
     return int(coefficient), exponent
 
+def require_canonical_unit(unit):
+    if unit not in CANONICAL_UNITS:
+        raise ValueError("field unit is outside the canonical SI unit set")
+
 
 def decimal_less(left, right):
     left_coefficient, left_exponent = decimal(left)
@@ -204,6 +212,7 @@ def validate_field(field):
     if kind == "quantity":
         if not isinstance(field.get("unit"), str) or not ID.fullmatch(field["unit"]):
             raise ValueError("invalid unit ID")
+        require_canonical_unit(field["unit"])
         bounds = field.get("bounds", {})
         expected_bounds = {"minimum": FIELD_BOUNDS[field["id"]][0], "maximum": FIELD_BOUNDS[field["id"]][1]}
         if set(field) != required | {"unit", "bounds"} or field.get("unit") != unit or not decimal_less(bounds.get("minimum"), bounds.get("maximum")) or bounds != expected_bounds:

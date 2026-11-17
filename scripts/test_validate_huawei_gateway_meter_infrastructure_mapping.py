@@ -17,6 +17,17 @@ support = importlib.util.module_from_spec(SUPPORT_SPEC)
 sys.modules[SUPPORT_SPEC.name] = support
 SUPPORT_SPEC.loader.exec_module(support)
 parametrize, raises = support.parametrize, support.raises
+fraction_of = support.fraction_of
+# The member that stated a conversion as a decimal shift before the unit rule, assembled so that no file spells it.
+EARLIER_SHIFT = "exponent10" + "_shift"
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+# (native unit, canonical unit) -> exact factor and offset; the SI value is native x factor + offset.
+CONVERSIONS = {
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("W", "unit.watt"): {"factor": ONE, "offset": ZERO},
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+    ("ratio", "unit.ratio"): {"factor": ONE, "offset": ZERO},
+}
 
 
 def contract():
@@ -82,7 +93,7 @@ def test_no_binary_floating_point():
     ("prospective-target-not-in-pack", lambda d: set_path(d, "field_rules.0.prospective.0.target", "infrastructure.power.net_active"), "prospective target"),
     ("prospective-unit", lambda d: set_path(d, "field_rules.0.prospective.0.unit", "unit.kilowatt_hour"), "prospective target"),
     ("prospective-dimension", lambda d: set_path(d, "field_rules.0.prospective.0.dimension", "infrastructure.dimension.meter"), "prospective target"),
-    ("prospective-native-unit", lambda d: set_path(d, "field_rules.0.prospective.0.native.unit", "MW"), "prospective target"),
+    ("prospective-native-unit", lambda d: set_path(d, "field_rules.0.prospective.0.native.unit", "MW"), "prospective conversion"),
     ("prospective-role", lambda d: v.mutate(d, {"path": "field_rules.0.prospective.0.role", "remove": True}), "prospective role"),
     ("prospective-role-feeder", lambda d: set_path(d, "field_rules.0.prospective.0.role", "feeder"), "prospective role"),
     ("prospective-sign-assumed", lambda d: set_path(d, "field_rules.0.prospective.0.sign_reference", "positive_export_assumed"), "prospective sign"),
@@ -319,6 +330,57 @@ def test_prospective_rows_are_not_in_force_and_match_the_pack():
     assert not any(token in str(document["field_rules"]) for token in ("infrastructure.status.", "operation"))
 
 
+def test_the_conversion_table_states_an_exact_factor_and_offset():
+    assert v.UNIT_CONVERSION == CONVERSIONS
+    assert not hasattr(v, "UNIT_SHIFT")
+    assert fraction_of(CONVERSIONS[("kWh", "unit.joule")]["factor"]) == 3600000
+    assert fraction_of(CONVERSIONS[("kW", "unit.watt")]["factor"]) == 1000
+
+
+def test_each_prospective_row_states_its_conversion_and_losses():
+    energy_rows = 0
+    for rule in v.load()["field_rules"]:
+        for row in rule.get("prospective", []):
+            assert EARLIER_SHIFT not in row
+            assert row["conversion"] == CONVERSIONS[(row["native"]["unit"], row["unit"])]
+            identity = row["conversion"] == {"factor": ONE, "offset": ZERO}
+            assert ("unit" in row["loss"]) == (not identity), row["target"]
+            if row["target"].startswith("infrastructure.energy."):
+                energy_rows += 1
+                assert row["unit"] == "unit.joule" and row["loss"] == ["unit", "policy"]
+    assert energy_rows == 4
+
+
+@parametrize("name,mutation,message", [
+    # Key field native unit: a row whose native unit has no entry for its canonical unit.
+    ("native-unit", lambda d: set_path(d, "field_rules.1.prospective.0.native.unit", "Wh"), "prospective conversion"),
+    # Key field canonical unit: a row naming a unit other than the pack field's SI unit.
+    ("canonical-unit-customary", lambda d: set_path(d, "field_rules.1.prospective.0.unit", "unit.kilowatt_hour"), "prospective target"),
+    ("canonical-unit-other-si", lambda d: set_path(d, "field_rules.1.prospective.0.unit", "unit.watt"), "prospective target"),
+    # Value field factor: coefficient and exponent each varied.
+    ("factor-coefficient", lambda d: set_path(d, "field_rules.1.prospective.0.conversion.factor", {"coefficient": "1", "exponent10": 6}), "prospective conversion"),
+    ("factor-exponent", lambda d: set_path(d, "field_rules.1.prospective.0.conversion.factor", {"coefficient": "36", "exponent10": 6}), "prospective conversion"),
+    ("factor-identity", lambda d: set_path(d, "field_rules.0.prospective.0.conversion.factor", ONE), "prospective conversion"),
+    # Value field offset.
+    ("offset", lambda d: set_path(d, "field_rules.4.prospective.2.conversion.offset", {"coefficient": "27315", "exponent10": -2}), "prospective conversion"),
+    ("conversion-missing", lambda d: v.mutate(d, {"path": "field_rules.4.prospective.0.conversion", "remove": True}), "prospective conversion"),
+    ("conversion-extra-member", lambda d: d["field_rules"][1]["prospective"][1]["conversion"].update(rounding="half_even"), "prospective conversion"),
+    ("earlier-shift-member", lambda d: d["field_rules"][5]["prospective"][0].update({EARLIER_SHIFT: 3}), "prospective conversion"),
+    ("silent-unit-conversion", lambda d: set_path(d, "field_rules.1.prospective.0.loss", ["policy"]), "silent unit conversion"),
+    ("silent-power-conversion", lambda d: set_path(d, "field_rules.5.prospective.1.loss", []), "silent unit conversion"),
+    ("identity-with-unit-loss", lambda d: set_path(d, "field_rules.4.prospective.0.loss", ["unit"]), "silent unit conversion"),
+    ("loss-kind", lambda d: set_path(d, "field_rules.0.prospective.0.loss", ["unit", "native_enum"]), "prospective conversion"),
+    ("loss-duplicated", lambda d: set_path(d, "field_rules.0.prospective.0.loss", ["unit", "unit"]), "prospective conversion"),
+    ("counter-without-policy-loss", lambda d: set_path(d, "field_rules.4.prospective.3.loss", ["unit"]), "prospective counter"),
+])
+def test_conversion_key_and_value_mutations_are_rejected(name, mutation, message):
+    document = contract()
+    mutation(document)
+    with raises(ValueError) as error:
+        v.validate_contract(document)
+    assert message in str(error.value), str(error.value)
+
+
 def test_scenario_expectations_are_executed_not_trusted():
     for damage, message in (
         (lambda d: d["scenarios"][0]["expect"]["output"]["role"].update({"declared": "feeder"}), "scenario output"),
@@ -353,7 +415,10 @@ def page():
 
 @parametrize("old,new", [
     ("| `emma_external_sensor_group` | emma | Unknown | `infrastructure.reason.no_meter_class_contract` | policy |", "| `emma_external_sensor_group` | emma | Proven | `infrastructure.reason.no_meter_class_contract` | policy |"),
-    ("| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_import` | `grid_connection` |", "| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `positive_export` | `grid_connection` |"),
+    ("| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `positive_import` | `grid_connection` |", "| `infrastructure.power.import_active` | `infrastructure.dimension.grid_connection` | `sdongle_plant_grid_power` | I32, kW, gain 1000 | `unit.watt`, factor 1000, offset 0 | unit | `positive_export` | `grid_connection` |"),
+    ("| I64, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 |", "| I64, kWh, gain 100 | `unit.kilowatt_hour`, factor 1, offset 0 |"),
+    ("| I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | unit+policy |", "| I32, kWh, gain 100 | `unit.joule`, factor 3600000, offset 0 | policy |"),
+    ("| I32, W, gain 1 | `unit.watt`, factor 1, offset 0 |", "| I32, W, gain 1 | `unit.watt`, factor 1000, offset 0 |"),
     ("| `feeder` | withheld | `infrastructure.dimension.meter` | none decided |", "| `feeder` | `infrastructure.dimension.grid_connection` | `infrastructure.dimension.meter` | none decided |"),
     ("| `MTR-NEG-014-error-precedence` |", "| `MTR-NEG-099-other` |"),
     ("role is configuration", "role is derived"),

@@ -23,7 +23,17 @@ OPAQUE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@-]*$")
 HEX_RUN_RE = re.compile(r"(?<![0-9A-Za-z])[0-9a-fA-F]{32,}(?![0-9A-Za-z])")
 ID_FORBIDDEN_TEXT = ("serial", "esn", "sun2000", "huawei", "luna", "smartlogger", "sdongle", "s-dongle", "emma")
 ID_ADDRESS_RE = re.compile(r"(\d{1,3}\.){3}\d{1,3}|:\d{3,5}$")
-UNIT_SHIFT = {("kW", "unit.watt"): 3, ("W", "unit.watt"): 0, ("kWh", "unit.kilowatt_hour"): 0, ("ratio", "unit.ratio"): 0}
+# Exact conversions of the unit rule in api/README.md: (native unit, canonical SI unit) -> factor and offset, SI = native x factor + offset.
+ONE, ZERO = {"coefficient": "1", "exponent10": 0}, {"coefficient": "0", "exponent10": 0}
+IDENTITY = {"factor": ONE, "offset": ZERO}
+UNIT_CONVERSION = {
+    ("kW", "unit.watt"): {"factor": {"coefficient": "1", "exponent10": 3}, "offset": ZERO},
+    ("W", "unit.watt"): IDENTITY,
+    ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
+    ("ratio", "unit.ratio"): IDENTITY,
+}
+# Members of a prospective row; no other member, and so no second statement of a conversion, is accepted.
+PROSPECTIVE_ROW_MEMBERS = {"in_force", "target", "dimension", "unit", "native", "conversion", "loss", "sign_reference", "role", "direction", "counter"}
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
 REGISTRY_FLAGS = {"catalog_registered": False, "automatic_runtime_admission": False, "live_qualified": False, "support_claim": False, "write_authority": False}
 QUALIFICATION = {**REGISTRY_FLAGS, "mapping_qualified": True, "outbound_allowed": False}
@@ -72,6 +82,28 @@ DOC_TOKENS = ("gateway-configured", "unknown, never zero", "no binary floating p
 
 def fail(code):
     raise ValueError(code)
+
+
+def check_prospective_conversion(row):
+    """A prospective row states the exact conversion of its unit pair and its loss kinds: a unit loss exactly when the conversion is not the identity, and a policy loss on every counter."""
+    expected = UNIT_CONVERSION.get(((row.get("native") or {}).get("unit"), row.get("unit")))
+    losses = row.get("loss")
+    if expected is None or row.get("conversion") != expected or not set(row) <= PROSPECTIVE_ROW_MEMBERS or not isinstance(losses, list) or not all(isinstance(kind, str) and kind in LOSS_KINDS for kind in losses) or len(losses) != len(set(losses)):
+        fail("prospective conversion")
+    if (expected != IDENTITY) != ("unit" in losses):
+        fail("silent unit conversion")
+    if row["target"].startswith("infrastructure.energy.") and (row.get("direction") not in ("stated", "not_stated") or row.get("counter") != "reset_wrap_and_continuity_never_inferred" or "policy" not in losses):
+        fail("prospective counter")
+
+
+def plain(number):
+    """A kernel Decimal written without an exponent, for the page."""
+    digits, exponent = number["coefficient"].lstrip("-"), number["exponent10"]
+    sign = "-" if number["coefficient"].startswith("-") else ""
+    if exponent >= 0:
+        return sign + digits + "0" * exponent
+    digits = digits.rjust(1 - exponent, "0")
+    return sign + digits[:exponent] + "." + digits[exponent:]
 
 
 def _no_float(text):
@@ -150,14 +182,13 @@ def validate_contract(document):
         for row in rule.get("prospective", []):
             pack_field = fields.get(row.get("target"))
             native = row.get("native")
-            if row.get("in_force") is not False or pack_field is None or row.get("dimension") != pack_field["dimension"] or row.get("unit") != pack_field.get("unit") or UNIT_SHIFT.get(((native or {}).get("unit"), row.get("unit"))) is None:
+            if row.get("in_force") is not False or pack_field is None or row.get("dimension") != pack_field["dimension"] or row.get("unit") != pack_field.get("unit") or not isinstance(native, dict):
                 fail("prospective target")
             if row["dimension"] == "infrastructure.dimension.grid_connection" and row.get("role") != "grid_connection":
                 fail("prospective role")
             if row["target"].startswith("infrastructure.power.") and row.get("sign_reference") not in SIGN_REFERENCES:
                 fail("prospective sign")
-            if row["target"].startswith("infrastructure.energy.") and (row.get("direction") not in ("stated", "not_stated") or row.get("counter") != "reset_wrap_and_continuity_never_inferred"):
-                fail("prospective counter")
+            check_prospective_conversion(row)
             targets.add(row["target"])
     if not targets <= set(REQUESTED) or document.get("projection", {}).get("requested_items") != [{"kind": "fact", "item_id": item} for item in REQUESTED] or any(item not in fields for item in REQUESTED):
         fail("requested items")
@@ -338,7 +369,8 @@ def expected_tables(contract):
         withheld.append([rule["native_id"], rule["gateway_path"], rule["grade"].capitalize(), reason, contract["reasons"][reason]["loss_kind"]])
         for row in rule.get("prospective", []):
             rule_text = row.get("sign_reference") or ("direction %s; %s" % (row["direction"], row["counter"]) if "direction" in row else "none")
-            prospective.append([row["target"], row["dimension"], rule["native_id"], native_form(row["native"]), rule_text, row.get("role", "any role")])
+            conversion = "%s, factor %s, offset %s" % (row["unit"], plain(row["conversion"]["factor"]), plain(row["conversion"]["offset"]))
+            prospective.append([row["target"], row["dimension"], rule["native_id"], native_form(row["native"]), conversion, "+".join(row["loss"]) or "none", rule_text, row.get("role", "any role")])
     return withheld, prospective
 
 
