@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Mutation controls for the Huawei SUN2000 PV mapping gate (run with python3 or python3 -m pytest)."""
 import copy
-import hashlib
 import importlib.util
 import json
 import re
@@ -13,6 +12,10 @@ SPEC = importlib.util.spec_from_file_location("validate_huawei_sun2000_pv_mappin
 v = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = v
 SPEC.loader.exec_module(v)
+
+GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(GRAPH_SPEC)
+GRAPH_SPEC.loader.exec_module(graph_rules)
 
 SUPPORT_SPEC = importlib.util.spec_from_file_location("huawei_mapping_test_support", ROOT / "scripts/huawei_mapping_test_support.py")
 support = importlib.util.module_from_spec(SUPPORT_SPEC)
@@ -35,6 +38,9 @@ CONVERSIONS = {
     ("kWh", "unit.joule"): {"factor": {"coefficient": "36", "exponent10": 5}, "offset": ZERO},
 }
 ENERGY_RULE = 5
+# Gateway-allocated resource identifiers of the m1 baseline (graph.md 6.3); dimension values and relation endpoints carry them.
+LOGGER, SYSTEM, INVERTER = "resource:demo-logger-a", "resource:demo-system-alpha", "resource:demo-inverter-alpha"
+INPUTS = ["resource:demo-input-alpha-%d" % n for n in range(1, 9)]
 
 
 def contract():
@@ -133,7 +139,8 @@ def test_no_binary_floating_point_anywhere():
     ("target-not-in-pack", lambda d: set_path(d, "field_rules.0.target", "pv.dc.invented"), "target definition"),
     ("unit-other-than-pack", lambda d: set_path(d, "field_rules.0.unit", "unit.watt"), "target definition"),
     ("dimension-other-than-pack", lambda d: set_path(d, "field_rules.0.dimension", "pv.dimension.string"), "target definition"),
-    ("dimension-text", lambda d: set_path(d, "field_rules.0.dimension_text", "input:{n}:{asset_suffix}"), "dimension text"),
+    ("dimension-text-restored", lambda d: set_path(d, "field_rules.0.dimension_text", "input:{n}"), "unit conversion"),
+    ("status-dimension-text-restored", lambda d: set_path(d, "field_rules.4.dimension_text", "inverter:{asset_suffix}"), "status symbols"),
     ("native-gain", lambda d: set_path(d, "field_rules.0.native.gain", 7), "native form"),
     ("native-words", lambda d: set_path(d, "field_rules.2.native.words", 1), "native form"),
     ("unit-conversion-factor", lambda d: set_path(d, "field_rules.2.conversion.factor", ONE), "unit conversion"),
@@ -151,11 +158,10 @@ def test_no_binary_floating_point_anywhere():
     ("identity-source-distinct", lambda d: set_path(d, "identity.source_id.distinct_from", "binding_id"), "identity contract"),
     ("identity-binding-inputs", lambda d: set_path(d, "identity.binding_id.stable_inputs.0", "routed_unit"), "identity contract"),
     ("identity-granularity", lambda d: set_path(d, "identity.asset_id.granularity", "one_asset_per_endpoint"), "identity contract"),
-    ("identity-dimension-text", lambda d: d["identity"]["dimension_text"].update({"pv.dimension.system": "system:{n}"}), "identity contract"),
-    ("identity-phase-value", lambda d: d["identity"]["dimension_text"].update({"pv.dimension.phase": "phase:L1"}), "identity contract"),
-    ("identity-relation-member-earlier-name", lambda d: d["identity"].update({EARLIER_MEMBER: d["identity"].pop("relations")}), "identity contract"),
-    ("identity-relation-member-duplicated", lambda d: d["identity"].update({EARLIER_MEMBER: list(d["identity"]["relations"])}), "identity contract"),
-    ("identity-relation-dropped", lambda d: d["identity"]["relations"].pop(), "identity contract"),
+    ("identity-dimension-text-restored", lambda d: d["identity"].update({"dimension_text": {"pv.dimension.system": "system:{asset_suffix}"}}), "identity contract"),
+    ("identity-relation-list-restored", lambda d: d["identity"].update({"relations": ["pv.relation.system_inverter", "pv.relation.inverter_input"]}), "identity contract"),
+    ("identity-relation-member-earlier-name", lambda d: d["identity"].update({EARLIER_MEMBER: ["pv.relation.system_inverter"]}), "identity contract"),
+    ("identity-phase-allocated", lambda d: set_path(d, "identity.resources.phases.source", "gateway_allocated_resource_id"), "identity contract"),
     ("lifecycle-retention", lambda d: set_path(d, "lifecycle.retention_fence", "none"), "lifecycle contract"),
     ("lifecycle-device-time", lambda d: set_path(d, "lifecycle.device_time", "statistics_time_used"), "lifecycle contract"),
     ("decimal-policy", lambda d: set_path(d, "decimal_policy.binary_floating_point", "allowed"), "decimal policy"),
@@ -247,10 +253,10 @@ def test_words_decode_with_the_contract_word_form():
 
 ADMITTED = [("pv_string_voltage", 1), ("pv_string_voltage", 2), ("pv_string_current", 1), ("pv_string_current", 2),
             ("input_power", 0), ("active_power", 0), ("energy_accumulated", 0), ("energy_current_hour", 0), ("energy_current_day", 0)]
-OWN_FACT = {("pv_string_voltage", 1): ("pv.dc.voltage", "input:1"), ("pv_string_voltage", 2): ("pv.dc.voltage", "input:2"),
-            ("pv_string_current", 1): ("pv.dc.current", "input:1"), ("pv_string_current", 2): ("pv.dc.current", "input:2"),
-            ("input_power", 0): ("pv.dc.aggregate_power", "inverter:demo-alpha"), ("active_power", 0): ("pv.ac.aggregate_active_power", "inverter:demo-alpha"),
-            ("energy_accumulated", 0): ("pv.energy.generated", "system:demo-alpha"), ("energy_current_hour", 0): None, ("energy_current_day", 0): None}
+OWN_FACT = {("pv_string_voltage", 1): ("pv.dc.voltage", INPUTS[0]), ("pv_string_voltage", 2): ("pv.dc.voltage", INPUTS[1]),
+            ("pv_string_current", 1): ("pv.dc.current", INPUTS[0]), ("pv_string_current", 2): ("pv.dc.current", INPUTS[1]),
+            ("input_power", 0): ("pv.dc.aggregate_power", INVERTER), ("active_power", 0): ("pv.ac.aggregate_active_power", INVERTER),
+            ("energy_accumulated", 0): ("pv.energy.generated", SYSTEM), ("energy_current_hour", 0): None, ("energy_current_day", 0): None}
 
 
 @parametrize("key,index", ADMITTED)
@@ -271,13 +277,13 @@ def test_each_consumed_word_changes_exactly_its_own_fact(key, index):
 
 def test_scale_gain_and_unit_conversion_for_each_form():
     out = by_key(project(case()))
-    assert out[("pv.dc.voltage", "input:1")]["value"]["quantity"] == {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}
-    assert out[("pv.dc.current", "input:1")]["value"]["quantity"] == {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}
-    assert out[("pv.dc.aggregate_power", "inverter:demo-alpha")]["value"]["quantity"] == {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}
-    assert out[("pv.ac.aggregate_active_power", "inverter:demo-alpha")]["value"]["quantity"] == {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}
+    assert out[("pv.dc.voltage", INPUTS[0])]["value"]["quantity"] == {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}
+    assert out[("pv.dc.current", INPUTS[0])]["value"]["quantity"] == {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}
+    assert out[("pv.dc.aggregate_power", INVERTER)]["value"]["quantity"] == {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}
+    assert out[("pv.ac.aggregate_active_power", INVERTER)]["value"]["quantity"] == {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}
     native = next(fact for fact in case()["facts"] if fact["key"] == "energy_accumulated")["value"]
     joule = kernel_decimal(fraction_of(native) * 3600000)
-    assert out[("pv.energy.generated", "system:demo-alpha")]["value"]["quantity"] == {"number": joule, "unit": "unit.joule"}
+    assert out[("pv.energy.generated", SYSTEM)]["value"]["quantity"] == {"number": joule, "unit": "unit.joule"}
     assert joule == {"coefficient": "44444412", "exponent10": 3} and fraction_of(joule) / 3600000 == fraction_of(native)
 
 
@@ -337,7 +343,7 @@ def test_negative_active_power_is_withheld_and_never_assumed():
     document["facts"][position]["value"] = {"coefficient": "-300", "exponent10": -3}
     document["facts"][position]["words"] = [0xFFFF, 0xFED4]
     output = project(document)
-    assert ("pv.ac.aggregate_active_power", "inverter:demo-alpha") not in by_key(output)
+    assert ("pv.ac.aggregate_active_power", INVERTER) not in by_key(output)
     row = next(row for row in output["native_dispositions"] if row["native_id"] == "active_power")
     assert row == {"native_id": "active_power", "outcome": "withheld", "reason": "pv.reason.negative_active_power_sign_unknown"}
     assert len(output["facts"]) == 7
@@ -348,13 +354,13 @@ def test_zero_pair_never_creates_an_input_and_a_single_nonzero_word_does():
     for key, raw in (("pv_string_voltage", 0), ("pv_string_current", 0)):
         position = fact_position(document, key, 3)
         assert int(document["facts"][position]["value"]["coefficient"]) == raw
-    assert not any(text == "input:3" for _, text in by_key(project(document)))
+    assert not any(text == INPUTS[2] for _, text in by_key(project(document)))
     position = fact_position(document, "pv_string_current", 3)
     document["facts"][position]["value"]["coefficient"] = "1"
     document["facts"][position]["words"] = [1]
     out = by_key(project(document))
-    assert out[("pv.dc.current", "input:3")]["value"]["quantity"]["number"] == {"coefficient": "1", "exponent10": -2}
-    assert out[("pv.dc.voltage", "input:3")]["value"]["quantity"]["number"] == {"coefficient": "0", "exponent10": 0}
+    assert out[("pv.dc.current", INPUTS[2])]["value"]["quantity"]["number"] == {"coefficient": "1", "exponent10": -2}
+    assert out[("pv.dc.voltage", INPUTS[2])]["value"]["quantity"]["number"] == {"coefficient": "0", "exponent10": 0}
 
 
 def test_unknown_is_absence_and_never_zero():
@@ -365,7 +371,7 @@ def test_unknown_is_absence_and_never_zero():
             del document["facts"][position][member]
         document["facts"][position].update({"availability": "UNKNOWN", "grade": "unknown"})
     out = by_key(project(document))
-    assert ("pv.dc.aggregate_power", "inverter:demo-alpha") not in out and ("pv.ac.aggregate_active_power", "inverter:demo-alpha") not in out
+    assert ("pv.dc.aggregate_power", INVERTER) not in out and ("pv.ac.aggregate_active_power", INVERTER) not in out
     reasons = {row["native_id"]: row["reason"] for row in project(document)["native_dispositions"] if row["native_id"] in ("input_power", "active_power")}
     assert reasons == {"input_power": "pv.reason.native_fact_unknown", "active_power": "pv.reason.native_fact_unknown"}
 
@@ -380,7 +386,7 @@ def test_unknown_fact_that_carries_a_value_is_rejected():
 
 def test_status_publishes_only_the_observed_state():
     out = by_key(project(case()))
-    symbol = out[("pv.status.operating", "inverter:demo-alpha")]["value"]["symbol"]
+    symbol = out[("pv.status.operating", INVERTER)]["value"]["symbol"]
     assert symbol == {"namespace": "pv.status.operating", "token": "generating", "known": True}
     document = case()
     document["facts"][fact_position(document, "device_status", 0)]["state"] = "standby"
@@ -471,7 +477,7 @@ def retained_case():
     document["groups"][3]["outcome"] = "FAILED"
     origin = {"receipt_wall": "2025-12-31T23:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-0", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1,
               "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1,
-              "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}
+              "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}
     for key in ("energy_accumulated", "energy_current_hour", "energy_current_day"):
         document["facts"][fact_position(document, key, 0)].update({"retained": True, "observation_id": "observation:demo-0003", "observation_revision": 3, "origin": dict(origin)})
     return document
@@ -517,13 +523,13 @@ def test_retained_reading_is_fenced_by_its_original_lineage():
 
 
 def test_retained_reading_is_fenced_by_its_original_identity():
-    for member, value in (("asset_id", "pv-asset-demo-beta"), ("binding_id", "binding:semantic-pv:demo-beta"), ("source_id", "source:gateway-demo-b")):
+    for member, value in (("asset_id", "asset:demo-beta"), ("binding_id", "binding:semantic-pv:demo-beta"), ("source_id", "source:gateway-demo-b")):
         broken = retained_case()
         broken["facts"][fact_position(broken, "energy_accumulated", 0)]["origin"][member] = value
         with raises(ValueError, match="native_evidence_invalid"):
             project(broken)
     reassigned = retained_case()
-    reassigned["identity"] = {"asset_id": "pv-asset-demo-beta", "binding_id": "binding:semantic-pv:demo-beta"}
+    reassigned["identity"] = {"asset_id": "asset:demo-beta", "binding_id": "binding:semantic-pv:demo-beta"}
     with raises(ValueError, match="native_evidence_invalid"):
         project(reassigned)
     broken = retained_case()
@@ -540,9 +546,113 @@ def test_fact_keys_follow_the_pack_dimensions_and_relations():
         assert key["pack_id"] == "helianthus.pack.pv" and key["pack_version"] == "1.0.0"
         assert [dimension["id"] for dimension in key["dimensions"]] == [pack[key["fact_id"]]["dimension"]]
         assert not any(dimension["id"] == "pv.dimension.phase" for dimension in key["dimensions"])
-    assert {(r["id"], r["from"]["text"], r["to"]["text"]) for r in out["relations"]} == {
-        ("pv.relation.system_inverter", "system:demo-alpha", "inverter:demo-alpha"),
-        ("pv.relation.inverter_input", "inverter:demo-alpha", "input:1"), ("pv.relation.inverter_input", "inverter:demo-alpha", "input:2")}
+    assert [(r["definition"], r["from"], r["to"], r["basis_class"]) for r in out["relations"]] == [
+        ("pv.relation.inverter_input", INVERTER, INPUTS[0], "gate_rule"), ("pv.relation.inverter_input", INVERTER, INPUTS[1], "gate_rule"),
+        ("pv.relation.system_inverter", SYSTEM, INVERTER, "gate_rule"), ("relation.relays", LOGGER, INVERTER, "native_observation")]
+
+
+def test_relation_endpoints_and_dimension_values_are_published_resources():
+    """REL-8 and RES-5: every endpoint and every subject is a published ResourceID, never dimension text."""
+    out = project(case())
+    kinds = {r["resource_id"]: r["kind"] for r in out["resources"]}
+    assert kinds == {LOGGER: "resource.equipment", SYSTEM: "resource.pv_system", INVERTER: "resource.inverter", INPUTS[0]: "resource.dc_input", INPUTS[1]: "resource.dc_input"}
+    assert [r["resource_id"] for r in out["resources"]] == sorted(kinds)
+    assert {r["resource_id"]: r.get("parent") for r in out["resources"]} == {LOGGER: None, SYSTEM: None, INVERTER: None, INPUTS[0]: INVERTER, INPUTS[1]: INVERTER}
+    for record in out["relations"]:
+        assert record["from"] in kinds and record["to"] in kinds
+    for fact in out["facts"]:
+        assert fact["key"]["dimensions"][0]["value"]["text"] in kinds
+    v.assert_graph(out)
+
+
+@parametrize("damage", [
+    lambda o: o["relations"].append({"definition": "relation.relays", "from": INVERTER, "to": "resource:demo-battery-alpha", "basis_class": "native_observation"}),
+    lambda o: o["relations"].append({"definition": "pv.relation.inverter_input", "from": INVERTER, "to": "input:1", "basis_class": "gate_rule"}),
+    lambda o: o.update(resources=[r for r in o["resources"] if r["resource_id"] != INVERTER]),
+    lambda o: o.update(resources=[r for r in o["resources"] if r["resource_id"] != INPUTS[0]]),
+])
+def test_a_dangling_endpoint_or_subject_is_rejected(damage):
+    out = project(case())
+    damage(out)
+    with raises(ValueError, match="dangling endpoint"):
+        v.assert_graph(out)
+
+
+NEW_ID = "resource:demo-varied-zeta"
+
+
+def mentions(output, value):
+    """Where an identifier appears in a projection output, by record class."""
+    places = set()
+    for fact in output["facts"]:
+        if fact["key"]["dimensions"][0]["value"]["text"] == value:
+            places.add("fact:" + fact["key"]["fact_id"])
+    for item in output["dispositions"]:
+        places |= {"source_key:" + item["item_id"] for key in item["source_keys"] if key["dimensions"][0]["value"]["text"] == value}
+    for record in output["relations"]:
+        places |= {"relation:%s:%s" % (record["definition"], side) for side in ("from", "to") if record[side] == value}
+    for resource in output["resources"]:
+        places |= {"resource" for _ in [0] if resource["resource_id"] == value} | {"parent" for _ in [0] if resource.get("parent") == value}
+    return places
+
+
+def normalized(value):
+    """The output with every list ordered canonically: records sort by identifier, so a varied identifier may reorder them."""
+    if isinstance(value, dict):
+        return {name: normalized(item) for name, item in value.items()}
+    if isinstance(value, list):
+        return sorted((normalized(item) for item in value), key=lambda item: json.dumps(item, sort_keys=True))
+    return value
+
+
+INVERTER_PLACES = {"resource", "parent", "fact:pv.ac.aggregate_active_power", "fact:pv.dc.aggregate_power", "fact:pv.status.operating",
+                   "source_key:pv.ac.aggregate_active_power", "source_key:pv.dc.aggregate_power", "source_key:pv.status.operating",
+                   "relation:pv.relation.system_inverter:to", "relation:pv.relation.inverter_input:from", "relation:relation.relays:to"}
+INPUT_PLACES = {"resource", "fact:pv.dc.voltage", "fact:pv.dc.current", "source_key:pv.dc.voltage", "source_key:pv.dc.current", "relation:pv.relation.inverter_input:to"}
+
+
+# Resource identity coverage: each row varies one field of `identity.resources` (and the asset) and states where it must
+# appear. The comment names the production mutation the row catches.
+@parametrize("path,old,places", [
+    ("identity.resources.logger", LOGGER, {"resource", "relation:relation.relays:from"}),  # relays drawn from the asset or the source
+    ("identity.resources.system", SYSTEM, {"resource", "fact:pv.energy.generated", "source_key:pv.energy.generated", "relation:pv.relation.system_inverter:from"}),  # system text derived from the asset
+    ("identity.resources.inverter", INVERTER, INVERTER_PLACES),  # inverter text derived from the asset, or the input parent taken from the system
+    ("identity.resources.inputs.0", INPUTS[0], INPUT_PLACES),  # input keyed by "input:<n>" instead of its allocated ResourceID
+    ("identity.resources.inputs.1", INPUTS[1], INPUT_PLACES),  # inputs keyed by position in the published list instead of the native index
+    ("identity.resources.inputs.2", INPUTS[2], set()),  # an input with a zero pair published as a resource
+    ("identity.resources.inputs.7", INPUTS[7], set()),  # the eighth slot off by one
+    ("identity.asset_id", "asset:demo-alpha", set()),  # a dimension value or endpoint still derived from the asset
+])
+def test_each_resource_identity_reaches_exactly_its_own_records(path, old, places):
+    base = case()
+    varied = copy.deepcopy(base)
+    set_path(varied, path, NEW_ID)
+    before, after = project(base), project(varied)
+    assert mentions(before, old) == places and mentions(after, NEW_ID) == places
+    assert normalized(json.loads(json.dumps(before).replace(old, NEW_ID))) == normalized(after)
+
+
+@parametrize("path,value", [
+    ("identity.resources.inverter", None), ("identity.resources.logger", ""), ("identity.resources", None),
+    ("identity.resources.inputs", INPUTS[:7]), ("identity.resources.inputs.2", INPUTS[0]),
+    ("identity.resources.system", INVERTER), ("identity.resources.logger", "asset:demo-alpha"), ("identity.resources.inverter", "binding:semantic-pv:demo-alpha"),
+    ("identity.resources.inverter", "resource:serial-0001"), ("identity.resources.system", "resource:huawei-a"), ("identity.resources.inverter", "1"),
+    ("identity.resources.phases", ["resource:demo-phase-alpha-1"]),
+])
+def test_resource_identities_fail_closed(path, value):
+    """A missing, reused or derived ResourceID fails closed; one identifier never names two resources."""
+    document = case()
+    set_path(document, path, value)
+    with raises(ValueError, match="identity_missing_or_invalid"):
+        project(document)
+
+
+def test_published_facts_do_not_depend_on_the_asset():
+    base, varied = case(), case()
+    set_path(varied, "identity.asset_id", "asset:demo-omega")
+    left = {f["key"]["dimensions"][0]["value"]["text"] for f in project(base)["facts"] if f["key"]["fact_id"] == "pv.dc.voltage"}
+    right = {f["key"]["dimensions"][0]["value"]["text"] for f in project(varied)["facts"] if f["key"]["fact_id"] == "pv.dc.voltage"}
+    assert left == right == set(INPUTS[:2])
 
 
 @parametrize("scenario_id,member,message", [
@@ -558,9 +668,8 @@ def test_expected_outputs_reject_the_earlier_relation_member(scenario_id, member
     assert str(error.value) == message
 
 
-# Identity and key coverage. Each row varies one field and names the production mutation the assertion catches.
+# Lineage coverage. Each row varies one field and names the production mutation the assertion catches.
 @parametrize("path,value,check", [
-    ("identity.asset_id", "pv-asset-demo-omega", lambda a, b: a["key"]["dimensions"][0]["value"]["text"] != b["key"]["dimensions"][0]["value"]["text"]),  # system/inverter text must follow the asset
     ("identity.binding_id", "binding:semantic-pv:demo-omega", lambda a, b: a["source_path"]["binding_id"] != b["source_path"]["binding_id"]),  # binding dropped from the source path
     ("source.source_id", "source:gateway-demo-z", lambda a, b: a["source_path"]["source_id"] != b["source_path"]["source_id"]),  # source taken from the asset
     ("lifecycle.source_epoch", "source-epoch:9", lambda a, b: a["source_path"]["source_epoch_id"] != b["source_path"]["source_epoch_id"]),  # epoch not carried
@@ -575,15 +684,7 @@ def test_identity_and_lifecycle_fields_reach_the_published_fact(path, value, che
     assert check(first, second)
 
 
-def test_input_dimension_does_not_depend_on_the_asset():
-    base, varied = case(), case()
-    set_path(varied, "identity.asset_id", "pv-asset-demo-omega")
-    left = {f["key"]["dimensions"][0]["value"]["text"] for f in project(base)["facts"] if f["key"]["fact_id"] == "pv.dc.voltage"}
-    right = {f["key"]["dimensions"][0]["value"]["text"] for f in project(varied)["facts"] if f["key"]["fact_id"] == "pv.dc.voltage"}
-    assert left == right == {"input:1", "input:2"}
-
-
-@parametrize("asset", ["", None, "pv asset", "pv-asset-serial-0001", "pv-asset-ESN-1", "pv-asset-10.0.0.7", "pv-asset-host:502", "1", "source:gateway-demo-a", "binding:semantic-pv:demo-alpha", "pv-asset-sun2000-a", "pv-asset-huawei", "pv-asset-smartlogger-a"])
+@parametrize("asset", ["", None, "asset one", "asset:serial-0001", "asset:ESN-1", "asset:10.0.0.7", "asset:host:502", "1", "source:gateway-demo-a", "binding:semantic-pv:demo-alpha", "asset:sun2000-a", "asset:huawei", "asset:smartlogger-a", INVERTER])
 def test_asset_identifier_never_comes_from_forbidden_inputs(asset):
     document = case()
     document["identity"]["asset_id"] = asset
@@ -591,7 +692,7 @@ def test_asset_identifier_never_comes_from_forbidden_inputs(asset):
         project(document)
 
 
-@parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:10.1.1.1"), ("identity.binding_id", None), ("identity.binding_id", "pv-asset-demo-alpha"), ("source", None), ("identity", {})])
+@parametrize("path,value", [("source.source_id", ""), ("source.source_id", "source:10.1.1.1"), ("identity.binding_id", None), ("identity.binding_id", "asset:demo-alpha"), ("source", None), ("identity", {})])
 def test_source_and_binding_identifiers_fail_closed(path, value):
     document = case()
     set_path(document, path, value)
@@ -675,7 +776,7 @@ def test_scenario_coverage_is_enforced():
     with raises(ValueError, match="cover every error"):
         v.validate_scenarios(document)
     document = contract()
-    document["scenarios"][1]["mutations"] = [{"path": "identity.asset_id", "value": "pv-asset-demo-omega"}]
+    document["scenarios"][1]["mutations"] = [{"path": "identity.asset_id", "value": "asset:demo-omega"}]
     with raises(ValueError, match="scenario baselines"):
         v.validate_scenarios(document)
 
@@ -740,32 +841,22 @@ def test_baselines_are_synthetic():
     document = json.loads(text)
     for baseline in document["baselines"].values():
         assert baseline["lifecycle"]["receipt_wall"] == "2026-01-01T00:00:00Z"
-        assert baseline["identity"]["asset_id"].startswith("pv-asset-demo-")
+        assert baseline["identity"]["asset_id"].startswith("asset:demo-")
         assert baseline["source"]["source_id"].startswith("source:gateway-demo-")
+        resources = baseline["identity"]["resources"]
+        assert all(item.startswith("resource:demo-") for item in [resources["logger"], resources["system"], resources["inverter"]] + resources["inputs"])
 
 
-def test_finalized_gateway_identity_rules_are_declared():
+def test_identity_carries_no_class_token_and_no_derivation():
+    """Section 6.3: a pack class token and a profile identifier are provenance, never identity."""
     identity = contract()["identity"]
-    assert identity["asset_id"]["source"] == "gateway_derived_semantic_asset_id"
-    assert identity["asset_id"]["derivation"] == {
-        "algorithm": "sha256", "domain": "helianthus.modbus.asset.v1",
-        "input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"],
-        "field_encoding": "utf8_each_followed_by_nul", "routed_unit_encoding": "decimal",
-        "class_token": "pv", "prefix": "pv-asset-", "digest_case": "lowercase", "digest_characters": 32,
-    }
+    assert set(identity) == {"asset_id", "source_id", "binding_id", "resources", "failure"}
+    assert identity["asset_id"]["source"] == "gateway_allocated_asset_id" and "derivation" not in identity["asset_id"]
+    assert {"class_token", "profile_id"} <= set(identity["asset_id"]["forbidden_derivations"])
     assert identity["source_id"]["source"] == "gateway_managed_instance_source_id"
-
-
-@parametrize("path,value", [
-    ("algorithm", "sha1"), ("domain", "different.domain"),
-    ("input_fields", ["domain", "class_token", "configured_instance_label", "routed_unit"]),
-    ("input_fields", ["domain", "configured_instance_label", "class_token", "endpoint_address"]),
-    ("field_encoding", "utf8_nul_separated_without_final_nul"),
-    ("routed_unit_encoding", "binary"), ("class_token", "inverter"),
-    ("prefix", "asset-"), ("digest_case", "uppercase"), ("digest_characters", 64),
-])
-def test_asset_derivation_contract_cannot_drift(path, value):
-    assert_rejected(lambda d: set_path(d, "identity.asset_id.derivation." + path, value), "identity contract")
+    assert "class_token" not in json.dumps(identity["resources"])
+    selectors = {item["selector"]: item["classification"] for item in contract()["graph"]["selectors"]}
+    assert selectors == {"profile_id": "provenance", "class_token": "provenance"}
 
 
 def test_source_identity_contract_cannot_return_to_per_asset_configuration():
@@ -774,19 +865,15 @@ def test_source_identity_contract_cannot_return_to_per_asset_configuration():
 
 def test_obsolete_per_child_configured_asset_requirement_is_rejected():
     assert_rejected(lambda d: set_path(d, "identity.asset_id.source", "gateway_configured_semantic_asset_id"), "identity contract")
+    assert_rejected(lambda d: set_path(d, "identity.asset_id.source", "gateway_derived_semantic_asset_id"), "identity contract")
 
 
 @parametrize("family,baseline,label", [
     ("sdongle", "m1", "default"), ("sdongle", "m1", "roof"),
     ("smartlogger", "m3", "default"), ("smartlogger", "m3", "roof"),
 ])
-def test_final_gateway_identifiers_project_without_per_child_configuration(family, baseline, label):
+def test_managed_source_identifiers_project_with_allocated_resources(family, baseline, label):
     document = case(baseline)
-    # NUL separates every field; the unit is decimal text, not a byte value.
-    unit = str(document["selection"]["routed_unit"]).encode()
-    payload = b"\0".join([b"helianthus.modbus.asset.v1", label.encode(), b"pv", unit]) + b"\0"
-    asset = "pv-asset-" + hashlib.sha256(payload).hexdigest()[:32]
-    document["identity"]["asset_id"] = asset
     suffix = "" if label == "default" else "." + label
     source = "modbus.huawei." + family + suffix + ":00000000-0000-4000-8000-0000000000d5"
     document["source"]["source_id"] = source
@@ -794,7 +881,162 @@ def test_final_gateway_identifiers_project_without_per_child_configuration(famil
     assert out["facts"]
     assert all(f["source_path"]["source_id"] == source for f in out["facts"])
     energy = next(f for f in out["facts"] if f["key"]["fact_id"] == "pv.energy.generated")
-    assert energy["key"]["dimensions"][0]["value"]["text"] == "system:" + asset.removeprefix("pv-asset-")
+    assert energy["key"]["dimensions"][0]["value"]["text"] == document["identity"]["resources"]["system"]
+
+
+def graph_rejection(edits, catalog=None):
+    document = contract()
+    for op, path, value in edits:
+        if op == "append":
+            target = document
+            for part in path.split("."):
+                target = target[int(part)] if isinstance(target, list) else target[part]
+            target.append(copy.deepcopy(value))
+        elif op == "delete":
+            v.mutate(document, {"path": path, "remove": True})
+        else:
+            v.mutate(document, {"path": path, "value": copy.deepcopy(value)})
+    try:
+        v.validate_contract(document, catalog)
+    except ValueError as error:
+        return str(error)
+    return None
+
+
+def test_gate_states_its_graph_and_passes_the_shared_checker():
+    document = contract()
+    assert "graph" in document
+    assert graph_rules.check(document, graph_rules.load_catalog()) == []
+    assert not re.search(r'"planes?"', v.PATH.read_text(encoding="utf-8"))
+
+
+BATTERY_RELAYS = {"definition": "relation.relays", "basis_class": "native_observation", "from_kind": "resource.inverter", "to_kind": "resource.battery",
+                  "evidence": ["synthetic:battery"], "validity_scope": {"profile": "m3_and_m1", "version": "1.0.0", "rule_scope": "synthetic"}, "absence_sides": []}
+STRING_RESOURCE = {"kind": "resource.pv_string", "anchor_class": "component", "anchor_basis": "native_slot", "anchor_source": "native_position",
+                   "identification_scheme": "none_listed", "parent_kind": "resource.inverter", "evidence": ["synthetic:string"]}
+VOLTAGE_AGGREGATE = {"fact": "pv.dc.voltage", "subject_kind": "resource.dc_input", "coverage": []}
+
+# (name, edits, expected error). Indices: resources logger, system, inverter, input, phase; relations relays, system to
+# inverter, inverter to input; selectors profile identifier, class token; aggregates DC power, AC power, energy.
+GRAPH_NEGATIVES = [
+    # Item 5: a class token, routed unit or profile offered as an anchor source.
+    ("class_token_as_anchor_source", [("set", "graph.resources.2.anchor_source", "class_token")], "graph anchor_source_not_allowed $.graph.resources[2].anchor_source"),
+    ("routed_unit_as_anchor_source", [("set", "graph.resources.2.anchor_source", "routed_unit")], "graph anchor_source_not_allowed $.graph.resources[2].anchor_source"),
+    ("profile_as_anchor_source", [("set", "graph.resources.0.anchor_source", "profile_id")], "graph anchor_source_not_allowed $.graph.resources[0].anchor_source"),
+    ("class_token_as_identity_evidence", [("set", "graph.selectors.1.classification", "identity_evidence")], "graph_selectors"),
+    ("class_token_as_resource_attribute", [("set", "graph.selectors.1.classification", "resource_attribute")], "graph_selectors"),
+    ("class_token_selector_dropped", [("delete", "graph.selectors.1", None)], "graph_selectors"),
+    # Item 5: one device reached through two labels or paths is joined by declaration or flagged, never two identities.
+    ("false_join", [("set", "graph.joins.0.native_tokens", "differ")], "graph false_join $.graph.joins[0].native_tokens"),
+    ("join_by_label", [("set", "graph.joins.0.basis", "configured_instance_label")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("join_by_routed_unit", [("set", "graph.joins.0.basis", "routed_unit")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("two_paths_two_identities", [("set", "graph.joins", [])], "graph_joins"),
+    ("join_of_one_observation", [("set", "graph.joins.0.observations", ["observed_directly"])], "graph invalid_value $.graph.joins[0].observations"),
+    # Item 5: a relation record whose endpoint is not a published resource.
+    ("dangling_battery_endpoint", [("append", "graph.relations", BATTERY_RELAYS)], "graph dangling_endpoint $.graph.relations[3].to_kind"),
+    ("dangling_logger_endpoint", [("set", "graph.resources.0.kind", "resource.meter")], "graph dangling_endpoint $.graph.relations[0].from_kind"),
+    # Resources (section 15 item 1): kind, class, basis, source, scheme, parent and evidence each varied.
+    ("resource_kind_not_member", [("set", "graph.resources.4.kind", "resource.thermal_circuit")], "graph kind_not_member $.graph.resources[4].kind"),
+    ("resource_unpublished_kind", [("append", "graph.resources", STRING_RESOURCE)], "graph_resources"),
+    ("input_anchor_class", [("set", "graph.resources.3.anchor_class", "equipment")], "graph anchor_class_mismatch $.graph.resources[3].anchor_class"),
+    ("input_anchored_on_label", [("set", "graph.resources.3.anchor_basis", "operator_slot"), ("set", "graph.resources.3.anchor_source", "operator_label")], "graph_anchor"),
+    ("system_anchored_on_position", [("set", "graph.resources.1.anchor_basis", "native_slot"), ("set", "graph.resources.1.anchor_source", "native_position")], "graph_anchor"),
+    ("inverter_basis_source_mismatch", [("set", "graph.resources.2.anchor_basis", "native_slot")], "graph anchor_basis_mismatch $.graph.resources[2].anchor_basis"),
+    ("inverter_native_token_without_scheme", [("set", "graph.resources.2.anchor_basis", "native_identity"), ("set", "graph.resources.2.anchor_source", "native_token")], "graph scheme_not_listed $.graph.resources[2].identification_scheme"),
+    ("inverter_scheme_unlisted", [("set", "graph.resources.2.identification_scheme", {"id": "scheme.unlisted", "issuer_registry": "none"})], "graph scheme_not_listed $.graph.resources[2].identification_scheme"),
+    ("input_parent_system", [("set", "graph.resources.3.parent_kind", "resource.pv_system")], "graph_parent"),
+    ("phase_parent_missing", [("set", "graph.resources.4.parent_kind", None)], "graph parent_kind_missing $.graph.resources[4].parent_kind"),
+    ("inverter_token_stability_unstated", [("set", "graph.resources.2.evidence", ["native_contract:monitoring_contract"])], "graph_evidence"),
+    ("inverter_future_token_unstated", [("delete", "graph.resources.2.evidence.1", None)], "graph_evidence"),
+    ("resource_evidence_empty", [("set", "graph.resources.1.evidence", [])], "graph invalid_value $.graph.resources[1].evidence"),
+    # Relations (section 15 item 2): definition, basis class, both endpoints, evidence, each scope member and absence sides.
+    ("relation_not_member", [("set", "graph.relations.1.definition", "relation.invented")], "graph relation_not_member $.graph.relations[1].definition"),
+    ("system_inverter_by_configuration", [("set", "graph.relations.1.basis_class", "configuration")], "graph_relations"),
+    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+    ("relays_by_configuration", [("set", "graph.relations.0.basis_class", "configuration")], "graph_relations"),
+    ("relation_from_kind", [("set", "graph.relations.2.from_kind", "resource.pv_system")], "graph endpoint_kind_mismatch $.graph.relations[2].from_kind"),
+    ("relation_to_kind", [("set", "graph.relations.1.to_kind", "resource.dc_input")], "graph endpoint_kind_mismatch $.graph.relations[1].to_kind"),
+    ("relation_evidence_empty", [("set", "graph.relations.2.evidence", [])], "graph invalid_value $.graph.relations[2].evidence"),
+    ("scope_profile", [("set", "graph.relations.1.validity_scope.profile", "m3")], "graph_relations"),
+    ("scope_version", [("set", "graph.relations.2.validity_scope.version", "1.0.1")], "graph_relations"),
+    ("scope_rule_blank", [("set", "graph.relations.0.validity_scope.rule_scope", "")], "graph invalid_value $.graph.relations[0].validity_scope.rule_scope"),
+    ("scope_rule_widened", [("set", "graph.relations.2.validity_scope.rule_scope", "every_native_string_slot")], "graph_relations"),
+    ("absence_claimed", [("set", "graph.relations.2.absence_sides", ["to"])], "graph_relations"),
+    ("relation_dropped", [("delete", "graph.relations.2", None)], "graph_relations"),
+    # Relayed (section 15 item 3).
+    ("relayed_direct_key_address", [("set", "graph.relayed.0.direct_anchor_key_source", "network_address")], "graph anchor_source_not_allowed $.graph.relayed[0].direct_anchor_key_source"),
+    ("relayed_direct_key_denied", [("set", "graph.relayed.0.direct_anchor_key_source", "none")], "graph_relayed"),
+    ("relayed_dropped", [("set", "graph.relayed", [])], "graph_relayed"),
+    # Aggregates (section 15 item 4, EN-5).
+    ("energy_without_coverage", [("set", "graph.aggregates.2.coverage", [])], "graph_aggregates"),
+    ("power_coverage_claimed", [("set", "graph.aggregates.0.coverage", ["pv.relation.inverter_input"])], "graph_aggregates"),
+    ("aggregate_subject_missing", [("set", "graph.aggregates.2.subject_kind", "")], "graph aggregate_subject_missing $.graph.aggregates[2].subject_kind"),
+    ("member_as_aggregate", [("append", "graph.aggregates", VOLTAGE_AGGREGATE)], "graph not_an_aggregate $.graph.aggregates[3].fact"),
+    # Section 15 item 6 and PLN-1.
+    ("plane_on_resource", [("set", "graph.resources.0.planes", ["physical"])], "graph plane_membership_stated $.graph.resources[0].planes"),
+    ("plane_on_field_rule", [("set", "field_rules.0.planes", ["energy"])], "graph plane_membership_stated $.field_rules[0].planes"),
+    # Withheld children: unknown, never absent (section 7.2).
+    ("unstated_phase_dropped", [("delete", "unstated_relations.2", None)], "unstated_relations"),
+    ("unstated_battery_absent", [("set", "unstated_relations.3.outcome", "absent")], "unstated_relations"),
+    ("unstated_battery_from_logger", [("set", "unstated_relations.3.from_kind", "resource.equipment")], "unstated_relations"),
+    ("unstated_meter_reason", [("set", "unstated_relations.4.withheld_by", "pv.reason.native_fact_unknown")], "unstated_relations"),
+    # Identity (section 6.3).
+    ("identity_class_token_allowed", [("delete", "identity.asset_id.forbidden_derivations.7", None)], "identity contract"),
+    ("identity_profile_allowed", [("delete", "identity.asset_id.forbidden_derivations.8", None)], "identity contract"),
+    ("identity_derivation_restored", [("set", "identity.asset_id.derivation", {"input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"]})], "identity contract"),
+    ("identity_input_dimension", [("set", "identity.resources.inputs.dimension", "pv.dimension.string")], "identity contract"),
+    ("identity_inverter_source", [("set", "identity.resources.inverter.source", "gateway_derived_semantic_asset_id")], "identity contract"),
+    ("identity_logger_kind", [("set", "identity.resources.logger.kind", "resource.meter")], "identity contract"),
+    ("identity_input_slots", [("set", "identity.resources.inputs.slots", 9)], "identity contract"),
+    # EN-1: every mapped field rule names its subject kind and measurement point.
+    ("field_rule_subject_kind", [("set", "field_rules.0.subject_kind", "resource.inverter")], "field rule subject"),
+    ("field_rule_subject_missing", [("delete", "field_rules.2.subject_kind", None)], "field rule subject"),
+    ("field_rule_measurement_point_blank", [("set", "field_rules.0.measurement_point", "")], "field rule subject"),
+    ("field_rule_measurement_point_moved", [("set", "field_rules.3.measurement_point", "inverter_dc_side")], "field rule subject"),
+    ("field_rule_dimension", [("set", "field_rules.5.dimension", "pv.dimension.inverter")], "target definition"),
+]
+
+
+@parametrize("name,edits,expected", GRAPH_NEGATIVES)
+def test_graph_identity_and_subject_negatives_are_rejected(name, edits, expected):
+    assert graph_rejection(edits) == expected, name
+
+
+def catalog_with(element_id, mutate_attributes):
+    catalog = copy.deepcopy(graph_rules.load_catalog())
+    for element in catalog["elements"]:
+        if element["ref"]["id"] == element_id:
+            mutate_attributes(element["attributes"])
+    return catalog
+
+
+# Constants that repeat a catalog fact are lookups: a changed catalog entry changes the outcome.
+@parametrize("element_id,mutate_attributes,expected", [
+    ("pv.dc.voltage", lambda a: a["subject"].update(kind="resource.inverter"), "field rule subject"),
+    ("pv.energy.generated", lambda a: a["subject"].update(kind="resource.inverter"), "graph subject_kind_mismatch $.graph.aggregates[2].subject_kind"),
+    ("pv.dimension.input", lambda a: a.update(resource_kind="resource.pv_string"), "graph_resources"),
+    ("pv.relation.inverter_input", lambda a: a.update(basis_classes=["configuration"]), "graph basis_class_not_admitted $.graph.relations[2].basis_class"),
+    ("pv.relation.inverter_phase", lambda a: a.update(from_kinds=["resource.pv_system"]), "graph_parent"),
+    ("pv.ac.aggregate_active_power", lambda a: a.update(aggregation="member"), "graph not_an_aggregate $.graph.aggregates[1].fact"),
+])
+def test_catalog_facts_are_looked_up_not_repeated(element_id, mutate_attributes, expected):
+    assert graph_rejection([], catalog_with(element_id, mutate_attributes)) == expected
+
+
+def test_withheld_children_stay_unknown_and_never_absent():
+    document = contract()
+    rows = {(row["definition"], row["from_kind"], row["to_kind"]): row for row in document["unstated_relations"]}
+    assert set(rows) == {("pv.relation.array_string", "resource.pv_array", "resource.pv_string"), ("pv.relation.inverter_array", "resource.inverter", "resource.pv_array"),
+                         ("pv.relation.inverter_phase", "resource.inverter", "resource.phase"), ("relation.relays", "resource.inverter", "resource.battery"),
+                         ("relation.relays", "resource.inverter", "resource.meter")}
+    assert {row["outcome"] for row in rows.values()} == {"unknown_not_absent"}
+    assert all(not relation["absence_sides"] for relation in document["graph"]["relations"])
+
+
+def test_one_inverter_through_two_paths_is_joined_only_by_declaration():
+    graph = contract()["graph"]
+    assert graph["joins"] == [{"kind": "resource.inverter", "observations": ["relayed_by_the_gateway_path", "observed_directly"], "basis": "operator_declaration", "native_tokens": "not_exposed"}]
+    assert graph["relayed"] == [{"relaying_kind": "resource.equipment", "relayed_kind": "resource.inverter", "direct_anchor_key_source": "operator_label"}]
 
 
 @parametrize("source", [

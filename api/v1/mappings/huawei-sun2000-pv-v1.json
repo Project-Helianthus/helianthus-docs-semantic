@@ -77,13 +77,50 @@
     "registry_flags": {"catalog_registered": false, "automatic_runtime_admission": false, "live_qualified": false, "support_claim": false, "write_authority": false}
   },
   "identity": {
-    "asset_id": {"source": "gateway_derived_semantic_asset_id", "derivation": {"algorithm": "sha256", "domain": "helianthus.modbus.asset.v1", "input_fields": ["domain", "configured_instance_label", "class_token", "routed_unit"], "field_encoding": "utf8_each_followed_by_nul", "routed_unit_encoding": "decimal", "class_token": "pv", "prefix": "pv-asset-", "digest_case": "lowercase", "digest_characters": 32}, "required": true, "non_secret": true, "granularity": "one_asset_per_admitted_inverter_child_within_an_endpoint_instance", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]},
+    "asset_id": {"source": "gateway_allocated_asset_id", "required": true, "non_secret": true, "granularity": "one_home_asset_per_admitted_inverter_child_within_an_endpoint_instance", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address", "class_token", "profile_id"]},
     "source_id": {"source": "gateway_managed_instance_source_id", "required": true, "non_secret": true, "granularity": "one_source_per_endpoint_instance", "distinct_from": "asset_id", "forbidden_derivations": ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]},
     "binding_id": {"source": "gateway_domain_separated_asset_source_profile_binding", "required": true, "non_secret": true, "stable_inputs": ["asset_id", "source_id", "profile_id"]},
-    "failure": "missing_or_invalid_asset_or_source_identity_fails_closed",
-    "dimension_text": {"asset_suffix": {"strip_prefix": "pv-asset-"}, "pv.dimension.system": "system:{asset_suffix}", "pv.dimension.inverter": "inverter:{asset_suffix}", "pv.dimension.input": "input:{n}", "pv.dimension.phase": null},
-    "relations": ["pv.relation.system_inverter", "pv.relation.inverter_input"]
+    "resources": {
+      "logger": {"kind": "resource.equipment", "source": "gateway_allocated_resource_id", "required": true},
+      "system": {"dimension": "pv.dimension.system", "source": "gateway_allocated_resource_id", "required": true},
+      "inverter": {"dimension": "pv.dimension.inverter", "source": "gateway_allocated_resource_id", "required": true},
+      "inputs": {"dimension": "pv.dimension.input", "source": "gateway_allocated_resource_id", "required": true, "slots": 8},
+      "phases": {"dimension": "pv.dimension.phase", "source": "not_allocated_no_profile_admits_a_per_phase_word", "required": false}
+    },
+    "failure": "missing_invalid_reused_or_ambiguous_identity_fails_closed"
   },
+  "graph": {
+    "resources": [
+      {"kind": "resource.equipment", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["native_contract:profiles.gateway_path", "native_owner_token_stability:no_gateway_path_token_on_the_admitted_read_plans"]},
+      {"kind": "resource.pv_system", "anchor_class": "function", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["gate_rule:one_pv_system_per_admitted_inverter_child", "native_owner_token_stability:a_function_has_no_native_token"]},
+      {"kind": "resource.inverter", "anchor_class": "equipment", "anchor_basis": "operator_slot", "anchor_source": "operator_label", "identification_scheme": "none_listed", "parent_kind": null, "evidence": ["native_contract:monitoring_contract", "future_native_token:logger_child_key_of_the_native_monitoring_contract", "native_owner_token_stability:unknown_until_the_native_owner_states_it", "identification_scheme:none_listed_for_family"]},
+      {"kind": "resource.dc_input", "anchor_class": "component", "anchor_basis": "native_slot", "anchor_source": "native_position", "identification_scheme": "none_listed", "parent_kind": "resource.inverter", "evidence": ["native_contract:pv_string_index_1_to_8", "native_owner_token_stability:position_fixed_by_the_native_contract"]},
+      {"kind": "resource.phase", "anchor_class": "component", "anchor_basis": "native_slot", "anchor_source": "native_position", "identification_scheme": "none_listed", "parent_kind": "resource.inverter", "evidence": ["native_contract:phase_positions_of_the_power_group_not_consumed", "native_owner_token_stability:position_fixed_by_the_native_contract"]}
+    ],
+    "relations": [
+      {"definition": "relation.relays", "basis_class": "native_observation", "from_kind": "resource.equipment", "to_kind": "resource.inverter", "evidence": ["native_contract:profiles.gateway_path", "evidence:monitoring_contract"], "validity_scope": {"profile": "m3_and_m1", "version": "1.0.0", "rule_scope": "each_admitted_child_is_read_through_the_gateway_path_its_profile_names"}, "absence_sides": []},
+      {"definition": "pv.relation.system_inverter", "basis_class": "gate_rule", "from_kind": "resource.pv_system", "to_kind": "resource.inverter", "evidence": ["gate_rule:one_pv_system_per_admitted_inverter_child", "counter_policy:sum_across_inverters_forbidden"], "validity_scope": {"profile": "m3_and_m1", "version": "1.0.0", "rule_scope": "one_pv_system_per_admitted_inverter_child"}, "absence_sides": []},
+      {"definition": "pv.relation.inverter_input", "basis_class": "gate_rule", "from_kind": "resource.inverter", "to_kind": "resource.dc_input", "evidence": ["native_contract:pv_string_index_1_to_8", "reason:pv.reason.input_presence_unknown"], "validity_scope": {"profile": "m3_and_m1", "version": "1.0.0", "rule_scope": "native_string_index_1_to_8_with_a_nonzero_voltage_or_current_word"}, "absence_sides": []}
+    ],
+    "relayed": [{"relaying_kind": "resource.equipment", "relayed_kind": "resource.inverter", "direct_anchor_key_source": "operator_label"}],
+    "joins": [{"kind": "resource.inverter", "observations": ["relayed_by_the_gateway_path", "observed_directly"], "basis": "operator_declaration", "native_tokens": "not_exposed"}],
+    "aggregates": [
+      {"fact": "pv.dc.aggregate_power", "subject_kind": "resource.inverter", "coverage": []},
+      {"fact": "pv.ac.aggregate_active_power", "subject_kind": "resource.inverter", "coverage": []},
+      {"fact": "pv.energy.generated", "subject_kind": "resource.pv_system", "coverage": ["pv.relation.system_inverter"]}
+    ],
+    "selectors": [
+      {"selector": "profile_id", "classification": "provenance", "evidence": ["native_contract:selection_outcomes", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
+      {"selector": "class_token", "classification": "provenance", "evidence": ["graph:6.3:a_pack_class_is_never_an_anchor", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]}
+    ]
+  },
+  "unstated_relations": [
+    {"definition": "pv.relation.array_string", "from_kind": "resource.pv_array", "to_kind": "resource.pv_string", "outcome": "unknown_not_absent", "withheld_by": "unsupported:array_or_string_topology"},
+    {"definition": "pv.relation.inverter_array", "from_kind": "resource.inverter", "to_kind": "resource.pv_array", "outcome": "unknown_not_absent", "withheld_by": "unsupported:array_or_string_topology"},
+    {"definition": "pv.relation.inverter_phase", "from_kind": "resource.inverter", "to_kind": "resource.phase", "outcome": "unknown_not_absent", "withheld_by": "unsupported:per_phase_values"},
+    {"definition": "relation.relays", "from_kind": "resource.inverter", "to_kind": "resource.battery", "outcome": "unknown_not_absent", "withheld_by": "pv.reason.battery_outside_pv_family"},
+    {"definition": "relation.relays", "from_kind": "resource.inverter", "to_kind": "resource.meter", "outcome": "unknown_not_absent", "withheld_by": "pv.reason.meter_outside_pv_family"}
+  ],
   "lifecycle": {
     "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "profile_selection", "groups", "facts"],
     "freshness": "native_receipt_axes_preserved",
@@ -119,7 +156,8 @@
       "requested": {"kind": "fact", "item_id": "pv.dc.voltage"},
       "target": "pv.dc.voltage",
       "dimension": "pv.dimension.input",
-      "dimension_text": "input:{n}",
+      "subject_kind": "resource.dc_input",
+      "measurement_point": "dc_input_terminals",
       "unit": "unit.volt",
       "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {"outcome": "exact", "loss": []},
@@ -131,7 +169,8 @@
       "requested": {"kind": "fact", "item_id": "pv.dc.current"},
       "target": "pv.dc.current",
       "dimension": "pv.dimension.input",
-      "dimension_text": "input:{n}",
+      "subject_kind": "resource.dc_input",
+      "measurement_point": "dc_input_terminals",
       "unit": "unit.ampere",
       "conversion": {"factor": {"coefficient": "1", "exponent10": 0}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {"outcome": "exact", "loss": []},
@@ -143,7 +182,8 @@
       "requested": {"kind": "fact", "item_id": "pv.dc.aggregate_power"},
       "target": "pv.dc.aggregate_power",
       "dimension": "pv.dimension.inverter",
-      "dimension_text": "inverter:{asset_suffix}",
+      "subject_kind": "resource.inverter",
+      "measurement_point": "inverter_dc_side",
       "unit": "unit.watt",
       "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {
@@ -161,7 +201,8 @@
       "requested": {"kind": "fact", "item_id": "pv.ac.aggregate_active_power"},
       "target": "pv.ac.aggregate_active_power",
       "dimension": "pv.dimension.inverter",
-      "dimension_text": "inverter:{asset_suffix}",
+      "subject_kind": "resource.inverter",
+      "measurement_point": "inverter_ac_output",
       "unit": "unit.watt",
       "conversion": {"factor": {"coefficient": "1", "exponent10": 3}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {
@@ -180,7 +221,8 @@
       "requested": {"kind": "fact", "item_id": "pv.status.operating"},
       "target": "pv.status.operating",
       "dimension": "pv.dimension.inverter",
-      "dimension_text": "inverter:{asset_suffix}",
+      "subject_kind": "resource.inverter",
+      "measurement_point": "inverter_as_a_whole",
       "unit": null,
       "disposition": {"outcome": "transformed", "loss": [{"kind": "symbol", "source_items": ["native.huawei.sun2000.device_status"], "description": "the one observed grid-connected state is published as generating; every other code is withheld", "reversible": false}]},
       "grade_ceiling": {"m3": "unknown", "m1": "hypothesis"},
@@ -192,7 +234,8 @@
       "requested": {"kind": "fact", "item_id": "pv.energy.generated"},
       "target": "pv.energy.generated",
       "dimension": "pv.dimension.system",
-      "dimension_text": "system:{asset_suffix}",
+      "subject_kind": "resource.pv_system",
+      "measurement_point": "inverter_ac_output_lifetime_counter",
       "unit": "unit.joule",
       "conversion": {"factor": {"coefficient": "36", "exponent10": 5}, "offset": {"coefficient": "0", "exponent10": 0}},
       "disposition": {
@@ -231,7 +274,7 @@
   "consumer_cutover": {"consumers": ["semantic_mcp", "graphql", "portal", "home_assistant"], "path": "shared_semantic_snapshot_only", "until_implemented": "no_public_consumer_binding"},
   "baselines": {
     "m1": {
-      "identity": {"asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha"},
+      "identity": {"asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "resources": {"logger": "resource:demo-logger-a", "system": "resource:demo-system-alpha", "inverter": "resource:demo-inverter-alpha", "inputs": ["resource:demo-input-alpha-1", "resource:demo-input-alpha-2", "resource:demo-input-alpha-3", "resource:demo-input-alpha-4", "resource:demo-input-alpha-5", "resource:demo-input-alpha-6", "resource:demo-input-alpha-7", "resource:demo-input-alpha-8"]}},
       "source": {"source_id": "source:gateway-demo-a"},
       "lifecycle": {"observation_id": "observation:demo-0005", "observation_revision": 5, "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1},
       "qualification": {"catalog_registered": false, "automatic_runtime_admission": false, "live_qualified": false, "support_claim": false, "write_authority": false, "mapping_qualified": true, "outbound_allowed": false},
@@ -263,7 +306,7 @@
       ]
     },
     "m3": {
-      "identity": {"asset_id": "pv-asset-demo-beta", "binding_id": "binding:semantic-pv:demo-beta"},
+      "identity": {"asset_id": "asset:demo-beta", "binding_id": "binding:semantic-pv:demo-beta", "resources": {"logger": "resource:demo-logger-b", "system": "resource:demo-system-beta", "inverter": "resource:demo-inverter-beta", "inputs": ["resource:demo-input-beta-1", "resource:demo-input-beta-2", "resource:demo-input-beta-3", "resource:demo-input-beta-4", "resource:demo-input-beta-5", "resource:demo-input-beta-6", "resource:demo-input-beta-7", "resource:demo-input-beta-8"]}},
       "source": {"source_id": "source:gateway-demo-a"},
       "lifecycle": {"observation_id": "observation:demo-0005", "observation_revision": 5, "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1},
       "qualification": {"catalog_registered": false, "automatic_runtime_admission": false, "live_qualified": false, "support_claim": false, "write_authority": false, "mapping_qualified": true, "outbound_allowed": false},
@@ -302,7 +345,7 @@
         "output": {
           "facts": [
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.ac.aggregate_active_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.ac.aggregate_active_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -312,7 +355,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.aggregate_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.aggregate_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -322,7 +365,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -332,7 +375,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -342,7 +385,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -352,7 +395,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -362,7 +405,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-alpha"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "resource:demo-system-alpha"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -372,7 +415,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.status.operating", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.status.operating", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]},
               "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -382,10 +425,18 @@
               "retained": false
             }
           ],
+          "resources": [
+            {"resource_id": "resource:demo-input-alpha-1", "kind": "resource.dc_input", "parent": "resource:demo-inverter-alpha"},
+            {"resource_id": "resource:demo-input-alpha-2", "kind": "resource.dc_input", "parent": "resource:demo-inverter-alpha"},
+            {"resource_id": "resource:demo-inverter-alpha", "kind": "resource.inverter"},
+            {"resource_id": "resource:demo-logger-a", "kind": "resource.equipment"},
+            {"resource_id": "resource:demo-system-alpha", "kind": "resource.pv_system"}
+          ],
           "relations": [
-            {"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-alpha"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-alpha"}, "to": {"id": "pv.dimension.input", "text": "input:2"}}
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha", "basis_class": "gate_rule"},
+            {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha", "basis_class": "native_observation"}
           ],
           "requested": [
             {"kind": "fact", "item_id": "pv.ac.aggregate_active_power"},
@@ -400,7 +451,7 @@
               "kind": "fact",
               "item_id": "pv.ac.aggregate_active_power",
               "outcome": "transformed",
-              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.ac.aggregate_active_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]}],
+              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.ac.aggregate_active_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]}],
               "loss": [
                 {"kind": "unit", "source_items": ["native.huawei.sun2000.active_power"], "description": "native kilowatt at gain 1000 is published as watt; the integer is unchanged", "reversible": true},
                 {"kind": "provenance", "source_items": ["native.huawei.sun2000.active_power"], "description": "the native sign is stated only while producing; a negative value is withheld and the aggregation basis stays native provenance", "reversible": true}
@@ -410,7 +461,7 @@
               "kind": "fact",
               "item_id": "pv.dc.aggregate_power",
               "outcome": "transformed",
-              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.aggregate_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]}],
+              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.aggregate_power", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]}],
               "loss": [
                 {"kind": "unit", "source_items": ["native.huawei.sun2000.input_power"], "description": "native kilowatt at gain 1000 is published as watt; the integer is unchanged", "reversible": true},
                 {"kind": "provenance", "source_items": ["native.huawei.sun2000.input_power"], "description": "the aggregation basis of the native input power is not stated and stays native provenance", "reversible": true}
@@ -421,8 +472,8 @@
               "item_id": "pv.dc.current",
               "outcome": "exact",
               "source_keys": [
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]}
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-1"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-2"}}]}
               ],
               "loss": []
             },
@@ -431,8 +482,8 @@
               "item_id": "pv.dc.voltage",
               "outcome": "exact",
               "source_keys": [
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]}
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-1"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-alpha-2"}}]}
               ],
               "loss": []
             },
@@ -440,14 +491,14 @@
               "kind": "fact",
               "item_id": "pv.energy.generated",
               "outcome": "transformed",
-              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-alpha"}}]}],
+              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "resource:demo-system-alpha"}}]}],
               "loss": [{"kind": "unit", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "native kilowatt-hour is published as joule by the exact factor 3600000; the native value and unit stay in the evidence", "reversible": true}, {"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
             },
             {
               "kind": "fact",
               "item_id": "pv.status.operating",
               "outcome": "transformed",
-              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.status.operating", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "inverter:demo-alpha"}}]}],
+              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.status.operating", "dimensions": [{"id": "pv.dimension.inverter", "value": {"kind": "text", "text": "resource:demo-inverter-alpha"}}]}],
               "loss": [{"kind": "symbol", "source_items": ["native.huawei.sun2000.device_status"], "description": "the one observed grid-connected state is published as generating; every other code is withheld", "reversible": false}]
             }
           ],
@@ -495,7 +546,7 @@
         "output": {
           "facts": [
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -505,7 +556,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -515,7 +566,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-3"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -525,7 +576,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-4"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -535,7 +586,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-5"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -545,7 +596,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-6"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -555,7 +606,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-7"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -565,7 +616,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-8"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -575,7 +626,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-1"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -585,7 +636,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-2"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -595,7 +646,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-3"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -605,7 +656,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-4"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -615,7 +666,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-5"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -625,7 +676,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-6"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -635,7 +686,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-7"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -645,7 +696,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-8"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -655,7 +706,7 @@
               "retained": false
             },
             {
-              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-beta"}}]},
+              "key": {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "resource:demo-system-beta"}}]},
               "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}},
               "receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 5000000000, "clock_epoch": "clock-epoch:demo-1", "connection_generation": 1,
               "source_path": {"binding_id": "binding:semantic-pv:demo-beta", "source_id": "source:gateway-demo-a", "source_epoch_id": "source-epoch:1", "driver_generation": 1},
@@ -665,16 +716,30 @@
               "retained": false
             }
           ],
+          "resources": [
+            {"resource_id": "resource:demo-input-beta-1", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-2", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-3", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-4", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-5", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-6", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-7", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-input-beta-8", "kind": "resource.dc_input", "parent": "resource:demo-inverter-beta"},
+            {"resource_id": "resource:demo-inverter-beta", "kind": "resource.inverter"},
+            {"resource_id": "resource:demo-logger-b", "kind": "resource.equipment"},
+            {"resource_id": "resource:demo-system-beta", "kind": "resource.pv_system"}
+          ],
           "relations": [
-            {"id": "pv.relation.system_inverter", "from": {"id": "pv.dimension.system", "text": "system:demo-beta"}, "to": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:1"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:2"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:3"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:4"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:5"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:6"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:7"}},
-            {"id": "pv.relation.inverter_input", "from": {"id": "pv.dimension.inverter", "text": "inverter:demo-beta"}, "to": {"id": "pv.dimension.input", "text": "input:8"}}
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-1", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-2", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-3", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-4", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-5", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-6", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-7", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-8", "basis_class": "gate_rule"},
+            {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-beta", "to": "resource:demo-inverter-beta", "basis_class": "gate_rule"},
+            {"definition": "relation.relays", "from": "resource:demo-logger-b", "to": "resource:demo-inverter-beta", "basis_class": "native_observation"}
           ],
           "requested": [
             {"kind": "fact", "item_id": "pv.ac.aggregate_active_power"},
@@ -706,14 +771,14 @@
               "item_id": "pv.dc.current",
               "outcome": "exact",
               "source_keys": [
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]}
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-1"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-2"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-3"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-4"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-5"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-6"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-7"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.current", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-8"}}]}
               ],
               "loss": []
             },
@@ -722,14 +787,14 @@
               "item_id": "pv.dc.voltage",
               "outcome": "exact",
               "source_keys": [
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:1"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:2"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:3"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:4"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:5"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:6"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:7"}}]},
-                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "input:8"}}]}
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-1"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-2"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-3"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-4"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-5"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-6"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-7"}}]},
+                {"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.dc.voltage", "dimensions": [{"id": "pv.dimension.input", "value": {"kind": "text", "text": "resource:demo-input-beta-8"}}]}
               ],
               "loss": []
             },
@@ -737,7 +802,7 @@
               "kind": "fact",
               "item_id": "pv.energy.generated",
               "outcome": "transformed",
-              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "system:demo-beta"}}]}],
+              "source_keys": [{"pack_id": "helianthus.pack.pv", "pack_version": "1.0.0", "fact_id": "pv.energy.generated", "dimensions": [{"id": "pv.dimension.system", "value": {"kind": "text", "text": "resource:demo-system-beta"}}]}],
               "loss": [{"kind": "unit", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "native kilowatt-hour is published as joule by the exact factor 3600000; the native value and unit stay in the evidence", "reversible": true}, {"kind": "policy", "source_items": ["native.huawei.sun2000.energy_accumulated"], "description": "counter reset, rollover and continuity are Unknown and never inferred; the counter is published as read", "reversible": false}]
             },
             {
@@ -792,15 +857,15 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.status.operating", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.negative_active_power_sign_unknown"},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -853,30 +918,30 @@
         {"path": "facts.19.retained", "value": true},
         {"path": "facts.19.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.19.observation_revision", "value": 3},
-        {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
+        {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
         {"path": "facts.20.retained", "value": true},
         {"path": "facts.20.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.20.observation_revision", "value": 3},
-        {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
+        {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
         {"path": "facts.21.retained", "value": true},
         {"path": "facts.21.observation_id", "value": "observation:demo-0003"},
         {"path": "facts.21.observation_revision", "value": 3},
-        {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
+        {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}},
         {"path": "groups.3.outcome", "value": "FAILED"}
       ],
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": true, "observation_revision": 3},
-            {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": true, "observation_revision": 3},
+            {"fact_id": "pv.status.operating", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -929,15 +994,15 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1000,34 +1065,35 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
           "relations": [
-            {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-1"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-2"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-3"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-4"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-5"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-6"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-7"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-8"},
+            {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-beta", "to": "resource:demo-inverter-beta"},
+            {"definition": "relation.relays", "from": "resource:demo-logger-b", "to": "resource:demo-inverter-beta"}
           ],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
@@ -1089,34 +1155,35 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "105", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "98", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "91", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "102", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "88", "exponent10": -2}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "11", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-beta-8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "614", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-3", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-4", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "618", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-5", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-6", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "607", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-7", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-beta-8", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "599", "exponent10": 0}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-beta", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "3555555552", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5}
           ],
           "relations": [
-            {"id": "pv.relation.system_inverter", "from": "system:demo-beta", "to": "inverter:demo-beta"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:1"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:2"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:3"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:4"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:5"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:6"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:7"},
-            {"id": "pv.relation.inverter_input", "from": "inverter:demo-beta", "to": "input:8"}
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-1"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-2"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-3"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-4"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-5"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-6"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-7"},
+            {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-beta", "to": "resource:demo-input-beta-8"},
+            {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-beta", "to": "resource:demo-inverter-beta"},
+            {"definition": "relation.relays", "from": "resource:demo-logger-b", "to": "resource:demo-inverter-beta"}
           ],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.power_group_refused"},
@@ -1169,15 +1236,15 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.status.operating", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1263,12 +1330,12 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "9", "exponent10": 3}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.status.operating", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}],
+          "relations": [{"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1335,13 +1402,13 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6012", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"},
             {"item_id": "pv.dc.aggregate_power", "outcome": "withheld", "published": 0, "loss": ["provenance"], "reason": "pv.reason.native_fact_unknown"},
@@ -1394,16 +1461,16 @@
       "expect": {
         "summary": {
           "facts": [
-            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.aggregate_power", "dimension": "inverter:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.current", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6", "exponent10": 2}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.dc.voltage", "dimension": "input:2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.energy.generated", "dimension": "system:demo-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
-            {"fact_id": "pv.status.operating", "dimension": "inverter:demo-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
+            {"fact_id": "pv.ac.aggregate_active_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "864", "exponent10": 1}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.aggregate_power", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.watt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "75", "exponent10": -1}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.current", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "0", "exponent10": 0}, "unit": "unit.ampere"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-1", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "6", "exponent10": 2}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.dc.voltage", "dimension": "resource:demo-input-alpha-2", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "5984", "exponent10": -1}, "unit": "unit.volt"}}, "evidence_grade": "proven", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.energy.generated", "dimension": "resource:demo-system-alpha", "value": {"kind": "quantity", "quantity": {"number": {"coefficient": "44444412", "exponent10": 3}, "unit": "unit.joule"}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5},
+            {"fact_id": "pv.status.operating", "dimension": "resource:demo-inverter-alpha", "value": {"kind": "symbol", "symbol": {"namespace": "pv.status.operating", "token": "generating", "known": true}}, "evidence_grade": "hypothesis", "retained": false, "observation_revision": 5}
           ],
-          "relations": [{"id": "pv.relation.system_inverter", "from": "system:demo-alpha", "to": "inverter:demo-alpha"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:1"}, {"id": "pv.relation.inverter_input", "from": "inverter:demo-alpha", "to": "input:2"}],
+          "relations": [{"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-1"}, {"definition": "pv.relation.inverter_input", "from": "resource:demo-inverter-alpha", "to": "resource:demo-input-alpha-2"}, {"definition": "pv.relation.system_inverter", "from": "resource:demo-system-alpha", "to": "resource:demo-inverter-alpha"}, {"definition": "relation.relays", "from": "resource:demo-logger-a", "to": "resource:demo-inverter-alpha"}],
           "dispositions": [
             {"item_id": "pv.ac.aggregate_active_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
             {"item_id": "pv.dc.aggregate_power", "outcome": "transformed", "published": 1, "loss": ["unit", "provenance"]},
@@ -1465,15 +1532,17 @@
     {"id": "PV-NEG-009-value-from-unanswered-group", "polarity": "negative", "baseline": "m1", "note": "a value needs an answered group or a retained reading", "mutations": [{"path": "groups.3.outcome", "value": "FAILED"}], "expect": {"error": "native_evidence_invalid"}},
     {"id": "PV-NEG-010-asset-missing", "polarity": "negative", "baseline": "m1", "note": "a blank asset identifier fails closed", "mutations": [{"path": "identity.asset_id", "value": ""}], "expect": {"error": "identity_missing_or_invalid"}},
     {"id": "PV-NEG-011-asset-equals-source", "polarity": "negative", "baseline": "m1", "note": "the asset and the source stay distinct", "mutations": [{"path": "identity.asset_id", "value": "source:gateway-demo-a"}], "expect": {"error": "identity_missing_or_invalid"}},
-    {"id": "PV-NEG-012-asset-from-serial", "polarity": "negative", "baseline": "m1", "note": "an asset identifier that embeds serial-number text is rejected", "mutations": [{"path": "identity.asset_id", "value": "pv-asset-serial-0001"}], "expect": {"error": "identity_missing_or_invalid"}},
+    {"id": "PV-NEG-012-asset-from-serial", "polarity": "negative", "baseline": "m1", "note": "an asset identifier that embeds serial-number text is rejected", "mutations": [{"path": "identity.asset_id", "value": "asset:serial-0001"}], "expect": {"error": "identity_missing_or_invalid"}},
     {"id": "PV-NEG-013-asset-from-unit-alone", "polarity": "negative", "baseline": "m1", "note": "an asset identifier equal to the routed unit alone is rejected", "mutations": [{"path": "identity.asset_id", "value": "1"}], "expect": {"error": "identity_missing_or_invalid"}},
     {"id": "PV-NEG-014-lifecycle-missing", "polarity": "negative", "baseline": "m1", "note": "the monotonic receipt axis is required", "mutations": [{"path": "lifecycle.receipt_monotonic", "value": null}], "expect": {"error": "lifecycle_missing"}},
     {"id": "PV-NEG-015-live-qualified", "polarity": "negative", "baseline": "m1", "note": "a live qualification requires a revision of this gate", "mutations": [{"path": "qualification.live_qualified", "value": true}], "expect": {"error": "mapping_unqualified"}},
     {"id": "PV-NEG-016-operation", "polarity": "negative", "baseline": "m1", "note": "the gate has no operation, route or authority", "mutations": [{"path": "request_operation", "value": "pv.operation.set_active_power_limit"}], "expect": {"error": "unsupported_or_withheld"}},
     {"id": "PV-NEG-017-derived-energy", "polarity": "negative", "baseline": "m1", "note": "no energy is derived or summed", "mutations": [{"path": "derive_energy", "value": "sum_of_inverters"}], "expect": {"error": "unsupported_or_withheld"}},
     {"id": "PV-NEG-018-error-precedence", "polarity": "negative", "baseline": "m1", "note": "the first error of the precedence list is reported", "mutations": [{"path": "selection.outcome", "value": "INSUFFICIENT_EVIDENCE"}, {"path": "identity.asset_id", "value": ""}], "expect": {"error": "profile_not_selected"}},
-    {"id": "PV-NEG-019-retained-from-other-connection", "polarity": "negative", "baseline": "m1", "note": "a retained reading from an earlier connection generation is fenced", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.connection_generation", "value": 2}], "expect": {"error": "native_evidence_invalid"}},
-    {"id": "PV-NEG-020-retained-from-other-profile", "polarity": "negative", "baseline": "m1", "note": "a retained reading never crosses a profile", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.profile_id", "value": "huawei.sun2000.m3.monitoring-readonly@1.0.0"}], "expect": {"error": "native_evidence_invalid"}},
-    {"id": "PV-NEG-021-retained-without-origin", "polarity": "negative", "baseline": "m1", "note": "a retained reading must carry its original receipt coordinates and lineage", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "pv-asset-demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin", "remove": true}], "expect": {"error": "native_evidence_invalid"}}
+    {"id": "PV-NEG-019-retained-from-other-connection", "polarity": "negative", "baseline": "m1", "note": "a retained reading from an earlier connection generation is fenced", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.connection_generation", "value": 2}], "expect": {"error": "native_evidence_invalid"}},
+    {"id": "PV-NEG-020-retained-from-other-profile", "polarity": "negative", "baseline": "m1", "note": "a retained reading never crosses a profile", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin.profile_id", "value": "huawei.sun2000.m3.monitoring-readonly@1.0.0"}], "expect": {"error": "native_evidence_invalid"}},
+    {"id": "PV-NEG-021-retained-without-origin", "polarity": "negative", "baseline": "m1", "note": "a retained reading must carry its original receipt coordinates and lineage", "mutations": [{"path": "facts.19.retained", "value": true}, {"path": "facts.19.observation_id", "value": "observation:demo-0003"}, {"path": "facts.19.observation_revision", "value": 3}, {"path": "facts.19.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.20.retained", "value": true}, {"path": "facts.20.observation_id", "value": "observation:demo-0003"}, {"path": "facts.20.observation_revision", "value": 3}, {"path": "facts.20.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "facts.21.retained", "value": true}, {"path": "facts.21.observation_id", "value": "observation:demo-0003"}, {"path": "facts.21.observation_revision", "value": 3}, {"path": "facts.21.origin", "value": {"receipt_wall": "2026-01-01T00:00:00Z", "receipt_monotonic": 3000000000, "clock_epoch": "clock-epoch:demo-1", "source_epoch": "source-epoch:1", "driver_generation": 1, "connection_generation": 1, "profile_id": "huawei.sun2000.m1.monitoring-readonly@1.0.0", "routed_unit": 1, "asset_id": "asset:demo-alpha", "binding_id": "binding:semantic-pv:demo-alpha", "source_id": "source:gateway-demo-a"}}, {"path": "groups.3.outcome", "value": "FAILED"}, {"path": "facts.19.origin", "remove": true}], "expect": {"error": "native_evidence_invalid"}},
+    {"id": "PV-NEG-022-relation-endpoint-unallocated", "polarity": "negative", "baseline": "m1", "note": "a relation endpoint needs an allocated resource identifier; without one the case fails closed and no record dangles", "mutations": [{"path": "identity.resources.inverter", "remove": true}], "expect": {"error": "identity_missing_or_invalid"}},
+    {"id": "PV-NEG-023-one-identifier-two-resources", "polarity": "negative", "baseline": "m1", "note": "one resource identifier never names two resources", "mutations": [{"path": "identity.resources.system", "value": "resource:demo-inverter-alpha"}], "expect": {"error": "identity_missing_or_invalid"}}
   ]
 }

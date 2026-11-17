@@ -20,7 +20,7 @@ The same family set has two sibling gates that map nothing today:
 | Native monitoring contract | `helianthus-docs-modbus` issue 242, pull request 253: `protocols/huawei/monitoring-readonly-v1.md` and `protocols/huawei/read-pacing-v1.md` | Owns every register group, word form, gain, unit, sign and grade. This gate restates none of them as new protocol fact. |
 | Registry profiles | `helianthus-modbusreg` issue 348, pull request 357 | Two inert monitoring profiles, the typed facts they decode, the refusal map and the dispositions. |
 | Program | `helianthus-modbusreg` issues 199 and 201 | The Huawei read-only program this gate belongs to. |
-| Multi-endpoint contract | `helianthus-docs-ebus` issue 746, pull request 748 | Finalized asset and source keying per endpoint instance. |
+| Multi-endpoint contract | `helianthus-docs-ebus` issue 746, pull request 748 | Finalized source keying per endpoint instance. Its class token is provenance here, never identity. |
 
 No revision, digest or pinned link is cited: the references above are issue and
 pull request numbers. Grades are those of the monitoring contract. Proven means
@@ -65,57 +65,152 @@ cross-family Hypothesis). Vector `PV-NEG-001-emma-map0-not-admitted` pins that.
 
 ## Identity and keying
 
-The asset identifier is gateway-derived under the finalized multi-endpoint
-contract of `helianthus-docs-ebus` issue 746 (merged pull request 748). For an
-admitted PV child, the gateway joins these UTF-8 fields in order, each followed
-by a NUL byte: `helianthus.modbus.asset.v1`, the configured instance label, the
-class token `pv`, and the routed unit in decimal. The identifier is `pv-asset-`
-followed by the first 32 lowercase hexadecimal characters of the SHA-256 digest.
-A per-asset configuration field is not required and is not part of that
-endpoints-document contract. This identity rule retains the contract's
-Hypothesis grade; it does not establish native admission.
+Identity follows sections 6.3 and 15 of the [graph contract](../graph.md). The
+gateway allocates every identifier; this gate states what each one names and
+what never derives it.
 
-The source identifier is the existing managed instance identifier, derived from
-its DriverID and configured owner identity, with exactly one source per endpoint
-instance. Its fixed family namespace is configuration, not observed native
-identity. Asset and source identifiers are non-secret, distinct and opaque to
-the projection. A binding identifier is derived by the gateway over the asset,
-the source and the profile only; it never selects or changes the asset.
-Neither asset nor source derives from a serial number, an ESN, observed vendor
-or model text, firmware, an endpoint address, or a routed unit alone. Missing or
-invalid identity fails closed. The validator permits the managed Huawei source
+- The home asset is gateway-allocated, one per admitted inverter child within
+  an endpoint instance. A per-asset configuration field is not required. The
+  asset is kernel lineage only: no fact key and no relation endpoint carries
+  it.
+- The source identifier is the existing managed instance identifier, derived
+  from its DriverID and configured owner identity, with exactly one source per
+  endpoint instance under the finalized multi-endpoint contract of
+  `helianthus-docs-ebus` issue 746 (merged pull request 748). Its fixed family
+  namespace is configuration, not observed native identity. A binding
+  identifier is derived by the gateway over the asset, the source and the
+  profile only; it never selects or changes the asset or a resource.
+- Every resource dimension value and every relation endpoint is a
+  gateway-allocated resource identifier (RES-5, REL-8): one for the gateway
+  path that relays the child, one for the PV system, one for the inverter and
+  one for each of the eight string slots. No phase identifier is allocated,
+  because no profile admits a per-phase word.
+
+The class token of the PV pack and the registry profile identifier are native
+interpretation selectors, and the gate classifies both as provenance (section
+6.3). Neither is an anchor source, an input of the asset or part of any
+identity. A hybrid inverter whose PV and storage facts both publish therefore
+stays one inverter and one home asset: the class token no longer splits it in
+two. Neither the asset, the source nor a resource identifier derives from a
+serial number, an ESN, observed vendor or model text, firmware, an endpoint
+address, a routed unit alone, a class token or a profile identifier.
+
+Missing, invalid, reused or ambiguous identity fails closed. One identifier
+never names two resources, and a resource identifier never equals the asset,
+the source or the binding. The validator permits the managed Huawei source
 namespace with an owner GUID while rejecting native identity text; this is a
-syntax lint, not proof of how an identifier was derived.
+syntax lint, not proof of how an identifier was derived. The gate publishes
+nothing at endpoint or gateway level. The projection vectors use short
+synthetic opaque identifiers to isolate mapping behavior; they are not
+evidence of gateway identity construction.
 
-There is one PV asset per admitted inverter child and class within an instance,
-all using that instance's source. A family without distinct class and unit pairs
-withholds ambiguous children. Changing label, class or routed unit changes the
-asset identity; changing the endpoint or native device text does not. The gate
-publishes nothing at endpoint or gateway level. The projection vectors below
-use short synthetic opaque identifiers to isolate mapping behavior; they are
-not evidence of gateway identity construction. Focused validator tests also
-project identifiers constructed by the finalized rule.
+## Resources
 
-This reconciles the earlier pending-contract assumption without changing the
-versioned field mappings, dimensions, native qualification, retention rules or
-consumer boundary. Gateway composition must enforce the finalized derivation;
-no new native profile or acquisition path is admitted here.
+This is section 15 item 1. A component is anchored by its native position and
+everything else by an operator label, because the element catalog lists no
+identification scheme for this family. An address, a routed unit, a
+credential, a class token or a profile identifier is never an anchor source.
 
-Fact keys use the pack's own dimensions with these values:
+| Kind | Anchor class | Basis | Anchor source | Parent kind |
+| --- | --- | --- | --- | --- |
+| `resource.equipment` | equipment | `operator_slot` | `operator_label` | none |
+| `resource.pv_system` | function | `operator_slot` | `operator_label` | none |
+| `resource.inverter` | equipment | `operator_slot` | `operator_label` | none |
+| `resource.dc_input` | component | `native_slot` | `native_position` | `resource.inverter` |
+| `resource.phase` | component | `native_slot` | `native_position` | `resource.inverter` |
 
-| Dimension | Value | Grade |
-| --- | --- | --- |
-| `pv.dimension.system` | `system:<suffix>`, where the suffix is the asset identifier without a leading `pv-asset-`, the form of the existing single-asset PV publication | Hypothesis |
-| `pv.dimension.inverter` | `inverter:<suffix>` with the same suffix | Hypothesis |
-| `pv.dimension.input` | `input:<n>` for the native string index n from 1 to 8 | Hypothesis |
-| `pv.dimension.phase` | no value is published | Proven as a statement of the profiles: neither admits a per-phase word |
+- The gateway path of the profile, the SmartLogger or the S-Dongle, is generic
+  equipment. It has no token on the admitted read plans.
+- The inverter is anchored by an operator label until an identification
+  scheme is listed for its family. The child key of the native monitoring
+  contract is recorded as its future native token. Its stability is Unknown
+  until the native owner states it, and the admitted read plans do not read
+  it. Once a scheme is listed, the anchor is upgraded by supersession (section
+  6.5) and the inverter keeps its identifier.
+- The PV system is a function anchored by an operator label. This gate gives
+  each admitted inverter child its own system.
+- A DC input is a component of its inverter at the native string index 1 to 8.
+- A phase is a component of its inverter at its native position. The kind is
+  stated so that its anchor is fixed, but no phase is allocated or published
+  until a profile admits a per-phase word.
 
-The asset is its own PV system with one inverter, so the gate emits one
-`pv.relation.system_inverter` record when a system or inverter fact is
-published, and one `pv.relation.inverter_input` record for each published
-input. No array or string topology, no tracker pairing and no member the profile
-does not evidence is created (Unknown: the ratings group that would state the
-string and tracker counts is not consumed).
+## Relations
+
+This is section 15 item 2. Each relation record of the projection names its
+definition, the identifiers of two published resources and its basis class.
+The validity scope of every row is the two admitted profiles at version 1.0.0.
+
+| Definition | Basis class | From kind | To kind | Scope of the rule |
+| --- | --- | --- | --- | --- |
+| `relation.relays` | `native_observation` | `resource.equipment` | `resource.inverter` | `each_admitted_child_is_read_through_the_gateway_path_its_profile_names` |
+| `pv.relation.system_inverter` | `gate_rule` | `resource.pv_system` | `resource.inverter` | `one_pv_system_per_admitted_inverter_child` |
+| `pv.relation.inverter_input` | `gate_rule` | `resource.inverter` | `resource.dc_input` | `native_string_index_1_to_8_with_a_nonzero_voltage_or_current_word` |
+
+- Each profile names the gateway path its reads go through, so the binding that
+  reads a child observes the relay. The basis is a native observation, a
+  Hypothesis until the native owner's review confirms its scope. One record is
+  emitted whenever the inverter is published.
+- The gate emits one system-to-inverter record when a system or inverter fact
+  is published, and one inverter-to-input record for each published input.
+- The gate makes no absence statement. A zero pair does not show that an input
+  is absent, and a withheld child is not absent.
+
+Relayed values follow section 15 item 3. If the same inverter is also observed
+directly, its anchor source there is again an operator label. The gate
+therefore states one join: the relayed and the direct observation are one
+resource only by an operator declaration that gives both one slot. The cut
+then flags the pair `same_unit`, or one asset holds both paths with an
+identity link (section 6.4). Without a shared key the pair is not detectable
+(section 6.3). A join on a label, a routed unit or an ordinal is rejected, and
+so is a join of observations whose native tokens differ (a false join).
+
+The gate states no plane membership (section 15 item 6, PLN-1).
+
+## Unknown, not absent
+
+Section 7.2: when neither an instance nor an absence statement exists, a
+relation is unknown, not absent. These relations stay unknown here.
+
+| Definition | From kind | To kind | Withheld by |
+| --- | --- | --- | --- |
+| `pv.relation.array_string` | `resource.pv_array` | `resource.pv_string` | `unsupported:array_or_string_topology` |
+| `pv.relation.inverter_array` | `resource.inverter` | `resource.pv_array` | `unsupported:array_or_string_topology` |
+| `pv.relation.inverter_phase` | `resource.inverter` | `resource.phase` | `unsupported:per_phase_values` |
+| `relation.relays` | `resource.inverter` | `resource.battery` | `pv.reason.battery_outside_pv_family` |
+| `relation.relays` | `resource.inverter` | `resource.meter` | `pv.reason.meter_outside_pv_family` |
+
+The battery and meter groups are fields of the inverter child's profile. They
+are withheld here and governed by the storage and gateway-meter gates, so the
+inverter's relay of a battery or a meter is neither stated nor denied.
+
+## Subjects and measurement points
+
+Under EN-1 each mapped field rule names its subject kind and its measurement
+point. The subject kind and the dimension are looked up in the
+[element catalog](../element-catalog-v1.json), not repeated by the validator.
+
+| Native fact | Target fact | Subject kind | Measurement point |
+| --- | --- | --- | --- |
+| `pv_string_voltage` | `pv.dc.voltage` | `resource.dc_input` | `dc_input_terminals` |
+| `pv_string_current` | `pv.dc.current` | `resource.dc_input` | `dc_input_terminals` |
+| `input_power` | `pv.dc.aggregate_power` | `resource.inverter` | `inverter_dc_side` |
+| `active_power` | `pv.ac.aggregate_active_power` | `resource.inverter` | `inverter_ac_output` |
+| `device_status` | `pv.status.operating` | `resource.inverter` | `inverter_as_a_whole` |
+| `energy_accumulated` | `pv.energy.generated` | `resource.pv_system` | `inverter_ac_output_lifetime_counter` |
+
+Aggregates follow section 15 item 4 and EN-5. The input power and the active
+power are aggregates of the inverter. The native words state no aggregation
+basis, so both stay on the inverter without coverage. The lifetime energy
+counter is the inverter's own, measured at its AC output. The pack's only
+generated-energy fact has the PV system as subject, so the counter is published
+on the system this gate gives the inverter, whose coverage is that one
+system-to-inverter relation. It is never summed across inverters. Placing it
+on the inverter itself needs an inverter-subject energy definition, which the
+pack does not have (see the unresolved questions).
+
+Selectors follow section 15 item 5. The registry profile identifier and the
+pack class token are the only interpretation selectors this gate uses, and
+both are provenance.
 
 ## Field mapping
 
@@ -303,12 +398,17 @@ files use synthetic identifiers and values only.
 | `PV-NEG-019-retained-from-other-connection` | A retained reading from an earlier connection generation is fenced. |
 | `PV-NEG-020-retained-from-other-profile` | A retained reading never crosses a profile. |
 | `PV-NEG-021-retained-without-origin` | A retained reading must carry its original receipt coordinates and lineage. |
+| `PV-NEG-022-relation-endpoint-unallocated` | A relation endpoint needs an allocated resource identifier; without one the case fails closed and no record dangles. |
+| `PV-NEG-023-one-identifier-two-resources` | One resource identifier never names two resources. |
 
 ## Unresolved and falsifiers
 
 | Question | Falsifier | Grade |
 | --- | --- | --- |
-| Can an admitted instance distinguish its children by class and routed unit? | Two admitted children share that pair; the ambiguous children must be withheld under the finalized multi-endpoint contract. | Hypothesis |
+| Can an admitted instance distinguish its children? | Two admitted children that the gateway cannot tell apart; the ambiguous children must be withheld, and identity fails closed. | Hypothesis |
+| Which native token identifies an inverter stably, and in which canonical form? | The native owner states the child key's stability and a scheme is listed for the family; the inverter anchor is then upgraded by supersession. | Unknown |
+| Does the gateway path relay each child as a native observation for both profiles? | The native owner's review states another scope, or names configuration as the basis. | Hypothesis |
+| Should the lifetime energy counter have the inverter as subject? | An inverter-subject energy definition in the PV pack; until then the counter stays on the one-inverter PV system. | Hypothesis |
 | Do the string slots map to the pack's input one to one? | A ratings read that gives the string and tracker counts, or a disagreeing independent check. | Hypothesis |
 | Is an all-zero pair an absent input? | A second operating point or a ratings read that shows a present input reading zero. | Hypothesis |
 | Does the observed grid-connected state mean generating? | An observation where that state reads zero active power while producing nothing, or a consulted edition that states another meaning. | Hypothesis |
@@ -327,7 +427,9 @@ atomic cutover, must not reuse a single-asset vendor projection, and must keep
 
 Run `python3 scripts/validate_huawei_sun2000_pv_mapping.py`,
 `python3 scripts/test_validate_huawei_sun2000_pv_mapping.py` (also collected by
-`python3 -m pytest`), and `./scripts/check_docs.sh`, which runs both. The validator executes every vector, checks each
-target against the PV pack catalog, checks that every native field of each
-profile has exactly one disposition, and compares the three tables of this page
-with the contract.
+`python3 -m pytest`), and `./scripts/check_docs.sh`, which runs both. The validator runs the shared graph
+rules of `scripts/mapping_gate_graph_rules.py` and then its own resource,
+relation, relayed, join, aggregate and selector rules. It executes every vector,
+checks each target against the PV pack catalog and the element catalog, checks
+that every native field of each profile has exactly one disposition, and
+compares the tables of this page with the contract.
