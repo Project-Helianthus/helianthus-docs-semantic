@@ -185,6 +185,14 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.limit.allocated_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.limit.configured_current",
           "version": "1.0.0"
         },
@@ -549,6 +557,32 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.allocated_current_phase",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
             "version": "1.0.0"
           }
         },

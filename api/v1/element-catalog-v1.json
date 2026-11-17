@@ -2873,6 +2873,50 @@
             "version": "1.0.0"
           }
         },
+        "id": "evse.limit.allocated_current_phase",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "accepted_pack",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/f4f62ce20ce4b643f8f7d75d97063a1b0d346cee/api/v1/packs/evse-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              }
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "not_applicable",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          }
+        },
         "id": "evse.limit.configured_current",
         "version": "1.0.0"
       },

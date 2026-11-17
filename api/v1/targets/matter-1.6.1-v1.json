@@ -782,6 +782,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.limit.allocated_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.allocated_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.allocated_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.allocated_current_phase",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.phase",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.limit.configured_current",
         "version": "1.0.0"
       },
