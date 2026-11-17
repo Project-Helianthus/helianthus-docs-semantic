@@ -489,5 +489,205 @@ def test_expected_output_rejects_the_earlier_relation_member():
     assert str(error.value) == "scenario output STG-POS-001-no-battery-read"
 
 
+GRAPH_SPEC = importlib.util.spec_from_file_location("mapping_gate_graph_rules", ROOT / "scripts/mapping_gate_graph_rules.py")
+graph_rules = importlib.util.module_from_spec(GRAPH_SPEC)
+GRAPH_SPEC.loader.exec_module(graph_rules)
+
+
+def graph_rejection(edits, catalog=None):
+    document = contract()
+    for op, path, value in edits:
+        if op == "append":
+            target = document
+            for part in path.split("."):
+                target = target[int(part)] if isinstance(target, list) else target[part]
+            target.append(copy.deepcopy(value))
+        elif op == "delete":
+            v.mutate(document, {"path": path, "remove": True})
+        else:
+            v.mutate(document, {"path": path, "value": copy.deepcopy(value)})
+    try:
+        v.validate_contract(document, catalog)
+    except ValueError as error:
+        return str(error)
+    return None
+
+
+def test_gate_states_its_graph_and_passes_the_shared_checker():
+    document = contract()
+    assert "graph" in document
+    assert graph_rules.check(document, graph_rules.load_catalog()) == []
+    assert not re.search(r'"planes?"', v.PATH.read_text(encoding="utf-8"))
+
+
+def test_the_battery_is_relayed_by_the_inverter_and_exposes_no_anchor_key_source():
+    graph = contract()["graph"]
+    assert [resource["kind"] for resource in graph["resources"]] == ["resource.inverter", "resource.battery", "resource.battery_pack"]
+    assert {resource["anchor_source"] for resource in graph["resources"]} == {"operator_label"}
+    assert graph["relayed"] == [{"relaying_kind": "resource.inverter", "relayed_kind": "resource.battery", "direct_anchor_key_source": "none"}]
+    assert graph["joins"] == [{"kind": "resource.battery", "observations": ["relayed_by_the_inverter", "seen_through_another_path"], "basis": "operator_declaration", "native_tokens": "not_exposed"}]
+    relays = graph["relations"][0]
+    assert (relays["definition"], relays["basis_class"], relays["from_kind"], relays["to_kind"]) == ("relation.relays", "configuration", "resource.inverter", "resource.battery")
+    assert all(relation["absence_sides"] == [] for relation in graph["relations"])
+    assert graph["aggregates"] == []
+
+
+def relation_record(definition, from_kind, to_kind):
+    return {"definition": definition, "basis_class": "gate_rule", "from_kind": from_kind, "to_kind": to_kind, "evidence": ["synthetic:relation"],
+            "validity_scope": {"profile": "huawei.luna2000", "version": "no_admitted_profile", "rule_scope": "synthetic"}, "absence_sides": []}
+
+
+PACK_POWER_AGGREGATE = {"fact": "storage.pack.power", "subject_kind": "resource.battery_pack", "coverage": []}
+
+# (name, edits, expected error). Indices: resources inverter, battery, battery pack; relations relays, battery to pack;
+# selectors profile identifier, class token; prospective rows at field rules 0, 4, 5, 6, 7 and 8.
+GRAPH_NEGATIVES = [
+    # False join: a battery joined to a second view by name or by position, or over differing native tokens.
+    ("battery_joined_by_name", [("set", "graph.joins.0.basis", "display_name")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("battery_joined_by_label_text", [("set", "graph.joins.0.basis", "operator_label")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("battery_joined_by_position", [("set", "graph.joins.0.basis", "native_position")], "graph join_basis_not_allowed $.graph.joins[0].basis"),
+    ("battery_joined_over_differing_tokens", [("set", "graph.joins.0.native_tokens", "differ")], "graph false_join $.graph.joins[0].native_tokens"),
+    ("battery_joined_on_a_shared_key_the_path_does_not_expose", [("set", "graph.joins.0.basis", "same_anchor_key"), ("set", "graph.joins.0.native_tokens", "equal")], "graph_joins"),
+    ("second_view_two_identities", [("set", "graph.joins", [])], "graph_joins"),
+    ("join_of_one_view", [("set", "graph.joins.0.observations", ["relayed_by_the_inverter"])], "graph invalid_value $.graph.joins[0].observations"),
+    ("join_of_the_inverter", [("set", "graph.joins.0.kind", "resource.inverter")], "graph_joins"),
+    # Dangling endpoint: a module or cell relation whose endpoint the gate does not publish.
+    ("dangling_module_cell", [("append", "graph.relations", relation_record("storage.relation.module_cell", "resource.battery_module", "resource.battery_cell"))],
+     "graph dangling_endpoint $.graph.relations[2].from_kind"),
+    ("dangling_pack_module", [("append", "graph.relations", relation_record("storage.relation.pack_module", "resource.battery_pack", "resource.battery_module"))],
+     "graph dangling_endpoint $.graph.relations[2].to_kind"),
+    ("dangling_battery_after_kind_change", [("set", "graph.resources.1.kind", "resource.meter")], "graph dangling_endpoint $.graph.relations[0].to_kind"),
+    # Resources (section 15 item 1): kind, class, basis, source, scheme, parent and evidence each varied.
+    ("battery_kind_not_member", [("set", "graph.resources.1.kind", "resource.not_a_catalog_kind")], "graph kind_not_member $.graph.resources[1].kind"),
+    ("battery_anchor_class", [("set", "graph.resources.1.anchor_class", "component")], "graph anchor_class_mismatch $.graph.resources[1].anchor_class"),
+    ("battery_anchored_on_position", [("set", "graph.resources.1.anchor_basis", "native_slot"), ("set", "graph.resources.1.anchor_source", "native_position")], "graph_anchor"),
+    ("battery_anchored_on_routed_unit", [("set", "graph.resources.1.anchor_source", "routed_unit")], "graph anchor_source_not_allowed $.graph.resources[1].anchor_source"),
+    ("battery_anchored_on_address", [("set", "graph.resources.1.anchor_source", "network_address")], "graph anchor_source_not_allowed $.graph.resources[1].anchor_source"),
+    ("battery_basis_source_mismatch", [("set", "graph.resources.1.anchor_basis", "native_identity")], "graph anchor_basis_mismatch $.graph.resources[1].anchor_basis"),
+    ("battery_native_token_without_scheme", [("set", "graph.resources.1.anchor_basis", "native_identity"), ("set", "graph.resources.1.anchor_source", "native_token")],
+     "graph scheme_not_listed $.graph.resources[1].identification_scheme"),
+    ("battery_scheme_unlisted", [("set", "graph.resources.1.identification_scheme", {"id": "scheme.unlisted", "issuer_registry": "none"})], "graph scheme_not_listed $.graph.resources[1].identification_scheme"),
+    ("battery_parent_inverter", [("set", "graph.resources.1.parent_kind", "resource.inverter")], "graph_parent"),
+    ("pack_parent_battery", [("set", "graph.resources.2.parent_kind", "resource.battery")], "graph_parent"),
+    ("battery_relay_statement_dropped", [("set", "graph.resources.1.evidence", ["registry_disposition:battery_groups_present_not_admitted", "native_owner_token_stability:no_battery_token_on_the_relaying_path"])], "graph_evidence"),
+    ("battery_token_stability_unstated", [("delete", "graph.resources.1.evidence.2", None)], "graph_evidence"),
+    ("pack_token_stability_unstated", [("delete", "graph.resources.2.evidence.2", None)], "graph_evidence"),
+    ("inverter_future_token_unstated", [("delete", "graph.resources.0.evidence.1", None)], "graph_evidence"),
+    ("battery_evidence_empty", [("set", "graph.resources.1.evidence", [])], "graph invalid_value $.graph.resources[1].evidence"),
+    ("pack_resource_dropped", [("delete", "graph.resources.2", None)], "graph dangling_endpoint $.graph.relations[1].to_kind"),
+    ("module_resource_added", [("append", "graph.resources", {"kind": "resource.battery_module", "anchor_class": "component", "anchor_basis": "native_slot", "anchor_source": "native_position",
+                                                              "identification_scheme": "none_listed", "parent_kind": "resource.battery_pack", "evidence": ["synthetic:module"]})], "graph_resources"),
+    # Relations (section 15 item 2): definition, basis class, both endpoints, evidence, each scope member and absence sides.
+    ("relays_by_native_observation", [("set", "graph.relations.0.basis_class", "native_observation")], "graph_relations"),
+    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+    ("relays_reversed", [("set", "graph.relations.0.from_kind", "resource.battery"), ("set", "graph.relations.0.to_kind", "resource.inverter")], "graph_relations"),
+    ("battery_pack_by_configuration", [("set", "graph.relations.1.basis_class", "configuration")], "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
+    ("battery_pack_from_inverter", [("set", "graph.relations.1.from_kind", "resource.inverter")], "graph endpoint_kind_mismatch $.graph.relations[1].from_kind"),
+    ("relation_not_member", [("set", "graph.relations.1.definition", "storage.relation.invented")], "graph relation_not_member $.graph.relations[1].definition"),
+    ("relation_evidence_empty", [("set", "graph.relations.0.evidence", [])], "graph invalid_value $.graph.relations[0].evidence"),
+    ("scope_profile", [("set", "graph.relations.0.validity_scope.profile", "huawei.sun2000.m1")], "graph_relations"),
+    ("scope_version", [("set", "graph.relations.1.validity_scope.version", "1.0.0")], "graph_relations"),
+    ("scope_rule_blank", [("set", "graph.relations.0.validity_scope.rule_scope", "")], "graph invalid_value $.graph.relations[0].validity_scope.rule_scope"),
+    ("scope_rule_widened", [("set", "graph.relations.1.validity_scope.rule_scope", "every_pack_of_the_site")], "graph_relations"),
+    ("absence_claimed", [("set", "graph.relations.0.absence_sides", ["to"])], "graph_relations"),
+    ("relation_dropped", [("delete", "graph.relations.1", None)], "graph_relations"),
+    # Relayed (section 15 item 3).
+    ("relayed_direct_key_claimed", [("set", "graph.relayed.0.direct_anchor_key_source", "operator_label")], "graph_relayed"),
+    ("relayed_direct_key_address", [("set", "graph.relayed.0.direct_anchor_key_source", "network_address")], "graph anchor_source_not_allowed $.graph.relayed[0].direct_anchor_key_source"),
+    ("relayed_dropped", [("set", "graph.relayed", [])], "graph_relayed"),
+    ("relayed_by_the_pack", [("set", "graph.relayed.0.relaying_kind", "resource.battery_pack")], "graph_relayed"),
+    # Aggregates (section 15 item 4, EN-5) and selectors (item 5).
+    ("member_as_aggregate", [("append", "graph.aggregates", PACK_POWER_AGGREGATE)], "graph not_an_aggregate $.graph.aggregates[0].fact"),
+    ("class_token_as_identity_evidence", [("set", "graph.selectors.1.classification", "identity_evidence")], "graph_selectors"),
+    ("profile_as_resource_attribute", [("set", "graph.selectors.0.classification", "resource_attribute")], "graph_selectors"),
+    ("class_token_selector_dropped", [("delete", "graph.selectors.1", None)], "graph_selectors"),
+    # Section 15 item 6 and PLN-1.
+    ("plane_on_resource", [("set", "graph.resources.1.planes", ["physical"])], "graph plane_membership_stated $.graph.resources[1].planes"),
+    ("plane_on_field_rule", [("set", "field_rules.4.planes", ["energy"])], "graph plane_membership_stated $.field_rules[4].planes"),
+    # Section 7.2: the storage relations the gate does not state stay unknown, never absent.
+    ("unstated_module_cell_dropped", [("delete", "unstated_relations.0", None)], "unstated_relations"),
+    ("unstated_absent", [("set", "unstated_relations.1.outcome", "absent")], "unstated_relations"),
+    ("unstated_endpoint", [("set", "unstated_relations.4.to_kind", "resource.battery_pack")], "unstated_relations"),
+    ("unstated_reason", [("set", "unstated_relations.2.withheld_by", "unsupported:state_of_health")], "unstated_relations"),
+    # Identity (section 6.3): one field of each identifier and each resource role varied.
+    ("identity_asset_configured", [("set", "identity.asset_id.source", "gateway_configured_semantic_asset_id")], "identity contract"),
+    ("identity_asset_granularity", [("set", "identity.asset_id.granularity", "one_asset_per_battery")], "identity contract"),
+    ("identity_class_token_allowed", [("delete", "identity.asset_id.forbidden_derivations.7", None)], "identity contract"),
+    ("identity_profile_allowed", [("delete", "identity.asset_id.forbidden_derivations.8", None)], "identity contract"),
+    ("identity_source_configured", [("set", "identity.source_id.source", "gateway_configured_semantic_source_id")], "identity contract"),
+    ("identity_source_granularity", [("set", "identity.source_id.granularity", "one_source_per_battery")], "identity contract"),
+    ("identity_battery_dimension", [("set", "identity.resources.battery.dimension", "storage.dimension.pack")], "identity contract"),
+    ("identity_battery_source", [("set", "identity.resources.battery.source", "gateway_derived_semantic_asset_id")], "identity contract"),
+    ("identity_battery_optional", [("set", "identity.resources.battery.required", False)], "identity contract"),
+    ("identity_inverter_kind", [("set", "identity.resources.inverter.kind", "resource.equipment")], "identity contract"),
+    ("identity_packs_allocated", [("set", "identity.resources.packs.source", "gateway_allocated_resource_id")], "identity contract"),
+    ("identity_unresolved_granularity_restored", [("set", "identity.storage_asset_granularity", "unresolved_batteries_are_registers_of_the_inverter_units_not_units_of_their_own")], "identity contract"),
+    ("identity_failure", [("set", "identity.failure", "missing_or_invalid_asset_or_source_identity_fails_closed")], "identity contract"),
+    # EN-1: every prospective row names its subject kind and measurement point.
+    ("row_subject_kind", [("set", "field_rules.4.prospective.subject_kind", "resource.battery")], "field rule subject"),
+    ("row_subject_kind_inverter", [("set", "field_rules.5.prospective.subject_kind", "resource.inverter")], "field rule subject"),
+    ("row_subject_missing", [("delete", "field_rules.7.prospective.subject_kind", None)], "field rule subject"),
+    ("row_measurement_point_blank", [("set", "field_rules.6.prospective.measurement_point", "")], "field rule subject"),
+    ("row_measurement_point_moved", [("set", "field_rules.8.prospective.measurement_point", "pack_as_a_whole")], "field rule subject"),
+    ("row_measurement_point_missing", [("delete", "field_rules.4.prospective.measurement_point", None)], "field rule subject"),
+    ("symbol_row_subject_kind", [("set", "field_rules.0.prospective.subject_kind", "resource.battery")], "field rule subject"),
+]
+
+
+@parametrize("name,edits,expected", GRAPH_NEGATIVES)
+def test_graph_identity_and_subject_negatives_are_rejected(name, edits, expected):
+    assert graph_rejection(edits) == expected, name
+
+
+def catalog_with(element_id, mutate_attributes):
+    catalog = copy.deepcopy(graph_rules.load_catalog())
+    for element in catalog["elements"]:
+        if element["ref"]["id"] == element_id:
+            mutate_attributes(element["attributes"])
+    return catalog
+
+
+# Constants that repeat a catalog fact are lookups: a changed catalog entry changes the outcome.
+@parametrize("element_id,mutate_attributes,expected", [
+    ("storage.state.soc", lambda a: a["subject"].update(kind="resource.battery"), "field rule subject"),
+    ("storage.state.soc", lambda a: a["subject"]["dimension"].update(id="storage.dimension.battery"), "prospective target"),
+    ("storage.dimension.battery", lambda a: a.update(resource_kind="resource.storage_system"), "graph_resources"),
+    ("storage.relation.battery_pack", lambda a: a.update(basis_classes=["configuration"]), "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
+    ("storage.relation.battery_pack", lambda a: a.update(to_kinds=["resource.battery_module"]), "graph endpoint_kind_mismatch $.graph.relations[1].to_kind"),
+    ("storage.pack.power", lambda a: a.update(aggregation="aggregate"), "graph_aggregates"),
+    ("storage.pack.power", lambda a: a.update(direction="not_applicable"), "prospective sign"),
+    ("storage.state.soc", lambda a: a.update(sign_reference="native_convention"), "prospective sign"),
+    ("storage.relation.pack_string", lambda a: a.update(from_kinds=["resource.battery"]), "unstated_relations"),
+    ("relation.relays", lambda a: a.update(basis_classes=["native_observation"]), "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+])
+def test_catalog_facts_are_looked_up_not_repeated(element_id, mutate_attributes, expected):
+    assert graph_rejection([], catalog_with(element_id, mutate_attributes)) == expected
+
+
+def test_each_prospective_row_names_its_catalog_subject_and_a_measurement_point():
+    catalog = graph_rules.load_catalog()
+    facts = {element["ref"]["id"]: element["attributes"] for element in catalog["elements"] if element["element_kind"] == "fact"}
+    rows = [(rule["native_id"], rule["prospective"]) for rule in contract()["field_rules"] if rule.get("prospective")]
+    assert rows
+    for native_id, plan in rows:
+        assert plan["subject_kind"] == facts[plan["target"]]["subject"]["kind"] == "resource.battery_pack", native_id
+        assert plan["dimension"] == facts[plan["target"]]["subject"]["dimension"]["id"], native_id
+        assert isinstance(plan["measurement_point"], str) and plan["measurement_point"].startswith("pack_"), native_id
+
+
+@parametrize("old,new", [
+    ("| `resource.battery` | equipment | `operator_slot` | `operator_label` | none |", "| `resource.battery` | equipment | `native_slot` | `native_position` | none |"),
+    ("| `relation.relays` | `configuration` |", "| `relation.relays` | `native_observation` |"),
+    ("| `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `unsupported:cell_and_module_values` |", "| `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `none` |"),
+    ("| `site_battery_soc` | `storage.state.soc` | `resource.battery_pack` | `pack_as_a_whole` |", "| `site_battery_soc` | `storage.state.soc` | `resource.battery` | `pack_as_a_whole` |"),
+])
+def test_page_graph_tables_must_match_the_contract(old, new):
+    pattern = re.escape(old).replace(r"\ ", r"\s+")
+    mutated, count = re.subn(pattern, lambda _: new, page())
+    assert count >= 1
+    with raises(ValueError, match="document tables"):
+        v.check_document(v.load(), mutated)
+
+
 if __name__ == "__main__":
     raise SystemExit(support.run(globals()))
