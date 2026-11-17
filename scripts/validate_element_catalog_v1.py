@@ -140,6 +140,7 @@ class Inputs(NamedTuple):
     seed: frozenset
     planes: tuple
     core_types: dict
+    relation_ends: dict = {}
 
 
 class Index(NamedTuple):
@@ -219,6 +220,7 @@ class PackModel:
         self.kinds = {}
         self.roles = {}
         self.agreements = []
+        self.relation_ends = {}
 
     def expect(self, key, element_kind):
         self.kinds[key] = element_kind
@@ -238,16 +240,34 @@ class PackModel:
         self.agree(key, "fact", "subject dimension", dimension, subject_dimension)
 
     def relation(self, key, ends, cardinality):
+        """Record a relation; ``ends`` holds the tuple of endpoint dimensions of each side.
+
+        A catalog entry names its endpoint dimensions only when each side has exactly one;
+        a side with several endpoint kinds leaves both endpoint dimensions out.
+        """
         self.expect(key, "relation")
-        for side, dimension in zip(("from", "to"), ends):
-            self.expect(dimension, "dimension")
-            self.agree(key, "relation", f"endpoint {side}", dimension, endpoint_at(side))
+        self.relation_ends[key] = ends
+        single = all(len(side) == 1 for side in ends)
+        for side, dimensions in zip(("from", "to"), ends):
+            for dimension in dimensions:
+                self.expect(dimension, "dimension")
+            self.agree(key, "relation", f"endpoint {side}", dimensions[0] if single else None, endpoint_at(side))
         self.agree(key, "relation", "cardinality", cardinality.removesuffix(OVER_TIME), value_at("cardinality"))
         self.agree(key, "relation", "over_time", cardinality.endswith(OVER_TIME), value_at("over_time"))
 
     def role_agreements(self):
         for key, role in self.roles.items():
             self.agree(key, "dimension", "role", role, value_at("role"))
+
+
+def endpoint_ids(path, value):
+    """One endpoint dimension identifier, or a non-empty list of distinct ones, as a tuple."""
+    if isinstance(value, str):
+        return (value,)
+    if not isinstance(value, list) or not value \
+            or not all(isinstance(ident, str) for ident in value) or len(set(value)) != len(value):
+        raise ValueError(f"{path.name}: relation endpoint is neither a dimension nor a list of distinct ones")
+    return tuple(value)
 
 
 def load_vector_pack(path, model):
@@ -271,7 +291,7 @@ def load_vector_pack(path, model):
     for item in defs.get("fields", []):
         model.field(item_key(item["ref"]), item["kind"], dimension(item["dimension"]))
     for item in defs.get("relations", []):
-        ends = (dimension(item["from"]), dimension(item["to"]))
+        ends = tuple(tuple(dimension(ident) for ident in endpoint_ids(path, item[side])) for side in ("from", "to"))
         model.relation(item_key(item["ref"]), ends, item["cardinality"])
 
 
@@ -300,7 +320,7 @@ def load_storage_pack(path, model):
     for item in tables["field_specs"]:
         model.field(key(item["id"]), item["kind"], dimension(item["dimension"]))
     for item in tables["relations"]:
-        ends = (service_dimension[item["from"]], service_dimension[item["to"]])
+        ends = ((service_dimension[item["from"]],), (service_dimension[item["to"]],))
         model.relation(key(item["id"]), ends, item["cardinality"])
 
 
@@ -411,6 +431,7 @@ def load_inputs():
         seed=frozenset(ref_key(ref) for ref in seed["refs"]),
         planes=graph_planes(graph),
         core_types=graph_core_types(graph),
+        relation_ends=dict(model.relation_ends),
     )
 
 
@@ -564,8 +585,24 @@ def subject_kind_findings(catalog, index):
                               f"kind {kind} is not the resource kind of dimension {show(optional_key(dimension))}")
 
 
+def relation_kind_findings(index, inputs):
+    """Each side's endpoint kinds equal the resource kinds of the dimensions its pack names there."""
+    for key, ends in inputs.relation_ends.items():
+        entry = index.by_key.get(key)
+        if entry is None or entry["element_kind"] != "relation":
+            continue
+        for side, dimensions in zip(("from", "to"), ends):
+            expected = sorted(str((index.by_key.get(dimension) or {"attributes": {}})["attributes"]
+                                  .get("resource_kind")) for dimension in dimensions)
+            actual = list(entry["attributes"].get(f"{side}_kinds", []))
+            if sorted(actual) != expected or len(set(actual)) != len(actual):
+                yield Finding("invalid_value", "CAT-2", show(key),
+                              f"{side}_kinds is {actual}, the kinds of the accepted pack endpoints are {expected}")
+
+
 def check_agreement(catalog, index, inputs):
-    return [*agreement_findings(index, inputs), *subject_kind_findings(catalog, index)]
+    return [*agreement_findings(index, inputs), *relation_kind_findings(index, inputs),
+            *subject_kind_findings(catalog, index)]
 
 
 # ---------------------------------------------------------------- CAT-3

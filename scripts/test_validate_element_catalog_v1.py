@@ -34,7 +34,12 @@ LENS_ROOT = "resource.pv_system"
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
 # One relation definition of each pack that declares relations.
 PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
-                  "infrastructure.relation.feeder_circuit", "storage.relation.pack_module")
+                  "infrastructure.relation.feeder_circuit", "storage.relation.pack_module",
+                  "thermal.relation.generator_compressor")
+# Thermal relations with one endpoint kind on each side, and with several on one side.
+SINGLE_ENDPOINT_RELATION = "thermal.relation.generator_compressor"
+MULTI_ENDPOINT_RELATION = "thermal.relation.fluid_supply"
+THERMAL_VECTORS = validator.VECTOR_FILES[0]
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER = "relation" + "ships"
 
@@ -52,6 +57,12 @@ def ref_of(catalog, ident):
 
 def resort(catalog):
     catalog["elements"].sort(key=validator.order_key)
+
+
+def mutate_copy(mutate):
+    catalog = copy.deepcopy(CATALOG)
+    mutate(catalog)
+    return catalog
 
 
 def remove(catalog, ident):
@@ -77,14 +88,14 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 307 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 353 entries"))
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 250)
-        self.assertEqual(kinds.count("relation"), 21)
-        self.assertEqual(kinds.count("presentation"), 32)
-        self.assertEqual(kinds.count("dimension"), 34)
+        self.assertEqual(len(kinds), 290)
+        self.assertEqual(kinds.count("relation"), 26)
+        self.assertEqual(kinds.count("presentation"), 37)
+        self.assertEqual(kinds.count("dimension"), 35)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_generator_is_not_imported(self):
@@ -174,6 +185,49 @@ class Mutations(unittest.TestCase):
         def mutate(catalog):
             entry_of(catalog, "evse.relation.connector_session")["attributes"]["over_time"] = False
         self.rejects(mutate, "invalid_value", "CAT-2", "evse.relation.connector_session", "over_time")
+
+    def test_single_endpoint_dimension_disagrees_with_its_pack(self):
+        # Each side is read from the pack's one-item endpoint list; a reader that
+        # ignored a side, or that took a list for no endpoint at all, misses the change.
+        for side in ("from", "to"):
+            with self.subTest(side=side):
+                def mutate(catalog, side=side):
+                    entry_of(catalog, SINGLE_ENDPOINT_RELATION)["attributes"]["endpoint_dimensions"][side] = \
+                        ref_of(catalog, "thermal.dimension.zone")
+                self.rejects(mutate, "invalid_value", "CAT-2", SINGLE_ENDPOINT_RELATION, f"endpoint {side}")
+
+    def test_single_endpoint_relation_without_endpoint_dimensions(self):
+        def mutate(catalog):
+            del entry_of(catalog, SINGLE_ENDPOINT_RELATION)["attributes"]["endpoint_dimensions"]
+        self.rejects(mutate, "invalid_value", "CAT-2", SINGLE_ENDPOINT_RELATION, "endpoint from")
+
+    def test_multi_endpoint_relation_with_endpoint_dimensions(self):
+        # A side with several endpoint kinds has no single endpoint dimension to name.
+        def mutate(catalog):
+            entry_of(catalog, MULTI_ENDPOINT_RELATION)["attributes"]["endpoint_dimensions"] = {
+                "from": ref_of(catalog, "thermal.dimension.heat_generator"),
+                "to": ref_of(catalog, "thermal.dimension.circuit"),
+            }
+        self.rejects(mutate, "invalid_value", "CAT-2", MULTI_ENDPOINT_RELATION, "endpoint to")
+
+    def test_endpoint_kinds_disagree_with_the_pack_endpoints(self):
+        # Fields varied: from_kinds and to_kinds of a relation with several endpoint
+        # kinds (no endpoint_dimensions to fall back on): a kind dropped, a kind
+        # replaced by another kind of the same pack, and a kind repeated. A validator
+        # that read no kinds from the pack endpoints accepts each mutation.
+        for side in ("from", "to"):
+            for name, change in (
+                ("dropped", lambda kinds: kinds[1:]),
+                ("replaced", lambda kinds: ["resource.compressor"] + kinds[1:]),
+                ("repeated", lambda kinds: kinds + kinds[:1]),
+            ):
+                with self.subTest(side=side, case=name):
+                    def mutate(catalog, side=side, change=change):
+                        attributes = entry_of(catalog, MULTI_ENDPOINT_RELATION)["attributes"]
+                        attributes[f"{side}_kinds"] = change(list(attributes[f"{side}_kinds"]))
+                    findings = validator.check_rules(mutate_copy(mutate), INPUTS)
+                    self.assertIn(f"{side}_kinds is", " ".join(item.detail for item in findings
+                                                                 if MULTI_ENDPOINT_RELATION in item.entry))
 
     # CAT-3
     def test_member_with_empty_planes(self):
@@ -267,7 +321,7 @@ class PackInputs(unittest.TestCase):
         def mutate(document):
             definitions = document["catalog"]["definitions"]
             definitions[EARLIER_MEMBER] = definitions.pop("relations")
-        for path in validator.VECTOR_FILES[1:]:
+        for path in validator.VECTOR_FILES:
             with self.subTest(pack=path.name), self.assertRaisesRegex(ValueError, "definition groups outside"):
                 self.load_with(path, mutate)
 
@@ -276,12 +330,26 @@ class PackInputs(unittest.TestCase):
             definitions = document["catalog"]["definitions"]
             definitions[EARLIER_MEMBER] = copy.deepcopy(definitions["relations"])
         with self.assertRaisesRegex(ValueError, "definition groups outside"):
-            self.load_with(validator.VECTOR_FILES[1], mutate)
+            self.load_with(THERMAL_VECTORS, mutate)
 
     def test_vector_relation_without_cardinality(self):
-        for path in validator.VECTOR_FILES[1:]:
+        for path in validator.VECTOR_FILES:
             with self.subTest(pack=path.name), self.assertRaises(KeyError):
                 self.load_with(path, lambda d: d["catalog"]["definitions"]["relations"][0].pop("cardinality"))
+
+    def test_vector_relation_endpoint_list_malformed(self):
+        cases = (
+            ("empty", []),
+            ("duplicated", ["thermal.dimension.zone", "thermal.dimension.zone"]),
+            ("not_text", [{"id": "thermal.dimension.zone"}]),
+            ("not_a_list", {"id": "thermal.dimension.zone"}),
+        )
+        for side in ("from", "to"):
+            for name, value in cases:
+                with self.subTest(side=side, case=name), self.assertRaisesRegex(ValueError, "relation endpoint"):
+                    self.load_with(THERMAL_VECTORS,
+                                   lambda d, side=side, value=value:
+                                   d["catalog"]["definitions"]["relations"][0].update({side: value}))
 
     def test_storage_relation_with_the_earlier_endpoint_names(self):
         def mutate(document):

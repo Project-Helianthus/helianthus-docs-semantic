@@ -936,7 +936,7 @@ GRAPH_NEGATIVES = [
     ("dangling_battery_endpoint", [("append", "graph.relations", BATTERY_RELAYS)], "graph dangling_endpoint $.graph.relations[3].to_kind"),
     ("dangling_logger_endpoint", [("set", "graph.resources.0.kind", "resource.meter")], "graph dangling_endpoint $.graph.relations[0].from_kind"),
     # Resources (section 15 item 1): kind, class, basis, source, scheme, parent and evidence each varied.
-    ("resource_kind_not_member", [("set", "graph.resources.4.kind", "resource.thermal_circuit")], "graph kind_not_member $.graph.resources[4].kind"),
+    ("resource_kind_not_member", [("set", "graph.resources.4.kind", "resource.not_a_catalog_kind")], "graph kind_not_member $.graph.resources[4].kind"),
     ("resource_unpublished_kind", [("append", "graph.resources", STRING_RESOURCE)], "graph_resources"),
     ("input_anchor_class", [("set", "graph.resources.3.anchor_class", "equipment")], "graph anchor_class_mismatch $.graph.resources[3].anchor_class"),
     ("input_anchored_on_label", [("set", "graph.resources.3.anchor_basis", "operator_slot"), ("set", "graph.resources.3.anchor_source", "operator_label")], "graph_anchor"),

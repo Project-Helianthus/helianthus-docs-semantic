@@ -45,7 +45,7 @@ def main():
             assert registry.operation_matches(operation["ref"], operation["capability"], operation["service"], operation["argument"], operation["effect"])
             wrong = copy.deepcopy(operation["effect"]); wrong["id"] += ".wrong"
             assert not registry.operation_matches(operation["ref"], operation["capability"], operation["service"], operation["argument"], wrong)
-    assert typed_relation_probes == 104
+    assert typed_relation_probes == 136
     print(f"FieldMatches typed-reference probes: {typed_relation_probes} REJECTED")
     unknown = copy.deepcopy(baseline["packs"][0]["definitions"][0]); unknown["version"] = "0.0.0"
     assert not registry.has_definition(unknown) and registry.canonical_unit(unknown) is None
