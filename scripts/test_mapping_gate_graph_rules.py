@@ -122,7 +122,7 @@ class GraphRulesTest(unittest.TestCase):
                 self.assert_fails(gate, "anchor_source_not_allowed", "$.graph.resources[1].anchor_source")
 
     def test_kind_not_member(self):
-        for kind in ("resource.thermal_circuit", "resource.invented", "pv.ac.voltage", "relation.relays"):
+        for kind in ("resource.not_a_catalog_kind", "resource.invented", "pv.ac.voltage", "relation.relays"):
             with self.subTest(kind=kind):
                 gate = valid_gate()
                 gate["graph"]["resources"][3]["kind"] = kind
@@ -130,7 +130,7 @@ class GraphRulesTest(unittest.TestCase):
 
     def test_parent_kind_not_member(self):
         gate = valid_gate()
-        gate["graph"]["resources"][2]["parent_kind"] = "resource.thermal_circuit"
+        gate["graph"]["resources"][2]["parent_kind"] = "resource.not_a_catalog_kind"
         self.assert_fails(gate, "kind_not_member", "$.graph.resources[2].parent_kind")
 
     def test_anchor_class_differs_from_catalog(self):

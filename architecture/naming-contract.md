@@ -14,13 +14,16 @@ Historical names in the correspondence are documentary only, never runtime fallb
 
 | Historical DefinitionID | Canonical DefinitionID | Proof |
 |---|---|---|
-| `thermal.measurement.humidity_relative` | `thermal.measurement.humidity` | Humidity denotes relative humidity; quantity, percent, ratio and bounds remain. |
-| `thermal.setpoint.temperature` | `thermal.setpoint.temperature_setpoint` | Setpoint denotes the regulated value; quantity, Celsius, temperature dimension and bounds remain. |
-| `thermal.setpoint.dhw_temperature` | `thermal.setpoint.dhw_temperature_setpoint` | The same setpoint rule applies to the domestic hot water value; quantity, Celsius, temperature dimension and bounds remain. |
+| `thermal.measurement.humidity_relative` | `thermal.measurement.humidity` | Humidity denotes relative humidity; the quantity remains. Under the accepted thermal placement it is a fact of the zone in `unit.ratio` from 0 to 1. |
+| `thermal.setpoint.temperature` | `thermal.setpoint.temperature_setpoint` | Setpoint denotes the regulated value; the quantity remains. Under the accepted thermal placement it is a fact of the zone in `unit.kelvin`. |
+| `thermal.setpoint.dhw_temperature` | `thermal.setpoint.dhw_temperature_setpoint` | The same setpoint rule applies to the domestic hot water value; the quantity remains. Under the accepted thermal placement it is a fact of the domestic hot water in `unit.kelvin`. |
 
 The field definitions and operation references are evidenced by the public
 [thermal definitions](https://github.com/Project-Helianthus/helianthus-semreg/blob/main/semreg/v1/packs/thermal/definitions.go).
 The existing [humidity cutover](https://github.com/Project-Helianthus/helianthus-docs-ebus/blob/main/architecture/humidity-semreg-cutover.md) describes the relative-humidity quantity.
+The thermal rows of the correspondence follow the accepted thermal placement
+of the [thermal pack](../api/v1/packs/thermal-hvac-v1.md): the identifiers it
+removes are dropped, not mapped, and the identifiers it adds are provisional.
 These names do not establish native meaning or qualification. Proven refers only
 to this naming correspondence; native qualification remains independent.
 Unresolved vocabulary and native identity remain provisional or unknown, with

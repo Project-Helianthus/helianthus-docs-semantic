@@ -1,127 +1,400 @@
 #!/usr/bin/env python3
-"""Validate the kernel-compatible thermal/HVAC v1 catalog."""
+"""Validate the kernel-compatible thermal/HVAC v1 catalog.
+
+Every field declares exactly one resource dimension, the subject of the fact;
+no qualifier dimension exists. Quantity fields use the SI units of the unit
+rule in api/README.md with the exact bounds of the accepted placement, and the
+pack relation definitions name their endpoint dimensions and cardinality.
+"""
 from __future__ import annotations
-import copy,json,re
+
+import copy
+import json
+import re
 from pathlib import Path
-from typing import Any
-ROOT=Path(__file__).resolve().parents[1]
-VECTORS=ROOT/"api/v1/packs/thermal-hvac-acceptance-vectors.json"
-DOCUMENT=ROOT/"api/v1/packs/thermal-hvac-v1.md"
-PACK={"id":"helianthus.pack.thermal","version":"1.0.0"}
-ID=re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
-KINDS={"quantity","symbol","text","symbols","boolean","time"}
-FIELDS={"thermal.measurement.air_temperature","thermal.measurement.water_temperature","thermal.measurement.humidity","thermal.measurement.flow_rate","thermal.measurement.power","thermal.setpoint.temperature_setpoint","thermal.setpoint.dhw_temperature_setpoint","thermal.mode.system","thermal.mode.zone","thermal.demand.level","thermal.status.operation","thermal.status.fault","thermal.action.state"}
-DIMS={"thermal.dimension.system","thermal.dimension.zone","thermal.dimension.circuit","thermal.dimension.dhw","thermal.dimension.ventilation"}
-SERVICES={"thermal.service.system","thermal.service.zone","thermal.service.circuit","thermal.service.dhw","thermal.service.ventilation"}
-CAPS={"thermal.capability.read.system","thermal.capability.read.zone","thermal.capability.read.circuit","thermal.capability.read.dhw","thermal.capability.read.ventilation","thermal.capability.set_temperature","thermal.capability.set_mode"}
-OPS={"thermal.operation.set_temperature","thermal.operation.set_mode"}; EFFECTS={"thermal.effect.set_temperature","thermal.effect.set_mode"}
-PORTAL={"thermal.portal.read.system","thermal.portal.read.zone","thermal.portal.read.circuit","thermal.portal.read.dhw","thermal.portal.read.ventilation","thermal.portal.operation.set_temperature","thermal.portal.operation.set_mode"}
-DOMAINS={"thermal_hvac":("helianthus.pack.thermal","accepted"),"pv_inverter":("helianthus.pack.pv","follow_on"),"storage_bms":("helianthus.pack.storage","follow_on"),"evse":("helianthus.pack.evse","follow_on"),"infrastructure":("helianthus.pack.infrastructure","follow_on")}
-LIFECYCLE={"source_epoch","driver_generation","semantic_revision","capability_qualification","activation","generation_fencing","partial_updates","stale_unknown_evidence","last_known_good_retention"}
-LOSS={"native_enum","precision_range","multiple_zones_faces","schedules","vendor_extensions","unavailable_fields","conflicting_sources","unsupported_operations"}
-PUBLICATION_POLICY={"admission":["exact_source_epoch","current_driver_generation","exact_semantic_revision","qualified_active_capability"],"stale_generation":"reject","partial_publication":"supplied_valid_only_preserve_permitted_last_known_good","withdrawal":"explicit_generation_fenced","evidence":"stale_unknown_never_promote_or_authorize","tombstone":"retained_non_actionable"}
-OPERATION_STAGES=["admission","dispatch","acknowledgement","readback","terminal_outcome"]
-OUTCOMES=["rejected","failed_no_contact","acknowledged_unverified","applied","no_effect","conflict","indeterminate"]
-PINS={"semantic_kernel":"da5ab4415d3bec73f9572aec1c495a6cdcbcba47","ebus":"ef076cb03e6cd5612f5dcbe7839e00ab4ee666c9","gree_can":"665a5f22f78c349b5e3063bda158af250a3f44b6","eebus_ledger":"81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1","eebus_m625_donor":"cedf238e34f879815ba773e9cd76b2b31c2822a3","matter_draft":"29b4768a513cf566011ab8cd60df1bc495204953"}
-def pairs(ps):
- d={}
- for k,v in ps:
-  if k in d: raise ValueError(f"duplicate JSON key: {k}")
-  d[k]=v
- return d
+
+ROOT = Path(__file__).resolve().parents[1]
+VECTORS = ROOT / "api/v1/packs/thermal-hvac-acceptance-vectors.json"
+DOCUMENT = ROOT / "api/v1/packs/thermal-hvac-v1.md"
+PACK = {"id": "helianthus.pack.thermal", "version": "1.0.0"}
+ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+KINDS = {"quantity", "symbol", "text", "symbols", "boolean", "time"}
+# The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
+CANONICAL_UNITS = frozenset({
+    "unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
+    "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
+    "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt",
+})
+SUBJECTS = ("system", "zone", "circuit", "dhw", "ventilation", "heat_generator", "thermal_store",
+            "terminal_unit", "refrigerant_circuit", "compressor")
+DIMS = {f"thermal.dimension.{name}" for name in SUBJECTS}
+SERVICE_DIMENSION = {f"thermal.service.{name}": f"thermal.dimension.{name}" for name in SUBJECTS}
+SERVICES = set(SERVICE_DIMENSION)
+CAPS = {f"thermal.capability.read.{name}" for name in SUBJECTS} | {
+    "thermal.capability.set_temperature", "thermal.capability.set_mode"}
+OPS = {"thermal.operation.set_temperature", "thermal.operation.set_mode"}
+EFFECTS = {"thermal.effect.set_temperature", "thermal.effect.set_mode"}
+PORTAL = {f"thermal.portal.read.{name}" for name in SUBJECTS} | {
+    "thermal.portal.operation.set_temperature", "thermal.portal.operation.set_mode"}
+KELVIN = ("unit.kelvin", ("17315", -2), ("47315", -2))
+KELVIN_SETPOINT = ("unit.kelvin", ("22315", -2), ("42315", -2))
+RATIO = ("unit.ratio", ("0", 0), ("1", 0))
+# Field -> (subject dimension, (unit, minimum, maximum) or symbols), tables A3 of the accepted placement.
+FIELD_CONTRACT = {
+    "thermal.measurement.air_temperature": ("zone", KELVIN),
+    "thermal.measurement.humidity": ("zone", RATIO),
+    "thermal.setpoint.temperature_setpoint": ("zone", KELVIN_SETPOINT),
+    "thermal.mode.zone": ("zone", ("auto", "comfort", "eco", "off")),
+    "thermal.measurement.circuit_flow_temperature": ("circuit", KELVIN),
+    "thermal.measurement.flow_rate": ("circuit", ("unit.cubic_metre_per_second", ("0", 0), ("2", -1))),
+    "thermal.measurement.dhw_temperature": ("dhw", KELVIN),
+    "thermal.setpoint.dhw_temperature_setpoint": ("dhw", KELVIN_SETPOINT),
+    "thermal.demand.level": ("ventilation", RATIO),
+    "thermal.measurement.outdoor_air_temperature": ("system", KELVIN),
+    "thermal.measurement.system_flow_temperature": ("system", KELVIN),
+    "thermal.mode.system": ("system", ("auto", "cool", "heat", "off")),
+    "thermal.action.state": ("system", ("cooling", "dhw", "heating", "idle", "ventilating")),
+    "thermal.status.operation": ("system", ("active", "idle")),
+    "thermal.status.fault": ("system", ("clear", "present")),
+    "thermal.status.maintenance": ("system", ("clear", "due")),
+    "thermal.measurement.heat_generator_flow_temperature": ("heat_generator", KELVIN),
+    "thermal.measurement.heat_generator_return_temperature": ("heat_generator", KELVIN),
+    "thermal.measurement.thermal_power": ("heat_generator", ("unit.watt", ("-1", 6), ("1", 6))),
+    "thermal.energy.heat_output": ("heat_generator", ("unit.joule", ("0", 0), ("36", 17))),
+    "thermal.measurement.water_pressure": ("heat_generator", ("unit.pascal", ("-101325", 0), ("1", 7))),
+    "thermal.status.heat_generator_fault": ("heat_generator", ("clear", "present")),
+    "thermal.status.heat_generator_operation": ("heat_generator", ("active", "idle")),
+    "thermal.measurement.store_temperature": ("thermal_store", KELVIN),
+    "thermal.mode.terminal_unit": ("terminal_unit", ("auto", "cool", "dry", "fan_only", "heat", "off")),
+    "thermal.status.terminal_unit_fault": ("terminal_unit", ("clear", "present")),
+    "thermal.status.terminal_unit_operation": ("terminal_unit", ("active", "idle")),
+    "thermal.measurement.refrigerant_high_side_pressure": ("refrigerant_circuit", ("unit.pascal", ("0", 0), ("1", 8))),
+    "thermal.measurement.refrigerant_low_side_pressure": ("refrigerant_circuit", ("unit.pascal", ("0", 0), ("1", 8))),
+    "thermal.measurement.refrigerant_condensing_temperature": ("refrigerant_circuit", KELVIN),
+    "thermal.measurement.refrigerant_evaporating_temperature": ("refrigerant_circuit", KELVIN),
+    "thermal.measurement.compressor_speed": ("compressor", ("unit.reciprocal_second", ("0", 0), ("1", 3))),
+}
+FIELDS = set(FIELD_CONTRACT)
+# Relation -> (from subjects, to subjects, cardinality), table A4 of the accepted placement.
+RELATION_CONTRACT = {
+    "thermal.relation.system_member": (
+        ("system",),
+        ("zone", "circuit", "dhw", "ventilation", "heat_generator", "thermal_store", "terminal_unit",
+         "refrigerant_circuit"),
+        "one_to_many"),
+    "thermal.relation.fluid_supply": (
+        ("heat_generator", "thermal_store", "circuit"), ("circuit", "thermal_store", "zone", "dhw", "terminal_unit"),
+        "many_to_many"),
+    "thermal.relation.air_supply": (("terminal_unit", "ventilation"), ("zone",), "many_to_many"),
+    "thermal.relation.refrigerant_circuit_member": (("refrigerant_circuit",), ("heat_generator", "terminal_unit"),
+                                                    "one_to_many"),
+    "thermal.relation.generator_compressor": (("heat_generator",), ("compressor",), "one_to_many"),
+}
+CARDINALITIES = {"one_to_one", "one_to_many", "many_to_many"}
+DOMAINS = {
+    "thermal_hvac": ("helianthus.pack.thermal", "accepted"),
+    "pv_inverter": ("helianthus.pack.pv", "follow_on"),
+    "storage_bms": ("helianthus.pack.storage", "follow_on"),
+    "evse": ("helianthus.pack.evse", "follow_on"),
+    "infrastructure": ("helianthus.pack.infrastructure", "follow_on"),
+}
+LIFECYCLE = {"source_epoch", "driver_generation", "semantic_revision", "capability_qualification", "activation",
+             "generation_fencing", "partial_updates", "stale_unknown_evidence", "last_known_good_retention"}
+LOSS = {"native_enum", "precision_range", "multiple_zones_faces", "schedules", "vendor_extensions",
+        "unavailable_fields", "conflicting_sources", "unsupported_operations"}
+PUBLICATION_POLICY = {
+    "admission": ["exact_source_epoch", "current_driver_generation", "exact_semantic_revision",
+                  "qualified_active_capability"],
+    "stale_generation": "reject",
+    "partial_publication": "supplied_valid_only_preserve_permitted_last_known_good",
+    "withdrawal": "explicit_generation_fenced",
+    "evidence": "stale_unknown_never_promote_or_authorize",
+    "tombstone": "retained_non_actionable",
+}
+PRECONDITIONS = ["current_generation", "qualified_active_capability", "exact_route", "authority_admitted"]
+OPERATION_STAGES = ["admission", "dispatch", "acknowledgement", "readback", "terminal_outcome"]
+OUTCOMES = ["rejected", "failed_no_contact", "acknowledged_unverified", "applied", "no_effect", "conflict",
+            "indeterminate"]
+PINS = {
+    "semantic_kernel": "da5ab4415d3bec73f9572aec1c495a6cdcbcba47",
+    "ebus": "ef076cb03e6cd5612f5dcbe7839e00ab4ee666c9",
+    "gree_can": "665a5f22f78c349b5e3063bda158af250a3f44b6",
+    "eebus_ledger": "81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1",
+    "eebus_m625_donor": "cedf238e34f879815ba773e9cd76b2b31c2822a3",
+    "matter_draft": "29b4768a513cf566011ab8cd60df1bc495204953",
+}
+
+
+def pairs(items):
+    result = {}
+    for key, value in items:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
 def load_document(path):
- with path.open(encoding="utf-8") as f:return json.load(f,object_pairs_hook=pairs)
-def exact(actual,expected,label):
- if actual!=expected:raise ValueError(f"{label} differs")
-def refs(items,label):
- if not isinstance(items,list) or not items:raise ValueError(f"{label} must be non-empty")
- got=[]; order=[]
- for x in items:
-  if not isinstance(x,dict) or not isinstance(x.get("id"),str) or not ID.fullmatch(x["id"]):raise ValueError(f"{label} invalid ID")
-  if x.get("ref")!={"pack":PACK,"id":x["id"],"version":"1.0.0"}:raise ValueError(f"{label} missing exact DefinitionRef owner/version")
-  got.append(x["id"]);order.append(x.get("order"))
- if len(got)!=len(set(got)):raise ValueError(f"duplicate definition ID in {label}")
- if not all(isinstance(x,int) and x>0 for x in order) or order!=sorted(order) or len(order)!=len(set(order)):raise ValueError(f"{label} noncanonical order")
- return set(got)
-def decimal(x):
- if not isinstance(x,dict) or set(x)!={"coefficient","exponent10"} or not isinstance(x["coefficient"],str) or not re.fullmatch(r"0|-?[1-9][0-9]*",x["coefficient"]) or not isinstance(x["exponent10"],int) or not -18<=x["exponent10"]<=18 or (x["coefficient"]=="0" and x["exponent10"]!=0) or (x["coefficient"]!="0" and x["coefficient"].endswith("0")):raise ValueError("bounds must use canonical kernel Decimal")
- return int(x["coefficient"])*10**x["exponent10"]
-def validate_defs(c):
- d=c.get("definitions",{}); fields=d.get("fields"); exact(refs(fields,"fields"),FIELDS,"field catalog")
- for x in fields:
-  if x.get("kind") not in KINDS:raise ValueError("field has non-kernel ValueKind")
-  if not isinstance(x.get("dimension"),str) or not ID.fullmatch(x["dimension"]):raise ValueError("field has invalid dimension ID")
-  if not isinstance(x.get("optional"),bool):raise ValueError("field lacks optionality")
-  if x["kind"]=="quantity":
-   if not isinstance(x.get("unit"),str) or not ID.fullmatch(x["unit"]):raise ValueError("field has invalid unit ID")
-   b=x.get("bounds",{});
-   if decimal(b.get("minimum"))>=decimal(b.get("maximum")):raise ValueError("field unordered numeric bounds")
-  elif "unit" in x or "bounds" in x:raise ValueError("non-quantity field has quantity-only data")
-  if x["kind"] in {"symbol","symbols"}:
-   ss=x.get("symbols",[])
-   if not isinstance(ss,list) or not ss or ss!=sorted(ss) or any("unknown" in s or "withheld" in s for s in ss):raise ValueError("field has invalid semantic symbols")
-   if x["id"]=="thermal.action.state" and set(ss)!={"thermal.action.state.cooling","thermal.action.state.dhw","thermal.action.state.heating","thermal.action.state.idle","thermal.action.state.ventilating"}:raise ValueError("field has invalid semantic symbols")
- exact(refs(d.get("fact_dimensions"),"fact dimensions"),DIMS,"fact-key dimension contracts")
- services=d.get("services");caps=d.get("capabilities");ops=d.get("operations");effects=d.get("effect_rules");portal=d.get("portal_contributions")
- s=refs(services,"services");q=refs(caps,"capabilities");o=refs(ops,"operations");e=refs(effects,"effect rules");p=refs(portal,"Portal contributions")
- exact(s,SERVICES,"service catalog");exact(q,CAPS,"capability catalog");exact(o,OPS,"operation catalog");exact(e,EFFECTS,"effect catalog");exact(p,PORTAL,"Portal catalog")
- for x in services:
-  if x.get("fact_key_dimension") not in DIMS:raise ValueError("service missing dimension contract")
- for x in caps:
-  if x.get("service") not in s or x.get("activation")!="qualified_current_binding":raise ValueError("capability dangling service or activation")
-  if x["id"].startswith("thermal.capability.set_") and not isinstance(x.get("constraints"),list):raise ValueError("capability lacks exact argument constraint")
- for x in ops:
-  if x.get("capability") not in q or not set(x.get("arguments",[]))<=FIELDS or x.get("effect_rule") not in e:raise ValueError("operation dangling reference")
-  cap=next(item for item in caps if item["id"]==x["capability"])
-  if cap.get("constraints")!=x.get("arguments") or x.get("argument_constraints")!=x.get("arguments"):raise ValueError("operation/capability constraint mismatch")
-  if x.get("preconditions")!=["current_generation","qualified_active_capability","exact_route","authority_admitted"] or x.get("readback")!="current_generation_exact_effect" or x.get("retry")!="forbidden_after_indeterminate":raise ValueError("operation lacks admission/readback")
-  if x.get("stages")!=OPERATION_STAGES or x.get("terminal_outcomes")!=OUTCOMES:raise ValueError("operation stages/outcomes are incomplete")
- for x in effects:
-  if x.get("operation") not in o or x.get("fact") not in FIELDS or x.get("operator")!="equal":raise ValueError("effect dangling reference")
- for x in portal:
-  if x.get("kind")=="read" and (x.get("service") not in s or not set(x.get("fields",[]))<=FIELDS):raise ValueError("Portal dangling reference")
-  if x.get("kind")=="operation" and x.get("operation") not in o:raise ValueError("Portal dangling reference")
- read_fields={field for x in portal if x.get("kind")=="read" for field in x.get("fields",[])}
- exact(read_fields,FIELDS,"read descriptor field coverage")
-def validate_catalog(c):
- if not isinstance(c,dict) or c.get("pack")!=PACK or c.get("kernel_contract")!="helianthus.semantic.kernel/v1":raise ValueError("catalog lacks exact PackRef")
- if {x.get("id"):(x.get("pack"),x.get("state")) for x in c.get("domain_catalog",[]) if isinstance(x,dict)}!=DOMAINS:raise ValueError("five-domain catalog")
- if {x.get("id"):x.get("revision") for x in c.get("inputs",[]) if isinstance(x,dict)}!=PINS:raise ValueError("pinned public inputs")
- if set(c.get("lifecycle_axes",[]))!=LIFECYCLE:raise ValueError("lifecycle axes")
- if c.get("publication_withdrawal_policy")!=PUBLICATION_POLICY:raise ValueError("publication/withdrawal policy")
- if set(c.get("loss_dispositions",[]))!=LOSS:raise ValueError("projection-loss coverage")
- m={x.get("native_owner"):x for x in c.get("candidate_mappings",[]) if isinstance(x,dict)}
- if any(m.get(k,{}).get("state")!="candidate" or m[k].get("qualification")!="native_owner_required" for k in ("helianthus-docs-ebus","helianthus-docs-canbus")):raise ValueError("native mapping boundary")
- if m.get("helianthus-docs-eebus",{}).get("state")!="unknown_pending_normative_source":raise ValueError("eeBUS mapping")
- validate_defs(c)
-def resolve(c,path):
- x=c;parts=path.split(".")
- for y in parts[:-1]:x=x[int(y)] if isinstance(x,list) else x[y]
- return x,int(parts[-1]) if isinstance(x,list) else parts[-1]
-def mutate(c,m):
- p,k=resolve(c,m["path"])
- if m["op"]=="set":p[k]=m.get("value")
- elif m["op"]=="delete":del p[k]
- elif m["op"]=="append_copy":p[k].append(copy.deepcopy(p[k][m["index"]]))
- elif m["op"]=="remove_id":p[k][:]=[x for x in p[k] if (x.get("id") if isinstance(x,dict) else x)!=m["id"]]
- else:raise ValueError("unknown vector mutation")
-def validate_document(d):
- if d.get("contract")!="helianthus.semantic.pack.thermal.acceptance/v1" or d.get("pack_contract")!="helianthus.pack.thermal/v1":raise ValueError("contract ID")
- validate_catalog(d.get("catalog"));vs=d.get("vectors",[])
- if not any(x.get("polarity")=="positive" for x in vs) or not any(x.get("polarity")=="negative" for x in vs):raise ValueError("positive and negative vectors")
- for v in vs:
-  candidate=copy.deepcopy(d["catalog"])
-  for m in v.get("input",{}).get("mutations",[]):mutate(candidate,m)
-  if v.get("polarity")=="positive":validate_catalog(candidate)
-  else:
-   try:validate_catalog(candidate)
-   except ValueError as e:
-    if v.get("expect",{}).get("error") not in str(e):raise ValueError(f"{v.get('id')}: {e}")
-   else:raise ValueError(f"{v.get('id')}: accepted")
+    with path.open(encoding="utf-8") as handle:
+        return json.load(handle, object_pairs_hook=pairs)
+
+
+def exact(actual, expected, label):
+    if actual != expected:
+        raise ValueError(f"{label} differs")
+
+
+def refs(items, label):
+    if not isinstance(items, list) or not items:
+        raise ValueError(f"{label} must be non-empty")
+    got, order = [], []
+    for item in items:
+        if not isinstance(item, dict) or not isinstance(item.get("id"), str) or not ID.fullmatch(item["id"]):
+            raise ValueError(f"{label} invalid ID")
+        if item.get("ref") != {"pack": PACK, "id": item["id"], "version": "1.0.0"}:
+            raise ValueError(f"{label} missing exact DefinitionRef owner/version")
+        got.append(item["id"])
+        order.append(item.get("order"))
+    if len(got) != len(set(got)):
+        raise ValueError(f"duplicate definition ID in {label}")
+    if not all(isinstance(x, int) and x > 0 for x in order) or order != sorted(order) or len(order) != len(set(order)):
+        raise ValueError(f"{label} noncanonical order")
+    return set(got)
+
+
+def decimal_pair(value):
+    canonical = (
+        isinstance(value, dict) and set(value) == {"coefficient", "exponent10"}
+        and isinstance(value["coefficient"], str) and re.fullmatch(r"0|-?[1-9][0-9]*", value["coefficient"])
+        and isinstance(value["exponent10"], int) and -18 <= value["exponent10"] <= 18
+        and (value["coefficient"] != "0" or value["exponent10"] == 0)
+        and (value["coefficient"] == "0" or not value["coefficient"].endswith("0"))
+    )
+    if not canonical:
+        raise ValueError("bounds must use canonical kernel Decimal")
+    return value["coefficient"], value["exponent10"]
+
+
+def magnitude(pair):
+    coefficient, exponent = pair
+    return int(coefficient) * 10 ** exponent if exponent >= 0 else int(coefficient) / 10 ** -exponent
+
+
+def validate_quantity(field, contract):
+    unit = field.get("unit")
+    if not isinstance(unit, str) or not ID.fullmatch(unit):
+        raise ValueError("field has invalid unit ID")
+    if unit not in CANONICAL_UNITS:
+        raise ValueError("field unit is outside the canonical SI unit set")
+    bounds = field.get("bounds", {})
+    minimum, maximum = decimal_pair(bounds.get("minimum")), decimal_pair(bounds.get("maximum"))
+    if magnitude(minimum) >= magnitude(maximum):
+        raise ValueError("field unordered numeric bounds")
+    if not isinstance(contract, tuple) or not contract or not contract[0].startswith("unit."):
+        raise ValueError("field kind differs from the placement")
+    if unit != contract[0]:
+        raise ValueError("field unit differs from the placement")
+    if (minimum, maximum) != contract[1:]:
+        raise ValueError("field bounds differ from the placement")
+
+
+def validate_symbols(field, contract):
+    if "unit" in field or "bounds" in field:
+        raise ValueError("non-quantity field has quantity-only data")
+    if field["kind"] not in {"symbol", "symbols"}:
+        return
+    symbols = field.get("symbols", [])
+    if (not isinstance(symbols, list) or not symbols or symbols != sorted(symbols)
+            or any("unknown" in s or "withheld" in s for s in symbols)):
+        raise ValueError("field has invalid semantic symbols")
+    if symbols != [f"{field['id']}.{name}" for name in contract]:
+        raise ValueError("field has invalid semantic symbols")
+
+
+def validate_field(field):
+    if field.get("kind") not in KINDS:
+        raise ValueError("field has non-kernel ValueKind")
+    dimension = field.get("dimension")
+    if not isinstance(dimension, str) or not ID.fullmatch(dimension):
+        raise ValueError("field has invalid dimension ID")
+    if dimension not in DIMS:
+        raise ValueError("field has no resource dimension")
+    if not isinstance(field.get("optional"), bool):
+        raise ValueError("field lacks optionality")
+    subject, contract = FIELD_CONTRACT[field["id"]]
+    if field["kind"] == "quantity":
+        validate_quantity(field, contract)
+    else:
+        validate_symbols(field, contract)
+    if dimension != f"thermal.dimension.{subject}":
+        raise ValueError("field subject differs from the placement")
+
+
+def validate_relations(relations):
+    exact(refs(relations, "relations"), set(RELATION_CONTRACT), "relation catalog")
+    for item in relations:
+        ends = (item.get("from"), item.get("to"))
+        if not all(isinstance(end, list) and end and all(isinstance(x, str) for x in end) for end in ends):
+            raise ValueError("relation endpoints must be non-empty dimension lists")
+        if any(x not in DIMS for end in ends for x in end) or item.get("cardinality") not in CARDINALITIES:
+            raise ValueError("relation dangling dimension or cardinality")
+        source, target, cardinality = RELATION_CONTRACT[item["id"]]
+        expected = ([f"thermal.dimension.{x}" for x in source], [f"thermal.dimension.{x}" for x in target])
+        if ends != expected or item["cardinality"] != cardinality:
+            raise ValueError("relation endpoints or cardinality differ from the placement")
+
+
+def validate_capabilities(caps, services):
+    for item in caps:
+        if item.get("service") not in services or item.get("activation") != "qualified_current_binding":
+            raise ValueError("capability dangling service or activation")
+        if item["id"].startswith("thermal.capability.set_") and not isinstance(item.get("constraints"), list):
+            raise ValueError("capability lacks exact argument constraint")
+
+
+def validate_operations(ops, caps, effects):
+    capability_ids = {item["id"] for item in caps}
+    for item in ops:
+        if (item.get("capability") not in capability_ids or not set(item.get("arguments", [])) <= FIELDS
+                or item.get("effect_rule") not in effects):
+            raise ValueError("operation dangling reference")
+        capability = next(cap for cap in caps if cap["id"] == item["capability"])
+        if capability.get("constraints") != item.get("arguments") or item.get("argument_constraints") != item.get(
+                "arguments"):
+            raise ValueError("operation/capability constraint mismatch")
+        if (item.get("preconditions") != PRECONDITIONS or item.get("readback") != "current_generation_exact_effect"
+                or item.get("retry") != "forbidden_after_indeterminate"):
+            raise ValueError("operation lacks admission/readback")
+        if item.get("stages") != OPERATION_STAGES or item.get("terminal_outcomes") != OUTCOMES:
+            raise ValueError("operation stages/outcomes are incomplete")
+
+
+def validate_portal(portal, services, operations, fields):
+    dimension_of = {field["id"]: field["dimension"] for field in fields}
+    for item in portal:
+        if item.get("kind") == "read":
+            if item.get("service") not in services or not set(item.get("fields", [])) <= FIELDS:
+                raise ValueError("Portal dangling reference")
+            if any(dimension_of.get(x) != SERVICE_DIMENSION[item["service"]] for x in item["fields"]):
+                raise ValueError("read descriptor reads another subject than its service")
+        if item.get("kind") == "operation" and item.get("operation") not in operations:
+            raise ValueError("Portal dangling reference")
+    read_fields = {field for item in portal if item.get("kind") == "read" for field in item.get("fields", [])}
+    exact(read_fields, FIELDS, "read descriptor field coverage")
+
+
+def validate_defs(catalog):
+    definitions = catalog.get("definitions", {})
+    fields = definitions.get("fields")
+    exact(refs(fields, "fields"), FIELDS, "field catalog")
+    for field in fields:
+        validate_field(field)
+    exact(refs(definitions.get("fact_dimensions"), "fact dimensions"), DIMS, "fact-key dimension contracts")
+    services, caps = definitions.get("services"), definitions.get("capabilities")
+    ops, effects, portal = definitions.get("operations"), definitions.get("effect_rules"), definitions.get(
+        "portal_contributions")
+    exact(refs(services, "services"), SERVICES, "service catalog")
+    exact(refs(caps, "capabilities"), CAPS, "capability catalog")
+    exact(refs(ops, "operations"), OPS, "operation catalog")
+    exact(refs(effects, "effect rules"), EFFECTS, "effect catalog")
+    exact(refs(portal, "Portal contributions"), PORTAL, "Portal catalog")
+    if any(item.get("fact_key_dimension") != SERVICE_DIMENSION[item["id"]] for item in services):
+        raise ValueError("service missing dimension contract")
+    validate_relations(definitions.get("relations"))
+    validate_capabilities(caps, SERVICES)
+    validate_operations(ops, caps, EFFECTS)
+    for item in effects:
+        if item.get("operation") not in OPS or item.get("fact") not in FIELDS or item.get("operator") != "equal":
+            raise ValueError("effect dangling reference")
+    validate_portal(portal, SERVICES, OPS, fields)
+
+
+def validate_catalog(catalog):
+    if (not isinstance(catalog, dict) or catalog.get("pack") != PACK
+            or catalog.get("kernel_contract") != "helianthus.semantic.kernel/v1"):
+        raise ValueError("catalog lacks exact PackRef")
+    domains = {x.get("id"): (x.get("pack"), x.get("state")) for x in catalog.get("domain_catalog", [])
+               if isinstance(x, dict)}
+    if domains != DOMAINS:
+        raise ValueError("five-domain catalog")
+    if {x.get("id"): x.get("revision") for x in catalog.get("inputs", []) if isinstance(x, dict)} != PINS:
+        raise ValueError("pinned public inputs")
+    if set(catalog.get("lifecycle_axes", [])) != LIFECYCLE:
+        raise ValueError("lifecycle axes")
+    if catalog.get("publication_withdrawal_policy") != PUBLICATION_POLICY:
+        raise ValueError("publication/withdrawal policy")
+    if set(catalog.get("loss_dispositions", [])) != LOSS:
+        raise ValueError("projection-loss coverage")
+    mappings = {x.get("native_owner"): x for x in catalog.get("candidate_mappings", []) if isinstance(x, dict)}
+    for owner in ("helianthus-docs-ebus", "helianthus-docs-canbus"):
+        row = mappings.get(owner, {})
+        if row.get("state") != "candidate" or row.get("qualification") != "native_owner_required":
+            raise ValueError("native mapping boundary")
+    if mappings.get("helianthus-docs-eebus", {}).get("state") != "unknown_pending_normative_source":
+        raise ValueError("eeBUS mapping")
+    validate_defs(catalog)
+
+
+def resolve(catalog, path):
+    node, parts = catalog, path.split(".")
+    for part in parts[:-1]:
+        node = node[int(part)] if isinstance(node, list) else node[part]
+    return node, int(parts[-1]) if isinstance(node, list) else parts[-1]
+
+
+def mutate(catalog, mutation):
+    parent, key = resolve(catalog, mutation["path"])
+    if mutation["op"] == "set":
+        parent[key] = mutation.get("value")
+    elif mutation["op"] == "delete":
+        del parent[key]
+    elif mutation["op"] == "append_copy":
+        parent[key].append(copy.deepcopy(parent[key][mutation["index"]]))
+    elif mutation["op"] == "remove_id":
+        parent[key][:] = [x for x in parent[key] if (x.get("id") if isinstance(x, dict) else x) != mutation["id"]]
+    else:
+        raise ValueError("unknown vector mutation")
+
+
+def check_vector(document, vector):
+    candidate = copy.deepcopy(document["catalog"])
+    for mutation in vector.get("input", {}).get("mutations", []):
+        mutate(candidate, mutation)
+    if vector.get("polarity") == "positive":
+        validate_catalog(candidate)
+        return
+    try:
+        validate_catalog(candidate)
+    except ValueError as error:
+        if vector.get("expect", {}).get("error") not in str(error):
+            raise ValueError(f"{vector.get('id')}: {error}") from error
+    else:
+        raise ValueError(f"{vector.get('id')}: accepted")
+
+
+def validate_document(document):
+    if (document.get("contract") != "helianthus.semantic.pack.thermal.acceptance/v1"
+            or document.get("pack_contract") != "helianthus.pack.thermal/v1"):
+        raise ValueError("contract ID")
+    validate_catalog(document.get("catalog"))
+    vectors = document.get("vectors", [])
+    polarities = {vector.get("polarity") for vector in vectors}
+    if not {"positive", "negative"} <= polarities:
+        raise ValueError("positive and negative vectors")
+    for vector in vectors:
+        check_vector(document, vector)
+
+
 def main():
- d=load_document(VECTORS);validate_document(d);text=DOCUMENT.read_text()
- for group in d["catalog"]["definitions"].values():
-  for x in group:
-   if x["id"] not in text:raise ValueError(f"document misses {x['id']}")
- print("thermal/HVAC pack v1: PASS")
-if __name__=="__main__":main()
+    document = load_document(VECTORS)
+    validate_document(document)
+    text = DOCUMENT.read_text(encoding="utf-8")
+    for group in document["catalog"]["definitions"].values():
+        for item in group:
+            if item["id"] not in text:
+                raise ValueError(f"document misses {item['id']}")
+    print("thermal/HVAC pack v1: PASS")
+
+
+if __name__ == "__main__":
+    main()

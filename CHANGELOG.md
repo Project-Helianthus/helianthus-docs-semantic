@@ -7,6 +7,34 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [thermal pack](api/v1/packs/thermal-hvac-v1.md) applies the accepted thermal
+  placement. Every thermal field declares exactly one resource dimension, the
+  subject of the fact, and the four quantity dimensions are removed. The water
+  temperature is split into the circuit flow temperature of a thermal circuit
+  and the hot-water temperature of the domestic hot water; thermal power is the
+  signed thermal output of a heat generator, with the fluid-supply relation as
+  its sign reference; humidity is a fact of the zone. The heat generator,
+  thermal store, terminal unit, refrigerant circuit and compressor kinds are
+  added with their services, read capabilities and read descriptors, and the
+  pack declares five relation definitions; the element catalog adds the core
+  thermal-control relation, has no `unknown` entry left, and the hydraulic
+  plane is no longer empty. Every quantity is in an SI unit of the
+  [unit rule](api/README.md#unit-rule), whose strict reading stays a working
+  reading. Pack metadata, the graph vectors, both Matter rosters and the
+  [naming contract](architecture/naming-contract.md) follow. SemReg and the
+  gateway follow-ups: re-copy and re-pin the pack vectors, the element catalog
+  and the graph vectors, and the Matter contract digest. The shared mapping-gate
+  graph rules and their tests now take a kind that is outside the catalog by
+  construction as their example of a non-member kind, since the thermal circuit
+  kind is a member; the rule itself is unchanged. The element catalog
+  validator reads a pack relation endpoint as one dimension or a list of
+  distinct dimensions and checks each side's endpoint kinds against them. With
+  no `unknown` entry left in the catalog, the three graph vectors over an
+  `unknown` element (`G-NEG-ACT-3`, `G-NEG-RES-1`, `G-POS-CUT-10`) register the
+  catalog with one stated `set_disposition` mutation in their prior state, and
+  the graph validator checks them against the catalog as registered. No version
+  is raised and no alias is kept.
+- Breaking, in place before the 0.7 release: the
   [PV gate](api/v1/mappings/huawei-sun2000-pv-v1.md) states its resources,
   relations, relayed unit, join, aggregates and selectors under section 15 of
   the [graph contract](api/v1/graph.md) and passes the shared graph rules. Its

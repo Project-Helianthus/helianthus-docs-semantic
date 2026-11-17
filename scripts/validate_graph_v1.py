@@ -6,13 +6,15 @@ The document is ``api/v1/graph-acceptance-vectors.json``
 problems; an empty list from every rule means the document is valid. The
 rules check the shape and repeated keys, the identifiers, the coverage areas
 and operations against section 19, the stable errors, the definition
-references, the anchor keys, every section 19 statement and the PUB-3 statements,
+references (against the catalog as each prior state registers it, with its
+stated catalog mutations), the anchor keys, every section 19 statement and the PUB-3 statements,
 the graph cuts and the recorded catalog digest. For a graph cut the rules recompute every snapshot and
 cut identifier, check the canonical order of members, findings and relation
 coherence, and recompute the plane membership of every resource a member holds.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -56,10 +58,28 @@ PACK_REF = {
     "type": "object", "required": ["id", "version"], "additionalProperties": False,
     "properties": {"id": TEXT, "version": TEXT},
 }
+# A registry may register the element catalog with stated mutations, so that a vector can hold an
+# element of disposition unknown when the committed catalog has none. Each mutation sets one member
+# entry to unknown with a reason and a tracking issue; the entry then has no plane (PLN-7).
+SET_DISPOSITION = {
+    "type": "object", "required": ["ref", "disposition", "reason", "tracking"], "additionalProperties": False,
+    "properties": {
+        "ref": {"type": "object"},
+        "disposition": {"const": "unknown"},
+        "reason": {"type": "string", "pattern": "^catalog\\.reason\\.[a-z0-9]+(?:_[a-z0-9]+)*$"},
+        "tracking": {"type": "string",
+                     "pattern": "^https://github\\.com/Project-Helianthus/[a-z0-9.-]+/issues/[1-9][0-9]*$"},
+    },
+}
+CATALOG_MUTATION = {
+    "type": "object", "required": ["set_disposition"], "additionalProperties": False,
+    "properties": {"set_disposition": SET_DISPOSITION},
+}
 REGISTRY = {
     "type": "object", "required": ["element_catalog", "packs"], "additionalProperties": False,
     "properties": {
         "element_catalog": {"enum": ["registered", "absent"]},
+        "catalog_mutations": {"type": "array", "items": CATALOG_MUTATION, "minItems": 1},
         "packs": {"type": "array", "items": PACK_REF},
         "identification_schemes": TEXT_LIST,
     },
@@ -445,16 +465,59 @@ def pack_problems(vector: dict[str, Any], states: dict[str, dict[str, Any]], pac
     return problems
 
 
+def catalog_entries(context: Context) -> dict[str, dict[str, Any]]:
+    return {ref_key(entry["ref"]): entry for entry in context.catalog["elements"]}
+
+
+def registered_entries(state: dict[str, Any] | None, entries: dict[str, dict[str, Any]]
+                       ) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """The catalog entries as a prior state registers them: its catalog mutations applied to a copy."""
+    registry = (state or {}).get("registry") or {}
+    mutations = registry.get("catalog_mutations", [])
+    if not mutations:
+        return entries, []
+    label = f"prior state {state['name']}"
+    if registry["element_catalog"] != "registered":
+        return entries, [f"{label}: catalog mutations need a registered element catalog"]
+    result = dict(entries)
+    problems = []
+    for mutation in mutations:
+        change = mutation["set_disposition"]
+        key = ref_key(change["ref"])
+        entry = result.get(key)
+        if entry is None:
+            problems.append(f"{label}: catalog mutation names {change['ref'].get('id')}, which is not in the catalog")
+        elif entry is not entries.get(key) or entry["disposition"] != "member":
+            problems.append(f"{label}: catalog mutation of {change['ref'].get('id')} must change one member entry once")
+        else:
+            mutated_entry = copy.deepcopy(entry)
+            mutated_entry.update(disposition=change["disposition"], planes=[], reason=change["reason"],
+                                 tracking=change["tracking"])
+            result[key] = mutated_entry
+    return result, problems
+
+
+def state_entries(document: dict[str, Any], context: Context) -> tuple[dict[str, dict[str, dict[str, Any]]], list[str]]:
+    """Catalog entries registered by each prior state, keyed by state name, and the mutation problems."""
+    entries = catalog_entries(context)
+    result, problems = {}, []
+    for state in document["prior_states"]:
+        result[state["name"]], found = registered_entries(state, entries)
+        problems += found
+    return result, problems
+
+
 def check_definitions(document: dict[str, Any], context: Context) -> list[str]:
-    entries = {ref_key(entry["ref"]): entry for entry in context.catalog["elements"]}
+    entries = catalog_entries(context)
     packs = {ref_key(entry["ref"]["owner"]["pack"]) for entry in context.catalog["elements"]
              if entry["ref"]["owner"]["kind"] == "pack"}
     states = prior_states(document)
-    problems = []
+    registered, problems = state_entries(document, context)
     for vector in document["vectors"]:
-        problems += definition_problems(vector, entries)
+        vector_entries = registered.get(vector["prior_state"], entries)
+        problems += definition_problems(vector, vector_entries)
         problems += declaration_problems(vector, used_refs(vector, states))
-        problems += inadmissible_problems(vector, entries)
+        problems += inadmissible_problems(vector, vector_entries)
         problems += pack_problems(vector, states, packs)
     return sorted_problems(problems)
 
@@ -717,8 +780,8 @@ def resource_planes(cut: dict[str, Any], snapshots: list[dict[str, Any]], entrie
     return result
 
 
-def plane_problems(vector: dict[str, Any], cut: dict[str, Any], context: Context) -> list[str]:
-    entries = {ref_key(entry["ref"]): entry for entry in context.catalog["elements"]}
+def plane_problems(vector: dict[str, Any], cut: dict[str, Any], context: Context,
+                   entries: dict[str, dict[str, Any]]) -> list[str]:
     order = [plane["id"] for plane in context.catalog["planes"]]
     wanted = resource_planes(cut, vector["input"]["snapshots"], entries, order)
     listed = cut["plane_membership"]
@@ -737,6 +800,8 @@ def check_cuts(document: dict[str, Any], context: Context) -> list[str]:
     problems = []
     kinds: set[str] = set()
     states: set[str] = set()
+    registered, _ = state_entries(document, context)
+    entries = catalog_entries(context)
     for vector in document["vectors"]:
         if vector["operation"] != "assemble_cut":
             continue
@@ -754,7 +819,8 @@ def check_cuts(document: dict[str, Any], context: Context) -> list[str]:
             problems.append(f"{vector['id']}: an accepted assemble_cut states its cut")
             continue
         problems += member_problems(vector, cut) + finding_problems(vector, cut)
-        problems += coherence_problems(vector, cut) + plane_problems(vector, cut, context)
+        problems += coherence_problems(vector, cut)
+        problems += plane_problems(vector, cut, context, registered.get(vector["prior_state"], entries))
         kinds |= {finding["kind"] for finding in cut["findings"]}
         states |= {entry["coherence"] for entry in cut["relation_coherence"]}
     problems += [f"no accepted cut vector has finding {kind}" for kind in sorted(set(FINDING_KINDS) - kinds)]

@@ -421,7 +421,7 @@ NEGATIVE_SAMPLES = (
      "$.graph.resources[1].anchor_source"),
     (("resources", 1, "anchor_source"), "credential", "anchor_source_not_allowed",
      "$.graph.resources[1].anchor_source"),
-    (("resources", 3, "kind"), "resource.thermal_circuit", "kind_not_member", "$.graph.resources[3].kind"),
+    (("resources", 3, "kind"), "resource.not_a_catalog_kind", "kind_not_member", "$.graph.resources[3].kind"),
     (("resources", 1, "anchor_class"), "function", "anchor_class_mismatch", "$.graph.resources[1].anchor_class"),
     (("relations", 0, "definition"), "relation.invented", "relation_not_member", "$.graph.relations[0].definition"),
     (("relations", 1, "basis_class"), "configuration", "basis_class_not_admitted",

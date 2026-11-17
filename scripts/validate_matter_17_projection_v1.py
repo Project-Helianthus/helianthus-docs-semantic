@@ -303,7 +303,7 @@ def validate(document):
 def main():
     validate(load(LEDGER))
     print(
-        "Matter 1.7 projection v1: PASS; 127 kernel-v1 rows (1 transformed, 126 unknown)"
+        "Matter 1.7 projection v1: PASS; 151 kernel-v1 rows (1 transformed, 150 unknown)"
     )
 
 

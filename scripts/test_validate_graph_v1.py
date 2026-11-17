@@ -27,6 +27,15 @@ def vector(document, vector_id):
     return next(item for item in document["vectors"] if item["id"] == vector_id)
 
 
+# Prior states that register the catalog with one element set to unknown.
+UNKNOWN_STATES = ("thermal-zone-with-qualified-setpoint-capability", "thermal-system-without-circuits",
+                  "catalog-registered-with-an-unknown-fact-for-cut-assembly")
+
+
+def state(document, name):
+    return next(item for item in document["prior_states"] if item["name"] == name)
+
+
 def first_with_anchor_key(document):
     return next(item for item in document["vectors"] if item.get("anchor_keys"))
 
@@ -257,6 +266,74 @@ class MutationTest(unittest.TestCase):
                 if entry["disposition"] == "unknown":
                     entry["disposition"] = "member"
         self.assert_rule_rejects(validator.check_definitions, mutated(change), "disposition")
+
+    def test_vectors_need_their_registered_catalog_mutation(self):
+        # Without the mutation of its prior state, each of the three vectors over an
+        # unknown element declares a disposition the committed catalog does not hold.
+        for name in UNKNOWN_STATES:
+            with self.subTest(state=name):
+                def change(document, name=name):
+                    state(document, name)["registry"].pop("catalog_mutations")
+                self.assert_rule_rejects(validator.check_definitions, mutated(change), "disposition")
+
+    def test_registered_catalog_mutation_fields_are_checked(self):
+        # Fields of a catalog mutation and the production check that catches each:
+        # ref (outside the catalog: registered_entries lookup; a second mutation of the
+        # same entry: the once check), disposition, reason and tracking (shape schema).
+        other_ref = {"owner": {"kind": "core", "contract": "helianthus.semantic.kernel/v1"},
+                     "id": "resource.not_a_catalog_kind", "version": "1.0.0"}
+        cases = (
+            ("ref", lambda change: change.update(ref=other_ref), validator.check_definitions, "not in the catalog"),
+            ("ref_twice", None, validator.check_definitions, "once"),
+            ("disposition", lambda change: change.update(disposition="unsupported"), validator.check_shape,
+             "/disposition"),
+            ("reason", lambda change: change.update(reason="no reason"), validator.check_shape, "/reason"),
+            ("tracking", lambda change: change.update(tracking="https://example.org/issues/1"),
+             validator.check_shape, "/tracking"),
+        )
+        for field, edit, rule, fragment in cases:
+            with self.subTest(field=field):
+                def change(document, edit=edit):
+                    mutations = state(document, UNKNOWN_STATES[0])["registry"]["catalog_mutations"]
+                    if edit is None:
+                        mutations.append(copy.deepcopy(mutations[0]))
+                    else:
+                        edit(mutations[0]["set_disposition"])
+                document = mutated(change)
+                if rule is validator.check_shape:
+                    # The registry is null or an object, so the shape rule reports the registry;
+                    # the registry schema names the field.
+                    self.assert_rule_rejects(rule, document, "/registry")
+                    registry = state(document, UNKNOWN_STATES[0])["registry"]
+                    self.assertTrue(any(fragment in problem for problem in
+                                        validator.subset.errors(registry, validator.REGISTRY)))
+                else:
+                    self.assert_rule_rejects(rule, document, fragment)
+
+    def test_registered_catalog_mutation_of_a_non_member_is_rejected(self):
+        unsupported = next(entry for entry in CONTEXT.catalog["elements"] if entry["disposition"] == "unsupported")
+        def change(document):
+            mutation = state(document, UNKNOWN_STATES[0])["registry"]["catalog_mutations"][0]
+            mutation["set_disposition"]["ref"] = copy.deepcopy(unsupported["ref"])
+        self.assert_rule_rejects(validator.check_definitions, mutated(change), "one member entry")
+
+    def test_catalog_mutation_without_registered_catalog_is_rejected(self):
+        def change(document):
+            state(document, UNKNOWN_STATES[0])["registry"]["element_catalog"] = "absent"
+        self.assert_rule_rejects(validator.check_definitions, mutated(change), "registered element catalog")
+
+    def test_cut_planes_read_the_registered_catalog(self):
+        # The cut vector over an unknown fact runs on the catalog its prior state registers:
+        # on the committed catalog the fact is a member and its subject would be in a plane.
+        state_name = vector(DOCUMENT, "G-POS-CUT-10")["prior_state"]
+        registered, problems = validator.state_entries(DOCUMENT, CONTEXT)
+        self.assertEqual(problems, [])
+        entry = registered[state_name][next(key for key in registered[state_name]
+                                            if '"thermal.demand.level"' in key)]
+        self.assertEqual((entry["disposition"], entry["planes"]), ("unknown", []))
+        snapshot = vector(DOCUMENT, "G-POS-CUT-10")["input"]["snapshots"][0]
+        self.assertEqual(validator.subject_resources(snapshot, registered[state_name]), {})
+        self.assertTrue(validator.subject_resources(snapshot, validator.catalog_entries(CONTEXT)))
 
     def test_undeclared_definition_reference_is_rejected(self):
         def change(document):
