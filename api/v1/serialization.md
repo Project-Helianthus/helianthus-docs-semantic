@@ -131,6 +131,11 @@ digested input.
 | absence statements, absence upserts and absence withdrawals | `(canonical definition, resource, side)` |
 | graph-cut members | asset identifier |
 | graph-cut findings | `(kind, canonical subject)` |
+| `LensResult.resources` | `(depth, resource_id)` |
+| `LensResult.relations` | relation key |
+| `LensResult.absences` | absence key |
+| `LensResult.facts` | canonical fact key |
+| `LensResult.findings` and `LensResult.frontier` | `(kind, canonical subject)` |
 | projection requested/dispositions | `(kind, item_id)` |
 | loss details | `(kind, canonical source_items, description)` |
 | causal path | sequence order; never sorted |

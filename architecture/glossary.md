@@ -140,15 +140,53 @@ asset, in which relation coherence is evaluated. Its coherent revision is the
 vector of member snapshot identifiers; there is no global revision. See the
 [graph contract](../api/v1/graph.md#113-graph-cut-and-coherence).
 
+## Served cut
+
+A **served cut** is the one graph cut a read is answered from. It is identified
+by its cut identifier and member vector, and the read carries that identifier,
+the cut's completeness and its member vector. One answer does not combine two
+cuts. See the [graph contract](../api/v1/graph.md#25-coherence-unit).
+
+## Traversal
+
+A **traversal** is a breadth-first walk over `coherent`, `qualified` relation
+instances of a stated set of relation definitions, from one entry point, to a
+stated depth. See the
+[graph contract](../api/v1/graph.md#27-traversal-and-bounds).
+
+## Frontier
+
+A **frontier** is the set of resources at which a traversal stopped because of
+a bound, each with the bound that stopped it. A bound never drops a resource
+silently. See the
+[graph contract](../api/v1/graph.md#27-traversal-and-bounds).
+
+## Lens result
+
+A **lens result** is the canonical document a lens retrieval returns
+(`helianthus.semantic.lens-result/v1`). It holds the resources reached, the
+relation instances among them, and the facts, services and capabilities whose
+subject they are. It is not a target report and it grants no authority. See
+the [graph contract](../api/v1/graph.md#28-lens-retrieval).
+
+## Consumer identity
+
+A **consumer identity** is the key under which a consumer stores something it
+made from the graph. One consumer object maps to one resource. A value key is
+the resource, the fact definition and the qualifier dimension values. A
+traversal path, a cut identifier and a plane are not identity. See the
+[graph contract](../api/v1/graph.md#33-consumer-identity).
+
 ## Qualified exceptions
 
 Within the semantic API the words resource, relation, plane, lens, element
-catalog and graph cut have only the meanings above. These existing terms keep
+catalog, graph cut, served cut, traversal, frontier, lens result and consumer
+identity have only the meanings above. These existing terms keep
 their word with a qualifier, as listed in the
 [graph contract](../api/v1/graph.md#3-definitions): **readback relation** (the
 kernel's `Readback.relation` and `ReadbackRelation`); **native resource** (the
 kernel's `NativeBinding.native_resource`); **Portal resource key** (the Portal
-catalog's `resource_id`); **registry plane** and **registry projection** (the
-native eBUS registry terms of its registry tools, device GraphQL types and
-Portal registry routes); and **SPINE topology** (the eeBUS `TopologyV1`
-record). No alias is created.
+catalog's `resource_id`; this exception ends with PTL-3); **registry plane**
+and **registry projection** (the native eBUS registry terms of its registry
+tools, device GraphQL types and Portal registry routes); and **SPINE topology**
+(the eeBUS `TopologyV1` record). No alias is created.
