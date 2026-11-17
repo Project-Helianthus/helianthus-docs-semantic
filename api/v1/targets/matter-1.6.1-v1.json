@@ -19,9 +19,12 @@
     "projection_items": [
       "fact",
       "capability",
-      "operation"
+      "operation",
+      "service",
+      "relation"
     ],
-    "excluded": "service"
+    "derived_from": "api/v1/element-catalog-v1.json",
+    "not_requested": "core-owned elements, dimensions, effect rules and presentations"
   },
   "ownership": {
     "projection_contract": "Project-Helianthus/helianthus-docs-semantic",
@@ -108,7 +111,7 @@
       },
       "kind": "fact",
       "disposition": "transformed",
-      "reason": "matter.phase_endpoint_identity_loss.v1",
+      "reason": "matter.phase_association_by_relation.v1",
       "loss": [
         {
           "kind": "unit",
@@ -117,14 +120,16 @@
           ],
           "description": "amperes are represented as integral milliamperes only when exact and representable",
           "reversible": false
-        },
+        }
+      ],
+      "relations": [
         {
-          "kind": "identity",
-          "source_items": [
-            "evse.ac.current"
-          ],
-          "description": "phase identity and endpoint association are irreversibly lost in the scalar target; no inverse phase or endpoint reconstruction is permitted",
-          "reversible": false
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.relation.connector_phase",
+          "version": "1.0.0"
         }
       ],
       "target": {
@@ -853,6 +858,365 @@
           "item_id": "evse.operation.set_allocated_current",
           "item_version": "1.0.0"
         },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.asset_evse",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.asset_evse"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.asset_evse",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.connector_phase",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.connector_phase"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.connector_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.connector_session",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "hosts"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.connector_session"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.connector_session",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.evse_connector",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.evse_connector"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.evse_connector",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.evse_meter",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "measures"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.evse_meter"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.evse_meter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.service.connector",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.connector"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.service.evse",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.evse"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.service.meter",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.meter"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.service.phase",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.phase"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.service.session",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.session"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
         "revision_binding": {
           "snapshot_id": "exact_input_snapshot",
           "revisions": "exact_input_revisions"
@@ -2081,6 +2445,407 @@
             }
           }
         ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.circuit_phase",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.circuit_phase"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.circuit_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.feeder_circuit",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "supplies",
+        "medium": "electrical"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.feeder_circuit"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.feeder_circuit",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.grid_connection_feeder",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "supplies",
+        "medium": "electrical"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.grid_connection_feeder"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.grid_connection_feeder",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.grid_connection_meter",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "measures"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.grid_connection_meter"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.grid_connection_meter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.site_grid_connection",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.site_grid_connection"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.site_grid_connection",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.circuit",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.circuit"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.feeder",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.feeder"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.grid_connection",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.grid_connection"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.meter",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.meter"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.phase",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.phase"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.service.site",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.service.site"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
       }
     },
     {
@@ -3615,6 +4380,398 @@
           "id": "helianthus.pack.pv",
           "version": "1.0.0"
         },
+        "id": "pv.relation.array_string",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.relation.array_string"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "pv.relation.array_string",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_array",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "supplies",
+        "medium": "electrical"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.relation.inverter_array"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "pv.relation.inverter_array",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.relation.inverter_input"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "pv.relation.inverter_input",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_phase",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.relation.inverter_phase"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "pv.relation.inverter_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.system_inverter",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "groups"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.relation.system_inverter"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "pv.relation.system_inverter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.array",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.array"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.input",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.input"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.inverter",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.inverter"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.phase",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.phase"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.string",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.string"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.service.system",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "pv.service.system"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
         "id": "pv.status.derating",
         "version": "1.0.0"
       },
@@ -4654,6 +5811,464 @@
             }
           }
         ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.battery_pack",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.battery_pack"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.battery_pack",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.module_cell",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.module_cell"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.module_cell",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.pack_interface",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.pack_interface"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.pack_interface",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.pack_module",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.pack_module"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.pack_module",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.pack_string",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.pack_string"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.pack_string",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.relation.system_battery",
+        "version": "1.1.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "groups"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.relation.system_battery"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "storage.relation.system_battery",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.battery",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.battery"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.cell",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.cell"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.interface",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.interface"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.module",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.module"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.pack",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.pack"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.string",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.string"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.service.system",
+        "version": "1.1.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "storage.service.system"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
       }
     },
     {
@@ -5927,6 +7542,166 @@
           "item_id": "thermal.operation.set_temperature",
           "item_version": "1.0.0"
         },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.circuit",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.circuit"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.dhw",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.dhw"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.system",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.system"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.ventilation",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.ventilation"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.zone",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.zone"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
         "revision_binding": {
           "snapshot_id": "exact_input_snapshot",
           "revisions": "exact_input_revisions"

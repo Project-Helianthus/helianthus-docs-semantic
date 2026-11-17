@@ -7,6 +7,24 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [Matter 1.6.1 roster](api/v1/targets/matter-1.6.1-v1.json) is derived from
+  the [element catalog](api/v1/element-catalog-v1.json). It gains one row for
+  each of the 29 services and 21 relation definitions of the five packs, 177
+  rows in all; the 127 existing rows keep their dispositions. The five
+  electrical `measures` and `supplies` definitions are `withheld` against the
+  Power Topology construct, whose equivalence stays a Hypothesis because no
+  endpoint is allocated; the other relation definitions are `unknown`, and
+  services are `unsupported` because a service is not a kernel-v1 requested
+  item. Each new row declares an irreversible identity loss. The positive
+  phase-qualified current row cites `evse.relation.connector_phase` instead of
+  declaring an identity loss, with reason
+  `matter.phase_association_by_relation.v1`. The
+  [roster test](tests/test_matter161_target.py) computes its expected rows from
+  the catalog instead of pinned counts. Gateway follow-up: the gateway's Matter
+  projection pins this descriptor's path and digest, and that pin moves in the
+  same in-place wave as helianthus-matter-binding#116. The historical Matter
+  1.7 ledger is unchanged. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [EVSE current-limit gate](api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md)
   states its resources and relations under section 15 of the
   [graph contract](api/v1/graph.md). Its new `graph` member names the charging
