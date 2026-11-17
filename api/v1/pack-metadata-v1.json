@@ -3468,6 +3468,30 @@
             "id": "helianthus.pack.storage",
             "version": "1.1.0"
           },
+          "id": "storage.energy.nominal_capacity",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.energy.remaining",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.energy.usable_capacity",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
           "id": "storage.limit.charge_power",
           "version": "1.1.0"
         },
@@ -3842,6 +3866,84 @@
               "version": "1.1.0"
             },
             "id": "storage.energy.discharged",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.joule",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.energy.nominal_capacity",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.joule",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.energy.remaining",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.joule",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.energy.usable_capacity",
             "version": "1.1.0"
           },
           "canonical_unit": {

@@ -12,7 +12,7 @@ VECTORS=ROOT/'api/v1/packs/storage-bms-acceptance-vectors.json'
 TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
-COUNTS={'field_specs':20,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
+COUNTS={'field_specs':23,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
 TABLE_MEMBERS={'capabilities','contract','definition_index','effects','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
 RELATION_MEMBERS={'id','from','to','cardinality','order'}
 DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
@@ -22,7 +22,7 @@ LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_di
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='4242c22b8ad8f749a0ee5bd566fd7c27242c38dcbf63249e93ebe7e5533a360b'
+TABLE_SHA256='83be7718c7e2b821eaa47e9b9ac22f3e326363b67e62d8a286be53c5f7f25df2'
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt'})
 
@@ -140,7 +140,7 @@ def document(data,table=None):
 def main():
  document(load())
  text=DOCUMENT.read_text()
- for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority'):
+ for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority','storage.energy.remaining','storage.energy.usable_capacity','storage.energy.nominal_capacity'):
   if token not in text: raise ValueError('document boundary')
  print('storage/BMS pack v1.1: PASS')
 if __name__=='__main__': main()

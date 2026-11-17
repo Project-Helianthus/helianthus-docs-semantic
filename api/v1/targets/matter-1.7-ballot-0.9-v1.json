@@ -4329,6 +4329,165 @@
           "id": "helianthus.pack.storage",
           "version": "1.1.0"
         },
+        "id": "storage.energy.nominal_capacity",
+        "version": "1.1.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "storage.energy.nominal_capacity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "storage.energy.nominal_capacity",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.storage",
+            "pack_version": "1.1.0",
+            "fact_id": "storage.energy.nominal_capacity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.storage",
+                  "version": "1.1.0"
+                },
+                "id": "storage.dimension.pack",
+                "version": "1.1.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.energy.remaining",
+        "version": "1.1.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "storage.energy.remaining"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "storage.energy.remaining",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.storage",
+            "pack_version": "1.1.0",
+            "fact_id": "storage.energy.remaining",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.storage",
+                  "version": "1.1.0"
+                },
+                "id": "storage.dimension.pack",
+                "version": "1.1.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
+        "id": "storage.energy.usable_capacity",
+        "version": "1.1.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "storage.energy.usable_capacity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "storage.energy.usable_capacity",
+          "item_version": "1.1.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.storage",
+            "pack_version": "1.1.0",
+            "fact_id": "storage.energy.usable_capacity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.storage",
+                  "version": "1.1.0"
+                },
+                "id": "storage.dimension.pack",
+                "version": "1.1.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.storage",
+          "version": "1.1.0"
+        },
         "id": "storage.limit.charge_power",
         "version": "1.1.0"
       },
