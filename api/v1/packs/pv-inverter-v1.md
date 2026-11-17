@@ -9,13 +9,17 @@ Every item is an exact versioned `DefinitionRef` under this PackRef.
 ## Fields and topology
 
 The catalog defines canonical quantity fields for aggregate and per-input DC
-voltage, current, and power; aggregate and per-phase AC voltage, current and
-active power; AC frequency; power factor; generated energy; inverter
+voltage, current, and power; per-string DC energy; aggregate and per-phase AC
+voltage, current, active power, apparent power and reactive power; AC
+frequency; power factor; generated energy; inverter
 temperature; and active-power and export-limit settings. Canonical units are
-volt, ampere, watt, hertz, joule, kelvin, and ratio, under the
-[unit rule](../../README.md#unit-rule): generated energy is in joule, inverter
-temperature is in kelvin, and their bounds are the exact conversions of their
-earlier customary bounds. A customary unit appears only at display, in a
+volt, ampere, watt, volt-ampere, volt-ampere reactive, hertz, joule, kelvin,
+and ratio, under the
+[unit rule](../../README.md#unit-rule): generated energy and string DC energy
+are in joule, inverter temperature is in kelvin, and the bounds of generated
+energy and inverter temperature are the exact conversions of their earlier
+customary bounds. String DC energy uses the same joule bounds as generated
+energy. Neither total is derived from the other. A customary unit appears only at display, in a
 consumer. Operating,
 derating, and fault fields use declared symbols only. Effective observation and
 capability availability stays exclusively in kernel availability state; it is
@@ -42,6 +46,8 @@ The accepted catalog IDs are:
 pv.dc.voltage                     pv.dc.current
 pv.dc.power                       pv.ac.voltage
 pv.ac.current                     pv.ac.active_power
+pv.dc.energy                      pv.ac.apparent_power
+pv.ac.reactive_power
 pv.dc.aggregate_voltage           pv.dc.aggregate_current
 pv.dc.aggregate_power             pv.ac.aggregate_voltage
 pv.ac.aggregate_current           pv.ac.aggregate_active_power
@@ -116,7 +122,9 @@ reference and phase basis it actually observes. Aggregate AC/DC fields retain a
 native aggregation record; this pack does not assume scalar, vector, arithmetic
 sum, average, or nameplate aggregation. Signed active power and power factor
 retain the native direction/reference convention in evidence and expose any
-unprojectable convention as explicit loss. Candidate and unknown rows therefore
+unprojectable convention as explicit loss. Per-phase apparent power is
+non-negative. Per-phase reactive power is signed under the native convention.
+Neither is derived from active power. Candidate and unknown rows therefore
 cannot be used to infer import/export direction or normalize phase measurements.
 
 ## Portal contribution descriptors

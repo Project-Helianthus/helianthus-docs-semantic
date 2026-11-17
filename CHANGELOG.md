@@ -7,6 +7,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [PV pack](api/v1/packs/pv-inverter-v1.md) adds per-string DC energy
+  `pv.dc.energy` in joule on the string dimension, and per-phase apparent
+  power `pv.ac.apparent_power` and reactive power `pv.ac.reactive_power`.
+  System generated energy stays on the system dimension. Nothing derives
+  one energy total from the other. No service, capability or operation is
+  added. Pack metadata, the element catalog, both Matter rosters and the
+  naming contract follow. The typed-reference probe count moves from 136
+  to 140. SemReg follow-up: re-copy the pack bytes and do not invent the
+  elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [storage pack](api/v1/packs/storage-bms-v1.md) adds the joule capacities
   `storage.energy.remaining`, `storage.energy.usable_capacity` and
   `storage.energy.nominal_capacity` on the pack dimension, beside the joule

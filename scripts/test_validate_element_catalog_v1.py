@@ -88,11 +88,11 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 356 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 359 entries"))
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 293)
+        self.assertEqual(len(kinds), 296)
         self.assertEqual(kinds.count("relation"), 26)
         self.assertEqual(kinds.count("presentation"), 37)
         self.assertEqual(kinds.count("dimension"), 35)
