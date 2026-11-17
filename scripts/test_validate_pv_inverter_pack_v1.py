@@ -30,6 +30,124 @@ CONVERTED = {
 NOT_SI = ("unit.kilowatt_hour", "unit.celsius", "unit.percent", "unit.litre_per_minute", "unit.kilowatt", "unit.bar")
 
 
+def quantity_identity(identifier, unit, dimension, minimum, maximum):
+    """The quantity identity compared whole: id, kind, unit, dimension, optional and both bounds."""
+    return {
+        "id": identifier,
+        "kind": "quantity",
+        "unit": unit,
+        "dimension": dimension,
+        "optional": True,
+        "minimum_coefficient": minimum[0],
+        "minimum_exponent": minimum[1],
+        "maximum_coefficient": maximum[0],
+        "maximum_exponent": maximum[1],
+    }
+
+
+# System generated energy stays on the system. String energy and the two phase powers are distinct.
+GENERATED_ENERGY = quantity_identity("pv.energy.generated", "unit.joule", "pv.dimension.system", ("0", 0), ("36", 17))
+NEW_QUANTITIES = (
+    quantity_identity("pv.dc.energy", "unit.joule", "pv.dimension.string", ("0", 0), ("36", 17)),
+    quantity_identity("pv.ac.apparent_power", "unit.volt_ampere", "pv.dimension.phase", ("0", 0), ("1", 7)),
+    quantity_identity("pv.ac.reactive_power", "unit.volt_ampere_reactive", "pv.dimension.phase", ("-1", 7), ("1", 7)),
+)
+# Each identity field and the production mutation this test rejects for it:
+# id -> DefinitionRef (the ref no longer names the field);
+# kind -> noncanonical kind; unit -> canonical quantity contract;
+# dimension -> noncanonical dimension (string energy on the system is this case);
+# optional -> noncanonical optionality;
+# minimum coefficient, maximum coefficient and maximum exponent -> canonical quantity contract;
+# minimum exponent -> canonical kernel Decimal when the coefficient is 0, because a zero
+# coefficient with another exponent is not a kernel Decimal, and canonical quantity contract
+# when the coefficient is not zero.
+IDENTITY_MUTATIONS = (
+    ("id", "DefinitionRef", lambda field: field.update(id=field["id"] + ".moved")),
+    ("kind", "noncanonical kind", lambda field: field.update(kind="symbol")),
+    ("unit", "canonical quantity contract", lambda field: field.update(unit="unit.watt")),
+    ("dimension", "noncanonical kind, dimension, or optionality", lambda field: field.update(dimension="pv.dimension.system")),
+    ("optional", "noncanonical kind, dimension, or optionality", lambda field: field.update(optional=False)),
+    ("minimum_coefficient", "canonical quantity contract", lambda field: field["bounds"]["minimum"].update(coefficient="9")),
+    ("minimum_exponent", None, lambda field: field["bounds"]["minimum"].update(exponent10=1)),
+    ("maximum_coefficient", "canonical quantity contract", lambda field: field["bounds"]["maximum"].update(coefficient="9")),
+    ("maximum_exponent", "canonical quantity contract", lambda field: field["bounds"]["maximum"].update(exponent10=3)),
+)
+
+
+def read_identity(field):
+    bounds = field["bounds"]
+    identity = quantity_identity(
+        field["id"], field.get("unit"), field.get("dimension"),
+        (bounds["minimum"]["coefficient"], bounds["minimum"]["exponent10"]),
+        (bounds["maximum"]["coefficient"], bounds["maximum"]["exponent10"]),
+    )
+    identity["kind"] = field.get("kind")
+    identity["optional"] = field.get("optional")
+    return identity
+
+
+def reject_identity(document, identifier, name, expected, mutate):
+    candidate = copy.deepcopy(document)
+    field = next(item for item in candidate["catalog"]["definitions"]["fields"] if item["id"] == identifier)
+    if expected is None:
+        coefficient = field["bounds"]["minimum"]["coefficient"]
+        expected = "canonical kernel Decimal" if coefficient == "0" else "canonical quantity contract"
+    mutate(field)
+    try:
+        validator.validate_document(candidate)
+    except ValueError as error:
+        if expected not in str(error):
+            raise AssertionError(f"{identifier} {name}: expected {expected!r}, got {error!s}") from error
+        return
+    raise AssertionError(f"{identifier} {name} accepted")
+
+
+def assert_distinct_quantities(fields):
+    if read_identity(fields["pv.energy.generated"]) != GENERATED_ENERGY:
+        raise AssertionError("pv.energy.generated left pv.dimension.system")
+    for expected in NEW_QUANTITIES:
+        actual = fields.get(expected["id"])
+        if actual is None or actual.get("kind") != "quantity" or read_identity(actual) != expected:
+            raise AssertionError(expected["id"] + " is absent or is not its distinct quantity")
+
+
+def assert_distinct_portals(document):
+    portals = {item["id"]: tuple(item.get("fields", ())) for item in document["catalog"]["definitions"]["portal_contributions"]}
+    if portals.get("pv.portal.read.string") != ("pv.dc.energy",):
+        raise AssertionError("string read is not only pv.dc.energy")
+    system_fields = portals.get("pv.portal.read.system", ())
+    if "pv.energy.generated" not in system_fields or "pv.dc.energy" in system_fields:
+        raise AssertionError("system read no longer holds only system energy")
+    phase = portals.get("pv.portal.read.phase", ())
+    if phase != ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage"):
+        raise AssertionError("phase read is not the five phase quantities")
+
+
+def reject_distinct_quantities(document):
+    for expected in NEW_QUANTITIES:
+        for name, error, mutate in IDENTITY_MUTATIONS:
+            reject_identity(document, expected["id"], name, error, mutate)
+
+
+class TestPVStringEnergyStaysDistinct:
+    """String DC energy stays off the system; generated energy stays on the system."""
+
+    def run(self):
+        document = validator.load_document(validator.VECTORS)
+        fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+        assert_distinct_quantities(fields)
+        assert_distinct_portals(document)
+        reject_distinct_quantities(document)
+        print("pv_string_energy_stays_distinct: PASS")
+
+
+def load_checked_document():
+    document = validator.load_document(validator.VECTORS)
+    validator.validate_document(document)
+    TestPVStringEnergyStaysDistinct().run()
+    return document
+
+
 def kernel_decimal(value):
     """Exact kernel Decimal of a Fraction; a value that does not terminate in decimal fails."""
     exponent = 0
@@ -84,8 +202,7 @@ def case(document, name, expected, mutate):
 
 
 def main():
-    document = validator.load_document(validator.VECTORS)
-    validator.validate_document(document)
+    document = load_checked_document()
     validator.decimal_less({"coefficient": "9007199254740992", "exponent10": -18}, {"coefficient": "9007199254740993", "exponent10": -18}) or (_ for _ in ()).throw(AssertionError("exact close Decimal comparison"))
     print("baseline_exact_chain: PASS")
     print("close_decimal_interval: PASS")
@@ -105,14 +222,14 @@ def main():
     case(document, "voltage_wrong_optional", "field has noncanonical kind", lambda c: c["definitions"]["fields"][0].update(optional=False))
     case(document, "boolean_decimal_exponent", "canonical kernel Decimal", lambda c: c["definitions"]["fields"][0]["bounds"]["maximum"].update(exponent10=True))
     case(document, "dc_voltage_exact_minimum", "canonical quantity contract", lambda c: c["definitions"]["fields"][0]["bounds"].update(minimum={"coefficient":"-99","exponent10":0}))
-    case(document, "ac_frequency_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][6]["bounds"].update(maximum={"coefficient":"999","exponent10":0}))
-    case(document, "retained_limit_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][10]["bounds"].update(maximum={"coefficient":"2","exponent10":7}))
+    case(document, "ac_frequency_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][9]["bounds"].update(maximum={"coefficient":"999","exponent10":0}))
+    case(document, "retained_limit_exact_maximum", "canonical quantity contract", lambda c: c["definitions"]["fields"][13]["bounds"].update(maximum={"coefficient":"2","exponent10":7}))
     case(document, "wrong_canonical_unit", "canonical quantity contract", lambda c: c["definitions"]["fields"][0].update(unit="unit.watt"))
     case(document, "duplicate_field_order", "fields noncanonical order", lambda c: c["definitions"]["fields"][1].update(order=10))
-    case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
-    case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
+    case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
+    case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
     case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":230}))
-    case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][12].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
+    case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
     case(document, "availability_policy_conflated", "availability policy", lambda c: c["availability_policy"].update(effective_availability="pv.status.operating"))
     case(document, "topology_self_edge", "topology relation association", lambda c: c["definitions"]["relations"][0].update(to="pv.dimension.system"))
     case(document, "relation_cardinality_drift", "topology relation association", lambda c: c["definitions"]["relations"][2].update(cardinality="many_to_many"))

@@ -940,6 +940,14 @@
     {
       "source": "semreg/v1/packs/pv/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "pv.dc.energy",
+      "canonical_name": "pv.dc.energy",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "unit.watt",
       "canonical_name": "unit.watt",
       "status": "provisional",
@@ -974,6 +982,22 @@
       "kind": "definition_literal",
       "historical_name": "pv.ac.active_power",
       "canonical_name": "pv.ac.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.apparent_power",
+      "canonical_name": "pv.ac.apparent_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.reactive_power",
+      "canonical_name": "pv.ac.reactive_power",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },

@@ -59,9 +59,12 @@ FIELD_CONTRACTS = {
     "pv.dc.voltage": ("quantity", "unit.volt", "pv.dimension.input", True, None),
     "pv.dc.current": ("quantity", "unit.ampere", "pv.dimension.input", True, None),
     "pv.dc.power": ("quantity", "unit.watt", "pv.dimension.input", True, None),
+    "pv.dc.energy": ("quantity", "unit.joule", "pv.dimension.string", True, None),
     "pv.ac.voltage": ("quantity", "unit.volt", "pv.dimension.phase", True, None),
     "pv.ac.current": ("quantity", "unit.ampere", "pv.dimension.phase", True, None),
     "pv.ac.active_power": ("quantity", "unit.watt", "pv.dimension.phase", True, None),
+    "pv.ac.apparent_power": ("quantity", "unit.volt_ampere", "pv.dimension.phase", True, None),
+    "pv.ac.reactive_power": ("quantity", "unit.volt_ampere_reactive", "pv.dimension.phase", True, None),
     "pv.ac.frequency": ("quantity", "unit.hertz", "pv.dimension.inverter", True, None),
     "pv.ac.power_factor": ("quantity", "unit.ratio", "pv.dimension.inverter", True, None),
     "pv.energy.generated": ("quantity", "unit.joule", "pv.dimension.system", True, None),
@@ -85,9 +88,12 @@ FIELD_BOUNDS = {
     "pv.dc.voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
     "pv.dc.current": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
     "pv.dc.power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
+    "pv.dc.energy": ({"coefficient":"0","exponent10":0},{"coefficient":"36","exponent10":17}),
     "pv.ac.voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":3}),
     "pv.ac.current": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
     "pv.ac.active_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
+    "pv.ac.apparent_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
+    "pv.ac.reactive_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
     "pv.ac.frequency": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":3}),
     "pv.ac.power_factor": ({"coefficient":"-1","exponent10":0},{"coefficient":"1","exponent10":0}),
     "pv.energy.generated": ({"coefficient":"0","exponent10":0},{"coefficient":"36","exponent10":17}),
@@ -131,9 +137,9 @@ EFFECTS = {"pv.effect.set_active_power_limit": ("pv.operation.set_active_power_l
 PORTAL_READS = {"pv.portal.read.system": ("pv.service.system", ("pv.energy.generated", "pv.limit.export_power")),
                 "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_current", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
                 "pv.portal.read.array": ("pv.service.array", ()),
-                "pv.portal.read.string": ("pv.service.string", ()),
+                "pv.portal.read.string": ("pv.service.string", ("pv.dc.energy",)),
                 "pv.portal.read.input": ("pv.service.input", ("pv.dc.current", "pv.dc.power", "pv.dc.voltage")),
-                "pv.portal.read.phase": ("pv.service.phase", ("pv.ac.active_power", "pv.ac.current", "pv.ac.voltage"))}
+                "pv.portal.read.phase": ("pv.service.phase", ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage"))}
 PORTAL_OPS = {"pv.portal.operation.set_active_power_limit": "pv.operation.set_active_power_limit",
               "pv.portal.operation.set_export_limit": "pv.operation.set_export_limit"}
 MAPPINGS = {
