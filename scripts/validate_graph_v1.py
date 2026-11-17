@@ -5,12 +5,16 @@ The document is ``api/v1/graph-acceptance-vectors.json``
 (``helianthus.semantic.graph.acceptance/v1``). Each rule returns a list of
 problems; an empty list from every rule means the document is valid. The
 rules check the shape and repeated keys, the identifiers, the coverage areas
-and operations against section 19, the stable errors, the definition
-references (against the catalog as each prior state registers it, with its
-stated catalog mutations), the anchor keys, every section 19 statement and the PUB-3 statements,
-the graph cuts and the recorded catalog digest. For a graph cut the rules recompute every snapshot and
-cut identifier, check the canonical order of members, findings and relation
-coherence, and recompute the plane membership of every resource a member holds.
+and operations against section 19 joined with the part 2 amendment, the stable
+errors, the definition references (against the catalog as each prior state
+registers it, with its stated catalog mutations), the anchor keys, every
+section 19 statement, the section 36 statements and the PUB-3 statements, the
+graph cuts and the recorded catalog digest. For a graph cut the rules
+recompute every snapshot and cut identifier, check the canonical order of
+members, findings and relation coherence, and recompute the plane membership
+of every resource a member holds. For a read the rules recompute the served
+cut identifier and the canonical order of the result, and require every lens
+a vector names to be in the catalog.
 """
 from __future__ import annotations
 
@@ -33,6 +37,7 @@ CATALOG_PATH = "api/v1/element-catalog-v1.json"
 CATALOG = ROOT / CATALOG_PATH
 KERNEL_CONTRACT = "helianthus.semantic.kernel/v1"
 CUT_CONTRACT = "helianthus.semantic.graph-cut/v1"
+LENS_RESULT_CONTRACT = "helianthus.semantic.lens-result/v1"
 MAX_CUT_MEMBERS = 256
 FINDING_KINDS = ("anchor_parent_unresolved", "contradicted_absence", "duplicate_identity", "same_unit", "ungraphed")
 COHERENCE_STATES = ("coherent", "stale", "dangling", "outside_cut", "excluded", "conflict")
@@ -48,7 +53,16 @@ LEADING_OPERATION = re.compile(r"^`([a-z_]+)`")
 REJECTED_ERROR = re.compile(r"^reject `([a-z_]+)`")
 COVERAGE_SENTENCE = re.compile(r"Coverage identifiers of the graph acceptance document:(.*?)\.\s+Each", re.DOTALL)
 OPERATIONS_SENTENCE = re.compile(r"Operations\s+are(.*?)\.\s", re.DOTALL)
+PART2_JOIN = re.compile(r"Coverage identifiers (.+?) join the list; operations (.+?) join the list")
+SECTION_36_HEADING = re.compile(r"^## 36\. ", re.MULTILINE)
+SECTION_36_ROW = re.compile(
+    r"^\| (G-(?:POS|NEG)-[A-Z]+-[0-9]+) \| ([^|]+?) \| ([^|]+?) \|$", re.MULTILINE
+)
 CODE = re.compile(r"`([a-z_]+)`")
+DIGEST_TEXT = re.compile(r"^sha256:[0-9a-f]{64}$")
+READ_OPERATIONS = frozenset({"list_resources", "traverse", "retrieve_lens", "sum_members", "project"})
+PAGE_BOUND = 4096
+DEPTH_BOUND = 32
 POLARITY = {"POS": "positive", "NEG": "negative"}
 
 DIGEST = {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
@@ -185,6 +199,7 @@ ACCEPT = {
         "resources": {"type": "array", "items": {"type": "object"}},
         "inadmissible_operations": {"type": "array", "items": {"type": "object"}},
         "multiple_membership": {"type": "array", "items": {"type": "object"}},
+        "read": {"type": "object"},
     },
 }
 DEFINITION = {
@@ -213,8 +228,9 @@ VECTOR = {
     "properties": {
         "id": TEXT,
         "polarity": {"enum": ["positive", "negative"]},
-        "record_type": {"enum": ["Registry", "ElementCatalog", "PublicationBatch", "GraphCut", "Intent"]},
-        "operation": {"enum": ["construct_registry", "register_catalog", "apply", "assemble_cut", "admit"]},
+        "record_type": {"enum": ["Registry", "ElementCatalog", "PublicationBatch", "GraphCut", "Intent", "Read"]},
+        "operation": {"enum": ["construct_registry", "register_catalog", "apply", "assemble_cut", "admit",
+                               "list_resources", "traverse", "retrieve_lens", "sum_members", "project"]},
         "coverage": dict(TEXT_LIST, minItems=1),
         "prior_state": TEXT,
         "input": {"type": "object"},
@@ -241,9 +257,10 @@ SCHEMA = {
         "error_ids": dict(TEXT_LIST, minItems=1),
         "coverage_ids": dict(TEXT_LIST, minItems=1, items={"enum": [
             "activation", "resource", "relation", "plane_membership", "element_catalog", "graph_cut",
-            "authority"]}),
+            "authority", "retrieval", "lens_result", "sum", "target_report"]}),
         "operations": dict(TEXT_LIST, minItems=1, items={"enum": [
-            "construct_registry", "register_catalog", "apply", "assemble_cut", "admit"]}),
+            "construct_registry", "register_catalog", "apply", "assemble_cut", "admit",
+            "list_resources", "traverse", "retrieve_lens", "sum_members", "project"]}),
         "prior_states": {"type": "array", "items": PRIOR_STATE, "minItems": 1},
         "vectors": {"type": "array", "items": VECTOR, "minItems": 1},
     },
@@ -320,16 +337,28 @@ def section_19_names(context: Context, sentence: re.Pattern[str]) -> list[str]:
     return sorted(CODE.findall(match.group(1)))
 
 
+def part2_joined(context: Context) -> dict[str, list[str]]:
+    """Coverage identifiers and operations that section 35 adds to the section 19 lists."""
+    match = PART2_JOIN.search(context.graph_text)
+    if match is None:
+        raise ValueError("graph.md does not join the part 2 coverage identifiers and operations")
+    return {"coverage": CODE.findall(match.group(1)), "operations": CODE.findall(match.group(2))}
+
+
+def joined_names(context: Context, sentence: re.Pattern[str], kind: str) -> list[str]:
+    return sorted(set(section_19_names(context, sentence)) | set(part2_joined(context)[kind]))
+
+
 def check_coverage(document: dict[str, Any], context: Context) -> list[str]:
     listed = set(document["coverage_ids"])
     found: dict[str, set[str]] = {area: set() for area in listed}
     problems = []
-    areas = section_19_names(context, COVERAGE_SENTENCE)
+    areas = joined_names(context, COVERAGE_SENTENCE, "coverage")
     if document["coverage_ids"] != areas:
-        problems.append(f"coverage_ids must be the {len(areas)} section 19 coverage areas: {areas}")
-    operations = section_19_names(context, OPERATIONS_SENTENCE)
+        problems.append(f"coverage_ids must be the {len(areas)} coverage areas: {areas}")
+    operations = joined_names(context, OPERATIONS_SENTENCE, "operations")
     if document["operations"] != operations:
-        problems.append(f"operations must be the section 19 operations: {operations}")
+        problems.append(f"operations must be the section 19 operations joined with part 2: {operations}")
     for vector in document["vectors"]:
         for area in vector["coverage"]:
             if area not in listed:
@@ -586,6 +615,21 @@ def section_19(graph_text: str) -> str:
     return match.group(1)
 
 
+def section_36_statements(graph_text: str) -> dict[str, Statement]:
+    match = SECTION_36_HEADING.search(graph_text)
+    if match is None:
+        raise ValueError("graph.md has no section 36")
+    rows = {}
+    for identifier, statement, expected in SECTION_36_ROW.findall(graph_text[match.start():]):
+        operation = LEADING_OPERATION.match(statement.strip())
+        error = REJECTED_ERROR.match(expected.strip())
+        rows[identifier] = Statement("Retrieval", operation.group(1) if operation else None,
+                                     error.group(1) if error else None)
+    if len(rows) != 21:
+        raise ValueError("graph.md section 36 does not list 21 vectors")
+    return rows
+
+
 def statements(graph_text: str) -> tuple[dict[str, Statement], set[str]]:
     text = section_19(graph_text)
     rows = {}
@@ -594,6 +638,7 @@ def statements(graph_text: str) -> tuple[dict[str, Statement], set[str]]:
         error = REJECTED_ERROR.match(expected)
         rows[identifier] = Statement(klass, operation and operation.group(1), error and error.group(1))
     outside = set(IDENTIFIER.findall(STATEMENT_ROW.sub("", text)))
+    rows.update(section_36_statements(graph_text))
     return rows, outside
 
 
@@ -841,6 +886,676 @@ def check_catalog_digest(document: dict[str, Any], context: Context) -> list[str
     return problems
 
 
+def request_digest(request: dict[str, Any]) -> str:
+    body = {key: value for key, value in request.items() if key != "page_token"}
+    return "sha256:" + hashlib.sha256(canonical(body)).hexdigest()
+
+
+def catalog_digest(context: Context) -> str:
+    return "sha256:" + hashlib.sha256(context.catalog_bytes).hexdigest()
+
+
+def named_lens(request: dict[str, Any], catalog: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+    lens_id = request.get("lens")
+    if not isinstance(lens_id, str):
+        return None, None
+    lens = next((item for item in catalog["lenses"] if item["id"] == lens_id), None)
+    if lens is None:
+        return None, "membership_missing"
+    return lens, None
+
+
+def token_error(request: dict[str, Any], cut_id: str) -> str | None:
+    token = request.get("page_token")
+    if token is None:
+        return None
+    fields = {"cut_id", "request_digest"}
+    if not isinstance(token, dict) or set(token) != fields:
+        return "invalid_value"
+    if not DIGEST_TEXT.match(token["cut_id"]) or not DIGEST_TEXT.match(token["request_digest"]):
+        return "invalid_value"
+    if token["cut_id"] != cut_id or token["request_digest"] != request_digest(request):
+        return "revision_conflict"
+    return None
+
+
+def pin_error(request: dict[str, Any], held: list[str]) -> str | None:
+    pin = request.get("cut_id")
+    if pin is None:
+        return None
+    if not isinstance(pin, str) or not DIGEST_TEXT.match(pin):
+        return "invalid_value"
+    if pin not in held:
+        return "revision_conflict"
+    return None
+
+
+def bounds_error(request: dict[str, Any], lens: dict[str, Any] | None) -> str | None:
+    page_size = request.get("page_size")
+    if page_size is not None and page_size > PAGE_BOUND:
+        return "bounds_exceeded"
+    cap = lens["max_depth"] if lens is not None else DEPTH_BOUND
+    if request.get("depth", cap) > cap or request.get("depth", cap) > DEPTH_BOUND:
+        return "bounds_exceeded"
+    return None
+
+
+def cut_ref(snapshots: list[dict[str, Any]], completeness: str, not_included: list[dict[str, Any]]) -> dict[str, Any]:
+    members = [{"asset_id": item["asset_id"], "snapshot_id": item["snapshot_id"]} for item in snapshots]
+    members.sort(key=lambda member: member["asset_id"].encode())
+    listed = sorted(not_included, key=lambda item: item["asset_id"].encode())
+    return {
+        "completeness": "partial" if listed else completeness,
+        "cut_id": cut_identifier(members),
+        "members": members,
+        "not_included": listed,
+    }
+
+
+def resource_index(snapshots: list[dict[str, Any]], entries: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    found: dict[str, dict[str, Any]] = {}
+    for snapshot in snapshots:
+        for resource in snapshot.get("resources", []):
+            if resource["resource_id"] in found:
+                continue
+            kind = entries.get(ref_key(core_ref(resource["kind"])), {})
+            found[resource["resource_id"]] = {
+                "asset_id": snapshot["asset_id"],
+                "installation_root": bool(kind.get("attributes", {}).get("installation_root")),
+                "kind": resource["kind"],
+                "planes": list(kind.get("planes", [])),
+                "resource_id": resource["resource_id"],
+                "state": resource.get("state"),
+            }
+    return found
+
+
+def coherence_of(relation: dict[str, Any], resources: dict[str, dict[str, Any]], completeness: str) -> str:
+    if relation["state"] == "conflict":
+        return "conflict"
+    target = resources.get(relation["to"])
+    if target is None:
+        return "dangling" if completeness == "complete" else "outside_cut"
+    if target["state"] in ("withdrawn", "retired"):
+        return "stale"
+    return "coherent"
+
+
+def build_edges(snapshots: list[dict[str, Any]], resources: dict[str, dict[str, Any]], completeness: str
+                ) -> list[dict[str, Any]]:
+    edges = []
+    for snapshot in snapshots:
+        for relation in snapshot.get("relations", []):
+            edges.append({
+                "coherence": coherence_of(relation, resources, completeness),
+                "definition": relation["definition"],
+                "from": relation["from"],
+                "state": relation["state"],
+                "to": relation["to"],
+            })
+    return edges
+
+
+def followed_keys(entries: dict[str, dict[str, Any]], lens: dict[str, Any] | None, request: dict[str, Any]
+                  ) -> tuple[set[str], str | None]:
+    """Relation definitions a traversal may follow, or membership_missing."""
+    planes = set(lens["planes"] if lens is not None else request.get("planes", []))
+    named = None if lens is not None else request.get("definitions")
+    if named is None:
+        return {key for key, entry in entries.items()
+                if entry.get("element_kind") == "relation" and entry.get("disposition") == "member"
+                and set(entry.get("planes", [])) & planes}, None
+    chosen = set()
+    for ref in named:
+        entry = entries.get(ref_key(ref))
+        if entry is None or not (set(entry.get("planes", [])) & planes):
+            return set(), "membership_missing"
+        chosen.add(ref_key(ref))
+    return chosen, None
+
+
+def annotate_edges(edges: list[dict[str, Any]], entries: dict[str, dict[str, Any]], followed: set[str]) -> None:
+    for edge in edges:
+        entry = entries.get(ref_key(edge["definition"]), {})
+        edge["core_type"] = (entry.get("attributes") or {}).get("core_type")
+        edge["follow"] = (ref_key(edge["definition"]) in followed and edge["state"] == "qualified"
+                          and edge["coherence"] == "coherent")
+        edge["in_plane"] = edge["follow"]
+
+
+def neighbor_targets(resource_id: str, edges: list[dict[str, Any]], direction: str) -> list[tuple[dict[str, Any], str]]:
+    targets = []
+    for edge in edges:
+        if not edge["follow"]:
+            continue
+        if direction != "incoming" and edge["from"] == resource_id:
+            targets.append((edge, edge["to"]))
+        if direction != "outgoing" and edge["to"] == resource_id and edge["from"] != resource_id:
+            targets.append((edge, edge["from"]))
+    targets.sort(key=lambda item: (relation_order(item[0]), item[1].encode()))
+    return targets
+
+
+def frontier_entry(resource_id: str, reason: str, count: int) -> dict[str, Any]:
+    return {"kind": reason, "not_followed": count, "subject": {"resource_id": resource_id}}
+
+
+def walk_reached(entry_ids: list[str], edges: list[dict[str, Any]], direction: str, depth_limit: int
+                 ) -> tuple[dict[str, int], list[dict[str, Any]]]:
+    depth = {resource_id: 0 for resource_id in entry_ids}
+    frontier: list[dict[str, Any]] = []
+    queue = sorted(entry_ids, key=lambda resource_id: resource_id.encode())
+    seen = set(queue)
+    index = 0
+    while index < len(queue):
+        resource_id = queue[index]
+        index += 1
+        targets = neighbor_targets(resource_id, edges, direction)
+        if depth[resource_id] >= depth_limit:
+            if targets:
+                frontier.append(frontier_entry(resource_id, "depth_limit", len(targets)))
+            continue
+        for _edge, target in targets:
+            if target in seen:
+                continue
+            seen.add(target)
+            depth[target] = depth[resource_id] + 1
+            queue.append(target)
+    frontier.sort(key=finding_order)
+    return depth, frontier
+
+
+def resolve_entry(request: dict[str, Any], lens: dict[str, Any] | None, resources: dict[str, dict[str, Any]]
+                  ) -> list[str] | str:
+    entry = request.get("entry") or {}
+    if entry.get("kind") == "resource":
+        resource = resources.get(entry.get("resource_id"))
+        if resource is None or resource["state"] != "current":
+            return "dangling_reference"
+        return [entry["resource_id"]]
+    if entry.get("kind") == "sites":
+        return sorted((rid for rid, resource in resources.items()
+                       if resource["state"] == "current" and resource["installation_root"]),
+                      key=lambda rid: rid.encode())
+    if lens is None:
+        return "dangling_reference"
+    root_kinds = set(lens["root_kinds"])
+    return sorted((rid for rid, resource in resources.items()
+                   if resource["state"] == "current" and resource["kind"] in root_kinds),
+                  key=lambda rid: rid.encode())
+
+
+def result_resources(depth: dict[str, int], resources: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = [{"asset_id": resources[rid]["asset_id"], "depth": level, "kind": resources[rid]["kind"], "resource_id": rid}
+            for rid, level in depth.items()]
+    rows.sort(key=lambda row: (row["depth"], row["resource_id"].encode()))
+    return rows
+
+
+def result_relations(edges: list[dict[str, Any]], reached: set[str]) -> list[dict[str, Any]]:
+    chosen = []
+    for edge in edges:
+        both = edge["from"] in reached and edge["to"] in reached
+        touched = edge["from"] in reached or edge["to"] in reached
+        non_member = edge["state"] != "qualified" or edge["coherence"] != "coherent"
+        if (edge["follow"] and both) or (touched and non_member and not edge["follow"]):
+            chosen.append({
+                "coherence": edge["coherence"], "definition": edge["definition"], "from": edge["from"],
+                "in_plane": edge["in_plane"], "state": edge["state"], "to": edge["to"],
+            })
+    chosen.sort(key=relation_order)
+    return chosen
+
+
+def fact_resource(fact: dict[str, Any], entries: dict[str, dict[str, Any]]
+                  ) -> tuple[str | None, dict[str, Any] | None]:
+    ref = fact_refs(fact["key"])[0]
+    entry = entries.get(ref_key(ref))
+    if entry is None:
+        return None, None
+    dimension = (entry.get("attributes") or {}).get("subject", {}).get("dimension", {}).get("id")
+    for item in fact["key"].get("dimensions", []):
+        if item["id"] == dimension:
+            return item["value"].get("text"), entry
+    return None, entry
+
+
+def result_facts(snapshots: list[dict[str, Any]], entries: dict[str, dict[str, Any]], reached: set[str],
+                 planes: set[str]) -> list[dict[str, Any]]:
+    chosen = []
+    for snapshot in snapshots:
+        for fact in snapshot.get("facts", []):
+            resource_id, entry = fact_resource(fact, entries)
+            if resource_id not in reached or entry is None or entry.get("disposition") != "member":
+                continue
+            if planes and not (set(entry.get("planes", [])) & planes):
+                continue
+            chosen.append(fact)
+    chosen.sort(key=lambda fact: canonical(fact["key"]))
+    return chosen
+
+
+def finding_resources(finding: dict[str, Any]) -> set[str]:
+    subject = finding.get("subject") or {}
+    found = set(subject.get("resource_ids") or [])
+    if "resource_id" in subject:
+        found.add(subject["resource_id"])
+    return found
+
+
+def result_findings(findings: list[dict[str, Any]], reached: set[str]) -> list[dict[str, Any]]:
+    chosen = [finding for finding in findings if finding_resources(finding) & reached]
+    return sorted(chosen, key=finding_order)
+
+
+def lists_are_sorted(findings: list[dict[str, Any]]) -> bool:
+    for finding in findings:
+        for value in (finding.get("subject") or {}).values():
+            if isinstance(value, list) and value != sorted(value):
+                return False
+    return True
+
+
+def relation_page(relation: dict[str, Any], index_of: dict[str, int]) -> int:
+    if relation["from"] in index_of:
+        return index_of[relation["from"]]
+    return index_of.get(relation["to"], 0)
+
+
+def page_chunks(resources: list[dict[str, Any]], page_size: int) -> list[list[dict[str, Any]]]:
+    return [resources[index:index + page_size] for index in range(0, len(resources), page_size)] or [[]]
+
+
+def paginate(body: dict[str, Any], page_size: int, entries: dict[str, dict[str, Any]], digest: str
+             ) -> list[dict[str, Any]]:
+    chunks = page_chunks(body["resources"], page_size)
+    index_of: dict[str, int] = {}
+    for page_index, chunk in enumerate(chunks):
+        for row in chunk:
+            index_of[row["resource_id"]] = page_index
+    pages = []
+    for page_index, chunk in enumerate(chunks):
+        page = {
+            "cut_id": body["cut"]["cut_id"],
+            "facts": [],
+            "findings": [],
+            "frontier": [item for item in body["frontier"]
+                         if index_of.get(item["subject"]["resource_id"]) == page_index],
+            "relations": [item for item in body["relations"] if relation_page(item, index_of) == page_index],
+            "resources": chunk,
+        }
+        for fact in body["facts"]:
+            resource_id, _entry = fact_resource(fact, entries)
+            if index_of.get(resource_id) == page_index:
+                page["facts"].append(fact)
+        if page_index + 1 < len(chunks):
+            page["next_page"] = {"cut_id": body["cut"]["cut_id"], "request_digest": digest}
+        pages.append(page)
+    for finding in body["findings"]:
+        page_index = 0
+        for resource_id in sorted(finding_resources(finding)):
+            if resource_id in index_of:
+                page_index = index_of[resource_id]
+                break
+        pages[page_index]["findings"].append(finding)
+    return pages
+
+
+def list_read(resources: dict[str, dict[str, Any]], request: dict[str, Any], cut: dict[str, Any]) -> dict[str, Any]:
+    kind = request.get("kind")
+    plane = request.get("plane")
+    chosen = []
+    for resource in resources.values():
+        if resource["state"] != "current":
+            continue
+        if kind is not None and resource["kind"] != kind:
+            continue
+        if plane is not None and plane not in resource["planes"]:
+            continue
+        chosen.append({"asset_id": resource["asset_id"], "kind": resource["kind"], "resource_id": resource["resource_id"]})
+    chosen.sort(key=lambda item: item["resource_id"].encode())
+    return {"cut": cut, "resources": chosen}
+
+
+def graph_body(vector: dict[str, Any], entries: dict[str, dict[str, Any]], context: Context, cut: dict[str, Any],
+               lens: dict[str, Any] | None, edges: list[dict[str, Any]]) -> dict[str, Any] | str:
+    request = vector["input"]["request"]
+    entry_ids = resolve_entry(request, lens, resource_index(vector["input"]["snapshots"], entries))
+    if isinstance(entry_ids, str):
+        return entry_ids
+    cap = lens["max_depth"] if lens is not None else DEPTH_BOUND
+    depth, frontier = walk_reached(entry_ids, edges, request.get("direction", "outgoing"), request.get("depth", cap))
+    reached = set(depth)
+    planes = set(lens["planes"]) if lens is not None else set(request.get("planes", []))
+    body = {
+        "cut": cut,
+        "entry": request.get("entry"),
+        "facts": result_facts(vector["input"]["snapshots"], entries, reached, planes) if lens is not None else [],
+        "findings": result_findings(vector["input"].get("findings", []), reached),
+        "frontier": frontier,
+        "relations": result_relations(edges, reached),
+        "resources": result_resources(depth, resource_index(vector["input"]["snapshots"], entries)),
+    }
+    if lens is not None:
+        body["catalog"] = catalog_digest(context)
+        body["contract"] = LENS_RESULT_CONTRACT
+        body["lens"] = lens["id"]
+    if request.get("page_size") is not None:
+        body["pages"] = paginate(body, request["page_size"], entries, request_digest(request))
+    return body
+
+
+def scope_members(scope: str, edges: list[dict[str, Any]]) -> set[str]:
+    seen = {scope}
+    queue = [scope]
+    index = 0
+    while index < len(queue):
+        current = queue[index]
+        index += 1
+        for edge, target in neighbor_targets(current, edges, "outgoing"):
+            if edge["core_type"] not in ("groups", "contains") or target in seen:
+                continue
+            seen.add(target)
+            queue.append(target)
+    seen.discard(scope)
+    return seen
+
+
+def sum_fact_rows(snapshots: list[dict[str, Any]], entries: dict[str, dict[str, Any]], planes: set[str]
+                  ) -> list[dict[str, Any]]:
+    rows = []
+    for snapshot in snapshots:
+        for fact in snapshot.get("facts", []):
+            resource_id, entry = fact_resource(fact, entries)
+            if resource_id is None or entry is None or entry.get("disposition") != "member":
+                continue
+            if not (set(entry.get("planes", [])) & planes):
+                continue
+            rows.append({"asset_id": snapshot["asset_id"], "entry": entry, "fact": fact, "resource_id": resource_id})
+    return rows
+
+
+def quality_reason(fact: dict[str, Any]) -> str | None:
+    if fact.get("conflicts"):
+        return "member_conflict"
+    candidates = fact.get("candidates") or []
+    if not candidates:
+        return "member_unavailable"
+    quality = candidates[0].get("quality") or {}
+    if quality.get("freshness") == "conflict" or quality.get("validity") == "conflict":
+        return "member_conflict"
+    if quality.get("availability") != "available" or quality.get("freshness") != "fresh":
+        return "member_unavailable"
+    return None
+
+
+def sign_reason(entry: dict[str, Any], rows: list[dict[str, Any]]) -> str | None:
+    attributes = entry.get("attributes") or {}
+    if attributes.get("direction") != "signed":
+        return None
+    reference = attributes.get("sign_reference")
+    references = {row["fact"].get("sign_reference", reference) for row in rows}
+    if reference == "native_convention" and len({row["asset_id"] for row in rows}) > 1:
+        return "mixed_sign_reference"
+    if len(references) > 1:
+        return "mixed_sign_reference"
+    return None
+
+
+def add_quantities(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    total = 0
+    unit = None
+    for row in sorted(rows, key=lambda item: item["resource_id"].encode()):
+        quantity = row["fact"]["candidates"][0]["value"]["quantity"]
+        number = quantity["number"]
+        if number.get("exponent10") != 0 or (unit is not None and quantity["unit"] != unit):
+            return None
+        total += int(number["coefficient"])
+        unit = quantity["unit"]
+    if unit is None:
+        return None
+    return {"coefficient": str(total), "exponent10": 0, "unit": unit}
+
+
+def aggregation_of(row: dict[str, Any]) -> str | None:
+    return (row["entry"].get("attributes") or {}).get("aggregation")
+
+
+def sum_decision(rows: list[dict[str, Any]], members: set[str], fact_ref: dict[str, Any], scope: str,
+                 findings: list[dict[str, Any]], cut: dict[str, Any], entries: dict[str, dict[str, Any]]
+                 ) -> dict[str, Any]:
+    """The withheld reason, or the member sum with aggregates left beside it."""
+    if not members:
+        return {"withheld": "no_coverage"}
+    if same_unit_members(findings, members):
+        return {"withheld": "same_unit"}
+    if cut["completeness"] == "partial" and cut["not_included"]:
+        return {"withheld": "partial_cut"}
+    wanted = ref_key(fact_ref)
+    relevant = [row for row in rows if row["resource_id"] in members
+                and ref_key(fact_refs(row["fact"]["key"])[0]) == wanted and aggregation_of(row) == "member"]
+    if {row["resource_id"] for row in relevant} != set(members):
+        return {"withheld": "member_unavailable"}
+    blocked = next((quality_reason(row["fact"]) for row in relevant if quality_reason(row["fact"])), None)
+    if blocked:
+        return {"withheld": blocked}
+    signed = sign_reason(entries[wanted], relevant)
+    if signed:
+        return {"withheld": signed}
+    value = add_quantities(relevant)
+    if value is None:
+        return {"withheld": "member_unavailable"}
+    body: dict[str, Any] = {"not_added": not_added_ids(rows, members, scope), "value": value}
+    observed = scope_aggregate(rows, scope)
+    if observed is not None:
+        body["observed_aggregate"] = observed
+    return body
+
+
+def same_unit_members(findings: list[dict[str, Any]], members: set[str]) -> bool:
+    for finding in findings:
+        if finding.get("kind") != "same_unit":
+            continue
+        if len(set(finding.get("subject", {}).get("resource_ids", [])) & set(members)) >= 2:
+            return True
+    return False
+
+
+def not_added_ids(rows: list[dict[str, Any]], members: set[str], scope: str) -> list[str]:
+    scope_or_member = members | {scope}
+    found = {row["fact"]["key"]["fact_id"] for row in rows
+             if row["resource_id"] in scope_or_member and aggregation_of(row) != "member"}
+    return sorted(found)
+
+
+def scope_aggregate(rows: list[dict[str, Any]], scope: str | None) -> dict[str, Any] | None:
+    found = [row["fact"] for row in rows if row["resource_id"] == scope and aggregation_of(row) == "aggregate"]
+    found.sort(key=lambda fact: canonical(fact["key"]))
+    return found[0] if found else None
+
+
+def sum_read(vector: dict[str, Any], entries: dict[str, dict[str, Any]], context: Context, cut: dict[str, Any],
+             lens: dict[str, Any], edges: list[dict[str, Any]]) -> dict[str, Any] | str:
+    request = vector["input"]["request"]
+    body = graph_body(vector, entries, context, cut, lens, edges)
+    if isinstance(body, str):
+        return body
+    reached = {row["resource_id"] for row in body["resources"]}
+    scope = request["scope"]
+    members = scope_members(scope, edges) if scope in reached else set()
+    decision = sum_decision(sum_fact_rows(vector["input"]["snapshots"], entries, set(lens["planes"])),
+                            members, request["fact"], scope, vector["input"].get("findings", []), cut, entries)
+    decision.update(cut=cut, fact=request["fact"]["id"], scope=scope)
+    return decision
+
+
+def cited_ok(report: dict[str, Any], edges: list[dict[str, Any]], resources: dict[str, dict[str, Any]]) -> bool:
+    for disposition in report.get("dispositions", []):
+        for resource_id in disposition.get("resources", []):
+            resource = resources.get(resource_id)
+            if resource is None or resource["state"] != "current":
+                return False
+        for key in disposition.get("relations", []):
+            if not any(edge["definition"] == key.get("definition") and edge["from"] == key.get("from")
+                       and edge["to"] == key.get("to") and edge["state"] == "qualified"
+                       and edge["coherence"] == "coherent" for edge in edges):
+                return False
+    return True
+
+
+def project_read(request: dict[str, Any], edges: list[dict[str, Any]], resources: dict[str, dict[str, Any]],
+                 cut: dict[str, Any]) -> dict[str, Any] | str:
+    report = request.get("report")
+    if not isinstance(report, dict) or report.get("lens") != request.get("lens"):
+        return "invalid_value"
+    if not cited_ok(report, edges, resources):
+        return "projection_incomplete"
+    return {"cut": cut, "lens": request["lens"], "report": report}
+
+
+def prepare_read(vector: dict[str, Any], context: Context) -> tuple[dict[str, Any], dict[str, Any] | None, str | None]:
+    payload = vector["input"]
+    request = payload["request"]
+    not_included = list(payload.get("not_included") or [])
+    cut = cut_ref(payload["snapshots"], payload.get("completeness", "complete"), not_included)
+    lens, lens_error = named_lens(request, context.catalog)
+    if lens_error:
+        return cut, None, lens_error
+    held = payload.get("held_cuts", [cut["cut_id"]])
+    error = token_error(request, cut["cut_id"]) or pin_error(request, held) or bounds_error(request, lens)
+    return cut, lens, error
+
+
+def evaluate_read(vector: dict[str, Any], entries: dict[str, dict[str, Any]], context: Context
+                  ) -> tuple[str | None, dict[str, Any] | None]:
+    """Recompute a read: an error identifier, or the canonical result body."""
+    cut, lens, error = prepare_read(vector, context)
+    if error:
+        return error, None
+    request = vector["input"]["request"]
+    resources = resource_index(vector["input"]["snapshots"], entries)
+    if vector["operation"] == "list_resources":
+        return None, list_read(resources, request, cut)
+    edges = build_edges(vector["input"]["snapshots"], resources, cut["completeness"])
+    followed, follow_error = followed_keys(entries, lens, request)
+    if follow_error:
+        return follow_error, None
+    annotate_edges(edges, entries, followed)
+    if vector["operation"] == "project":
+        projected = project_read(request, edges, resources, cut)
+        if isinstance(projected, str):
+            return projected, None
+        return None, projected
+    if vector["operation"] == "sum_members":
+        if lens is None:
+            return "membership_missing", None
+        summed = sum_read(vector, entries, context, cut, lens, edges)
+        if isinstance(summed, str):
+            return summed, None
+        return None, summed
+    walked = graph_body(vector, entries, context, cut, lens, edges)
+    if isinstance(walked, str):
+        return walked, None
+    return None, walked
+
+
+def read_snapshot_problems(vector: dict[str, Any]) -> list[str]:
+    problems = []
+    payload = vector.get("input")
+    if not isinstance(payload, dict) or not isinstance(payload.get("request"), dict) or not payload.get("snapshots"):
+        return [f"{vector['id']}: a read input is member snapshots plus a request"]
+    if payload.get("not_included") and payload.get("completeness") != "partial":
+        problems.append(f"{vector['id']}: completeness must be partial when an asset is not included")
+    for snapshot in payload["snapshots"]:
+        if snapshot.get("snapshot_id") != snapshot_identifier(snapshot):
+            problems.append(f"{vector['id']}: snapshot_id of {snapshot.get('asset_id')} is not content-derived")
+    return problems
+
+
+def lens_strings(value: Any, found: set[str]) -> None:
+    if isinstance(value, dict):
+        lens_id = value.get("lens")
+        if isinstance(lens_id, str):
+            found.add(lens_id)
+        for item in value.values():
+            lens_strings(item, found)
+    elif isinstance(value, list):
+        for item in value:
+            lens_strings(item, found)
+
+
+def first_diff(left: Any, right: Any, prefix: str = "") -> str:
+    if type(left) is not type(right) or not isinstance(left, (dict, list)):
+        return prefix or "value"
+    if isinstance(left, list):
+        if len(left) != len(right):
+            return f"{prefix}.length" if prefix else "length"
+        for index, (item, other) in enumerate(zip(left, right)):
+            if item != other:
+                return first_diff(item, other, f"{prefix}[{index}]")
+        return prefix or "value"
+    for key in sorted(set(left) | set(right)):
+        child = f"{prefix}.{key}" if prefix else str(key)
+        if key not in left or key not in right or left[key] != right[key]:
+            return first_diff(left.get(key), right.get(key), child)
+    return prefix or "value"
+
+
+def known_lenses(context: Context) -> set[str]:
+    return {lens["id"] for lens in context.catalog["lenses"]}
+
+
+def mismatched_read(vector: dict[str, Any], error: str | None, body: dict[str, Any] | None, context: Context
+                    ) -> list[str]:
+    label = vector["id"]
+    expect = vector["expect"]
+    if error:
+        if expect.get("result") == "reject" and expect.get("error_id") == error:
+            return []
+        problems = [f"{label}: expected {expect.get('error_id')} differs from {error}"]
+        lens_id = vector["input"]["request"].get("lens")
+        if error == "membership_missing" and isinstance(lens_id, str) and lens_id not in known_lenses(context):
+            problems.append(f"{label}: lens {lens_id} is not in the catalog")
+        return problems
+    problems = []
+    if expect.get("result") != "accept":
+        problems.append(f"{label}: recomputed read is accepted")
+    read = expect.get("read")
+    if not isinstance(read, dict) or read != body:
+        problems.append(f"{label}: read result differs at {first_diff(read, body)}")
+    if isinstance(read, dict) and "path" in read or (isinstance(body, dict) and "path" in body):
+        problems.append(f"{label}: result has a path member")
+    named: set[str] = set()
+    lens_strings(vector["input"], named)
+    for lens_id in sorted(named):
+        if lens_id not in known_lenses(context):
+            problems.append(f"{label}: lens {lens_id} is not in the catalog")
+    return problems
+
+
+def check_one_read(vector: dict[str, Any], entries: dict[str, dict[str, Any]], context: Context) -> list[str]:
+    if vector["record_type"] != "Read":
+        return [f"{vector['id']}: {vector['operation']} takes record_type Read"]
+    problems = read_snapshot_problems(vector)
+    if problems:
+        return problems
+    if not lists_are_sorted(vector["input"].get("findings", [])):
+        return [f"{vector['id']}: subject lists are not sorted"]
+    error, body = evaluate_read(vector, entries, context)
+    return mismatched_read(vector, error, body, context)
+
+
+def check_reads(document: dict[str, Any], context: Context) -> list[str]:
+    registered, _found = state_entries(document, context)
+    entries = catalog_entries(context)
+    problems = []
+    for vector in document["vectors"]:
+        if vector["operation"] not in READ_OPERATIONS:
+            continue
+        problems += check_one_read(vector, registered.get(vector["prior_state"], entries), context)
+    return sorted_problems(problems)
+
+
 RULES = (
     ("shape", check_shape),
     ("identifiers", check_identifiers),
@@ -850,6 +1565,7 @@ RULES = (
     ("anchor_keys", check_anchor_keys),
     ("statements", check_statements),
     ("cuts", check_cuts),
+    ("reads", check_reads),
     ("catalog_digest", check_catalog_digest),
 )
 

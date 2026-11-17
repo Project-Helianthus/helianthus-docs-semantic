@@ -7,6 +7,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [graph acceptance vectors](api/v1/graph-acceptance-vectors.json) add the
+  twenty-one retrieval, lens-result, sum and target-report vectors of
+  [graph contract](api/v1/graph.md) section 36. Coverage identifiers
+  `retrieval`, `lens_result`, `sum` and `target_report` join the document, and
+  operations `list_resources`, `traverse`, `retrieve_lens`, `sum_members` and
+  `project` join it. A read is member snapshots plus a request. The validator
+  recomputes the served cut identifier and the canonical order, and rejects a
+  lens that is not in the catalog. No stable error is added. No thermal
+  quantity is placed. No version is raised. SemReg follow-up: re-copy this
+  vector document and move its SHA-256 pin.
+- Breaking, in place before the 0.7 release: the
   [element catalog](api/v1/element-catalog-v1.json) seeds the four lenses of
   [graph contract](api/v1/graph.md) section 29. Each lens carries that
   section's question, planes and depth, and names no relation definition, so

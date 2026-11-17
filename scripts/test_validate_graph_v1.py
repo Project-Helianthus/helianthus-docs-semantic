@@ -567,5 +567,238 @@ class MutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_catalog_digest, mutated(change), "path")
 
 
+PART2_VECTORS = (
+    "G-POS-RET-1", "G-POS-RET-2", "G-POS-RET-3", "G-POS-RET-4", "G-POS-RET-5",
+    "G-NEG-RET-1", "G-NEG-RET-2", "G-NEG-RET-3", "G-NEG-RET-4", "G-NEG-RET-5", "G-NEG-RET-6",
+    "G-POS-LNS-1", "G-POS-LNS-2", "G-POS-LNS-3",
+    "G-POS-SUM-1", "G-NEG-SUM-1", "G-NEG-SUM-2", "G-NEG-SUM-3", "G-NEG-SUM-4",
+    "G-POS-TGT-1", "G-NEG-TGT-1",
+)
+PART2_COVERAGE = ("lens_result", "retrieval", "sum", "target_report")
+PART2_OPERATIONS = ("list_resources", "project", "retrieve_lens", "sum_members", "traverse")
+
+
+class Part2VectorTest(unittest.TestCase):
+    def test_section_36_identifiers_are_required(self):
+        for vector_id in PART2_VECTORS:
+            def change(document, vector_id=vector_id):
+                document["vectors"] = [item for item in document["vectors"] if item["id"] != vector_id]
+            with self.subTest(vector=vector_id):
+                problems = validator.check_statements(mutated(change), CONTEXT)
+                self.assertTrue(any(vector_id in problem for problem in problems), problems)
+
+    def test_part2_coverage_and_operations_join_the_list(self):
+        self.assertEqual(len(DOCUMENT["coverage_ids"]), 11)
+        for area in PART2_COVERAGE:
+            self.assertIn(area, DOCUMENT["coverage_ids"])
+        for operation in PART2_OPERATIONS:
+            self.assertIn(operation, DOCUMENT["operations"])
+        self.assertEqual(validator.check_coverage(DOCUMENT, CONTEXT), [])
+
+
+def read_of(document, vector_id):
+    return vector(document, vector_id)["expect"]["read"]
+
+
+def digest_of(label):
+    return "sha256:" + hashlib.sha256(label.encode("utf-8")).hexdigest()
+
+
+class ReadMutationTest(unittest.TestCase):
+    def assert_rule_rejects(self, rule, document, fragment):
+        problems = rule(document, CONTEXT)
+        self.assertTrue(any(fragment in problem for problem in problems), problems)
+        self.assertNotEqual(validator.validate(document, CONTEXT), [])
+
+    def test_read_cut_identifier_is_rejected_for_every_field(self):
+        # contract: a cut identifier over another contract string. asset_id and snapshot_id: an
+        # identifier over a member list with that field changed. order: an identifier over the
+        # members in reverse order. Each is the identifier a faulty read would record.
+        def wrong(members, field):
+            members = copy.deepcopy(members)
+            if field == "contract":
+                return cut_identifier(members, "helianthus.semantic.graph-cut/v2")
+            if field == "order":
+                return cut_identifier(list(reversed(members)))
+            members[0][field] = members[0][field] + "-changed"
+            return cut_identifier(members)
+
+        for field in ("contract", "asset_id", "snapshot_id", "order"):
+            with self.subTest(field=field):
+                def change(document, field=field):
+                    served = read_of(document, "G-NEG-SUM-4")["cut"]
+                    served["cut_id"] = wrong(served["members"], field)
+                self.assert_rule_rejects(validator.check_reads, mutated(change), "cut_id")
+
+    def test_committed_read_cut_identifiers_match_members(self):
+        for item in DOCUMENT["vectors"]:
+            served = (item["expect"].get("read") or {}).get("cut")
+            if served is None:
+                continue
+            with self.subTest(vector=item["id"]):
+                self.assertEqual(served["cut_id"], cut_identifier(served["members"]))
+
+    def test_relation_key_is_rejected_for_every_field(self):
+        # owner, id and version: that field of the recorded definition changed. from and to: the
+        # recorded endpoint changed. order: the relation list reversed. The recomputed result keeps
+        # the canonical relation key and order.
+        def owner(relation):
+            relation["definition"]["owner"]["pack"]["id"] += "-changed"
+
+        def ident(relation):
+            relation["definition"]["id"] += "-changed"
+
+        def version(relation):
+            relation["definition"]["version"] += "-changed"
+
+        def source(relation):
+            relation["from"] += "-changed"
+
+        def target(relation):
+            relation["to"] += "-changed"
+
+        cases = (
+            ("owner", "owner", owner),
+            ("id", ".id", ident),
+            ("version", "version", version),
+            ("from", "from", source),
+            ("to", "to", target),
+        )
+        for field, fragment, mutate in cases:
+            with self.subTest(field=field):
+                def change(document, mutate=mutate):
+                    mutate(read_of(document, "G-POS-LNS-1")["relations"][0])
+                self.assert_rule_rejects(validator.check_reads, mutated(change), fragment)
+
+        def change_order(document):
+            read_of(document, "G-POS-LNS-1")["relations"].reverse()
+        self.assert_rule_rejects(validator.check_reads, mutated(change_order), "relations")
+
+    def test_page_token_is_bound_to_the_cut_and_the_request(self):
+        item = vector(DOCUMENT, "G-POS-RET-1")
+        pages = item["expect"]["read"]["pages"]
+        token = pages[0]["next_page"]
+        self.assertEqual(token["cut_id"], item["expect"]["read"]["cut"]["cut_id"])
+        self.assertEqual(token["request_digest"], validator.request_digest(item["input"]["request"]))
+        self.assertNotIn("next_page", pages[-1])
+
+    def test_page_token_fields_are_recomputed(self):
+        # cut_id: the token names another cut. request_digest: the token names another request.
+        def cut_field(document):
+            read_of(document, "G-POS-RET-1")["pages"][0]["next_page"]["cut_id"] = digest_of("other-cut")
+
+        def digest_field(document):
+            page = read_of(document, "G-POS-RET-1")["pages"][0]["next_page"]
+            page["request_digest"] = digest_of("other-request")
+
+        for field, change, fragment in (
+            ("cut_id", cut_field, "next_page.cut_id"),
+            ("request_digest", digest_field, "request_digest"),
+        ):
+            with self.subTest(field=field):
+                self.assert_rule_rejects(validator.check_reads, mutated(change), fragment)
+
+    def test_resource_order_fields_are_recomputed(self):
+        # depth: the recorded depth changed. resource_id: the recorded resource changed.
+        # order: the resource list reversed. The recomputed walk keeps depth and ResourceID order.
+        def depth(document):
+            read_of(document, "G-POS-RET-4")["resources"][0]["depth"] += 1
+
+        def resource_id(document):
+            row = read_of(document, "G-POS-RET-4")["resources"][0]
+            row["resource_id"] += "-changed"
+
+        def order(document):
+            read_of(document, "G-POS-RET-4")["resources"].reverse()
+
+        for field, change, fragment in (
+            ("depth", depth, "depth"),
+            ("resource_id", resource_id, "resource_id"),
+            ("order", order, "resources"),
+        ):
+            with self.subTest(field=field):
+                self.assert_rule_rejects(validator.check_reads, mutated(change), fragment)
+
+    def test_fact_key_is_rejected_for_every_field(self):
+        # pack_id, pack_version, fact_id, dimensions[0].id and dimensions[0].value.text: that
+        # recorded fact-key field changed. The recomputed fact keeps the input key.
+        def pack_id(key):
+            key["pack_id"] += "-changed"
+
+        def pack_version(key):
+            key["pack_version"] += "-changed"
+
+        def fact_id(key):
+            key["fact_id"] += "-changed"
+
+        def dimension_id(key):
+            key["dimensions"][0]["id"] += "-changed"
+
+        def text(key):
+            key["dimensions"][0]["value"]["text"] += "-changed"
+
+        cases = (
+            ("pack_id", "pack_id", pack_id),
+            ("pack_version", "pack_version", pack_version),
+            ("fact_id", "fact_id", fact_id),
+            ("dimensions.id", "dimensions[0].id", dimension_id),
+            ("dimensions.value.text", "text", text),
+        )
+        for field, fragment, mutate in cases:
+            with self.subTest(field=field):
+                def change(document, mutate=mutate):
+                    mutate(read_of(document, "G-POS-LNS-1")["facts"][0]["key"])
+                self.assert_rule_rejects(validator.check_reads, mutated(change), fragment)
+
+    def test_sum_withheld_reason_is_recomputed(self):
+        # withheld: the recorded reason is no longer same_unit. The recomputed sum keeps that reason.
+        def change(document):
+            read_of(document, "G-NEG-SUM-2")["withheld"] = "no_coverage"
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "withheld")
+
+    def test_sum_coefficient_excludes_the_scope_aggregate(self):
+        # coefficient: the recorded value adds the scope aggregate. The recomputed sum leaves it out.
+        def change(document):
+            value = read_of(document, "G-NEG-SUM-1")["value"]
+            value["coefficient"] = str(int(value["coefficient"]) + 1000)
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "coefficient")
+
+    def test_lens_must_be_in_the_catalog(self):
+        # lens: the request names a lens the catalog does not hold.
+        def change(document):
+            vector(document, "G-POS-LNS-1")["input"]["request"]["lens"] = "lens.not_in_catalog"
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "not in the catalog")
+
+    def test_definition_outside_requested_planes_is_membership_missing(self):
+        # planes: the request plane set no longer meets the named definition. definitions: the
+        # named relation is outside those planes. The read is membership_missing.
+        def change(document):
+            item = vector(document, "G-POS-RET-5")
+            request = item["input"]["request"]
+            request["planes"] = ["diagnostic"]
+            request["definitions"] = [copy.deepcopy(item["input"]["snapshots"][0]["relations"][0]["definition"])]
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "membership_missing")
+
+    def test_project_relation_key_is_rejected_for_every_field(self):
+        # definition, from and to: the cited relation key no longer matches a coherent qualified
+        # instance. The read is projection_incomplete.
+        def cited(document):
+            report = vector(document, "G-POS-TGT-1")["input"]["request"]["report"]
+            return report["dispositions"][0]["relations"][0]
+
+        def definition(document):
+            cited(document)["definition"]["id"] += "-changed"
+
+        def source(document):
+            cited(document)["from"] += "-changed"
+
+        def target(document):
+            cited(document)["to"] += "-changed"
+
+        for field, change in (("definition", definition), ("from", source), ("to", target)):
+            with self.subTest(field=field):
+                self.assert_rule_rejects(validator.check_reads, mutated(change), "projection_incomplete")
+
+
 if __name__ == "__main__":
     sys.exit(0 if unittest.main(exit=False).result.wasSuccessful() else 1)

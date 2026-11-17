@@ -14,7 +14,9 @@
     "identity_not_qualified",
     "invalid_value",
     "membership_missing",
+    "projection_incomplete",
     "relation_not_qualified",
+    "revision_conflict",
     "stale_relation",
     "unknown_member"
   ],
@@ -23,11 +25,15 @@
     "authority",
     "element_catalog",
     "graph_cut",
+    "lens_result",
     "plane_membership",
     "relation",
-    "resource"
+    "resource",
+    "retrieval",
+    "sum",
+    "target_report"
   ],
-  "operations": ["admit", "apply", "assemble_cut", "construct_registry", "register_catalog"],
+  "operations": ["admit", "apply", "assemble_cut", "construct_registry", "list_resources", "project", "register_catalog", "retrieve_lens", "sum_members", "traverse"],
   "prior_states": [
     {
       "name": "catalog-registered-for-cut-assembly",
@@ -14870,6 +14876,4460 @@
         }
       ],
       "criterion": "A published record never carries a plane member; membership comes only from the catalog."
+    },
+    {
+      "id": "G-POS-RET-1",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition",
+          "page_size": 1
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:5fd54e539f2c67b604711a7a93bc6ab976084dba3091a4201cc234ddcb9302bf"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "Both pages carry the served cut identifier and together equal the unpaged result."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:81ba7cde051b3bb37ddfccdd5bfcd8fd243725c1ef4374858fcb7eb7c7272189",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:5fd54e539f2c67b604711a7a93bc6ab976084dba3091a4201cc234ddcb9302bf"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "facts": [],
+          "findings": [],
+          "frontier": [],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_input",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:input:01"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.dc_input",
+              "resource_id": "resource:input:01"
+            }
+          ],
+          "catalog": "sha256:6084c0f1aed4ddc34095fe342b5791e6d1f056ac2709a0465cd04a3cb6183fd8",
+          "contract": "helianthus.semantic.lens-result/v1",
+          "lens": "lens.equipment_composition",
+          "pages": [
+            {
+              "cut_id": "sha256:81ba7cde051b3bb37ddfccdd5bfcd8fd243725c1ef4374858fcb7eb7c7272189",
+              "facts": [],
+              "findings": [],
+              "frontier": [],
+              "relations": [
+                {
+                  "coherence": "coherent",
+                  "definition": {
+                    "id": "pv.relation.inverter_input",
+                    "owner": {
+                      "kind": "pack",
+                      "pack": {
+                        "id": "helianthus.pack.pv",
+                        "version": "1.0.0"
+                      }
+                    },
+                    "version": "1.0.0"
+                  },
+                  "from": "resource:inverter:01",
+                  "in_plane": true,
+                  "state": "qualified",
+                  "to": "resource:input:01"
+                }
+              ],
+              "resources": [
+                {
+                  "asset_id": "asset:pv:01",
+                  "depth": 0,
+                  "kind": "resource.inverter",
+                  "resource_id": "resource:inverter:01"
+                }
+              ],
+              "next_page": {
+                "cut_id": "sha256:81ba7cde051b3bb37ddfccdd5bfcd8fd243725c1ef4374858fcb7eb7c7272189",
+                "request_digest": "sha256:f3f2f8db222dbe3ffce7f4dba2f88ac89f9a2dab73ab9fac25440ee239cce29a"
+              }
+            },
+            {
+              "cut_id": "sha256:81ba7cde051b3bb37ddfccdd5bfcd8fd243725c1ef4374858fcb7eb7c7272189",
+              "facts": [],
+              "findings": [],
+              "frontier": [],
+              "relations": [],
+              "resources": [
+                {
+                  "asset_id": "asset:pv:01",
+                  "depth": 1,
+                  "kind": "resource.dc_input",
+                  "resource_id": "resource:input:01"
+                }
+              ]
+            }
+          ]
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "CUT-1 and TRV-7: both pages carry one cut identifier and their union equals the unpaged result."
+    },
+    {
+      "id": "G-POS-RET-2",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "completeness": "partial",
+        "not_included": [
+          {
+            "asset_id": "asset:pv:held-out",
+            "reason": "excluded"
+          }
+        ],
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.energy_flow"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:c8041d2646c47353e28f0f94abe21f44cf51a357c67c8788f6f27108ab75f265"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The result cut is partial and lists the excluded asset."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "partial",
+            "cut_id": "sha256:ab58e4e3b210de8c104d2b037b1a40a7be92f6dd5ae5ad28ebb9254f08497966",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:c8041d2646c47353e28f0f94abe21f44cf51a357c67c8788f6f27108ab75f265"
+              }
+            ],
+            "not_included": [
+              {
+                "asset_id": "asset:pv:held-out",
+                "reason": "excluded"
+              }
+            ]
+          },
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "facts": [],
+          "findings": [],
+          "frontier": [],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.system_inverter",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:pv-system:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:inverter:01"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.pv_system",
+              "resource_id": "resource:pv-system:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            }
+          ],
+          "catalog": "sha256:6084c0f1aed4ddc34095fe342b5791e6d1f056ac2709a0465cd04a3cb6183fd8",
+          "contract": "helianthus.semantic.lens-result/v1",
+          "lens": "lens.energy_flow"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "CUT-4: a partial cut lists the excluded asset with reason excluded."
+    },
+    {
+      "id": "G-POS-RET-3",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "list_resources",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "kind": "resource.inverter",
+          "plane": "energy"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:03"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:03",
+                "state": "withdrawn"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:pv-string:01"
+                },
+                "kind": "resource.pv_string",
+                "resource_id": "resource:pv-string:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:site:01"
+                },
+                "kind": "resource.site",
+                "resource_id": "resource:site:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:986ea6a4a27bc754df1054a3b146f6bcbe54dce45ed9ca667ea84f3fb530e2b2"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "Current inverters on the energy plane are listed in ResourceID order with their home asset."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:d679da7afd257aebd18adf7af3a736dceef8d08bed6a5458e0e8f76178e58b97",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:986ea6a4a27bc754df1054a3b146f6bcbe54dce45ed9ca667ea84f3fb530e2b2"
+              }
+            ],
+            "not_included": []
+          },
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:02"
+            }
+          ]
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_string",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.site",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "ENT-2: a kind and plane filter returns current resources in ResourceID order with the home asset."
+    },
+    {
+      "id": "G-POS-RET-4",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "traverse",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "depth": 4,
+          "direction": "both",
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:pv-system:01"
+          },
+          "planes": [
+            "energy"
+          ]
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_phase",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:phase:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_phase",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:02",
+                "state": "qualified",
+                "to": "resource:phase:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:phase:01"
+                },
+                "kind": "resource.phase",
+                "resource_id": "resource:phase:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:a1e8cfceece935c93dc112cf527f50338ea2b89849eb5d04c5bc90c4dfbe7060"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The shared phase appears once, at the smallest depth of the two paths."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:1731c643fafb8fd7040c2f27525262a965539bb7c43a54e085ef91ec442a4279",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:a1e8cfceece935c93dc112cf527f50338ea2b89849eb5d04c5bc90c4dfbe7060"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:pv-system:01"
+          },
+          "facts": [],
+          "findings": [],
+          "frontier": [],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_phase",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:phase:01"
+            },
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_phase",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:02",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:phase:01"
+            },
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.system_inverter",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:pv-system:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:inverter:01"
+            },
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.system_inverter",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:pv-system:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:inverter:02"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.pv_system",
+              "resource_id": "resource:pv-system:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:02"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 2,
+              "kind": "resource.phase",
+              "resource_id": "resource:phase:01"
+            }
+          ]
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_phase",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TRV-4: a resource reached by two paths appears once, at its smallest depth."
+    },
+    {
+      "id": "G-POS-RET-5",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "traverse",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "depth": 1,
+          "direction": "outgoing",
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:pv-system:01"
+          },
+          "planes": [
+            "energy"
+          ]
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:a1e5a7d4bb9778d1cea575e3dcdbc6f43a72884a85c418c98e01e0f234b55d9e"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The frontier holds the inverter with depth_limit and one instance not followed."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:42ff53059e2e725d6dca224c38ea8e6ee92e9a96ed7c226a2088b1add8c89ddb",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:a1e5a7d4bb9778d1cea575e3dcdbc6f43a72884a85c418c98e01e0f234b55d9e"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:pv-system:01"
+          },
+          "facts": [],
+          "findings": [],
+          "frontier": [
+            {
+              "kind": "depth_limit",
+              "not_followed": 1,
+              "subject": {
+                "resource_id": "resource:inverter:01"
+              }
+            }
+          ],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.system_inverter",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:pv-system:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:inverter:01"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.pv_system",
+              "resource_id": "resource:pv-system:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            }
+          ]
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TRV-6: depth 1 over a chain of three records the second resource on the frontier with depth_limit."
+    },
+    {
+      "id": "G-NEG-RET-1",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition",
+          "page_token": {
+            "cut_id": "sha256:2d40d17b877ef39207cfaf81b229722d206eb39d77afe8c853ba9692a65eb62d",
+            "request_digest": "sha256:1d1a2278ca161fc5cefa1f580b7ed11466cbf10dcb7f5ffc629e6a0fc7006726"
+          }
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:49243c60d77470cec08618c0fd24d0857b3be28b37366fc7b5884cabde0f99d8"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "revision_conflict",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "CUT-1: a page token of one cut used with another cut is revision_conflict."
+    },
+    {
+      "id": "G-NEG-RET-2",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "cut_id": "sha256:5eb74fa9754934070f0872b63793d4b935bc3252084aa1fd52cf2c0e3f10fa73",
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:49243c60d77470cec08618c0fd24d0857b3be28b37366fc7b5884cabde0f99d8"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "revision_conflict",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "CUT-2: a read pinned to a cut the server does not hold is revision_conflict."
+    },
+    {
+      "id": "G-NEG-RET-3",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "traverse",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:inverter:01"
+          },
+          "planes": [
+            "energy"
+          ]
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "withdrawn"
+              }
+            ],
+            "snapshot_id": "sha256:07f7014a24cb373d580eeee8d5546884f87693148f6aef9d69dbba6666e421f3"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "dangling_reference",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "ENT-1: a traversal from a resource that is not current is dangling_reference."
+    },
+    {
+      "id": "G-NEG-RET-4",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "lens_result",
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.not_in_catalog"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:49243c60d77470cec08618c0fd24d0857b3be28b37366fc7b5884cabde0f99d8"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "membership_missing",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "ENT-1: retrieval of an unknown lens is membership_missing."
+    },
+    {
+      "id": "G-NEG-RET-5",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "traverse",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "resource",
+            "resource_id": "resource:inverter:01"
+          },
+          "page_size": 4097,
+          "planes": [
+            "energy"
+          ]
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:49243c60d77470cec08618c0fd24d0857b3be28b37366fc7b5884cabde0f99d8"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "bounds_exceeded",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TRV-5: a page size above 4096 is bounds_exceeded."
+    },
+    {
+      "id": "G-NEG-RET-6",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "retrieval"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition",
+          "page_token": "malformed"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:49243c60d77470cec08618c0fd24d0857b3be28b37366fc7b5884cabde0f99d8"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "invalid_value",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TRV-7: a malformed page token is invalid_value."
+    },
+    {
+      "id": "G-POS-LNS-1",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "lens_result"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.status.fault:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.status.fault",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "symbol",
+                      "symbol": "absent"
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.status.fault",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.status.operating:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.status.operating",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "symbol",
+                      "symbol": "producing"
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.status.operating",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:02"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:02"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:ae9ffcfe46f837c818ef4ff46485ba803abfeb3fa7240970aab34908d9e15095"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "Resources, relations and facts are in canonical order and each fact keeps its evaluation view."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:f9d648bb3d1596e1096063f72fe2efa02f8c8ddc6fae9a3d13bb2690cc2c4be8",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:ae9ffcfe46f837c818ef4ff46485ba803abfeb3fa7240970aab34908d9e15095"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "facts": [
+            {
+              "candidates": [
+                {
+                  "candidate_id": "candidate:pv.status.fault:resource:inverter:01",
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "pv.dimension.inverter",
+                        "value": {
+                          "kind": "text",
+                          "text": "resource:inverter:01"
+                        }
+                      }
+                    ],
+                    "fact_id": "pv.status.fault",
+                    "pack_id": "helianthus.pack.pv",
+                    "pack_version": "1.0.0"
+                  },
+                  "quality": {
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "validity": "good"
+                  },
+                  "value": {
+                    "kind": "symbol",
+                    "symbol": "absent"
+                  }
+                }
+              ],
+              "key": {
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:inverter:01"
+                    }
+                  }
+                ],
+                "fact_id": "pv.status.fault",
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0"
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "candidate_id": "candidate:pv.status.operating:resource:inverter:01",
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "pv.dimension.inverter",
+                        "value": {
+                          "kind": "text",
+                          "text": "resource:inverter:01"
+                        }
+                      }
+                    ],
+                    "fact_id": "pv.status.operating",
+                    "pack_id": "helianthus.pack.pv",
+                    "pack_version": "1.0.0"
+                  },
+                  "quality": {
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "validity": "good"
+                  },
+                  "value": {
+                    "kind": "symbol",
+                    "symbol": "producing"
+                  }
+                }
+              ],
+              "key": {
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:inverter:01"
+                    }
+                  }
+                ],
+                "fact_id": "pv.status.operating",
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0"
+              }
+            }
+          ],
+          "findings": [],
+          "frontier": [],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_input",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:input:01"
+            },
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_input",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:input:02"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.dc_input",
+              "resource_id": "resource:input:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.dc_input",
+              "resource_id": "resource:input:02"
+            }
+          ],
+          "catalog": "sha256:6084c0f1aed4ddc34095fe342b5791e6d1f056ac2709a0465cd04a3cb6183fd8",
+          "contract": "helianthus.semantic.lens-result/v1",
+          "lens": "lens.equipment_composition"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.status.fault",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.status.operating",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "LRS-1: the composition lens returns resources, relations and facts with their evaluation view in canonical order."
+    },
+    {
+      "id": "G-POS-LNS-2",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "lens_result"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "candidate",
+                "to": "resource:input:02"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_phase",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "conflict",
+                "to": "resource:phase:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:02"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:02",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:phase:01"
+                },
+                "kind": "resource.phase",
+                "resource_id": "resource:phase:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:dad39b17e09cc9b3e75883d3028643615f62c8151231c20fd14ebb9a4fcdc9d6"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The candidate and the conflicting instance are in_plane false and add no resource."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:09e3d6d9758c1cecfedf36a1ff542a1a39dabce087b187a0c5ba7a27afb672a8",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:dad39b17e09cc9b3e75883d3028643615f62c8151231c20fd14ebb9a4fcdc9d6"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "facts": [],
+          "findings": [],
+          "frontier": [],
+          "relations": [
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_input",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": true,
+              "state": "qualified",
+              "to": "resource:input:01"
+            },
+            {
+              "coherence": "coherent",
+              "definition": {
+                "id": "pv.relation.inverter_input",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": false,
+              "state": "candidate",
+              "to": "resource:input:02"
+            },
+            {
+              "coherence": "conflict",
+              "definition": {
+                "id": "pv.relation.inverter_phase",
+                "owner": {
+                  "kind": "pack",
+                  "pack": {
+                    "id": "helianthus.pack.pv",
+                    "version": "1.0.0"
+                  }
+                },
+                "version": "1.0.0"
+              },
+              "from": "resource:inverter:01",
+              "in_plane": false,
+              "state": "conflict",
+              "to": "resource:phase:01"
+            }
+          ],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 1,
+              "kind": "resource.dc_input",
+              "resource_id": "resource:input:01"
+            }
+          ],
+          "catalog": "sha256:6084c0f1aed4ddc34095fe342b5791e6d1f056ac2709a0465cd04a3cb6183fd8",
+          "contract": "helianthus.semantic.lens-result/v1",
+          "lens": "lens.equipment_composition"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_phase",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.phase",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "LRS-2: a candidate and a conflicting instance are present with in_plane false and reach no further resource."
+    },
+    {
+      "id": "G-POS-LNS-3",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "retrieve_lens",
+      "coverage": [
+        "lens_result"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "findings": [
+          {
+            "kind": "same_unit",
+            "subject": {
+              "resource_ids": [
+                "resource:inverter:01",
+                "resource:inverter:02"
+              ]
+            }
+          }
+        ],
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "lens": "lens.equipment_composition"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:82345b2cb245cd2fa80cd0cedafc4ef71fa6cee9406ac6306ae518f75eb7e39a"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The same_unit finding is present in the result."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:c8c1b3d6a01d8b133b3de559e0915b353361857d495c0acf4aa499963ea4f647",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:82345b2cb245cd2fa80cd0cedafc4ef71fa6cee9406ac6306ae518f75eb7e39a"
+              }
+            ],
+            "not_included": []
+          },
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "facts": [],
+          "findings": [
+            {
+              "kind": "same_unit",
+              "subject": {
+                "resource_ids": [
+                  "resource:inverter:01",
+                  "resource:inverter:02"
+                ]
+              }
+            }
+          ],
+          "frontier": [],
+          "relations": [],
+          "resources": [
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:01"
+            },
+            {
+              "asset_id": "asset:pv:01",
+              "depth": 0,
+              "kind": "resource.inverter",
+              "resource_id": "resource:inverter:02"
+            }
+          ],
+          "catalog": "sha256:6084c0f1aed4ddc34095fe342b5791e6d1f056ac2709a0465cd04a3cb6183fd8",
+          "contract": "helianthus.semantic.lens-result/v1",
+          "lens": "lens.equipment_composition"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "LRS-4: a same_unit finding that names reached resources is in the lens result."
+    },
+    {
+      "id": "G-POS-SUM-1",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "sum_members",
+      "coverage": [
+        "sum"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "fact": {
+            "id": "pv.ac.frequency",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          },
+          "lens": "lens.energy_flow",
+          "scope": "resource:pv-system:01"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.energy.generated:resource:pv-system:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.system",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:pv-system:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.energy.generated",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "1000",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.joule"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.system",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:pv-system:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.energy.generated",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "10",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:02",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:02"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "20",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:02"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:03",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:03"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "30",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:03"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:03"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:03"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:03",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:b4fae6ecbebcd9545fae54305195c13a5224328b9505bb6a43ce9f87b70c49e2"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The member sum is returned and the observed aggregate is beside it, not merged."
+        ],
+        "read": {
+          "not_added": [
+            "pv.energy.generated"
+          ],
+          "value": {
+            "coefficient": "60",
+            "exponent10": 0,
+            "unit": "unit.hertz"
+          },
+          "observed_aggregate": {
+            "candidates": [
+              {
+                "candidate_id": "candidate:pv.energy.generated:resource:pv-system:01",
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.system",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:pv-system:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.energy.generated",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                },
+                "quality": {
+                  "availability": "available",
+                  "freshness": "fresh",
+                  "validity": "good"
+                },
+                "value": {
+                  "kind": "quantity",
+                  "quantity": {
+                    "number": {
+                      "coefficient": "1000",
+                      "exponent10": 0
+                    },
+                    "unit": "unit.joule"
+                  }
+                }
+              }
+            ],
+            "key": {
+              "dimensions": [
+                {
+                  "id": "pv.dimension.system",
+                  "value": {
+                    "kind": "text",
+                    "text": "resource:pv-system:01"
+                  }
+                }
+              ],
+              "fact_id": "pv.energy.generated",
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0"
+            }
+          },
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:baf9c2d4e5d919fa0a854102743ee2fe99d39379b27adbd03cb8971f34d1067b",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:b4fae6ecbebcd9545fae54305195c13a5224328b9505bb6a43ce9f87b70c49e2"
+              }
+            ],
+            "not_included": []
+          },
+          "fact": "pv.ac.frequency",
+          "scope": "resource:pv-system:01"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.ac.frequency",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.energy.generated",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "SUM-2 and SUM-6: three grouped inverters sum, and the scope aggregate is returned beside the sum."
+    },
+    {
+      "id": "G-NEG-SUM-1",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "sum_members",
+      "coverage": [
+        "sum"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "fact": {
+            "id": "pv.ac.frequency",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          },
+          "lens": "lens.energy_flow",
+          "scope": "resource:pv-system:01"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.energy.generated:resource:pv-system:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.system",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:pv-system:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.energy.generated",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "1000",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.joule"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.system",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:pv-system:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.energy.generated",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "10",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:02",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:02"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "20",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:02"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:6c16541580467646b903a638706bedef649924913e55428da63a1c3657461ed7"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The returned value excludes the scope aggregate."
+        ],
+        "read": {
+          "not_added": [
+            "pv.energy.generated"
+          ],
+          "value": {
+            "coefficient": "30",
+            "exponent10": 0,
+            "unit": "unit.hertz"
+          },
+          "observed_aggregate": {
+            "candidates": [
+              {
+                "candidate_id": "candidate:pv.energy.generated:resource:pv-system:01",
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.system",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:pv-system:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.energy.generated",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                },
+                "quality": {
+                  "availability": "available",
+                  "freshness": "fresh",
+                  "validity": "good"
+                },
+                "value": {
+                  "kind": "quantity",
+                  "quantity": {
+                    "number": {
+                      "coefficient": "1000",
+                      "exponent10": 0
+                    },
+                    "unit": "unit.joule"
+                  }
+                }
+              }
+            ],
+            "key": {
+              "dimensions": [
+                {
+                  "id": "pv.dimension.system",
+                  "value": {
+                    "kind": "text",
+                    "text": "resource:pv-system:01"
+                  }
+                }
+              ],
+              "fact_id": "pv.energy.generated",
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0"
+            }
+          },
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:20621b13c57dabde01ec80757fba670d91200e2e0304997a9581a97e4be6af27",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:6c16541580467646b903a638706bedef649924913e55428da63a1c3657461ed7"
+              }
+            ],
+            "not_included": []
+          },
+          "fact": "pv.ac.frequency",
+          "scope": "resource:pv-system:01"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.ac.frequency",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.energy.generated",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "SUM-1: the scope aggregate is not added to the member sum."
+    },
+    {
+      "id": "G-NEG-SUM-2",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "sum_members",
+      "coverage": [
+        "sum"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "findings": [
+          {
+            "kind": "same_unit",
+            "subject": {
+              "resource_ids": [
+                "resource:inverter:01",
+                "resource:inverter:02"
+              ]
+            }
+          }
+        ],
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "fact": {
+            "id": "pv.ac.frequency",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          },
+          "lens": "lens.energy_flow",
+          "scope": "resource:pv-system:01"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "10",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:02",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:02"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "20",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:02"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:15492b6737393b8f93593991676b953268c6ab3e985a5a97d2b1cfd4ba1279e8"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The sum is withheld with reason same_unit."
+        ],
+        "read": {
+          "withheld": "same_unit",
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:fefe7a21a11678f683ff5e9c75d0b603cc1269f93fb101facf54c57335fb6a0a",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:15492b6737393b8f93593991676b953268c6ab3e985a5a97d2b1cfd4ba1279e8"
+              }
+            ],
+            "not_included": []
+          },
+          "fact": "pv.ac.frequency",
+          "scope": "resource:pv-system:01"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.ac.frequency",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "SUM-3: two members flagged same_unit withhold the sum."
+    },
+    {
+      "id": "G-NEG-SUM-3",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "sum_members",
+      "coverage": [
+        "sum"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "completeness": "partial",
+        "not_included": [
+          {
+            "asset_id": "asset:pv:held-out",
+            "reason": "excluded"
+          }
+        ],
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "fact": {
+            "id": "pv.ac.frequency",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          },
+          "lens": "lens.energy_flow",
+          "scope": "resource:pv-system:01"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "10",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.frequency:resource:inverter:02",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:02"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.frequency",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "20",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.hertz"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:02"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.frequency",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:15492b6737393b8f93593991676b953268c6ab3e985a5a97d2b1cfd4ba1279e8"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The sum is withheld with reason partial_cut."
+        ],
+        "read": {
+          "withheld": "partial_cut",
+          "cut": {
+            "completeness": "partial",
+            "cut_id": "sha256:fefe7a21a11678f683ff5e9c75d0b603cc1269f93fb101facf54c57335fb6a0a",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:15492b6737393b8f93593991676b953268c6ab3e985a5a97d2b1cfd4ba1279e8"
+              }
+            ],
+            "not_included": [
+              {
+                "asset_id": "asset:pv:held-out",
+                "reason": "excluded"
+              }
+            ]
+          },
+          "fact": "pv.ac.frequency",
+          "scope": "resource:pv-system:01"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.ac.frequency",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "SUM-4: a partial cut with a not-included asset withholds the sum."
+    },
+    {
+      "id": "G-NEG-SUM-4",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "sum_members",
+      "coverage": [
+        "sum"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "entry": {
+            "kind": "lens_roots"
+          },
+          "fact": {
+            "id": "pv.ac.power_factor",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          },
+          "lens": "lens.energy_flow",
+          "scope": "resource:pv-system:01"
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.power_factor:resource:inverter:01",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:01"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.power_factor",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "95",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.ratio"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:01"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.power_factor",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:01"
+              },
+              {
+                "definition": {
+                  "id": "pv.relation.system_inverter",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:pv-system:01",
+                "state": "qualified",
+                "to": "resource:inverter:02"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "function",
+                  "slot": "resource:pv-system:01"
+                },
+                "kind": "resource.pv_system",
+                "resource_id": "resource:pv-system:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:4cfc876e8ad31369c336184cb8f42f523865107824eca4e9cde42d5de69912fe"
+          },
+          {
+            "asset_id": "asset:pv:02",
+            "facts": [
+              {
+                "candidates": [
+                  {
+                    "candidate_id": "candidate:pv.ac.power_factor:resource:inverter:02",
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "pv.dimension.inverter",
+                          "value": {
+                            "kind": "text",
+                            "text": "resource:inverter:02"
+                          }
+                        }
+                      ],
+                      "fact_id": "pv.ac.power_factor",
+                      "pack_id": "helianthus.pack.pv",
+                      "pack_version": "1.0.0"
+                    },
+                    "quality": {
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "validity": "good"
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "90",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.ratio"
+                      }
+                    }
+                  }
+                ],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "pv.dimension.inverter",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:inverter:02"
+                      }
+                    }
+                  ],
+                  "fact_id": "pv.ac.power_factor",
+                  "pack_id": "helianthus.pack.pv",
+                  "pack_version": "1.0.0"
+                }
+              }
+            ],
+            "relations": [],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:02"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:02",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:fe9acd9bb94b5ce3657e5db63aba45d666b8fad2c5c6148830f32bdcbccbe8e8"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The sum is withheld with reason mixed_sign_reference."
+        ],
+        "read": {
+          "withheld": "mixed_sign_reference",
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:8e05b85f5a26462d1230fd15abd16b7dde2c925bbecd84a5278ad5927cacb6e9",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:4cfc876e8ad31369c336184cb8f42f523865107824eca4e9cde42d5de69912fe"
+              },
+              {
+                "asset_id": "asset:pv:02",
+                "snapshot_id": "sha256:fe9acd9bb94b5ce3657e5db63aba45d666b8fad2c5c6148830f32bdcbccbe8e8"
+              }
+            ],
+            "not_included": []
+          },
+          "fact": "pv.ac.power_factor",
+          "scope": "resource:pv-system:01"
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.ac.power_factor",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.system_inverter",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.pv_system",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "SUM-5: signed facts under native_convention on two assets withhold the sum."
+    },
+    {
+      "id": "G-POS-TGT-1",
+      "polarity": "positive",
+      "record_type": "Read",
+      "operation": "project",
+      "coverage": [
+        "target_report"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "lens": "lens.equipment_composition",
+          "report": {
+            "dispositions": [
+              {
+                "relations": [
+                  {
+                    "definition": {
+                      "id": "pv.relation.inverter_input",
+                      "owner": {
+                        "kind": "pack",
+                        "pack": {
+                          "id": "helianthus.pack.pv",
+                          "version": "1.0.0"
+                        }
+                      },
+                      "version": "1.0.0"
+                    },
+                    "from": "resource:inverter:01",
+                    "to": "resource:input:01"
+                  }
+                ],
+                "resources": [
+                  "resource:input:01",
+                  "resource:inverter:01"
+                ]
+              }
+            ],
+            "lens": "lens.equipment_composition"
+          }
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "qualified",
+                "to": "resource:input:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:5fd54e539f2c67b604711a7a93bc6ab976084dba3091a4201cc234ddcb9302bf"
+          }
+        ]
+      },
+      "expect": {
+        "assertions": [
+          "The report is accepted for the cited resources and the coherent relation key."
+        ],
+        "read": {
+          "cut": {
+            "completeness": "complete",
+            "cut_id": "sha256:81ba7cde051b3bb37ddfccdd5bfcd8fd243725c1ef4374858fcb7eb7c7272189",
+            "members": [
+              {
+                "asset_id": "asset:pv:01",
+                "snapshot_id": "sha256:5fd54e539f2c67b604711a7a93bc6ab976084dba3091a4201cc234ddcb9302bf"
+              }
+            ],
+            "not_included": []
+          },
+          "lens": "lens.equipment_composition",
+          "report": {
+            "dispositions": [
+              {
+                "relations": [
+                  {
+                    "definition": {
+                      "id": "pv.relation.inverter_input",
+                      "owner": {
+                        "kind": "pack",
+                        "pack": {
+                          "id": "helianthus.pack.pv",
+                          "version": "1.0.0"
+                        }
+                      },
+                      "version": "1.0.0"
+                    },
+                    "from": "resource:inverter:01",
+                    "to": "resource:input:01"
+                  }
+                ],
+                "resources": [
+                  "resource:input:01",
+                  "resource:inverter:01"
+                ]
+              }
+            ],
+            "lens": "lens.equipment_composition"
+          }
+        },
+        "result": "accept"
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TGT-2: a report over a lens that cites two resources and one coherent relation is accepted."
+    },
+    {
+      "id": "G-NEG-TGT-1",
+      "polarity": "negative",
+      "record_type": "Read",
+      "operation": "project",
+      "coverage": [
+        "target_report"
+      ],
+      "prior_state": "catalog-registered-for-cut-assembly",
+      "input": {
+        "request": {
+          "lens": "lens.equipment_composition",
+          "report": {
+            "dispositions": [
+              {
+                "relations": [
+                  {
+                    "definition": {
+                      "id": "pv.relation.inverter_input",
+                      "owner": {
+                        "kind": "pack",
+                        "pack": {
+                          "id": "helianthus.pack.pv",
+                          "version": "1.0.0"
+                        }
+                      },
+                      "version": "1.0.0"
+                    },
+                    "from": "resource:inverter:01",
+                    "to": "resource:input:01"
+                  }
+                ],
+                "resources": [
+                  "resource:input:01",
+                  "resource:inverter:01"
+                ]
+              }
+            ],
+            "lens": "lens.equipment_composition"
+          }
+        },
+        "snapshots": [
+          {
+            "asset_id": "asset:pv:01",
+            "facts": [],
+            "relations": [
+              {
+                "definition": {
+                  "id": "pv.relation.inverter_input",
+                  "owner": {
+                    "kind": "pack",
+                    "pack": {
+                      "id": "helianthus.pack.pv",
+                      "version": "1.0.0"
+                    }
+                  },
+                  "version": "1.0.0"
+                },
+                "from": "resource:inverter:01",
+                "state": "conflict",
+                "to": "resource:input:01"
+              }
+            ],
+            "resources": [
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "equipment",
+                  "slot": "resource:inverter:01"
+                },
+                "kind": "resource.inverter",
+                "resource_id": "resource:inverter:01",
+                "state": "current"
+              },
+              {
+                "anchor": {
+                  "basis": "operator_slot",
+                  "class": "component",
+                  "slot": "resource:input:01"
+                },
+                "kind": "resource.dc_input",
+                "resource_id": "resource:input:01",
+                "state": "current"
+              }
+            ],
+            "snapshot_id": "sha256:c5336dbef5939d0a685862cf1a9300ee88b9eb416fd2eae562176c08156e86ed"
+          }
+        ]
+      },
+      "expect": {
+        "error_id": "projection_incomplete",
+        "result": "reject",
+        "state_unchanged": true
+      },
+      "definitions": [
+        {
+          "disposition": "member",
+          "ref": {
+            "id": "pv.relation.inverter_input",
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.dc_input",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "disposition": "member",
+          "ref": {
+            "owner": {
+              "kind": "core",
+              "contract": "helianthus.semantic.kernel/v1"
+            },
+            "id": "resource.inverter",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "criterion": "TGT-2: a disposition that cites a relation which is not coherent is projection_incomplete."
     }
   ]
 }
