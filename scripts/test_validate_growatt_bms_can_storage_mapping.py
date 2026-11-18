@@ -3,6 +3,7 @@
 import copy
 import importlib.util
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,11 +57,15 @@ def set_member(profile, source, member, value):
 
 
 def test_missing_and_malformed():
-    """A missing path and a malformed document are refused before mapping."""
-    reject_path(ROOT / ".tmp" / "missing-can-storage-gate.json", "missing gate")
-    malformed = ROOT / ".tmp" / "malformed-can-storage-gate.json"
-    malformed.write_text("{", encoding="utf-8")
-    reject_path(malformed, "malformed gate")
+    """A missing path and a malformed document are refused before mapping.
+
+    The inputs live in a fresh temporary directory, so a clean checkout runs the check.
+    """
+    with tempfile.TemporaryDirectory() as scratch:
+        reject_path(Path(scratch) / "missing-can-storage-gate.json", "missing gate")
+        malformed = Path(scratch) / "malformed-can-storage-gate.json"
+        malformed.write_text("{", encoding="utf-8")
+        reject_path(malformed, "malformed gate")
 
 
 def test_positive():
@@ -204,12 +209,63 @@ def test_conversions_and_package_e():
     reject(lambda document: document["graph"]["resources"][0].update(planes=["physical"]), "plane_membership_stated")
 
 
+def test_module_source_is_not_pack():
+    """A module-sourced state of charge is withheld, and publishing it as the pack's is refused."""
+    field = row(gate.load(), "link", "fine_state_of_charge")
+    if field["emitted"] or field["disposition"] != "not_admitted" or field["dimension"] != "module":
+        raise AssertionError("link fine_state_of_charge is published as the pack's state of charge")
+    if field["reason"] != "module_report_is_not_the_pack":
+        raise AssertionError("link fine_state_of_charge reason")
+    print("link fine_state_of_charge withheld: PASS")
+
+    def as_pack(document):
+        found = row(document, "link", "fine_state_of_charge")
+        found.update(
+            element="storage.state.soc", dimension="pack", disposition="mapped",
+            subject_kind="resource.battery_pack", measurement_point="pack_as_a_whole",
+            emitted=True, reason=None,
+        )
+    reject(as_pack, "module_source_emitted_as_pack")
+    reject(set_member("link", "maximum_cell_voltage", "emitted", True), "module_source_emitted_as_pack")
+
+
+def test_page_rows_follow_record():
+    """A page row whose disposition, element or conversion drifts from the record is refused."""
+    original = gate.DOC.read_text(encoding="utf-8")
+    drifts = (
+        ("| `percent_over_100` | `not_admitted` | Hypothesis |", "| `percent_over_100` | `mapped` | Hypothesis |"),
+        ("| `pack_voltage` | `0x313` | `storage.pack.voltage` |", "| `pack_voltage` | `0x313` | `storage.pack.current` |"),
+        ("| `minimum_cell_voltage` | `0x1806` | `storage.cell.voltage_minimum` | `cell` | slot=module_source | `millivolt_to_volt` |",
+         "| `minimum_cell_voltage` | `0x1806` | `storage.cell.voltage_minimum` | `cell` | slot=module_source | `identity` |"),
+    )
+    with tempfile.TemporaryDirectory() as scratch:
+        for before, after in drifts:
+            if before not in original:
+                raise AssertionError(f"page fixture row missing: {before}")
+            page = Path(scratch) / "page.md"
+            page.write_text(original.replace(before, after, 1), encoding="utf-8")
+            saved = gate.DOC
+            gate.DOC = page
+            try:
+                gate.check_page(gate.load())
+            except ValueError as exc:
+                if "page" not in str(exc):
+                    raise AssertionError(f"page: {exc}") from exc
+            else:
+                raise AssertionError(f"page drift accepted: {after}")
+            finally:
+                gate.DOC = saved
+    print("page drift: REJECTED")
+
+
 def main():
     test_missing_and_malformed()
     test_positive()
     test_header_and_identity()
     test_profile_and_field_members()
     test_conversions_and_package_e()
+    test_module_source_is_not_pack()
+    test_page_rows_follow_record()
     print("can storage mapping mutations: PASS")
 
 

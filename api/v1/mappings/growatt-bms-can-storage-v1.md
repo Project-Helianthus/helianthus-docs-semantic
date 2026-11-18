@@ -231,7 +231,7 @@ Selector `growatt.bms.low_voltage.can.link`. The caller selects this profile. It
 | `temperature_maximum` | `0x1808` | `storage.temperature.cell` | `cell` | slot=module_source | `celsius_plus_273_15` | `mapped` | Hypothesis |
 | `temperature_minimum` | `0x1808` | `storage.temperature.cell` | `cell` | slot=module_source | `celsius_plus_273_15` | `mapped` | Hypothesis |
 | `temperature_slot` | `0x1830` | `storage.temperature.cell` | `cell` | slot=module_source, slot=sensor_index | `celsius_plus_273_15` | `mapped` | Hypothesis |
-| `fine_state_of_charge` | `0x1807` | `storage.state.soc` | `pack` | slot=module_source | `percent_over_100` | `mapped` | Hypothesis |
+| `fine_state_of_charge` | `0x1807` | `module_report_is_not_the_pack` | `module` | slot=module_source | `percent_over_100` | `not_admitted` | Hypothesis |
 | `full_charge_capacity` | `0x180B` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=module_source | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `remaining_capacity` | `0x180B` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=module_source | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `fine_cycle_count` | `0x180B` | `storage.state.cycle_count` | `pack` | slot=module_source | `count_unchanged` | `waiting` | Proven |

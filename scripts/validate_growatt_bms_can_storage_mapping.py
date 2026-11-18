@@ -249,7 +249,7 @@ ROWS = (
     ("link", "temperature_maximum", "0x1808", "degC", "storage.temperature.cell", "cell", "slot:module_source", "mapped", "Hypothesis", None, None),
     ("link", "temperature_minimum", "0x1808", "degC", "storage.temperature.cell", "cell", "slot:module_source", "mapped", "Hypothesis", None, None),
     ("link", "temperature_slot", "0x1830", "degC", "storage.temperature.cell", "cell", "slot:module_source+slot:sensor_index", "mapped", "Hypothesis", None, None),
-    ("link", "fine_state_of_charge", "0x1807", "%", "storage.state.soc", "pack", "slot:module_source", "mapped", "Hypothesis", None, None),
+    ("link", "fine_state_of_charge", "0x1807", "%", None, "module", "slot:module_source", "not_admitted", "Hypothesis", None, "module_report_is_not_the_pack"),
     ("link", "full_charge_capacity", "0x180B", "Ah", None, "pack", "slot:module_source", "not_admitted", "Proven", None, "ampere_hour_estimate_is_not_a_pack_element"),
     ("link", "remaining_capacity", "0x180B", "Ah", None, "pack", "slot:module_source", "not_admitted", "Proven", None, "ampere_hour_estimate_is_not_a_pack_element"),
     ("link", "fine_cycle_count", "0x180B", "cycles", "storage.state.cycle_count", "pack", "slot:module_source", "waiting", "Proven", "cycle_count", None),
@@ -573,14 +573,52 @@ def check_blocks(got, catalog, index):
         fail("field_rules")
 
 
-def check_page():
-    """The page names every profile, source, package E element and the four conversions."""
+def check_module_source(got):
+    """A module-sourced report is never emitted as a pack fact."""
+    profiles = got.get("profiles")
+    for profile in profiles if isinstance(profiles, list) else []:
+        fields = profile.get("fields") if isinstance(profile, dict) else None
+        for field in fields if isinstance(fields, list) else []:
+            if not isinstance(field, dict) or not isinstance(field.get("qualifiers"), list):
+                continue
+            module_source = {"name": "slot", "role": "module_source"} in field["qualifiers"]
+            as_pack = field.get("emitted") or (field.get("disposition") == "mapped" and field.get("dimension") == "pack")
+            if module_source and as_pack:
+                fail("module_source_emitted_as_pack")
+
+
+def page_row(field):
+    """The page table row for one published field."""
+    named = field["element"] if field["element"] is not None else field["reason"]
+    quals = ", ".join(f"{item['name']}={item['role']}" for item in field["qualifiers"]) or "none"
+    if field["conversion"] is not None:
+        rule = field["conversion"]["rule"]
+    else:
+        rule = "unassigned" if field["native_unit"] == "unassigned" else "none"
+    return (
+        f"| `{field['source']}` | `{field['frame']}` | `{named}` | `{field['dimension']}` | {quals} "
+        f"| `{rule}` | `{field['disposition']}` | {field['grade']} |"
+    )
+
+
+def check_page(got):
+    """The page names the four conversions, and each profile table repeats the record row for row."""
     text = DOC.read_text(encoding="utf-8")
-    required = ["3 600 000", "273.15", "ampere-hour", "Proven", "Hypothesis", "Unknown", *SELECTORS]
+    required = ["3 600 000", "273.15", "ampere-hour", "Proven", "Hypothesis", "Unknown", *SELECTORS, *SELECTORS.values()]
     required.extend(item["element"] for item in PACKAGE_E)
-    required.extend(row[1] for row in ROWS)
     for item in required:
         if re.search(r"(?<![A-Za-z0-9_])" + re.escape(item) + r"(?![A-Za-z0-9_])", text) is None:
+            fail("page")
+    sections = {}
+    for chunk in re.split(r"^## ", text, flags=re.MULTILINE)[1:]:
+        heading, _, body = chunk.partition("\n")
+        sections[heading.strip()] = body
+    for profile in got["profiles"]:
+        body = sections.get(profile["id"])
+        if body is None:
+            fail("page")
+        table = [line for line in body.splitlines() if line.startswith("| `")]
+        if table != [page_row(field) for field in profile["fields"]]:
             fail("page")
 
 
@@ -596,6 +634,7 @@ def validate_contract(got, catalog=None):
     check_header(got)
     check_native(got)
     check_identity(got)
+    check_module_source(got)
     index = graph_rules.Index(catalog)
     check_profiles(got, index)
     check_blocks(got, catalog, index)
@@ -611,7 +650,7 @@ def validate_file(path):
         fail("malformed gate")
     validate_contract(got)
     if Path(path).resolve() == PATH.resolve():
-        check_page()
+        check_page(got)
 
 
 def main():

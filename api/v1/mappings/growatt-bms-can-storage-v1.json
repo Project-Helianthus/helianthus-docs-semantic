@@ -2765,8 +2765,8 @@
           "source": "fine_state_of_charge",
           "frame": "0x1807",
           "native_unit": "%",
-          "element": "storage.state.soc",
-          "dimension": "pack",
+          "element": null,
+          "dimension": "module",
           "qualifiers": [
             {
               "name": "slot",
@@ -2786,19 +2786,19 @@
             },
             "rule": "percent_over_100"
           },
-          "disposition": "mapped",
+          "disposition": "not_admitted",
           "grade": "Hypothesis",
-          "subject_kind": "resource.battery_pack",
-          "measurement_point": "pack_as_a_whole",
+          "subject_kind": null,
+          "measurement_point": null,
           "loss": [
             {
               "kind": "unit",
               "reversible": true
             }
           ],
-          "emitted": true,
+          "emitted": false,
           "package_e": null,
-          "reason": null
+          "reason": "module_report_is_not_the_pack"
         },
         {
           "source": "full_charge_capacity",
