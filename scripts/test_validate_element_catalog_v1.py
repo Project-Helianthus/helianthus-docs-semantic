@@ -84,6 +84,22 @@ OUTSIDE_LENS_PLANE = {
     "lens.provenance": "resource.heat_generator",
 }
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
+THERMAL_PAGE = (
+    "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/"
+    "api/v1/packs/thermal-hvac-v1.md"
+)
+OVERRUN_FACTS = (
+    "thermal.overrun.hvac_system_off",
+    "thermal.overrun.one_day_at_home",
+    "thermal.overrun.one_day_away",
+    "thermal.overrun.one_time_dhw",
+    "thermal.overrun.one_time_ventilation",
+    "thermal.overrun.party",
+    "thermal.overrun.sg_ready_condition_1",
+    "thermal.overrun.sg_ready_condition_3",
+    "thermal.overrun.sg_ready_condition_4",
+    "thermal.overrun.valve_kick",
+)
 # One relation definition of each pack that declares relations.
 PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
                   "infrastructure.relation.feeder_circuit", "storage.relation.pack_module",
@@ -140,11 +156,16 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 367 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 377 entries"))
+
+    def test_overrun_evidence_is_a_document_link(self):
+        for ident in OVERRUN_FACTS:
+            evidence = entry_of(CATALOG, ident)["admission"]["evidence"]
+            self.assertEqual(evidence, [THERMAL_PAGE], ident)
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 303)
+        self.assertEqual(len(kinds), 313)
         self.assertEqual(kinds.count("relation"), 26)
         self.assertEqual(kinds.count("presentation"), 38)
         self.assertEqual(kinds.count("dimension"), 36)

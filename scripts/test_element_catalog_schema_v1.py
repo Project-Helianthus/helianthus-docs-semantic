@@ -15,7 +15,8 @@ SCHEMA = subset.load_json(ROOT / "api/v1/element-catalog-v1.schema.json")
 SPEC = "https://example.org/specifications/synthetic-1"
 ISSUE = "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
 PINNED = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/" + "0" * 40 + "/api/v1/kernel.md"
-UNPINNED = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/api/v1/kernel.md"
+UNPINNED = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/HEAD/api/v1/kernel.md"
+DOCUMENT = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/api/v1/kernel.md"
 PACK = {"kind": "pack", "pack": {"id": "synthetic.pack", "version": "1.0.0"}}
 CORE = {"kind": "core", "contract": "helianthus.semantic.kernel/v1"}
 NATIVE = {"kind": "native", "repository": "https://github.com/Project-Helianthus/helianthus-docs-example"}
@@ -295,6 +296,10 @@ class PublishedSchemaTest(unittest.TestCase):
 
     def test_synthetic_catalog_is_valid(self):
         self.assertEqual(subset.errors(catalog(), SCHEMA), [])
+
+    def test_default_branch_document_link_is_evidence(self):
+        document = mutated((at(SIGNED, "admission", "evidence"), [DOCUMENT]))
+        self.assertEqual(subset.errors(document, SCHEMA), [])
 
     def test_synthetic_catalog_covers_the_shape(self):
         document = catalog()

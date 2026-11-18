@@ -35,6 +35,16 @@ fact is published only on a resource of its subject kind.
 | `thermal.status.operation` | symbol | thermal system | | | |
 | `thermal.status.fault` | symbol | thermal system | | | |
 | `thermal.status.maintenance` | symbol | thermal system | | | |
+| `thermal.overrun.one_time_dhw` | symbol | thermal system | | | |
+| `thermal.overrun.party` | symbol | thermal system | | | |
+| `thermal.overrun.sg_ready_condition_1` | symbol | thermal system | | | |
+| `thermal.overrun.sg_ready_condition_3` | symbol | thermal system | | | |
+| `thermal.overrun.sg_ready_condition_4` | symbol | thermal system | | | |
+| `thermal.overrun.one_day_away` | symbol | thermal system | | | |
+| `thermal.overrun.one_day_at_home` | symbol | thermal system | | | |
+| `thermal.overrun.one_time_ventilation` | symbol | thermal system | | | |
+| `thermal.overrun.hvac_system_off` | symbol | thermal system | | | |
+| `thermal.overrun.valve_kick` | symbol | thermal system | | | |
 | `thermal.measurement.heat_generator_flow_temperature` | quantity | heat generator | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.heat_generator_return_temperature` | quantity | heat generator | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.thermal_power` | quantity | heat generator | `unit.watt` | -1 000 000 to 1 000 000 | signed |
@@ -74,8 +84,16 @@ Symbols: system mode is auto, cool, heat or off; zone mode is auto, comfort,
 eco or off; terminal-unit mode is auto, cool, dry, fan_only, heat or off;
 action is heating, cooling, DHW, ventilating or idle; each operation status is
 active or idle; each fault status is clear or present; maintenance is clear or
-due. Unknown, withheld, unsupported, and operation outcome stay in kernel
-quality, availability, and operation records. They are never semantic symbols.
+due. Each of `thermal.overrun.one_time_dhw`, `thermal.overrun.party`,
+`thermal.overrun.sg_ready_condition_1`, `thermal.overrun.sg_ready_condition_3`,
+`thermal.overrun.sg_ready_condition_4`, `thermal.overrun.one_day_away`,
+`thermal.overrun.one_day_at_home`, `thermal.overrun.one_time_ventilation`,
+`thermal.overrun.hvac_system_off` and `thermal.overrun.valve_kick` is
+independently inactive, active, running or finished. Several of those statuses
+can be active together. A one-time domestic-hot-water overrun is a status of
+its own; the domestic-hot-water setpoint stays a separate fact. Unknown,
+withheld, unsupported, and operation outcome stay in kernel quality,
+availability, and operation records. They are never semantic symbols.
 Schedules and vendor extensions remain native evidence and projection loss
 until separately typed.
 
@@ -275,10 +293,11 @@ contract, dangling reference, or mapping-promotion defect.
 The typed read descriptors consume every declared field exactly, and each
 reads only fields of its own service's subject: the system descriptor reads
 action, system mode, operation, fault, outdoor air temperature, system flow
-temperature and maintenance; the zone descriptor air temperature, humidity,
-temperature setpoint and zone mode; the circuit descriptor flow rate and
-circuit flow temperature; the hot-water descriptor hot-water temperature and
-setpoint; the ventilation descriptor demand level; and the descriptor of each
+temperature, maintenance and each overrun status; the zone descriptor air
+temperature, humidity, temperature setpoint and zone mode; the circuit
+descriptor flow rate and circuit flow temperature; the hot-water descriptor
+hot-water temperature and setpoint; the ventilation descriptor demand level;
+and the descriptor of each
 added kind the facts of that kind. The validator rejects an orphaned,
 undeclared or foreign read field.
 

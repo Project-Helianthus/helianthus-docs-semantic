@@ -90,7 +90,32 @@ FIELD_TABLE = {
     "thermal.measurement.refrigerant_condensing_temperature": (REFRIGERANT, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.refrigerant_evaporating_temperature": (REFRIGERANT, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.compressor_speed": (COMPRESSOR, "unit.reciprocal_second", (Fraction(0), Fraction(1000))),
+    "thermal.overrun.one_time_dhw": (SYSTEM, None, None),
+    "thermal.overrun.party": (SYSTEM, None, None),
+    "thermal.overrun.sg_ready_condition_1": (SYSTEM, None, None),
+    "thermal.overrun.sg_ready_condition_3": (SYSTEM, None, None),
+    "thermal.overrun.sg_ready_condition_4": (SYSTEM, None, None),
+    "thermal.overrun.one_day_away": (SYSTEM, None, None),
+    "thermal.overrun.one_day_at_home": (SYSTEM, None, None),
+    "thermal.overrun.one_time_ventilation": (SYSTEM, None, None),
+    "thermal.overrun.hvac_system_off": (SYSTEM, None, None),
+    "thermal.overrun.valve_kick": (SYSTEM, None, None),
 }
+# Overrun identity: field id, system dimension, and the four status symbols.
+# Symbol lists stay in canonical sorted order, the same rule as thermal.mode.system.
+OVERRUN_IDS = (
+    "thermal.overrun.one_time_dhw",
+    "thermal.overrun.party",
+    "thermal.overrun.sg_ready_condition_1",
+    "thermal.overrun.sg_ready_condition_3",
+    "thermal.overrun.sg_ready_condition_4",
+    "thermal.overrun.one_day_away",
+    "thermal.overrun.one_day_at_home",
+    "thermal.overrun.one_time_ventilation",
+    "thermal.overrun.hvac_system_off",
+    "thermal.overrun.valve_kick",
+)
+OVERRUN_STATUSES = ("active", "finished", "inactive", "running")
 # Relation -> (from dimensions, to dimensions, cardinality).
 RELATION_TABLE = {
     "thermal.relation.system_member": (
@@ -248,8 +273,70 @@ def append_field(document: dict, identifier: str) -> None:
     extra = copy.deepcopy(definitions(document)["fields"][0])
     extra["id"] = identifier
     extra["ref"]["id"] = identifier
-    extra["order"] = 330
+    extra["order"] = 1000
     definitions(document)["fields"].append(extra)
+
+
+def overrun_symbols(identifier: str) -> list[str]:
+    return [f"{identifier}.{status}" for status in OVERRUN_STATUSES]
+
+
+def check_overrun_identity(document: dict) -> None:
+    """Each overrun id is one system symbol with the four statuses.
+
+    Identity fields and the production mutation each case catches:
+    field id: removing the field is rejected as a field catalog mismatch;
+    dimension: moving it off thermal.dimension.system is rejected as a subject mismatch;
+    each status token active, finished, inactive and running: replacing that token
+    is rejected as invalid semantic symbols;
+    symbol prefix: a status that is not prefixed by its field id is rejected as
+    invalid semantic symbols.
+    """
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    missing = [identifier for identifier in OVERRUN_IDS if identifier not in fields]
+    if missing:
+        raise AssertionError(f"overrun ids absent: {missing}")
+    for identifier in OVERRUN_IDS:
+        field = fields[identifier]
+        if field["dimension"] != SYSTEM or field["kind"] != "symbol":
+            raise AssertionError(f"{identifier} is not a system symbol")
+        if field.get("symbols") != overrun_symbols(identifier):
+            raise AssertionError(f"{identifier} symbols differ from the four overrun statuses")
+        if "unit" in field or "bounds" in field:
+            raise AssertionError(f"{identifier} carries quantity data")
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    if "independently inactive, active, running or finished" not in text:
+        raise AssertionError("thermal page does not state the four independent overrun statuses")
+    for identifier in OVERRUN_IDS:
+        if identifier not in text:
+            raise AssertionError(f"thermal page misses {identifier}")
+    print("overrun_identity: PASS")
+
+
+def overrun_identity_mutants(document: dict) -> int:
+    count = 0
+    for identifier in OVERRUN_IDS:
+        index = field_index(document, identifier)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        moved = copy.deepcopy(document)
+        definitions(moved)["fields"][index]["dimension"] = ZONE
+        reject(moved, "field subject differs")
+        count += 1
+        for status in OVERRUN_STATUSES:
+            renamed = copy.deepcopy(document)
+            symbols = definitions(renamed)["fields"][index]["symbols"]
+            symbols[symbols.index(f"{identifier}.{status}")] = f"{identifier}.paused"
+            reject(renamed, "field has invalid semantic symbols")
+            count += 1
+        prefixed = copy.deepcopy(document)
+        symbols = definitions(prefixed)["fields"][index]["symbols"]
+        symbols[0] = f"thermal.overrun.other.{OVERRUN_STATUSES[0]}"
+        reject(prefixed, "field has invalid semantic symbols")
+        count += 1
+    return count
 
 
 def append_qualifier(document: dict) -> None:
@@ -305,6 +392,7 @@ def main() -> None:
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
     print("baseline: PASS")
+    check_overrun_identity(document)
     check_field_table(document)
     check_units(document)
     check_dimensions(document)
@@ -317,6 +405,7 @@ def main() -> None:
         print(f"{name}: REJECTED")
     print(f"field_subject_unit_bound_mutants: {field_axis_mutants(document)} REJECTED")
     print(f"relation_axis_mutants: {relation_axis_mutants(document)} REJECTED")
+    print(f"overrun_identity_mutants: {overrun_identity_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":
