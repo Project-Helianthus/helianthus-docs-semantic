@@ -124,8 +124,157 @@ class TestLineToLineVoltageStaysOffPhase:
         print("line_to_line_voltage_off_phase: PASS")
 
 
+# Each identity field of a new quantity, and the production mutation this test
+# rejects for it:
+# id -> DefinitionRef (the ref no longer names the field);
+# kind -> noncanonical kind, dimension, or optionality;
+# unit -> canonical quantity contract (another SI unit, so the unit set still admits it);
+# dimension -> noncanonical kind, dimension, or optionality
+#   (self-consumption moved onto the grid connection, or either grid-connection
+#   power moved onto the meter);
+# optional -> noncanonical kind, dimension, or optionality;
+# minimum coefficient, minimum exponent, maximum coefficient and maximum exponent
+#   -> canonical quantity contract. This validator compares the bound object with
+#   the contract before it parses a kernel Decimal, so an exponent change is a
+#   quantity-contract failure.
+KEPT_QUANTITIES = {
+    "infrastructure.energy.import": ("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
+    "infrastructure.energy.export": ("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
+    "infrastructure.power.import_active": ("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.power.export_active": ("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.power.import_reactive": ("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.power.export_reactive": ("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.power.apparent": ("unit.volt_ampere", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.ac.active_power": ("unit.watt", "infrastructure.dimension.phase", ("-1", 7), ("1", 7)),
+    "infrastructure.ac.voltage_line_line": ("unit.volt", "infrastructure.dimension.line_pair", ("0", 0), ("1", 3)),
+}
+NEW_QUANTITIES = {
+    "infrastructure.energy.self_consumption": ("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17), "unit.watt", "infrastructure.dimension.grid_connection"),
+    "infrastructure.power.pcc": ("unit.watt", "infrastructure.dimension.grid_connection", ("-1", 7), ("1", 7), "unit.joule", "infrastructure.dimension.meter"),
+    "infrastructure.limit.fallback_power": ("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7), "unit.joule", "infrastructure.dimension.meter"),
+}
+SERVICES = {f"infrastructure.service.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
+PAGE_PHRASES = ("not the import counter", "not the import/export pair", "not the PV export limit")
+
+
+def quantity_identity(field):
+    bounds = field["bounds"]
+    return (
+        field.get("kind"),
+        field.get("unit"),
+        field.get("dimension"),
+        field.get("optional"),
+        (bounds["minimum"]["coefficient"], bounds["minimum"]["exponent10"]),
+        (bounds["maximum"]["coefficient"], bounds["maximum"]["exponent10"]),
+    )
+
+
+def expected_identity(spec):
+    unit, dimension, minimum, maximum = spec[:4]
+    return ("quantity", unit, dimension, True, minimum, maximum)
+
+
+def reject_field(document, identifier, name, expected, mutate):
+    candidate = copy.deepcopy(document)
+    field = next(item for item in candidate["catalog"]["definitions"]["fields"] if item["id"] == identifier)
+    mutate(field)
+    try:
+        validator.validate_document(candidate)
+    except ValueError as error:
+        if expected not in str(error):
+            raise AssertionError(f"{identifier} {name}: expected {expected!r}, got {error!s}") from error
+        return
+    raise AssertionError(f"{identifier} {name} accepted")
+
+
+def assert_kept_quantities(fields):
+    for identifier, spec in KEPT_QUANTITIES.items():
+        actual = fields.get(identifier)
+        if actual is None or quantity_identity(actual) != expected_identity(spec):
+            raise AssertionError(f"{identifier} changed")
+
+
+def assert_new_quantities(fields):
+    missing = [identifier for identifier in NEW_QUANTITIES if identifier not in fields]
+    if missing:
+        raise AssertionError(f"grid members absent: {missing}")
+    for identifier, spec in NEW_QUANTITIES.items():
+        if quantity_identity(fields[identifier]) != expected_identity(spec):
+            raise AssertionError(f"{identifier} is not its distinct quantity")
+
+
+def assert_grid_portals(portals):
+    meter = portals.get("infrastructure.portal.read.meter", ())
+    grid = portals.get("infrastructure.portal.read.grid_connection", ())
+    phase = portals.get("infrastructure.portal.read.phase", ())
+    if meter != ("infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption"):
+        raise AssertionError("meter read is not export, import, and self-consumption")
+    if "infrastructure.limit.fallback_power" not in grid or "infrastructure.power.pcc" not in grid:
+        raise AssertionError("grid-connection read misses the fallback limit or point-of-coupling power")
+    if "infrastructure.power.import_active" not in grid or "infrastructure.power.export_active" not in grid:
+        raise AssertionError("import and export active power left the grid-connection read")
+    if "infrastructure.power.pcc" in phase or "infrastructure.ac.active_power" not in phase:
+        raise AssertionError("point-of-coupling power moved onto the phase, or phase active power left it")
+
+
+def assert_grid_page():
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    for identifier in NEW_QUANTITIES:
+        if identifier not in text:
+            raise AssertionError(f"document misses {identifier}")
+    for phrase in PAGE_PHRASES:
+        if phrase not in text:
+            raise AssertionError(f"infrastructure page misses {phrase}")
+
+
+def assert_grid_members(document):
+    if document["catalog"]["pack"] != {"id": "helianthus.pack.infrastructure", "version": "1.0.0"}:
+        raise AssertionError("pack version changed")
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    assert_kept_quantities(fields)
+    services = {item["id"] for item in document["catalog"]["definitions"]["services"]}
+    unchanged = services == SERVICES and document["catalog"]["definitions"]["operations"] == []
+    if not unchanged or len(document["catalog"]["definitions"]["capabilities"]) != 6:
+        raise AssertionError("a service, capability, or operation changed")
+    assert_new_quantities(fields)
+    portals = {item["id"]: tuple(item.get("fields", ())) for item in document["catalog"]["definitions"]["portal_contributions"]}
+    assert_grid_portals(portals)
+    assert_grid_page()
+
+
+def reject_grid_members(document):
+    rejected = 0
+    for identifier, spec in NEW_QUANTITIES.items():
+        wrong_unit, wrong_dimension = spec[4], spec[5]
+        mutations = (
+            ("id", "DefinitionRef", lambda field: field.update(id=field["id"] + ".moved")),
+            ("kind", "noncanonical kind, dimension, or optionality", lambda field: field.update(kind="symbol")),
+            ("unit", "canonical quantity contract", lambda field, unit=wrong_unit: field.update(unit=unit)),
+            ("dimension", "noncanonical kind, dimension, or optionality", lambda field, dimension=wrong_dimension: field.update(dimension=dimension)),
+            ("optional", "noncanonical kind, dimension, or optionality", lambda field: field.update(optional=False)),
+            ("minimum_coefficient", "canonical quantity contract", lambda field: field["bounds"]["minimum"].update(coefficient="9")),
+            ("minimum_exponent", "canonical quantity contract", lambda field: field["bounds"]["minimum"].update(exponent10=1)),
+            ("maximum_coefficient", "canonical quantity contract", lambda field: field["bounds"]["maximum"].update(coefficient="9")),
+            ("maximum_exponent", "canonical quantity contract", lambda field: field["bounds"]["maximum"].update(exponent10=3)),
+        )
+        for name, expected, mutate in mutations:
+            reject_field(document, identifier, name, expected, mutate)
+            rejected += 1
+    print(f"grid_member_mutants: {rejected} REJECTED")
+
+
+class TestGridMembersStayDistinct:
+    """Self-consumption, point-of-coupling power and the fallback limit stay off the counters they are not."""
+
+    def __init__(self, document):
+        assert_grid_members(document)
+        reject_grid_members(document)
+        print("grid_members: PASS")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
+    TestGridMembersStayDistinct(document)
     validator.validate_document(document)
     validator.less({"coefficient": "9007199254740992", "exponent10": -18}, {"coefficient": "9007199254740993", "exponent10": -18}) or (_ for _ in ()).throw(AssertionError("exact Decimal comparison"))
     print("baseline_exact_chain: PASS")

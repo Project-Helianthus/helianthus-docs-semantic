@@ -7,6 +7,45 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [infrastructure pack](api/v1/packs/infrastructure-v1.md) adds
+  self-consumption `infrastructure.energy.self_consumption` in `unit.joule`
+  on `infrastructure.dimension.meter`, with the same bounds as
+  `infrastructure.energy.import`. It adds point-of-coupling power
+  `infrastructure.power.pcc` in `unit.watt` on
+  `infrastructure.dimension.grid_connection`, signed, with the same bounds
+  as `infrastructure.ac.active_power`. It adds the fallback grid limit
+  `infrastructure.limit.fallback_power` in `unit.watt` on
+  `infrastructure.dimension.grid_connection`, with the same bounds as
+  `infrastructure.power.import_active`. Self-consumption is not the import
+  counter. Point-of-coupling power is not the import/export pair. The
+  fallback grid limit is not the PV export limit. No service, capability
+  or operation is added. Pack metadata, the element catalog, both Matter
+  rosters and the naming contract follow. SemReg follow-up: re-copy the
+  pack bytes and do not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
+  [PV pack](api/v1/packs/pv-inverter-v1.md) adds day, month and year yield
+  `pv.energy.yield_day`, `pv.energy.yield_month` and `pv.energy.yield_year`
+  in `unit.joule` on `pv.dimension.system`, with the same bounds as
+  `pv.energy.generated`. The three yields are periods. It also adds
+  `pv.limit.active_power_ratio` in `unit.ratio` on `pv.dimension.inverter`,
+  from 0 to 1. The ratio is not the watt limit. `pv.energy.generated` and
+  `pv.limit.active_power` stay, and `pv.operation.set_active_power_limit`
+  still takes the watt argument. No service, capability or operation is
+  added. Pack metadata, the element catalog, both Matter rosters and the
+  naming contract follow. SemReg follow-up: re-copy the pack bytes and do
+  not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
+  [thermal pack](api/v1/packs/thermal-hvac-v1.md) adds pump speed
+  `thermal.measurement.pump_speed` in `unit.reciprocal_second` on
+  `thermal.dimension.pump`, with the same bounds as compressor speed, and
+  valve position `thermal.measurement.valve_position` in `unit.ratio` on
+  `thermal.dimension.terminal_unit`, from 0 to 1. Pump speed is not
+  compressor speed. Valve position is not an overrun. The pump service has
+  a read descriptor and no read capability. No capability or operation is
+  added. Pack metadata, the element catalog, both Matter rosters and the
+  naming contract follow. SemReg follow-up: re-copy the pack bytes and do
+  not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [thermal pack](api/v1/packs/thermal-hvac-v1.md) adds four zone setpoints
   in `unit.kelvin`, `thermal.setpoint.occupied_heating`,
   `thermal.setpoint.occupied_cooling`, `thermal.setpoint.unoccupied_heating`

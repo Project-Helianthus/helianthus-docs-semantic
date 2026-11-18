@@ -620,6 +620,14 @@
     {
       "source": "semreg/v1/packs/infrastructure/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.self_consumption",
+      "canonical_name": "infrastructure.energy.self_consumption",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "infrastructure.power.apparent",
       "canonical_name": "infrastructure.power.apparent",
       "status": "provisional",
@@ -652,8 +660,24 @@
     {
       "source": "semreg/v1/packs/infrastructure/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "infrastructure.limit.fallback_power",
+      "canonical_name": "infrastructure.limit.fallback_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "infrastructure.power.import_reactive",
       "canonical_name": "infrastructure.power.import_reactive",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.power.pcc",
+      "canonical_name": "infrastructure.power.pcc",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
@@ -1084,6 +1108,30 @@
     {
       "source": "semreg/v1/packs/pv/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "pv.energy.yield_day",
+      "canonical_name": "pv.energy.yield_day",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.yield_month",
+      "canonical_name": "pv.energy.yield_month",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.yield_year",
+      "canonical_name": "pv.energy.yield_year",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "unit.joule",
       "canonical_name": "unit.joule",
       "status": "provisional",
@@ -1118,6 +1166,14 @@
       "kind": "definition_literal",
       "historical_name": "pv.limit.active_power",
       "canonical_name": "pv.limit.active_power",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.limit.active_power_ratio",
+      "canonical_name": "pv.limit.active_power_ratio",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
@@ -2132,6 +2188,14 @@
     {
       "source": "semreg/v1/packs/thermal/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "thermal.measurement.pump_speed",
+      "canonical_name": "thermal.measurement.pump_speed",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "unit.reciprocal_second",
       "canonical_name": "unit.reciprocal_second",
       "status": "provisional",
@@ -2142,6 +2206,14 @@
       "kind": "definition_literal",
       "historical_name": "thermal.dimension.compressor",
       "canonical_name": "thermal.dimension.compressor",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.pump",
+      "canonical_name": "thermal.dimension.pump",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
@@ -2358,6 +2430,14 @@
       "kind": "definition_literal",
       "historical_name": "thermal.dimension.terminal_unit",
       "canonical_name": "thermal.dimension.terminal_unit",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.valve_position",
+      "canonical_name": "thermal.measurement.valve_position",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
@@ -2822,6 +2902,14 @@
       "kind": "definition_literal",
       "historical_name": "thermal.service.compressor",
       "canonical_name": "thermal.service.compressor",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.pump",
+      "canonical_name": "thermal.service.pump",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },

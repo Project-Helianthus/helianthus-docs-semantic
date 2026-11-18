@@ -16,10 +16,12 @@ infrastructure.ac.reactive_power          infrastructure.ac.apparent_power
 infrastructure.ac.frequency               infrastructure.ac.power_factor
 infrastructure.power.import_active        infrastructure.power.export_active
 infrastructure.power.import_reactive      infrastructure.power.export_reactive
-infrastructure.power.apparent             infrastructure.energy.import
-infrastructure.energy.export              infrastructure.status.connection
-infrastructure.status.readiness           infrastructure.status.breaker
-infrastructure.status.fault               infrastructure.status.interlock
+infrastructure.power.apparent             infrastructure.power.pcc
+infrastructure.energy.import              infrastructure.energy.export
+infrastructure.energy.self_consumption    infrastructure.limit.fallback_power
+infrastructure.status.connection          infrastructure.status.readiness
+infrastructure.status.breaker             infrastructure.status.fault
+infrastructure.status.interlock
 infrastructure.dimension.site
 infrastructure.dimension.grid_connection  infrastructure.dimension.feeder
 infrastructure.dimension.circuit          infrastructure.dimension.phase
@@ -63,7 +65,11 @@ readiness, breaker, fault, and interlock state. Line-to-line voltage is
 `infrastructure.ac.voltage_line_line` on `infrastructure.dimension.line_pair`.
 It is not the phase voltage `infrastructure.ac.voltage`, and it is not stored
 on `infrastructure.dimension.phase`. The line-pair service has a read
-descriptor and no read capability.
+descriptor and no read capability. Self-consumption is
+`infrastructure.energy.self_consumption`. It is not the import counter.
+Point-of-coupling power is `infrastructure.power.pcc`.
+It is not the import/export pair. The fallback grid limit is
+`infrastructure.limit.fallback_power`. It is not the PV export limit.
 Quantities use canonical volt,
 ampere, watt, volt-ampere-reactive, volt-ampere, hertz, ratio, and joule units
 under the [unit rule](../../README.md#unit-rule): the import and export energy

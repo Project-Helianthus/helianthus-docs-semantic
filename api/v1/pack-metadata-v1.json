@@ -1161,6 +1161,22 @@
             "id": "helianthus.pack.infrastructure",
             "version": "1.0.0"
           },
+          "id": "infrastructure.energy.self_consumption",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.limit.fallback_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
           "id": "infrastructure.power.apparent",
           "version": "1.0.0"
         },
@@ -1194,6 +1210,14 @@
             "version": "1.0.0"
           },
           "id": "infrastructure.power.import_reactive",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.power.pcc",
           "version": "1.0.0"
         },
         {
@@ -1624,6 +1648,58 @@
               "id": "helianthus.pack.infrastructure",
               "version": "1.0.0"
             },
+            "id": "infrastructure.energy.self_consumption",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.limit.fallback_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
             "id": "infrastructure.power.apparent",
             "version": "1.0.0"
           },
@@ -1737,6 +1813,32 @@
               "version": "1.0.0"
             },
             "id": "unit.volt_ampere_reactive",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.power.pcc",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
             "version": "1.0.0"
           },
           "dimension": {
@@ -2410,7 +2512,39 @@
             "id": "helianthus.pack.pv",
             "version": "1.0.0"
           },
+          "id": "pv.energy.yield_day",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.energy.yield_month",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.energy.yield_year",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
           "id": "pv.limit.active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.limit.active_power_ratio",
           "version": "1.0.0"
         },
         {
@@ -3117,6 +3251,84 @@
               "id": "helianthus.pack.pv",
               "version": "1.0.0"
             },
+            "id": "pv.energy.yield_day",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.energy.yield_month",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.energy.yield_year",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
             "id": "pv.limit.active_power",
             "version": "1.0.0"
           },
@@ -3126,6 +3338,32 @@
               "version": "1.0.0"
             },
             "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.limit.active_power_ratio",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
             "version": "1.0.0"
           },
           "dimension": {
@@ -5174,6 +5412,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.measurement.pump_speed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.measurement.refrigerant_condensing_temperature",
           "version": "1.0.0"
         },
@@ -5223,6 +5469,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.measurement.thermal_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.valve_position",
           "version": "1.0.0"
         },
         {
@@ -5383,6 +5637,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.service.heat_generator",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.pump",
           "version": "1.0.0"
         },
         {
@@ -5906,6 +6168,32 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.measurement.pump_speed",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.reciprocal_second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.pump",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.measurement.refrigerant_condensing_temperature",
             "version": "1.0.0"
           },
@@ -6079,6 +6367,32 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.heat_generator",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.valve_position",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -6715,6 +7029,24 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.heat_generator",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.pump",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.pump",
             "version": "1.0.0"
           }
         },

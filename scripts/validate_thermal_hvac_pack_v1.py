@@ -27,14 +27,16 @@ CANONICAL_UNITS = frozenset({
 })
 SUBJECTS = ("system", "zone", "circuit", "dhw", "ventilation", "heat_generator", "thermal_store",
             "terminal_unit", "refrigerant_circuit", "compressor")
-DIMS = {f"thermal.dimension.{name}" for name in SUBJECTS}
-SERVICE_DIMENSION = {f"thermal.service.{name}": f"thermal.dimension.{name}" for name in SUBJECTS}
+# Pump is a resource subject with a service and a read descriptor, and with no capability.
+RESOURCE_SUBJECTS = (*SUBJECTS, "pump")
+DIMS = {f"thermal.dimension.{name}" for name in RESOURCE_SUBJECTS}
+SERVICE_DIMENSION = {f"thermal.service.{name}": f"thermal.dimension.{name}" for name in RESOURCE_SUBJECTS}
 SERVICES = set(SERVICE_DIMENSION)
 CAPS = {f"thermal.capability.read.{name}" for name in SUBJECTS} | {
     "thermal.capability.set_temperature", "thermal.capability.set_mode"}
 OPS = {"thermal.operation.set_temperature", "thermal.operation.set_mode"}
 EFFECTS = {"thermal.effect.set_temperature", "thermal.effect.set_mode"}
-PORTAL = {f"thermal.portal.read.{name}" for name in SUBJECTS} | {
+PORTAL = {f"thermal.portal.read.{name}" for name in RESOURCE_SUBJECTS} | {
     "thermal.portal.operation.set_temperature", "thermal.portal.operation.set_mode"}
 KELVIN = ("unit.kelvin", ("17315", -2), ("47315", -2))
 KELVIN_SETPOINT = ("unit.kelvin", ("22315", -2), ("42315", -2))
@@ -78,6 +80,8 @@ FIELD_CONTRACT = {
     "thermal.measurement.refrigerant_condensing_temperature": ("refrigerant_circuit", KELVIN),
     "thermal.measurement.refrigerant_evaporating_temperature": ("refrigerant_circuit", KELVIN),
     "thermal.measurement.compressor_speed": ("compressor", ("unit.reciprocal_second", ("0", 0), ("1", 3))),
+    "thermal.measurement.pump_speed": ("pump", ("unit.reciprocal_second", ("0", 0), ("1", 3))),
+    "thermal.measurement.valve_position": ("terminal_unit", RATIO),
     "thermal.overrun.one_time_dhw": ("system", ("active", "finished", "inactive", "running")),
     "thermal.overrun.party": ("system", ("active", "finished", "inactive", "running")),
     "thermal.overrun.sg_ready_condition_1": ("system", ("active", "finished", "inactive", "running")),
