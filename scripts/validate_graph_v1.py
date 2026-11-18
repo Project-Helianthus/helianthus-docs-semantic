@@ -14,7 +14,10 @@ recompute every snapshot and cut identifier, check the canonical order of
 members, findings and relation coherence, and recompute the plane membership
 of every resource a member holds. For a read the rules recompute the served
 cut identifier and the canonical order of the result, and require every lens
-a vector names to be in the catalog.
+a vector names to be in the catalog. A list_resources plane filter uses PLN-3
+membership. A lens resource carries the lens planes it is in. A scope aggregate
+is the aggregate of the requested fact. A frontier above 4096 entries is
+bounds_exceeded.
 """
 from __future__ import annotations
 
@@ -62,6 +65,7 @@ CODE = re.compile(r"`([a-z_]+)`")
 DIGEST_TEXT = re.compile(r"^sha256:[0-9a-f]{64}$")
 READ_OPERATIONS = frozenset({"list_resources", "traverse", "retrieve_lens", "sum_members", "project"})
 PAGE_BOUND = 4096
+FRONTIER_BOUND = 4096
 DEPTH_BOUND = 32
 POLARITY = {"POS": "positive", "NEG": "negative"}
 
@@ -801,14 +805,36 @@ def catalog_planes(entries: dict[str, dict[str, Any]], ref: dict[str, Any]) -> l
     return entries.get(ref_key(ref), {}).get("planes", [])
 
 
+def plane_list(resource: dict[str, Any], extra: set[str], order: list[str], entries: dict[str, dict[str, Any]]
+               ) -> list[str]:
+    """PLN-3 planes of one current resource, in catalog order."""
+    if resource["state"] != "current":
+        return []
+    planes = set(extra)
+    if resource["anchor"]["class"] in ("equipment", "component"):
+        planes.add("physical")
+    admitted = set(catalog_planes(entries, core_ref(resource["kind"])))
+    return [plane for plane in order if plane in planes and plane in admitted]
+
+
+def endpoint_planes(edges: list[dict[str, Any]], entries: dict[str, dict[str, Any]]) -> dict[str, set[str]]:
+    """Planes of qualified coherent relation instances, by endpoint (PLN-2)."""
+    reached: dict[str, set[str]] = {}
+    for edge in edges:
+        if edge["coherence"] != "coherent" or edge["state"] != "qualified":
+            continue
+        names = catalog_planes(entries, edge["definition"])
+        for end in (edge["from"], edge["to"]):
+            reached.setdefault(end, set()).update(names)
+    return reached
+
+
 def resource_planes(cut: dict[str, Any], snapshots: list[dict[str, Any]], entries: dict[str, dict[str, Any]],
                     order: list[str]) -> dict[str, list[str]]:
     excluded = set(cut["excluded_members"])
-    reached: dict[str, set[str]] = {}
-    for entry in cut["relation_coherence"]:
-        if entry["coherence"] == "coherent" and entry["state"] == "qualified":
-            for end in (entry["from"], entry["to"]):
-                reached.setdefault(end, set()).update(catalog_planes(entries, entry["definition"]))
+    edges = [{"coherence": entry["coherence"], "state": entry["state"], "definition": entry["definition"],
+              "from": entry["from"], "to": entry["to"]} for entry in cut["relation_coherence"]]
+    reached = endpoint_planes(edges, entries)
     result: dict[str, list[str]] = {}
     for snapshot in snapshots:
         subjects = subject_resources(snapshot, entries)
@@ -817,17 +843,35 @@ def resource_planes(cut: dict[str, Any], snapshots: list[dict[str, Any]], entrie
             if snapshot["asset_id"] in excluded or resource["state"] != "current":
                 result.setdefault(rid, [])
                 continue
-            planes = reached.get(rid, set()) | subjects.get(rid, set())
-            if resource["anchor"]["class"] in ("equipment", "component"):
-                planes.add("physical")
-            admitted = catalog_planes(entries, core_ref(resource["kind"]))
-            result[rid] = [plane for plane in order if plane in planes and plane in admitted]
+            extra = reached.get(rid, set()) | subjects.get(rid, set())
+            result[rid] = plane_list(resource, extra, order, entries)
     return result
+
+
+def read_planes(snapshots: list[dict[str, Any]], edges: list[dict[str, Any]], entries: dict[str, dict[str, Any]],
+                order: list[str]) -> dict[str, list[str]]:
+    """PLN-3 membership of every resource in a read, keyed by resource id."""
+    reached = endpoint_planes(edges, entries)
+    result: dict[str, list[str]] = {}
+    for snapshot in snapshots:
+        subjects = subject_resources(snapshot, entries)
+        for resource in snapshot.get("resources", []):
+            rid = resource["resource_id"]
+            if resource["state"] != "current":
+                result.setdefault(rid, [])
+                continue
+            extra = reached.get(rid, set()) | subjects.get(rid, set())
+            result[rid] = plane_list(resource, extra, order, entries)
+    return result
+
+
+def plane_order(catalog: dict[str, Any]) -> list[str]:
+    return [plane["id"] for plane in catalog["planes"]]
 
 
 def plane_problems(vector: dict[str, Any], cut: dict[str, Any], context: Context,
                    entries: dict[str, dict[str, Any]]) -> list[str]:
-    order = [plane["id"] for plane in context.catalog["planes"]]
+    order = plane_order(context.catalog)
     wanted = resource_planes(cut, vector["input"]["snapshots"], entries, order)
     listed = cut["plane_membership"]
     problems = []
@@ -1085,9 +1129,15 @@ def resolve_entry(request: dict[str, Any], lens: dict[str, Any] | None, resource
                   key=lambda rid: rid.encode())
 
 
-def result_resources(depth: dict[str, int], resources: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
-    rows = [{"asset_id": resources[rid]["asset_id"], "depth": level, "kind": resources[rid]["kind"], "resource_id": rid}
-            for rid, level in depth.items()]
+def result_resources(depth: dict[str, int], resources: dict[str, dict[str, Any]],
+                     planes_of: dict[str, list[str]] | None = None) -> list[dict[str, Any]]:
+    rows = []
+    for rid, level in depth.items():
+        row = {"asset_id": resources[rid]["asset_id"], "depth": level, "kind": resources[rid]["kind"],
+               "resource_id": rid}
+        if planes_of is not None:
+            row["planes"] = list(planes_of.get(rid, []))
+        rows.append(row)
     rows.sort(key=lambda row: (row["depth"], row["resource_id"].encode()))
     return rows
 
@@ -1201,7 +1251,8 @@ def paginate(body: dict[str, Any], page_size: int, entries: dict[str, dict[str, 
     return pages
 
 
-def list_read(resources: dict[str, dict[str, Any]], request: dict[str, Any], cut: dict[str, Any]) -> dict[str, Any]:
+def list_read(resources: dict[str, dict[str, Any]], request: dict[str, Any], cut: dict[str, Any],
+              planes_of: dict[str, list[str]]) -> dict[str, Any]:
     kind = request.get("kind")
     plane = request.get("plane")
     chosen = []
@@ -1210,7 +1261,8 @@ def list_read(resources: dict[str, dict[str, Any]], request: dict[str, Any], cut
             continue
         if kind is not None and resource["kind"] != kind:
             continue
-        if plane is not None and plane not in resource["planes"]:
+        # PLN-3 membership, not the kind's catalog planes. Those only bound where an instance may appear.
+        if plane is not None and plane not in planes_of.get(resource["resource_id"], []):
             continue
         chosen.append({"asset_id": resource["asset_id"], "kind": resource["kind"], "resource_id": resource["resource_id"]})
     chosen.sort(key=lambda item: item["resource_id"].encode())
@@ -1225,8 +1277,17 @@ def graph_body(vector: dict[str, Any], entries: dict[str, dict[str, Any]], conte
         return entry_ids
     cap = lens["max_depth"] if lens is not None else DEPTH_BOUND
     depth, frontier = walk_reached(entry_ids, edges, request.get("direction", "outgoing"), request.get("depth", cap))
+    if len(frontier) > FRONTIER_BOUND:
+        return "bounds_exceeded"
     reached = set(depth)
     planes = set(lens["planes"]) if lens is not None else set(request.get("planes", []))
+    indexed = resource_index(vector["input"]["snapshots"], entries)
+    membership = None
+    if lens is not None:
+        allowed = set(lens["planes"])
+        full = read_planes(vector["input"]["snapshots"], edges, entries, plane_order(context.catalog))
+        membership = {rid: [plane for plane in names if plane in allowed] for rid, names in full.items()}
+    resource_rows = result_resources(depth, indexed, membership)
     body = {
         "cut": cut,
         "entry": request.get("entry"),
@@ -1234,7 +1295,7 @@ def graph_body(vector: dict[str, Any], entries: dict[str, dict[str, Any]], conte
         "findings": result_findings(vector["input"].get("findings", []), reached),
         "frontier": frontier,
         "relations": result_relations(edges, reached),
-        "resources": result_resources(depth, resource_index(vector["input"]["snapshots"], entries)),
+        "resources": resource_rows,
     }
     if lens is not None:
         body["catalog"] = catalog_digest(context)
@@ -1289,15 +1350,26 @@ def quality_reason(fact: dict[str, Any]) -> str | None:
     return None
 
 
-def sign_reason(entry: dict[str, Any], rows: list[dict[str, Any]]) -> str | None:
-    attributes = entry.get("attributes") or {}
-    if attributes.get("direction") != "signed":
+def sign_token(reference: Any) -> str:
+    if isinstance(reference, dict):
+        return json.dumps(reference, sort_keys=True, separators=(",", ":"))
+    return "" if reference is None else str(reference)
+
+
+def sign_reason(rows: list[dict[str, Any]]) -> str | None:
+    """SUM-5. The sign reference is the catalog entry's, never a fact member."""
+    signed = []
+    for row in rows:
+        attributes = row["entry"].get("attributes") or {}
+        if attributes.get("direction") == "signed":
+            signed.append((row, attributes.get("sign_reference")))
+    if not signed:
         return None
-    reference = attributes.get("sign_reference")
-    references = {row["fact"].get("sign_reference", reference) for row in rows}
-    if reference == "native_convention" and len({row["asset_id"] for row in rows}) > 1:
-        return "mixed_sign_reference"
+    references = {sign_token(reference) for _row, reference in signed}
     if len(references) > 1:
+        return "mixed_sign_reference"
+    reference = signed[0][1]
+    if reference == "native_convention" and len({row["asset_id"] for row, _reference in signed}) > 1:
         return "mixed_sign_reference"
     return None
 
@@ -1339,14 +1411,14 @@ def sum_decision(rows: list[dict[str, Any]], members: set[str], fact_ref: dict[s
     blocked = next((quality_reason(row["fact"]) for row in relevant if quality_reason(row["fact"])), None)
     if blocked:
         return {"withheld": blocked}
-    signed = sign_reason(entries[wanted], relevant)
+    signed = sign_reason(relevant)
     if signed:
         return {"withheld": signed}
     value = add_quantities(relevant)
     if value is None:
         return {"withheld": "member_unavailable"}
     body: dict[str, Any] = {"not_added": not_added_ids(rows, members, scope), "value": value}
-    observed = scope_aggregate(rows, scope)
+    observed = scope_aggregate(rows, scope, fact_ref)
     if observed is not None:
         body["observed_aggregate"] = observed
     return body
@@ -1368,8 +1440,20 @@ def not_added_ids(rows: list[dict[str, Any]], members: set[str], scope: str) -> 
     return sorted(found)
 
 
-def scope_aggregate(rows: list[dict[str, Any]], scope: str | None) -> dict[str, Any] | None:
-    found = [row["fact"] for row in rows if row["resource_id"] == scope and aggregation_of(row) == "aggregate"]
+def aggregate_fact_id(member_id: str) -> str:
+    """Catalog id of the aggregate fact paired with a member fact definition."""
+    head, separator, tail = member_id.rpartition(".")
+    if not separator:
+        return ""
+    return f"{head}.aggregate_{tail}"
+
+
+def scope_aggregate(rows: list[dict[str, Any]], scope: str | None, fact_ref: dict[str, Any]) -> dict[str, Any] | None:
+    """The scope's aggregate of the requested fact definition, not any aggregate on the scope."""
+    wanted = aggregate_fact_id(fact_ref["id"])
+    found = [row["fact"] for row in rows
+             if row["resource_id"] == scope and aggregation_of(row) == "aggregate"
+             and row["fact"]["key"]["fact_id"] == wanted]
     found.sort(key=lambda fact: canonical(fact["key"]))
     return found[0] if found else None
 
@@ -1435,7 +1519,9 @@ def evaluate_read(vector: dict[str, Any], entries: dict[str, dict[str, Any]], co
     request = vector["input"]["request"]
     resources = resource_index(vector["input"]["snapshots"], entries)
     if vector["operation"] == "list_resources":
-        return None, list_read(resources, request, cut)
+        edges = build_edges(vector["input"]["snapshots"], resources, cut["completeness"])
+        planes_of = read_planes(vector["input"]["snapshots"], edges, entries, plane_order(context.catalog))
+        return None, list_read(resources, request, cut, planes_of)
     edges = build_edges(vector["input"]["snapshots"], resources, cut["completeness"])
     followed, follow_error = followed_keys(entries, lens, request)
     if follow_error:

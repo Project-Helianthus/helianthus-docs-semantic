@@ -799,6 +799,137 @@ class ReadMutationTest(unittest.TestCase):
             with self.subTest(field=field):
                 self.assert_rule_rejects(validator.check_reads, mutated(change), "projection_incomplete")
 
+    def test_list_plane_filter_excludes_a_resource_outside_the_plane(self):
+        # resources: the recorded list adds the current inverter that PLN-3 leaves out of energy.
+        # The recomputed list_resources filter keeps only the resources the plane contains.
+        item = vector(DOCUMENT, "G-POS-RET-3")
+        listed = [row["resource_id"] for row in item["expect"]["read"]["resources"]]
+        self.assertEqual(listed, ["resource:inverter:01", "resource:inverter:02"])
+        present = [resource["resource_id"] for resource in item["input"]["snapshots"][0]["resources"]]
+        self.assertIn("resource:inverter:04", present)
+
+        def change(document):
+            rows = read_of(document, "G-POS-RET-3")["resources"]
+            extra = copy.deepcopy(rows[0])
+            extra["resource_id"] = "resource:inverter:04"
+            rows.append(extra)
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "resources")
+
+    def test_list_plane_filter_uses_pln3_membership(self):
+        # facts: the energy facts that place the inverters in the plane are removed, and the cut
+        # identifier is recomputed for that snapshot. The plane filter then lists no inverter.
+        def change(document):
+            item = vector(document, "G-POS-RET-3")
+            snapshot = item["input"]["snapshots"][0]
+            snapshot["facts"] = []
+            snapshot["snapshot_id"] = validator.snapshot_identifier(snapshot)
+            served = item["expect"]["read"]["cut"]
+            for member in served["members"]:
+                if member["asset_id"] == snapshot["asset_id"]:
+                    member["snapshot_id"] = snapshot["snapshot_id"]
+            served["cut_id"] = validator.cut_identifier(served["members"])
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "resources")
+
+    def test_lens_resource_rows_carry_lens_planes(self):
+        # planes: the recorded lens resources drop the planes PLN-3 places them in. The recomputed
+        # lens result keeps those planes, and a paged lens result carries the same rows.
+        rows = {row["resource_id"]: row["planes"] for row in read_of(DOCUMENT, "G-POS-LNS-1")["resources"]}
+        self.assertEqual(rows["resource:inverter:01"], ["physical", "diagnostic"])
+        self.assertEqual(rows["resource:input:01"], ["physical"])
+        self.assertEqual(rows["resource:input:02"], ["physical"])
+        self.assertNotEqual(rows["resource:inverter:01"], rows["resource:input:01"])
+        for page in read_of(DOCUMENT, "G-POS-RET-1")["pages"]:
+            for row in page["resources"]:
+                self.assertIn("planes", row)
+
+        def change(document):
+            for row in read_of(document, "G-POS-LNS-1")["resources"]:
+                del row["planes"]
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "planes")
+
+    def test_scope_aggregate_matches_the_requested_fact(self):
+        # observed_aggregate: the recorded aggregate is the other aggregate on the scope. The
+        # recomputed sum returns the aggregate of the requested member fact.
+        positive = vector(DOCUMENT, "G-POS-SUM-1")
+        self.assertEqual(positive["input"]["request"]["fact"]["id"], "pv.dc.power")
+        self.assertEqual(positive["expect"]["read"]["value"]["coefficient"], "60")
+        self.assertEqual(positive["expect"]["read"]["value"]["unit"], "unit.watt")
+        self.assertEqual(positive["expect"]["read"]["observed_aggregate"]["key"]["fact_id"], "pv.dc.aggregate_power")
+        negative = read_of(DOCUMENT, "G-NEG-SUM-1")
+        self.assertEqual(negative["value"]["coefficient"], "30")
+        self.assertEqual(negative["observed_aggregate"]["key"]["fact_id"], "pv.dc.aggregate_power")
+
+        def change(document):
+            item = vector(document, "G-POS-SUM-1")
+            decoy = next(fact for fact in item["input"]["snapshots"][0]["facts"]
+                         if fact["key"]["fact_id"] == "pv.ac.aggregate_active_power")
+            item["expect"]["read"]["observed_aggregate"] = copy.deepcopy(decoy)
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "observed_aggregate")
+
+    def test_distinct_catalog_sign_references_withhold(self):
+        # sign_reference: the catalog references differ and the fact members agree. SUM-5 withholds.
+        rows = [
+            {"asset_id": "asset:pv:01",
+             "entry": {"attributes": {"direction": "signed", "sign_reference": "native_convention"}},
+             "fact": {"sign_reference": "native_convention"}},
+            {"asset_id": "asset:pv:01",
+             "entry": {"attributes": {"direction": "signed", "sign_reference": "other"}},
+             "fact": {"sign_reference": "native_convention"}},
+        ]
+        self.assertEqual(validator.sign_reason(rows), "mixed_sign_reference")
+
+    def test_injected_fact_sign_reference_does_not_withhold_a_one_asset_sum(self):
+        # sign_reference: both member facts carry a different undeclared sign_reference, on one
+        # asset. The catalog reference is native_convention, so the recomputed sum has a value.
+        self.assertEqual(read_of(DOCUMENT, "G-NEG-SUM-4")["withheld"], "mixed_sign_reference")
+        self.assertEqual(len(vector(DOCUMENT, "G-NEG-SUM-4")["input"]["snapshots"]), 2)
+        item = copy.deepcopy(vector(DOCUMENT, "G-NEG-SUM-4"))
+        primary, other = item["input"]["snapshots"]
+        primary["resources"].extend(other["resources"])
+        primary["facts"].extend(other["facts"])
+        item["input"]["snapshots"] = [primary]
+        primary["facts"][0]["sign_reference"] = "native_convention"
+        primary["facts"][1]["sign_reference"] = "other"
+        registered, _found = validator.state_entries(DOCUMENT, CONTEXT)
+        error, body = validator.evaluate_read(item, registered[item["prior_state"]], CONTEXT)
+        self.assertIsNone(error)
+        self.assertEqual(body["value"]["coefficient"], "185")
+        self.assertNotIn("withheld", body)
+
+    def test_unknown_lens_and_outside_planes_are_both_membership_missing(self):
+        # planes: the outside-planes vector's planes are widened to admit the named definition.
+        # The recomputed traverse is then accepted, so that vector no longer records the branch.
+        unknown = vector(DOCUMENT, "G-NEG-RET-4")
+        self.assertEqual(unknown["input"]["request"]["lens"], "lens.not_in_catalog")
+        self.assertEqual(unknown["expect"]["error_id"], "membership_missing")
+        outside = vector(DOCUMENT, "G-NEG-RET-7")
+        self.assertEqual(outside["expect"]["error_id"], "membership_missing")
+        self.assertEqual(outside["input"]["request"]["planes"], ["diagnostic"])
+        self.assertTrue(outside["input"]["request"]["definitions"])
+
+        def change(document):
+            vector(document, "G-NEG-RET-7")["input"]["request"]["planes"] = ["energy"]
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "recomputed read is accepted")
+
+    def test_page_size_and_frontier_bound_are_both_bounds_exceeded(self):
+        # frontier: the recorded traverse has no page size and its frontier is above 4096 entries.
+        # The recomputed read is bounds_exceeded. The page-size vector stays the other branch.
+        page = vector(DOCUMENT, "G-NEG-RET-5")
+        self.assertEqual(page["input"]["request"]["page_size"], 4097)
+        self.assertEqual(page["expect"]["error_id"], "bounds_exceeded")
+        item = vector(DOCUMENT, "G-NEG-RET-8")
+        self.assertEqual(item["expect"]["error_id"], "bounds_exceeded")
+        self.assertIsNone(item["input"]["request"].get("page_size"))
+        registered, _found = validator.state_entries(DOCUMENT, CONTEXT)
+        error, body = validator.evaluate_read(item, registered[item["prior_state"]], CONTEXT)
+        self.assertEqual(error, "bounds_exceeded")
+        self.assertIsNone(body)
+
 
 if __name__ == "__main__":
     sys.exit(0 if unittest.main(exit=False).result.wasSuccessful() else 1)

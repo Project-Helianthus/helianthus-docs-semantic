@@ -14,9 +14,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
   operations `list_resources`, `traverse`, `retrieve_lens`, `sum_members` and
   `project` join it. A read is member snapshots plus a request. The validator
   recomputes the served cut identifier and the canonical order, and rejects a
-  lens that is not in the catalog. No stable error is added. No thermal
-  quantity is placed. No version is raised. SemReg follow-up: re-copy this
-  vector document and move its SHA-256 pin.
+  lens that is not in the catalog. A `list_resources` plane filter uses PLN-3
+  membership: a current resource is listed only when PLN-3 places it in the
+  requested plane. A lens resource carries the lens planes it is in. A member
+  sum adds `pv.dc.power` and returns the scope aggregate of that fact beside
+  the sum. Two further vectors cover the remaining branch of the two section
+  36 rows that state two cases: a relation definition outside the requested
+  planes, and a frontier above 4096 entries. No stable error is added. No
+  thermal quantity is placed. No version is raised. SemReg follow-up: re-copy
+  this vector document and move its SHA-256 pin.
 - Breaking, in place before the 0.7 release: the
   [element catalog](api/v1/element-catalog-v1.json) seeds the four lenses of
   [graph contract](api/v1/graph.md) section 29. Each lens carries that
