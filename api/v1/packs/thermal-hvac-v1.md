@@ -22,6 +22,10 @@ fact is published only on a resource of its subject kind.
 | `thermal.measurement.air_temperature` | quantity | zone | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.humidity` | quantity | zone | `unit.ratio` | 0 to 1 | not applicable |
 | `thermal.setpoint.temperature_setpoint` | quantity | zone | `unit.kelvin` | 223.15 to 423.15 | not applicable |
+| `thermal.setpoint.occupied_cooling` | quantity | zone | `unit.kelvin` | 223.15 to 423.15 | not applicable |
+| `thermal.setpoint.occupied_heating` | quantity | zone | `unit.kelvin` | 223.15 to 423.15 | not applicable |
+| `thermal.setpoint.unoccupied_cooling` | quantity | zone | `unit.kelvin` | 223.15 to 423.15 | not applicable |
+| `thermal.setpoint.unoccupied_heating` | quantity | zone | `unit.kelvin` | 223.15 to 423.15 | not applicable |
 | `thermal.mode.zone` | symbol | zone | | | |
 | `thermal.measurement.circuit_flow_temperature` | quantity | thermal circuit | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.flow_rate` | quantity | thermal circuit | `unit.cubic_metre_per_second` | 0 to 0.2 | non-negative |
@@ -80,7 +84,8 @@ delivers to the fluid it supplies. The demand level is a ratio of the
 subject's rated maximum. Water pressure is a gauge pressure; the refrigerant
 pressures are absolute pressures. Compressor speed is a rotational speed.
 
-Symbols: system mode is auto, cool, heat or off; zone mode is auto, comfort,
+Symbols: system mode is auto, cool, dry, emergency_heat, fan_only, heat, off,
+precooling or sleep; zone mode is auto, comfort,
 eco or off; terminal-unit mode is auto, cool, dry, fan_only, heat or off;
 action is heating, cooling, DHW, ventilating or idle; each operation status is
 active or idle; each fault status is clear or present; maintenance is clear or
@@ -91,7 +96,13 @@ due. Each of `thermal.overrun.one_time_dhw`, `thermal.overrun.party`,
 `thermal.overrun.hvac_system_off` and `thermal.overrun.valve_kick` is
 independently inactive, active, running or finished. Several of those statuses
 can be active together. A one-time domestic-hot-water overrun is a status of
-its own; the domestic-hot-water setpoint stays a separate fact. Unknown,
+its own; the domestic-hot-water setpoint stays a separate fact. The occupied
+heating setpoint `thermal.setpoint.occupied_heating`, the occupied cooling
+setpoint `thermal.setpoint.occupied_cooling`, the unoccupied heating setpoint
+`thermal.setpoint.unoccupied_heating` and the unoccupied cooling setpoint
+`thermal.setpoint.unoccupied_cooling` are four zone quantities
+distinct from the single zone setpoint `thermal.setpoint.temperature_setpoint`. The
+set-temperature operation still takes only that single zone setpoint. Unknown,
 withheld, unsupported, and operation outcome stay in kernel quality,
 availability, and operation records. They are never semantic symbols.
 Schedules and vendor extensions remain native evidence and projection loss
@@ -294,7 +305,8 @@ The typed read descriptors consume every declared field exactly, and each
 reads only fields of its own service's subject: the system descriptor reads
 action, system mode, operation, fault, outdoor air temperature, system flow
 temperature, maintenance and each overrun status; the zone descriptor air
-temperature, humidity, temperature setpoint and zone mode; the circuit
+temperature, humidity, the single zone setpoint, the occupied and unoccupied
+heating and cooling setpoints, and zone mode; the circuit
 descriptor flow rate and circuit flow temperature; the hot-water descriptor
 hot-water temperature and setpoint; the ventilation descriptor demand level;
 and the descriptor of each

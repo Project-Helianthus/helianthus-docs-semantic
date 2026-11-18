@@ -2460,10 +2460,42 @@
     {
       "source": "semreg/v1/packs/thermal/definitions.go",
       "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.occupied_cooling",
+      "canonical_name": "thermal.setpoint.occupied_cooling",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.occupied_heating",
+      "canonical_name": "thermal.setpoint.occupied_heating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
       "historical_name": "thermal.setpoint.temperature",
       "canonical_name": "thermal.setpoint.temperature_setpoint",
       "status": "proven_rename",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.unoccupied_cooling",
+      "canonical_name": "thermal.setpoint.unoccupied_cooling",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.unoccupied_heating",
+      "canonical_name": "thermal.setpoint.unoccupied_heating",
+      "status": "provisional",
+      "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
     },
     {
       "source": "semreg/v1/packs/thermal/definitions.go",

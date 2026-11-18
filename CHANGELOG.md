@@ -7,6 +7,18 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [thermal pack](api/v1/packs/thermal-hvac-v1.md) adds four zone setpoints
+  in `unit.kelvin`, `thermal.setpoint.occupied_heating`,
+  `thermal.setpoint.occupied_cooling`, `thermal.setpoint.unoccupied_heating`
+  and `thermal.setpoint.unoccupied_cooling`, with the same bounds as the
+  single zone setpoint and distinct from it. System mode gains
+  emergency_heat, precooling, fan_only, dry and sleep, and keeps auto, cool,
+  heat and off. The set-temperature operation still takes only the single
+  zone setpoint. No service, capability or operation is added. Pack metadata,
+  the element catalog, both Matter rosters and the naming contract follow.
+  SemReg follow-up: re-copy the pack bytes and do not invent the elements.
+  No version is raised.
+- Breaking, in place before the 0.7 release: the
   [thermal pack](api/v1/packs/thermal-hvac-v1.md) adds ten overrun statuses
   on the system dimension: `thermal.overrun.one_time_dhw`,
   `thermal.overrun.party`, `thermal.overrun.sg_ready_condition_1`,

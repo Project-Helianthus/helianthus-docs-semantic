@@ -100,6 +100,12 @@ OVERRUN_FACTS = (
     "thermal.overrun.sg_ready_condition_4",
     "thermal.overrun.valve_kick",
 )
+OCCUPANCY_SETPOINTS = (
+    "thermal.setpoint.occupied_cooling",
+    "thermal.setpoint.occupied_heating",
+    "thermal.setpoint.unoccupied_cooling",
+    "thermal.setpoint.unoccupied_heating",
+)
 # One relation definition of each pack that declares relations.
 PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
                   "infrastructure.relation.feeder_circuit", "storage.relation.pack_module",
@@ -156,16 +162,21 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 377 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 381 entries"))
 
     def test_overrun_evidence_is_a_document_link(self):
         for ident in OVERRUN_FACTS:
             evidence = entry_of(CATALOG, ident)["admission"]["evidence"]
             self.assertEqual(evidence, [THERMAL_PAGE], ident)
 
+    def test_occupancy_setpoint_evidence_is_a_document_link(self):
+        for ident in OCCUPANCY_SETPOINTS:
+            evidence = entry_of(CATALOG, ident)["admission"]["evidence"]
+            self.assertEqual(evidence, [THERMAL_PAGE], ident)
+
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 313)
+        self.assertEqual(len(kinds), 317)
         self.assertEqual(kinds.count("relation"), 26)
         self.assertEqual(kinds.count("presentation"), 38)
         self.assertEqual(kinds.count("dimension"), 36)

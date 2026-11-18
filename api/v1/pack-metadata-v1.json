@@ -5446,7 +5446,39 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.setpoint.occupied_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.occupied_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.setpoint.temperature_setpoint",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.unoccupied_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.unoccupied_heating",
           "version": "1.0.0"
         },
         {
@@ -6355,7 +6387,111 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.setpoint.occupied_cooling",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.occupied_heating",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.setpoint.temperature_setpoint",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.unoccupied_cooling",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.unoccupied_heating",
             "version": "1.0.0"
           },
           "canonical_unit": {
