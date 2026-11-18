@@ -15,9 +15,10 @@ members, findings and relation coherence, and recompute the plane membership
 of every resource a member holds. For a read the rules recompute the served
 cut identifier and the canonical order of the result, and require every lens
 a vector names to be in the catalog. A list_resources plane filter uses PLN-3
-membership. A lens resource carries the lens planes it is in. A scope aggregate
-is the aggregate of the requested fact. A frontier above 4096 entries is
-bounds_exceeded.
+membership. A lens resource carries the lens planes it is in. Empty optional lens-result
+arrays are omitted, and a page token is a string bound to the cut and the request.
+A scope aggregate is the aggregate of the requested fact. A frontier above 4096
+entries is bounds_exceeded. A projection report carries its lens in the manifest.
 """
 from __future__ import annotations
 
@@ -63,7 +64,11 @@ SECTION_36_ROW = re.compile(
 )
 CODE = re.compile(r"`([a-z_]+)`")
 DIGEST_TEXT = re.compile(r"^sha256:[0-9a-f]{64}$")
+POSITIVE_UINT = re.compile(r"^[1-9][0-9]*$")
 READ_OPERATIONS = frozenset({"list_resources", "traverse", "retrieve_lens", "sum_members", "project"})
+ITEM_KINDS = frozenset({"fact", "relation", "capability", "operation"})
+OUTCOMES_WITH_REASON = frozenset({"withheld", "unrepresentable", "unsupported", "unknown"})
+OPTIONAL_RESULT_LISTS = ("facts", "findings", "frontier", "relations")
 PAGE_BOUND = 4096
 FRONTIER_BOUND = 4096
 DEPTH_BOUND = 32
@@ -949,16 +954,36 @@ def named_lens(request: dict[str, Any], catalog: dict[str, Any]) -> tuple[dict[s
     return lens, None
 
 
+def page_token_text(cut_id: str, digest: str) -> str:
+    """LensResult.NextPage is a string bound to the cut identifier and the request digest."""
+    return canonical({"cut_id": cut_id, "request_digest": digest}).decode("ascii")
+
+
+def parsed_token(token: Any) -> dict[str, str] | None:
+    if not isinstance(token, str):
+        return None
+    try:
+        parsed = json.loads(token)
+    except json.JSONDecodeError:
+        return None
+    fields = {"cut_id", "request_digest"}
+    if not isinstance(parsed, dict) or set(parsed) != fields:
+        return None
+    if not isinstance(parsed["cut_id"], str) or not DIGEST_TEXT.match(parsed["cut_id"]):
+        return None
+    if not isinstance(parsed["request_digest"], str) or not DIGEST_TEXT.match(parsed["request_digest"]):
+        return None
+    return parsed
+
+
 def token_error(request: dict[str, Any], cut_id: str) -> str | None:
     token = request.get("page_token")
     if token is None:
         return None
-    fields = {"cut_id", "request_digest"}
-    if not isinstance(token, dict) or set(token) != fields:
+    parsed = parsed_token(token)
+    if parsed is None:
         return "invalid_value"
-    if not DIGEST_TEXT.match(token["cut_id"]) or not DIGEST_TEXT.match(token["request_digest"]):
-        return "invalid_value"
-    if token["cut_id"] != cut_id or token["request_digest"] != request_digest(request):
+    if parsed["cut_id"] != cut_id or parsed["request_digest"] != request_digest(request):
         return "revision_conflict"
     return None
 
@@ -1068,14 +1093,29 @@ def annotate_edges(edges: list[dict[str, Any]], entries: dict[str, dict[str, Any
 
 
 def neighbor_targets(resource_id: str, edges: list[dict[str, Any]], direction: str) -> list[tuple[dict[str, Any], str]]:
-    targets = []
+    return indexed_targets(follow_index(edges), resource_id, direction)
+
+
+def follow_index(edges: list[dict[str, Any]]) -> dict[str, dict[str, list[tuple[dict[str, Any], str]]]]:
+    """Followable edges grouped by endpoint, so a walk is linear in the edge count."""
+    by_from: dict[str, list[tuple[dict[str, Any], str]]] = {}
+    by_to: dict[str, list[tuple[dict[str, Any], str]]] = {}
     for edge in edges:
         if not edge["follow"]:
             continue
-        if direction != "incoming" and edge["from"] == resource_id:
-            targets.append((edge, edge["to"]))
-        if direction != "outgoing" and edge["to"] == resource_id and edge["from"] != resource_id:
-            targets.append((edge, edge["from"]))
+        by_from.setdefault(edge["from"], []).append((edge, edge["to"]))
+        if edge["from"] != edge["to"]:
+            by_to.setdefault(edge["to"], []).append((edge, edge["from"]))
+    return {"from": by_from, "to": by_to}
+
+
+def indexed_targets(index: dict[str, dict[str, list[tuple[dict[str, Any], str]]]], resource_id: str,
+                    direction: str) -> list[tuple[dict[str, Any], str]]:
+    targets: list[tuple[dict[str, Any], str]] = []
+    if direction != "incoming":
+        targets.extend(index["from"].get(resource_id, ()))
+    if direction != "outgoing":
+        targets.extend(index["to"].get(resource_id, ()))
     targets.sort(key=lambda item: (relation_order(item[0]), item[1].encode()))
     return targets
 
@@ -1091,10 +1131,11 @@ def walk_reached(entry_ids: list[str], edges: list[dict[str, Any]], direction: s
     queue = sorted(entry_ids, key=lambda resource_id: resource_id.encode())
     seen = set(queue)
     index = 0
+    followed = follow_index(edges)
     while index < len(queue):
         resource_id = queue[index]
         index += 1
-        targets = neighbor_targets(resource_id, edges, direction)
+        targets = indexed_targets(followed, resource_id, direction)
         if depth[resource_id] >= depth_limit:
             if targets:
                 frontier.append(frontier_entry(resource_id, "depth_limit", len(targets)))
@@ -1216,39 +1257,67 @@ def page_chunks(resources: list[dict[str, Any]], page_size: int) -> list[list[di
     return [resources[index:index + page_size] for index in range(0, len(resources), page_size)] or [[]]
 
 
-def paginate(body: dict[str, Any], page_size: int, entries: dict[str, dict[str, Any]], digest: str
-             ) -> list[dict[str, Any]]:
-    chunks = page_chunks(body["resources"], page_size)
+def resource_pages(chunks: list[list[dict[str, Any]]]) -> dict[str, int]:
     index_of: dict[str, int] = {}
     for page_index, chunk in enumerate(chunks):
         for row in chunk:
             index_of[row["resource_id"]] = page_index
-    pages = []
-    for page_index, chunk in enumerate(chunks):
-        page = {
-            "cut_id": body["cut"]["cut_id"],
-            "facts": [],
-            "findings": [],
-            "frontier": [item for item in body["frontier"]
-                         if index_of.get(item["subject"]["resource_id"]) == page_index],
-            "relations": [item for item in body["relations"] if relation_page(item, index_of) == page_index],
-            "resources": chunk,
-        }
-        for fact in body["facts"]:
-            resource_id, _entry = fact_resource(fact, entries)
-            if index_of.get(resource_id) == page_index:
-                page["facts"].append(fact)
-        if page_index + 1 < len(chunks):
-            page["next_page"] = {"cut_id": body["cut"]["cut_id"], "request_digest": digest}
-        pages.append(page)
-    for finding in body["findings"]:
+    return index_of
+
+
+def one_page(body: dict[str, Any], index_of: dict[str, int], page_index: int, chunk: list[dict[str, Any]],
+             entries: dict[str, dict[str, Any]], digest: str, page_count: int) -> dict[str, Any]:
+    """One page of a lens result: the same record, with a string token when another page follows."""
+    relations = [item for item in body.get("relations", []) if relation_page(item, index_of) == page_index]
+    facts = []
+    for fact in body.get("facts", []):
+        resource_id, _entry = fact_resource(fact, entries)
+        if index_of.get(resource_id) == page_index:
+            facts.append(fact)
+    frontier = [item for item in body.get("frontier", [])
+                if index_of.get(item["subject"]["resource_id"]) == page_index]
+    page: dict[str, Any] = {}
+    for key in ("contract", "lens", "catalog", "cut", "entry"):
+        if key in body:
+            page[key] = body[key]
+    page["resources"] = chunk
+    if relations:
+        page["relations"] = relations
+    if facts:
+        page["facts"] = facts
+    if frontier:
+        page["frontier"] = frontier
+    if page_index + 1 < page_count:
+        page["next_page"] = page_token_text(body["cut"]["cut_id"], digest)
+    return page
+
+
+def place_findings(pages: list[dict[str, Any]], findings: list[dict[str, Any]], index_of: dict[str, int]) -> None:
+    for finding in findings:
         page_index = 0
         for resource_id in sorted(finding_resources(finding)):
             if resource_id in index_of:
                 page_index = index_of[resource_id]
                 break
-        pages[page_index]["findings"].append(finding)
+        pages[page_index].setdefault("findings", []).append(finding)
+
+
+def paginate(body: dict[str, Any], page_size: int, entries: dict[str, dict[str, Any]], digest: str
+             ) -> list[dict[str, Any]]:
+    chunks = page_chunks(body["resources"], page_size)
+    index_of = resource_pages(chunks)
+    pages = [one_page(body, index_of, page_index, chunk, entries, digest, len(chunks))
+             for page_index, chunk in enumerate(chunks)]
+    place_findings(pages, body.get("findings", []), index_of)
     return pages
+
+
+def omit_empty(body: dict[str, Any]) -> dict[str, Any]:
+    """LensResult omits empty relations, facts, findings and frontier."""
+    for key in OPTIONAL_RESULT_LISTS:
+        if key in body and not body[key]:
+            del body[key]
+    return body
 
 
 def list_read(resources: dict[str, dict[str, Any]], request: dict[str, Any], cut: dict[str, Any],
@@ -1288,22 +1357,21 @@ def graph_body(vector: dict[str, Any], entries: dict[str, dict[str, Any]], conte
         full = read_planes(vector["input"]["snapshots"], edges, entries, plane_order(context.catalog))
         membership = {rid: [plane for plane in names if plane in allowed] for rid, names in full.items()}
     resource_rows = result_resources(depth, indexed, membership)
-    body = {
-        "cut": cut,
-        "entry": request.get("entry"),
-        "facts": result_facts(vector["input"]["snapshots"], entries, reached, planes) if lens is not None else [],
-        "findings": result_findings(vector["input"].get("findings", []), reached),
-        "frontier": frontier,
-        "relations": result_relations(edges, reached),
-        "resources": resource_rows,
-    }
+    body: dict[str, Any] = {}
     if lens is not None:
-        body["catalog"] = catalog_digest(context)
         body["contract"] = LENS_RESULT_CONTRACT
         body["lens"] = lens["id"]
+        body["catalog"] = catalog_digest(context)
+    body["cut"] = cut
+    body["entry"] = request.get("entry")
+    body["resources"] = resource_rows
+    body["relations"] = result_relations(edges, reached)
+    body["facts"] = result_facts(vector["input"]["snapshots"], entries, reached, planes) if lens is not None else []
+    body["findings"] = result_findings(vector["input"].get("findings", []), reached)
+    body["frontier"] = frontier
     if request.get("page_size") is not None:
         body["pages"] = paginate(body, request["page_size"], entries, request_digest(request))
-    return body
+    return omit_empty(body)
 
 
 def scope_members(scope: str, edges: list[dict[str, Any]]) -> set[str]:
@@ -1487,14 +1555,125 @@ def cited_ok(report: dict[str, Any], edges: list[dict[str, Any]], resources: dic
     return True
 
 
+def positive_uint(value: Any) -> bool:
+    return isinstance(value, str) and POSITIVE_UINT.match(value) is not None
+
+
+def pack_ref_error(pack: Any) -> bool:
+    if not isinstance(pack, dict) or set(pack) != {"id", "version"}:
+        return True
+    return any(not isinstance(pack.get(key), str) or not pack[key] for key in ("id", "version"))
+
+
+def manifest_error(manifest: Any, lens: Any) -> bool:
+    """ProjectionManifest with the lens in the manifest (TGT-1), not beside it."""
+    allowed = {"target_id", "target_version", "kernel_version", "pack_versions", "mapping_revision", "lens"}
+    if not isinstance(manifest, dict) or set(manifest) - allowed or (allowed - {"lens"}) - set(manifest):
+        return True
+    if manifest.get("lens") != lens or not isinstance(lens, str):
+        return True
+    names = ("target_id", "target_version", "kernel_version")
+    if any(not isinstance(manifest.get(key), str) or not manifest[key] for key in names):
+        return True
+    if manifest["kernel_version"] != KERNEL_CONTRACT or not positive_uint(manifest.get("mapping_revision")):
+        return True
+    packs = manifest.get("pack_versions")
+    if not isinstance(packs, list):
+        return True
+    return any(pack_ref_error(pack) for pack in packs)
+
+
+def revision_error(revisions: Any) -> bool:
+    required = {"semantic", "identity", "facts", "services", "capabilities"}
+    if not isinstance(revisions, dict) or set(revisions) - (required | {"structure"}) or required - set(revisions):
+        return True
+    return any(not positive_uint(revisions[key]) for key in required)
+
+
+def citation_error(item: dict[str, Any]) -> bool:
+    """Optional resources and relations are omitted when empty (TGT-2)."""
+    if "resources" in item and (not isinstance(item["resources"], list) or not item["resources"]):
+        return True
+    if any(not isinstance(resource_id, str) or not resource_id for resource_id in item.get("resources", [])):
+        return True
+    if "relations" in item and (not isinstance(item["relations"], list) or not item["relations"]):
+        return True
+    for key in item.get("relations", []):
+        if not isinstance(key, dict) or set(key) != {"definition", "from", "to"}:
+            return True
+        if not isinstance(key.get("from"), str) or not isinstance(key.get("to"), str):
+            return True
+    return False
+
+
+def outcome_error(item: dict[str, Any]) -> bool:
+    outcome = item.get("outcome")
+    loss = item.get("loss")
+    if not isinstance(loss, list):
+        return True
+    if outcome == "exact":
+        return bool(loss) or "reason" in item
+    if outcome == "transformed":
+        return not loss or "reason" in item
+    if outcome in OUTCOMES_WITH_REASON:
+        reason = item.get("reason")
+        return not isinstance(reason, str) or not reason
+    return True
+
+
+def disposition_error(item: Any) -> bool:
+    allowed = {"kind", "item_id", "outcome", "source_keys", "loss", "reason", "resources", "relations"}
+    required = {"kind", "item_id", "outcome", "source_keys", "loss"}
+    if not isinstance(item, dict) or set(item) - allowed or required - set(item):
+        return True
+    if item["kind"] not in ITEM_KINDS or not isinstance(item.get("item_id"), str) or not item["item_id"]:
+        return True
+    if not isinstance(item.get("source_keys"), list):
+        return True
+    return outcome_error(item) or citation_error(item)
+
+
+def item_pair(item: dict[str, Any]) -> tuple[str, str]:
+    return item["kind"], item["item_id"]
+
+
+def items_error(requested: Any, dispositions: Any) -> bool:
+    """Every requested (kind, item_id) has one disposition, both sorted by that pair."""
+    if not isinstance(requested, list) or not requested or not isinstance(dispositions, list):
+        return True
+    if any(not isinstance(item, dict) or set(item) != {"kind", "item_id"} for item in requested):
+        return True
+    if any(disposition_error(item) for item in dispositions):
+        return True
+    wanted = [item_pair(item) for item in requested]
+    return wanted != sorted(wanted) or [item_pair(item) for item in dispositions] != wanted
+
+
+def report_error(report: Any, request: dict[str, Any], snapshots: list[dict[str, Any]]) -> bool:
+    """True when the value is not a ProjectionReport whose lens is manifest.lens."""
+    allowed = {"contract", "manifest", "snapshot_id", "revisions", "requested", "dispositions", "causal"}
+    required = allowed - {"causal"}
+    if not isinstance(report, dict) or set(report) - allowed or required - set(report):
+        return True
+    if report.get("contract") != KERNEL_CONTRACT or manifest_error(report.get("manifest"), request.get("lens")):
+        return True
+    snapshot_id = report.get("snapshot_id")
+    known = {item.get("snapshot_id") for item in snapshots}
+    if not isinstance(snapshot_id, str) or DIGEST_TEXT.match(snapshot_id) is None or snapshot_id not in known:
+        return True
+    if "causal" in report and not isinstance(report["causal"], dict):
+        return True
+    return revision_error(report.get("revisions")) or items_error(report.get("requested"), report.get("dispositions"))
+
+
 def project_read(request: dict[str, Any], edges: list[dict[str, Any]], resources: dict[str, dict[str, Any]],
-                 cut: dict[str, Any]) -> dict[str, Any] | str:
+                 cut: dict[str, Any], snapshots: list[dict[str, Any]]) -> dict[str, Any] | str:
     report = request.get("report")
-    if not isinstance(report, dict) or report.get("lens") != request.get("lens"):
+    if report_error(report, request, snapshots):
         return "invalid_value"
     if not cited_ok(report, edges, resources):
         return "projection_incomplete"
-    return {"cut": cut, "lens": request["lens"], "report": report}
+    return {"cut": cut, "report": report}
 
 
 def prepare_read(vector: dict[str, Any], context: Context) -> tuple[dict[str, Any], dict[str, Any] | None, str | None]:
@@ -1528,7 +1707,7 @@ def evaluate_read(vector: dict[str, Any], entries: dict[str, dict[str, Any]], co
         return follow_error, None
     annotate_edges(edges, entries, followed)
     if vector["operation"] == "project":
-        projected = project_read(request, edges, resources, cut)
+        projected = project_read(request, edges, resources, cut, vector["input"]["snapshots"])
         if isinstance(projected, str):
             return projected, None
         return None, projected

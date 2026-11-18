@@ -675,28 +675,56 @@ class ReadMutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_reads, mutated(change_order), "relations")
 
     def test_page_token_is_bound_to_the_cut_and_the_request(self):
+        # NextPage is a string. Empty lens-result arrays are omitted. Both pages carry one cut.
         item = vector(DOCUMENT, "G-POS-RET-1")
-        pages = item["expect"]["read"]["pages"]
-        token = pages[0]["next_page"]
-        self.assertEqual(token["cut_id"], item["expect"]["read"]["cut"]["cut_id"])
+        read = item["expect"]["read"]
+        for key in ("facts", "findings", "frontier"):
+            self.assertNotIn(key, read)
+        pages = read["pages"]
+        token = json.loads(pages[0]["next_page"])
+        self.assertIsInstance(pages[0]["next_page"], str)
+        self.assertEqual(token["cut_id"], read["cut"]["cut_id"])
         self.assertEqual(token["request_digest"], validator.request_digest(item["input"]["request"]))
         self.assertNotIn("next_page", pages[-1])
+        self.assertEqual({page["cut"]["cut_id"] for page in pages}, {read["cut"]["cut_id"]})
+        union = [row["resource_id"] for page in pages for row in page["resources"]]
+        self.assertEqual(union, [row["resource_id"] for row in read["resources"]])
 
     def test_page_token_fields_are_recomputed(self):
         # cut_id: the token names another cut. request_digest: the token names another request.
+        def rewrite(document, field, value):
+            page = read_of(document, "G-POS-RET-1")["pages"][0]
+            parsed = json.loads(page["next_page"])
+            parsed[field] = value
+            page["next_page"] = json.dumps(parsed, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+
         def cut_field(document):
-            read_of(document, "G-POS-RET-1")["pages"][0]["next_page"]["cut_id"] = digest_of("other-cut")
+            rewrite(document, "cut_id", digest_of("other-cut"))
 
         def digest_field(document):
-            page = read_of(document, "G-POS-RET-1")["pages"][0]["next_page"]
-            page["request_digest"] = digest_of("other-request")
+            rewrite(document, "request_digest", digest_of("other-request"))
 
-        for field, change, fragment in (
-            ("cut_id", cut_field, "next_page.cut_id"),
-            ("request_digest", digest_field, "request_digest"),
-        ):
+        for field, change in (("cut_id", cut_field), ("request_digest", digest_field)):
             with self.subTest(field=field):
-                self.assert_rule_rejects(validator.check_reads, mutated(change), fragment)
+                self.assert_rule_rejects(validator.check_reads, mutated(change), "next_page")
+
+    def test_object_page_token_is_invalid_value(self):
+        # page_token: an object is not the string NextPage, so the token is malformed.
+        def change(document):
+            item = vector(document, "G-NEG-RET-6")
+            item["input"]["request"]["page_token"] = {
+                "cut_id": digest_of("other-cut"), "request_digest": digest_of("other-request"),
+            }
+            item["expect"]["error_id"] = "revision_conflict"
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "invalid_value")
+
+    def test_lens_result_omits_empty_members(self):
+        # facts: an empty array is not the omitted member the lens result declares.
+        def change(document):
+            read_of(document, "G-POS-RET-1")["facts"] = []
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "facts")
 
     def test_resource_order_fields_are_recomputed(self):
         # depth: the recorded depth changed. resource_id: the recorded resource changed.
@@ -854,6 +882,13 @@ class ReadMutationTest(unittest.TestCase):
         # observed_aggregate: the recorded aggregate is the other aggregate on the scope. The
         # recomputed sum returns the aggregate of the requested member fact.
         positive = vector(DOCUMENT, "G-POS-SUM-1")
+        self.assertEqual(positive["input"]["request"]["scope"], "resource:pv-system:01")
+        grouped = [rel["to"] for rel in positive["input"]["snapshots"][0]["relations"]
+                   if rel["definition"]["id"] == "pv.relation.system_inverter"]
+        self.assertEqual(grouped, ["resource:inverter:01", "resource:inverter:02", "resource:inverter:03"])
+        subjects = [fact["key"]["dimensions"][0]["value"]["text"] for fact in positive["input"]["snapshots"][0]["facts"]
+                    if fact["key"]["fact_id"] == "pv.dc.power"]
+        self.assertEqual(sorted(subjects), ["resource:inverter:01", "resource:inverter:02", "resource:inverter:03"])
         self.assertEqual(positive["input"]["request"]["fact"]["id"], "pv.dc.power")
         self.assertEqual(positive["expect"]["read"]["value"]["coefficient"], "60")
         self.assertEqual(positive["expect"]["read"]["value"]["unit"], "unit.watt")
@@ -916,19 +951,59 @@ class ReadMutationTest(unittest.TestCase):
 
         self.assert_rule_rejects(validator.check_reads, mutated(change), "recomputed read is accepted")
 
+    def test_project_report_lens_is_in_the_manifest(self):
+        # lens: the report lens moves to the top level, which is not a projection report.
+        item = vector(DOCUMENT, "G-POS-TGT-1")
+        report = item["input"]["request"]["report"]
+        self.assertNotIn("lens", report)
+        self.assertEqual(report["manifest"]["lens"], item["input"]["request"]["lens"])
+        self.assertEqual(report["contract"], "helianthus.semantic.kernel/v1")
+        disposition = report["dispositions"][0]
+        for key in ("kind", "item_id", "outcome", "source_keys", "loss"):
+            self.assertIn(key, disposition)
+        self.assertEqual(len(disposition["resources"]), 2)
+        self.assertEqual(len(disposition["relations"]), 1)
+
+        def change(document):
+            recorded = vector(document, "G-POS-TGT-1")["input"]["request"]["report"]
+            recorded["lens"] = recorded["manifest"].pop("lens")
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "invalid_value")
+
+    def test_project_disposition_requires_the_report_fields(self):
+        # kind: the disposition no longer carries the projection disposition fields.
+        def change(document):
+            del vector(document, "G-POS-TGT-1")["input"]["request"]["report"]["dispositions"][0]["kind"]
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "invalid_value")
+
     def test_page_size_and_frontier_bound_are_both_bounds_exceeded(self):
-        # frontier: the recorded traverse has no page size and its frontier is above 4096 entries.
-        # The recomputed read is bounds_exceeded. The page-size vector stays the other branch.
-        page = vector(DOCUMENT, "G-NEG-RET-5")
-        self.assertEqual(page["input"]["request"]["page_size"], 4097)
-        self.assertEqual(page["expect"]["error_id"], "bounds_exceeded")
-        item = vector(DOCUMENT, "G-NEG-RET-8")
+        # frontier: G-NEG-RET-5 has no page size and its frontier is above 4096 entries.
+        # The page-size branch is the other vector. Each snapshot stays within the per-asset bound.
+        item = vector(DOCUMENT, "G-NEG-RET-5")
         self.assertEqual(item["expect"]["error_id"], "bounds_exceeded")
         self.assertIsNone(item["input"]["request"].get("page_size"))
+        counts = [len(snap["resources"]) for snap in item["input"]["snapshots"]]
+        self.assertTrue(all(count <= 4096 for count in counts))
+        self.assertGreater(sum(counts), 4096)
+        page = vector(DOCUMENT, "G-NEG-RET-8")
+        self.assertEqual(page["input"]["request"]["page_size"], 4097)
+        self.assertEqual(page["expect"]["error_id"], "bounds_exceeded")
         registered, _found = validator.state_entries(DOCUMENT, CONTEXT)
         error, body = validator.evaluate_read(item, registered[item["prior_state"]], CONTEXT)
         self.assertEqual(error, "bounds_exceeded")
         self.assertIsNone(body)
+
+    def test_frontier_bound_accepts_4096_entries(self):
+        # resources: one stopping resource is removed, so the frontier is within the bound.
+        def change(document):
+            item = vector(document, "G-NEG-RET-5")
+            snap = max(item["input"]["snapshots"], key=lambda candidate: len(candidate["resources"]))
+            removed = snap["resources"].pop()["resource_id"]
+            snap["relations"] = [rel for rel in snap["relations"] if rel["from"] != removed]
+            snap["snapshot_id"] = validator.snapshot_identifier(snap)
+
+        self.assert_rule_rejects(validator.check_reads, mutated(change), "recomputed read is accepted")
 
 
 if __name__ == "__main__":

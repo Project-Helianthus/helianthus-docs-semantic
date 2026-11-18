@@ -16,11 +16,19 @@ status: "unreleased change record; implementation and consumer adoption remain p
   recomputes the served cut identifier and the canonical order, and rejects a
   lens that is not in the catalog. A `list_resources` plane filter uses PLN-3
   membership: a current resource is listed only when PLN-3 places it in the
-  requested plane. A lens resource carries the lens planes it is in. A member
-  sum adds `pv.dc.power` and returns the scope aggregate of that fact beside
-  the sum. Two further vectors cover the remaining branch of the two section
-  36 rows that state two cases: a relation definition outside the requested
-  planes, and a frontier above 4096 entries. No stable error is added. No
+  requested plane. A lens resource carries the lens planes it is in. A lens
+  result omits empty relations, facts, findings and frontier. A page token is
+  a string bound to the cut identifier and to the digest of the request, and
+  each recorded page is a lens result. A member sum over three inverters
+  grouped by a system adds `pv.dc.power` and returns that scope's aggregate
+  beside the sum. `G-NEG-RET-5` is the frontier bound: 4097 entries split
+  across two assets, so each asset stays within the per-asset resource bound.
+  Two further vectors
+  cover the other branch of the two section 36 rows that state two cases:
+  `G-NEG-RET-7` is a relation definition outside the requested planes, and
+  `G-NEG-RET-8` is a page size above 4096. A projection report is the kernel
+  report: the lens is `manifest.lens`, and each disposition carries its kind,
+  item, outcome, source keys and loss. No stable error is added. No
   thermal quantity is placed. No version is raised. SemReg follow-up: re-copy
   this vector document and move its SHA-256 pin.
 - Breaking, in place before the 0.7 release: the
