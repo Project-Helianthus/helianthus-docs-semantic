@@ -6,6 +6,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The [CAN storage mapping gate](api/v1/mappings/growatt-bms-can-storage-v1.md)
+  of the low-voltage BMS family states, for each profile and native field, the
+  storage element, dimension and conversion, or the package E element the
+  field waits for. Profiles are the revision-labelled V1.04 contract, PCS
+  standard, PCS extended, PCS gauge, PCS parallel and LINK. Percent becomes a
+  ratio by division by 100, degree Celsius becomes kelvin by adding 273.15,
+  a kilowatt-hour becomes joule by multiplication by 3 600 000, and an
+  ampere-hour stays an ampere-hour. Current and voltage limits, cycle count,
+  per-cell voltage, chemistry and insulation resistance wait for named
+  elements the pack does not define yet. No pack version is raised. No
+  transmission is granted and no consumer binding is published.
 - Breaking, in place before the 0.7 release: the
   [low-voltage BMS storage gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
   maps the cell voltage extremes on one allocated cell. Remaining capacity
