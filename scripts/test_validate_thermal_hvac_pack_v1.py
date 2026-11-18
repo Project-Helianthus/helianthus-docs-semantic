@@ -61,6 +61,10 @@ FIELD_TABLE = {
     "thermal.measurement.air_temperature": (ZONE, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.humidity": (ZONE, "unit.ratio", RATIO),
     "thermal.setpoint.temperature_setpoint": (ZONE, "unit.kelvin", SET_TEMPERATURE),
+    "thermal.setpoint.occupied_cooling": (ZONE, "unit.kelvin", SET_TEMPERATURE),
+    "thermal.setpoint.occupied_heating": (ZONE, "unit.kelvin", SET_TEMPERATURE),
+    "thermal.setpoint.unoccupied_cooling": (ZONE, "unit.kelvin", SET_TEMPERATURE),
+    "thermal.setpoint.unoccupied_heating": (ZONE, "unit.kelvin", SET_TEMPERATURE),
     "thermal.mode.zone": (ZONE, None, None),
     "thermal.measurement.circuit_flow_temperature": (CIRCUIT, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.flow_rate": (CIRCUIT, "unit.cubic_metre_per_second", (Fraction(0), Fraction(2, 10))),
@@ -116,6 +120,17 @@ OVERRUN_IDS = (
     "thermal.overrun.valve_kick",
 )
 OVERRUN_STATUSES = ("active", "finished", "inactive", "running")
+# Four zone setpoints, distinct from the single zone setpoint, in canonical id order.
+OCCUPANCY_SETPOINTS = (
+    "thermal.setpoint.occupied_cooling",
+    "thermal.setpoint.occupied_heating",
+    "thermal.setpoint.unoccupied_cooling",
+    "thermal.setpoint.unoccupied_heating",
+)
+# System mode keeps auto, cool, heat and off, and adds the five symbols, sorted.
+SYSTEM_MODE_SYMBOLS = (
+    "auto", "cool", "dry", "emergency_heat", "fan_only", "heat", "off", "precooling", "sleep",
+)
 # Relation -> (from dimensions, to dimensions, cardinality).
 RELATION_TABLE = {
     "thermal.relation.system_member": (
@@ -339,6 +354,90 @@ def overrun_identity_mutants(document: dict) -> int:
     return count
 
 
+def system_mode_symbols() -> list[str]:
+    return [f"thermal.mode.system.{name}" for name in SYSTEM_MODE_SYMBOLS]
+
+
+def check_occupancy_setpoints(document: dict) -> None:
+    """Four zone kelvin setpoints, distinct from the single zone setpoint.
+
+    Identity fields and the production mutation each case catches:
+    field id: removing the field is rejected as a field catalog mismatch;
+    dimension: moving it off thermal.dimension.zone is rejected as a subject mismatch;
+    unit: replacing unit.kelvin is rejected as a field unit mismatch;
+    minimum bound: shifting the minimum is rejected as bounds differ;
+    maximum bound: shifting the maximum is rejected as bounds differ;
+    each system-mode symbol auto, cool, dry, emergency_heat, fan_only, heat, off,
+    precooling and sleep: replacing that token is rejected as invalid semantic symbols.
+    """
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    missing = [identifier for identifier in OCCUPANCY_SETPOINTS if identifier not in fields]
+    mode = fields["thermal.mode.system"].get("symbols", [])
+    missing_symbols = [name for name in SYSTEM_MODE_SYMBOLS if f"thermal.mode.system.{name}" not in mode]
+    if missing or missing_symbols:
+        raise AssertionError(
+            f"occupancy setpoints absent: {missing}; system mode symbols absent: {missing_symbols}")
+    for identifier in OCCUPANCY_SETPOINTS:
+        field = fields[identifier]
+        if field["dimension"] != ZONE or field.get("unit") != "unit.kelvin":
+            raise AssertionError(f"{identifier} is not a zone kelvin quantity")
+        actual = (exact_value(field["bounds"]["minimum"]), exact_value(field["bounds"]["maximum"]))
+        zone = fields["thermal.setpoint.temperature_setpoint"]
+        same = (exact_value(zone["bounds"]["minimum"]), exact_value(zone["bounds"]["maximum"]))
+        if actual != SET_TEMPERATURE or actual != same:
+            raise AssertionError(f"{identifier} bounds differ from the zone setpoint")
+    if mode != system_mode_symbols():
+        raise AssertionError("thermal.mode.system symbols differ")
+    operation = next(item for item in definitions(document)["operations"]
+                     if item["id"] == "thermal.operation.set_temperature")
+    if operation["arguments"] != ["thermal.setpoint.temperature_setpoint"]:
+        raise AssertionError("set-temperature operation no longer takes the single zone setpoint")
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    if "distinct from the single zone setpoint" not in text:
+        raise AssertionError("thermal page does not distinguish the occupancy setpoints")
+    for identifier in OCCUPANCY_SETPOINTS:
+        if identifier not in text:
+            raise AssertionError(f"thermal page misses {identifier}")
+    print("occupancy_setpoints: PASS")
+
+
+def _shift_bound(bound: dict, side: str) -> None:
+    bound["coefficient"] = str(int(bound["coefficient"]) + (-1 if side == "minimum" else 1))
+    if bound["coefficient"] != "0" and bound["coefficient"].endswith("0"):
+        bound["coefficient"] = str(int(bound["coefficient"]) + 1)
+
+
+def occupancy_identity_mutants(document: dict) -> int:
+    count = 0
+    for identifier in OCCUPANCY_SETPOINTS:
+        index = field_index(document, identifier)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        moved = copy.deepcopy(document)
+        definitions(moved)["fields"][index]["dimension"] = CIRCUIT
+        reject(moved, "field subject differs")
+        count += 1
+        wrong = copy.deepcopy(document)
+        definitions(wrong)["fields"][index]["unit"] = "unit.watt"
+        reject(wrong, "field unit")
+        count += 1
+        for side in ("minimum", "maximum"):
+            shifted = copy.deepcopy(document)
+            _shift_bound(definitions(shifted)["fields"][index]["bounds"][side], side)
+            reject(shifted, "field bounds differ")
+            count += 1
+    mode_index = field_index(document, "thermal.mode.system")
+    for name in SYSTEM_MODE_SYMBOLS:
+        renamed = copy.deepcopy(document)
+        symbols = definitions(renamed)["fields"][mode_index]["symbols"]
+        symbols[symbols.index(f"thermal.mode.system.{name}")] = "thermal.mode.system.paused"
+        reject(renamed, "field has invalid semantic symbols")
+        count += 1
+    return count
+
+
 def append_qualifier(document: dict) -> None:
     extra = copy.deepcopy(definitions(document)["fact_dimensions"][0])
     extra["id"] = "thermal.dimension.quantity"
@@ -393,6 +492,7 @@ def main() -> None:
     validator.validate_document(document)
     print("baseline: PASS")
     check_overrun_identity(document)
+    check_occupancy_setpoints(document)
     check_field_table(document)
     check_units(document)
     check_dimensions(document)
@@ -406,6 +506,7 @@ def main() -> None:
     print(f"field_subject_unit_bound_mutants: {field_axis_mutants(document)} REJECTED")
     print(f"relation_axis_mutants: {relation_axis_mutants(document)} REJECTED")
     print(f"overrun_identity_mutants: {overrun_identity_mutants(document)} REJECTED")
+    print(f"occupancy_identity_mutants: {occupancy_identity_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":

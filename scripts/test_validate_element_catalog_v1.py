@@ -156,7 +156,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 377 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 381 entries"))
 
     def test_overrun_evidence_is_a_document_link(self):
         for ident in OVERRUN_FACTS:
@@ -165,7 +165,7 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 313)
+        self.assertEqual(len(kinds), 317)
         self.assertEqual(kinds.count("relation"), 26)
         self.assertEqual(kinds.count("presentation"), 38)
         self.assertEqual(kinds.count("dimension"), 36)
