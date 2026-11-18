@@ -30,8 +30,8 @@ UNSTATED_OUTCOME = "unknown_not_absent"
 SELECTORS = [{"selector": "profile", "classification": "provenance", "evidence": ["native_contract:profile", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]}]
 # EN-1: subject kind and dimension come from the element catalog; the gate states the measurement point.
 FIELD_RULES = [
-    {"source": "persistent.MaxOutputCurrentAmps", "target": "evse.limit.configured_current", "measurement_point": "limit_defined_at_evse_output", "unit": "unit.ampere", "disposition": "exact"},
-    {"source": "provisional.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "measurement_point": "limit_defined_at_connector_output", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"},
+    {"source": "provisional.readback.ConfiguredCurrentAmps", "target": "evse.limit.configured_current", "measurement_point": "limit_defined_at_evse_output", "unit": "unit.ampere", "disposition": "exact"},
+    {"source": "provisional.readback.LimitCurrentMaxAmps", "target": "evse.limit.allocated_current", "measurement_point": "limit_defined_at_connector_output", "unit": "unit.ampere", "disposition": "exact_when_finite_timeout_and_not_inhibited"},
 ]
 PINS = {"docs_semantic_base": "f830ace6c2b9dd1af0e87ce808fa545662578418", "semreg": "f3f761bc67e10d6a65eba6c13cb4dc51002d6955", "docs_modbus_current_limit": "6611e20ac8b2c3e8b953934757346f8a847b30bf", "docs_modbus_native_projection": "1127c333de1f1d02305952a58f8745ee05c42e12", "modbusreg": "57f7eb84f7d4e1173621711bf64624726c71bc75", "gateway_main": "32244901c4c8337266cd348bdad90fb9e8eb0a61"}
 ERRORS = ["profile_or_version_invalid", "identity_invalid", "source_path_invalid", "evidence_binding_invalid", "lifecycle_invalid", "unsupported_fact_or_operation"]
@@ -193,7 +193,7 @@ def validate_contract(contract, catalog=None):
     if contract.get("contract") != "helianthus.semantic.mapping.tesla-gen3-wc3-24443.evse-current-limit/v1" or contract.get("pack") != PACK or contract.get("pins") != PINS:
         fail("contract")
     native = contract.get("native_contract")
-    if native != {"profile": "wc3_24_44_3", "source_path": "modbus.v1.tesla.gen3.evse.current_limit.get", "function": "FC100", "read_only": True, "outbound_allowed": False, "persistent": {"request_response": "family_6.t7_to_t8", "field": "MaxOutputCurrentAmps", "unit": "unit.ampere"}, "provisional": {"set_ack": "family_6.t25_to_t26", "readback": "family_6.t27_to_t28", "field": "LimitCurrentMaxAmps", "timeout": "LimitTimeoutSeconds", "inhibit": "InhibitCharging", "unit": "unit.ampere"}}:
+    if native != {"profile": "wc3_24_44_3", "source_path": "modbus.v1.tesla.gen3.evse.current_limit.get", "function": "FC100", "read_only": True, "outbound_allowed": False, "persistent": {"request_response": "family_6.t7_to_t8", "field": "MaxOutputCurrentAmps", "unit": "unit.ampere"}, "provisional": {"set_ack": "family_6.t25_to_t26", "readback": "family_6.t27_to_t28", "configured_field": "ConfiguredCurrentAmps", "allocated_field": "LimitCurrentMaxAmps", "timeout": "LimitTimeoutSeconds", "inhibit": "InhibitCharging", "unit": "unit.ampere"}}:
         fail("native_contract")
     validate_graph(contract, catalog)
     validate_identity(contract.get("identity", {}))
@@ -222,6 +222,18 @@ def valid_evidence(evidence, refs, correlation=False):
     return not correlation or evidence.get("correlation_id") == evidence["immutable_evidence_id"]
 
 
+def non_negative_int(value):
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
+
+
+def publish_configured_current(facts, withheld, provisional):
+    configured = provisional.get("ConfiguredCurrentAmps")
+    if non_negative_int(configured):
+        facts.append({"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": str(configured), "exponent10": 0}, "unit": "unit.ampere"})
+    else:
+        withheld.append({"id": "evse.limit.configured_current", "reason": "provisional_record_malformed"})
+
+
 def project(case, contract):
     errors = set()
     if case.get("profile") != "wc3_24_44_3": errors.add(ERRORS[0])
@@ -243,20 +255,22 @@ def project(case, contract):
         if error in errors: fail(error)
     persistent, provisional = case.get("persistent"), case.get("provisional")
     if not isinstance(persistent, dict) or not isinstance(persistent.get("MaxOutputCurrentAmps"), int) or isinstance(persistent["MaxOutputCurrentAmps"], bool) or persistent["MaxOutputCurrentAmps"] < 0: fail(ERRORS[3])
-    facts = [{"id": "evse.limit.configured_current", "dimension": "evse", "value": {"coefficient": str(persistent["MaxOutputCurrentAmps"]), "exponent10": 0}, "unit": "unit.ampere"}]
-    withheld = []
+    facts, withheld = [], []
+    both = ("evse.limit.configured_current", "evse.limit.allocated_current")
     if not isinstance(provisional, dict):
-        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_record_absent"})
+        withheld.extend({"id": fact_id, "reason": "provisional_record_absent"} for fact_id in both)
     elif not valid_evidence(evidence.get("provisional"), PROVISIONAL_REFS, correlation=True):
-        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_evidence_invalid"})
-    elif provisional.get("LimitTimeoutSeconds") == 0:
-        withheld.append({"id": "evse.limit.allocated_current", "reason": "zero_timeout_unresolved"})
-    elif provisional.get("InhibitCharging") is not False:
-        withheld.append({"id": "evse.limit.allocated_current", "reason": "inhibit_state_not_semantically_representable"})
-    elif not isinstance(provisional.get("LimitCurrentMaxAmps"), int) or isinstance(provisional["LimitCurrentMaxAmps"], bool) or not 6 <= provisional["LimitCurrentMaxAmps"] <= 1000 or not isinstance(provisional.get("LimitTimeoutSeconds"), int) or not 1 <= provisional["LimitTimeoutSeconds"] <= 86399:
-        withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_record_malformed"})
+        withheld.extend({"id": fact_id, "reason": "provisional_evidence_invalid"} for fact_id in both)
     else:
-        facts.append({"id": "evse.limit.allocated_current", "dimension": "connector", "value": {"coefficient": str(provisional["LimitCurrentMaxAmps"]), "exponent10": 0}, "unit": "unit.ampere"})
+        publish_configured_current(facts, withheld, provisional)
+        if provisional.get("LimitTimeoutSeconds") == 0:
+            withheld.append({"id": "evse.limit.allocated_current", "reason": "zero_timeout_unresolved"})
+        elif provisional.get("InhibitCharging") is not False:
+            withheld.append({"id": "evse.limit.allocated_current", "reason": "inhibit_state_not_semantically_representable"})
+        elif not isinstance(provisional.get("LimitCurrentMaxAmps"), int) or isinstance(provisional["LimitCurrentMaxAmps"], bool) or not 6 <= provisional["LimitCurrentMaxAmps"] <= 1000 or not isinstance(provisional.get("LimitTimeoutSeconds"), int) or not 1 <= provisional["LimitTimeoutSeconds"] <= 86399:
+            withheld.append({"id": "evse.limit.allocated_current", "reason": "provisional_record_malformed"})
+        else:
+            facts.append({"id": "evse.limit.allocated_current", "dimension": "connector", "value": {"coefficient": str(provisional["LimitCurrentMaxAmps"]), "exponent10": 0}, "unit": "unit.ampere"})
     return {"facts": facts, "withheld": withheld, "operations": []}
 
 

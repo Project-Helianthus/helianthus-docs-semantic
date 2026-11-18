@@ -197,6 +197,7 @@ point. The subject kind and the dimension are looked up in the
 | `active_power` | `pv.ac.aggregate_active_power` | `resource.inverter` | `inverter_ac_output` |
 | `device_status` | `pv.status.operating` | `resource.inverter` | `inverter_as_a_whole` |
 | `energy_accumulated` | `pv.energy.generated` | `resource.pv_system` | `inverter_ac_output_lifetime_counter` |
+| `energy_current_day` | `pv.energy.yield_day` | `resource.pv_system` | `inverter_ac_output_day_counter` |
 
 Aggregates follow section 15 item 4 and EN-5. The input power and the active
 power are aggregates of the inverter. The native words state no aggregation
@@ -204,9 +205,13 @@ basis, so both stay on the inverter without coverage. The lifetime energy
 counter is the inverter's own, measured at its AC output. The pack's only
 generated-energy fact has the PV system as subject, so the counter is published
 on the system this gate gives the inverter, whose coverage is that one
-system-to-inverter relation. It is never summed across inverters. Placing it
-on the inverter itself needs an inverter-subject energy definition, which the
-pack does not have (see the unresolved questions).
+system-to-inverter relation. The current-day yield is the same kind of
+aggregate, on the same system, with the same coverage. Neither is summed
+across inverters. Placing either on the inverter itself needs an
+inverter-subject energy definition, which the pack does not have (see the
+unresolved questions). The monitoring contract has no month or year yield
+word, so those pack yields stay prospective on the hour counter and are not
+published.
 
 Selectors follow section 15 item 5. The registry profile identifier and the
 pack class token are the only interpretation selectors this gate uses, and
@@ -229,6 +234,7 @@ offset.
 | `active_power` | I32, kW, gain 1000 | `pv.ac.aggregate_active_power` | `unit.watt`, factor 1000, offset 0 | `pv.dimension.inverter` | transformed | unit+provenance | Unknown | Proven |
 | `device_status` | U16, code | `pv.status.operating` | none | `pv.dimension.inverter` | transformed | symbol | Unknown | Hypothesis |
 | `energy_accumulated` | U32, kWh, gain 100 | `pv.energy.generated` | `unit.joule`, factor 3600000, offset 0 | `pv.dimension.system` | transformed | unit+policy | Proven | Hypothesis |
+| `energy_current_day` | U32, kWh, gain 100 | `pv.energy.yield_day` | `unit.joule`, factor 3600000, offset 0 | `pv.dimension.system` | transformed | unit+policy | Hypothesis | Hypothesis |
 
 The grade columns are ceilings. A Proven fact is already graded Hypothesis by the
 registry at a unit that was not read for monitoring, and this gate takes the
@@ -255,12 +261,10 @@ Rules, each with the grade of the contract row it restates:
    rounds.
 3. **Range.** The pack's bounds are exact decimals. A decoded value outside them
    is withheld with `pv.reason.value_outside_pack_range` and is never clamped.
-4. **Sign.** The contract states a sign only for active power: positive while
-   producing (Proven at the observed child), and the negative range is Unknown.
-   A negative active power is withheld with
-   `pv.reason.negative_active_power_sign_unknown`; no value is published with an
-   assumed sign. The input power has no stated sign, and a negative value is
-   outside the pack's bounds.
+4. **Sign.** Active power is published as the signed watt value, including a
+   negative value. The native reference remains positive while producing, and
+   the aggregation basis stays provenance. The input power has no stated sign,
+   and a negative value is outside the pack's bounds.
 5. **Aggregates.** The input power and the active power are single words per
    inverter. They map to the pack's aggregate fields, with the aggregation basis
    of the native words kept as provenance, because the contract does not state
@@ -285,17 +289,18 @@ Rules, each with the grade of the contract row it restates:
 
 ## Energy counter policy
 
-`energy_accumulated` is published as read as `pv.energy.generated`, converted
-exactly to joule. Reset,
-rollover and continuity are Unknown because none was observed, so a decrease
-between two observations never proves a reset or a wrap, native evidence is
-required to say so, and the policy loss is not reversible. No delta, rate or
-period energy is published. There is no derived energy: nothing is computed from
-power, from another counter, from the hour or day counters, or by summing
-inverters into a plant total. The current-hour and current-day counters are
-withheld: the pack's generated-energy fact is a lifetime counter, and the period
-boundary and time domain of these counters are Unknown. The device statistics
-time is never used as a sample time.
+`energy_accumulated` is published as read as `pv.energy.generated`, and
+`energy_current_day` is published as read as `pv.energy.yield_day`. Both are
+converted exactly to joule. Reset, rollover and continuity are Unknown because
+none was observed, so a decrease between two observations never proves a reset
+or a wrap, native evidence is required to say so, and the policy loss is not
+reversible. The day yield is the counter as read. There is no derived energy: nothing
+is computed from the lifetime counter, the hour counter, power, or another
+inverter. The hour counter stays
+unpublished: it is not a pack yield period. The monitoring contract has no
+month or year yield word, so `pv.energy.yield_month` and `pv.energy.yield_year`
+stay prospective and unpublished. Nothing is summed across inverters into a
+plant total. The device statistics time is never used as a sample time.
 
 ## Withheld and native-only
 
@@ -306,7 +311,6 @@ names a reason that declares its loss.
 | Native item | Disposition | Reason | Loss kind | Kernel outcome |
 | --- | --- | --- | --- | --- |
 | `energy_current_hour` | withheld | `pv.reason.period_counter_time_domain_not_represented` | time | withheld |
-| `energy_current_day` | withheld | `pv.reason.period_counter_time_domain_not_represented` | time | withheld |
 | `status_group_words` | native_only | `pv.reason.state_and_alarm_meanings_unknown` | symbol | unrepresentable |
 | `string_group_tail_words` | native_only | `pv.reason.no_defined_input_beyond_eighth` | capability | unrepresentable |
 | `power_group_other_words` | withheld | `pv.reason.field_not_consumed_by_profile` | policy | withheld |

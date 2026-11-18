@@ -29,6 +29,7 @@ UNIT_CONVERSION = {
     ("A", "unit.ampere"): IDENTITY,
     ("degC", "unit.kelvin"): {"factor": ONE, "offset": {"coefficient": "27315", "exponent10": -2}},
     ("Ah", "unit.ampere_hour"): IDENTITY,
+    ("mV", "unit.volt"): {"factor": {"coefficient": "1", "exponent10": -3}, "offset": ZERO},
 }
 # Members of a field rule; no other member, and so no second statement of a conversion, is accepted.
 QUANTITY_RULE_MEMBERS = {"source", "requested", "target", "subject_kind", "measurement_point", "disposition", "unit", "native_unit", "conversion"}
@@ -39,13 +40,30 @@ MEASUREMENT_POINTS = {
     "storage.pack.voltage": "pack_terminals", "storage.pack.current": "pack_terminals",
     "storage.temperature.pack": "pack_as_a_whole",
     "storage.capacity.charge": "pack_terminals_lifetime_counter", "storage.capacity.discharge": "pack_terminals_lifetime_counter",
+    "storage.cell.voltage_minimum": "extreme_cell_unindexed", "storage.cell.voltage_maximum": "extreme_cell_unindexed",
 }
 ALLOCATED = "gateway_allocated_resource_id"
 # Section 6.3: one gateway-allocated ResourceID per resource role; a role's kind is its dimension's kind in the element catalog.
-# Only the pack is a role: the gate maps no fact about a battery, module, cell, string or interface.
-RESOURCE_ROLES = {"pack": {"dimension": "storage.dimension.pack", "source": ALLOCATED, "required": True}}
+# The pack and one cell are roles. The native contract does not name the cell that holds an extreme, so both extremes share that cell.
+RESOURCE_ROLES = {
+    "pack": {"dimension": "storage.dimension.pack", "source": ALLOCATED, "required": True},
+    "cell": {"dimension": "storage.dimension.cell", "source": ALLOCATED, "required": True},
+}
 # Section 15 item 1: the statements the evidence of each resource role carries.
-ROLE_STATEMENTS = {"pack": ("future_native_token", "native_owner_token_stability", "identification_scheme")}
+ROLE_STATEMENTS = {
+    "pack": ("future_native_token", "native_owner_token_stability", "identification_scheme"),
+    "cell": ("native_owner_token_stability", "identification_scheme"),
+}
+PARENTS = {"pack": None, "cell": "resource.battery_module"}
+WITHHELD_WAITS = {
+    "remaining_capacity_amp_hours": "storage.energy.remaining",
+    "full_charge_capacity_amp_hours": "storage.energy.usable_capacity",
+    "cycle_count": "storage.reason.no_exact_cycle_count_definition",
+    "continuous_charge_seconds": "storage.reason.no_exact_charge_time_definition",
+    "current_cycle_charge_amp_hours": "storage.reason.cycle_time_domain_not_represented",
+    "average_cell_voltage_volts": "storage.reason.no_cell_identity_or_extrema_semantics",
+    "floating_pack_voltage_volts": "storage.reason.not_interchangeable_with_observed_pack_voltage",
+}
 # Section 15 item 3 and section 6.4: the pack is read directly and relayed by no unit; a second view of it shares no
 # native token with this one, so it joins only by an operator declaration.
 TWO_VIEWS = ["read_directly_over_rs485", "seen_through_another_path"]
@@ -89,7 +107,7 @@ PINS = {
 LOSS_KINDS = {"unit", "range", "precision", "time", "symbol", "provenance", "identity", "capability", "operation", "policy"}
 ERROR_PRECEDENCE = ["native_evidence_missing", "revision_or_unit_or_slice_invalid", "identity_missing_or_invalid", "lifecycle_missing", "mapping_unqualified", "unsupported_or_withheld"]
 OPAQUE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@-]*$")
-UNSUPPORTED = ["pack_power", "state_of_health", "cell_temperature_meaning", "cell_voltage_extrema", "pack_module_cell_string_topology", "repeated_pack_identity", "warning_error_company_status", "extension_words", "calibration_control_adjacent_fields", "writable_ranges", "charge_discharge_limits", "interlock", "authority", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
+UNSUPPORTED = ["pack_power", "state_of_health", "cell_temperature_meaning", "pack_module_cell_string_topology", "repeated_pack_identity", "warning_error_company_status", "extension_words", "calibration_control_adjacent_fields", "writable_ranges", "charge_discharge_limits", "interlock", "authority", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
 
 
 def load():
@@ -253,11 +271,12 @@ def check_conversion(rule, fields):
 
 
 def check_subject(rule, catalog):
-    """EN-1: a field rule names its target's catalog subject kind and the gate's measurement point; the subject is the pack role."""
+    """EN-1: a field rule names its target's catalog subject kind and the gate's measurement point; the subject is one published role."""
     subject = catalog.subject(rule.get("target"))
+    dimension = subject.get("dimension", {}).get("id")
     if rule.get("subject_kind") != subject.get("kind") or rule.get("measurement_point") != MEASUREMENT_POINTS.get(rule.get("target")):
         fail("field rule subject")
-    if subject.get("dimension", {}).get("id") != RESOURCE_ROLES["pack"]["dimension"]:
+    if dimension not in {spec["dimension"] for spec in RESOURCE_ROLES.values()}:
         fail("field rule subject")
 
 
@@ -286,7 +305,7 @@ def check_graph_resources(graph, catalog):
         listed = resource["identification_scheme"] != graph_rules.NONE_LISTED
         if resource["anchor_basis"] != ("native_identity" if listed else "operator_slot"):
             fail("graph_anchor")
-        if resource["parent_kind"] is not None:
+        if resource["parent_kind"] != PARENTS[role]:
             fail("graph_parent")
         stated = {item.split(":")[0] for item in resource["evidence"]}
         if not set(ROLE_STATEMENTS[role]) <= stated:
@@ -383,7 +402,7 @@ def validate_contract(document, catalog=None):
     rules = document.get("field_rules", [])
     fields = pack_fields()
     requested = sorted((rule.get("requested") for rule in rules), key=lambda item: item.get("item_id", ""))
-    if len(rules) != 7 or document.get("projection", {}).get("requested_items") != requested:
+    if len(rules) != 9 or document.get("projection", {}).get("requested_items") != requested:
         fail("requested items")
     for rule in rules:
         check_subject(rule, catalog)
@@ -395,7 +414,8 @@ def validate_contract(document, catalog=None):
             fail("transformed loss")
         check_conversion(rule, fields)
         check_sign(rule, catalog)
-    if len(document.get("withheld", [])) != 7 or any(not row.get("reason") for row in document["withheld"]) or document.get("unsupported") != UNSUPPORTED:
+    withheld = document.get("withheld", [])
+    if len(withheld) != 7 or [(row.get("source"), row.get("waits_for")) for row in withheld] != list(WITHHELD_WAITS.items()) or any(not row.get("reason") for row in withheld) or document.get("unsupported") != UNSUPPORTED:
         fail("withheld unsupported")
     projection = document.get("projection", {})
     if projection.get("error_precedence") != ERROR_PRECEDENCE or projection.get("operations") != "unsupported_no_authority" or projection.get("missing_native") != "unavailable_withheld_never_zero":
@@ -420,7 +440,7 @@ def case_identity(identity, source, errors):
     values = [asset_id, source_id, binding_id] + resource_ids
     if not all(opaque(value) for value in values) or len(set(values)) != len(values):
         errors.add("identity_missing_or_invalid")
-    return asset_id, source_id, binding_id, resource_ids[0]
+    return asset_id, source_id, binding_id, dict(zip(roles, resource_ids))
 
 
 def validate_observation(case):
@@ -482,14 +502,31 @@ def validate_observation(case):
     return observation, lifecycle, pack_id, source_id, binding_id
 
 
+def subject_resource(item_id, resource_ids):
+    """The ResourceID of the role whose dimension is the fact's catalog subject."""
+    dimension = element_catalog().subject_dimension(item_id)
+    for role, spec in RESOURCE_ROLES.items():
+        if spec["dimension"] == dimension:
+            return resource_ids[role]
+    fail("identity_missing_or_invalid")
+
+
+def cell_millivolts(typed, name):
+    """A typed cell extreme in millivolts. A missing or negative value is not evidence."""
+    value = typed.get(name)
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        fail("native_evidence_missing")
+    return Decimal(value)
+
+
 def project(case, contract):
-    observation, lifecycle, pack_id, source_id, binding_id = validate_observation(case)
+    observation, lifecycle, resource_ids, source_id, binding_id = validate_observation(case)
     typed = observation.get("typed")
     if not isinstance(typed, dict):
         fail("native_evidence_missing")
     words = [row["words"] for row in observation["slices"]]
     native_state = {1: "soft_starting", 2: "charging", 4: "discharging", 8: "standby"}.get(words[1][6])
-    raw_values = {"soc_percent": Decimal(words[1][8]), "pack_voltage_volts": Decimal(words[1][9]) / 100, "pack_current_amps": Decimal(signed16(words[1][10])) / 100, "temperature_celsius": Decimal(signed16(words[1][11])), "cumulative_charge_amp_hours": Decimal(words[2][5]) / 10, "cumulative_discharge_amp_hours": Decimal(words[2][6]) / 10}
+    raw_values = {"soc_percent": Decimal(words[1][8]), "pack_voltage_volts": Decimal(words[1][9]) / 100, "pack_current_amps": Decimal(signed16(words[1][10])) / 100, "temperature_celsius": Decimal(signed16(words[1][11])), "cumulative_charge_amp_hours": Decimal(words[2][5]) / 10, "cumulative_discharge_amp_hours": Decimal(words[2][6]) / 10, "minimum_cell_voltage_millivolts": cell_millivolts(typed, "minimum_cell_voltage_millivolts"), "maximum_cell_voltage_millivolts": cell_millivolts(typed, "maximum_cell_voltage_millivolts")}
     if native_state is None or typed.get("operating_state") != native_state:
         fail("native_evidence_missing")
     for name, raw_value in raw_values.items():
@@ -508,7 +545,7 @@ def project(case, contract):
     facts, dispositions = [], []
     for requested_item in requested:
         item_id = requested_item["item_id"]
-        key = fact_key(item_id, pack_id)
+        key = fact_key(item_id, subject_resource(item_id, resource_ids))
         if item_id == "storage.status.operating" and operating_token is None:
             dispositions.append({"kind": "fact", "item_id": item_id, "outcome": "withheld", "source_keys": [], "loss": [], "reason": "storage.reason.soft_starting_not_representable"})
             continue

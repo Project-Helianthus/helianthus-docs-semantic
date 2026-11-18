@@ -56,30 +56,34 @@ false; it grants no device support claim or operation.
 The gate states what section 15 of the [graph contract](../graph.md) asks of
 a mapping gate, and its validator runs the shared graph rules before its own.
 
-This is section 15 item 1. Every fact the gate maps has the battery pack as
-its subject in the [element catalog](../element-catalog-v1.json), so the pack
-is the only resource kind it publishes. The catalog lists no identification
-scheme for this low-voltage BMS family, so an operator label anchors the
-pack. No pack token is read, so none is recorded as a future native token. A
-pack serial becomes one only when the native owner documents it as stable;
-until then its stability is Unknown.
+This is section 15 item 1. The catalog lists no identification
+scheme for this low-voltage BMS family, so an operator label anchors each
+published resource. No pack token is read, so none is recorded as a future
+native token. A pack serial becomes one only when the native owner documents
+it as stable; until then its stability is Unknown.
 
 | Kind | Anchor class | Basis | Anchor source | Scheme | Parent kind |
 | --- | --- | --- | --- | --- | --- |
 | `resource.battery_pack` | equipment | `operator_slot` | `operator_label` | none listed | none |
+| `resource.battery_cell` | component | `operator_slot` | `operator_label` | none listed | `resource.battery_module` |
 
-No battery, module, cell, string, interface or storage system is published,
-because the gate maps no fact about any of them. In every fact key, the value
-of the pack dimension is the gateway-allocated resource identifier of the pack
-(RES-5). It is never the asset, source or binding identifier. A key that
-carries one of them, or no pack identifier, fails closed as
-`identity_missing_or_invalid`.
+The pack is the subject of the pack facts. The cell voltage extremes are
+subjects of one allocated cell. The native contract does not name which cell
+holds either extreme, so both facts share that one cell and the index stays
+unknown. The cell's parent kind is the module. The module itself is not
+published, and the module-to-cell relation stays unknown, not absent. No
+battery, string, interface or storage system is published. In every fact key,
+the value of the subject dimension is the gateway-allocated resource
+identifier of that subject (RES-5). It is never the asset, source or binding
+identifier. A key that carries one of them, or no subject identifier, fails
+closed as `identity_missing_or_invalid`.
 
 ## Relations
 
-This is section 15 item 2. One unit reports the values of one pack. It states
-neither the battery the pack belongs to nor its modules, cells, strings or
-interfaces, so the gate's evidence supports no relation. The gate states none
+This is section 15 item 2. One unit reports the values of one pack and the
+two cell-voltage extremes. It states neither the battery the pack belongs to
+nor its modules, strings or interfaces, and it does not state which cell
+holds an extreme, so the gate's evidence supports no relation. The gate states none
 and makes no absence statement. A relation record whose endpoint the gate does
 not publish is rejected as a dangling endpoint (REL-8). An example is a
 module-to-cell relation keyed by a cell index with no published module. An
@@ -129,6 +133,8 @@ keeps the native sign convention of pack current, and the rule keeps it as a
 | `storage.temperature.pack` | `resource.battery_pack` | `pack_as_a_whole` |
 | `storage.capacity.charge` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
 | `storage.capacity.discharge` | `resource.battery_pack` | `pack_terminals_lifetime_counter` |
+| `storage.cell.voltage_minimum` | `resource.battery_cell` | `extreme_cell_unindexed` |
+| `storage.cell.voltage_maximum` | `resource.battery_cell` | `extreme_cell_unindexed` |
 
 ## Mapping and loss
 
@@ -137,24 +143,31 @@ field. Each quantity rule names its native unit, the SI unit of its pack field
 under the [unit rule](../../README.md#unit-rule), and the exact factor and
 offset of its conversion, so that the SI value is the native value times the
 factor plus the offset. Volts, amperes, and ampere-hours are published by the
-identity. State of charge in percent is published as a ratio from 0 to 1 by the
+identity. Cell voltage extremes in millivolts are published as volts by the
+exact factor 0.001. State of charge in percent is published as a ratio from 0 to 1 by the
 exact factor 0.01, and the pack temperature in degrees Celsius as kelvin by the
-exact offset 273.15; each of these two declares a reversible `unit` loss and is
+exact offset 273.15; each conversion that is not the identity declares a reversible `unit` loss and is
 transformed. Every factor and offset here terminates in decimal, so no
 conversion of this gate rounds, and the native value and unit stay in the
 evidence. Capacity stays in ampere-hours, is never converted to energy units,
 and energy is never derived from voltage, current, time, SOC, or a decoded
 combination. `charging` and `discharging` become only the semantic `active`
 state with a SemReg `symbol` loss; `soft_starting` withholds only the operating
-state while the six independently valid facts remain available. Current and
+state while the eight independently valid facts remain available. Current and
 counter continuity use transformed `provenance` and `policy` loss details;
 an exact disposition has empty loss. Exact quantity vectors use SemReg's
 canonical `{coefficient, exponent10}` decimal form derived from the admitted
 fixed-scale words, rather than binary floating-point serialization.
 
-Pack power, SOH, cell-temperature meaning, cell extrema, topology, repeated
+Pack power, SOH, cell-temperature meaning, topology, repeated
 pack identity, warning/error/company status, extension words, writable ranges,
-and all control-adjacent data are unsupported or opaque. Counters retain the
+and all control-adjacent data are unsupported or opaque. The cell voltage
+extremes are mapped. Remaining capacity waits for `storage.energy.remaining`.
+Full-charge capacity waits for `storage.energy.usable_capacity`. Cycle count,
+continuous charge time, current-cycle charge, average cell voltage and
+floating pack voltage stay withheld: the catalog has no element for them, and
+each row names that missing definition rather than a substituted fact. A joule
+capacity is not derived from an ampere-hour capacity. Counters retain the
 reset/wrap loss and never infer a reset.
 
 There is no charge/discharge limit, interlock, authority, write, acknowledgement,

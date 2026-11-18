@@ -17,7 +17,7 @@ def reject(name,path,value,error):
  print(name+': REJECTED')
 ONE,ZERO={'coefficient':'1','exponent10':0},{'coefficient':'0','exponent10':0}
 # (native unit, canonical SI unit) -> exact factor and offset; the SI value is native x factor + offset.
-CONVERSIONS={('%','unit.ratio'):{'factor':{'coefficient':'1','exponent10':-2},'offset':ZERO},('V','unit.volt'):{'factor':ONE,'offset':ZERO},('A','unit.ampere'):{'factor':ONE,'offset':ZERO},('degC','unit.kelvin'):{'factor':ONE,'offset':{'coefficient':'27315','exponent10':-2}},('Ah','unit.ampere_hour'):{'factor':ONE,'offset':ZERO}}
+CONVERSIONS={('%','unit.ratio'):{'factor':{'coefficient':'1','exponent10':-2},'offset':ZERO},('V','unit.volt'):{'factor':ONE,'offset':ZERO},('A','unit.ampere'):{'factor':ONE,'offset':ZERO},('degC','unit.kelvin'):{'factor':ONE,'offset':{'coefficient':'27315','exponent10':-2}},('Ah','unit.ampere_hour'):{'factor':ONE,'offset':ZERO},('mV','unit.volt'):{'factor':{'coefficient':'1','exponent10':-3},'offset':ZERO}}
 # Rule index by target, so that a mutation names the rule it varies.
 RULE={rule['target']:index for index,rule in enumerate(m.load()['field_rules'])}
 def fraction_of(number):
@@ -106,13 +106,9 @@ def relation(definition, from_kind, to_kind, evidence):
 
 
 def cell_by_index(document):
-    """A cell resource and a module-to-cell relation keyed by the cell index, with no module published."""
-    graph = document['graph']
-    graph['resources'].append({'kind': 'resource.battery_cell', 'anchor_class': 'component', 'anchor_basis': 'native_slot',
-                               'anchor_source': 'native_position', 'identification_scheme': 'none_listed',
-                               'parent_kind': 'resource.battery_module', 'evidence': ['native_position:cell_index']})
-    graph['relations'].append(relation('storage.relation.module_cell', 'resource.battery_module', 'resource.battery_cell',
-                                       ['native_position:cell_index']))
+    """A module-to-cell relation keyed by the cell index, with no module published."""
+    document['graph']['relations'].append(relation('storage.relation.module_cell', 'resource.battery_module', 'resource.battery_cell',
+                                                   ['native_position:cell_index']))
 
 
 def collect(cases, run):
@@ -272,7 +268,7 @@ def observation_cases():
         ('pack-resources-missing', lambda c: ids(c).pop('resources'), 'identity_missing_or_invalid'),
         ('pack-resource-invalid', lambda c: ids(c)['resources'].update(pack='!'), 'identity_missing_or_invalid'),
         ('pack-resource-number', lambda c: ids(c)['resources'].update(pack=7), 'identity_missing_or_invalid'),
-        ('pack-resource-extra-role', lambda c: ids(c)['resources'].update(cell='resource:demo-cell-1'), 'identity_missing_or_invalid'),
+        ('pack-resource-extra-role', lambda c: ids(c)['resources'].update(string='resource:demo-string-1'), 'identity_missing_or_invalid'),
     ]
 
 
@@ -301,9 +297,11 @@ def check_published_subjects():
     catalog = {e['ref']['id']: e['attributes'] for e in m.graph_rules.load_catalog()['elements'] if e['element_kind'] == 'fact'}
     contract = m.load()
     baseline = contract['scenarios'][0]
-    pack = baseline['identity']['resources']['pack']
-    if pack in (baseline['identity']['asset_id'], baseline['identity']['binding_id'], baseline['source']['source_id']):
-        raise AssertionError('the pack ResourceID repeats another identifier')
+    resources = baseline['identity']['resources']
+    role_of = {spec['dimension']: role for role, spec in m.RESOURCE_ROLES.items()}
+    identifiers = [resources[role] for role in m.RESOURCE_ROLES]
+    if len(set(identifiers + [baseline['identity']['asset_id'], baseline['identity']['binding_id'], baseline['source']['source_id']])) != len(identifiers) + 3:
+        raise AssertionError('a ResourceID repeats another identifier')
     case = copy.deepcopy(baseline)
     for member in ('expect', 'id', 'polarity'):
         case.pop(member)
@@ -313,8 +311,9 @@ def check_published_subjects():
         keys = [fact['key'] for fact in output['facts']] + [k for d in output['dispositions'] for k in d['source_keys']]
         for fact_key in keys:
             dimension = catalog[fact_key['fact_id']]['subject']['dimension']['id']
-            if fact_key['dimensions'] != [{'id': dimension, 'value': {'kind': 'text', 'text': pack}}]:
-                raise AssertionError(fact_key['fact_id'] + ' key is not its catalog subject with the pack ResourceID')
+            text = resources[role_of[dimension]]
+            if fact_key['dimensions'] != [{'id': dimension, 'value': {'kind': 'text', 'text': text}}]:
+                raise AssertionError(fact_key['fact_id'] + ' key is not its catalog subject ResourceID')
     print('published-subjects: PASS')
 
 
@@ -339,7 +338,22 @@ def check_graph():
     return total
 
 
+def wired_rows():
+    """Cell voltage extremes are mapped, and each withheld row names the element it waits for."""
+    contract = m.load()
+    targets = {rule['target'] for rule in contract['field_rules']}
+    if {'storage.cell.voltage_minimum', 'storage.cell.voltage_maximum'} - targets or 'cell_voltage_extrema' in contract.get('unsupported', []):
+        raise AssertionError('cell voltage extremes are not mapped')
+    waits = {row['source']: row.get('waits_for') for row in contract['withheld']}
+    if waits.get('remaining_capacity_amp_hours') != 'storage.energy.remaining' or waits.get('full_charge_capacity_amp_hours') != 'storage.energy.usable_capacity':
+        raise AssertionError('withheld capacity rows do not name the element they wait for')
+    if any(not row.get('waits_for') for row in contract['withheld']):
+        raise AssertionError('a withheld row does not name what it waits for')
+    print('wired-rows: PASS')
+
+
 def main():
+ wired_rows()
  graph_total = check_graph()
  check_si_conversions()
  soc,temperature,voltage,charge=RULE['storage.state.soc'],RULE['storage.temperature.pack'],RULE['storage.pack.voltage'],RULE['storage.capacity.charge']
@@ -373,7 +387,7 @@ def main():
  ]
  for c in conversion_cases:
   reject_change(*c)
- cases=[('pin','pins.gateway_tree','0'*40,'contract'),('revision','native_contract.revision.cumulative_revision','2.03','native contract'),('unit','native_contract.unit.allowed','0..247','native contract'),('slice','native_contract.slices.0.quantity',8,'native contract'),('physical','native_contract.qualification.physical_qualified',True,'native contract'),('asset-derivation','identity.asset_id.forbidden_derivations.0','serial','identity contract'),('source-distinction','identity.source_id.distinct_from','unit_id','identity contract'),('binding-input','identity.binding_id.stable_inputs.0','unit_id','identity contract'),('observation-axis','lifecycle.required_observation_evidence.0','bad','lifecycle contract'),('exact-loss','field_rules.2.disposition.loss',[{'kind':'policy'}],'exact loss'),('invalid-loss-kind','field_rules.0.disposition.loss.0.kind','native_enum_bitfield','transformed loss'),('missing-withheld-reason','withheld.0.reason','','withheld unsupported'),('unsupported-removed','unsupported.0','x','withheld unsupported'),('requested-drift','projection.requested_items.0.item_id','storage.x','requested items'),('precedence','projection.error_precedence.0','x','projection'),('operation','projection.operations','allowed','projection'),('consumer','consumer_cutover.required_removals.1','allowed','consumer cutover')]
+ cases=[('pin','pins.gateway_tree','0'*40,'contract'),('revision','native_contract.revision.cumulative_revision','2.03','native contract'),('unit','native_contract.unit.allowed','0..247','native contract'),('slice','native_contract.slices.0.quantity',8,'native contract'),('physical','native_contract.qualification.physical_qualified',True,'native contract'),('asset-derivation','identity.asset_id.forbidden_derivations.0','serial','identity contract'),('source-distinction','identity.source_id.distinct_from','unit_id','identity contract'),('binding-input','identity.binding_id.stable_inputs.0','unit_id','identity contract'),('observation-axis','lifecycle.required_observation_evidence.0','bad','lifecycle contract'),('exact-loss','field_rules.2.disposition.loss',[{'kind':'policy'}],'exact loss'),('invalid-loss-kind','field_rules.0.disposition.loss.0.kind','native_enum_bitfield','transformed loss'),('missing-withheld-reason','withheld.0.reason','','withheld unsupported'),('waits-remaining','withheld.0.waits_for','storage.energy.usable_capacity','withheld unsupported'),('waits-full-charge','withheld.1.waits_for','storage.energy.remaining','withheld unsupported'),('waits-cycle','withheld.2.waits_for','storage.energy.remaining','withheld unsupported'),('waits-charge-time','withheld.3.waits_for','storage.energy.remaining','withheld unsupported'),('waits-cycle-charge','withheld.4.waits_for','storage.energy.remaining','withheld unsupported'),('waits-average-cell','withheld.5.waits_for','storage.cell.voltage_minimum','withheld unsupported'),('waits-floating','withheld.6.waits_for','storage.pack.voltage','withheld unsupported'),('unsupported-removed','unsupported.0','x','withheld unsupported'),('requested-drift','projection.requested_items.0.item_id','storage.x','requested items'),('precedence','projection.error_precedence.0','x','projection'),('operation','projection.operations','allowed','projection'),('consumer','consumer_cutover.required_removals.1','allowed','consumer cutover')]
  for c in cases: reject(*c)
  data=m.load(); data['scenarios'][0]['expect']['output']['facts'][0]['value']['quantity']['number']['coefficient']='999'
  try: m.document(data)
