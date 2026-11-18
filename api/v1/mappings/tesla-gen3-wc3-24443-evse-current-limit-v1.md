@@ -22,24 +22,25 @@ and gateway composition is
 The accepted generic EVSE input is `helianthus.pack.evse@1.0.0` at this
 repository's base `f830ace6c2b9dd1af0e87ce808fa545662578418`.
 
-Only FC100 family-6 evidence for this exact profile is admissible. Persistent
-`t7` to `t8` `MaxOutputCurrentAmps` maps exactly, in integer amperes, to
-`evse.limit.configured_current`. The correlated provisional `t25` to `t26` and
-`t27` to `t28` `LimitCurrentMaxAmps` maps exactly to
+Only FC100 family-6 evidence for this exact profile is admissible. The
+provisional readback `t27` to `t28` is the source of both limits.
+`ConfiguredCurrentAmps` maps exactly, in integer amperes, to
+`evse.limit.configured_current`. `LimitCurrentMaxAmps` maps exactly to
 `evse.limit.allocated_current` only when `LimitTimeoutSeconds` is finite
-`1..86399` and `InhibitCharging` is false. The zero-timeout form is withheld;
-timeout and inhibit themselves have no EVSE fact. Persistent and provisional
-facts are separate and never substituted for one another.
+`1..86399` and `InhibitCharging` is false. The zero-timeout form withholds
+allocated current; timeout and inhibit themselves have no EVSE fact. The
+ingested persistent `t7` to `t8` exchange is not the source of either limit
+and is never substituted for the readback.
 
 The four provisional request/ack/readback payloads, persistent request/terminal
 payloads, FC100 decoding, and their immutable digests remain native evidence.
 The semantic gate accepts their immutable references only. A source path,
 receipt timestamp, source epoch, driver generation, qualification, semantic
 revision, lifecycle generation, and field-scoped immutable evidence are
-required. Persistent request/terminal evidence is sufficient for one atomic
-configured-current fact. Provisional allocation requires its own complete,
-correlated set/ack/readback evidence; its absence, inhibition, malformed
-payload reference, mismatch, or zero timeout withholds only allocated current.
+required. Persistent request/terminal evidence stays required and publishes
+no limit. Both limits require the provisional readback. Its absence, or an
+invalid or mismatched provisional evidence set, withholds both. Inhibition
+or a zero timeout withholds only allocated current.
 Evidence from observations, epochs, generations, or revisions cannot be
 combined within either fact path. Permitted last-known-good retention remains
 the native owner's lifecycle decision.

@@ -51,6 +51,7 @@ MEASUREMENT_POINTS = {
     "pv_string_voltage": "dc_input_terminals", "pv_string_current": "dc_input_terminals",
     "input_power": "inverter_dc_side", "active_power": "inverter_ac_output",
     "device_status": "inverter_as_a_whole", "energy_accumulated": "inverter_ac_output_lifetime_counter",
+    "energy_current_day": "inverter_ac_output_day_counter",
 }
 FORBIDDEN_DERIVATIONS = ["serial_number", "esn", "vendor", "model", "firmware_or_version", "routed_unit_alone", "endpoint_address"]
 # Section 6.3: a pack class token and a profile identifier are interpretation selectors, so neither derives the home asset.
@@ -81,7 +82,7 @@ STATED_RELATIONS = [
 # Section 6.4: an inverter relayed by its gateway path and also seen directly.
 TWO_PATHS = ["relayed_by_the_gateway_path", "observed_directly"]
 # EN-5: the native power words state no aggregation basis, so their aggregates stay on the inverter without coverage.
-COVERAGE = {"pv.energy.generated": ["pv.relation.system_inverter"]}
+COVERAGE = {"pv.energy.generated": ["pv.relation.system_inverter"], "pv.energy.yield_day": ["pv.relation.system_inverter"]}
 SELECTORS = [
     {"selector": "profile_id", "classification": "provenance", "evidence": ["native_contract:selection_outcomes", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
     {"selector": "class_token", "classification": "provenance", "evidence": ["graph:6.3:a_pack_class_is_never_an_anchor", "graph:6.3:selector_is_provenance_until_native_owner_states_otherwise"]},
@@ -121,9 +122,9 @@ READ_PLAN = {
     M1: [(32000, 16, "retained_no_facts"), (32016, 24, "consumed"), (32064, 32, "consumed"), (32106, 10, "consumed")],
 }
 REFUSED = {M3: [(32064, 32, 3), (37100, 38, 3)], M1: []}
-RUNTIME_REASONS = {"pv.reason.native_fact_unknown", "pv.reason.value_outside_pack_range", "pv.reason.input_presence_unknown", "pv.reason.negative_active_power_sign_unknown", "pv.reason.state_code_not_observed", "pv.reason.power_group_refused"}
+RUNTIME_REASONS = {"pv.reason.native_fact_unknown", "pv.reason.value_outside_pack_range", "pv.reason.input_presence_unknown", "pv.reason.state_code_not_observed", "pv.reason.power_group_refused"}
 UNSUPPORTED = ["per_phase_values", "array_or_string_topology", "tracker_pairing", "plant_or_site_aggregate", "planned_plant_groups", "derived_energy", "active_power_limit", "export_power_limit", "enable_disable", "write_operations", "acknowledgement", "readback", "retry", "control_routes"]
-REQUESTED = ["pv.ac.aggregate_active_power", "pv.dc.aggregate_power", "pv.dc.current", "pv.dc.voltage", "pv.energy.generated", "pv.status.operating"]
+REQUESTED = ["pv.ac.aggregate_active_power", "pv.dc.aggregate_power", "pv.dc.current", "pv.dc.voltage", "pv.energy.generated", "pv.energy.yield_day", "pv.status.operating"]
 DOC_TOKENS = ("gateway-allocated", "operator label", "class token", "unknown, not absent", "section 15", "en-1", "per-asset configuration field is not required", "no binary floating point", "no derived energy", "unknown is never zero", "outbound_allowed=false", "one atomic cutover", "proven only where the monitoring contract is proven")
 
 
@@ -443,6 +444,8 @@ def validate_contract(document, catalog=None):
             for target in rule.get("prospective_targets", []):
                 if target not in fields:
                     fail("prospective target")
+            if rule["native_id"] == "energy_current_hour" and rule.get("prospective_targets") != ["pv.energy.yield_month", "pv.energy.yield_year"]:
+                fail("prospective target")
             continue
         target = rule.get("target")
         pack_field = fields.get(target)
@@ -466,9 +469,9 @@ def validate_contract(document, catalog=None):
                 fail("status loss")
         else:
             check_conversion(rule, spec, losses)
-        if rule["native_id"] == "active_power" and (rule.get("sign") != {"native_reference": "positive_while_producing", "negative_value": "withheld"} or "provenance" not in [loss["kind"] for loss in losses]):
+        if rule["native_id"] == "active_power" and (rule.get("sign") != {"native_reference": "positive_while_producing", "negative_value": "published"} or "provenance" not in [loss["kind"] for loss in losses]):
             fail("sign convention")
-        if rule["native_id"] == "energy_accumulated" and "policy" not in [loss["kind"] for loss in losses]:
+        if rule["native_id"] in ("energy_accumulated", "energy_current_day") and "policy" not in [loss["kind"] for loss in losses]:
             fail("counter policy loss")
         targets.append(target)
     if sorted(targets) != REQUESTED or document.get("projection", {}).get("requested_items") != [{"kind": "fact", "item_id": item} for item in REQUESTED]:
@@ -488,7 +491,7 @@ def validate_contract(document, catalog=None):
         fail("lifecycle contract")
     if document.get("decimal_policy") != {"form": "kernel_decimal_coefficient_exponent10", "exponent10_range": [-18, 18], "zero": "coefficient_0_exponent10_0", "trailing_zero": "moves_to_exponent10", "binary_floating_point": "forbidden", "derived_energy": "forbidden"}:
         fail("decimal policy")
-    if document.get("counter_policy") != {"fact": "pv.energy.generated", "source": "energy_accumulated", "decrease": "never_inferred_as_reset_or_wrap", "continuity": "native_evidence_required", "delta_or_period_energy": "not_published", "sum_across_inverters": "forbidden"}:
+    if document.get("counter_policy") != {"fact": "pv.energy.generated", "source": "energy_accumulated", "decrease": "never_inferred_as_reset_or_wrap", "continuity": "native_evidence_required", "day_yield": {"fact": "pv.energy.yield_day", "source": "energy_current_day", "decrease": "never_inferred_as_reset_or_wrap", "continuity": "native_evidence_required"}, "hour_counter": "not_published", "month_yield": "no_native_word", "year_yield": "no_native_word", "sum_across_inverters": "forbidden"}:
         fail("counter policy")
     if document.get("outcome_vocabulary") != {"exact": "exact", "transformed": "transformed", "withheld": "withheld", "native_only": "unrepresentable"}:
         fail("outcome vocabulary")
@@ -707,8 +710,6 @@ def project(case, contract):
                     pair = [facts[("pv_string_voltage", n)], facts[("pv_string_current", n)]]
                     if not any(int(item["value"]["coefficient"]) for item in pair if item["availability"] == "VALUE"):
                         reason = "pv.reason.input_presence_unknown"
-                if reason is None and nid == "active_power" and raw < 0:
-                    reason = "pv.reason.negative_active_power_sign_unknown"
                 if reason is None:
                     number = convert(raw, fact["value"]["exponent10"], rule["conversion"])
                     bounds = catalog[rule["target"]]["bounds"]

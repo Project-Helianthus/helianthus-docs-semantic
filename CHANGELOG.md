@@ -7,6 +7,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [low-voltage BMS storage gate](api/v1/mappings/growatt-bms-rs485-v202-storage-v1.md)
+  maps the cell voltage extremes on one allocated cell. Remaining capacity
+  and full-charge capacity stay withheld and name
+  `storage.energy.remaining` and `storage.energy.usable_capacity`. The
+  [PV monitoring gate](api/v1/mappings/huawei-sun2000-pv-v1.md) maps the
+  current-day yield and publishes signed active power. Month and year yields
+  stay prospective because the monitoring contract has no word for them. The
+  [current-limit gate](api/v1/mappings/tesla-gen3-wc3-24443-evse-current-limit-v1.md)
+  takes configured current and allocated current from the provisional
+  readback. No pack or contract version is raised.
+- Breaking, in place before the 0.7 release: the
   [infrastructure pack](api/v1/packs/infrastructure-v1.md) adds
   self-consumption `infrastructure.energy.self_consumption` in `unit.joule`
   on `infrastructure.dimension.meter`, with the same bounds as

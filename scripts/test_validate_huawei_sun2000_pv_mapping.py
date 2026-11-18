@@ -145,7 +145,7 @@ def test_no_binary_floating_point_anywhere():
     ("native-words", lambda d: set_path(d, "field_rules.2.native.words", 1), "native form"),
     ("unit-conversion-factor", lambda d: set_path(d, "field_rules.2.conversion.factor", ONE), "unit conversion"),
     ("silent-unit-conversion", lambda d: set_path(d, "field_rules.2.disposition.loss", [{"kind": "provenance", "source_items": ["native.huawei.sun2000.input_power"], "description": "x", "reversible": True}]), "silent unit conversion"),
-    ("sign-convention", lambda d: set_path(d, "field_rules.3.sign.negative_value", "published"), "sign convention"),
+    ("sign-convention", lambda d: set_path(d, "field_rules.3.sign.negative_value", "withheld"), "sign convention"),
     ("sign-provenance-loss", lambda d: set_path(d, "field_rules.3.disposition.loss", [d["field_rules"][3]["disposition"]["loss"][0]]), "sign convention"),
     ("status-symbol", lambda d: set_path(d, "field_rules.4.symbols", {"grid_connected": "idle"}), "status symbols"),
     ("status-extra-code", lambda d: set_path(d, "field_rules.4.symbols", {"grid_connected": "generating", "standby": "standby"}), "status symbols"),
@@ -168,6 +168,13 @@ def test_no_binary_floating_point_anywhere():
     ("derived-energy", lambda d: set_path(d, "decimal_policy.derived_energy", "allowed"), "decimal policy"),
     ("counter-reset", lambda d: set_path(d, "counter_policy.decrease", "reset"), "counter policy"),
     ("counter-sum", lambda d: set_path(d, "counter_policy.sum_across_inverters", "allowed"), "counter policy"),
+    ("day-yield-fact", lambda d: set_path(d, "counter_policy.day_yield.fact", "pv.energy.generated"), "counter policy"),
+    ("day-yield-source", lambda d: set_path(d, "counter_policy.day_yield.source", "energy_current_hour"), "counter policy"),
+    ("hour-counter-published", lambda d: set_path(d, "counter_policy.hour_counter", "published"), "counter policy"),
+    ("month-yield-named-as-published", lambda d: set_path(d, "counter_policy.month_yield", "published"), "counter policy"),
+    ("year-yield-named-as-published", lambda d: set_path(d, "counter_policy.year_yield", "published"), "counter policy"),
+    ("prospective-month", lambda d: set_path(d, "field_rules.6.prospective_targets.0", "pv.energy.yield_day"), "prospective target"),
+    ("prospective-year", lambda d: set_path(d, "field_rules.6.prospective_targets.1", "pv.energy.generated"), "prospective target"),
     ("unsupported-dropped", lambda d: v.mutate(d, {"path": "unsupported.0", "remove": True}), "unsupported"),
     ("requested-dropped", lambda d: v.mutate(d, {"path": "projection.requested_items.0", "remove": True}), "requested items"),
     ("precedence", lambda d: set_path(d, "projection.error_precedence.0", "native_evidence_invalid"), "projection"),
@@ -256,7 +263,7 @@ ADMITTED = [("pv_string_voltage", 1), ("pv_string_voltage", 2), ("pv_string_curr
 OWN_FACT = {("pv_string_voltage", 1): ("pv.dc.voltage", INPUTS[0]), ("pv_string_voltage", 2): ("pv.dc.voltage", INPUTS[1]),
             ("pv_string_current", 1): ("pv.dc.current", INPUTS[0]), ("pv_string_current", 2): ("pv.dc.current", INPUTS[1]),
             ("input_power", 0): ("pv.dc.aggregate_power", INVERTER), ("active_power", 0): ("pv.ac.aggregate_active_power", INVERTER),
-            ("energy_accumulated", 0): ("pv.energy.generated", SYSTEM), ("energy_current_hour", 0): None, ("energy_current_day", 0): None}
+            ("energy_accumulated", 0): ("pv.energy.generated", SYSTEM), ("energy_current_hour", 0): None, ("energy_current_day", 0): ("pv.energy.yield_day", SYSTEM)}
 
 
 @parametrize("key,index", ADMITTED)
@@ -337,16 +344,27 @@ def test_a_gain_or_word_order_mistake_is_rejected():
             project(document)
 
 
-def test_negative_active_power_is_withheld_and_never_assumed():
+def test_day_yield_signed_power_and_prospective_period_yields_are_mapped():
+    """The day yield and the signed active power are mapped; month and year are named where no native word exists."""
+    rules = {rule["native_id"]: rule for rule in v.load()["field_rules"]}
+    if rules["energy_current_day"].get("target") != "pv.energy.yield_day":
+        raise AssertionError("daily yield is not mapped")
+    if rules["active_power"].get("sign", {}).get("negative_value") != "published":
+        raise AssertionError("signed active power is not published")
+    if rules["energy_current_hour"].get("prospective_targets") != ["pv.energy.yield_month", "pv.energy.yield_year"]:
+        raise AssertionError("month and year yields are not named")
+
+
+def test_negative_active_power_is_published_as_signed_watts():
     document = case()
     position = fact_position(document, "active_power", 0)
     document["facts"][position]["value"] = {"coefficient": "-300", "exponent10": -3}
     document["facts"][position]["words"] = [0xFFFF, 0xFED4]
     output = project(document)
-    assert ("pv.ac.aggregate_active_power", INVERTER) not in by_key(output)
+    published = by_key(output)[("pv.ac.aggregate_active_power", INVERTER)]
+    assert published["value"]["quantity"]["number"] == {"coefficient": "-3", "exponent10": 2}
     row = next(row for row in output["native_dispositions"] if row["native_id"] == "active_power")
-    assert row == {"native_id": "active_power", "outcome": "withheld", "reason": "pv.reason.negative_active_power_sign_unknown"}
-    assert len(output["facts"]) == 7
+    assert row == {"native_id": "active_power", "outcome": "transformed", "target": "pv.ac.aggregate_active_power"}
 
 
 def test_zero_pair_never_creates_an_input_and_a_single_nonzero_word_does():
@@ -394,12 +412,13 @@ def test_status_publishes_only_the_observed_state():
         project(document)
 
 
-def test_energy_counter_policy_publishes_one_counter_and_no_derivation():
+def test_energy_counter_policy_publishes_lifetime_and_day_and_no_derivation():
     out = project(case())
     energy = [f for f in out["facts"] if f["key"]["fact_id"] == "pv.energy.generated"]
-    assert len(energy) == 1
-    assert {row["native_id"]: row["reason"] for row in out["native_dispositions"] if row["native_id"] in ("energy_current_hour", "energy_current_day")} == {
-        "energy_current_hour": "pv.reason.period_counter_time_domain_not_represented", "energy_current_day": "pv.reason.period_counter_time_domain_not_represented"}
+    day = [f for f in out["facts"] if f["key"]["fact_id"] == "pv.energy.yield_day"]
+    assert len(energy) == 1 and len(day) == 1
+    assert next(row["reason"] for row in out["native_dispositions"] if row["native_id"] == "energy_current_hour") == "pv.reason.period_counter_time_domain_not_represented"
+    assert next(row["target"] for row in out["native_dispositions"] if row["native_id"] == "energy_current_day") == "pv.energy.yield_day"
     disposition = next(item for item in out["dispositions"] if item["item_id"] == "pv.energy.generated")
     assert [(loss["kind"], loss["reversible"]) for loss in disposition["loss"]] == [("unit", True), ("policy", False)]
     document = case()
@@ -615,7 +634,7 @@ INPUT_PLACES = {"resource", "fact:pv.dc.voltage", "fact:pv.dc.current", "source_
 # appear. The comment names the production mutation the row catches.
 @parametrize("path,old,places", [
     ("identity.resources.logger", LOGGER, {"resource", "relation:relation.relays:from"}),  # relays drawn from the asset or the source
-    ("identity.resources.system", SYSTEM, {"resource", "fact:pv.energy.generated", "source_key:pv.energy.generated", "relation:pv.relation.system_inverter:from"}),  # system text derived from the asset
+    ("identity.resources.system", SYSTEM, {"resource", "fact:pv.energy.generated", "fact:pv.energy.yield_day", "source_key:pv.energy.generated", "source_key:pv.energy.yield_day", "relation:pv.relation.system_inverter:from"}),  # system text derived from the asset
     ("identity.resources.inverter", INVERTER, INVERTER_PLACES),  # inverter text derived from the asset, or the input parent taken from the system
     ("identity.resources.inputs.0", INPUTS[0], INPUT_PLACES),  # input keyed by "input:<n>" instead of its allocated ResourceID
     ("identity.resources.inputs.1", INPUTS[1], INPUT_PLACES),  # inputs keyed by position in the published list instead of the native index
@@ -971,7 +990,7 @@ GRAPH_NEGATIVES = [
     ("energy_without_coverage", [("set", "graph.aggregates.2.coverage", [])], "graph_aggregates"),
     ("power_coverage_claimed", [("set", "graph.aggregates.0.coverage", ["pv.relation.inverter_input"])], "graph_aggregates"),
     ("aggregate_subject_missing", [("set", "graph.aggregates.2.subject_kind", "")], "graph aggregate_subject_missing $.graph.aggregates[2].subject_kind"),
-    ("member_as_aggregate", [("append", "graph.aggregates", VOLTAGE_AGGREGATE)], "graph not_an_aggregate $.graph.aggregates[3].fact"),
+    ("member_as_aggregate", [("append", "graph.aggregates", VOLTAGE_AGGREGATE)], "graph not_an_aggregate $.graph.aggregates[4].fact"),
     # Section 15 item 6 and PLN-1.
     ("plane_on_resource", [("set", "graph.resources.0.planes", ["physical"])], "graph plane_membership_stated $.graph.resources[0].planes"),
     ("plane_on_field_rule", [("set", "field_rules.0.planes", ["energy"])], "graph plane_membership_stated $.field_rules[0].planes"),

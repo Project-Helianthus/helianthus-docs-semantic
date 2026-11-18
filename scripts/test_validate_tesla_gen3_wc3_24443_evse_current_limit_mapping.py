@@ -17,7 +17,42 @@ def reject(name, path, value, expected):
     else: raise AssertionError(f"{name} accepted")
     print(f"{name}: REJECTED")
 
+def readback_sources():
+    """Both limits are sourced from the provisional readback, not the ingested persistent exchange."""
+    rules = mapping.load()["field_rules"]
+    sources = [rule["source"] for rule in rules]
+    if sources != ["provisional.readback.ConfiguredCurrentAmps", "provisional.readback.LimitCurrentMaxAmps"]:
+        raise AssertionError("configured and allocated current are not both sourced from the provisional readback: " + repr(sources))
+    print("readback-sources: PASS")
+
+
+def readback_fields_are_independent():
+    """ConfiguredCurrentAmps, LimitCurrentMaxAmps and the persistent amperes each move only their own published fact."""
+    contract = mapping.load()
+    baseline = copy.deepcopy(contract["scenarios"][0]["input"])
+    configured = copy.deepcopy(baseline)
+    mapping.mutate(configured, {"path": "provisional.ConfiguredCurrentAmps", "value": 32})
+    mapping.mutate(configured, {"path": "persistent.MaxOutputCurrentAmps", "value": 7})
+    result = mapping.project(configured, contract)
+    if [fact["value"]["coefficient"] for fact in result["facts"]] != ["32", "12"]:
+        raise AssertionError("ConfiguredCurrentAmps did not publish configured current")
+    allocated = copy.deepcopy(baseline)
+    mapping.mutate(allocated, {"path": "provisional.LimitCurrentMaxAmps", "value": 20})
+    mapping.mutate(allocated, {"path": "persistent.MaxOutputCurrentAmps", "value": 9})
+    result = mapping.project(allocated, contract)
+    if [fact["value"]["coefficient"] for fact in result["facts"]] != ["16", "20"]:
+        raise AssertionError("LimitCurrentMaxAmps did not publish allocated current")
+    persistent = copy.deepcopy(baseline)
+    mapping.mutate(persistent, {"path": "persistent.MaxOutputCurrentAmps", "value": 7})
+    result = mapping.project(persistent, contract)
+    if [fact["value"]["coefficient"] for fact in result["facts"]] != ["16", "12"]:
+        raise AssertionError("persistent MaxOutputCurrentAmps changed a published limit")
+    print("readback-fields: PASS")
+
+
 def main():
+    readback_sources()
+    readback_fields_are_independent()
     cases = [("pin", "pins.gateway_main", "0" * 40, "contract"), ("profile", "native_contract.profile", "wc3_24_44_4", "native_contract"), ("outbound", "native_contract.outbound_allowed", True, "native_contract"), ("identity_derivation", "identity.forbidden_derivations.0", "serial", "identity_contract"), ("identity_reuse", "identity.failure", "allow_reuse", "identity_contract"), ("lifecycle", "lifecycle.required.0", "timestamp", "lifecycle_contract"), ("persistent_target", "field_rules.0.target", "evse.limit.allocated_current", "field_rules"), ("provisional_disposition", "field_rules.1.disposition", "always", "field_rules"), ("unsupported", "unsupported.0", "power_allowed", "withheld_or_unsupported"), ("precedence", "projection.error_precedence.0", "x", "projection"), ("operations", "projection.operations", "available", "projection"), ("cutover", "consumer_cutover.forbidden.0", "allowed", "consumer_cutover")]
     for case in cases: reject(*case)
     contract = mapping.load(); baseline = contract["scenarios"][0]["input"]
@@ -32,9 +67,14 @@ def main():
         candidate = copy.deepcopy(baseline); mapping.mutate(candidate, {"path": path, "value": value})
         if name == "persistent_only": mapping.mutate(candidate, {"path": "evidence.provisional", "value": None})
         result = mapping.project(candidate, contract)
-        if [fact["id"] for fact in result["facts"]] != ["evse.limit.configured_current"] or result["withheld"] != [{"id": "evse.limit.allocated_current", "reason": reason}]: raise AssertionError(name + " did not retain persistent only")
-        print(name + ": RETAINED_CONFIGURED")
-    print("baseline: PASS; 21 focused mutations rejected or retained")
+        if name == "inhibited_provisional":
+            expected_facts, expected_withheld = ["evse.limit.configured_current"], [{"id": "evse.limit.allocated_current", "reason": reason}]
+        else:
+            expected_facts, expected_withheld = [], [{"id": "evse.limit.configured_current", "reason": reason}, {"id": "evse.limit.allocated_current", "reason": reason}]
+        if [fact["id"] for fact in result["facts"]] != expected_facts or result["withheld"] != expected_withheld:
+            raise AssertionError(name + " did not follow the readback")
+        print(name + ": READBACK")
+    print("baseline: PASS; 21 focused mutations rejected or followed the readback")
     graph_cases()
 
 

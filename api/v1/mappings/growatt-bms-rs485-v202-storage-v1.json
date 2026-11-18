@@ -112,6 +112,11 @@
         "dimension": "storage.dimension.pack",
         "source": "gateway_allocated_resource_id",
         "required": true
+      },
+      "cell": {
+        "dimension": "storage.dimension.cell",
+        "source": "gateway_allocated_resource_id",
+        "required": true
       }
     }
   },
@@ -128,6 +133,18 @@
           "catalog_subject:storage.dimension.pack",
           "future_native_token:none_until_the_native_owner_documents_a_stable_pack_token",
           "native_owner_token_stability:unknown_until_the_native_owner_states_it",
+          "identification_scheme:none_listed_for_family"
+        ]
+      },
+      {
+        "kind": "resource.battery_cell",
+        "anchor_class": "component",
+        "anchor_basis": "operator_slot",
+        "anchor_source": "operator_label",
+        "identification_scheme": "none_listed",
+        "parent_kind": "resource.battery_module",
+        "evidence": [
+          "native_owner_token_stability:cell_index_not_named_by_the_native_contract",
           "identification_scheme:none_listed_for_family"
         ]
       }
@@ -465,43 +482,135 @@
           "exponent10": 0
         }
       }
+    },
+    {
+      "source": "minimum_cell_voltage_millivolts",
+      "requested": {
+        "kind": "fact",
+        "item_id": "storage.cell.voltage_minimum"
+      },
+      "target": "storage.cell.voltage_minimum",
+      "subject_kind": "resource.battery_cell",
+      "measurement_point": "extreme_cell_unindexed",
+      "disposition": {
+        "outcome": "transformed",
+        "loss": [
+          {
+            "kind": "unit",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+            ],
+            "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+            "reversible": true
+          },
+          {
+            "kind": "provenance",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+            ],
+            "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
+            "reversible": false
+          }
+        ]
+      },
+      "unit": "unit.volt",
+      "native_unit": "mV",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": -3
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
+    },
+    {
+      "source": "maximum_cell_voltage_millivolts",
+      "requested": {
+        "kind": "fact",
+        "item_id": "storage.cell.voltage_maximum"
+      },
+      "target": "storage.cell.voltage_maximum",
+      "subject_kind": "resource.battery_cell",
+      "measurement_point": "extreme_cell_unindexed",
+      "disposition": {
+        "outcome": "transformed",
+        "loss": [
+          {
+            "kind": "unit",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+            ],
+            "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+            "reversible": true
+          },
+          {
+            "kind": "provenance",
+            "source_items": [
+              "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+            ],
+            "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
+            "reversible": false
+          }
+        ]
+      },
+      "unit": "unit.volt",
+      "native_unit": "mV",
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": -3
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      }
     }
   ],
   "withheld": [
     {
       "source": "remaining_capacity_amp_hours",
-      "reason": "storage.reason.no_exact_remaining_capacity_definition"
+      "reason": "storage.reason.no_exact_remaining_capacity_definition",
+      "waits_for": "storage.energy.remaining"
     },
     {
       "source": "full_charge_capacity_amp_hours",
-      "reason": "storage.reason.no_exact_full_charge_capacity_definition"
+      "reason": "storage.reason.no_exact_full_charge_capacity_definition",
+      "waits_for": "storage.energy.usable_capacity"
     },
     {
       "source": "cycle_count",
-      "reason": "storage.reason.no_exact_cycle_count_definition"
+      "reason": "storage.reason.no_exact_cycle_count_definition",
+      "waits_for": "storage.reason.no_exact_cycle_count_definition"
     },
     {
       "source": "continuous_charge_seconds",
-      "reason": "storage.reason.no_exact_charge_time_definition"
+      "reason": "storage.reason.no_exact_charge_time_definition",
+      "waits_for": "storage.reason.no_exact_charge_time_definition"
     },
     {
       "source": "current_cycle_charge_amp_hours",
-      "reason": "storage.reason.cycle_time_domain_not_represented"
+      "reason": "storage.reason.cycle_time_domain_not_represented",
+      "waits_for": "storage.reason.cycle_time_domain_not_represented"
     },
     {
       "source": "average_cell_voltage_volts",
-      "reason": "storage.reason.no_cell_identity_or_extrema_semantics"
+      "reason": "storage.reason.no_cell_identity_or_extrema_semantics",
+      "waits_for": "storage.reason.no_cell_identity_or_extrema_semantics"
     },
     {
       "source": "floating_pack_voltage_volts",
-      "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage"
+      "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage",
+      "waits_for": "storage.reason.not_interchangeable_with_observed_pack_voltage"
     }
   ],
   "unsupported": [
     "pack_power",
     "state_of_health",
     "cell_temperature_meaning",
-    "cell_voltage_extrema",
     "pack_module_cell_string_topology",
     "repeated_pack_identity",
     "warning_error_company_status",
@@ -527,6 +636,14 @@
       {
         "kind": "fact",
         "item_id": "storage.capacity.discharge"
+      },
+      {
+        "kind": "fact",
+        "item_id": "storage.cell.voltage_maximum"
+      },
+      {
+        "kind": "fact",
+        "item_id": "storage.cell.voltage_minimum"
       },
       {
         "kind": "fact",
@@ -595,7 +712,9 @@
           "pack_current_amps": -1.0,
           "temperature_celsius": 25,
           "cumulative_charge_amp_hours": 0.5,
-          "cumulative_discharge_amp_hours": 0.6
+          "cumulative_discharge_amp_hours": 0.6,
+          "minimum_cell_voltage_millivolts": 3100,
+          "maximum_cell_voltage_millivolts": 3500
         },
         "slices": [
           {
@@ -702,7 +821,8 @@
         "asset_id": "asset:demo-growatt-storage-a",
         "binding_id": "binding:semantic-storage:demo-growatt-a",
         "resources": {
-          "pack": "resource:demo-pack-a"
+          "pack": "resource:demo-pack-a",
+          "cell": "resource:demo-cell-a"
         }
       },
       "source": {
@@ -783,6 +903,74 @@
                     "exponent10": -1
                   },
                   "unit": "unit.ampere_hour"
+                }
+              },
+              "source_path": {
+                "binding_id": "binding:semantic-storage:demo-growatt-a",
+                "source_id": "source:gateway-growatt-bms-a",
+                "source_epoch_id": "source-epoch:1",
+                "driver_generation": 1
+              },
+              "observation_id": "observation:demo-0001",
+              "observation_revision": 1
+            },
+            {
+              "key": {
+                "pack_id": "helianthus.pack.storage",
+                "pack_version": "1.1.0",
+                "fact_id": "storage.cell.voltage_maximum",
+                "dimensions": [
+                  {
+                    "id": "storage.dimension.cell",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:demo-cell-a"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "35",
+                    "exponent10": -1
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "source_path": {
+                "binding_id": "binding:semantic-storage:demo-growatt-a",
+                "source_id": "source:gateway-growatt-bms-a",
+                "source_epoch_id": "source-epoch:1",
+                "driver_generation": 1
+              },
+              "observation_id": "observation:demo-0001",
+              "observation_revision": 1
+            },
+            {
+              "key": {
+                "pack_id": "helianthus.pack.storage",
+                "pack_version": "1.1.0",
+                "fact_id": "storage.cell.voltage_minimum",
+                "dimensions": [
+                  {
+                    "id": "storage.dimension.cell",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:demo-cell-a"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "31",
+                    "exponent10": -1
+                  },
+                  "unit": "unit.volt"
                 }
               },
               "source_path": {
@@ -974,6 +1162,14 @@
             },
             {
               "kind": "fact",
+              "item_id": "storage.cell.voltage_maximum"
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_minimum"
+            },
+            {
+              "kind": "fact",
               "item_id": "storage.pack.current"
             },
             {
@@ -1052,6 +1248,84 @@
                     "native.growatt.bms.rs485.v202.cumulative_discharge_capacity"
                   ],
                   "description": "counter continuity/reset/wrap remains native evidence",
+                  "reversible": false
+                }
+              ]
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_maximum",
+              "outcome": "transformed",
+              "source_keys": [
+                {
+                  "pack_id": "helianthus.pack.storage",
+                  "pack_version": "1.1.0",
+                  "fact_id": "storage.cell.voltage_maximum",
+                  "dimensions": [
+                    {
+                      "id": "storage.dimension.cell",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:demo-cell-a"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+                  ],
+                  "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+                  "reversible": true
+                },
+                {
+                  "kind": "provenance",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+                  ],
+                  "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
+                  "reversible": false
+                }
+              ]
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_minimum",
+              "outcome": "transformed",
+              "source_keys": [
+                {
+                  "pack_id": "helianthus.pack.storage",
+                  "pack_version": "1.1.0",
+                  "fact_id": "storage.cell.voltage_minimum",
+                  "dimensions": [
+                    {
+                      "id": "storage.dimension.cell",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:demo-cell-a"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+                  ],
+                  "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+                  "reversible": true
+                },
+                {
+                  "kind": "provenance",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+                  ],
+                  "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
                   "reversible": false
                 }
               ]
@@ -1206,31 +1480,38 @@
           "withheld_native": [
             {
               "source": "remaining_capacity_amp_hours",
-              "reason": "storage.reason.no_exact_remaining_capacity_definition"
+              "reason": "storage.reason.no_exact_remaining_capacity_definition",
+              "waits_for": "storage.energy.remaining"
             },
             {
               "source": "full_charge_capacity_amp_hours",
-              "reason": "storage.reason.no_exact_full_charge_capacity_definition"
+              "reason": "storage.reason.no_exact_full_charge_capacity_definition",
+              "waits_for": "storage.energy.usable_capacity"
             },
             {
               "source": "cycle_count",
-              "reason": "storage.reason.no_exact_cycle_count_definition"
+              "reason": "storage.reason.no_exact_cycle_count_definition",
+              "waits_for": "storage.reason.no_exact_cycle_count_definition"
             },
             {
               "source": "continuous_charge_seconds",
-              "reason": "storage.reason.no_exact_charge_time_definition"
+              "reason": "storage.reason.no_exact_charge_time_definition",
+              "waits_for": "storage.reason.no_exact_charge_time_definition"
             },
             {
               "source": "current_cycle_charge_amp_hours",
-              "reason": "storage.reason.cycle_time_domain_not_represented"
+              "reason": "storage.reason.cycle_time_domain_not_represented",
+              "waits_for": "storage.reason.cycle_time_domain_not_represented"
             },
             {
               "source": "average_cell_voltage_volts",
-              "reason": "storage.reason.no_cell_identity_or_extrema_semantics"
+              "reason": "storage.reason.no_cell_identity_or_extrema_semantics",
+              "waits_for": "storage.reason.no_cell_identity_or_extrema_semantics"
             },
             {
               "source": "floating_pack_voltage_volts",
-              "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage"
+              "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage",
+              "waits_for": "storage.reason.not_interchangeable_with_observed_pack_voltage"
             }
           ],
           "operations": []
@@ -1476,6 +1757,74 @@
               "key": {
                 "pack_id": "helianthus.pack.storage",
                 "pack_version": "1.1.0",
+                "fact_id": "storage.cell.voltage_maximum",
+                "dimensions": [
+                  {
+                    "id": "storage.dimension.cell",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:demo-cell-a"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "35",
+                    "exponent10": -1
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "source_path": {
+                "binding_id": "binding:semantic-storage:demo-growatt-a",
+                "source_id": "source:gateway-growatt-bms-a",
+                "source_epoch_id": "source-epoch:1",
+                "driver_generation": 1
+              },
+              "observation_id": "observation:demo-0001",
+              "observation_revision": 1
+            },
+            {
+              "key": {
+                "pack_id": "helianthus.pack.storage",
+                "pack_version": "1.1.0",
+                "fact_id": "storage.cell.voltage_minimum",
+                "dimensions": [
+                  {
+                    "id": "storage.dimension.cell",
+                    "value": {
+                      "kind": "text",
+                      "text": "resource:demo-cell-a"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "31",
+                    "exponent10": -1
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "source_path": {
+                "binding_id": "binding:semantic-storage:demo-growatt-a",
+                "source_id": "source:gateway-growatt-bms-a",
+                "source_epoch_id": "source-epoch:1",
+                "driver_generation": 1
+              },
+              "observation_id": "observation:demo-0001",
+              "observation_revision": 1
+            },
+            {
+              "key": {
+                "pack_id": "helianthus.pack.storage",
+                "pack_version": "1.1.0",
                 "fact_id": "storage.pack.current",
                 "dimensions": [
                   {
@@ -1620,6 +1969,14 @@
             },
             {
               "kind": "fact",
+              "item_id": "storage.cell.voltage_maximum"
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_minimum"
+            },
+            {
+              "kind": "fact",
               "item_id": "storage.pack.current"
             },
             {
@@ -1698,6 +2055,84 @@
                     "native.growatt.bms.rs485.v202.cumulative_discharge_capacity"
                   ],
                   "description": "counter continuity/reset/wrap remains native evidence",
+                  "reversible": false
+                }
+              ]
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_maximum",
+              "outcome": "transformed",
+              "source_keys": [
+                {
+                  "pack_id": "helianthus.pack.storage",
+                  "pack_version": "1.1.0",
+                  "fact_id": "storage.cell.voltage_maximum",
+                  "dimensions": [
+                    {
+                      "id": "storage.dimension.cell",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:demo-cell-a"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+                  ],
+                  "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+                  "reversible": true
+                },
+                {
+                  "kind": "provenance",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.maximum_cell_voltage"
+                  ],
+                  "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
+                  "reversible": false
+                }
+              ]
+            },
+            {
+              "kind": "fact",
+              "item_id": "storage.cell.voltage_minimum",
+              "outcome": "transformed",
+              "source_keys": [
+                {
+                  "pack_id": "helianthus.pack.storage",
+                  "pack_version": "1.1.0",
+                  "fact_id": "storage.cell.voltage_minimum",
+                  "dimensions": [
+                    {
+                      "id": "storage.dimension.cell",
+                      "value": {
+                        "kind": "text",
+                        "text": "resource:demo-cell-a"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "loss": [
+                {
+                  "kind": "unit",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+                  ],
+                  "description": "native millivolt is published as volt by the exact factor 0.001; the native value and unit stay in the evidence",
+                  "reversible": true
+                },
+                {
+                  "kind": "provenance",
+                  "source_items": [
+                    "native.growatt.bms.rs485.v202.minimum_cell_voltage"
+                  ],
+                  "description": "the native contract does not name the cell that holds the extreme, so both extremes share one allocated cell and the index stays unknown",
                   "reversible": false
                 }
               ]
@@ -1829,31 +2264,38 @@
           "withheld_native": [
             {
               "source": "remaining_capacity_amp_hours",
-              "reason": "storage.reason.no_exact_remaining_capacity_definition"
+              "reason": "storage.reason.no_exact_remaining_capacity_definition",
+              "waits_for": "storage.energy.remaining"
             },
             {
               "source": "full_charge_capacity_amp_hours",
-              "reason": "storage.reason.no_exact_full_charge_capacity_definition"
+              "reason": "storage.reason.no_exact_full_charge_capacity_definition",
+              "waits_for": "storage.energy.usable_capacity"
             },
             {
               "source": "cycle_count",
-              "reason": "storage.reason.no_exact_cycle_count_definition"
+              "reason": "storage.reason.no_exact_cycle_count_definition",
+              "waits_for": "storage.reason.no_exact_cycle_count_definition"
             },
             {
               "source": "continuous_charge_seconds",
-              "reason": "storage.reason.no_exact_charge_time_definition"
+              "reason": "storage.reason.no_exact_charge_time_definition",
+              "waits_for": "storage.reason.no_exact_charge_time_definition"
             },
             {
               "source": "current_cycle_charge_amp_hours",
-              "reason": "storage.reason.cycle_time_domain_not_represented"
+              "reason": "storage.reason.cycle_time_domain_not_represented",
+              "waits_for": "storage.reason.cycle_time_domain_not_represented"
             },
             {
               "source": "average_cell_voltage_volts",
-              "reason": "storage.reason.no_cell_identity_or_extrema_semantics"
+              "reason": "storage.reason.no_cell_identity_or_extrema_semantics",
+              "waits_for": "storage.reason.no_cell_identity_or_extrema_semantics"
             },
             {
               "source": "floating_pack_voltage_volts",
-              "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage"
+              "reason": "storage.reason.not_interchangeable_with_observed_pack_voltage",
+              "waits_for": "storage.reason.not_interchangeable_with_observed_pack_voltage"
             }
           ],
           "operations": []
