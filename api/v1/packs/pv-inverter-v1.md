@@ -10,9 +10,12 @@ Every item is an exact versioned `DefinitionRef` under this PackRef.
 
 The catalog defines canonical quantity fields for aggregate and per-input DC
 voltage, current, and power; per-string DC energy; aggregate and per-phase AC
-voltage, current, active power, apparent power and reactive power; AC
-frequency; power factor; generated energy; inverter
-temperature; and active-power and export-limit settings. Canonical units are
+voltage, current and active power; per-phase apparent power and reactive
+power; AC frequency; power factor; generated energy; inverter
+temperature; and active-power and export-limit settings. The inverter totals
+`pv.ac.aggregate_apparent_power` and `pv.ac.aggregate_reactive_power` are on
+`pv.dimension.inverter`. They are distinct from the phase fields
+`pv.ac.apparent_power` and `pv.ac.reactive_power`. Canonical units are
 volt, ampere, watt, volt-ampere, volt-ampere reactive, hertz, joule, kelvin,
 and ratio, under the
 [unit rule](../../README.md#unit-rule): generated energy and string DC energy
@@ -51,6 +54,7 @@ pv.ac.reactive_power
 pv.dc.aggregate_voltage           pv.dc.aggregate_current
 pv.dc.aggregate_power             pv.ac.aggregate_voltage
 pv.ac.aggregate_current           pv.ac.aggregate_active_power
+pv.ac.aggregate_apparent_power    pv.ac.aggregate_reactive_power
 pv.ac.frequency                   pv.ac.power_factor
 pv.energy.generated               pv.temperature.inverter
 pv.limit.active_power             pv.limit.export_power
@@ -124,7 +128,11 @@ sum, average, or nameplate aggregation. Signed active power and power factor
 retain the native direction/reference convention in evidence and expose any
 unprojectable convention as explicit loss. Per-phase apparent power is
 non-negative. Per-phase reactive power is signed under the native convention.
-Neither is derived from active power. Candidate and unknown rows therefore
+Neither is derived from active power. The inverter totals
+`pv.ac.aggregate_apparent_power` (non-negative) and
+`pv.ac.aggregate_reactive_power` (signed under the native convention) are
+distinct from those phase fields, and neither total is derived from a phase
+field. Candidate and unknown rows therefore
 cannot be used to infer import/export direction or normalize phase measurements.
 
 ## Portal contribution descriptors

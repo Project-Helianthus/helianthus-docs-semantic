@@ -7,6 +7,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [PV pack](api/v1/packs/pv-inverter-v1.md) adds inverter-total apparent
+  power `pv.ac.aggregate_apparent_power` in volt-amperes and inverter-total
+  reactive power `pv.ac.aggregate_reactive_power` in volt-amperes reactive,
+  both on the inverter dimension. The apparent total is non-negative. The
+  reactive total is signed. The phase fields `pv.ac.apparent_power` and
+  `pv.ac.reactive_power` stay on the phase dimension. No service, capability
+  or operation is added. Pack metadata, the element catalog, both Matter
+  rosters and the naming contract follow. SemReg follow-up: re-copy the
+  pack bytes and do not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [graph acceptance vectors](api/v1/graph-acceptance-vectors.json) add the
   twenty-one retrieval, lens-result, sum and target-report vectors of
   [graph contract](api/v1/graph.md) section 36. Coverage identifiers

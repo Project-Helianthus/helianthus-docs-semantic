@@ -83,6 +83,8 @@ FIELD_CONTRACTS = {
     "pv.ac.aggregate_voltage": ("quantity", "unit.volt", "pv.dimension.inverter", True, None),
     "pv.ac.aggregate_current": ("quantity", "unit.ampere", "pv.dimension.inverter", True, None),
     "pv.ac.aggregate_active_power": ("quantity", "unit.watt", "pv.dimension.inverter", True, None),
+    "pv.ac.aggregate_apparent_power": ("quantity", "unit.volt_ampere", "pv.dimension.inverter", True, None),
+    "pv.ac.aggregate_reactive_power": ("quantity", "unit.volt_ampere_reactive", "pv.dimension.inverter", True, None),
 }
 FIELD_BOUNDS = {
     "pv.dc.voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
@@ -106,6 +108,8 @@ FIELD_BOUNDS = {
     "pv.ac.aggregate_voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":3}),
     "pv.ac.aggregate_current": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
     "pv.ac.aggregate_active_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
+    "pv.ac.aggregate_apparent_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
+    "pv.ac.aggregate_reactive_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
 }
 DIMS = {"pv.dimension.system", "pv.dimension.inverter", "pv.dimension.array",
         "pv.dimension.string", "pv.dimension.input", "pv.dimension.phase"}
@@ -135,7 +139,7 @@ OPS = {"pv.operation.set_active_power_limit": ("pv.capability.set_active_power_l
 EFFECTS = {"pv.effect.set_active_power_limit": ("pv.operation.set_active_power_limit", "pv.limit.active_power"),
            "pv.effect.set_export_limit": ("pv.operation.set_export_limit", "pv.limit.export_power")}
 PORTAL_READS = {"pv.portal.read.system": ("pv.service.system", ("pv.energy.generated", "pv.limit.export_power")),
-                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_current", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
+                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_current", "pv.ac.aggregate_reactive_power", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
                 "pv.portal.read.array": ("pv.service.array", ()),
                 "pv.portal.read.string": ("pv.service.string", ("pv.dc.energy",)),
                 "pv.portal.read.input": ("pv.service.input", ("pv.dc.current", "pv.dc.power", "pv.dc.voltage")),

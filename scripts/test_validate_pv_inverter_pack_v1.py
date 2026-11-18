@@ -123,6 +123,64 @@ def assert_distinct_portals(document):
         raise AssertionError("phase read is not the five phase quantities")
 
 
+# Phase apparent and reactive power stay on the phase. Active power stays an
+# inverter total. The two new totals are absent until the pack names them.
+# Each identity field of a new total, and the production mutation this test
+# rejects for it, is one IDENTITY_MUTATIONS row:
+# id -> DefinitionRef (the ref no longer names the field);
+# kind -> noncanonical kind;
+# unit -> canonical quantity contract;
+# dimension -> noncanonical kind, dimension, or optionality;
+# optional -> noncanonical kind, dimension, or optionality;
+# minimum coefficient, maximum coefficient and maximum exponent -> canonical quantity contract;
+# minimum exponent -> canonical kernel Decimal when the coefficient is 0, and
+# canonical quantity contract when the coefficient is not zero.
+PHASE_POWERS = (
+    quantity_identity("pv.ac.apparent_power", "unit.volt_ampere", "pv.dimension.phase", ("0", 0), ("1", 7)),
+    quantity_identity("pv.ac.reactive_power", "unit.volt_ampere_reactive", "pv.dimension.phase", ("-1", 7), ("1", 7)),
+)
+AGGREGATE_ACTIVE = quantity_identity(
+    "pv.ac.aggregate_active_power", "unit.watt", "pv.dimension.inverter", ("-1", 7), ("1", 7),
+)
+INVERTER_TOTALS = (
+    quantity_identity("pv.ac.aggregate_apparent_power", "unit.volt_ampere", "pv.dimension.inverter", ("0", 0), ("1", 7)),
+    quantity_identity("pv.ac.aggregate_reactive_power", "unit.volt_ampere_reactive", "pv.dimension.inverter", ("-1", 7), ("1", 7)),
+)
+
+
+def assert_inverter_totals(fields):
+    for expected in PHASE_POWERS:
+        actual = fields.get(expected["id"])
+        if actual is None or read_identity(actual) != expected:
+            raise AssertionError(expected["id"] + " left pv.dimension.phase")
+    actual_active = fields.get(AGGREGATE_ACTIVE["id"])
+    if actual_active is None or read_identity(actual_active) != AGGREGATE_ACTIVE:
+        raise AssertionError("pv.ac.aggregate_active_power left pv.dimension.inverter")
+    for expected in INVERTER_TOTALS:
+        actual = fields.get(expected["id"])
+        if actual is None or actual.get("kind") != "quantity" or read_identity(actual) != expected:
+            raise AssertionError(expected["id"] + " is absent or is not an inverter total")
+
+
+def assert_inverter_total_reads(document):
+    portals = {item["id"]: tuple(item.get("fields", ()))
+               for item in document["catalog"]["definitions"]["portal_contributions"]}
+    inverter = portals.get("pv.portal.read.inverter", ())
+    phase = portals.get("pv.portal.read.phase", ())
+    for expected in INVERTER_TOTALS:
+        if expected["id"] not in inverter or expected["id"] in phase:
+            raise AssertionError(expected["id"] + " is not only an inverter read field")
+    for expected in PHASE_POWERS:
+        if expected["id"] not in phase or expected["id"] in inverter:
+            raise AssertionError(expected["id"] + " left the phase read")
+
+
+def reject_inverter_totals(document):
+    for expected in INVERTER_TOTALS:
+        for name, error, mutate in IDENTITY_MUTATIONS:
+            reject_identity(document, expected["id"], name, error, mutate)
+
+
 def reject_distinct_quantities(document):
     for expected in NEW_QUANTITIES:
         for name, error, mutate in IDENTITY_MUTATIONS:
@@ -141,10 +199,23 @@ class TestPVStringEnergyStaysDistinct:
         print("pv_string_energy_stays_distinct: PASS")
 
 
+class TestPVInverterTotalsStayOffPhase:
+    """Apparent and reactive inverter totals stay off the phase fields."""
+
+    def run(self):
+        document = validator.load_document(validator.VECTORS)
+        fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+        assert_inverter_totals(fields)
+        assert_inverter_total_reads(document)
+        reject_inverter_totals(document)
+        print("pv_inverter_totals_stay_off_phase: PASS")
+
+
 def load_checked_document():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
     TestPVStringEnergyStaysDistinct().run()
+    TestPVInverterTotalsStayOffPhase().run()
     return document
 
 

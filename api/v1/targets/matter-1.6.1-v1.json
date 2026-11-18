@@ -3363,6 +3363,59 @@
           "id": "helianthus.pack.pv",
           "version": "1.0.0"
         },
+        "id": "pv.ac.aggregate_apparent_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.ac.aggregate_apparent_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.ac.aggregate_apparent_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.aggregate_apparent_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
         "id": "pv.ac.aggregate_current",
         "version": "1.0.0"
       },
@@ -3395,6 +3448,59 @@
             "pack_id": "helianthus.pack.pv",
             "pack_version": "1.0.0",
             "fact_id": "pv.ac.aggregate_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.ac.aggregate_reactive_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.ac.aggregate_reactive_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.ac.aggregate_reactive_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.aggregate_reactive_power",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {

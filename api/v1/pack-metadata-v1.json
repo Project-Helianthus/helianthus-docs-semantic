@@ -2186,7 +2186,23 @@
             "id": "helianthus.pack.pv",
             "version": "1.0.0"
           },
+          "id": "pv.ac.aggregate_apparent_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
           "id": "pv.ac.aggregate_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.ac.aggregate_reactive_power",
           "version": "1.0.0"
         },
         {
@@ -2633,6 +2649,32 @@
               "id": "helianthus.pack.pv",
               "version": "1.0.0"
             },
+            "id": "pv.ac.aggregate_apparent_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
             "id": "pv.ac.aggregate_current",
             "version": "1.0.0"
           },
@@ -2642,6 +2684,32 @@
               "version": "1.0.0"
             },
             "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.ac.aggregate_reactive_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.volt_ampere_reactive",
             "version": "1.0.0"
           },
           "dimension": {
