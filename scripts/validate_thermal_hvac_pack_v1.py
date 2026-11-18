@@ -73,6 +73,16 @@ FIELD_CONTRACT = {
     "thermal.measurement.refrigerant_condensing_temperature": ("refrigerant_circuit", KELVIN),
     "thermal.measurement.refrigerant_evaporating_temperature": ("refrigerant_circuit", KELVIN),
     "thermal.measurement.compressor_speed": ("compressor", ("unit.reciprocal_second", ("0", 0), ("1", 3))),
+    "thermal.overrun.one_time_dhw": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.party": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.sg_ready_condition_1": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.sg_ready_condition_3": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.sg_ready_condition_4": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.one_day_away": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.one_day_at_home": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.one_time_ventilation": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.hvac_system_off": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.overrun.valve_kick": ("system", ("active", "finished", "inactive", "running")),
 }
 FIELDS = set(FIELD_CONTRACT)
 # Relation -> (from subjects, to subjects, cardinality), table A4 of the accepted placement.

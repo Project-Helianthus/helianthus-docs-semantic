@@ -7,6 +7,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - Breaking, in place before the 0.7 release: the
+  [thermal pack](api/v1/packs/thermal-hvac-v1.md) adds ten overrun statuses
+  on the system dimension: `thermal.overrun.one_time_dhw`,
+  `thermal.overrun.party`, `thermal.overrun.sg_ready_condition_1`,
+  `thermal.overrun.sg_ready_condition_3`, `thermal.overrun.sg_ready_condition_4`,
+  `thermal.overrun.one_day_away`, `thermal.overrun.one_day_at_home`,
+  `thermal.overrun.one_time_ventilation`, `thermal.overrun.hvac_system_off`
+  and `thermal.overrun.valve_kick`. Each is independently inactive, active,
+  running or finished, and several can be active together. System mode, the
+  zone setpoint and the domestic-hot-water setpoint stay. A one-time
+  domestic-hot-water overrun is its own status. No service, capability or
+  operation is added. Pack metadata, the element catalog, both Matter rosters
+  and the naming contract follow. SemReg follow-up: re-copy the pack bytes and
+  do not invent the elements. No version is raised.
+- Breaking, in place before the 0.7 release: the
   [PV pack](api/v1/packs/pv-inverter-v1.md) adds inverter-total apparent
   power `pv.ac.aggregate_apparent_power` in volt-amperes and inverter-total
   reactive power `pv.ac.aggregate_reactive_power` in volt-amperes reactive,
