@@ -75,12 +75,15 @@ FIELD_CONTRACTS = {
     "infrastructure.ac.frequency": quantity("unit.hertz", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 3)),
     "infrastructure.ac.power_factor": quantity("unit.ratio", "infrastructure.dimension.grid_connection", ("-1", 0), ("1", 0)),
     "infrastructure.power.import_active": quantity("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
+    "infrastructure.power.pcc": quantity("unit.watt", "infrastructure.dimension.grid_connection", ("-1", 7), ("1", 7)),
+    "infrastructure.limit.fallback_power": quantity("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.export_active": quantity("unit.watt", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.import_reactive": quantity("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.export_reactive": quantity("unit.volt_ampere_reactive", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.power.apparent": quantity("unit.volt_ampere", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 7)),
     "infrastructure.energy.import": quantity("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
     "infrastructure.energy.export": quantity("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
+    "infrastructure.energy.self_consumption": quantity("unit.joule", "infrastructure.dimension.meter", ("0", 0), ("36", 17)),
     "infrastructure.status.connection": symbol("infrastructure.dimension.grid_connection", ["infrastructure.status.connection.connected", "infrastructure.status.connection.disconnected"]),
     "infrastructure.status.readiness": symbol("infrastructure.dimension.grid_connection", ["infrastructure.status.readiness.not_ready", "infrastructure.status.readiness.ready"]),
     "infrastructure.status.breaker": symbol("infrastructure.dimension.circuit", ["infrastructure.status.breaker.closed", "infrastructure.status.breaker.open"]),
@@ -101,12 +104,12 @@ DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capa
 CAPS = {f"infrastructure.capability.read.{name}": f"infrastructure.service.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
 PORTAL = {
     "infrastructure.portal.read.site": ("infrastructure.service.site", ("infrastructure.status.fault",)),
-    "infrastructure.portal.read.grid_connection": ("infrastructure.service.grid_connection", ("infrastructure.ac.frequency", "infrastructure.ac.power_factor", "infrastructure.power.apparent", "infrastructure.power.export_active", "infrastructure.power.export_reactive", "infrastructure.power.import_active", "infrastructure.power.import_reactive", "infrastructure.status.connection", "infrastructure.status.readiness")),
+    "infrastructure.portal.read.grid_connection": ("infrastructure.service.grid_connection", ("infrastructure.ac.frequency", "infrastructure.ac.power_factor", "infrastructure.limit.fallback_power", "infrastructure.power.apparent", "infrastructure.power.export_active", "infrastructure.power.export_reactive", "infrastructure.power.import_active", "infrastructure.power.import_reactive", "infrastructure.power.pcc", "infrastructure.status.connection", "infrastructure.status.readiness")),
     "infrastructure.portal.read.feeder": ("infrastructure.service.feeder", ()),
     "infrastructure.portal.read.circuit": ("infrastructure.service.circuit", ("infrastructure.status.breaker", "infrastructure.status.interlock")),
     "infrastructure.portal.read.phase": ("infrastructure.service.phase", ("infrastructure.ac.active_power", "infrastructure.ac.apparent_power", "infrastructure.ac.current", "infrastructure.ac.reactive_power", "infrastructure.ac.voltage")),
     "infrastructure.portal.read.line_pair": ("infrastructure.service.line_pair", ("infrastructure.ac.voltage_line_line",)),
-    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.energy.export", "infrastructure.energy.import")),
+    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption")),
 }
 MAPPINGS = {
     "infrastructure.mapping.ebus": {"id":"infrastructure.mapping.ebus","native_owner":"helianthus-docs-ebus","source_refs":["ebus_docs"],"state":"unknown_profile_specific","qualification":"identity_provenance_only","control_route":"none","live_authority":False,"loss":"unknown"},

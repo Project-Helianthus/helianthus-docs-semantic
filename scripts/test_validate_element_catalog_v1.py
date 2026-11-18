@@ -106,6 +106,14 @@ OCCUPANCY_SETPOINTS = (
     "thermal.setpoint.unoccupied_cooling",
     "thermal.setpoint.unoccupied_heating",
 )
+HYDRAULIC_MEMBERS = (
+    "resource.pump",
+    "thermal.dimension.pump",
+    "thermal.service.pump",
+    "thermal.measurement.pump_speed",
+    "thermal.measurement.valve_position",
+    "thermal.portal.read.pump",
+)
 # One relation definition of each pack that declares relations.
 PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
                   "infrastructure.relation.feeder_circuit", "storage.relation.pack_module",
@@ -162,7 +170,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 381 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 394 entries"))
 
     def test_overrun_evidence_is_a_document_link(self):
         for ident in OVERRUN_FACTS:
@@ -174,12 +182,41 @@ class CommittedCatalog(unittest.TestCase):
             evidence = entry_of(CATALOG, ident)["admission"]["evidence"]
             self.assertEqual(evidence, [THERMAL_PAGE], ident)
 
+    def test_pump_and_valve_evidence_is_a_document_link(self):
+        for ident in HYDRAULIC_MEMBERS:
+            evidence = entry_of(CATALOG, ident)["admission"]["evidence"]
+            self.assertEqual(evidence, [THERMAL_PAGE], ident)
+
+    def test_yield_and_ratio_evidence_matches_the_sibling(self):
+        generated = entry_of(CATALOG, "pv.energy.generated")["admission"]["evidence"]
+        watt_limit = entry_of(CATALOG, "pv.limit.active_power")["admission"]["evidence"]
+        for ident in ("pv.energy.yield_day", "pv.energy.yield_month", "pv.energy.yield_year"):
+            self.assertEqual(entry_of(CATALOG, ident)["admission"]["evidence"], generated, ident)
+        self.assertEqual(entry_of(CATALOG, "pv.limit.active_power_ratio")["admission"]["evidence"], watt_limit)
+
+    def test_grid_member_evidence_matches_the_sibling(self):
+        imported = entry_of(CATALOG, "infrastructure.energy.import")["admission"]["evidence"]
+        import_active = entry_of(CATALOG, "infrastructure.power.import_active")["admission"]["evidence"]
+        self.assertEqual(entry_of(CATALOG, "infrastructure.energy.self_consumption")["admission"]["evidence"], imported)
+        for ident in ("infrastructure.power.pcc", "infrastructure.limit.fallback_power"):
+            self.assertEqual(entry_of(CATALOG, ident)["admission"]["evidence"], import_active, ident)
+        coupled = entry_of(CATALOG, "infrastructure.power.pcc")["attributes"]
+        self.assertEqual(coupled["direction"], "signed")
+        self.assertEqual(coupled["sign_reference"], "native_convention")
+        self.assertEqual(coupled["subject"]["dimension"]["id"], "infrastructure.dimension.grid_connection")
+        fallback = entry_of(CATALOG, "infrastructure.limit.fallback_power")["attributes"]
+        self.assertEqual(fallback["direction"], "non_negative")
+        self.assertNotIn("sign_reference", fallback)
+        consumed = entry_of(CATALOG, "infrastructure.energy.self_consumption")["attributes"]
+        self.assertEqual(consumed["direction"], "non_negative")
+        self.assertEqual(consumed["subject"]["dimension"]["id"], "infrastructure.dimension.meter")
+
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 317)
+        self.assertEqual(len(kinds), 329)
         self.assertEqual(kinds.count("relation"), 26)
-        self.assertEqual(kinds.count("presentation"), 38)
-        self.assertEqual(kinds.count("dimension"), 36)
+        self.assertEqual(kinds.count("presentation"), 39)
+        self.assertEqual(kinds.count("dimension"), 37)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_generator_is_not_imported(self):

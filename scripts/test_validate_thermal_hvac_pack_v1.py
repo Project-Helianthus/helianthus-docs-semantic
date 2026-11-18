@@ -42,7 +42,7 @@ STORE = "thermal.dimension.thermal_store"
 TERMINAL = "thermal.dimension.terminal_unit"
 REFRIGERANT = "thermal.dimension.refrigerant_circuit"
 COMPRESSOR = "thermal.dimension.compressor"
-RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR}
+RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump"}
 # Temperature bounds of the placement, in kelvin: -100 to 200 and -50 to 150 degrees Celsius plus 273.15.
 AIR = (Fraction(-100), Fraction(200))
 SETPOINT = (Fraction(-50), Fraction(150))
@@ -94,6 +94,8 @@ FIELD_TABLE = {
     "thermal.measurement.refrigerant_condensing_temperature": (REFRIGERANT, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.refrigerant_evaporating_temperature": (REFRIGERANT, "unit.kelvin", TEMPERATURE),
     "thermal.measurement.compressor_speed": (COMPRESSOR, "unit.reciprocal_second", (Fraction(0), Fraction(1000))),
+    "thermal.measurement.pump_speed": ("thermal.dimension.pump", "unit.reciprocal_second", (Fraction(0), Fraction(1000))),
+    "thermal.measurement.valve_position": (TERMINAL, "unit.ratio", RATIO),
     "thermal.overrun.one_time_dhw": (SYSTEM, None, None),
     "thermal.overrun.party": (SYSTEM, None, None),
     "thermal.overrun.sg_ready_condition_1": (SYSTEM, None, None),
@@ -438,11 +440,112 @@ def occupancy_identity_mutants(document: dict) -> int:
     return count
 
 
+PUMP = "thermal.dimension.pump"
+PUMP_SERVICE = "thermal.service.pump"
+PUMP_SPEED = "thermal.measurement.pump_speed"
+VALVE_POSITION = "thermal.measurement.valve_position"
+# (field id, subject dimension, unit, (minimum, maximum))
+HYDRAULIC = (
+    (PUMP_SPEED, PUMP, "unit.reciprocal_second", (Fraction(0), Fraction(1000))),
+    (VALVE_POSITION, TERMINAL, "unit.ratio", RATIO),
+)
+
+
+def hydraulic_missing(fields: dict, dimensions: set, services: dict) -> list:
+    missing = [identifier for identifier, *_rest in HYDRAULIC if identifier not in fields]
+    if PUMP not in dimensions:
+        missing.append(PUMP)
+    if PUMP_SERVICE not in services:
+        missing.append(PUMP_SERVICE)
+    return missing
+
+
+def assert_kept_compressor_and_kick(fields: dict) -> None:
+    speed = fields["thermal.measurement.compressor_speed"]
+    if speed["dimension"] != COMPRESSOR or speed.get("unit") != "unit.reciprocal_second":
+        raise AssertionError("compressor speed changed")
+    kick = fields["thermal.overrun.valve_kick"]
+    if kick["dimension"] != SYSTEM or kick["kind"] != "symbol":
+        raise AssertionError("valve kick changed")
+    if fields[PUMP_SPEED]["dimension"] == COMPRESSOR:
+        raise AssertionError("pump speed is compressor speed")
+
+
+def assert_hydraulic_quantities(fields: dict) -> None:
+    for identifier, dimension, unit, bounds in HYDRAULIC:
+        field = fields[identifier]
+        actual = (exact_value(field["bounds"]["minimum"]), exact_value(field["bounds"]["maximum"]))
+        if field["dimension"] != dimension or field.get("unit") != unit or actual != bounds:
+            raise AssertionError(f"{identifier} is not the hydraulic quantity")
+
+
+def assert_pump_has_no_actuation(services: dict, capabilities: set, document: dict) -> None:
+    service = services[PUMP_SERVICE]
+    if service.get("fact_key_dimension") != PUMP:
+        raise AssertionError("pump service is not keyed on the pump dimension")
+    operations = {item["id"] for item in definitions(document)["operations"]}
+    if any("pump" in item for item in capabilities | operations):
+        raise AssertionError("pump gained a capability or an operation")
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    if "pump speed is not compressor speed" not in text:
+        raise AssertionError("thermal page does not separate pump speed from compressor speed")
+    if "valve position is not an overrun" not in text:
+        raise AssertionError("thermal page does not separate valve position from an overrun")
+
+
+def check_pump_and_valve(document: dict) -> None:
+    """Pump speed is a pump quantity. Valve position is a terminal-unit ratio.
+
+    Identity fields and the production mutation each case catches:
+    field id: removing the field is rejected as a field catalog mismatch;
+    dimension: moving pump speed off thermal.dimension.pump, or valve position
+    off thermal.dimension.terminal_unit, is rejected as a subject mismatch;
+    unit: replacing the unit is rejected as a field unit mismatch;
+    minimum bound: shifting the minimum is rejected as bounds differ;
+    maximum bound: shifting the maximum is rejected as bounds differ.
+    """
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    dimensions = {item["id"] for item in definitions(document)["fact_dimensions"]}
+    services = {item["id"]: item for item in definitions(document)["services"]}
+    capabilities = {item["id"] for item in definitions(document)["capabilities"]}
+    missing = hydraulic_missing(fields, dimensions, services)
+    if missing:
+        raise AssertionError(f"hydraulic members absent: {missing}")
+    assert_kept_compressor_and_kick(fields)
+    assert_hydraulic_quantities(fields)
+    assert_pump_has_no_actuation(services, capabilities, document)
+    print("pump_and_valve: PASS")
+
+
+def pump_and_valve_mutants(document: dict) -> int:
+    count = 0
+    for identifier, dimension, _unit, _bounds in HYDRAULIC:
+        index = field_index(document, identifier)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        moved = copy.deepcopy(document)
+        definitions(moved)["fields"][index]["dimension"] = ZONE if dimension != ZONE else CIRCUIT
+        reject(moved, "field subject differs")
+        count += 1
+        wrong = copy.deepcopy(document)
+        definitions(wrong)["fields"][index]["unit"] = "unit.watt"
+        reject(wrong, "field unit")
+        count += 1
+        for side in ("minimum", "maximum"):
+            shifted = copy.deepcopy(document)
+            _shift_bound(definitions(shifted)["fields"][index]["bounds"][side], side)
+            reject(shifted, "field bounds differ")
+            count += 1
+    return count
+
+
 def append_qualifier(document: dict) -> None:
     extra = copy.deepcopy(definitions(document)["fact_dimensions"][0])
     extra["id"] = "thermal.dimension.quantity"
     extra["ref"]["id"] = "thermal.dimension.quantity"
-    extra["order"] = 110
+    extra["order"] = 120
     definitions(document)["fact_dimensions"].append(extra)
 
 
@@ -493,6 +596,7 @@ def main() -> None:
     print("baseline: PASS")
     check_overrun_identity(document)
     check_occupancy_setpoints(document)
+    check_pump_and_valve(document)
     check_field_table(document)
     check_units(document)
     check_dimensions(document)
@@ -507,6 +611,7 @@ def main() -> None:
     print(f"relation_axis_mutants: {relation_axis_mutants(document)} REJECTED")
     print(f"overrun_identity_mutants: {overrun_identity_mutants(document)} REJECTED")
     print(f"occupancy_identity_mutants: {occupancy_identity_mutants(document)} REJECTED")
+    print(f"pump_and_valve_mutants: {pump_and_valve_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":

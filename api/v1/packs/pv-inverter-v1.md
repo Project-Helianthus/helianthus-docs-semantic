@@ -57,7 +57,9 @@ pv.ac.aggregate_current           pv.ac.aggregate_active_power
 pv.ac.aggregate_apparent_power    pv.ac.aggregate_reactive_power
 pv.ac.frequency                   pv.ac.power_factor
 pv.energy.generated               pv.temperature.inverter
-pv.limit.active_power             pv.limit.export_power
+pv.energy.yield_day               pv.energy.yield_month
+pv.energy.yield_year              pv.limit.active_power
+pv.limit.active_power_ratio       pv.limit.export_power
 pv.status.operating               pv.status.derating
 pv.status.fault
 pv.service.system                 pv.service.inverter
@@ -88,6 +90,8 @@ narrowed, or re-encoded under the same version.
 
 Read capabilities require a qualified current binding. The only operations are
 `pv.operation.set_active_power_limit` and `pv.operation.set_export_limit`.
+The three yields are periods. The ratio is not the watt limit.
+`pv.operation.set_active_power_limit` still takes `pv.limit.active_power`.
 Each requires its exact field, capability, qualified active binding, current
 generation, exact native route, and authority admission. An exact qualified
 native owner may expose one of these routes; lack of such a route publishes no

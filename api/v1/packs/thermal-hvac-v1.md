@@ -65,6 +65,8 @@ fact is published only on a resource of its subject kind.
 | `thermal.measurement.refrigerant_condensing_temperature` | quantity | refrigerant circuit | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.refrigerant_evaporating_temperature` | quantity | refrigerant circuit | `unit.kelvin` | 173.15 to 473.15 | not applicable |
 | `thermal.measurement.compressor_speed` | quantity | compressor | `unit.reciprocal_second` | 0 to 1 000 | non-negative |
+| `thermal.measurement.pump_speed` | quantity | pump | `unit.reciprocal_second` | 0 to 1 000 | non-negative |
+| `thermal.measurement.valve_position` | quantity | terminal unit | `unit.ratio` | 0 to 1 | non-negative |
 
 The subject column names the resource kind of the field's dimension:
 thermal system `thermal.dimension.system`, zone `thermal.dimension.zone`,
@@ -73,8 +75,8 @@ thermal circuit `thermal.dimension.circuit`, domestic hot water
 heat generator `thermal.dimension.heat_generator`, thermal store
 `thermal.dimension.thermal_store`, terminal unit
 `thermal.dimension.terminal_unit`, refrigerant circuit
-`thermal.dimension.refrigerant_circuit` and compressor
-`thermal.dimension.compressor`.
+`thermal.dimension.refrigerant_circuit`, compressor
+`thermal.dimension.compressor` and pump `thermal.dimension.pump`.
 
 The temperatures of a circuit and of the domestic hot water are two facts,
 each on its own subject. Thermal power is the thermal output of the heat
@@ -83,6 +85,7 @@ generator; its sign reference is the nominal direction of
 delivers to the fluid it supplies. The demand level is a ratio of the
 subject's rated maximum. Water pressure is a gauge pressure; the refrigerant
 pressures are absolute pressures. Compressor speed is a rotational speed.
+The pump speed is not compressor speed. The valve position is not an overrun.
 
 Symbols: system mode is auto, cool, dry, emergency_heat, fan_only, heat, off,
 precooling or sleep; zone mode is auto, comfort,
@@ -143,7 +146,8 @@ The FactKey dimension contracts are `thermal.dimension.system`,
 `thermal.dimension.zone`, `thermal.dimension.circuit`, `thermal.dimension.dhw`,
 `thermal.dimension.ventilation`, `thermal.dimension.heat_generator`,
 `thermal.dimension.thermal_store`, `thermal.dimension.terminal_unit`,
-`thermal.dimension.refrigerant_circuit`, and `thermal.dimension.compressor`;
+`thermal.dimension.refrigerant_circuit`, `thermal.dimension.compressor`,
+and `thermal.dimension.pump`;
 each is typed text and names one resource. They preserve separate instances
 without a guessed canonical face.
 
@@ -159,8 +163,10 @@ without a guessed canonical face.
 | terminal unit | equipment | `thermal.dimension.terminal_unit` | `thermal.service.terminal_unit` | `thermal.capability.read.terminal_unit` |
 | refrigerant circuit | function | `thermal.dimension.refrigerant_circuit` | `thermal.service.refrigerant_circuit` | `thermal.capability.read.refrigerant_circuit` |
 | compressor | component | `thermal.dimension.compressor` | `thermal.service.compressor` | `thermal.capability.read.compressor` |
+| pump | component | `thermal.dimension.pump` | `thermal.service.pump` | none |
 
-Each service binds the matching dimension. Operations require qualified
+The pump service has a read descriptor and no read capability. Each service
+binds the matching dimension. Operations require qualified
 current binding: `thermal.capability.set_temperature` on the zone service and
 `thermal.capability.set_mode` on the system service. Indoor and outdoor units
 are not kinds.
@@ -260,8 +266,8 @@ Read descriptors are `thermal.portal.read.system`, `thermal.portal.read.zone`,
 `thermal.portal.read.circuit`, `thermal.portal.read.dhw`,
 `thermal.portal.read.ventilation`, `thermal.portal.read.heat_generator`,
 `thermal.portal.read.thermal_store`, `thermal.portal.read.terminal_unit`,
-`thermal.portal.read.refrigerant_circuit`, and
-`thermal.portal.read.compressor`. Operation descriptors are
+`thermal.portal.read.refrigerant_circuit`,
+`thermal.portal.read.compressor`, and `thermal.portal.read.pump`. Operation descriptors are
 `thermal.portal.operation.set_temperature` and `thermal.portal.operation.set_mode`.
 Portal consumes promoted definitions and admission; it cannot define truth,
 authority, lifecycle, or native routes.

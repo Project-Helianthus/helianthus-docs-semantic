@@ -211,8 +211,85 @@ class TestPVInverterTotalsStayOffPhase:
         print("pv_inverter_totals_stay_off_phase: PASS")
 
 
+ACTIVE_POWER_LIMIT = quantity_identity(
+    "pv.limit.active_power", "unit.watt", "pv.dimension.inverter", ("0", 0), ("1", 7),
+)
+# Day, month and year yields are period counters. The ratio is not the watt limit.
+# Each identity field and the production mutation this test rejects for it:
+# id -> DefinitionRef (the ref no longer names the field);
+# kind -> noncanonical kind;
+# unit -> canonical quantity contract;
+# dimension -> noncanonical kind, dimension, or optionality
+#   (a yield moved onto the inverter, or the ratio moved onto the system);
+# optional -> noncanonical kind, dimension, or optionality;
+# minimum coefficient, maximum coefficient and maximum exponent -> canonical quantity contract;
+# minimum exponent -> canonical kernel Decimal, because each minimum coefficient is 0.
+YIELDS = (
+    quantity_identity("pv.energy.yield_day", "unit.joule", "pv.dimension.system", ("0", 0), ("36", 17)),
+    quantity_identity("pv.energy.yield_month", "unit.joule", "pv.dimension.system", ("0", 0), ("36", 17)),
+    quantity_identity("pv.energy.yield_year", "unit.joule", "pv.dimension.system", ("0", 0), ("36", 17)),
+)
+LIMIT_RATIO = quantity_identity(
+    "pv.limit.active_power_ratio", "unit.ratio", "pv.dimension.inverter", ("0", 0), ("1", 0),
+)
+
+
+def mutations_for(dimension_target):
+    rows = []
+    for name, error, mutate in IDENTITY_MUTATIONS:
+        if name == "dimension":
+            rows.append((name, error, lambda field, target=dimension_target: field.update(dimension=target)))
+        else:
+            rows.append((name, error, mutate))
+    return rows
+
+
+def assert_yields_and_ratio(document):
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    if read_identity(fields["pv.energy.generated"]) != GENERATED_ENERGY:
+        raise AssertionError("pv.energy.generated changed")
+    if read_identity(fields["pv.limit.active_power"]) != ACTIVE_POWER_LIMIT:
+        raise AssertionError("pv.limit.active_power changed")
+    missing = [expected["id"] for expected in (*YIELDS, LIMIT_RATIO) if expected["id"] not in fields]
+    if missing:
+        raise AssertionError(f"yield members absent: {missing}")
+    for expected in YIELDS:
+        actual = fields[expected["id"]]
+        if actual.get("kind") != "quantity" or read_identity(actual) != expected:
+            raise AssertionError(expected["id"] + " is not a period yield")
+    if read_identity(fields[LIMIT_RATIO["id"]]) != LIMIT_RATIO:
+        raise AssertionError("pv.limit.active_power_ratio is not the ratio")
+    operation = next(item for item in document["catalog"]["definitions"]["operations"]
+                     if item["id"] == "pv.operation.set_active_power_limit")
+    if operation.get("arguments") != ["pv.limit.active_power"]:
+        raise AssertionError("set-active-power-limit left the watt argument")
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    if "yields are periods" not in text:
+        raise AssertionError("PV page does not call the yields periods")
+    if "ratio is not the watt limit" not in text:
+        raise AssertionError("PV page does not separate the ratio from the watt limit")
+
+
+def reject_yields_and_ratio(document):
+    for expected in YIELDS:
+        for name, error, mutate in mutations_for("pv.dimension.inverter"):
+            reject_identity(document, expected["id"], name, error, mutate)
+    for name, error, mutate in mutations_for("pv.dimension.system"):
+        reject_identity(document, LIMIT_RATIO["id"], name, error, mutate)
+
+
+class TestPVYieldsAndRatio:
+    """Period yields stay off the lifetime counter. The ratio stays off the watt limit."""
+
+    def run(self, document):
+        assert_yields_and_ratio(document)
+        reject_yields_and_ratio(document)
+        print("pv_yields_and_ratio: PASS")
+
+
 def load_checked_document():
     document = validator.load_document(validator.VECTORS)
+    TestPVYieldsAndRatio().run(document)
     validator.validate_document(document)
     TestPVStringEnergyStaysDistinct().run()
     TestPVInverterTotalsStayOffPhase().run()
@@ -299,7 +376,7 @@ def main():
     case(document, "duplicate_field_order", "fields noncanonical order", lambda c: c["definitions"]["fields"][1].update(order=10))
     case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
     case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
-    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":230}))
+    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":270}))
     case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
     case(document, "availability_policy_conflated", "availability policy", lambda c: c["availability_policy"].update(effective_availability="pv.status.operating"))
     case(document, "topology_self_edge", "topology relation association", lambda c: c["definitions"]["relations"][0].update(to="pv.dimension.system"))

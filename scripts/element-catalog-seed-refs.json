@@ -150,6 +150,14 @@
         "kind": "core",
         "contract": "helianthus.semantic.kernel/v1"
       },
+      "id": "resource.pump",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "core",
+        "contract": "helianthus.semantic.kernel/v1"
+      },
       "id": "resource.pv_array",
       "version": "1.0.0"
     },
@@ -992,6 +1000,28 @@
           "version": "1.0.0"
         }
       },
+      "id": "infrastructure.energy.self_consumption",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
+      "id": "infrastructure.limit.fallback_power",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
       "id": "infrastructure.portal.read.circuit",
       "version": "1.0.0"
     },
@@ -1114,6 +1144,17 @@
         }
       },
       "id": "infrastructure.power.import_reactive",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        }
+      },
+      "id": "infrastructure.power.pcc",
       "version": "1.0.0"
     },
     {
@@ -1707,7 +1748,51 @@
           "version": "1.0.0"
         }
       },
+      "id": "pv.energy.yield_day",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        }
+      },
+      "id": "pv.energy.yield_month",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        }
+      },
+      "id": "pv.energy.yield_year",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        }
+      },
       "id": "pv.limit.active_power",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        }
+      },
+      "id": "pv.limit.active_power_ratio",
       "version": "1.0.0"
     },
     {
@@ -2763,6 +2848,17 @@
           "version": "1.0.0"
         }
       },
+      "id": "thermal.dimension.pump",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
       "id": "thermal.dimension.ratio",
       "version": "1.0.0"
     },
@@ -2885,6 +2981,28 @@
         }
       },
       "id": "thermal.measurement.power",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
+      "id": "thermal.measurement.pump_speed",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
+      "id": "thermal.measurement.valve_position",
       "version": "1.0.0"
     },
     {
@@ -3104,6 +3222,17 @@
           "version": "1.0.0"
         }
       },
+      "id": "thermal.portal.read.pump",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
       "id": "thermal.portal.read.system",
       "version": "1.0.0"
     },
@@ -3149,6 +3278,17 @@
         }
       },
       "id": "thermal.service.dhw",
+      "version": "1.0.0"
+    },
+    {
+      "owner": {
+        "kind": "pack",
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        }
+      },
+      "id": "thermal.service.pump",
       "version": "1.0.0"
     },
     {
