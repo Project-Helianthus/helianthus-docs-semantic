@@ -95,9 +95,9 @@
       }
     },
     "publicUrl": {
-      "description": "Evidence pinned to a revision: a GitHub issue, a GitHub file at a full 40-hexadecimal commit, or a published specification outside GitHub.",
+      "description": "Evidence: a GitHub issue, a GitHub file on the default branch or at a full 40-hexadecimal commit, or a published specification outside GitHub.",
       "type": "string",
-      "pattern": "^https://(github\\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/(issues/[1-9][0-9]*|blob/[0-9a-f]{40}/[^\\s]+)|(?!github\\.com/)[^\\s/]+\\.[^\\s/]+/[^\\s]*)$"
+      "pattern": "^https://(github\\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/(issues/[1-9][0-9]*|blob/(main|[0-9a-f]{40})/[^\\s]+)|(?!github\\.com/)[^\\s/]+\\.[^\\s/]+/[^\\s]*)$"
     },
     "issueUrl": {
       "type": "string",
