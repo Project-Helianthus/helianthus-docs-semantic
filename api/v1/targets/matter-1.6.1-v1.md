@@ -120,12 +120,12 @@ migration work. The roster bytes and their digest change in place before the
 0.7 release; no contract, mapping or pack version is raised. The gateway's
 Matter projection pins this descriptor's path and digest; that pin moves in the
 same in-place wave as
-[helianthus-matter-binding#116](https://github.com/Project-Helianthus/helianthus-matter-binding/issues/116).
+[helianthus-matterreg#116](https://github.com/Project-Helianthus/helianthus-matterreg/issues/116).
 The semantic owner is this repository; kernel, packs and typed
 implementation inputs belong to
 [helianthus-semreg](https://github.com/Project-Helianthus/helianthus-semreg).
 The Matter SDK/runtime boundary belongs to
-[helianthus-matter-binding](https://github.com/Project-Helianthus/helianthus-matter-binding).
+[helianthus-matterreg](https://github.com/Project-Helianthus/helianthus-matterreg).
 This publication changes no eBUS MCP or GraphQL behavior or parity.
 
 ## Validation and falsifiers

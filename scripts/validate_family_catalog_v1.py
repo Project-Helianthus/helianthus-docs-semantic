@@ -53,7 +53,7 @@ RULES = [
     "MUST have `composition_verified=false` and MUST NOT carry any `gateway_composition` evidence entry",
     "Any `composition` other than `not_composed` requires `composition_verified=true`",
     "`composition_verified=true` requires such a `gateway_composition` entry",
-    "MUST be `Project-Helianthus/helianthus-ebusgateway@` followed by the full 40-character commit SHA",
+    "MUST be `Project-Helianthus/helianthus-gateway@` followed by the full 40-character commit SHA",
     "`Project-Helianthus/<repository>@<revision>` pins an immutable revision",
     "`Project-Helianthus/<repository>#<number>` names an issue or pull request thread",
     "new contract version",

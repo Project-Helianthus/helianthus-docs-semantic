@@ -47,7 +47,7 @@ physical-device claim.
 
 `Project-Helianthus/helianthus-docs-semantic` owns this versioned projection
 contract and ledger. `Project-Helianthus/helianthus-semreg` owns kernel v1 and
-the accepted pack contracts. `Project-Helianthus/helianthus-ebusgateway` may
+the accepted pack contracts. `Project-Helianthus/helianthus-gateway` may
 implement the pure adapter only after this contract is accepted; it does not
 thereby acquire semantic or Matter-standard ownership.
 

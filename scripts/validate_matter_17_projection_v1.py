@@ -64,7 +64,7 @@ GUARDS = [
 OWNERSHIP = {
     "projection_contract": "Project-Helianthus/helianthus-docs-semantic",
     "kernel_and_packs": "Project-Helianthus/helianthus-semreg",
-    "runtime_implementation": "Project-Helianthus/helianthus-ebusgateway",
+    "runtime_implementation": "Project-Helianthus/helianthus-gateway",
 }
 NON_CLAIMS = [
     "matter_sdk_dependency",

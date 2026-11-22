@@ -3044,41 +3044,41 @@
   ],
   "consumer_correspondence": {
     "thermal.measurement.humidity_relative": [
-      "ebusgateway/docs/metrics-inventory.json",
-      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
-      "ebusgateway/internal/semanticmetrics/metrics.go",
-      "ebusgateway/internal/semanticmetrics/metrics_test.go",
-      "ebusgateway/cmd/gateway/thermal_humidity_mapping_test.go",
-      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
-      "ebusgateway/cmd/gateway/thermal_humidity_mapping.go",
-      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
-      "matter-binding/docs/target-profile/thermostats.md",
-      "matter-binding/docs/target-profile/heating.md",
-      "matter-binding/docs/target-profile/air-conditioning.md"
+      "gateway/docs/metrics-inventory.json",
+      "gateway/docs/observability/semantic-prometheus-coverage.md",
+      "gateway/internal/semanticmetrics/metrics.go",
+      "gateway/internal/semanticmetrics/metrics_test.go",
+      "gateway/cmd/gateway/thermal_humidity_mapping_test.go",
+      "gateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "gateway/cmd/gateway/thermal_humidity_mapping.go",
+      "gateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matterreg/docs/target-profile/thermostats.md",
+      "matterreg/docs/target-profile/heating.md",
+      "matterreg/docs/target-profile/air-conditioning.md"
     ],
     "thermal.setpoint.dhw_temperature": [
-      "ebusgateway/docs/metrics-inventory.json",
-      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
-      "ebusgateway/internal/semanticmetrics/metrics.go",
-      "ebusgateway/internal/semanticmetrics/metrics_test.go",
-      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
-      "ebusgateway/cmd/gateway/thermal_dhw_setpoint_mapping_test.go",
-      "ebusgateway/cmd/gateway/thermal_dhw_setpoint_mapping.go",
-      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
-      "matter-binding/docs/target-profile/heating.md"
+      "gateway/docs/metrics-inventory.json",
+      "gateway/docs/observability/semantic-prometheus-coverage.md",
+      "gateway/internal/semanticmetrics/metrics.go",
+      "gateway/internal/semanticmetrics/metrics_test.go",
+      "gateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "gateway/cmd/gateway/thermal_dhw_setpoint_mapping_test.go",
+      "gateway/cmd/gateway/thermal_dhw_setpoint_mapping.go",
+      "gateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matterreg/docs/target-profile/heating.md"
     ],
     "thermal.setpoint.temperature": [
-      "ebusgateway/docs/metrics-inventory.json",
-      "ebusgateway/docs/observability/semantic-prometheus-coverage.md",
-      "ebusgateway/internal/semanticmetrics/metrics.go",
-      "ebusgateway/internal/semanticmetrics/metrics_test.go",
-      "ebusgateway/cmd/gateway/thermal_zone_setpoint_mapping.go",
-      "ebusgateway/cmd/gateway/semantic_metrics_runtime_test.go",
-      "ebusgateway/cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "ebusgateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
-      "matter-binding/docs/target-profile/thermostats.md",
-      "matter-binding/docs/target-profile/heating.md",
-      "matter-binding/docs/target-profile/air-conditioning.md"
+      "gateway/docs/metrics-inventory.json",
+      "gateway/docs/observability/semantic-prometheus-coverage.md",
+      "gateway/internal/semanticmetrics/metrics.go",
+      "gateway/internal/semanticmetrics/metrics_test.go",
+      "gateway/cmd/gateway/thermal_zone_setpoint_mapping.go",
+      "gateway/cmd/gateway/semantic_metrics_runtime_test.go",
+      "gateway/cmd/gateway/thermal_zone_setpoint_mapping_test.go",
+      "gateway/cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "matterreg/docs/target-profile/thermostats.md",
+      "matterreg/docs/target-profile/heating.md",
+      "matterreg/docs/target-profile/air-conditioning.md"
     ]
   }
 }
