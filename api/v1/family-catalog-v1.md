@@ -177,7 +177,7 @@ Each `evidence` entry is an object with exactly four non-empty string members.
 | `statement` | What the cited material establishes, stated without copying restricted text and without claiming more than the source. |
 
 A `gateway_composition` entry cites gateway code for a composition claim. It
-MUST use the `@` form and its `owner` MUST be `Project-Helianthus/helianthus-ebusgateway@` followed by the
+MUST use the `@` form and its `owner` MUST be `Project-Helianthus/helianthus-gateway@` followed by the
 full 40-character commit SHA; an abbreviated revision is rejected. Evidence
 MUST be publishable: no private material, device capture, serial, network
 coordinate or credential.

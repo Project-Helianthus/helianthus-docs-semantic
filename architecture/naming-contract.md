@@ -9,7 +9,7 @@ library and consumers can adopt it. The [complete correspondence](naming-contrac
 contains every inventory row for the five pack definition files, including unchanged
 provisional identities and their open questions. Dot-separated DefinitionID
 namespaces are identity structure; the terminal value member follows the
-[register and field vocabulary](https://github.com/Project-Helianthus/helianthus-docs-ebus/blob/main/architecture/naming.md).
+[register and field vocabulary](https://github.com/Project-Helianthus/helianthus-docs/blob/main/architecture/naming.md).
 Historical names in the correspondence are documentary only, never runtime fallback keys.
 
 | Historical DefinitionID | Canonical DefinitionID | Proof |

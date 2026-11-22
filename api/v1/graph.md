@@ -191,7 +191,7 @@ Transition, in this order:
 3. The gateway keeps constructing its kernels without the catalog after the
    semreg dependency update, so today's publishers and their text dimension
    values keep working.
-4. ebusgateway#1539 switches enforcement on per device family as it migrates
+4. gateway#1539 switches enforcement on per device family as it migrates
    that family's publishers. Until then the family's assets are reported
    `ungraphed`.
 5. Whether every composed family must be graph-enforced at INT-16, and whether
@@ -348,7 +348,7 @@ Each identity event, with who checks it:
 | One unit observed through two paths | one resource when its home asset holds both paths; otherwise two resources flagged `same_unit` when they share an anchor key | kernel within an asset (RES-4); cut assembly across assets (section 11.3) | G-NEG-ID-1, G-POS-CUT-4, G-POS-CUT-8, GW-ID-6 |
 
 The GW-ID vectors belong to the gateway's conformance tests for
-ebusgateway#1539 and run again at INT-17.
+gateway#1539 and run again at INT-17.
 
 What can be detected:
 
@@ -896,7 +896,7 @@ receives `unknown` with a tracking issue instead of being dropped.
     an operator identity declaration in the form of an `IdentityLink` names
     the driver's binding, and only that binding's source may publish it, so it
     travels in the driver's own batch.
-  The contributor path in the gateway belongs to ebusgateway#1539.
+  The contributor path in the gateway belongs to gateway#1539.
   Check: `dangling_reference`.
 
 The batch rule "one atomic change for one asset/source/epoch/generation" is
@@ -1630,7 +1630,7 @@ Notes:
 
 The gateway serves the reads of sections 26 to 28 through GraphQL and the
 protocol-neutral semantic MCP namespace. This contract fixes their names and
-their equality; docs-ebus owns the field-level pages.
+their equality; helianthus-docs owns the field-level pages.
 
 | Read | GraphQL field | MCP tool |
 |---|---|---|
@@ -1782,7 +1782,7 @@ Locks part 2 moves: `api/v1/graph-acceptance-vectors.json` (new vectors) and
 its pinned copy in semreg; the element catalog and its pinned copy and digest
 in semreg; the catalog schema; `scripts/validate_graph_v1.py` (new coverage
 identifiers and operations). Downstream, in their own waves: the semantic read
-pages and fixtures of docs-ebus; the gateway GraphQL and MCP read surfaces; the
+pages and fixtures of helianthus-docs; the gateway GraphQL and MCP read surfaces; the
 Portal contribution contract, its five-domain fixtures and the Portal catalog
 `resource_id`; the Matter rosters and their hash lock; the semantic metric
 series keys and coverage slots; Home Assistant unique identifiers; the add-on
