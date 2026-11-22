@@ -6,6 +6,10 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Active gateway-composition owner references use
+  `Project-Helianthus/helianthus-gateway@<gateway-commit>`, and Matter
+  registry references use `Project-Helianthus/helianthus-matterreg`
+  (docs-semantic #154, issue #139).
 - The [CAN storage mapping gate](api/v1/mappings/growatt-bms-can-storage-v1.md)
   of the low-voltage BMS family states, for each profile and native field, the
   storage element, dimension and conversion, or the package E element the
