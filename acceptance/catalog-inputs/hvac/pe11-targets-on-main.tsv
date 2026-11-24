@@ -7,4 +7,4 @@ thermal.measurement.refrigerant_high_side_pressure	PressureMeasurement.MeasuredV
 thermal.measurement.refrigerant_low_side_pressure	PressureMeasurement.MeasuredValue	SPINE:entity.RefrigerantCircuit	PressureMeasurement.MeasuredValue; SPINE 1.3.0 §4.2 entity type RefrigerantCircuit	unchanged
 thermal.mode.terminal_unit	Thermostat.SystemMode		Thermostat.SystemMode	unchanged
 thermal.status.terminal_unit_fault	Thermostat.AcErrorCode, Thermostat.ThermostatRunningState		Thermostat.AcErrorCode; Thermostat.ThermostatRunningState	unchanged
-thermal.status.terminal_unit_operation	Thermostat.AcErrorCode, Thermostat.ThermostatRunningState		Thermostat.AcErrorCode; Thermostat.ThermostatRunningState	unchanged
+thermal.status.terminal_unit_operation	Thermostat.ThermostatRunningState		Thermostat.ThermostatRunningState; value correspondence: RelayStateBitmap 0 (Heat, Cool, Fan, HeatStage2, CoolStage2, FanStage2 and FanStage3 all clear) is idle; any of those bits set is active. Component-failure bits are not this operating state.	unchanged
