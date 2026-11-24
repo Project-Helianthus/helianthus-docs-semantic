@@ -112,12 +112,13 @@ def leakage_re():
         re.escape(home),
         "scratch" + "pad",
         "NOTES" + r"\.md",
-        "CROSS" + "WALK",
         "QUEUE" + r"\.tsv",
         "OPERATOR" + r"\.md:",
         "tickets" + r"\.json",
     ]
-    return re.compile("|".join(parts), re.I)
+    # The filename token is case-sensitive. A lowercase catalog word is not that file.
+    exact = "(?-i:" + "CROSS" + "WALK" + ")"
+    return re.compile("(?:%s)|%s" % ("|".join(parts), exact), re.I)
 
 
 PUBLIC_CELL_SKIP = {
@@ -160,7 +161,7 @@ def private_locator_re():
         r"proposals\.md",
         r"\bB-eebus(?:-remote)?\b",
         r"(?:→|->)",
-        r"\b" + plan + r"\b",
+        r"(?<!\d/)" + plan + r"\b",
         r"\bGT-(?:E)?\d+\b",
         r"\bzip PDF\b",
         r"control/drafts/",
