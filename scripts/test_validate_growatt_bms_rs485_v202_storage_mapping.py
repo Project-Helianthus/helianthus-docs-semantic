@@ -324,7 +324,7 @@ def check_relation_dispositions():
                    if e['element_kind'] == 'relation' and e.get('disposition') == 'member' and e['ref']['owner'].get('pack') == pack)
     contract = m.load()
     stated = [r['definition'] for r in contract['graph']['relations']] + [r['definition'] for r in contract['unstated_relations']]
-    if sorted(stated) != names or len(names) != 6:
+    if sorted(stated) != names or len(names) != 7:
         raise AssertionError('storage relation definitions are not each disposed once')
     print('relation-dispositions: PASS')
 

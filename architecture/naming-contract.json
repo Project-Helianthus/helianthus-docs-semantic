@@ -4296,6 +4296,958 @@
       "canonical_name": "infrastructure.event.energy_measured",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capacity.full_charge",
+      "canonical_name": "storage.capacity.full_charge",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capacity.remaining",
+      "canonical_name": "storage.capacity.remaining",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.actor",
+      "canonical_name": "storage.cob.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.ec1",
+      "canonical_name": "storage.cob.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.heartbeat_counter",
+      "canonical_name": "storage.cob.heartbeat_counter",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.heartbeat_timeout",
+      "canonical_name": "storage.cob.heartbeat_timeout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.heartbeat_timestamp",
+      "canonical_name": "storage.cob.heartbeat_timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.use_case_name",
+      "canonical_name": "storage.cob.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.cob.use_case_version",
+      "canonical_name": "storage.cob.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.battery_type",
+      "canonical_name": "storage.configuration.battery_type",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.control_mode",
+      "canonical_name": "storage.configuration.control_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.default_ac_power",
+      "canonical_name": "storage.configuration.default_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.default_dc_power",
+      "canonical_name": "storage.configuration.default_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.default_pcc_power",
+      "canonical_name": "storage.configuration.default_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.failsafe_ac_power",
+      "canonical_name": "storage.configuration.failsafe_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.failsafe_dc_power",
+      "canonical_name": "storage.configuration.failsafe_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.failsafe_duration_minimum",
+      "canonical_name": "storage.configuration.failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.failsafe_pcc_power",
+      "canonical_name": "storage.configuration.failsafe_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.configuration.maximum_cycles_per_day",
+      "canonical_name": "storage.configuration.maximum_cycles_per_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.interface.ac_power",
+      "canonical_name": "storage.interface.ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.ac_charge_power",
+      "canonical_name": "storage.limit.ac_charge_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.ac_discharge_power",
+      "canonical_name": "storage.limit.ac_discharge_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.dc_charge_power",
+      "canonical_name": "storage.limit.dc_charge_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.limit.dc_discharge_power",
+      "canonical_name": "storage.limit.dc_discharge_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.actor",
+      "canonical_name": "storage.mob.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.device_code",
+      "canonical_name": "storage.mob.device_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.device_name",
+      "canonical_name": "storage.mob.device_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.ec1",
+      "canonical_name": "storage.mob.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.hardware_revision",
+      "canonical_name": "storage.mob.hardware_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.manufacturer_label",
+      "canonical_name": "storage.mob.manufacturer_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.moi_016b",
+      "canonical_name": "storage.mob.moi_016b",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.moi_018",
+      "canonical_name": "storage.mob.moi_018",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.moi_022",
+      "canonical_name": "storage.mob.moi_022",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.serial_number",
+      "canonical_name": "storage.mob.serial_number",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.software_revision",
+      "canonical_name": "storage.mob.software_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.timestamp",
+      "canonical_name": "storage.mob.timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.use_case_name",
+      "canonical_name": "storage.mob.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.use_case_version",
+      "canonical_name": "storage.mob.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.vendor_code",
+      "canonical_name": "storage.mob.vendor_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.mob.vendor_name",
+      "canonical_name": "storage.mob.vendor_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_charge_power_maximum",
+      "canonical_name": "storage.nameplate.ac_charge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_charge_power_nominal_maximum",
+      "canonical_name": "storage.nameplate.ac_charge_power_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_charge_power_nominal_minimum",
+      "canonical_name": "storage.nameplate.ac_charge_power_nominal_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_discharge_power_maximum",
+      "canonical_name": "storage.nameplate.ac_discharge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_discharge_power_nominal_maximum",
+      "canonical_name": "storage.nameplate.ac_discharge_power_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.ac_discharge_power_nominal_minimum",
+      "canonical_name": "storage.nameplate.ac_discharge_power_nominal_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.dc_charge_power_maximum",
+      "canonical_name": "storage.nameplate.dc_charge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.dc_discharge_power_maximum",
+      "canonical_name": "storage.nameplate.dc_discharge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.time_to_ac_charge_power_maximum",
+      "canonical_name": "storage.nameplate.time_to_ac_charge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.nameplate.time_to_ac_discharge_power_maximum",
+      "canonical_name": "storage.nameplate.time_to_ac_discharge_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.setpoint.ac_power",
+      "canonical_name": "storage.setpoint.ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.setpoint.active",
+      "canonical_name": "storage.setpoint.active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.setpoint.dc_power",
+      "canonical_name": "storage.setpoint.dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.setpoint.duration",
+      "canonical_name": "storage.setpoint.duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.setpoint.pcc_power",
+      "canonical_name": "storage.setpoint.pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.state.cycle_count",
+      "canonical_name": "storage.state.cycle_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.charge_direction",
+      "canonical_name": "storage.status.charge_direction",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.charge_faults",
+      "canonical_name": "storage.status.charge_faults",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.charge_level",
+      "canonical_name": "storage.status.charge_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.faults",
+      "canonical_name": "storage.status.faults",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.replacement_needed",
+      "canonical_name": "storage.status.replacement_needed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.status.state",
+      "canonical_name": "storage.status.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.system.ac_power",
+      "canonical_name": "storage.system.ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.system.energy_charged",
+      "canonical_name": "storage.system.energy_charged",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.system.energy_discharged",
+      "canonical_name": "storage.system.energy_discharged",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.system.state_of_charge",
+      "canonical_name": "storage.system.state_of_charge",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.vabd.actor",
+      "canonical_name": "storage.vabd.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.vabd.ec1",
+      "canonical_name": "storage.vabd.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.vabd.use_case_name",
+      "canonical_name": "storage.vabd.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.vabd.use_case_version",
+      "canonical_name": "storage.vabd.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.vabd.vabd_005",
+      "canonical_name": "storage.vabd.vabd_005",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_ac_power",
+      "canonical_name": "storage.operation.set_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_ac_power",
+      "canonical_name": "storage.capability.set_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_ac_power",
+      "canonical_name": "storage.effect.set_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_dc_power",
+      "canonical_name": "storage.operation.set_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_dc_power",
+      "canonical_name": "storage.capability.set_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_dc_power",
+      "canonical_name": "storage.effect.set_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_pcc_power",
+      "canonical_name": "storage.operation.set_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_pcc_power",
+      "canonical_name": "storage.capability.set_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_pcc_power",
+      "canonical_name": "storage.effect.set_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_ac_charge_power_limit",
+      "canonical_name": "storage.operation.set_ac_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_ac_charge_power_limit",
+      "canonical_name": "storage.capability.set_ac_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_ac_charge_power_limit",
+      "canonical_name": "storage.effect.set_ac_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_ac_discharge_power_limit",
+      "canonical_name": "storage.operation.set_ac_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_ac_discharge_power_limit",
+      "canonical_name": "storage.capability.set_ac_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_ac_discharge_power_limit",
+      "canonical_name": "storage.effect.set_ac_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_dc_charge_power_limit",
+      "canonical_name": "storage.operation.set_dc_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_dc_charge_power_limit",
+      "canonical_name": "storage.capability.set_dc_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_dc_charge_power_limit",
+      "canonical_name": "storage.effect.set_dc_charge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_dc_discharge_power_limit",
+      "canonical_name": "storage.operation.set_dc_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_dc_discharge_power_limit",
+      "canonical_name": "storage.capability.set_dc_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_dc_discharge_power_limit",
+      "canonical_name": "storage.effect.set_dc_discharge_power_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_control_mode",
+      "canonical_name": "storage.operation.set_control_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_control_mode",
+      "canonical_name": "storage.capability.set_control_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_control_mode",
+      "canonical_name": "storage.effect.set_control_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_default_ac_power",
+      "canonical_name": "storage.operation.set_default_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_default_ac_power",
+      "canonical_name": "storage.capability.set_default_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_default_ac_power",
+      "canonical_name": "storage.effect.set_default_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_default_dc_power",
+      "canonical_name": "storage.operation.set_default_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_default_dc_power",
+      "canonical_name": "storage.capability.set_default_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_default_dc_power",
+      "canonical_name": "storage.effect.set_default_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_default_pcc_power",
+      "canonical_name": "storage.operation.set_default_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_default_pcc_power",
+      "canonical_name": "storage.capability.set_default_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_default_pcc_power",
+      "canonical_name": "storage.effect.set_default_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_failsafe_ac_power",
+      "canonical_name": "storage.operation.set_failsafe_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_failsafe_ac_power",
+      "canonical_name": "storage.capability.set_failsafe_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_failsafe_ac_power",
+      "canonical_name": "storage.effect.set_failsafe_ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_failsafe_dc_power",
+      "canonical_name": "storage.operation.set_failsafe_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_failsafe_dc_power",
+      "canonical_name": "storage.capability.set_failsafe_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_failsafe_dc_power",
+      "canonical_name": "storage.effect.set_failsafe_dc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_failsafe_pcc_power",
+      "canonical_name": "storage.operation.set_failsafe_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_failsafe_pcc_power",
+      "canonical_name": "storage.capability.set_failsafe_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_failsafe_pcc_power",
+      "canonical_name": "storage.effect.set_failsafe_pcc_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.operation.set_failsafe_duration_minimum",
+      "canonical_name": "storage.operation.set_failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.capability.set_failsafe_duration_minimum",
+      "canonical_name": "storage.capability.set_failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.effect.set_failsafe_duration_minimum",
+      "canonical_name": "storage.effect.set_failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.event.fault_change",
+      "canonical_name": "storage.event.fault_change",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.event.charge_fault_change",
+      "canonical_name": "storage.event.charge_fault_change",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/storage/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "storage.relation.interface_supply",
+      "canonical_name": "storage.relation.interface_supply",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {

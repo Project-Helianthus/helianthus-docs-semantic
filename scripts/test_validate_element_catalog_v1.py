@@ -184,7 +184,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 555 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 674 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -252,8 +252,13 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_pilot_facts_schemes_and_absent_chemistry(self):
         present = {entry["ref"]["id"] for entry in CATALOG["elements"]}
-        for ident in ("storage.attribute.chemistry", "storage.configuration.battery_type"):
-            self.assertNotIn(ident, present)
+        self.assertNotIn("storage.attribute.chemistry", present)
+        battery_type = entry_of(CATALOG, "storage.configuration.battery_type")
+        self.assertEqual(battery_type["element_kind"], "fact")
+        self.assertEqual(battery_type["admission"]["arm"], "eebus")
+        self.assertEqual(battery_type["attributes"]["value_kind"], "symbol")
+        self.assertEqual(battery_type["attributes"]["subject"]["dimension"]["id"], "storage.dimension.pack")
+        self.assertEqual(battery_type["attributes"]["direction"], "not_applicable")
         for ident in ("storage.limit.charge_current", "storage.limit.discharge_current"):
             entry = entry_of(CATALOG, ident)
             self.assertEqual(entry["element_kind"], "fact")
@@ -286,8 +291,8 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 488)
-        self.assertEqual(kinds.count("relation"), 29)
+        self.assertEqual(len(kinds), 607)
+        self.assertEqual(kinds.count("relation"), 30)
         self.assertEqual(kinds.count("presentation"), 41)
         self.assertEqual(kinds.count("dimension"), 44)
         self.assertEqual(len(INPUTS.kernel_types), 28)

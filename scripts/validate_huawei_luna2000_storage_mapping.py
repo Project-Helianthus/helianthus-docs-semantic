@@ -81,6 +81,7 @@ SELECTORS = [
 ]
 # Section 7.2: what withholds each storage relation the gate does not state.
 UNSTATED_BY = {
+    "storage.relation.interface_supply": "configuration:electrical_supply_sign_reference_not_stated_by_this_gate",
     "storage.relation.module_cell": "unsupported:cell_and_module_values",
     "storage.relation.pack_interface": "unsupported:charge_and_discharge_power_limits",
     "storage.relation.pack_module": "unsupported:cell_and_module_values",

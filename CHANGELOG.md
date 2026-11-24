@@ -6,6 +6,21 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The storage pack publishes the admitted pack, interface and system facts,
+  two fault events, and fifteen interface operations with their capabilities
+  and effect rules. `storage.operation.set_ac_power`,
+  `storage.operation.set_dc_power` and `storage.operation.set_pcc_power` keep
+  the power argument and the ordered parameters `storage.setpoint.active` and
+  `storage.setpoint.duration`. An eeBUS scenario may omit validity duration,
+  a supplied duration starts counting at receipt, and explicit zero deactivates
+  the setpoint. Omitted duration and explicit zero are distinct, and neither
+  is a command execution deadline. Charge and discharge capacity stay
+  `unit.ampere_hour`, as do the remaining and full-charge capacities. The two
+  current limits and the interlock field stay as they are. Two-vendor-only
+  rows stay out. The low-voltage CAN storage gate emits pack
+  `storage.state.cycle_count` and does not emit the module-sourced count as
+  that pack fact. The historical Matter 1.7 roster stays at 184 items. No pack
+  version is raised.
 - The PV pack and the infrastructure pack publish the remaining admitted
   `pv` and `infrastructure` rows. `pv.configuration.grid_code` is the eeBUS
   grid-code fact. SunSpec grid-code settings have no element. Two-vendor-only

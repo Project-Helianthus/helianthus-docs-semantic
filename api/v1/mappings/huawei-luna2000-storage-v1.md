@@ -165,6 +165,7 @@ relation is unknown, not absent. These Storage relations stay unknown here.
 
 | Definition | From kind | To kind | Withheld by |
 | --- | --- | --- | --- |
+| `storage.relation.interface_supply` | `resource.storage_interface` | `resource.battery_pack` | `configuration:electrical_supply_sign_reference_not_stated_by_this_gate` |
 | `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `unsupported:cell_and_module_values` |
 | `storage.relation.pack_interface` | `resource.battery_pack` | `resource.storage_interface` | `unsupported:charge_and_discharge_power_limits` |
 | `storage.relation.pack_module` | `resource.battery_pack` | `resource.battery_module` | `unsupported:cell_and_module_values` |
