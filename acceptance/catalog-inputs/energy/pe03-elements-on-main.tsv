@@ -9,9 +9,9 @@ pv.ac.frequency	ElectricalPowerMeasurement.Frequency	MPC-051	specification	Matte
 pv.ac.power_factor	ElectricalPowerMeasurement.PowerFactor	MOI-051	specification	Matter 1.6.1 ElectricalPowerMeasurement.PowerFactor; Monitoring of Inverter V1.0.0 [MOI-051]; MOI-051	
 pv.ac.reactive_power	ElectricalPowerMeasurement.ReactivePower	MOI-034	specification	Matter 1.6.1 ElectricalPowerMeasurement.ReactivePower; Monitoring of Inverter V1.0.0 [MOI-034]; MOI-034	
 pv.ac.voltage	ElectricalPowerMeasurement.Voltage	MPC-041	specification	Matter 1.6.1 ElectricalPowerMeasurement.Voltage; Monitoring of Power Consumption V1.0.0 [MPC-041]; MPC-041	
-pv.dc.aggregate_current	ElectricalPowerMeasurement.ActiveCurrent	MPS-021	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent; Monitoring of PV String V1.0.0 RC4 [MPS-021]; MPS-021	
-pv.dc.aggregate_power	ElectricalPowerMeasurement.ActivePower	MPS-011	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of PV String V1.0.0 RC4 [MPS-011]; MPS-011	
-pv.dc.aggregate_voltage	ElectricalPowerMeasurement.Voltage	MPS-031	specification	Matter 1.6.1 ElectricalPowerMeasurement.Voltage; Monitoring of PV String V1.0.0 RC4 [MPS-031]; MPS-031	
+pv.dc.aggregate_current	ElectricalPowerMeasurement.ActiveCurrent		specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent; eebus.unmapped.v1	exclusion: inverter aggregate on pv.dimension.inverter; MPS-021 stays on pv.string.current
+pv.dc.aggregate_power	ElectricalPowerMeasurement.ActivePower		specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; eebus.unmapped.v1	exclusion: inverter aggregate on pv.dimension.inverter; MPS-011 stays on pv.string.power
+pv.dc.aggregate_voltage	ElectricalPowerMeasurement.Voltage		specification	Matter 1.6.1 ElectricalPowerMeasurement.Voltage; eebus.unmapped.v1	exclusion: inverter aggregate on pv.dimension.inverter; MPS-031 stays on pv.string.voltage
 pv.dc.current	ElectricalPowerMeasurement.ActiveCurrent	MPS-021	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent; Monitoring of PV String V1.0.0 RC4 [MPS-021]; MPS-021	
 pv.dc.energy		MPS-041	specification	matter.unmapped.v1; Monitoring of PV String V1.0.0 RC4 [MPS-041]; MPS-041	
 pv.dc.power	ElectricalPowerMeasurement.ActivePower	MPS-011	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of PV String V1.0.0 RC4 [MPS-011]; MPS-011	

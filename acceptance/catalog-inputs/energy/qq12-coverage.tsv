@@ -262,9 +262,9 @@ mob	1.0.0	6	Measurement	description, constraints, list; parameter <p2> / <m5>, v
 mob	1.0.0	6	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-062		storage.energy.discharged	mapped	specification	
 mob	1.0.0	7	Measurement	description, constraints, list; no electrical connection	MOB-071		storage.state.cycle_count	mapped	specification	
 mob	1.0.0	9	Measurement	description, constraints, list; no electrical connection	MOB-091		storage.temperature.pack	mapped	specification	
-mps	1.0.0 RC4	1	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-011		pv.dc.aggregate_power	mapped	specification	
-mps	1.0.0 RC4	2	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-021		pv.dc.aggregate_current	mapped	specification	
-mps	1.0.0 RC4	3	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-031		pv.dc.aggregate_voltage	mapped	specification	
+mps	1.0.0 RC4	1	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-011		pv.string.power	mapped	specification	string measurement on pv.string.power; not an inverter aggregate
+mps	1.0.0 RC4	2	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-021		pv.string.current	mapped	specification	string measurement on pv.string.current; not an inverter aggregate
+mps	1.0.0 RC4	3	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-031		pv.string.voltage	mapped	specification	string measurement on pv.string.voltage; not an inverter aggregate
 mps	1.0.0 RC4	4	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-041		pv.dc.energy	mapped	specification	
 mps	1.0.0 RC4	5	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-051		pv.string.insulation_resistance	mapped	specification	
 mps	1.0.0 RC4	6	Measurement	description, constraints, list; no electrical connection and no commodityType	MPS-061		pv.string.temperature	mapped	specification	
