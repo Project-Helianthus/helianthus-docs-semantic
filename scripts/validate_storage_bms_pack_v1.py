@@ -12,7 +12,7 @@ VECTORS=ROOT/'api/v1/packs/storage-bms-acceptance-vectors.json'
 TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
-COUNTS={'field_specs':23,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
+COUNTS={'field_specs':25,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
 TABLE_MEMBERS={'capabilities','contract','definition_index','effects','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
 RELATION_MEMBERS={'id','from','to','cardinality','order'}
 DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
@@ -22,9 +22,9 @@ LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_di
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='83be7718c7e2b821eaa47e9b9ac22f3e326363b67e62d8a286be53c5f7f25df2'
+TABLE_SHA256='6785a3e9936448809678a554b8642e85e0de12568f7bf0748a7ff3f5ab281309'
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
-CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt'})
+CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt', 'unit.second', 'unit.cubic_metre', 'unit.metre', 'unit.ohm', 'unit.radian', 'unit.one', 'unit.volt_ampere_reactive_second', 'unit.volt_ampere_second', 'unit.kilogram_per_cubic_metre', 'unit.becquerel_per_cubic_metre', 'unit.kilogram_per_joule', 'unit.watt_per_square_metre', 'unit.metre_per_joule', 'unit.currency', 'unit.currency_per_joule'})
 
 INTERLOCK_FIELD={'id':'storage.status.interlock','kind':'symbol','dimension':'storage.dimension.interface','optional':True,'symbols':['storage.status.interlock.active','storage.status.interlock.clear']}
 INTERLOCK_PREDICATE={'cardinality':'exactly_one','definition':{'pack':PACK,'id':'storage.status.interlock','version':'1.1.0'},'fact_key_dimensions':['storage.dimension.interface'],'operator':'equal','expected_value':{'kind':'symbol','symbol':{'namespace':'storage.status.interlock','token':'clear','known':True}}}

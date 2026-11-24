@@ -19,6 +19,7 @@ infrastructure.power.import_reactive      infrastructure.power.export_reactive
 infrastructure.power.apparent             infrastructure.power.pcc
 infrastructure.energy.import              infrastructure.energy.export
 infrastructure.energy.self_consumption    infrastructure.limit.fallback_power
+infrastructure.accuracy.measured          infrastructure.accuracy.ratio_maximum
 infrastructure.status.connection          infrastructure.status.readiness
 infrastructure.status.breaker             infrastructure.status.fault
 infrastructure.status.interlock
@@ -26,6 +27,7 @@ infrastructure.dimension.site
 infrastructure.dimension.grid_connection  infrastructure.dimension.feeder
 infrastructure.dimension.circuit          infrastructure.dimension.phase
 infrastructure.dimension.meter            infrastructure.dimension.line_pair
+infrastructure.dimension.measurement_type
 infrastructure.service.site               infrastructure.service.line_pair
 infrastructure.service.grid_connection    infrastructure.service.feeder
 infrastructure.service.circuit            infrastructure.service.phase
@@ -67,6 +69,11 @@ It is not the phase voltage `infrastructure.ac.voltage`, and it is not stored
 on `infrastructure.dimension.phase`. The line-pair service has a read
 descriptor and no read capability. Self-consumption is
 `infrastructure.energy.self_consumption`. It is not the import counter.
+`infrastructure.accuracy.measured` is a boolean and
+`infrastructure.accuracy.ratio_maximum` is `unit.ratio` on
+`infrastructure.dimension.meter`. Both are qualified by
+`infrastructure.dimension.measurement_type`. The ratio bounds are empty.
+This pack does not publish an Accuracy struct.
 Point-of-coupling power is `infrastructure.power.pcc`.
 It is not the import/export pair. The fallback grid limit is
 `infrastructure.limit.fallback_power`. It is not the PV export limit.

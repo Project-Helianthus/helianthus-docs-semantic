@@ -1066,6 +1066,36 @@ declared pack/index or a pack without its validator is
 `definition_owner_missing`. Registration order and identifier spelling never
 alter lookup.
 
+### Class-level subject
+
+A resource dimension names one resource kind, or anchor classes, and not both.
+Anchor classes are a non-empty sorted unique subset of `component`,
+`equipment`, `episode` and `function`. A fact on a class-level dimension names
+those same classes and no resource kind. It is about any current resource
+whose kind has one of those classes. A service names its subject the same way:
+one subject kind, or those subject classes.
+
+### Qualifier dimension
+
+A qualifier dimension has role `qualifier`. Its value kind is a quantity of
+`unit.one`, text, or a symbol list. A fact names its qualifiers as a sorted
+unique list of qualifier dimensions of the same pack. An unresolved fact
+subject is one qualifier dimension. An undeclared qualifier is rejected with a
+reason and is never guessed.
+
+### Event record
+
+An event names its service, the trigger fact of the same pack on that service's
+subject, a condition of `entered`, `left` or `changed`, its payload and its
+origin. `entered` and `left` name a sorted unique subset of the trigger
+symbols. `changed` names none. Payload facts are of the same pack and sit on
+the trigger subject or one relation of that pack away. The event's planes
+equal the trigger's planes. Origin `emitted` means the kernel keeps an event
+record of an occurrence the source protocol emits. Origin `derived` means the
+record is derived from consecutive retained revisions of the trigger fact and
+is marked derived. No pack in this contract declares an event, so
+`DefinitionIndex` stays the six collections above.
+
 ### Type: TypedField
 
 ```go
@@ -1581,7 +1611,12 @@ Arguments and preconditions contain at most 64 entries. Arguments are sorted by
 field ID. Preconditions are sorted by `(canonical fact key,candidate_id,
 candidate_revision)` and contain no duplicate tuple. An idempotency key
 deduplicates the same validated intent and outcome; it does not make a native
-operation replay-safe.
+operation replay-safe. `arguments` carries the operation's declared argument
+exactly once and each supplied optional parameter at most once. An omitted
+optional parameter is accepted. A repeated field, an undeclared field, or an
+undeclared qualifier is rejected with a reason and is never guessed.
+Parameters, when an operation declares them, are a sorted unique list of
+fields of the same pack and are not the argument.
 
 `expected_capability_revision` binds `RevisionVector.capabilities`.
 `expected_capability_instance_revision` binds the one matched instance. Both

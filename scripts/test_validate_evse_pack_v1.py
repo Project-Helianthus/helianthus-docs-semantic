@@ -20,7 +20,7 @@ EARLIER_MEMBER = "relation" + "ships"
 # The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
 SI_UNITS = {"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
-            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"}
+            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule"}
 # Each field the rule moved: SI unit, customary bounds before the move, exact factor and offset.
 CONVERTED = {
     "evse.energy.session": ("unit.joule", ("0", 0), ("1", 12), Fraction(3600000), Fraction(0)),

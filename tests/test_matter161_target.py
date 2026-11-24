@@ -285,14 +285,25 @@ class Matter161TargetTests(unittest.TestCase):
         self.assertEqual(self.document['historical_input'], HISTORICAL.name)
         kept = [r for r in self.document['rows']
                 if r['kind'] in ('fact', 'capability', 'operation')]
-        self.assertEqual(len(kept), len(historical['rows']))
-        for old, new in zip(historical['rows'], kept):
+        historical_ids = {json.dumps(row['ref'], sort_keys=True) for row in historical['rows']}
+        matched = [row for row in kept if json.dumps(row['ref'], sort_keys=True) in historical_ids]
+        extra = [row for row in kept if json.dumps(row['ref'], sort_keys=True) not in historical_ids]
+        self.assertEqual(len(matched), len(historical['rows']))
+        for old, new in zip(historical['rows'], matched):
             expected = copy.deepcopy(new)
             if expected['ref'] == POSITIVE_REF:
                 # The phase association now cites its relation definition.
                 del expected['relations']
                 expected['reason'] = HISTORICAL_POSITIVE_REASON
             self.assertEqual(old, expected)
+        pilot = {'pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
+                 'infrastructure.accuracy.measured', 'infrastructure.accuracy.ratio_maximum',
+                 'storage.limit.charge_current', 'storage.limit.discharge_current'}
+        self.assertEqual({row['ref']['id'] for row in extra}, pilot)
+        for row in extra:
+            self.assertEqual(row['disposition'], 'unknown')
+            self.assertEqual(row['reason'], 'matter.unmapped.v1')
+            self.assertNotIn('target', row)
         self.assertEqual(self.document['ownership'], historical['ownership'])
         self.assertEqual(self.document['non_claims'], historical['non_claims'])
 
@@ -513,13 +524,22 @@ class Matter161ProjectionPageTests(unittest.TestCase):
     def setUp(self):
         self.text = self.PAGE.read_text()
 
-    def test_chemistry_pair_and_current_limits_are_recorded_as_withheld(self):
-        for ident in ['storage.attribute.chemistry',
-                      'storage.configuration.battery_type',
-                      'storage.limit.charge_current',
-                      'storage.limit.discharge_current']:
+    def test_chemistry_pair_stays_out_and_pilot_facts_are_unknown(self):
+        for ident in ['storage.attribute.chemistry', 'storage.configuration.battery_type']:
             with self.subTest(ident=ident):
                 self.assertIn(ident, self.text)
+        self.assertIn('are not added', self.text)
+        for ident in ['storage.limit.charge_current', 'storage.limit.discharge_current',
+                      'pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
+                      'infrastructure.accuracy.measured', 'infrastructure.accuracy.ratio_maximum',
+                      'pv.dimension.measurement_type', 'infrastructure.dimension.measurement_type']:
+            with self.subTest(ident=ident):
+                self.assertIn(ident, self.text)
+        self.assertIn('PV inverter', self.text)
+        self.assertIn('have no roster row', self.text)
+        self.assertIn('matter.unmapped.v1', self.text)
+        self.assertIn('no struct is published', self.text)
+        self.assertIn('does not deliver', self.text)
         self.assertIn('withheld', self.text)
 
     def test_no_false_unresolved_subject_schema_cause(self):

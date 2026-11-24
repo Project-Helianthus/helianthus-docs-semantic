@@ -47,8 +47,8 @@ def validate(value, schema, root, path="$"):
             if name in properties: validate(item, properties[name], root, f"{path}.{name}")
 
 def exact_five_packs(document):
-    actual = {(item["pack"]["id"], item["pack"]["version"]) for item in document["packs"]}
-    expected = {("helianthus.pack.thermal", "1.0.0"), ("helianthus.pack.pv", "1.0.0"), ("helianthus.pack.storage", "1.1.0"), ("helianthus.pack.evse", "1.0.0"), ("helianthus.pack.infrastructure", "1.0.0")}
+    actual = [(item["pack"]["id"], item["pack"]["version"]) for item in document["packs"]]
+    expected = [("helianthus.pack.evse", "1.0.0"), ("helianthus.pack.infrastructure", "1.0.0"), ("helianthus.pack.pv", "1.0.0"), ("helianthus.pack.storage", "1.1.0"), ("helianthus.pack.thermal", "1.0.0")]
     if actual != expected: raise ValueError("exact accepted five-pack set")
 
 def validate_document(document):

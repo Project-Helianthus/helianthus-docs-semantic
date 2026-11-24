@@ -5,9 +5,11 @@ import copy
 import json
 from pathlib import Path
 
+import validate_element_catalog_v1 as element_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "api/v1/pack-metadata-v1.json"
-SOURCES = ("api/v1/packs/thermal-hvac-acceptance-vectors.json", "api/v1/packs/pv-inverter-acceptance-vectors.json", "api/v1/packs/storage-bms-acceptance-vectors.json", "api/v1/packs/evse-acceptance-vectors.json", "api/v1/packs/infrastructure-acceptance-vectors.json")
+SOURCES = element_catalog.ACCEPTED_PACK_SOURCES
 STORAGE_TABLES = ROOT / "api/v1/packs/storage-bms-contract-tables.json"
 
 def pairs(items):

@@ -190,3 +190,29 @@ catalog's `resource_id`; this exception ends with PTL-3); **registry plane**
 and **registry projection** (the native eBUS registry terms of its registry
 tools, device GraphQL types and Portal registry routes); and **SPINE topology**
 (the eeBUS `TopologyV1` record). No alias is created.
+
+## Event
+
+An **event** is an occurrence the kernel records. Origin `emitted` keeps an
+event record of an occurrence the source protocol emits. Origin `derived`
+marks a record derived from consecutive retained revisions of the trigger
+fact. The event names its service, that trigger, a condition of `entered`,
+`left` or `changed`, its symbols and payload, and that origin. See the
+[kernel contract](../api/v1/kernel.md#event-record).
+
+## Qualifier dimension
+
+A **qualifier dimension** is a dimension of role `qualifier`. Its value kind
+is a quantity of `unit.one`, text, or a symbol list. A fact key carries
+exactly the qualifiers that fact declares, as a sorted unique list of
+qualifier dimensions of the same pack. An undeclared qualifier is rejected
+and is never guessed. See the
+[kernel contract](../api/v1/kernel.md#qualifier-dimension).
+
+## Class-level subject
+
+A **class-level subject** is a resource dimension that names anchor classes
+instead of one resource kind. The classes are a non-empty sorted unique
+subset of `component`, `equipment`, `episode` and `function`. A fact on that
+dimension is about any current resource whose kind has one of those classes.
+See the [kernel contract](../api/v1/kernel.md#class-level-subject).

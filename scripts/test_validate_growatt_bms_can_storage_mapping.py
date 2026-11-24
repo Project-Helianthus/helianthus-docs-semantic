@@ -229,6 +229,61 @@ def test_module_source_is_not_pack():
     reject(set_member("link", "maximum_cell_voltage", "emitted", True), "module_source_emitted_as_pack")
 
 
+def test_waiting_current_limit_stays_off_the_pack_fact():
+    """A current-limit wait holds only while that fact is absent or on another dimension.
+
+    For storage.limit.charge_current and storage.limit.discharge_current:
+    renaming the catalog id leaves the interface row waiting; a cell catalog
+    dimension leaves it waiting; an interface catalog dimension refuses the
+    native source; a pack row dimension refuses that same source.
+    """
+    document = gate.load()
+    cases = (
+        ("storage.limit.charge_current", "charge_current_limit"),
+        ("storage.limit.discharge_current", "discharge_current_limit"),
+    )
+    for element_id, source in cases:
+        catalog = copy.deepcopy(gate.catalog_document())
+        found = next(item for item in catalog["elements"] if item["ref"]["id"] == element_id)
+        found["attributes"]["subject"]["dimension"]["id"] = "storage.dimension.interface"
+        try:
+            gate.validate_contract(document, catalog)
+        except RuntimeError as exc:
+            if str(exc) != source:
+                raise AssertionError(f"{source}: {exc}") from exc
+        else:
+            raise AssertionError(f"{source} accepted on the interface dimension")
+        print(f"{source} same dimension: REJECTED")
+
+        catalog = copy.deepcopy(gate.catalog_document())
+        found = next(item for item in catalog["elements"] if item["ref"]["id"] == element_id)
+        found["ref"]["id"] = element_id + "_other"
+        gate.validate_contract(document, catalog)
+        print(f"{element_id} absent: PASS")
+
+        catalog = copy.deepcopy(gate.catalog_document())
+        found = next(item for item in catalog["elements"] if item["ref"]["id"] == element_id)
+        found["attributes"]["subject"]["dimension"]["id"] = "storage.dimension.cell"
+        gate.validate_contract(document, catalog)
+        print(f"{element_id} on cell: PASS")
+
+        saved = gate.ROWS
+        gate.ROWS = tuple(
+            row[:5] + ("pack",) + row[6:] if row[0] == "v1_04" and row[1] == source else row
+            for row in saved
+        )
+        try:
+            gate.validate_contract(document)
+        except RuntimeError as exc:
+            if str(exc) != source:
+                raise AssertionError(f"{source} row dimension: {exc}") from exc
+        else:
+            raise AssertionError(f"{source} accepted on the pack row dimension")
+        finally:
+            gate.ROWS = saved
+        print(f"{source} pack row: REJECTED")
+
+
 def test_page_rows_follow_record():
     """A page row whose disposition, element or conversion drifts from the record is refused."""
     original = gate.DOC.read_text(encoding="utf-8")
@@ -265,6 +320,7 @@ def main():
     test_profile_and_field_members()
     test_conversions_and_package_e()
     test_module_source_is_not_pack()
+    test_waiting_current_limit_stays_off_the_pack_fact()
     test_page_rows_follow_record()
     print("can storage mapping mutations: PASS")
 

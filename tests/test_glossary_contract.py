@@ -82,5 +82,36 @@ class GlossaryContract(unittest.TestCase):
                 self.assertTrue(link_errors("[contract](" + target + ")", GLOSSARY))
 
 
+ADDED = (
+    ("Event", "../api/v1/kernel.md#event-record"),
+    ("Qualifier dimension", "../api/v1/kernel.md#qualifier-dimension"),
+    ("Class-level subject", "../api/v1/kernel.md#class-level-subject"),
+)
+
+
+def added_sections(text):
+    matches = list(re.finditer(r"^## (Event|Qualifier dimension|Class-level subject)$", text, re.M))
+    return [(m.group(1), text[m.end():matches[i + 1].start()] if i + 1 < len(matches) else text[m.end():])
+            for i, m in enumerate(matches)]
+
+
+class AddedGlossaryTerms(unittest.TestCase):
+    def setUp(self):
+        self.text = (ROOT / GLOSSARY).read_text()
+
+    def test_three_terms_link_their_kernel_anchors(self):
+        found = dict(added_sections(self.text))
+        self.assertCountEqual(found, [heading for heading, _ in ADDED])
+        for heading, target in ADDED:
+            with self.subTest(term=heading):
+                self.assertIn(target, LINK.findall(found[heading]))
+
+    def test_each_added_heading_removal_is_detected(self):
+        for heading, _target in ADDED:
+            with self.subTest(term=heading):
+                changed = self.text.replace("## " + heading, "## Other", 1)
+                self.assertNotIn(heading, [name for name, _ in added_sections(changed)])
+
+
 if __name__ == "__main__":
     unittest.main()

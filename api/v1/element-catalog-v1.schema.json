@@ -519,6 +519,39 @@
         },
         "resource_kind": {
           "$ref": "#/$defs/definitionId"
+        },
+        "anchor_classes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "component",
+              "equipment",
+              "episode",
+              "function"
+            ]
+          }
+        },
+        "value_kind": {
+          "enum": [
+            "quantity",
+            "text",
+            "symbol"
+          ]
+        },
+        "unit": {
+          "const": "unit.one"
+        },
+        "symbols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._]*$"
+          }
         }
       },
       "if": {
@@ -529,23 +562,145 @@
         }
       },
       "then": {
-        "required": [
-          "resource_kind"
+        "oneOf": [
+          {
+            "required": [
+              "resource_kind"
+            ],
+            "not": {
+              "required": [
+                "anchor_classes"
+              ]
+            }
+          },
+          {
+            "required": [
+              "anchor_classes"
+            ],
+            "not": {
+              "required": [
+                "resource_kind"
+              ]
+            }
+          }
         ]
       },
       "else": {
         "not": {
-          "required": [
-            "resource_kind"
+          "anyOf": [
+            {
+              "required": [
+                "resource_kind"
+              ]
+            },
+            {
+              "required": [
+                "anchor_classes"
+              ]
+            }
           ]
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "qualifier"
+              }
+            }
+          },
+          "then": {
+            "oneOf": [
+              {
+                "properties": {
+                  "value_kind": {
+                    "const": "quantity"
+                  },
+                  "unit": {
+                    "const": "unit.one"
+                  }
+                },
+                "required": [
+                  "value_kind",
+                  "unit"
+                ],
+                "not": {
+                  "required": [
+                    "symbols"
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "value_kind": {
+                    "const": "text"
+                  }
+                },
+                "required": [
+                  "value_kind"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "unit"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "symbols"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "value_kind": {
+                    "const": "symbol"
+                  }
+                },
+                "required": [
+                  "value_kind",
+                  "symbols"
+                ],
+                "not": {
+                  "required": [
+                    "unit"
+                  ]
+                }
+              }
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "value_kind"
+                  ]
+                },
+                {
+                  "required": [
+                    "unit"
+                  ]
+                },
+                {
+                  "required": [
+                    "symbols"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
     },
     "serviceAttributes": {
       "type": "object",
       "required": [
-        "fact_key_dimension",
-        "subject_kind"
+        "fact_key_dimension"
       ],
       "additionalProperties": false,
       "properties": {
@@ -554,8 +709,44 @@
         },
         "subject_kind": {
           "$ref": "#/$defs/definitionId"
+        },
+        "subject_classes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "component",
+              "equipment",
+              "episode",
+              "function"
+            ]
+          }
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "subject_kind"
+          ],
+          "not": {
+            "required": [
+              "subject_classes"
+            ]
+          }
+        },
+        {
+          "required": [
+            "subject_classes"
+          ],
+          "not": {
+            "required": [
+              "subject_kind"
+            ]
+          }
+        }
+      ]
     },
     "factAttributes": {
       "type": "object",
@@ -613,6 +804,22 @@
                   "$ref": "#/$defs/elementRef"
                 }
               }
+            },
+            {
+              "type": "object",
+              "required": [
+                "status",
+                "dimension"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "const": "resolved"
+                },
+                "dimension": {
+                  "$ref": "#/$defs/elementRef"
+                }
+              }
             }
           ]
         },
@@ -639,6 +846,14 @@
               "const": "native_convention"
             }
           ]
+        },
+        "qualifiers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/elementRef"
+          }
         }
       },
       "allOf": [
@@ -718,6 +933,14 @@
         },
         "effect_rule": {
           "$ref": "#/$defs/elementRef"
+        },
+        "parameters": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/elementRef"
+          }
         }
       }
     },
@@ -803,7 +1026,8 @@
             "effect_rule",
             "evidence_state",
             "lifecycle_state",
-            "presentation"
+            "presentation",
+            "event"
           ]
         },
         "disposition": {
@@ -1226,6 +1450,22 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "element_kind": {
+                "const": "event"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/$defs/eventAttributes"
+              }
+            }
+          }
         }
       ]
     },
@@ -1320,6 +1560,80 @@
           ]
         }
       }
+    },
+    "eventAttributes": {
+      "type": "object",
+      "required": [
+        "service",
+        "trigger",
+        "condition",
+        "payload",
+        "origin"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "service": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "trigger": {
+          "$ref": "#/$defs/elementRef"
+        },
+        "condition": {
+          "enum": [
+            "entered",
+            "left",
+            "changed"
+          ]
+        },
+        "symbols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._]*$"
+          }
+        },
+        "payload": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/elementRef"
+          }
+        },
+        "origin": {
+          "enum": [
+            "emitted",
+            "derived"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "condition": {
+                "enum": [
+                  "entered",
+                  "left"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "symbols"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "symbols"
+              ]
+            }
+          }
+        }
+      ]
     }
   }
 }

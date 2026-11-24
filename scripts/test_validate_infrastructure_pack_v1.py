@@ -20,7 +20,7 @@ EARLIER_MEMBER = "relation" + "ships"
 # The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
 SI_UNITS = {"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
-            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"}
+            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule"}
 # Each field the rule moved: SI unit, customary bounds before the move, exact factor and offset.
 CONVERTED = {
     "infrastructure.energy.import": ("unit.joule", ("0", 0), ("1", 12), Fraction(3600000), Fraction(0)),
@@ -207,8 +207,10 @@ def assert_grid_portals(portals):
     meter = portals.get("infrastructure.portal.read.meter", ())
     grid = portals.get("infrastructure.portal.read.grid_connection", ())
     phase = portals.get("infrastructure.portal.read.phase", ())
-    if meter != ("infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption"):
-        raise AssertionError("meter read is not export, import, and self-consumption")
+    if meter != ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum",
+                 "infrastructure.energy.export", "infrastructure.energy.import",
+                 "infrastructure.energy.self_consumption"):
+        raise AssertionError("meter read is not the accuracy facts, then export, import, and self-consumption")
     if "infrastructure.limit.fallback_power" not in grid or "infrastructure.power.pcc" not in grid:
         raise AssertionError("grid-connection read misses the fallback limit or point-of-coupling power")
     if "infrastructure.power.import_active" not in grid or "infrastructure.power.export_active" not in grid:
@@ -310,6 +312,52 @@ def main():
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
     case(document, "loss_omitted", "projection-loss coverage", lambda c: c["loss_dispositions"].remove("aggregation"))
     print("focused_mutations: 36 REJECTED")
+    check_accuracy_facts(document)
+
+
+def check_accuracy_facts(document):
+    """Accuracy identity fields and the production mutation each one catches.
+
+    infrastructure.accuracy.measured id: renaming the field and its ref fails the fields catalog.
+    kind, dimension and optional: each change fails the noncanonical field check.
+    qualifiers: dropping them fails field qualifiers.
+    infrastructure.accuracy.ratio_maximum unit: another SI unit fails the quantity contract.
+    bounds minimum and bounds maximum: filling either fails the quantity contract.
+    infrastructure.dimension.measurement_type value_kind: text fails the qualifier dimension check.
+    symbols: replacing one symbol fails the qualifier dimension check.
+    """
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    measured = fields["infrastructure.accuracy.measured"]
+    ratio = fields["infrastructure.accuracy.ratio_maximum"]
+    if measured["kind"] != "boolean" or tuple(measured["qualifiers"]) != ("infrastructure.dimension.measurement_type",):
+        raise AssertionError("measured fact")
+    if ratio["kind"] != "quantity" or ratio["unit"] != "unit.ratio" or ratio["bounds"] != {"minimum": None, "maximum": None}:
+        raise AssertionError("ratio fact")
+    if tuple(ratio["qualifiers"]) != ("infrastructure.dimension.measurement_type",):
+        raise AssertionError("ratio qualifiers")
+    qualifier = document["catalog"]["definitions"]["qualifier_dimensions"][0]
+    if qualifier["id"] != "infrastructure.dimension.measurement_type" or qualifier["value_kind"] != "symbol":
+        raise AssertionError("measurement type")
+    if tuple(qualifier["symbols"]) != validator.MEASUREMENT_SYMBOLS:
+        raise AssertionError("measurement symbols")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+
+    def rename(catalog, ident):
+        field = catalog["definitions"]["fields"][positions[ident]]
+        field["id"] = ident + "_moved"
+        field["ref"]["id"] = field["id"]
+
+    case(document, "measured_id", "fields catalog", lambda catalog: rename(catalog, "infrastructure.accuracy.measured"))
+    case(document, "measured_kind", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.measured"]].update(kind="symbol"))
+    case(document, "measured_dimension", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.measured"]].update(dimension="infrastructure.dimension.phase"))
+    case(document, "measured_optional", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.measured"]].update(optional=False))
+    case(document, "measured_qualifiers", "field qualifiers", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.measured"]].pop("qualifiers"))
+    case(document, "ratio_unit", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.ratio_maximum"]].update(unit="unit.watt"))
+    case(document, "ratio_minimum", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.ratio_maximum"]]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+    case(document, "ratio_maximum", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["infrastructure.accuracy.ratio_maximum"]]["bounds"].update(maximum={"coefficient": "1", "exponent10": 0}))
+    case(document, "measurement_value_kind", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0].update(value_kind="text"))
+    case(document, "measurement_symbol", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0]["symbols"].__setitem__(0, "other_symbol"))
+    print("accuracy_facts: PASS")
 
 
 if __name__ == "__main__":

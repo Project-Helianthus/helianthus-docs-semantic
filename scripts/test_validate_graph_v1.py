@@ -1006,5 +1006,67 @@ class ReadMutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_reads, mutated(change), "recomputed read is accepted")
 
 
+class SubjectCaseTest(unittest.TestCase):
+    """subject_check fields and the production mutation each one catches.
+
+    anchor_classes: an empty, duplicated, unknown or unsorted list is invalid_value.
+    anchor_class: a class outside the declared list is identity_drift; a class
+    outside the four anchor classes is invalid_value.
+    declared_qualifiers: an unsorted list is invalid_value.
+    key_qualifiers: a list that differs from the declared list is unknown_member;
+    an unsorted list is invalid_value.
+    """
+
+    CASES = (
+        ("G-POS-SUBJ-CLASS-1", "positive", "accept"),
+        ("G-NEG-SUBJ-CLASS-1", "negative", "reject"),
+        ("G-POS-QUAL-1", "positive", "accept"),
+        ("G-NEG-QUAL-1", "negative", "reject"),
+    )
+
+    def assert_rule_rejects(self, document, fragment):
+        problems = validator.check_subject_cases(document, CONTEXT)
+        self.assertTrue(any(fragment in problem for problem in problems), problems)
+        self.assertNotEqual(validator.validate(document, CONTEXT), [])
+
+    def test_committed_subject_cases(self):
+        for vector_id, polarity, result in self.CASES:
+            item = vector(DOCUMENT, vector_id)
+            self.assertEqual(item["polarity"], polarity)
+            self.assertEqual(item["expect"]["result"], result)
+            self.assertEqual(validator.subject_case_error(item["input"]["subject_check"]),
+                             None if result == "accept" else item["expect"]["error_id"])
+
+    def test_each_subject_check_field_mutation_is_caught(self):
+        def classes(document, values):
+            vector(document, "G-POS-SUBJ-CLASS-1")["input"]["subject_check"]["anchor_classes"] = values
+
+        def resource(document, value):
+            vector(document, "G-POS-SUBJ-CLASS-1")["input"]["subject_check"]["anchor_class"] = value
+
+        def declared(document, values):
+            vector(document, "G-POS-QUAL-1")["input"]["subject_check"]["declared_qualifiers"] = values
+
+        def key(document, values):
+            vector(document, "G-POS-QUAL-1")["input"]["subject_check"]["key_qualifiers"] = values
+
+        cases = (
+            ("anchor_classes_empty", lambda d: classes(d, []), "invalid_value"),
+            ("anchor_classes_duplicated", lambda d: classes(d, ["equipment", "equipment"]), "invalid_value"),
+            ("anchor_classes_unknown", lambda d: classes(d, ["inverter"]), "invalid_value"),
+            ("anchor_classes_unsorted", lambda d: classes(d, ["equipment", "component"]), "invalid_value"),
+            ("anchor_class_outside_declared", lambda d: resource(d, "function"), "identity_drift"),
+            ("anchor_class_outside_the_four", lambda d: resource(d, "inverter"), "invalid_value"),
+            ("declared_qualifiers_unsorted",
+             lambda d: declared(d, ["range", "measurement_type"]), "invalid_value"),
+            ("key_qualifiers_differ",
+             lambda d: key(d, ["measurement_type", "range"]), "unknown_member"),
+            ("key_qualifiers_unsorted", lambda d: key(d, ["range", "measurement_type"]), "invalid_value"),
+        )
+        for name, change, fragment in cases:
+            with self.subTest(field=name):
+                self.assert_rule_rejects(mutated(change), fragment)
+
+
 if __name__ == "__main__":
     sys.exit(0 if unittest.main(exit=False).result.wasSuccessful() else 1)

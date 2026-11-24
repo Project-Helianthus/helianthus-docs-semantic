@@ -28,7 +28,7 @@ generator, which this module never imports:
 | CAT-6 | the admission arm allowed per plane, core type and element; ``accepted_pack`` only for seed references; a page of this repository is a repository-relative path of a file in the tree | ``invalid_value`` |
 | CAT-7 | a signed fact names a ``supplies`` relation, or ``native_convention`` for a seed reference | ``invalid_value``, ``membership_missing`` |
 | CAT-8 | canonical entry order | ``noncanonical_order`` |
-| CAT-9 | unique scheme identifiers, each with a ``public_registry`` admission record | ``duplicate_identity``, ``invalid_value`` |
+| CAT-9 | the two identification schemes, in order, each with a ``public_registry`` admission record | ``duplicate_identity``, ``invalid_value`` |
 
 Each failure prints the stable error, the rule and the entry. The exit status
 is 1 on any failure and 0 with a PASS line otherwise.
@@ -47,17 +47,20 @@ SEED_REFS = ROOT / "scripts/element-catalog-seed-refs.json"
 PACK_METADATA = ROOT / "api/v1/pack-metadata-v1.json"
 STORAGE_TABLES = ROOT / "api/v1/packs/storage-bms-contract-tables.json"
 GRAPH_PAGE = ROOT / "api/v1/graph.md"
-VECTOR_FILES = tuple(ROOT / "api/v1/packs" / name for name in (
-    "thermal-hvac-acceptance-vectors.json",
-    "pv-inverter-acceptance-vectors.json",
-    "evse-acceptance-vectors.json",
-    "infrastructure-acceptance-vectors.json",
-))
+# One source list for the catalog and the pack-metadata validator. Later tickets extend it.
+ACCEPTED_PACK_SOURCES = (
+    "api/v1/packs/thermal-hvac-acceptance-vectors.json",
+    "api/v1/packs/pv-inverter-acceptance-vectors.json",
+    "api/v1/packs/storage-bms-acceptance-vectors.json",
+    "api/v1/packs/evse-acceptance-vectors.json",
+    "api/v1/packs/infrastructure-acceptance-vectors.json",
+)
+STORAGE_SOURCE = "api/v1/packs/storage-bms-acceptance-vectors.json"
 
 VECTOR_GROUPS = (
-    ("fields", "fact"), ("fact_dimensions", "dimension"), ("services", "service"),
-    ("relations", "relation"), ("capabilities", "capability"), ("operations", "operation"),
-    ("effect_rules", "effect_rule"), ("portal_contributions", "presentation"),
+    ("fields", "fact"), ("fact_dimensions", "dimension"), ("qualifier_dimensions", "dimension"),
+    ("services", "service"), ("relations", "relation"), ("capabilities", "capability"),
+    ("operations", "operation"), ("effect_rules", "effect_rule"), ("portal_contributions", "presentation"),
 )
 STORAGE_GROUPS = (
     ("field_specs", "fact"), ("services", "service"), ("relations", "relation"),
@@ -93,7 +96,15 @@ OWNER_KINDS = {
     "evidence_state": {"core"},
     "lifecycle_state": {"core"},
     "presentation": {"pack", "core"},
+    "event": {"pack"},
 }
+# A class-level subject names a non-empty sorted unique subset of these classes.
+ANCHOR_CLASSES = ("component", "equipment", "episode", "function")
+CLASS_PLANES = frozenset({"diagnostic", "energy", "control"})
+SCHEME_RECORDS = (
+    ("scheme.ieee.eui48", "none", "12 upper-case hexadecimal digits, no separators"),
+    ("scheme.ieee.eui64", "none", "16 upper-case hexadecimal digits, no separators"),
+)
 # Graph section 10.5: the arms an admission record may use.
 FULL_RULE_ARMS = frozenset({"matter_baseline", "eebus", "two_vendors"})
 STRUCTURE_ARMS = FULL_RULE_ARMS | {"owner_decision"}
@@ -190,7 +201,14 @@ def show(key):
     return f"{key[3]}@{key[4]} [{owner}]"
 
 
+def is_ref_key(value):
+    return isinstance(value, tuple) and len(value) == 5 and value[0] in ("pack", "core", "native")
+
+
 def render(value):
+    """A ref key, a list of them, or a plain value. Qualifier and symbol lists are tuples."""
+    if isinstance(value, tuple) and not is_ref_key(value):
+        return "[" + ", ".join(render(item) for item in value) + "]"
     return show(value) if isinstance(value, tuple) else value
 
 
@@ -218,6 +236,10 @@ def subject_dimension(attributes):
     return optional_key(subject.get("dimension", subject.get("qualifier_dimension")))
 
 
+def qualifier_keys(attributes):
+    return tuple(optional_key(item) for item in attributes.get("qualifiers", ()))
+
+
 # ---------------------------------------------------------------- pack inputs
 
 
@@ -240,12 +262,13 @@ class PackModel:
         self.expect(key, "dimension")
         self.roles[key] = "resource"
 
-    def field(self, key, value_kind, dimension):
+    def field(self, key, value_kind, dimension, qualifiers=()):
         self.expect(key, "fact")
         self.expect(dimension, "dimension")
         self.roles.setdefault(dimension, "qualifier")
         self.agree(key, "fact", "value_kind", value_kind, value_at("value_kind"))
         self.agree(key, "fact", "subject dimension", dimension, subject_dimension)
+        self.agree(key, "fact", "qualifiers", tuple(qualifiers), qualifier_keys)
 
     def relation(self, key, ends, cardinality):
         """Record a relation; ``ends`` holds the tuple of endpoint dimensions of each side.
@@ -287,20 +310,34 @@ def load_vector_pack(path, model):
     for group, element_kind in VECTOR_GROUPS:
         for item in defs.get(group, []):
             model.expect(item_key(item["ref"]), element_kind)
-    declared = {item["id"]: item["ref"]["version"] for item in defs.get("fact_dimensions", [])}
+    declared = {}
+    for item in defs.get("fact_dimensions", []) + defs.get("qualifier_dimensions", []):
+        declared[item["id"]] = item["ref"]["version"]
 
     def dimension(ident):
         return pack_key(pack, ident, declared.get(ident, pack["version"]))
 
-    for ident in declared:
-        model.resource_dimension(dimension(ident))
+    for item in defs.get("fact_dimensions", []):
+        model.resource_dimension(dimension(item["id"]))
     for item in defs.get("services", []):
         model.resource_dimension(dimension(item["fact_key_dimension"]))
     for item in defs.get("fields", []):
-        model.field(item_key(item["ref"]), item["kind"], dimension(item["dimension"]))
+        qualifiers = tuple(dimension(ident) for ident in item.get("qualifiers", ()))
+        model.field(item_key(item["ref"]), item["kind"], dimension(item["dimension"]), qualifiers)
+    load_qualifier_dimensions(defs, model, dimension)
     for item in defs.get("relations", []):
         ends = tuple(tuple(dimension(ident) for ident in endpoint_ids(path, item[side])) for side in ("from", "to"))
         model.relation(item_key(item["ref"]), ends, item["cardinality"])
+
+
+def load_qualifier_dimensions(defs, model, dimension):
+    for item in defs.get("qualifier_dimensions", []):
+        key = dimension(item["id"])
+        model.expect(key, "dimension")
+        model.roles[key] = "qualifier"
+        model.agree(key, "dimension", "value_kind", item.get("value_kind"), value_at("value_kind"))
+        model.agree(key, "dimension", "symbols", tuple(item.get("symbols", ())), lambda attributes: tuple(attributes.get("symbols", ())))
+        model.agree(key, "dimension", "unit", item.get("unit"), value_at("unit"))
 
 
 def load_storage_pack(path, model):
@@ -426,9 +463,11 @@ def graph_kernel_types(text):
 
 def load_inputs():
     model = PackModel()
-    for path in VECTOR_FILES:
-        load_vector_pack(path, model)
-    load_storage_pack(STORAGE_TABLES, model)
+    for path in ACCEPTED_PACK_SOURCES:
+        if path == STORAGE_SOURCE:
+            load_storage_pack(STORAGE_TABLES, model)
+        else:
+            load_vector_pack(ROOT / path, model)
     model.role_agreements()
     graph = GRAPH_PAGE.read_text(encoding="utf-8")
     seed = subset.load_json(SEED_REFS)
@@ -475,13 +514,43 @@ def entry_refs(entry):
     for name, target in REFERENCE_ATTRIBUTES.get(element_kind, ()):
         if isinstance(attributes.get(name), dict):
             yield name, attributes[name], target
-    if element_kind == "fact":
-        subject = attributes["subject"]
-        for name in ("dimension", "qualifier_dimension"):
-            if name in subject:
-                yield "subject " + name, subject[name], "dimension"
+    yield from kind_refs(entry)
     for side, ref in attributes.get("endpoint_dimensions", {}).items():
         yield "endpoint " + side, ref, "dimension"
+
+
+def kind_refs(entry):
+    attributes = entry["attributes"]
+    element_kind = entry["element_kind"]
+    if element_kind == "fact":
+        yield from fact_attribute_refs(attributes)
+    elif element_kind == "operation":
+        yield from parameter_refs(attributes)
+    elif element_kind == "event":
+        yield from event_attribute_refs(attributes)
+
+
+def fact_attribute_refs(attributes):
+    subject = attributes["subject"]
+    for name in ("dimension", "qualifier_dimension"):
+        if name in subject:
+            yield "subject " + name, subject[name], "dimension"
+    for qualifier in attributes.get("qualifiers", ()):
+        yield "qualifier", qualifier, "dimension"
+
+
+def parameter_refs(attributes):
+    for parameter in attributes.get("parameters", ()):
+        yield "parameter", parameter, "fact"
+
+
+def event_attribute_refs(attributes):
+    if isinstance(attributes.get("service"), dict):
+        yield "service", attributes["service"], "service"
+    if isinstance(attributes.get("trigger"), dict):
+        yield "trigger", attributes["trigger"], "fact"
+    for payload in attributes.get("payload", ()):
+        yield "payload", payload, "fact"
 
 
 def entry_kinds(entry):
@@ -574,23 +643,130 @@ def agreement_findings(index, inputs):
                           f"{agreement.label} is {render(actual)}, the accepted packs say {render(agreement.expected)}")
 
 
+def anchor_problem(classes):
+    """A class list is empty, not sorted unique, or names a class outside the four."""
+    if not isinstance(classes, list) or not classes:
+        return "anchor classes are empty"
+    if any(not isinstance(item, str) for item in classes) or classes != sorted(classes) or len(classes) != len(set(classes)):
+        return "anchor classes are not sorted unique"
+    if any(item not in ANCHOR_CLASSES for item in classes):
+        return "anchor classes name an unknown class"
+    return None
+
+
+def dimension_subject_findings(entry):
+    attributes = entry["attributes"]
+    name = entry_name(entry)
+    has_kind = "resource_kind" in attributes
+    has_classes = "anchor_classes" in attributes
+    if attributes.get("role") == "resource":
+        if has_kind and has_classes:
+            yield Finding("invalid_value", "CAT-2", name, "resource dimension names both a kind and anchor classes")
+        elif not has_kind and not has_classes:
+            yield Finding("invalid_value", "CAT-2", name, "resource dimension names neither a kind nor anchor classes")
+        elif has_classes:
+            problem = anchor_problem(attributes["anchor_classes"])
+            if problem is not None:
+                yield Finding("invalid_value", "CAT-2", name, problem)
+    elif attributes.get("role") == "qualifier" and (has_kind or has_classes):
+        yield Finding("invalid_value", "CAT-2", name, "qualifier dimension names a subject")
+
+
+def subject_form_finding(entry, dimension, kind_value, classes_value, dimension_ref):
+    """Kind form and class form are exclusive, and each must equal the dimension."""
+    if dimension is None:
+        return None
+    attributes = dimension["attributes"]
+    has_kind = "resource_kind" in attributes
+    has_classes = "anchor_classes" in attributes
+    shown = show(optional_key(dimension_ref))
+    if has_kind and not has_classes:
+        if classes_value is not None or kind_value != attributes["resource_kind"]:
+            return Finding("invalid_value", "CAT-2", entry_name(entry),
+                           f"kind {kind_value} is not the resource kind of dimension {shown}")
+        return None
+    if has_classes and not has_kind:
+        if kind_value is not None or list(classes_value or []) != list(attributes["anchor_classes"]):
+            return Finding("invalid_value", "CAT-2", entry_name(entry),
+                           "subject classes differ from the dimension anchor classes")
+        return None
+    return Finding("invalid_value", "CAT-2", entry_name(entry), "dimension names no single subject form")
+
+
 def subject_kind_findings(catalog, index):
     for entry in catalog["elements"]:
-        attributes = entry["attributes"]
-        if entry["element_kind"] == "service":
-            pairs = [(attributes["subject_kind"], attributes["fact_key_dimension"])]
-        elif entry["element_kind"] == "fact" and attributes["subject"].get("status") == "resolved":
-            pairs = [(attributes["subject"]["kind"], attributes["subject"]["dimension"])]
-        elif entry["element_kind"] == "relation" and "endpoint_dimensions" in attributes:
-            ends = attributes["endpoint_dimensions"]
-            pairs = [(kind, ends["from"]) for kind in attributes["from_kinds"]]
-            pairs += [(kind, ends["to"]) for kind in attributes["to_kinds"]]
-        else:
-            continue
-        for kind, dimension in pairs:
-            if kind != dimension_kind(index, dimension):
-                yield Finding("invalid_value", "CAT-2", entry_name(entry),
-                              f"kind {kind} is not the resource kind of dimension {show(optional_key(dimension))}")
+        yield from one_subject_finding(entry, index)
+
+
+def one_subject_finding(entry, index):
+    attributes = entry["attributes"]
+    kind = entry["element_kind"]
+    if kind == "dimension":
+        yield from dimension_subject_findings(entry)
+    elif kind == "service":
+        finding = subject_form_finding(
+            entry, index.by_key.get(optional_key(attributes.get("fact_key_dimension"))),
+            attributes.get("subject_kind"), attributes.get("subject_classes"),
+            attributes.get("fact_key_dimension"))
+        if finding is not None:
+            yield finding
+    elif kind == "fact":
+        yield from fact_subject_findings(entry, index)
+    elif kind == "relation" and "endpoint_dimensions" in attributes:
+        yield from relation_subject_findings(entry, index)
+
+
+def fact_subject_findings(entry, index):
+    status = entry["attributes"].get("subject", {}).get("status")
+    if status == "unresolved":
+        yield from unresolved_fact_findings(entry, index)
+    elif status == "resolved":
+        yield from resolved_fact_findings(entry, index)
+
+
+def unresolved_fact_findings(entry, index):
+    qualifier = entry["attributes"]["subject"].get("qualifier_dimension")
+    named = index.by_key.get(optional_key(qualifier)) if qualifier is not None else None
+    if qualifier is None or named is None or named["attributes"].get("role") != "qualifier":
+        yield Finding("invalid_value", "CAT-2", entry_name(entry),
+                      "unresolved fact names no qualifier dimension")
+
+
+def resolved_fact_findings(entry, index):
+    subject = entry["attributes"]["subject"]
+    dimension = index.by_key.get(optional_key(subject.get("dimension")))
+    if dimension is None:
+        return
+    yield from resolved_dimension_findings(entry, subject, dimension)
+
+
+def resolved_dimension_findings(entry, subject, dimension):
+    dim_attrs = dimension["attributes"]
+    has_kind = "resource_kind" in dim_attrs
+    has_classes = "anchor_classes" in dim_attrs
+    if has_kind and not has_classes:
+        if subject.get("kind") != dim_attrs["resource_kind"]:
+            yield Finding("invalid_value", "CAT-2", entry_name(entry),
+                          f"kind {subject.get('kind')} is not the resource kind of dimension "
+                          f"{show(optional_key(subject.get('dimension')))}")
+    elif has_classes and not has_kind:
+        if "kind" in subject:
+            yield Finding("invalid_value", "CAT-2", entry_name(entry),
+                          "class-level fact carries a resource kind")
+    else:
+        yield Finding("invalid_value", "CAT-2", entry_name(entry),
+                      "dimension names no single subject form")
+
+
+def relation_subject_findings(entry, index):
+    attributes = entry["attributes"]
+    ends = attributes["endpoint_dimensions"]
+    pairs = [(kind, ends["from"]) for kind in attributes["from_kinds"]]
+    pairs += [(kind, ends["to"]) for kind in attributes["to_kinds"]]
+    for kind, dimension in pairs:
+        if kind != dimension_kind(index, dimension):
+            yield Finding("invalid_value", "CAT-2", entry_name(entry),
+                          f"kind {kind} is not the resource kind of dimension {show(optional_key(dimension))}")
 
 
 def relation_kind_findings(index, inputs):
@@ -608,9 +784,165 @@ def relation_kind_findings(index, inputs):
                               f"{side}_kinds is {actual}, the kinds of the accepted pack endpoints are {expected}")
 
 
+def pack_of(ref):
+    key = optional_key(ref)
+    if key is None or key[0] != "pack":
+        return None
+    return (key[1], key[2])
+
+
+def sorted_unique_keys(refs):
+    keys = [optional_key(item) for item in refs]
+    if any(key is None for key in keys) or keys != sorted(keys) or len(keys) != len(set(keys)):
+        return None
+    return keys
+
+
+def check_qualifiers(catalog, index, inputs):
+    for entry in catalog["elements"]:
+        if entry["element_kind"] != "fact" or "qualifiers" not in entry["attributes"]:
+            continue
+        qualifiers = entry["attributes"]["qualifiers"]
+        name = entry_name(entry)
+        if not isinstance(qualifiers, list) or sorted_unique_keys(qualifiers) is None:
+            yield Finding("invalid_value", "CAT-2", name, "qualifiers are not a sorted unique list")
+            continue
+        owner = pack_of(entry["ref"])
+        for item in qualifiers:
+            if pack_of(item) != owner:
+                yield Finding("invalid_value", "CAT-2", name, "qualifier is not a dimension of the same pack")
+            named = index.by_key.get(optional_key(item))
+            if named is not None and named["attributes"].get("role") != "qualifier":
+                yield Finding("invalid_value", "CAT-2", name, "qualifier is not a qualifier dimension")
+
+
+def check_parameters(catalog, index, inputs):
+    for entry in catalog["elements"]:
+        if entry["element_kind"] != "operation" or "parameters" not in entry["attributes"]:
+            continue
+        parameters = entry["attributes"]["parameters"]
+        name = entry_name(entry)
+        if not isinstance(parameters, list) or sorted_unique_keys(parameters) is None:
+            yield Finding("invalid_value", "CAT-2", name, "parameters are not a sorted unique list")
+            continue
+        argument = optional_key(entry["attributes"].get("argument"))
+        owner = pack_of(entry["ref"])
+        for item in parameters:
+            key = optional_key(item)
+            if key == argument:
+                yield Finding("invalid_value", "CAT-2", name, "parameter equals the argument")
+            if pack_of(item) != owner:
+                yield Finding("invalid_value", "CAT-2", name, "parameter is not a field of the same pack")
+
+
+def subjects_equal(left, right):
+    left_subject = left["attributes"].get("subject", {})
+    right_subject = right["attributes"].get("subject", {})
+    return (optional_key(left_subject.get("dimension")) == optional_key(right_subject.get("dimension"))
+            and left_subject.get("kind") == right_subject.get("kind"))
+
+
+def one_relation_away(index, owner, left_dim, right_dim):
+    if owner is None or left_dim is None or right_dim is None or left_dim == right_dim:
+        return False
+    pack_id, pack_version = owner
+    for key, entry in index.by_key.items():
+        if entry["element_kind"] != "relation" or key[0] != "pack" or (key[1], key[2]) != (pack_id, pack_version):
+            continue
+        ends = entry["attributes"].get("endpoint_dimensions", {})
+        dims = {optional_key(ends.get("from")), optional_key(ends.get("to"))}
+        if left_dim in dims and right_dim in dims:
+            return True
+    return False
+
+
+def trigger_on_service(trigger, service):
+    subject = trigger["attributes"].get("subject", {})
+    attributes = service["attributes"]
+    if optional_key(subject.get("dimension")) != optional_key(attributes.get("fact_key_dimension")):
+        return False
+    if "subject_kind" in attributes:
+        return subject.get("kind") == attributes["subject_kind"]
+    if "subject_classes" in attributes:
+        return "kind" not in subject
+    return False
+
+
+def symbol_problem(attributes, trigger):
+    condition = attributes.get("condition")
+    if condition == "changed":
+        return "changed event carries symbols" if "symbols" in attributes else None
+    if condition not in ("entered", "left"):
+        return "condition is not entered, left or changed"
+    symbols = attributes.get("symbols")
+    if not isinstance(symbols, list) or not symbols or symbols != sorted(symbols) or len(symbols) != len(set(symbols)):
+        return "entered or left symbols are not a sorted unique list"
+    trigger_symbols = trigger["attributes"].get("symbols")
+    if not isinstance(trigger_symbols, list) or any(symbol not in trigger_symbols for symbol in symbols):
+        return "symbols are not a subset of the trigger symbols"
+    return None
+
+
+def check_events(catalog, index, inputs):
+    for entry in catalog["elements"]:
+        if entry["element_kind"] != "event":
+            continue
+        yield from event_findings(entry, index)
+
+
+def event_findings(entry, index):
+    attributes = entry["attributes"]
+    name = entry_name(entry)
+    owner = pack_of(entry["ref"])
+    if attributes.get("origin") not in ("emitted", "derived"):
+        yield Finding("invalid_value", "CAT-2", name, "origin is not emitted or derived")
+    if pack_of(attributes.get("service")) != owner:
+        yield Finding("invalid_value", "CAT-2", name, "service is not in the same pack")
+    trigger = index.by_key.get(optional_key(attributes.get("trigger")))
+    if pack_of(attributes.get("trigger")) != owner or trigger is None or trigger["element_kind"] != "fact":
+        yield Finding("invalid_value", "CAT-2", name, "trigger is not a fact of the same pack")
+        return
+    yield from event_body_findings(attributes, name, owner, trigger, index)
+
+
+def event_body_findings(attributes, name, owner, trigger, index):
+    service = index.by_key.get(optional_key(attributes.get("service")))
+    if service is None or service["element_kind"] != "service" or not trigger_on_service(trigger, service):
+        yield Finding("invalid_value", "CAT-2", name, "trigger is not on the service subject")
+    problem = symbol_problem(attributes, trigger)
+    if problem is not None:
+        yield Finding("invalid_value", "CAT-2", name, problem)
+    yield from payload_findings(attributes, name, owner, trigger, index)
+
+
+def payload_findings(attributes, name, owner, trigger, index):
+    payload = attributes.get("payload", [])
+    if not isinstance(payload, list) or (payload and sorted_unique_keys(payload) is None):
+        yield Finding("invalid_value", "CAT-2", name, "payload is not a sorted unique list")
+        return
+    trigger_dim = optional_key(trigger["attributes"].get("subject", {}).get("dimension"))
+    for item in payload:
+        yield from one_payload_finding(item, name, owner, trigger, trigger_dim, index)
+
+
+def one_payload_finding(item, name, owner, trigger, trigger_dim, index):
+    if pack_of(item) != owner:
+        yield Finding("invalid_value", "CAT-2", name, "payload is not a fact of the same pack")
+        return
+    named = index.by_key.get(optional_key(item))
+    if named is None or named["element_kind"] != "fact":
+        return
+    away = one_relation_away(index, owner, trigger_dim,
+                             optional_key(named["attributes"].get("subject", {}).get("dimension")))
+    if not subjects_equal(named, trigger) and not away:
+        yield Finding("invalid_value", "CAT-2", name,
+                      "payload is not on the trigger subject or one relation away")
+
+
 def check_agreement(catalog, index, inputs):
     return [*agreement_findings(index, inputs), *relation_kind_findings(index, inputs),
-            *subject_kind_findings(catalog, index)]
+            *subject_kind_findings(catalog, index), *check_qualifiers(catalog, index, inputs),
+            *check_parameters(catalog, index, inputs), *check_events(catalog, index, inputs)]
 
 
 # ---------------------------------------------------------------- CAT-3
@@ -706,8 +1038,13 @@ def closure_targets(entry, index):
         operation = index.by_key.get(optional_key(attributes.get("operation")))
         return [] if operation is None else [("its operation", set(operation["planes"]), True)]
     if element_kind == "dimension" and attributes.get("role") == "resource":
+        if "anchor_classes" in attributes and "resource_kind" not in attributes:
+            return [("its anchor classes", set(CLASS_PLANES), False)]
         kind = attributes.get("resource_kind")
         return [(f"its kind {kind}", kind_planes(index, kind), True)]
+    if element_kind == "event":
+        trigger = index.by_key.get(optional_key(attributes.get("trigger")))
+        return [] if trigger is None else [("its trigger", set(trigger["planes"]), True)]
     kind = subject_kind(entry, index)
     return [] if kind is None else [(f"subject kind {kind}", kind_planes(index, kind), False)]
 
@@ -947,6 +1284,7 @@ def check_order(catalog, index, inputs):
 def check_schemes(catalog, index, inputs):
     findings = []
     seen = set()
+    records = []
     for scheme in catalog["identification_schemes"]:
         name = f"scheme {scheme['id']}"
         if scheme["id"] in seen:
@@ -955,6 +1293,10 @@ def check_schemes(catalog, index, inputs):
         admission = scheme.get("admission") or {}
         if admission.get("arm") != SCHEME_ARM or not admission.get("evidence"):
             findings.append(Finding("invalid_value", "CAT-9", name, f"needs a {SCHEME_ARM} admission record"))
+        records.append((scheme.get("id"), scheme.get("issuer_registry"), scheme.get("token_form")))
+    if tuple(records) != SCHEME_RECORDS:
+        findings.append(Finding("invalid_value", "CAT-9", "identification schemes",
+                                "the scheme list is not scheme.ieee.eui48 then scheme.ieee.eui64"))
     return findings
 
 

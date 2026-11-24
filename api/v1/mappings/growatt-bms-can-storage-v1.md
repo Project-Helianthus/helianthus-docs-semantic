@@ -54,8 +54,12 @@ the catalog says so, another subject. A mapped pack fact is emitted. A mapped
 cell fact is stated and is not emitted, because this gate does not publish a
 cell resource.
 
-`waiting` names a package E element that the pack does not define yet. The
-field is not emitted. The element ids are:
+`waiting` names a package E element that this native field does not emit.
+The pack does not define the element yet, or it defines that element on a
+different dimension. `storage.limit.charge_current` and
+`storage.limit.discharge_current` are defined on `storage.dimension.pack`,
+so the interface rows that name them stay waiting. The field is not emitted.
+The element ids are:
 
 | Concern | Element | Dimension |
 | --- | --- | --- |
