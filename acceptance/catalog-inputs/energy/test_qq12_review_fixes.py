@@ -912,3 +912,133 @@ def test_operating_status_restricts_power_source_projection():
     assert "MOI-021" in row["eebus"] and "MOI-026" in row["eebus"]
     assert "MOI-021" in row["source"] and "MOI-026" in row["source"]
     assert row["verification_level"] == "specification"
+
+
+def test_battery_time_withholds_undeclared_seconds():
+    fields = {row["id"]: row for row in _rows("pe08-fields.tsv")}
+    expected = {
+        "storage.state.time_remaining": "PowerSource.BatTimeRemaining",
+        "storage.state.time_to_full": "PowerSource.BatTimeToFullCharge",
+    }
+    for element, matter in expected.items():
+        row = fields[element]
+        assert row["unit"] == ""
+        assert row["matter_1_6_1"] == matter
+        assert row["direction"] == "non_negative"
+        assert row["value_kind"] == "quantity"
+        assert "uint32" in row["source"]
+        assert "no unit name" in row["source"]
+        assert "unit not declared" in row["source"]
+        assert "seconds qualification withheld" in row["source"]
+        assert "unit uncertainty" in row["source"]
+        assert "uint32" in row["review"]
+        assert "unit not declared" in row["review"]
+        assert "seconds qualification withheld" in row["review"]
+        assert "unit uncertainty" in row["review"]
+        assert "bound not in specification" in row["review"]
+        assert row["verification_level"] == "specification"
+
+
+def test_phase_power_factor_withholds_undeclared_matter_scale():
+    pv = {row["id"]: row for row in _rows("pe03-fields.tsv")}["pv.ac.phase_power_factor"]
+    assert pv["unit"] == "unit.ratio"
+    assert pv["minimum"] == "-1"
+    assert pv["maximum"] == "1"
+    assert pv["matter_1_6_1"] == ""
+    assert pv["admission"] == "eebus"
+    assert pv["eebus"] == "SPINE:measurement.acCosPhi"
+    assert "matter.unmapped.v1" in pv["source"]
+    assert "MOI-051" in pv["source"]
+    assert "span -1.0 to 1.0" in pv["source"]
+    assert "scale not declared" in pv["source"]
+    assert "matter association removed" in pv["source"]
+    assert "PowerFactor" not in pv["matter_1_6_1"]
+    assert "scale not declared" in pv["review"]
+    assert "MOI-051" in pv["review"]
+    assert "matter association removed" in pv["review"]
+    assert pv["verification_level"] == "specification"
+    grid = {row["id"]: row for row in _rows("pe10-fields.tsv")}["infrastructure.ac.phase_power_factor"]
+    assert grid["unit"] == ""
+    assert grid["matter_1_6_1"] == "ElectricalPowerMeasurement.PowerFactor"
+    assert grid["eebus"] == "SPINE:measurement.acCosPhiGrid"
+    assert "scale not declared" in grid["source"]
+    assert "ratio qualification withheld" in grid["source"]
+    assert "unit uncertainty" in grid["source"]
+    assert "no unit name" in grid["review"]
+    assert "ratio qualification withheld" in grid["review"]
+    assert "unit uncertainty" in grid["review"]
+    assert "bound not in specification" in grid["review"]
+    assert grid["verification_level"] == "specification"
+
+
+def test_auxiliary_load_declares_required_state_only_projection():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    row = fields["energy.tariff.component_auxiliary_load"]
+    assert row["symbols"] == "off, on, none"
+    assert row["matter_1_6_1"] == "CommodityTariff.TariffComponents"
+    assert "RequiredState" in row["source"]
+    assert "AuxiliaryLoadSettingEnum" in row["source"]
+    assert "Number uint8 is not projected" in row["source"]
+    assert "RequiredState-only projection is lossy" in row["source"]
+    assert "Number uint8" in row["review"]
+    assert "RequiredState-only projection is lossy" in row["review"]
+    assert row["verification_level"] == "specification"
+    assert sum(item["id"] == "energy.tariff.component_auxiliary_load" for item in fields.values()) == 1
+
+
+def test_energy_rows_declare_projection_loss():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    currency = fields["energy.tariff.currency"]
+    assert "DecimalPoints is not projected" in currency["source"]
+    assert "DecimalPoints" in currency["review"]
+    assert currency["eebus"] == "SPINE:IncentiveTable.currency"
+    for element in ("energy.price.current", "energy.price.forecast_price"):
+        row = fields[element]
+        assert row["unit"] == "unit.currency_per_joule"
+        assert "CommodityPriceStruct.Components is not projected" in row["source"]
+        assert "KWh" in row["source"]
+        assert row["review"] == "bound not in specification"
+    order_rows = {
+        "energy.tariff.day_pattern_entry": "DayEntryIds",
+        "energy.tariff.calendar_period_pattern": "DayPatternIds",
+        "energy.tariff.individual_day_entry": "DayEntryIds",
+        "energy.tariff.period_entry": "DayEntryIds",
+        "energy.tariff.period_component": "TariffComponentIds",
+    }
+    for element, token in order_rows.items():
+        row = fields[element]
+        assert "list order is not projected" in row["source"]
+        assert token in row["review"]
+        assert row["value_kind"] == "boolean"
+    for element in (
+        "energy.tariff.component_power_threshold",
+        "energy.tariff.component_apparent_power_threshold",
+    ):
+        row = fields[element]
+        assert "PowerThresholdSource" in row["source"]
+        assert "is not projected" in row["source"]
+        assert "PowerThresholdSource" in row["review"]
+        assert "bound not in specification" in row["review"]
+    assert fields["energy.tariff.component_power_threshold"]["unit"] == "unit.watt"
+    assert fields["energy.tariff.component_apparent_power_threshold"]["unit"] == "unit.volt_ampere"
+    for element in ("energy.tariff.current_day_entry", "energy.tariff.next_day_entry"):
+        row = fields[element]
+        assert "DayEntryId" in row["source"]
+        assert "are not projected" in row["source"]
+        assert "DayEntryId" in row["review"]
+    for element in ("energy.tariff.current_components", "energy.tariff.next_components"):
+        row = fields[element]
+        assert "TariffComponentStruct" in row["source"]
+        assert "component identity is not this text" in row["source"]
+        assert "list identity" in row["review"]
+    day = fields["energy.tariff.individual_day_date"]
+    assert "DayStruct.Date is this time fact" in day["source"]
+    assert "DayEntryIds" in day["review"]
+    period = fields["energy.tariff.calendar_period_start"]
+    assert "StartDate is this time fact" in period["source"]
+    assert "DayPatternIds" in period["review"]
+    quantity = fields["energy.metering.quantity"]
+    assert quantity["unit"] == "unit.joule"
+    assert "TariffComponentIds is a list" in quantity["source"]
+    assert "list order is not projected" in quantity["source"]
+    assert quantity["review"] == "bound not in specification"
