@@ -1,0 +1,6 @@
+id	attributes	matter_eebus	admission	note	source	review
+resource.valve	anchor class component	DeviceType:WaterValve, ValveConfigurationAndControl.CurrentState, SPINE:ActuatorLevel	matter_baseline		DeviceType:WaterValve; ValveConfigurationAndControl.CurrentState; SPINE 1.3.0 §4.3.1 and §5.3.1, feature ActuatorLevel, function actuatorLevelData	unchanged
+resource.solar_thermal_circuit	anchor class function	SPINE:entity.SolarThermalCircuit	eebus		SPINE 1.3.0 §4.2 entity type SolarThermalCircuit	unchanged
+resource.solar_collector	anchor class equipment	SPINE:entity.SolarThermalCircuit	eebus		SPINE 1.3.0 §4.2 entity type SolarThermalCircuit	unchanged
+resource.detector	anchor class equipment	DeviceType:WaterLeakDetector, DeviceType:WaterFreezeDetector	matter_baseline		DeviceType:WaterLeakDetector; DeviceType:WaterFreezeDetector	unchanged
+resource.water_tank	anchor class component	WaterTankLevelMonitoring.Condition	matter_baseline		WaterTankLevelMonitoring.Condition	unchanged

@@ -1,0 +1,13 @@
+element	matter_1_6_1	eebus	source	review
+thermal.action.state	Thermostat.ThermostatRunningMode		Thermostat.ThermostatRunningMode	unchanged
+thermal.measurement.air_temperature	Thermostat.LocalTemperature, TemperatureMeasurement.MeasuredValue		Thermostat.LocalTemperature; TemperatureMeasurement.MeasuredValue	eeBUS cell moved to thermal.room.measurement_air_temperature
+thermal.measurement.outdoor_air_temperature	Thermostat.OutdoorTemperature, TemperatureMeasurement.MeasuredValue	HVAC-TEMP:MOT-sc1	Thermostat.OutdoorTemperature; TemperatureMeasurement.MeasuredValue; Monitoring of Outdoor Temperature 1.0.0 scenario 1, Outdoor Temperature Sensor, Measurement.measurementListData.value (MOT-001)	unchanged
+thermal.mode.system	Thermostat.SystemMode		Thermostat.SystemMode	unchanged
+thermal.mode.zone	Thermostat.SystemMode		Thermostat.SystemMode	eeBUS cell moved to thermal.room.mode_zone
+thermal.operation.set_mode	Thermostat.SystemMode		Thermostat.SystemMode	unchanged
+thermal.operation.set_temperature	Thermostat.OccupiedHeatingSetpoint, Thermostat.cmd.SetpointRaiseLower		Thermostat.OccupiedHeatingSetpoint writes the absolute zone setpoint thermal.setpoint.temperature_setpoint in kelvin. Thermostat.cmd.SetpointRaiseLower is not that write: it requires Mode (Heat, Cool or Both) and a relative Amount (int8). This operation supplies neither field and does not derive Amount from a current setpoint or choose a mode, so the command is not a dispatch route for the absolute setpoint.	eeBUS cell moved to thermal.room.operation_set_temperature
+thermal.setpoint.occupied_cooling	Thermostat.OccupiedCoolingSetpoint		Thermostat.OccupiedCoolingSetpoint	eeBUS cell moved to thermal.room.setpoint_occupied_cooling
+thermal.setpoint.occupied_heating	Thermostat.OccupiedHeatingSetpoint		Thermostat.OccupiedHeatingSetpoint	eeBUS cell moved to thermal.room.setpoint_occupied_heating
+thermal.setpoint.temperature_setpoint	Thermostat.OccupiedHeatingSetpoint		Thermostat.OccupiedHeatingSetpoint	eeBUS cell moved to thermal.room.setpoint_temperature_setpoint
+thermal.setpoint.unoccupied_cooling	Thermostat.UnoccupiedCoolingSetpoint		Thermostat.UnoccupiedCoolingSetpoint	unchanged
+thermal.setpoint.unoccupied_heating	Thermostat.UnoccupiedHeatingSetpoint		Thermostat.UnoccupiedHeatingSetpoint	unchanged

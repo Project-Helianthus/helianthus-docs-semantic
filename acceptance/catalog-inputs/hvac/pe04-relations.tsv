@@ -1,0 +1,2 @@
+relation	core_type	from	to	cardinality	matter_eebus	admission	note	source	review
+thermal.relation.sensor_zone	measures	thermal.dimension.sensor	thermal.dimension.zone	one_to_many		matter_baseline	sensor supplies the zone's room values		source not found: endpoint binding that names the sensor and the zone it measures (Thermostat.RemoteSensing is a bitmap without sensor identity, so this Matter correspondence is unsupported until separate endpoint-binding evidence exists)

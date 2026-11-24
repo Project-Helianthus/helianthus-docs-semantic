@@ -1,0 +1,2 @@
+id	attributes	matter_eebus	admission	note	source	review
+thermal.service.room	fact-key dimension thermal.dimension.room; read capability thermal.capability.read.room; read portal thermal.portal.read.room; planes physical, energy, control	SPINE:HVAC	eebus	read capability planes physical, energy, control; each write capability is control; portal presentation has no plane	SPINE 1.3.0 feature HVAC on entity type HVACRoom	unchanged
