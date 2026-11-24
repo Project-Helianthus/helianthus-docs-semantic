@@ -15,6 +15,7 @@ import patterns as patternlib
 
 TEMPLATE_KEYS = ("origin", "quality", "source", "timing", "provenance")
 BINDING_ROLES = ("donor-native", "new-binding", "caller-template")
+MAPPING_KINDS = ("donor-backed", "specification", "binding")
 CLASSIFIER_PREFIXES = ("cmd/growatt-can-classify", "internal/growattcanclassify")
 CLASSIFIER_SURFACES = (
     "local-file",
@@ -504,6 +505,10 @@ def _pattern_records(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[lis
     pattern_records = []
     for row in spec.get("mapping_rows") or []:
         row_id = row["row"]
+        kind = row["kind"]
+        if kind not in MAPPING_KINDS:
+            errors.append(f"unsupported-kind: {kind}")
+            continue
         cases = row.get("cases") or []
         assertion = row.get("assertion") or ""
         if not cases or not assertion:
@@ -520,7 +525,6 @@ def _pattern_records(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[lis
                 for item in expectation["rows"]
             ]:
                 errors.append(f"row: {row_id}")
-        kind = row["kind"]
         if kind == "donor-backed":
             if not row.get("old_symbol") or not row.get("bom_entry"):
                 errors.append(f"row: {row_id}")
@@ -773,6 +777,10 @@ def _binding_problems(manifest: dict[str, Any]) -> list[str]:
     errors = []
     expectations = {item["case"]: item for item in manifest["expectations"]}
     for pattern in manifest["patterns"]:
+        kind = pattern.get("kind")
+        if kind not in MAPPING_KINDS:
+            errors.append(f"unsupported-kind: {kind}")
+            continue
         if not pattern.get("cases") or not pattern.get("assertion"):
             errors.append(f"row: {pattern['row']}")
             continue
@@ -788,7 +796,6 @@ def _binding_problems(manifest: dict[str, Any]) -> list[str]:
             ]
             if wanted not in actual:
                 errors.append(f"row: {pattern['row']}")
-        kind = pattern.get("kind")
         roles: set[str] = set()
         for case in pattern["cases"]:
             expectation = expectations.get(case)
@@ -1731,6 +1738,72 @@ def _covers_requested_donor(manifest: dict[str, Any], spec: dict[str, Any]) -> b
     return donor.get("repository") == requested_repository and donor.get("sha") == spec.get("donor_sha")
 
 
+def _manifest_covers_classifier(manifest: dict[str, Any]) -> bool:
+    """True when the donor side of this manifest includes the offline classifier."""
+    donor = (manifest.get("donor") or {}).get("repository")
+    for entry in manifest.get("paths") or []:
+        if entry.get("repository") != donor:
+            continue
+        for path in entry.get("paths") or []:
+            if str(path).startswith(CLASSIFIER_PREFIXES):
+                return True
+    for symbol in manifest.get("symbols") or []:
+        if str(symbol.get("file") or "").startswith(CLASSIFIER_PREFIXES):
+            return True
+    return False
+
+
+def _classifier_destination_revisions(manifest: dict[str, Any]) -> set[tuple[str, str]]:
+    """Repository and commit pairs already recorded for the classifier destination.
+
+    The pair is the destination repository of a classifier symbol, or of a
+    sealed destination path under the classifier prefixes, together with the
+    destination commit of a passing row or whole-session receipt for that
+    repository. A standalone receipt has to name one of those pairs.
+    """
+    names = {
+        symbol["name"]
+        for symbol in manifest.get("symbols") or []
+        if str(symbol.get("file") or "").startswith(CLASSIFIER_PREFIXES)
+    }
+    repositories: set[str] = set()
+    for entry in manifest.get("destinations") or []:
+        if entry.get("kind") == "symbol" and entry.get("name") in names and entry.get("repository"):
+            repositories.add(entry["repository"])
+    donor = (manifest.get("donor") or {}).get("repository")
+    for entry in manifest.get("paths") or []:
+        repository = entry.get("repository")
+        if not repository or repository == donor:
+            continue
+        for path in entry.get("paths") or []:
+            if str(path).startswith(CLASSIFIER_PREFIXES):
+                repositories.add(repository)
+    revisions: set[tuple[str, str]] = set()
+    for receipt_entry in manifest.get("receipts") or []:
+        if receipt_entry.get("kind") not in {"row", "whole-session"}:
+            continue
+        if not _receipt_ok(receipt_entry, manifest):
+            continue
+        repository = receipt_entry.get("repository")
+        commit = receipt_entry.get("destination_commit")
+        if repository in repositories and commit:
+            revisions.add((str(repository), str(commit)))
+    return revisions
+
+
+def _standalone_binds_classifier(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool:
+    """True when this receipt is the classifier destination's own standalone proof."""
+    if receipt_entry.get("kind") != "standalone-classifier" or not _receipt_ok(receipt_entry, manifest):
+        return False
+    compared = set(receipt_entry.get("compared") or [])
+    if any(surface not in compared for surface in CLASSIFIER_SURFACES):
+        return False
+    if not _manifest_covers_classifier(manifest):
+        return False
+    named = (str(receipt_entry.get("repository") or ""), str(receipt_entry.get("destination_commit") or ""))
+    return named in _classifier_destination_revisions(manifest)
+
+
 def deletion(spec: dict[str, Any], gateway: Path) -> int:
     row = spec["row"]
     if row not in DELETION_ROWS:
@@ -1775,25 +1848,13 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
                 covered = True
         if not covered:
             errors.append(f"missing-receipt: {finding['path']}")
-    classifier = False
-    for manifest in manifests:
-        for entry in manifest["paths"]:
-            for path in entry["paths"]:
-                if path.startswith(CLASSIFIER_PREFIXES):
-                    classifier = True
-        for symbol in manifest["symbols"]:
-            if symbol["file"].startswith(CLASSIFIER_PREFIXES):
-                classifier = True
-    if row == "GG07" or classifier:
-        standalone = []
-        for manifest in manifests:
-            for receipt_entry in manifest.get("receipts") or []:
-                if receipt_entry["kind"] == "standalone-classifier" and _receipt_ok(receipt_entry, manifest):
-                    compared = set(receipt_entry.get("compared") or [])
-                    if all(surface in compared for surface in CLASSIFIER_SURFACES):
-                        standalone.append(receipt_entry)
-        if classifier and not standalone:
-            errors.append("missing-receipt: standalone-classifier")
+    covering = [manifest for manifest in manifests if _manifest_covers_classifier(manifest)]
+    if covering and not any(
+        _standalone_binds_classifier(receipt_entry, manifest)
+        for manifest in covering
+        for receipt_entry in manifest.get("receipts") or []
+    ):
+        errors.append("missing-receipt: standalone-classifier")
     files = gitstore.list_files_recursive(gateway, ledger_commit)
     lines: list[str] = [finding["path"] for finding in findings]
     reserves = list(spec.get("reserves") or [])

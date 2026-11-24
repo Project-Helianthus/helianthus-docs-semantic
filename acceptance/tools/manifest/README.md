@@ -84,6 +84,7 @@ When the manifest declares transferred assertions and none of them ran, `compare
 | `receipts` | Empty at generation |
 
 A pattern entry holds `row`, `kind` (`donor-backed`, `specification` or `binding`), `old_symbol`, `bom_entry`, `cases`, `assertion`, `signature`, `candidate` and `exemplar`.
+Any other kind is rejected. The error names that kind. `generate` writes no manifest, and `check` and `compare` fail the manifest.
 `exemplar` is `repository`, `path` and the full `revision` of the row that matched.
 A donor-backed row names the old symbol and the BOM entry.
 A specification-only row, including a register acquisition and a command witness, has an empty old symbol, an empty BOM entry and no donor output.
@@ -227,7 +228,9 @@ The ledger is the TSV files under `tools/boundary/` at `ledger_commit`, one find
 A missing `tools/boundary/` tree stops the command.
 The list is written only when every kept finding is covered by a manifest whose donor repository is gateway, or `donor_repository` when the input names one, and whose donor SHA is the requested `donor_sha`.
 That manifest's every destination repository has its own row receipt and its own whole-session receipt, each naming the manifest donor and its own destination commit, and each exact equality or the precise approved difference.
-GG07 classifier paths also require the standalone receipt.
+GG07 classifier paths also require a standalone receipt on a manifest whose donor paths include `cmd/growatt-can-classify/` or `internal/growattcanclassify/`.
+That receipt must name the classifier destination repository and a destination commit already recorded for that repository by its row or whole-session receipt.
+A standalone receipt on another manifest, or one that names another repository or another commit, does not cover those paths.
 A missing proof writes no list.
 
 Grants are `{ "kind": "shared" or "owned", "path": "<path>" }`.
