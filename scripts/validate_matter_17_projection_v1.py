@@ -2,6 +2,7 @@
 """Validate the pinned, fail-closed Matter 1.7 projection ledger."""
 
 from __future__ import annotations
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -9,7 +10,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER = ROOT / "api/v1/targets/matter-1.7-ballot-0.9-v1.json"
 EVIDENCE = ROOT / "api/v1/targets/matter-1.7-ballot-0.9-source-evidence-v1.json"
-METADATA = ROOT / "api/v1/pack-metadata-v1.json"
+METADATA = ROOT / "api/v1/targets/matter-1.7-ballot-0.9-pack-metadata.json"
+METADATA_OPERAND_BLOB = "d2c2a36abf6a2024b07c5797f85058be88ef5b15"
+# Published ledger bytes. Ownership names the renamed runtime repository, so the
+# pre-rename ledger does not satisfy OWNERSHIP and is not this pin.
+LEDGER_BLOB = "6bcc1599165258e94dd1a24de4d1690d7489fa83"
+ROSTER_SIZE = 184
+
+
+def git_blob_sha(data):
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
 CONTRACT = "helianthus.gateway.matter-projection/v1"
 KERNEL = "helianthus.semantic.kernel/v1"
 TARGET = {
@@ -178,6 +188,15 @@ def validate_evidence(evidence):
         raise ValueError("public XML source evidence")
 
 
+def operand_roster():
+    if git_blob_sha(METADATA.read_bytes()) != METADATA_OPERAND_BLOB:
+        raise ValueError("historical pack-metadata operand blob")
+    expected = expected_items(load(METADATA))
+    if len(expected) != ROSTER_SIZE:
+        raise ValueError("historical roster size")
+    return expected
+
+
 def validate(document):
     if set(document) != {
         "contract",
@@ -212,7 +231,7 @@ def validate(document):
         raise ValueError("whole-document input guards")
     if document["ownership"] != OWNERSHIP or document["non_claims"] != NON_CLAIMS:
         raise ValueError("ownership or non-claims")
-    expected, rows = expected_items(load(METADATA)), document["rows"]
+    expected, rows = operand_roster(), document["rows"]
     if not isinstance(rows, list) or len(rows) != len(expected):
         raise ValueError("projection coverage")
     if [(row.get("ref"), row.get("kind")) for row in rows] != [

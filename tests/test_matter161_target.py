@@ -12,7 +12,7 @@ LEDGER = ROOT / 'api/v1/targets/matter-1.6.1-v1.json'
 CATALOG = ROOT / 'api/v1/element-catalog-v1.json'
 HISTORICAL = ROOT / 'api/v1/targets/matter-1.7-ballot-0.9-v1.json'
 KINDS = ['fact', 'capability', 'operation', 'service', 'relation']
-GUARDS = ['stale', 'unavailable', 'unqualified', 'conflicted', 'invalid',
+GUARDS = ['stale', 'unavailable', 'conflicted', 'invalid',
           'revision_mismatch', 'nonrepresentable_value',
           'multiple_or_ambiguous_source_keys']
 MODELS = [
