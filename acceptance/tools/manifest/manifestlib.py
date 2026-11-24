@@ -1182,6 +1182,8 @@ def receipt(manifest_path: Path, result: dict[str, Any], checkouts: dict[str, Pa
     original = manifest_path.read_bytes()
     errors = _judge_receipt(manifest, result)
     repository = result["repository"]
+    if repository not in _destination_repositories(manifest):
+        errors.append(f"not-destination: {repository}")
     checkout = checkouts.get(repository)
     if checkout is None:
         errors.append(f"checkout: {repository}")
@@ -1252,6 +1254,37 @@ def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool
     return True
 
 
+def _destination_repositories(manifest: dict[str, Any]) -> set[str]:
+    donor = (manifest.get("donor") or {}).get("repository")
+    names: set[str] = set()
+    for entry in manifest.get("destinations") or []:
+        repository = entry.get("repository")
+        if repository:
+            names.add(repository)
+    for entry in manifest.get("paths") or []:
+        repository = entry.get("repository")
+        if repository and repository != donor:
+            names.add(repository)
+    return names
+
+
+def _destination_receipts_cover(manifest: dict[str, Any]) -> bool:
+    repositories = _destination_repositories(manifest)
+    if not repositories:
+        return False
+    present = {repository: set() for repository in repositories}
+    for receipt_entry in manifest.get("receipts") or []:
+        if receipt_entry.get("kind") not in {"row", "whole-session"}:
+            continue
+        if not _receipt_ok(receipt_entry, manifest):
+            return False
+        repository = receipt_entry.get("repository")
+        if repository in present:
+            present[repository].add(receipt_entry["kind"])
+    needed = {"row", "whole-session"}
+    return all(needed <= kinds for kinds in present.values())
+
+
 def _expand_grant(grant: str, files: list[str]) -> list[str]:
     if grant.endswith("/"):
         return [path for path in files if path.startswith(grant)]
@@ -1303,22 +1336,7 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
             symbol_files = {item["file"] for item in manifest["symbols"]}
             if finding["path"] not in donor_paths and finding["path"] not in symbol_files:
                 continue
-            kinds = {item["kind"] for item in manifest.get("receipts") or []}
-            if "row" not in kinds or "whole-session" not in kinds:
-                continue
-            good = True
-            seen_commits = set()
-            for receipt_entry in manifest["receipts"]:
-                if receipt_entry["kind"] not in {"row", "whole-session"}:
-                    continue
-                if not _receipt_ok(receipt_entry, manifest):
-                    good = False
-                seen_commits.add((receipt_entry["kind"], receipt_entry["destination_commit"]))
-            row_commits = {commit for kind, commit in seen_commits if kind == "row"}
-            session_commits = {commit for kind, commit in seen_commits if kind == "whole-session"}
-            if not row_commits or not session_commits:
-                good = False
-            if good:
+            if _destination_receipts_cover(manifest):
                 covered = True
         if not covered:
             errors.append(f"missing-receipt: {finding['path']}")

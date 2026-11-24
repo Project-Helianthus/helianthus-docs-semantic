@@ -1572,6 +1572,78 @@ class ManifestCLITest(unittest.TestCase):
         self.assertEqual(self.repo.manifest("status-move")["receipts"][0]["old_status"], 0)
         self.assertEqual(self.repo.manifest("status-move")["receipts"][0]["new_status"], 1)
 
+    def test_each_destination_repository_needs_its_own_receipts(self) -> None:
+        spec = self.repo.base(
+            "two-dest",
+            moves=[
+                self.repo.move("closure/closed/moved.go", "engine/moved.go", "ebusgo"),
+                self.repo.move("closure/closed/shared.go", "engine/capture.go", "modbusreg"),
+            ],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        manifest_path = self.repo.manifest_path("two-dest")
+        original = manifest_path.read_bytes()
+        self.assert_fail(
+            self.repo.receipt(
+                "two-dest",
+                self.repo.result("canbusreg", "row", self.repo.merged),
+                self.repo.dest,
+                "canbusreg",
+            ),
+            "not-destination: canbusreg",
+        )
+        self.assertEqual(manifest_path.read_bytes(), original)
+        self.assert_ok(self.repo.receipt(
+            "two-dest", self.repo.result("ebusgo", "row", self.repo.merged), self.repo.dest, "ebusgo",
+        ))
+        self.assert_ok(self.repo.receipt(
+            "two-dest",
+            self.repo.result("modbusreg", "whole-session", self.repo.integrated),
+            self.repo.dest,
+            "modbusreg",
+        ))
+        stored = {(item["repository"], item["kind"]) for item in self.repo.manifest("two-dest")["receipts"]}
+        self.assertEqual(stored, {("ebusgo", "row"), ("modbusreg", "whole-session")})
+        deletion = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(manifest_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        list_path = self.repo.root / "acceptance" / "manifests" / "GG13.lst"
+        record_path = self.repo.root / "acceptance" / "manifests" / "GG13.json"
+        before_list = list_path.read_bytes() if list_path.exists() else None
+        before_record = record_path.read_bytes() if record_path.exists() else None
+        self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
+        after_list = list_path.read_bytes() if list_path.exists() else None
+        after_record = record_path.read_bytes() if record_path.exists() else None
+        self.assertEqual(after_list, before_list)
+        self.assertEqual(after_record, before_record)
+        self.assert_ok(self.repo.receipt(
+            "two-dest",
+            self.repo.result("ebusgo", "whole-session", self.repo.integrated),
+            self.repo.dest,
+            "ebusgo",
+        ))
+        self.assert_ok(self.repo.receipt(
+            "two-dest", self.repo.result("modbusreg", "row", self.repo.merged), self.repo.dest, "modbusreg",
+        ))
+        self.assert_ok(self.repo.deletion(deletion))
+        listed = list_path.read_bytes()
+        self.assertIn(b"closure/closed/moved.go\n", listed)
+        self.assertNotIn(b"*", listed)
+        if before_list is None:
+            list_path.unlink()
+        else:
+            list_path.write_bytes(before_list)
+        if before_record is None:
+            record_path.unlink()
+        else:
+            record_path.write_bytes(before_record)
+
     def test_gg07_needs_the_standalone_classifier_receipt(self) -> None:
         classifier = self.repo.base(
             "gg07-classifier",

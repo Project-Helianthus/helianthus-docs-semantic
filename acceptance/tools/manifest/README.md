@@ -190,6 +190,7 @@ The `sha256` of those exact bytes is stored with the repository and the donor co
 A whole-session result filed at the destination commit already recorded for that repository's row receipt is rejected.
 Neither result certifies the other's revision.
 Every destination path of that repository must exist at `commit`.
+A result for a repository that is not a destination of the manifest is rejected.
 
 `differences` entries are `case`, `field`, `old_present`, `old` and `new`.
 Only an exact approved vector is accepted.
@@ -207,7 +208,7 @@ A classifier manifest, one whose paths include `cmd/growatt-can-classify/` or `i
 `<deletion.json>` carries `row`, `donor_sha`, `ledger_commit`, `manifests`, `grants`, `reserves`, `live_inputs` and `retirement_evidence`.
 The ledger is the TSV files under `tools/boundary/` at `ledger_commit`, one finding per line: `path`, `kind`, `item`, `owner`, separated by tabs.
 A missing `tools/boundary/` tree stops the command.
-The list is written only when every kept finding is covered by a manifest that has both a row receipt and a whole-session receipt, each naming the manifest donor and its own destination commit, and each exact equality or the precise approved difference.
+The list is written only when every kept finding is covered by a manifest whose every destination repository has its own row receipt and its own whole-session receipt, each naming the manifest donor and its own destination commit, and each exact equality or the precise approved difference.
 GG07 classifier paths also require the standalone receipt.
 A missing proof writes no list.
 
