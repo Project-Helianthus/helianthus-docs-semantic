@@ -47,6 +47,12 @@ def si_bounds(field):
     return field['bounds']['minimum'], field['bounds']['maximum']
 
 
+def check_plain_field(field):
+    """Boolean and text fields carry identity, kind, dimension and optionality only."""
+    if field.get('kind') not in ('boolean', 'text') or set(field) != {'id', 'kind', 'dimension', 'optional'}:
+        raise ValueError('field kind')
+
+
 def validate_tables(table):
  if table.get('contract')!='helianthus.pack.storage.tables/v1': raise ValueError('table contract')
  for name,count in COUNTS.items():
@@ -66,9 +72,7 @@ def validate_tables(table):
    if low is not None and high is not None and low>high: raise ValueError('reversed bounds')
   elif field.get('kind') in ('symbol','symbols'):
    if set(field)!={'id','kind','dimension','optional','symbols'} or field['symbols']!=sorted(set(field['symbols'])): raise ValueError('field symbols')
-  elif field.get('kind') in ('boolean','text'):
-   if set(field)!={'id','kind','dimension','optional'}: raise ValueError('field kind')
-  else: raise ValueError('field kind')
+  else: check_plain_field(field)
  index=table.get('definition_index',{}); expected={'fields':[x['id'] for x in fields],'services':[x['id'] for x in table['services']],'capabilities':[x['id'] for x in table['capabilities']],'operations':[x['id'] for x in table['operations']],'effect_rules':[x['id'] for x in table['effects']]}
  if index.get('pack')!=PACK: raise ValueError('DefinitionIndex PackRef')
  for category,ids in expected.items():
@@ -134,38 +138,71 @@ POWER_OPERATIONS=(
 DURATION_PARAMETERS=['storage.setpoint.active','storage.setpoint.duration']
 EXPLICIT_ZERO={'coefficient':'0','exponent10':0}
 
-def check_duration_vectors(data,table):
- """Omitted validity duration and explicit zero are distinct and neither is a command deadline."""
- vectors=data.get('duration_vectors')
- if not isinstance(vectors,list) or len(vectors)!=6: raise ValueError('duration vectors')
- operations={item['id']:item for item in table['operations']}
- seen=set(); canonical={}
- for vector in vectors:
-  operation_id=vector.get('operation')
-  if operation_id not in POWER_OPERATIONS: raise ValueError('duration operation')
-  operation=operations[operation_id]
-  if vector.get('argument')!=operation.get('input'): raise ValueError('duration argument')
-  if vector.get('parameters')!=operation.get('parameters') or operation.get('parameters')!=DURATION_PARAMETERS: raise ValueError('duration parameters')
-  presence=vector.get('presence')
-  if presence not in ('omitted','explicit_zero'): raise ValueError('duration presence')
-  identity=(operation_id,presence)
-  if identity in seen: raise ValueError('duration distinct')
-  seen.add(identity)
-  if vector.get('command_deadline') is not False or 'deadline' in vector: raise ValueError('duration deadline')
-  if presence=='omitted':
-   if vector.get('duration') is not None: raise ValueError('duration value')
-   if vector.get('setpoint_effect')!='omitted_validity' or vector.get('starts_at_receipt') is not False: raise ValueError('duration effect')
-  else:
-   if vector.get('duration')!=EXPLICIT_ZERO: raise ValueError('duration value')
-   if vector.get('setpoint_effect')!='deactivate_setpoint' or vector.get('starts_at_receipt') is not True: raise ValueError('duration effect')
-  canonical[identity]=json.dumps(vector.get('duration'),separators=(',',':'),sort_keys=True)
- if len(seen)!=6: raise ValueError('duration distinct')
- for operation_id in POWER_OPERATIONS:
-  if canonical[(operation_id,'omitted')]==canonical[(operation_id,'explicit_zero')]: raise ValueError('duration distinct')
+def check_duration_effect(vector, presence):
+    """Omitted duration stays empty. Explicit zero deactivates the setpoint."""
+    if presence == 'omitted':
+        if vector.get('duration') is not None:
+            raise ValueError('duration value')
+        omitted = vector.get('setpoint_effect') != 'omitted_validity'
+        waiting = vector.get('starts_at_receipt') is not False
+        if omitted or waiting:
+            raise ValueError('duration effect')
+        return
+    if vector.get('duration') != EXPLICIT_ZERO:
+        raise ValueError('duration value')
+    held = vector.get('setpoint_effect') != 'deactivate_setpoint'
+    started = vector.get('starts_at_receipt') is not True
+    if held or started:
+        raise ValueError('duration effect')
+
+
+def check_one_duration_vector(vector, operations, seen, canonical):
+    """One power operation's duration vector matches the table and is not a deadline."""
+    operation_id = vector.get('operation')
+    if operation_id not in POWER_OPERATIONS:
+        raise ValueError('duration operation')
+    operation = operations[operation_id]
+    if vector.get('argument') != operation.get('input'):
+        raise ValueError('duration argument')
+    parameters = vector.get('parameters')
+    if parameters != operation.get('parameters') or parameters != DURATION_PARAMETERS:
+        raise ValueError('duration parameters')
+    presence = vector.get('presence')
+    if presence not in ('omitted', 'explicit_zero'):
+        raise ValueError('duration presence')
+    identity = (operation_id, presence)
+    if identity in seen:
+        raise ValueError('duration distinct')
+    seen.add(identity)
+    if vector.get('command_deadline') is not False or 'deadline' in vector:
+        raise ValueError('duration deadline')
+    check_duration_effect(vector, presence)
+    canonical[identity] = json.dumps(vector.get('duration'), separators=(',', ':'), sort_keys=True)
+
+
+def check_duration_vectors(data, table):
+    """Omitted validity duration and explicit zero are distinct and neither is a command deadline."""
+    vectors = data.get('duration_vectors')
+    if not isinstance(vectors, list) or len(vectors) != 6:
+        raise ValueError('duration vectors')
+    operations = {item['id']: item for item in table['operations']}
+    seen = set()
+    canonical = {}
+    for vector in vectors:
+        check_one_duration_vector(vector, operations, seen, canonical)
+    if len(seen) != 6:
+        raise ValueError('duration distinct')
+    for operation_id in POWER_OPERATIONS:
+        omitted = canonical[(operation_id, 'omitted')]
+        explicit = canonical[(operation_id, 'explicit_zero')]
+        if omitted == explicit:
+            raise ValueError('duration distinct')
+
 
 def document(data,table=None):
  if data.get('contract')!='helianthus.semantic.pack.storage.acceptance/v1' or data.get('pack_contract')!='helianthus.pack.storage/v1': raise ValueError('contract')
- table=tables() if table is None else table; check_duration_vectors(data,table); validate(data['catalog'],table)
+ table=tables() if table is None else table; check_duration_vectors(data,table)
+ validate(data['catalog'],table)
  for vector in data['vectors']:
   catalog=copy.deepcopy(data['catalog'])
   for mutation in vector.get('input',{}).get('mutations',[]): mutate(catalog,mutation)
