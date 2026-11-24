@@ -9,6 +9,8 @@ Nothing is ever written under acceptance/vectors by --replay, and index.json is 
 """
 
 import argparse
+import bisect
+import collections
 import hashlib
 import json
 import shutil
@@ -93,7 +95,8 @@ def replay(reference):
                     continue
                 actual = actual_vectors / output_path
                 actual.parent.mkdir(parents=True, exist_ok=True)
-                run = subprocess.run([sys.executable, "-I", str(HERE / "replay_session.py"), "--reference", reference, "--session", str(VECTORS / entry["path"]), "--output", str(actual)])
+                run = subprocess.run([sys.executable, "-I", str(HERE / "replay_session.py"), "--reference", reference, "--session", str(VECTORS / entry["path"]), "--output", str(actual),
+                                      "--provenance", str(target / "oracle" / "provenance" / (Path(entry["path"]).parent.relative_to("current/sessions").as_posix().replace("/", "-") + ".json"))])
                 if run.returncode != 0 or not actual.is_file():
                     errors.append(f"{entry['path']}: the replay process produced no output (exit {run.returncode})")
     for path, entry in sorted(expected.items()):
@@ -130,6 +133,10 @@ def describe(expected_file, actual_file):
 UNTRIMMED_FORM = "go install module@version"
 # Sections of a Go ELF executable that carry no file system path and no address downstream of one.
 HOST_PATH_SYMBOL = "runtime.defaultGOROOT.str"
+# Sections that are loaded into memory and hold code or data. Their bytes move with the host paths (the Go root string changes length, the
+# path-bearing tables after it change size) and the addresses written into them move with them; they are compared with that shift accounted for.
+HOST_PATH_SYMBOLS = (HOST_PATH_SYMBOL, "runtime.defaultGOROOT")
+LOADED_SECTIONS = (".text", ".rodata", ".noptrdata", ".data")
 PATH_FREE_SECTIONS = (".typelink", ".go.buildinfo", ".debug_abbrev", ".debug_frame", ".debug_loclists", ".debug_rnglists", ".debug_addr", ".strtab", ".shstrtab")
 
 
@@ -174,13 +181,118 @@ def elf_view(data):
             "symbols": sorted(symbols), "version": version, "modinfo": modinfo}
 
 
+def elf_layout(data):
+    """Sections (name -> kind, address, file offset, size) and symbols (name, info, value, size) of a Go ELF64 executable."""
+    shoff = struct.unpack_from("<Q", data, 0x28)[0]
+    shentsize, shnum, shstrndx = struct.unpack_from("<HHH", data, 0x3A)
+    raw = [struct.unpack_from("<IIQQQQ", data, shoff + index * shentsize) for index in range(shnum)]
+    names_at = raw[shstrndx][4]
+    sections = {data[names_at + name:data.index(b"\0", names_at + name)].decode("utf-8", "replace"): (kind, addr, offset, size) for name, kind, _flags, addr, offset, size in raw}
+    symbols = []
+    if ".symtab" in sections and ".strtab" in sections:
+        _kind, _addr, table_at, table_size = sections[".symtab"]
+        _kind, _addr, names_base, _size = sections[".strtab"]
+        for position in range(table_at, table_at + table_size - 23, 24):
+            name, info, _other, _shndx, value, size = struct.unpack_from("<IBBHQQ", data, position)
+            symbols.append((data[names_base + name:data.index(b"\0", names_base + name)].decode("utf-8", "replace"), info, value, size))
+    return sections, symbols
+
+
+def signed(value, width):
+    return value - (1 << (8 * width)) if value >> (8 * width - 1) else value
+
+
+def loaded_differences(delivered, rebuilt):
+    """Names of the loaded code and data sections whose bytes differ once the host-dependent shift is set aside.
+
+    A symbol that both executables have (same name, kind and size) is an anchor: from its address up to the next anchor the rebuild
+    holds the same bytes shifted by the distance between the two addresses. The Go root string and the variable that points at it are
+    set aside. Every other byte must be equal, or lie in a 4 or 8 byte word (an absolute address or an offset relative to the next
+    instruction) that changed by exactly the shift of the symbol it points at."""
+    left_sections, left_symbols = elf_layout(delivered)
+    right_sections, right_symbols = elf_layout(rebuilt)
+    by_key = collections.defaultdict(list)
+    for name, info, value, size in right_symbols:
+        by_key[(name, info, size)].append(value)
+    used = collections.Counter()
+    shifts = {}
+    for name, info, value, size in left_symbols:
+        if name == HOST_PATH_SYMBOL or not value:
+            continue
+        key = (name, info, size)
+        position = used[key]
+        used[key] += 1
+        if position < len(by_key[key]):
+            shifts.setdefault(value, by_key[key][position] - value)
+    for name, (_kind, addr, _offset, _size) in left_sections.items():
+        if addr and name in right_sections:
+            shifts.setdefault(addr, right_sections[name][1] - addr)
+    anchors = sorted(shifts)
+
+    def shift_at(address):
+        found = bisect.bisect_right(anchors, address) - 1
+        return shifts[anchors[found]] if found >= 0 else 0
+
+    skipped = [(value, value + size) for name, _info, value, size in left_symbols if name in HOST_PATH_SYMBOLS]
+    different = []
+    for name in LOADED_SECTIONS:
+        if name not in left_sections or name not in right_sections:
+            different.append(name)
+            continue
+        _kind, addr, offset, size = left_sections[name]
+        _kind, right_addr, right_offset, right_size = right_sections[name]
+        cuts = {addr + size} | {anchor for anchor in anchors if addr <= anchor < addr + size} | {edge for span in skipped for edge in span if addr < edge < addr + size}
+        bounds = sorted(cuts | {addr})
+        widths = (4,) if name == ".text" else (8, 4)
+        for start, end in zip(bounds, bounds[1:]):
+            shift = shift_at(start)
+            old = delivered[offset + start - addr:offset + end - addr]
+            at = start + shift - right_addr
+            new = rebuilt[right_offset + at:right_offset + at + (end - start)] if 0 <= at and at + (end - start) <= right_size else None
+            if new is None:
+                different.append(name)
+                break
+            if old == new:
+                continue
+            changed = [index for index in range(len(old)) if old[index] != new[index] and not any(low <= start + index < high for low, high in skipped)]
+            cursor = 0
+            explained = True
+            while cursor < len(changed):
+                first = changed[cursor]
+                found = False
+                for width in widths:
+                    for word in range(max(first - width + 1, 0), min(first, len(old) - width) + 1):
+                        before = int.from_bytes(old[word:word + width], "little")
+                        after = int.from_bytes(new[word:word + width], "little")
+                        moved = signed(after, width) - signed(before, width)
+                        place = start + word
+                        targets = [(before, shift_at(before))]
+                        if width == 4:
+                            targets += [(place + 4 + extra + signed(before, 4), shift_at(place + 4 + extra + signed(before, 4)) - shift_at(place)) for extra in range(9)]
+                        if any(moved == expected for _target, expected in targets):
+                            found = True
+                            while cursor < len(changed) and changed[cursor] < word + width:
+                                cursor += 1
+                            break
+                    if found:
+                        break
+                if not found:
+                    explained = False
+                    break
+            if not explained:
+                different.append(name)
+                break
+    return different
+
+
 def untrimmed_differences(delivered, rebuilt):
     """Why a rebuild of an untrimmed build (no -trimpath) is not the delivered binary once the host-dependent build paths are set aside.
 
     The executable embeds the Go root and module cache paths of the host that built it, in .rodata, .gopclntab and the debug sections,
     and every section laid out after them moves with their lengths. What is compared instead is everything those paths do not touch:
-    toolchain version, module graph with its hashes and build settings, section names, the symbol table (names, kinds, sizes) and the
-    byte content of the path-free sections."""
+    toolchain version, module graph with its hashes and build settings, section names, the symbol table (names, kinds, sizes), the
+    byte content of the path-free sections and the code and data sections (.text, .rodata, .noptrdata, .data) with the shift of the
+    host-dependent layout set aside (loaded_differences)."""
     left, right = elf_view(delivered), elf_view(rebuilt)
     problems = []
     if not left["version"] or not left["modinfo"]:
@@ -196,6 +308,8 @@ def untrimmed_differences(delivered, rebuilt):
     for name in PATH_FREE_SECTIONS:
         if left["path_free"].get(name) != right["path_free"].get(name):
             problems.append(f"path-free section {name} differs")
+    for name in loaded_differences(delivered, rebuilt):
+        problems.append(f"code or data section {name} differs")
     return problems
 
 

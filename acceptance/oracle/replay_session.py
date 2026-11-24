@@ -6,7 +6,10 @@
 The session names the pinned donor fixtures that carry its stimuli and the harness that drives them. The runner
 verifies those fixtures at the pin, compiles a separately labelled replay executable from the exact pinned source
 plus the harness-only entry files of this tree, runs it as its own process and writes the six output classes
-(acquisitions, sends, publications, withdrawals, outcomes, public_outputs) with the build record.
+(acquisitions, sends, publications, withdrawals, outcomes, public_outputs) with the portable part of the build record (source
+revision, label, build command, invocation) to --output. What depends on the host that ran it (toolchain with its operating system
+and architecture, digest of the replay executable) is written to a separate provenance file, --provenance, which defaults to
+<output>.provenance.json, and is never part of the output that is compared.
 The replay executable is not the shipped gateway CLI binary.
 """
 
@@ -31,7 +34,22 @@ def sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def replay(reference, session_path, output_path):
+def documents(session, session_bytes, item, harness, classes, toolchain, executable_sha256):
+    """The output document (six classes and the portable build record) and the host-dependent provenance of one replay."""
+    reference = session["reference"]
+    build = {
+        "source": {"repository": item["slug_at_pin"], "commit": item["commit"]},
+        "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+        "build_command": f"go test -c -trimpath -o replay-{session['session']}.test ./{harness['package']}/",
+        "invocation": f"replay-{session['session']}.test -test.run ^{harness['test']}$ -test.count=1 (working directory ./{harness['package']}/, session input in ORACLE_SESSION)",
+    }
+    head = {"session": session["session"], "reference": reference, "session_sha256": sha256_bytes(session_bytes)}
+    document = {"format": "helianthus-oracle-session-output/1", **head, "build": build, **{name: classes[name] for name in CLASSES}}
+    provenance = {"format": "helianthus-oracle-session-provenance/1", **head, "build": dict(build, toolchain=toolchain, executable_sha256=executable_sha256)}
+    return document, provenance
+
+
+def replay(reference, session_path, output_path, provenance_path=None):
     session_bytes = Path(session_path).read_bytes()
     session = json.loads(session_bytes)
     if session.get("reference") != reference:
@@ -66,23 +84,11 @@ def replay(reference, session_path, output_path):
         if name not in classes:
             sys.exit(f"replay process emitted no class {name}")
     toolchain = subprocess.run(["go", "version"], env=env, stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
-    document = {
-        "format": "helianthus-oracle-session-output/1",
-        "session": session["session"],
-        "reference": reference,
-        "session_sha256": sha256_bytes(session_bytes),
-        "build": {
-            "source": {"repository": item["slug_at_pin"], "commit": item["commit"]},
-            "toolchain": toolchain,
-            "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
-            "build_command": f"go test -c -trimpath -o replay-{session['session']}.test ./{harness['package']}/",
-            "executable_sha256": sha256_bytes(executable.read_bytes()),
-            "invocation": f"replay-{session['session']}.test -test.run ^{harness['test']}$ -test.count=1 (working directory ./{harness['package']}/, session input in ORACLE_SESSION)",
-        },
-        **{name: classes[name] for name in CLASSES},
-    }
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    Path(output_path).write_text(json.dumps(document, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    document, provenance = documents(session, session_bytes, item, harness, classes, toolchain, sha256_bytes(executable.read_bytes()))
+    provenance_path = Path(provenance_path) if provenance_path else Path(str(output_path) + ".provenance.json")
+    for path, content in ((Path(output_path), document), (provenance_path, provenance)):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(content, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
     shutil.rmtree(work)
 
 
@@ -91,8 +97,9 @@ def main():
     parser.add_argument("--reference", required=True)
     parser.add_argument("--session", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--provenance", help="where the host-dependent build record is written (default: <output>.provenance.json)")
     args = parser.parse_args()
-    replay(args.reference, args.session, args.output)
+    replay(args.reference, args.session, args.output, args.provenance)
 
 
 if __name__ == "__main__":

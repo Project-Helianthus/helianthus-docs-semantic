@@ -72,9 +72,12 @@ revision.
 `replay_session.py --reference current --session <session.json> --output <output.json>` starts the frozen old production
 path in a separate replay process: it verifies the pinned fixtures that the session names, compiles a replay executable
 from the exact pinned source plus the harness-only entry files under `recorders/go/gateway-sessions/`, runs it and writes
-`acquisitions`, `sends`, `publications`, `withdrawals`, `outcomes` and `public_outputs` with the build record (source
-revision, toolchain, executable digest, invocation). The replay executable is not the shipped gateway CLI binary. No live
-hardware is used.
+`acquisitions`, `sends`, `publications`, `withdrawals`, `outcomes` and `public_outputs` with the portable build record
+(source revision, label, build command, invocation). The toolchain with its operating system and architecture and the digest
+of the replay executable depend on the host that ran the replay: they are written to a separate provenance file
+(`--provenance`, default `<output>.provenance.json`; `provenance/<session>.json` for the frozen sessions) and are never part
+of the output that `check.py` compares, so the same six output classes compare equal on any host. The replay executable is
+not the shipped gateway CLI binary. No live hardware is used.
 
 Published sessions: `vaillant/poller-full-site` and `vaillant/poller-cache-hydrated-partial-reads` (the production poller on
 the pinned virtual site and simulated clock), `eebus/inbound-observation-and-withdrawal` (remote observations, a profile
@@ -100,7 +103,10 @@ extracted cache or the donor clones, and `go.sum` verifies them.
   `-trimpath`, so its executable embeds the Go root and module cache paths of the host that built it. When the rebuild
   differs from the delivered file, the comparison sets only those paths aside: it requires the same toolchain version,
   module graph with hashes and build settings, section list, symbol table (names, kinds and sizes, except the size of the
-  string that holds the Go root path) and byte-identical path-free sections.
+  string that holds the Go root path), byte-identical path-free sections and the same bytes in `.text`, `.rodata`,
+  `.noptrdata` and `.data`, where only the shift of the layout (the Go root string changes length) is set aside: a word
+  that holds an address may differ by exactly the distance its target symbol moved, and the Go root string and the
+  variable that points at it are not compared.
 - `python3 -m pytest acceptance/oracle/test_oracle_checks.py` checks the SunSpec native records and that rebuild comparison.
 - `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` when they are recorded.
 

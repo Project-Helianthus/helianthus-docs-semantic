@@ -76,7 +76,8 @@ def record(reference, vectors, oracle, sessions):
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")
-                    subprocess.run([sys.executable, "-I", str(ORACLE / "replay_session.py"), "--reference", "current", "--session", str(session), "--output", str(output)], check=True)
+                    provenance = oracle / "provenance" / ("-".join(session.parent.relative_to(vectors / "current/sessions").parts) + ".json")
+                    subprocess.run([sys.executable, "-I", str(ORACLE / "replay_session.py"), "--reference", "current", "--session", str(session), "--output", str(output), "--provenance", str(provenance)], check=True)
                     emit(output.relative_to(vectors).as_posix(), "replay_session.py --reference current", "recorded-current")
         if reference == "pre-port":
             out = work / "pre-port"

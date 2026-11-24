@@ -4,8 +4,10 @@ Run: python3 -m pytest acceptance/oracle/test_oracle_checks.py -q -p no:cachepro
 """
 
 import json
+import os
 import shutil
 import struct
+import subprocess
 import sys
 from pathlib import Path
 
@@ -14,6 +16,7 @@ import pytest
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import check  # noqa: E402
+import replay_session  # noqa: E402
 
 SUNSPEC = HERE.parent / "vectors" / "current" / "modbusreg" / "sunspec" / "ss02"
 DELIVERED = HERE / "binaries" / "pre-port-gateway-linux-amd64"
@@ -55,7 +58,7 @@ def test_the_same_binary_has_no_difference(delivered):
 
 
 def test_host_dependent_paths_are_set_aside(delivered):
-    other_host = mutated(mutated(mutated(delivered, ".rodata", at=5), ".gopclntab", at=9), ".debug_line", at=3)
+    other_host = mutated(mutated(delivered, ".gopclntab", at=9), ".debug_line", at=3)
     symtab_offset, _ = sections(delivered)[".symtab"]
     names = sections(delivered)[".strtab"]
     strtab = delivered[names[0]:names[0] + names[1]]
@@ -109,7 +112,7 @@ def build_tree(root, rebuilt_bytes, toolchain):
 
 
 def test_compare_build_accepts_an_untrimmed_rebuild_on_another_host(delivered, tmp_path, monkeypatch):
-    other_host = mutated(mutated(delivered, ".rodata", at=5), ".gopclntab", at=9)
+    other_host = mutated(mutated(delivered, ".gopclntab", at=9), ".debug_line", at=3)
     oracle, actual = build_tree(tmp_path, other_host, "go version go1.26.2 linux/amd64")
     monkeypatch.setattr(check, "HERE", oracle)
     assert check.compare_build("pre-port", actual) == []
@@ -120,3 +123,86 @@ def test_compare_build_rejects_an_untrimmed_rebuild_of_other_content(delivered, 
     monkeypatch.setattr(check, "HERE", oracle)
     errors = check.compare_build("pre-port", actual)
     assert len(errors) == 1 and "path-free section .strtab differs" in errors[0]
+
+
+@pytest.mark.parametrize("section", [".text", ".rodata", ".noptrdata", ".data"])
+@pytest.mark.parametrize("delta", [1, -32])
+def test_a_change_in_code_or_data_is_a_difference(delivered, section, delta):
+    assert f"code or data section {section} differs" in check.untrimmed_differences(delivered, mutated(delivered, section, delta=delta, at=100))
+
+
+def test_compare_build_rejects_an_untrimmed_rebuild_with_other_code(delivered, tmp_path, monkeypatch):
+    oracle, actual = build_tree(tmp_path, mutated(delivered, ".text", at=100), "go version go1.26.2 linux/amd64")
+    monkeypatch.setattr(check, "HERE", oracle)
+    errors = check.compare_build("pre-port", actual)
+    assert len(errors) == 1 and "code or data section .text differs" in errors[0]
+
+
+PROGRAM = """package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	fmt.Println("hello", os.Args)
+}
+"""
+
+
+def test_a_real_rebuild_under_other_host_paths_is_accepted_and_a_changed_text_is_not(tmp_path):
+    go = shutil.which("go")
+    if go is None:
+        pytest.skip("no Go toolchain")
+    root = subprocess.run([go, "env", "GOROOT"], stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+    built = []
+    # The second build runs with a Go root and a source path of other lengths: the paths of another host, no -trimpath.
+    for name, goroot in (("a", root), ("b" * 30, None)):
+        source = tmp_path / name / "src"
+        source.mkdir(parents=True)
+        (source / "main.go").write_text(PROGRAM, encoding="utf-8")
+        (source / "go.mod").write_text("module oracle\n\ngo 1.21\n", encoding="utf-8")
+        if goroot is None:
+            link = tmp_path / name / ("go-root-" + "r" * 40)
+            link.symlink_to(root)
+            goroot = str(link)
+        env = dict(os.environ, GOROOT=goroot, GOCACHE=str(tmp_path / name / "cache"), GOOS="linux", GOARCH="amd64", CGO_ENABLED="0", GOWORK="off", GOFLAGS="", GOTOOLCHAIN="local")
+        target = tmp_path / name / "out"
+        subprocess.run([go, "build", "-o", str(target), "."], cwd=source, env=env, check=True)
+        built.append(target.read_bytes())
+    first, second = built
+    assert first != second
+    assert check.untrimmed_differences(first, second) == []
+    assert "code or data section .text differs" in check.untrimmed_differences(first, mutated(second, ".text", at=100))
+
+
+SESSIONS = HERE.parent / "vectors" / "current" / "sessions"
+CLASSES = replay_session.CLASSES
+
+
+def session_documents(toolchain, executable):
+    session = {"session": "eebus-outbound-peer-request", "reference": "current"}
+    item = {"slug_at_pin": "helianthus-ebusgateway", "commit": "0" * 40}
+    harness = {"package": "cmd/gateway", "test": "TestOracleSessionEEBus"}
+    classes = {name: [name] for name in CLASSES}
+    return replay_session.documents(session, b"{}", item, harness, classes, toolchain, executable)
+
+
+def test_the_session_output_does_not_depend_on_the_host_that_ran_it():
+    darwin, darwin_provenance = session_documents("go version go1.26.2 darwin/arm64", "1" * 64)
+    linux, linux_provenance = session_documents("go version go1.26.2 linux/amd64", "2" * 64)
+    assert darwin == linux
+    assert set(CLASSES) <= set(darwin) and "toolchain" not in darwin["build"] and "executable_sha256" not in darwin["build"]
+    assert darwin_provenance != linux_provenance
+    assert linux_provenance["build"]["toolchain"] == "go version go1.26.2 linux/amd64" and linux_provenance["build"]["executable_sha256"] == "2" * 64
+
+
+@pytest.mark.parametrize("output", sorted(SESSIONS.rglob("output.json")), ids=lambda path: path.parent.name)
+def test_a_committed_session_output_holds_no_host_specific_build_record(output):
+    document = json.loads(output.read_text(encoding="utf-8"))
+    assert set(document["build"]) == {"source", "label", "build_command", "invocation"}
+    assert "darwin" not in output.read_text(encoding="utf-8") and "arm64" not in output.read_text(encoding="utf-8")
+    provenance = json.loads((HERE / "provenance" / ("-".join(output.parent.relative_to(SESSIONS).parts) + ".json")).read_text(encoding="utf-8"))
+    assert provenance["session_sha256"] == document["session_sha256"]
+    assert {"toolchain", "executable_sha256"} <= set(provenance["build"])
