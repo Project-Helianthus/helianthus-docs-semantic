@@ -1,0 +1,17 @@
+{
+  "case": "sunspec-common-then-101",
+  "input": {
+    "models": [
+      1,
+      101
+    ]
+  },
+  "note": "a valid common model followed only by Model 101",
+  "output": {
+    "admitted": false,
+    "facts": [],
+    "profile": "sunspec.inverter.three_phase.monitoring@1.0.0",
+    "reason": "SOURCE_ABSENT"
+  },
+  "path": "modbusreg sunspec EvaluateThreePhaseMonitoring"
+}

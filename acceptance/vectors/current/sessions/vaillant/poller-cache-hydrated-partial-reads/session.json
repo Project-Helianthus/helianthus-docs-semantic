@@ -1,0 +1,45 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "vaillant-poller-cache-hydrated-partial-reads",
+  "reference": "current",
+  "scenario": "cache_hydrated_partial_reads",
+  "description": "Synthetic Vaillant poller session started from a hydrated semantic cache, one successful pass, then a pass in which a fixed set of reads stops answering.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionVaillantPoller"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/vaillant_publication_golden_test.go",
+      "sha256": "d5fbdac85a1d3e1b56130f8dca45d76fe43f0b32c2db83d74c30c2dd71e66522"
+    },
+    {
+      "path": "cmd/gateway/vaillant_publication_site_test.go",
+      "sha256": "5c12414dce2fa84da79198536e46509f14d7bae8703b143482de25a508a8173b"
+    },
+    {
+      "path": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+      "sha256": "6deef142442561ce31a605d57f23ee602ea042094cd0483b06b5c0e4af84be9d"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "start": "2026-01-05T06:00:00Z",
+    "step_gap": "11m",
+    "frame_cost": "20ms"
+  },
+  "state": {
+    "cache_seed": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json"
+  },
+  "input": {
+    "steps": [
+      "cache_hydrated",
+      "startup_discovery",
+      "refresh pass",
+      "failing_startup_discovery",
+      "failing refresh pass"
+    ]
+  }
+}

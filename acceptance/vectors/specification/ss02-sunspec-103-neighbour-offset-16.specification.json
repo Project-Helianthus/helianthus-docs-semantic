@@ -1,0 +1,16 @@
+{
+  "format": "helianthus-oracle-spec-ss02-neighbour/1",
+  "origin": "specification",
+  "case": "sunspec-103-neighbour-offset-16",
+  "kind": "specification-operand",
+  "source": {
+    "document": "SunSpec Information Model Reference, model 103",
+    "word": 16,
+    "point": "Hz"
+  },
+  "statement": "word 16 of model 103 is Hz, not W: a W selector misses it",
+  "expected": {
+    "binding": "miss",
+    "publication": "none"
+  }
+}

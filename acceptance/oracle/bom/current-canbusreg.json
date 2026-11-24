@@ -1,0 +1,25 @@
+{
+  "format": "helianthus-oracle-bom/1",
+  "reference": "current",
+  "entry": "canbusreg",
+  "slug_at_pin": "helianthus-canbusreg",
+  "commit": "329e648afe9dbffc62e9cabb1bfcb62f90f8f131",
+  "main": {
+    "path": "github.com/Project-Helianthus/helianthus-canbusreg",
+    "go": "1.22.0"
+  },
+  "modules": [
+    {
+      "path": "github.com/Project-Helianthus/helianthus-canbus",
+      "version": "v0.0.0-20260823184549-cb4c25a1a389",
+      "sum": "h1:GkvXgPGHfDwbQ64dNbuEptPo0yH2qvgjO3gUP+Xsg7A=",
+      "go_mod_sum": "h1:kzIUMrpUktsj0JMYU5Tl+g56Qsi4uM4kbOKAOnpKn34="
+    },
+    {
+      "path": "golang.org/x/sys",
+      "version": "v0.30.0",
+      "sum": "h1:QjkSwP/36a20jFYWkSue1YwXzLmsV5Gfq7Eiy72C1uc=",
+      "go_mod_sum": "h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA="
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "format": "helianthus-oracle-spec-modbus-register-writes/1",
+  "origin": "specification",
+  "sources": [
+    {
+      "document": "MODBUS Application Protocol Specification",
+      "version": "V1.1b3",
+      "clauses": [
+        "6.5",
+        "6.6",
+        "6.11",
+        "6.12",
+        "7"
+      ]
+    },
+    {
+      "document": "MODBUS Messaging on TCP/IP Implementation Guide",
+      "version": "V1.0b",
+      "clauses": [
+        "3.1 (MBAP header)"
+      ]
+    },
+    {
+      "document": "MODBUS over Serial Line Specification and Implementation Guide",
+      "version": "V1.02",
+      "clauses": [
+        "2.5.1 (RTU frame, CRC-16 sent low byte first)"
+      ]
+    }
+  ],
+  "framing": {
+    "tcp_adu": "transaction id (2) | protocol id 0x0000 (2) | length = 1 + PDU length (2) | unit id (1) | PDU",
+    "rtu_adu": "unit id (1) | PDU | CRC-16 (polynomial 0xA001, initial 0xFFFF) low byte first"
+  },
+  "freeze": "literal bytes reviewed independently of any encoder of this project; no donor generic-write API exists at the read-only pin",
+  "cases": [
+    {
+      "case": "fc05-coil-on",
+      "function_code": 5,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.5 (Write Single Coil)",
+      "input": {
+        "coil_address": 172,
+        "coil_on": true
+      },
+      "note": "coil ON is the value 0xFF00",
+      "request": {
+        "pdu_hex": "0500acff00",
+        "tcp_adu_hex": "000100000006110500acff00",
+        "rtu_adu_hex": "110500acff004e8b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0500acff00",
+        "tcp_adu_hex": "000100000006110500acff00",
+        "rtu_adu_hex": "110500acff004e8b"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc05-coil-off",
+      "function_code": 5,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.5 (Write Single Coil)",
+      "input": {
+        "coil_address": 172,
+        "coil_on": false
+      },
+      "note": "coil OFF is the value 0x0000",
+      "request": {
+        "pdu_hex": "0500ac0000",
+        "tcp_adu_hex": "000100000006110500ac0000",
+        "rtu_adu_hex": "110500ac00000f7b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0500ac0000",
+        "tcp_adu_hex": "000100000006110500ac0000",
+        "rtu_adu_hex": "110500ac00000f7b"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc05-address-max",
+      "function_code": 5,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.5 (Write Single Coil)",
+      "input": {
+        "coil_address": 65535,
+        "coil_on": true
+      },
+      "note": "highest coil address",
+      "request": {
+        "pdu_hex": "05ffffff00",
+        "tcp_adu_hex": "0001000000061105ffffff00",
+        "rtu_adu_hex": "1105ffffff008e8e"
+      },
+      "acknowledgement": {
+        "pdu_hex": "05ffffff00",
+        "tcp_adu_hex": "0001000000061105ffffff00",
+        "rtu_adu_hex": "1105ffffff008e8e"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc05-address-zero",
+      "function_code": 5,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.5 (Write Single Coil)",
+      "input": {
+        "coil_address": 0,
+        "coil_on": false
+      },
+      "note": "lowest coil address",
+      "request": {
+        "pdu_hex": "0500000000",
+        "tcp_adu_hex": "000100000006110500000000",
+        "rtu_adu_hex": "110500000000cf5a"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0500000000",
+        "tcp_adu_hex": "000100000006110500000000",
+        "rtu_adu_hex": "110500000000cf5a"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc06-example-value-3",
+      "function_code": 6,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.6 (Write Single Register)",
+      "input": {
+        "register_address": 1,
+        "value": 3
+      },
+      "note": "register value is sent high byte first",
+      "request": {
+        "pdu_hex": "0600010003",
+        "tcp_adu_hex": "000100000006110600010003",
+        "rtu_adu_hex": "1106000100039a9b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0600010003",
+        "tcp_adu_hex": "000100000006110600010003",
+        "rtu_adu_hex": "1106000100039a9b"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc06-value-max",
+      "function_code": 6,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.6 (Write Single Register)",
+      "input": {
+        "register_address": 1,
+        "value": 65535
+      },
+      "note": "highest register value",
+      "request": {
+        "pdu_hex": "060001ffff",
+        "tcp_adu_hex": "00010000000611060001ffff",
+        "rtu_adu_hex": "11060001ffffdb2a"
+      },
+      "acknowledgement": {
+        "pdu_hex": "060001ffff",
+        "tcp_adu_hex": "00010000000611060001ffff",
+        "rtu_adu_hex": "11060001ffffdb2a"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc06-value-zero-address-zero",
+      "function_code": 6,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.6 (Write Single Register)",
+      "input": {
+        "register_address": 0,
+        "value": 0
+      },
+      "note": "lowest address and value",
+      "request": {
+        "pdu_hex": "0600000000",
+        "tcp_adu_hex": "000100000006110600000000",
+        "rtu_adu_hex": "1106000000008b5a"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0600000000",
+        "tcp_adu_hex": "000100000006110600000000",
+        "rtu_adu_hex": "1106000000008b5a"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc06-address-max",
+      "function_code": 6,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.6 (Write Single Register)",
+      "input": {
+        "register_address": 65535,
+        "value": 4660
+      },
+      "note": "highest register address; byte order 0x12 0x34",
+      "request": {
+        "pdu_hex": "06ffff1234",
+        "tcp_adu_hex": "0001000000061106ffff1234",
+        "rtu_adu_hex": "1106ffff12348609"
+      },
+      "acknowledgement": {
+        "pdu_hex": "06ffff1234",
+        "tcp_adu_hex": "0001000000061106ffff1234",
+        "rtu_adu_hex": "1106ffff12348609"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc15-example-10-coils",
+      "function_code": 15,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.11 (Write Multiple Coils)",
+      "input": {
+        "start_address": 19,
+        "quantity": 10,
+        "coils_first_to_last": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "coil_pattern": null
+      },
+      "note": "first coil is the least significant bit of the first data byte; unused high bits of the last byte are zero",
+      "request": {
+        "pdu_hex": "0f0013000a02cd01",
+        "tcp_adu_hex": "000100000009110f0013000a02cd01",
+        "rtu_adu_hex": "110f0013000a02cd01bf0b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0f0013000a",
+        "tcp_adu_hex": "000100000006110f0013000a",
+        "rtu_adu_hex": "110f0013000a2699"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc15-quantity-1",
+      "function_code": 15,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.11 (Write Multiple Coils)",
+      "input": {
+        "start_address": 0,
+        "quantity": 1,
+        "coils_first_to_last": [
+          1
+        ],
+        "coil_pattern": null
+      },
+      "note": "one coil occupies one byte",
+      "request": {
+        "pdu_hex": "0f000000010101",
+        "tcp_adu_hex": "000100000008110f000000010101",
+        "rtu_adu_hex": "110f000000010101ee5b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0f00000001",
+        "tcp_adu_hex": "000100000006110f00000001",
+        "rtu_adu_hex": "110f00000001969b"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc15-quantity-8",
+      "function_code": 15,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.11 (Write Multiple Coils)",
+      "input": {
+        "start_address": 16,
+        "quantity": 8,
+        "coils_first_to_last": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "coil_pattern": null
+      },
+      "note": "eight coils fill exactly one byte",
+      "request": {
+        "pdu_hex": "0f0010000801ff",
+        "tcp_adu_hex": "000100000008110f0010000801ff",
+        "rtu_adu_hex": "110f0010000801ff7e1a"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0f00100008",
+        "tcp_adu_hex": "000100000006110f00100008",
+        "rtu_adu_hex": "110f001000085758"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc15-quantity-9",
+      "function_code": 15,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.11 (Write Multiple Coils)",
+      "input": {
+        "start_address": 16,
+        "quantity": 9,
+        "coils_first_to_last": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "coil_pattern": null
+      },
+      "note": "nine coils need two bytes; seven trailing bits are zero",
+      "request": {
+        "pdu_hex": "0f0010000902ff01",
+        "tcp_adu_hex": "000100000009110f0010000902ff01",
+        "rtu_adu_hex": "110f0010000902ff01aa1c"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0f00100009",
+        "tcp_adu_hex": "000100000006110f00100009",
+        "rtu_adu_hex": "110f001000099698"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc15-quantity-1968",
+      "function_code": 15,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.11 (Write Multiple Coils)",
+      "input": {
+        "start_address": 0,
+        "quantity": 1968,
+        "coils_first_to_last": "see coil_pattern",
+        "coil_pattern": "coil i is on when i is even"
+      },
+      "note": "maximum quantity 0x07B0 occupies 246 bytes",
+      "request": {
+        "pdu_hex": "0f000007b0f6555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555",
+        "tcp_adu_hex": "0001000000fd110f000007b0f6555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555",
+        "rtu_adu_hex": "110f000007b0f6555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555a20b"
+      },
+      "acknowledgement": {
+        "pdu_hex": "0f000007b0",
+        "tcp_adu_hex": "000100000006110f000007b0",
+        "rtu_adu_hex": "110f000007b054df"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc16-example-2-registers",
+      "function_code": 16,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.12 (Write Multiple Registers)",
+      "input": {
+        "start_address": 1,
+        "quantity": 2,
+        "values": [
+          10,
+          258
+        ],
+        "value_pattern": null
+      },
+      "note": "each register is sent high byte first",
+      "request": {
+        "pdu_hex": "100001000204000a0102",
+        "tcp_adu_hex": "00010000000b11100001000204000a0102",
+        "rtu_adu_hex": "11100001000204000a0102c6f0"
+      },
+      "acknowledgement": {
+        "pdu_hex": "1000010002",
+        "tcp_adu_hex": "000100000006111000010002",
+        "rtu_adu_hex": "1110000100021298"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc16-quantity-1",
+      "function_code": 16,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.12 (Write Multiple Registers)",
+      "input": {
+        "start_address": 0,
+        "quantity": 1,
+        "values": [
+          65535
+        ],
+        "value_pattern": null
+      },
+      "note": "one register, value boundary",
+      "request": {
+        "pdu_hex": "100000000102ffff",
+        "tcp_adu_hex": "00010000000911100000000102ffff",
+        "rtu_adu_hex": "11100000000102ffff6a20"
+      },
+      "acknowledgement": {
+        "pdu_hex": "1000000001",
+        "tcp_adu_hex": "000100000006111000000001",
+        "rtu_adu_hex": "1110000000010359"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    },
+    {
+      "case": "fc16-quantity-123",
+      "function_code": 16,
+      "clause": "MODBUS Application Protocol Specification V1.1b3, section 6.12 (Write Multiple Registers)",
+      "input": {
+        "start_address": 0,
+        "quantity": 123,
+        "values": "value i is i",
+        "value_pattern": "register i holds i"
+      },
+      "note": "maximum quantity 0x007B occupies 246 bytes",
+      "request": {
+        "pdu_hex": "100000007bf60000000100020003000400050006000700080009000a000b000c000d000e000f0010001100120013001400150016001700180019001a001b001c001d001e001f0020002100220023002400250026002700280029002a002b002c002d002e002f0030003100320033003400350036003700380039003a003b003c003d003e003f0040004100420043004400450046004700480049004a004b004c004d004e004f0050005100520053005400550056005700580059005a005b005c005d005e005f0060006100620063006400650066006700680069006a006b006c006d006e006f0070007100720073007400750076007700780079007a",
+        "tcp_adu_hex": "0001000000fd11100000007bf60000000100020003000400050006000700080009000a000b000c000d000e000f0010001100120013001400150016001700180019001a001b001c001d001e001f0020002100220023002400250026002700280029002a002b002c002d002e002f0030003100320033003400350036003700380039003a003b003c003d003e003f0040004100420043004400450046004700480049004a004b004c004d004e004f0050005100520053005400550056005700580059005a005b005c005d005e005f0060006100620063006400650066006700680069006a006b006c006d006e006f0070007100720073007400750076007700780079007a",
+        "rtu_adu_hex": "11100000007bf60000000100020003000400050006000700080009000a000b000c000d000e000f0010001100120013001400150016001700180019001a001b001c001d001e001f0020002100220023002400250026002700280029002a002b002c002d002e002f0030003100320033003400350036003700380039003a003b003c003d003e003f0040004100420043004400450046004700480049004a004b004c004d004e004f0050005100520053005400550056005700580059005a005b005c005d005e005f0060006100620063006400650066006700680069006a006b006c006d006e006f0070007100720073007400750076007700780079007a8754"
+      },
+      "acknowledgement": {
+        "pdu_hex": "100000007b",
+        "tcp_adu_hex": "00010000000611100000007b",
+        "rtu_adu_hex": "11100000007b82ba"
+      },
+      "unit_id": 17,
+      "transaction_id": 1
+    }
+  ]
+}

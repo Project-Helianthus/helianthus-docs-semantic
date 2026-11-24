@@ -1,0 +1,16 @@
+{
+  "format": "helianthus-oracle-spec-ss02-neighbour/1",
+  "origin": "specification",
+  "case": "sunspec-103-neighbour-offset-13",
+  "kind": "specification-operand",
+  "source": {
+    "document": "SunSpec Information Model Reference, model 103",
+    "word": 13,
+    "point": "V_SF"
+  },
+  "statement": "word 13 of model 103 is V_SF, not W: a W selector misses it",
+  "expected": {
+    "binding": "miss",
+    "publication": "none"
+  }
+}

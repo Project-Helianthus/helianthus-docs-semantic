@@ -1,0 +1,17 @@
+{
+  "build": {
+    "build_command": "go test -c -trimpath -o replay-vaillant-poller-full-site.test ./cmd/gateway/",
+    "executable_sha256": "1d37d4966a37b6791c3517adfe3a69196f405af1b170a31894c04567a7d31781",
+    "invocation": "replay-vaillant-poller-full-site.test -test.run ^TestOracleSessionVaillantPoller$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    },
+    "toolchain": "go version go1.26.2 darwin/arm64"
+  },
+  "format": "helianthus-oracle-session-provenance/1",
+  "reference": "current",
+  "session": "vaillant-poller-full-site",
+  "session_sha256": "a3ecbfbdb8a1c12980c2afb1bee76e44ee537440b5fda72ea5ff1ea356300708"
+}

@@ -1,0 +1,23 @@
+{
+  "case": "sunspec-103-sf-minus11",
+  "input": {
+    "W_SF_word_15": 65525,
+    "W_word_14": 1500,
+    "common": {
+      "firmware": "1.0",
+      "manufacturer": "Maker",
+      "model": "Model"
+    },
+    "length": 50,
+    "model": 103,
+    "other_points": "pinned integer inverter fixture"
+  },
+  "note": "scale-factor word -11",
+  "output": {
+    "admitted": false,
+    "facts": [],
+    "profile": "sunspec.inverter.three_phase.monitoring@1.0.0",
+    "reason": "INVALID_REQUIRED_FACT"
+  },
+  "path": "modbusreg sunspec EvaluateThreePhaseMonitoring on a Common model followed by Model 103 (length 50)"
+}

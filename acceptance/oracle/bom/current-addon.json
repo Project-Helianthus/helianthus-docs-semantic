@@ -1,0 +1,392 @@
+{
+  "format": "helianthus-addon-bom/1",
+  "addon": {
+    "slug": "helianthus",
+    "version": "0.6.58",
+    "config_arch": [
+      "aarch64",
+      "amd64"
+    ]
+  },
+  "gateway": {
+    "repository": "https://github.com/Project-Helianthus/helianthus-ebusgateway",
+    "commit": "b223acf12162f8fee470ac337e1207a9382bae0e",
+    "tree": "ba6864888a10e4616a8e6052f30033dff384c195"
+  },
+  "vrc_explorer": {
+    "repository": "https://github.com/Project-Helianthus/helianthus-vrc-explorer",
+    "tag": "v0.6.1",
+    "commit": "afa4313ea7acd7553d172d3e45fca82806958af9"
+  },
+  "go_modules": {
+    "module": "github.com/Project-Helianthus/helianthus-ebusgateway",
+    "go_directive": "1.22.0",
+    "requires": [
+      {
+        "path": "github.com/Project-Helianthus/helianthus-canbus",
+        "version": "v0.0.0-20260823184549-cb4c25a1a389",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-canbusreg",
+        "version": "v0.0.0-20261108095356-eab34ceb18f6",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-ebusgo",
+        "version": "v0.5.1-0.20261027131913-af6c5843b1e3",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-ebusreg",
+        "version": "v0.0.0-20261016182529-f90a3e330da7",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-eebus-go",
+        "version": "v0.7.1-helianthus.21",
+        "indirect": true
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-eebusreg",
+        "version": "v0.1.36",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-modbus",
+        "version": "v0.3.1-0.20261024182524-68e216993b83",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-modbusreg",
+        "version": "v0.6.8-0.20261105065500-54f710b7f329",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-semreg",
+        "version": "v0.0.0-20261107204616-b3e8cdfc4a60",
+        "indirect": false
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-ship-go",
+        "version": "v0.6.1-helianthus.19",
+        "indirect": true
+      },
+      {
+        "path": "github.com/Project-Helianthus/helianthus-spine-go",
+        "version": "v0.7.1-helianthus.9",
+        "indirect": true
+      },
+      {
+        "path": "github.com/ahmetb/go-linq/v3",
+        "version": "v3.2.0",
+        "indirect": true
+      },
+      {
+        "path": "github.com/cenkalti/backoff",
+        "version": "v2.2.1+incompatible",
+        "indirect": true
+      },
+      {
+        "path": "github.com/enbility/go-avahi",
+        "version": "v0.0.0-20240909195612-d5de6b280d7a",
+        "indirect": true
+      },
+      {
+        "path": "github.com/enbility/zeroconf/v2",
+        "version": "v2.0.0-20240920094356-be1cae74fda6",
+        "indirect": true
+      },
+      {
+        "path": "github.com/godbus/dbus/v5",
+        "version": "v5.1.0",
+        "indirect": true
+      },
+      {
+        "path": "github.com/golanguzb70/lrucache",
+        "version": "v1.2.0",
+        "indirect": true
+      },
+      {
+        "path": "github.com/gorilla/websocket",
+        "version": "v1.5.3",
+        "indirect": false
+      },
+      {
+        "path": "github.com/grandcat/zeroconf",
+        "version": "v1.0.0",
+        "indirect": false
+      },
+      {
+        "path": "github.com/graphql-go/graphql",
+        "version": "v0.8.1",
+        "indirect": false
+      },
+      {
+        "path": "github.com/graphql-go/handler",
+        "version": "v0.2.4",
+        "indirect": false
+      },
+      {
+        "path": "github.com/machinebox/graphql",
+        "version": "v0.2.2",
+        "indirect": false
+      },
+      {
+        "path": "github.com/matryer/is",
+        "version": "v1.4.1",
+        "indirect": true
+      },
+      {
+        "path": "github.com/miekg/dns",
+        "version": "v1.1.62",
+        "indirect": true
+      },
+      {
+        "path": "github.com/pkg/errors",
+        "version": "v0.9.1",
+        "indirect": true
+      },
+      {
+        "path": "github.com/rickb777/date",
+        "version": "v1.21.1",
+        "indirect": true
+      },
+      {
+        "path": "github.com/rickb777/plural",
+        "version": "v1.4.2",
+        "indirect": true
+      },
+      {
+        "path": "gitlab.com/c0b/go-ordered-json",
+        "version": "v0.0.0-20201030195603-febf46534d5a",
+        "indirect": true
+      },
+      {
+        "path": "golang.org/x/mod",
+        "version": "v0.21.0",
+        "indirect": false
+      },
+      {
+        "path": "golang.org/x/net",
+        "version": "v0.29.0",
+        "indirect": true
+      },
+      {
+        "path": "golang.org/x/sync",
+        "version": "v0.11.0",
+        "indirect": true
+      },
+      {
+        "path": "golang.org/x/sys",
+        "version": "v0.30.0",
+        "indirect": false
+      },
+      {
+        "path": "golang.org/x/text",
+        "version": "v0.22.0",
+        "indirect": false
+      },
+      {
+        "path": "golang.org/x/tools",
+        "version": "v0.25.0",
+        "indirect": true
+      },
+      {
+        "path": "gopkg.in/yaml.v3",
+        "version": "v3.0.1",
+        "indirect": false
+      }
+    ],
+    "replace": [],
+    "go_mod_sha256": "6d24104185cf52cfec3e567b13b43b1abb9fd01a67e7ffb3dfc4d6f374e0c23d",
+    "go_sum_sha256": "21a4350f0365c9706c0326c518672aeec7d522e773d44bc06bc20c23a636471a",
+    "source": "https://github.com/Project-Helianthus/helianthus-ebusgateway/blob/b223acf12162f8fee470ac337e1207a9382bae0e/go.mod",
+    "build_mode": "GOWORK=off GOFLAGS=-mod=readonly (Dockerfile builder stage)"
+  },
+  "semantic_contract": {
+    "registry_module": "github.com/Project-Helianthus/helianthus-semreg",
+    "registry_version": "v0.0.0-20261107204616-b3e8cdfc4a60",
+    "element_catalog": null
+  },
+  "images": {
+    "builder_go": {
+      "ref": "golang:1.26.2-alpine",
+      "observed_digest": "sha256:f85330846cde1e57ca9ec309382da3b8e6ae3ab943d2739500e08c86393a21b1"
+    },
+    "builder_python": {
+      "ref": "python:3.12-alpine",
+      "observed_digest": "sha256:e064671ca452259bab50e8e2c7bd896e39e9a343bb06ca25234adf6fe18d0fc7"
+    },
+    "base": {
+      "amd64": {
+        "ref": "ghcr.io/home-assistant/amd64-base:3.20",
+        "observed_digest": "sha256:e708939c821ba8410fc29204525b85d2c5abb51b73e874482e65a3c38155bd20"
+      },
+      "aarch64": {
+        "ref": "ghcr.io/home-assistant/aarch64-base:3.20",
+        "observed_digest": "sha256:ced4e7a9c46bee9ee964698d0c9d6a7c81f81754ed9d6b398007ab4092e17a30"
+      }
+    },
+    "digest_note": "Digests were observed at generation time; the build references tags. INT-16 replaces them with pinned digests when it freezes the BOM.",
+    "observed_at": "2026-11-09T02:14:36Z"
+  },
+  "gateway_cli_flags": [
+    "adapter-mux-idle-release-grace",
+    "adapter-mux-max-ownership-duration",
+    "adapter-mux-read-timeout",
+    "address",
+    "boot-live-timeout",
+    "broadcast",
+    "diagnostic-full-range-retry",
+    "dial-timeout",
+    "dump-include-pii",
+    "dump-output-dir",
+    "dump-upload-path",
+    "dump-upload-url",
+    "eebus-certificate-path",
+    "eebus-discovery-enabled",
+    "eebus-enabled",
+    "eebus-interfaces",
+    "eebus-listen-port",
+    "eebus-operator-socket-dir",
+    "eebus-pairing-window-mode",
+    "eebus-private-key-path",
+    "eebus-remote-ski-allowlist",
+    "eebus-state-root",
+    "eebus-subnets",
+    "eebus-trust-store-path",
+    "enable-static-seed-table",
+    "external-write-policy",
+    "graphql-path",
+    "growatt-bms-can-enabled",
+    "growatt-bms-can-interface",
+    "growatt-bms-can-listen-only-confirmed",
+    "growatt-bms-can-stale-after",
+    "growatt-bms-link-can-bank",
+    "growatt-bms-link-can-context",
+    "growatt-bms-link-can-enabled",
+    "growatt-bms-link-can-interface",
+    "growatt-bms-link-can-listen-only-confirmed",
+    "growatt-bms-link-can-native-profile",
+    "growatt-bms-link-can-project-code",
+    "growatt-bms-link-can-release",
+    "growatt-bms-link-can-scope",
+    "growatt-bms-link-can-source-selectors",
+    "growatt-bms-link-can-stale-after",
+    "growatt-bms-pcs-can-bank",
+    "growatt-bms-pcs-can-context",
+    "growatt-bms-pcs-can-enabled",
+    "growatt-bms-pcs-can-interface",
+    "growatt-bms-pcs-can-listen-only-confirmed",
+    "growatt-bms-pcs-can-native-contract",
+    "growatt-bms-pcs-can-native-profile",
+    "growatt-bms-pcs-can-project-code",
+    "growatt-bms-pcs-can-release",
+    "growatt-bms-pcs-can-scope",
+    "growatt-bms-pcs-can-stale-after",
+    "growatt-bms-rs485-asset-id",
+    "growatt-bms-rs485-baud",
+    "growatt-bms-rs485-driver-generation",
+    "growatt-bms-rs485-enabled",
+    "growatt-bms-rs485-max-quiescence",
+    "growatt-bms-rs485-max-response-delay",
+    "growatt-bms-rs485-parity",
+    "growatt-bms-rs485-response-timeout",
+    "growatt-bms-rs485-serial-path",
+    "growatt-bms-rs485-source-epoch",
+    "growatt-bms-rs485-source-id",
+    "growatt-bms-rs485-stop-bits",
+    "growatt-bms-rs485-unit-id",
+    "http-addr",
+    "instance-guid",
+    "instance-guid-source",
+    "m2m-graphql-allowed-assets",
+    "m2m-graphql-client-ca",
+    "m2m-graphql-denied-principals",
+    "m2m-graphql-listen",
+    "m2m-graphql-server-cert",
+    "m2m-graphql-server-key",
+    "m2m-graphql-server-name",
+    "mcp-path",
+    "mdns",
+    "mdns-instance",
+    "modbus-tcp-dial-timeout",
+    "modbus-tcp-enabled",
+    "modbus-tcp-endpoint",
+    "modbus-tcp-endpoint-file",
+    "modbus-tcp-endpoints-file",
+    "network",
+    "observe-first-enabled",
+    "passive-config-direct-apply",
+    "passive-state-direct-apply",
+    "phantom-initiator-reject-bytes",
+    "portal-config-root",
+    "portal-modbus-raw-read-enabled",
+    "portal-path",
+    "portal-pv-asset-ref",
+    "portal-pv-m2m-ca",
+    "portal-pv-m2m-client-cert",
+    "portal-pv-m2m-client-key",
+    "portal-pv-m2m-server-name",
+    "portal-pv-m2m-url",
+    "portal-pv-semantic-enabled",
+    "portal-storage-asset-ref",
+    "portal-storage-m2m-ca",
+    "portal-storage-m2m-client-cert",
+    "portal-storage-m2m-client-key",
+    "portal-storage-m2m-server-name",
+    "portal-storage-m2m-url",
+    "portal-storage-semantic-enabled",
+    "proxy-listen",
+    "queue-capacity",
+    "read-timeout",
+    "runtime-state-path",
+    "scan",
+    "scan-interval",
+    "scan-request-timeout",
+    "scan-timeout",
+    "semantic-cache-path",
+    "semantic-config-interval",
+    "semantic-dhw-stale-ttl",
+    "semantic-discovery-interval",
+    "semantic-energy-interval",
+    "semantic-interval",
+    "semantic-prometheus-evse-enabled",
+    "semantic-read-breaker-failure-budget",
+    "semantic-read-breaker-half-open-probe-limit",
+    "semantic-read-breaker-open-cooldown",
+    "semantic-regulator-absence-grace",
+    "semantic-regulator-recheck-interval",
+    "semantic-request-timeout",
+    "semantic-state-interval",
+    "semantic-zone-presence-hit-threshold",
+    "semantic-zone-presence-miss-threshold",
+    "snapshot-path",
+    "source-addr",
+    "startup-probe-targets",
+    "startup-source-override",
+    "startup-source-override-validate",
+    "subscription-path",
+    "synchronized-evidence-one-shot-enabled",
+    "tesla-gen3-hsc-asset-id",
+    "tesla-gen3-hsc-clock-epoch",
+    "tesla-gen3-hsc-connector-id",
+    "tesla-gen3-hsc-driver-generation",
+    "tesla-gen3-hsc-endpoint-id",
+    "tesla-gen3-hsc-evse-id",
+    "tesla-gen3-hsc-node",
+    "tesla-gen3-hsc-profile",
+    "tesla-gen3-hsc-retained-enabled",
+    "tesla-gen3-hsc-source-epoch",
+    "tesla-gen3-hsc-source-id",
+    "transport",
+    "ui-path",
+    "write-timeout"
+  ],
+  "freeze": {
+    "owner": "INT-16",
+    "status": "unfrozen",
+    "note": "INT-16 freezes this file for the 0.7 release: it replaces observed digests with pinned digests and sets status to frozen. After that, any pin change requires a new BOM generation."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "format": "helianthus-oracle-spec-ss02-note/1",
+  "origin": "specification",
+  "case": "vaillant-dhw-0005",
+  "kind": "native-only",
+  "statement": "register 0005 (measured temperature) is a native-only comparison case: it has a donor native record and no new-binding record",
+  "native": {
+    "case": "vaillant-dhw-0005",
+    "path": "acceptance/vectors/current/gateway/cmd-gateway/ss02/vaillant-dhw-0005-measured-temperature.native.json"
+  }
+}

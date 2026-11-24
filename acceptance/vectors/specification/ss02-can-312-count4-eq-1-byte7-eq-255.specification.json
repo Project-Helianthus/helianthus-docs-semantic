@@ -1,0 +1,34 @@
+{
+  "format": "helianthus-oracle-spec-ss02-312/1",
+  "origin": "specification",
+  "case": "can-312-count4-eq-1-byte7-eq-255",
+  "kind": "specification",
+  "source": {
+    "document": "Growatt low-voltage BMS CAN protocol",
+    "version": "V1.04 Rev. 04",
+    "page": 5,
+    "frame": "0x312"
+  },
+  "input": {
+    "frame_312_hex": "0080000001aabbff",
+    "byte4_pack_count": 1,
+    "byte7_total_cell_count": 255
+  },
+  "expected": {
+    "verdict": "reject",
+    "reason": "both counts are specified as 1 to 254; 255 is outside the range"
+  },
+  "donor_records": {
+    "gateway": {
+      "path": "acceptance/vectors/current/gateway/cmd-gateway/ss02/growatt-bms-can-312-count4-eq-1-byte7-eq-255.gateway.native.json",
+      "case": "312-count4-eq-1-byte7-eq-255",
+      "observed": "accepts"
+    },
+    "canbusreg": {
+      "path": "acceptance/vectors/current/canbusreg/canbusreg/ss02/growatt-bms-can-312-count4-eq-1-byte7-eq-255.canbusreg.native.json",
+      "case": "312-count4-eq-1-byte7-eq-255",
+      "observed": "rejects"
+    }
+  },
+  "note": "the two donor records stay separate files and neither is substituted for the other"
+}

@@ -1,0 +1,149 @@
+{
+  "format": "helianthus-oracle-binaries/1",
+  "binaries": [
+    {
+      "id": "released-gateway",
+      "reference": "released",
+      "entry": "gateway",
+      "label": "gateway-cli-binary",
+      "build_form": "go build in a clone of the pinned commit",
+      "dockerfile": {
+        "repository": "helianthus-ha-addon",
+        "commit": "3c8cde91405609dd5f3161cf8fcbc8a7949e06c5",
+        "path": "helianthus/Dockerfile"
+      },
+      "source": {
+        "repository": "helianthus-ebusgateway",
+        "commit": "b223acf12162f8fee470ac337e1207a9382bae0e"
+      },
+      "command": "go build -trimpath -buildvcs=true -tags nomatter -ldflags \"-X main.buildVersion=0.6.58 -X main.buildID=b223acf12162f8fee470ac337e1207a9382bae0e\" -o gateway ./cmd/gateway",
+      "build_args": {
+        "BUILD_VERSION": "0.6.58",
+        "EBUSGATEWAY_VERSION": "b223acf12162f8fee470ac337e1207a9382bae0e",
+        "GATEWAY_TAGS": "nomatter"
+      },
+      "resolved_module_revision": "b223acf12162f8fee470ac337e1207a9382bae0e",
+      "env": {
+        "CGO_ENABLED": "0",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "GOENV": "off",
+        "GOTOOLCHAIN": "local",
+        "GOFLAGS": "-mod=readonly",
+        "GOWORK": "off"
+      },
+      "toolchain": "go version go1.26.2 darwin/arm64",
+      "target": "linux/amd64",
+      "file": "binaries/released-gateway-linux-amd64",
+      "sha256": "78161c363a3eaf7f8efab6e86e5840aaa642d280b0f905c8dfa3af941149a0ed",
+      "size": 54609712
+    },
+    {
+      "id": "current-gateway",
+      "reference": "current",
+      "entry": "gateway",
+      "label": "gateway-cli-binary",
+      "build_form": "go build in a clone of the pinned commit",
+      "dockerfile": {
+        "repository": "helianthus-ha-addon",
+        "commit": "3c8cde91405609dd5f3161cf8fcbc8a7949e06c5",
+        "path": "helianthus/Dockerfile"
+      },
+      "source": {
+        "repository": "helianthus-ebusgateway",
+        "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+      },
+      "command": "go build -trimpath -buildvcs=true -tags nomatter -ldflags \"-X main.buildVersion=0.6.58 -X main.buildID=37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa\" -o gateway ./cmd/gateway",
+      "build_args": {
+        "BUILD_VERSION": "0.6.58",
+        "EBUSGATEWAY_VERSION": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+        "GATEWAY_TAGS": "nomatter"
+      },
+      "resolved_module_revision": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "env": {
+        "CGO_ENABLED": "0",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "GOENV": "off",
+        "GOTOOLCHAIN": "local",
+        "GOFLAGS": "-mod=readonly",
+        "GOWORK": "off"
+      },
+      "toolchain": "go version go1.26.2 darwin/arm64",
+      "target": "linux/amd64",
+      "file": "binaries/current-gateway-linux-amd64",
+      "sha256": "84aac3029102c21a7a7225111e5c687fe03f592323c9d2fa806d7cdc01d6c870",
+      "size": 56747886,
+      "note": "the frozen gateway pin supplied as EBUSGATEWAY_VERSION to the build form of the add-on of this reference; it is not the gateway the add-on ships"
+    },
+    {
+      "id": "pre-port-gateway",
+      "reference": "pre-port",
+      "entry": "gateway",
+      "label": "gateway-cli-binary",
+      "build_form": "go install module@version",
+      "dockerfile": {
+        "repository": "helianthus-ha-addon",
+        "commit": "68b8d1653dc70def6a6c1dbda998780927dd1e38",
+        "path": "helianthus/Dockerfile"
+      },
+      "source": {
+        "repository": "helianthus-ebusgateway",
+        "commit": "46fc6b475a133610b47997e52409afe9e052c969"
+      },
+      "command": "go install github.com/Project-Helianthus/helianthus-ebusgateway/cmd/gateway@v0.6.32",
+      "build_args": {
+        "EBUSGATEWAY_VERSION": "v0.6.32"
+      },
+      "resolved_module_revision": "46fc6b475a133610b47997e52409afe9e052c969",
+      "resolved_module_version": "v0.6.32",
+      "env": {
+        "CGO_ENABLED": "0",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "GOBIN": "/out (a cross-compiled go install writes to GOPATH/bin/<goos>_<goarch> instead)",
+        "GOWORK": "off"
+      },
+      "toolchain": "go version go1.26.2 darwin/arm64",
+      "target": "linux/amd64",
+      "file": "binaries/pre-port-gateway-linux-amd64",
+      "sha256": "f5be438f67c26eeee87c25fa8f302e5f024e48209a4d2693543c88325071ef9e",
+      "size": 22615031
+    },
+    {
+      "id": "pre-port-gateway-canonical-pv",
+      "reference": "pre-port",
+      "entry": "gateway-canonical-pv",
+      "label": "gateway-cli-binary",
+      "build_form": "go install module@version",
+      "dockerfile": {
+        "repository": "helianthus-ha-addon",
+        "commit": "68b8d1653dc70def6a6c1dbda998780927dd1e38",
+        "path": "helianthus/Dockerfile"
+      },
+      "source": {
+        "repository": "helianthus-ebusgateway",
+        "commit": "3d170c44008ba8e6e4b8495b83347b8f24ef55cf"
+      },
+      "command": "go install github.com/Project-Helianthus/helianthus-ebusgateway/cmd/gateway@v0.0.0-20260909054154-3d170c44008b",
+      "build_args": {
+        "EBUSGATEWAY_VERSION": "v0.0.0-20260909054154-3d170c44008b"
+      },
+      "resolved_module_revision": "3d170c44008ba8e6e4b8495b83347b8f24ef55cf",
+      "resolved_module_version": "v0.0.0-20260909054154-3d170c44008b",
+      "env": {
+        "CGO_ENABLED": "0",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "GOBIN": "/out (a cross-compiled go install writes to GOPATH/bin/<goos>_<goarch> instead)",
+        "GOWORK": "off"
+      },
+      "toolchain": "go version go1.26.2 darwin/arm64",
+      "target": "linux/amd64",
+      "file": "binaries/pre-port-gateway-canonical-pv-linux-amd64",
+      "sha256": "151bae7d8e95e71ce245fbb7a76e15fc04bfd1c46c0af589ce252d85697e3ade",
+      "size": 44837124,
+      "note": "the frozen canonical PV v1 source supplied as the version of the install form of the add-on of this reference; it is not the gateway the add-on ships"
+    }
+  ]
+}

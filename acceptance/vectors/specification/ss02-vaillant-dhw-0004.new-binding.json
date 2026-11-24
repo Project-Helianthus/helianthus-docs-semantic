@@ -1,0 +1,50 @@
+{
+  "format": "helianthus-oracle-spec-ss02-new-binding/1",
+  "origin": "specification",
+  "case": "vaillant-dhw-0004",
+  "kind": "new-binding",
+  "pairs_with_native": {
+    "case": "vaillant-dhw-0004",
+    "path": "acceptance/vectors/current/gateway/cmd-gateway/ss02/vaillant-dhw-0004-value-50.native.json",
+    "native_case_id": "0004-value-50"
+  },
+  "sources": [
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "2.3.1",
+      "use": "degree Celsius to kelvin"
+    },
+    {
+      "document": "public eBUS register catalogue (docs-ebus), controller local DHW group",
+      "register": "B5/24 opcode 02 group 01 instance 00 register 0004",
+      "use": "requested hot-water target"
+    }
+  ],
+  "input": {
+    "native_value": {
+      "number": "50",
+      "unit": "native.celsius"
+    },
+    "selector": "B5/24 opcode 02 group 01 instance 00 register 0004",
+    "direction": "controller to initiator",
+    "presentation": "controller",
+    "subject": {
+      "resolved": true,
+      "role": "hot-water subject supplied by the caller's resolution"
+    }
+  },
+  "expected": {
+    "fact": "thermal.setpoint.dhw_temperature_setpoint",
+    "dimension": "thermal.dimension.dhw",
+    "value": {
+      "number": "323.15",
+      "unit": "K",
+      "derivation": "50 + 273.15"
+    },
+    "quality": "the supplied quality of the caller metadata operand",
+    "qualification_loss": null,
+    "identity_loss": null
+  },
+  "metadata_operand": "acceptance/vectors/specification/ss02-candidate-metadata-operand.json"
+}

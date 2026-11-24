@@ -1,0 +1,31 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "eebus-outbound-peer-request",
+  "reference": "current",
+  "scenario": "outbound-peer-request",
+  "description": "Synthetic eeBUS outbound session: one peer request for a promoted resource is relayed through the pinned output binding, which serves no eeBUS feature; the donor outcome is recorded as it is.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionEEBus"
+  },
+  "fixtures": [
+    {
+      "path": "internal/eebusoutput/binding.go",
+      "sha256": "77f69090a2fb374cad4d32a959996970c9c2c2361616d3d88a8873411bcb3979"
+    }
+  ],
+  "clock": {
+    "kind": "none"
+  },
+  "state": {
+    "binding_route": "unwired"
+  },
+  "input": {
+    "direction": "outbound",
+    "peer_request": {
+      "operation": "synthetic.operation.set"
+    }
+  }
+}

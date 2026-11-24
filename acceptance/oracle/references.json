@@ -1,0 +1,143 @@
+{
+  "format": "helianthus-oracle-references/1",
+  "references": {
+    "current": {
+      "entries": [
+        {
+          "id": "gateway",
+          "slug_at_pin": "helianthus-ebusgateway",
+          "name_after_nn00": "helianthus-gateway",
+          "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+        },
+        {
+          "id": "semreg",
+          "slug_at_pin": "helianthus-semreg",
+          "name_after_nn00": "helianthus-semreg",
+          "commit": "69a9143a16a0e0b3d9d2c12e358b2aae5042ec89"
+        },
+        {
+          "id": "ebusreg",
+          "slug_at_pin": "helianthus-ebusreg",
+          "name_after_nn00": "helianthus-ebusreg",
+          "commit": "e10169e930c823de6a6f44a410c1883c1d84d33d"
+        },
+        {
+          "id": "ebusgo",
+          "slug_at_pin": "helianthus-ebusgo",
+          "name_after_nn00": "helianthus-ebusgo",
+          "commit": "012f61607c64d19f1482208b5e2ffbe30122f86f"
+        },
+        {
+          "id": "modbusreg",
+          "slug_at_pin": "helianthus-modbusreg",
+          "name_after_nn00": "helianthus-modbusreg",
+          "commit": "0171db7de5b546165636e6ade317d45304ff1dc0"
+        },
+        {
+          "id": "modbus",
+          "slug_at_pin": "helianthus-modbus",
+          "name_after_nn00": "helianthus-modbus",
+          "commit": "706d89d3c8012b7da1557510a6509f418ea668a6"
+        },
+        {
+          "id": "canbusreg",
+          "slug_at_pin": "helianthus-canbusreg",
+          "name_after_nn00": "helianthus-canbusreg",
+          "commit": "329e648afe9dbffc62e9cabb1bfcb62f90f8f131"
+        },
+        {
+          "id": "canbus",
+          "slug_at_pin": "helianthus-canbus",
+          "name_after_nn00": "helianthus-canbus",
+          "commit": "642ac543dadee513e32355a346461f682a29a5a6"
+        },
+        {
+          "id": "eebusreg",
+          "slug_at_pin": "helianthus-eebusreg",
+          "name_after_nn00": "helianthus-eebusreg",
+          "commit": "348e15518f27187e71587f44101c5cc967ac8dbb"
+        },
+        {
+          "id": "eebus-go",
+          "slug_at_pin": "helianthus-eebus-go",
+          "name_after_nn00": "helianthus-eebus-go",
+          "commit": "c68cb5ee5d6bd9b2f8063bc4160325d3d183430a"
+        },
+        {
+          "id": "matterreg",
+          "slug_at_pin": "helianthus-matter-binding",
+          "name_after_nn00": "helianthus-matterreg",
+          "commit": "c811b401288e81731dc4e7a301f266d8f56599d1"
+        },
+        {
+          "id": "ha-integration",
+          "slug_at_pin": "helianthus-ha-integration",
+          "name_after_nn00": "helianthus-ha-integration",
+          "commit": "cae2e95a6c64e71301e0b1cc2ec71f0fa47d4d4a"
+        },
+        {
+          "id": "vrc-explorer",
+          "slug_at_pin": "helianthus-vrc-explorer",
+          "name_after_nn00": "helianthus-vrc-explorer",
+          "commit": "810de2aed2325d938cc4dde98665655536926240"
+        },
+        {
+          "id": "docs-semantic",
+          "slug_at_pin": "helianthus-docs-semantic",
+          "name_after_nn00": "helianthus-docs-semantic",
+          "commit": "de3a0b49535582ad51a0ec23011d3aebf9c04c76"
+        },
+        {
+          "id": "addon",
+          "slug_at_pin": "helianthus-ha-addon",
+          "name_after_nn00": "helianthus-ha-addon",
+          "commit": "3c8cde91405609dd5f3161cf8fcbc8a7949e06c5",
+          "note": "add-on 0.6.58"
+        }
+      ]
+    },
+    "released": {
+      "entries": [
+        {
+          "id": "addon",
+          "slug_at_pin": "helianthus-ha-addon",
+          "name_after_nn00": "helianthus-ha-addon",
+          "commit": "3c8cde91405609dd5f3161cf8fcbc8a7949e06c5",
+          "note": "add-on 0.6.58"
+        },
+        {
+          "id": "gateway",
+          "slug_at_pin": "helianthus-ebusgateway",
+          "name_after_nn00": "helianthus-gateway",
+          "commit": "b223acf12162f8fee470ac337e1207a9382bae0e",
+          "note": "the gateway commit named by helianthus/bom.json of the add-on entry"
+        }
+      ]
+    },
+    "pre-port": {
+      "entries": [
+        {
+          "id": "gateway",
+          "slug_at_pin": "helianthus-ebusgateway",
+          "name_after_nn00": "helianthus-gateway",
+          "commit": "46fc6b475a133610b47997e52409afe9e052c969",
+          "note": "tag v0.6.32, the last 0.6 release"
+        },
+        {
+          "id": "addon",
+          "slug_at_pin": "helianthus-ha-addon",
+          "name_after_nn00": "helianthus-ha-addon",
+          "commit": "68b8d1653dc70def6a6c1dbda998780927dd1e38",
+          "note": "tag v0.6.32"
+        },
+        {
+          "id": "gateway-canonical-pv",
+          "slug_at_pin": "helianthus-ebusgateway",
+          "name_after_nn00": "helianthus-gateway",
+          "commit": "3d170c44008ba8e6e4b8495b83347b8f24ef55cf",
+          "note": "parent of the merge that cut the PV projection over to SemReg; canonical PV v1 contract"
+        }
+      ]
+    }
+  }
+}

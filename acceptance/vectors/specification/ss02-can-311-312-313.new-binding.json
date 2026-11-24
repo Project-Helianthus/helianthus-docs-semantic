@@ -1,0 +1,40 @@
+{
+  "format": "helianthus-oracle-spec-ss02-new-binding/1",
+  "origin": "specification",
+  "case": "can-311-312-313",
+  "kind": "new-binding",
+  "pairs_with_native": {
+    "case": "can-311-312-313",
+    "paths": [
+      "acceptance/vectors/current/gateway/cmd-gateway/ss02/growatt-bms-can-tuple-card.gateway.native.json",
+      "acceptance/vectors/current/canbusreg/canbusreg/ss02/growatt-bms-can-tuple-card.canbusreg.native.json"
+    ],
+    "native_case_id": "tuple-card"
+  },
+  "sources": [
+    {
+      "document": "Growatt low-voltage BMS CAN protocol",
+      "version": "V1.04 Rev. 04",
+      "frames": [
+        "0x311",
+        "0x312",
+        "0x313"
+      ],
+      "use": "313 current in units of 0.1 A, signed 16-bit, big-endian bytes 2 and 3"
+    }
+  ],
+  "input": {
+    "frame_313_hex": "1400fff6012c50ff",
+    "current_raw_signed": -10
+  },
+  "expected": {
+    "fact": "storage.pack.current",
+    "unit": "A",
+    "value": {
+      "number": "-1.0"
+    },
+    "derivation": "-10 * 0.1",
+    "condition": "after pack attribution"
+  },
+  "metadata_operand": "acceptance/vectors/specification/ss02-candidate-metadata-operand.json"
+}
