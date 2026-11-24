@@ -301,6 +301,15 @@ class PublishedSchemaTest(unittest.TestCase):
         document = mutated((at(SIGNED, "admission", "evidence"), [DOCUMENT]))
         self.assertEqual(subset.errors(document, SCHEMA), [])
 
+    def test_repository_relative_document_link_is_evidence(self):
+        document = mutated((at(SIGNED, "admission", "evidence"), ["api/v1/packs/storage-bms-v1.md"]))
+        self.assertEqual(subset.errors(document, SCHEMA), [])
+        cited = mutated((at(SIGNED, "admission", "evidence"), ["api/v1/kernel.md#admission"]))
+        self.assertEqual(subset.errors(cited, SCHEMA), [])
+        parent = mutated((at(SIGNED, "admission", "evidence"), ["../api/v1/kernel.md"]))
+        found = subset.errors(parent, SCHEMA)
+        self.assertTrue(any("publicUrl/pattern" in message for message in found), found)
+
     def test_synthetic_catalog_covers_the_shape(self):
         document = catalog()
         elements = document["elements"]

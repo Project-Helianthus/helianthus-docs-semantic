@@ -108,7 +108,7 @@ floating-point approximation is permitted: `1.234 A` is `1234 mA`, whereas
 Require exactly one eligible, pack-validated, phase-qualified source FactKey;
 its pack ID/version, fact ID and exact canonical runtime dimensions must match.
 Missing, multiple or ambiguous phase keys refuse the whole document. Stale,
-unavailable, unqualified, conflicted, invalid or revision-mismatched input and
+unavailable, conflicted, invalid or revision-mismatched input and
 any nonrepresentable value likewise produce **no target payload for the whole
 document**, never partial success. Native evidence, source lineage, conflicts,
 time domains and partial last-known-good state remain upstream; retained state

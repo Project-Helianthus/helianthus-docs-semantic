@@ -26,6 +26,17 @@ def rejects(document, label, mutate):
 
 
 def main():
+    if validator.git_blob_sha(validator.METADATA.read_bytes()) != (
+        validator.METADATA_OPERAND_BLOB
+    ):
+        raise AssertionError("metadata operand blob drift")
+    if len(validator.expected_items(validator.load(validator.METADATA))) != (
+        validator.ROSTER_SIZE
+    ):
+        raise AssertionError("roster is not the original 184-item roster")
+    if validator.git_blob_sha(validator.LEDGER.read_bytes()) != validator.LEDGER_BLOB:
+        raise AssertionError("ledger differs from the published historical bytes")
+    print("operand_blob_and_roster_verified: PASS")
     document = validator.load(validator.LEDGER)
     validator.validate(document)
     print("baseline_exact_ledger: PASS")
