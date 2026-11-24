@@ -643,6 +643,78 @@ def test_allocated_current_withholds_enable_charging():
     assert "evse.limit.minimum_charge_current" in signature
 
 
+def test_allocated_current_expiry_withholds_enable_charging():
+    row = next(
+        item
+        for item in _rows("pe06-operations.tsv")
+        if item["operation"] == "evse.operation.set_allocated_current_with_expiry"
+    )
+    assert row["matter_1_6_1"] == ""
+    assert "EnableCharging" not in row["matter_1_6_1"]
+    assert "EnableCharging" not in row["source"]
+    assert "matter.unmapped.v1" in row["source"]
+    assert row["eebus"] == "OPEV-sc1"
+    assert "OPEV-sc1" in row["source"]
+    assert "Overload Protection by EV Charging Current Curtailment V1.0.1b [OPEV-sc1]" in row["source"]
+    assert row["admission"] == "eebus"
+    assert row["argument"] == "evse.limit.allocated_current"
+    assert row["parameters"] == "evse.limit.allocated_current_expiry"
+    assert "evse.limit.minimum_charge_current" not in row["argument"] + " " + row["parameters"]
+    assert row["verification_level"] == "specification"
+    for name in ("ChargingEnabledUntil", "MinimumChargeCurrent", "MaximumChargeCurrent"):
+        assert name in row["review"]
+    assert "enables charging" in row["review"]
+    assert "provisional limit" in row["review"]
+    assert "matter association removed" in row["review"]
+    assert "evse.operation.set_supply" in row["review"]
+    supply = next(
+        item
+        for item in _rows("pe06-operations.tsv")
+        if item["operation"] == "evse.operation.set_supply"
+    )
+    assert "EnableCharging" in supply["matter_1_6_1"]
+    assert "evse.limit.minimum_charge_current" in supply["parameters"]
+
+
+def test_grid_carbon_intensity_withholds_unknown_native_unit():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    native = {
+        "energy.grid.carbon_intensity": "GridCarbonIntensity",
+        "energy.grid.local_carbon_intensity": "LocalCarbonIntensity",
+    }
+    for element, field_name in native.items():
+        row = fields[element]
+        assert row["matter_1_6_1"] == ""
+        assert row["eebus"] == ""
+        assert row["unit"] == ""
+        assert row["direction"] == ""
+        assert row["minimum"] == "" and row["maximum"] == ""
+        assert "kilogram_per_joule" not in row["unit"] + row["source"] + row["review"]
+        assert "kg/Wh" not in row["source"] + row["review"]
+        assert "ElectricalGridConditions" not in row["matter_1_6_1"]
+        assert "ElectricalGridConditions" not in row["source"]
+        assert "Matter 1.6.1" not in row["source"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert "int16" in row["source"]
+        assert "no unit name" in row["source"]
+        assert "conversion undeclared" in row["source"]
+        assert "bound not in specification" in row["source"]
+        assert field_name in row["review"]
+        assert "int16" in row["review"]
+        assert "no unit name" in row["review"]
+        assert "native unit" in row["review"]
+        assert "conversion" in row["review"]
+        assert "matter association removed" in row["review"]
+        assert row["verification_level"] == "specification"
+        assert row["value_kind"] == "quantity"
+    for element in ("energy.grid.carbon_level", "energy.grid.local_carbon_level", "energy.grid.start", "energy.grid.end"):
+        assert "ElectricalGridConditions" in fields[element]["matter_1_6_1"]
+    incentive = fields["energy.incentive.co2_intensity"]
+    assert "TOUT-011" in incentive["eebus"]
+    assert "SPINE:IncentiveTable" in incentive["eebus"]
+
+
 def test_current_and_next_tariff_days_project_date():
     fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
     expected = {
