@@ -1,0 +1,2 @@
+relation	owner	core_type	orientation	medium	from	to	cardinality	basis_classes	planes	admission	note	source	review
+relation.site_system	core	groups	as_core		resource.site	resource.pv_system, resource.storage_system, resource.thermal_system, resource.charging_station, resource.equipment	one_to_many	configuration, gate_rule	physical	owner_decision		api/v1/element-catalog-v1.json groups admission.evidence	D13

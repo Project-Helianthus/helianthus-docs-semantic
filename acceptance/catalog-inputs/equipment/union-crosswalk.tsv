@@ -1,0 +1,1092 @@
+corpus	cluster_or_class	element	clause	element_id	status	reason	review
+matter	GeneralDiagnostics	GeneralDiagnostics.NetworkInterfaces	Matter 1.6.1 GeneralDiagnostics.NetworkInterfaces		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.RebootCount	Matter 1.6.1 GeneralDiagnostics.RebootCount		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.UpTime	Matter 1.6.1 GeneralDiagnostics.UpTime		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.TotalOperationalHours	Matter 1.6.1 GeneralDiagnostics.TotalOperationalHours		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.BootReason	Matter 1.6.1 GeneralDiagnostics.BootReason		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ActiveHardwareFaults	Matter 1.6.1 GeneralDiagnostics.ActiveHardwareFaults		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ActiveRadioFaults	Matter 1.6.1 GeneralDiagnostics.ActiveRadioFaults		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ActiveNetworkFaults	Matter 1.6.1 GeneralDiagnostics.ActiveNetworkFaults		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.TestEventTriggersEnabled	Matter 1.6.1 GeneralDiagnostics.TestEventTriggersEnabled		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.DoNotUse	Matter 1.6.1 GeneralDiagnostics.DoNotUse		unknown	matter.unmapped.v1	conformance X
+matter	GeneralDiagnostics	GeneralDiagnostics.DeviceLoadStatus	Matter 1.6.1 GeneralDiagnostics.DeviceLoadStatus		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TestEventTrigger	Matter 1.6.1 GeneralDiagnostics.cmd.TestEventTrigger	equipment.operation.general_diagnostics_test_event_trigger	added		request
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TestEventTrigger.EnableKey	Matter 1.6.1 GeneralDiagnostics.cmd.TestEventTrigger.EnableKey	equipment.operation.general_diagnostics_test_event_trigger	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TestEventTrigger.EventTrigger	Matter 1.6.1 GeneralDiagnostics.cmd.TestEventTrigger.EventTrigger	equipment.operation.general_diagnostics_test_event_trigger	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TimeSnapshot	Matter 1.6.1 GeneralDiagnostics.cmd.TimeSnapshot	equipment.operation.general_diagnostics_time_snapshot	added		request
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TimeSnapshotResponse	Matter 1.6.1 GeneralDiagnostics.cmd.TimeSnapshotResponse	equipment.operation.general_diagnostics_time_snapshot	added		response
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TimeSnapshotResponse.SystemTimeMs	Matter 1.6.1 GeneralDiagnostics.cmd.TimeSnapshotResponse.SystemTimeMs	equipment.operation.general_diagnostics_time_snapshot	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.TimeSnapshotResponse.PosixTimeMs	Matter 1.6.1 GeneralDiagnostics.cmd.TimeSnapshotResponse.PosixTimeMs	equipment.operation.general_diagnostics_time_snapshot	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestRequest	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestRequest	equipment.operation.general_diagnostics_payload_test_request	added		request
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestRequest.EnableKey	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestRequest.EnableKey	equipment.operation.general_diagnostics_payload_test_request	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestRequest.Value	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestRequest.Value	equipment.operation.general_diagnostics_payload_test_request	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestRequest.Count	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestRequest.Count	equipment.operation.general_diagnostics_payload_test_request	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestResponse	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestResponse	equipment.operation.general_diagnostics_payload_test_request	added		response
+matter	GeneralDiagnostics	GeneralDiagnostics.cmd.PayloadTestResponse.Payload	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestResponse.Payload	equipment.operation.general_diagnostics_payload_test_request	unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.HardwareFaultChange	Matter 1.6.1 GeneralDiagnostics.ev.HardwareFaultChange	equipment.event.general_diagnostics_hardware_fault_change	added
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.HardwareFaultChange.Current	Matter 1.6.1 GeneralDiagnostics.ev.HardwareFaultChange.Current		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.HardwareFaultChange.Previous	Matter 1.6.1 GeneralDiagnostics.ev.HardwareFaultChange.Previous		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.RadioFaultChange	Matter 1.6.1 GeneralDiagnostics.ev.RadioFaultChange	equipment.event.general_diagnostics_radio_fault_change	added
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.RadioFaultChange.Current	Matter 1.6.1 GeneralDiagnostics.ev.RadioFaultChange.Current		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.RadioFaultChange.Previous	Matter 1.6.1 GeneralDiagnostics.ev.RadioFaultChange.Previous		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.NetworkFaultChange	Matter 1.6.1 GeneralDiagnostics.ev.NetworkFaultChange	equipment.event.general_diagnostics_network_fault_change	added
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.NetworkFaultChange.Current	Matter 1.6.1 GeneralDiagnostics.ev.NetworkFaultChange.Current		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.NetworkFaultChange.Previous	Matter 1.6.1 GeneralDiagnostics.ev.NetworkFaultChange.Previous		unknown	matter.unmapped.v1
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.BootReason	Matter 1.6.1 GeneralDiagnostics.ev.BootReason	equipment.event.general_diagnostics_boot_reason	added
+matter	GeneralDiagnostics	GeneralDiagnostics.ev.BootReason.BootReason	Matter 1.6.1 GeneralDiagnostics.ev.BootReason.BootReason		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.ThreadMetrics	Matter 1.6.1 SoftwareDiagnostics.ThreadMetrics		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.CurrentHeapFree	Matter 1.6.1 SoftwareDiagnostics.CurrentHeapFree		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.CurrentHeapUsed	Matter 1.6.1 SoftwareDiagnostics.CurrentHeapUsed		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.CurrentHeapHighWatermark	Matter 1.6.1 SoftwareDiagnostics.CurrentHeapHighWatermark		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.cmd.ResetWatermarks	Matter 1.6.1 SoftwareDiagnostics.cmd.ResetWatermarks	equipment.operation.software_diagnostics_reset_watermarks	added		request
+matter	SoftwareDiagnostics	SoftwareDiagnostics.ev.SoftwareFault	Matter 1.6.1 SoftwareDiagnostics.ev.SoftwareFault	equipment.event.software_diagnostics_software_fault	added
+matter	SoftwareDiagnostics	SoftwareDiagnostics.ev.SoftwareFault.Id	Matter 1.6.1 SoftwareDiagnostics.ev.SoftwareFault.Id		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.ev.SoftwareFault.Name	Matter 1.6.1 SoftwareDiagnostics.ev.SoftwareFault.Name		unknown	matter.unmapped.v1
+matter	SoftwareDiagnostics	SoftwareDiagnostics.ev.SoftwareFault.FaultRecording	Matter 1.6.1 SoftwareDiagnostics.ev.SoftwareFault.FaultRecording		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.UtcTime	Matter 1.6.1 TimeSynchronization.UtcTime		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.Granularity	Matter 1.6.1 TimeSynchronization.Granularity		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.TimeSource	Matter 1.6.1 TimeSynchronization.TimeSource		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.TrustedTimeSource	Matter 1.6.1 TimeSynchronization.TrustedTimeSource		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.DefaultNtp	Matter 1.6.1 TimeSynchronization.DefaultNtp		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.TimeZone	Matter 1.6.1 TimeSynchronization.TimeZone		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.DstOffset	Matter 1.6.1 TimeSynchronization.DstOffset		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.LocalTime	Matter 1.6.1 TimeSynchronization.LocalTime		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.TimeZoneDatabase	Matter 1.6.1 TimeSynchronization.TimeZoneDatabase		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.NtpServerAvailable	Matter 1.6.1 TimeSynchronization.NtpServerAvailable		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.TimeZoneListMaxSize	Matter 1.6.1 TimeSynchronization.TimeZoneListMaxSize		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.DstOffsetListMaxSize	Matter 1.6.1 TimeSynchronization.DstOffsetListMaxSize		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.SupportsDnsResolve	Matter 1.6.1 TimeSynchronization.SupportsDnsResolve		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetUtcTime	Matter 1.6.1 TimeSynchronization.cmd.SetUtcTime	equipment.operation.time_synchronization_set_utc_time	added		request
+matter	TimeSynchronization	TimeSynchronization.cmd.SetUtcTime.UtcTime	Matter 1.6.1 TimeSynchronization.cmd.SetUtcTime.UtcTime	equipment.operation.time_synchronization_set_utc_time	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetUtcTime.Granularity	Matter 1.6.1 TimeSynchronization.cmd.SetUtcTime.Granularity	equipment.operation.time_synchronization_set_utc_time	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetUtcTime.TimeSource	Matter 1.6.1 TimeSynchronization.cmd.SetUtcTime.TimeSource	equipment.operation.time_synchronization_set_utc_time	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTrustedTimeSource	Matter 1.6.1 TimeSynchronization.cmd.SetTrustedTimeSource	equipment.operation.time_synchronization_set_trusted_time_source	added		request
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTrustedTimeSource.TrustedTimeSource	Matter 1.6.1 TimeSynchronization.cmd.SetTrustedTimeSource.TrustedTimeSource	equipment.operation.time_synchronization_set_trusted_time_source	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTimeZone	Matter 1.6.1 TimeSynchronization.cmd.SetTimeZone	equipment.operation.time_synchronization_set_time_zone	added		request
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTimeZone.TimeZone	Matter 1.6.1 TimeSynchronization.cmd.SetTimeZone.TimeZone	equipment.operation.time_synchronization_set_time_zone	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTimeZoneResponse	Matter 1.6.1 TimeSynchronization.cmd.SetTimeZoneResponse	equipment.operation.time_synchronization_set_time_zone	added		response
+matter	TimeSynchronization	TimeSynchronization.cmd.SetTimeZoneResponse.DstOffsetRequired	Matter 1.6.1 TimeSynchronization.cmd.SetTimeZoneResponse.DstOffsetRequired	equipment.operation.time_synchronization_set_time_zone	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetDstOffset	Matter 1.6.1 TimeSynchronization.cmd.SetDstOffset	equipment.operation.time_synchronization_set_dst_offset	added		request
+matter	TimeSynchronization	TimeSynchronization.cmd.SetDstOffset.DstOffset	Matter 1.6.1 TimeSynchronization.cmd.SetDstOffset.DstOffset	equipment.operation.time_synchronization_set_dst_offset	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.cmd.SetDefaultNtp	Matter 1.6.1 TimeSynchronization.cmd.SetDefaultNtp	equipment.operation.time_synchronization_set_default_ntp	added		request
+matter	TimeSynchronization	TimeSynchronization.cmd.SetDefaultNtp.DefaultNtp	Matter 1.6.1 TimeSynchronization.cmd.SetDefaultNtp.DefaultNtp	equipment.operation.time_synchronization_set_default_ntp	unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.ev.DstTableEmpty	Matter 1.6.1 TimeSynchronization.ev.DstTableEmpty	equipment.event.time_synchronization_dst_table_empty	added
+matter	TimeSynchronization	TimeSynchronization.ev.DstStatus	Matter 1.6.1 TimeSynchronization.ev.DstStatus	equipment.event.time_synchronization_dst_status	added
+matter	TimeSynchronization	TimeSynchronization.ev.DstStatus.DstOffsetActive	Matter 1.6.1 TimeSynchronization.ev.DstStatus.DstOffsetActive		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.ev.TimeZoneStatus	Matter 1.6.1 TimeSynchronization.ev.TimeZoneStatus	equipment.event.time_synchronization_time_zone_status	added
+matter	TimeSynchronization	TimeSynchronization.ev.TimeZoneStatus.Offset	Matter 1.6.1 TimeSynchronization.ev.TimeZoneStatus.Offset		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.ev.TimeZoneStatus.Name	Matter 1.6.1 TimeSynchronization.ev.TimeZoneStatus.Name		unknown	matter.unmapped.v1
+matter	TimeSynchronization	TimeSynchronization.ev.TimeFailure	Matter 1.6.1 TimeSynchronization.ev.TimeFailure	equipment.event.time_synchronization_time_failure	added
+matter	TimeSynchronization	TimeSynchronization.ev.MissingTrustedTimeSource	Matter 1.6.1 TimeSynchronization.ev.MissingTrustedTimeSource	equipment.event.time_synchronization_missing_trusted_time_source	added
+matter	Binding	Binding.Binding	Matter 1.6.1 Binding.Binding		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.DataModelRevision	Matter 1.6.1 BasicInformation.DataModelRevision		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.VendorName	Matter 1.6.1 BasicInformation.VendorName	equipment.identification.vendor_name	carried
+matter	BasicInformation	BasicInformation.VendorId	Matter 1.6.1 BasicInformation.VendorId	equipment.identification.vendor_code	carried
+matter	BasicInformation	BasicInformation.ProductName	Matter 1.6.1 BasicInformation.ProductName	equipment.identification.product_name	carried
+matter	BasicInformation	BasicInformation.ProductId	Matter 1.6.1 BasicInformation.ProductId	equipment.identification.product_code	carried
+matter	BasicInformation	BasicInformation.NodeLabel	Matter 1.6.1 BasicInformation.NodeLabel	equipment.label.name	carried
+matter	BasicInformation	BasicInformation.Location	Matter 1.6.1 BasicInformation.Location		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.HardwareVersion	Matter 1.6.1 BasicInformation.HardwareVersion	equipment.identification.hardware_revision	carried
+matter	BasicInformation	BasicInformation.HardwareVersionString	Matter 1.6.1 BasicInformation.HardwareVersionString	equipment.identification.hardware_revision	carried
+matter	BasicInformation	BasicInformation.SoftwareVersion	Matter 1.6.1 BasicInformation.SoftwareVersion	equipment.identification.software_revision	carried
+matter	BasicInformation	BasicInformation.SoftwareVersionString	Matter 1.6.1 BasicInformation.SoftwareVersionString	equipment.identification.software_revision	carried
+matter	BasicInformation	BasicInformation.ManufacturingDate	Matter 1.6.1 BasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried
+matter	BasicInformation	BasicInformation.PartNumber	Matter 1.6.1 BasicInformation.PartNumber	equipment.identification.product_code	carried
+matter	BasicInformation	BasicInformation.ProductUrl	Matter 1.6.1 BasicInformation.ProductUrl	equipment.identification.product_url	carried
+matter	BasicInformation	BasicInformation.ProductLabel	Matter 1.6.1 BasicInformation.ProductLabel	equipment.identification.product_label	carried
+matter	BasicInformation	BasicInformation.SerialNumber	Matter 1.6.1 BasicInformation.SerialNumber	equipment.identification.serial_number	carried
+matter	BasicInformation	BasicInformation.LocalConfigDisabled	Matter 1.6.1 BasicInformation.LocalConfigDisabled		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.Reachable	Matter 1.6.1 BasicInformation.Reachable	equipment.status.reachable	carried
+matter	BasicInformation	BasicInformation.UniqueId	Matter 1.6.1 BasicInformation.UniqueId		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima	Matter 1.6.1 BasicInformation.CapabilityMinima		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.CaseSessionsPerFabric	Matter 1.6.1 BasicInformation.CapabilityMinima.CaseSessionsPerFabric		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.SubscriptionsPerFabric	Matter 1.6.1 BasicInformation.CapabilityMinima.SubscriptionsPerFabric		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.SimultaneousInvocationsSupported	Matter 1.6.1 BasicInformation.CapabilityMinima.SimultaneousInvocationsSupported		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.SimultaneousWritesSupported	Matter 1.6.1 BasicInformation.CapabilityMinima.SimultaneousWritesSupported		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.ReadPathsSupported	Matter 1.6.1 BasicInformation.CapabilityMinima.ReadPathsSupported		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.CapabilityMinima.SubscribePathsSupported	Matter 1.6.1 BasicInformation.CapabilityMinima.SubscribePathsSupported		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ProductAppearance	Matter 1.6.1 BasicInformation.ProductAppearance		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ProductAppearance.Finish	Matter 1.6.1 BasicInformation.ProductAppearance.Finish		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ProductAppearance.PrimaryColor	Matter 1.6.1 BasicInformation.ProductAppearance.PrimaryColor		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.SpecificationVersion	Matter 1.6.1 BasicInformation.SpecificationVersion		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.MaxPathsPerInvoke	Matter 1.6.1 BasicInformation.MaxPathsPerInvoke		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ConfigurationVersion	Matter 1.6.1 BasicInformation.ConfigurationVersion		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ev.StartUp	Matter 1.6.1 BasicInformation.ev.StartUp	equipment.event.basic_information_start_up	added
+matter	BasicInformation	BasicInformation.ev.StartUp.SoftwareVersion	Matter 1.6.1 BasicInformation.ev.StartUp.SoftwareVersion		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ev.ShutDown	Matter 1.6.1 BasicInformation.ev.ShutDown	equipment.event.basic_information_shut_down	added
+matter	BasicInformation	BasicInformation.ev.Leave	Matter 1.6.1 BasicInformation.ev.Leave	equipment.event.basic_information_leave	added
+matter	BasicInformation	BasicInformation.ev.Leave.FabricIndex	Matter 1.6.1 BasicInformation.ev.Leave.FabricIndex		unknown	matter.unmapped.v1
+matter	BasicInformation	BasicInformation.ev.ReachableChanged	Matter 1.6.1 BasicInformation.ev.ReachableChanged	equipment.event.reachable_changed	carried
+matter	BasicInformation	BasicInformation.ev.ReachableChanged.ReachableNewValue	Matter 1.6.1 BasicInformation.ev.ReachableChanged.ReachableNewValue	equipment.event.reachable_changed	carried		payload_fact=equipment.status.reachable
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.DataModelRevision	Matter 1.6.1 BridgedDeviceBasicInformation.DataModelRevision		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.VendorName	Matter 1.6.1 BridgedDeviceBasicInformation.VendorName	equipment.identification.vendor_name	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.VendorId	Matter 1.6.1 BridgedDeviceBasicInformation.VendorId	equipment.identification.vendor_code	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductName	Matter 1.6.1 BridgedDeviceBasicInformation.ProductName	equipment.identification.product_name	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductId	Matter 1.6.1 BridgedDeviceBasicInformation.ProductId	equipment.identification.product_code	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.NodeLabel	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel	equipment.label.name	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.Location	Matter 1.6.1 BridgedDeviceBasicInformation.Location		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.HardwareVersion	Matter 1.6.1 BridgedDeviceBasicInformation.HardwareVersion	equipment.identification.hardware_revision	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.HardwareVersionString	Matter 1.6.1 BridgedDeviceBasicInformation.HardwareVersionString	equipment.identification.hardware_revision	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SoftwareVersion	Matter 1.6.1 BridgedDeviceBasicInformation.SoftwareVersion	equipment.identification.software_revision	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SoftwareVersionString	Matter 1.6.1 BridgedDeviceBasicInformation.SoftwareVersionString	equipment.identification.software_revision	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ManufacturingDate	Matter 1.6.1 BridgedDeviceBasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.PartNumber	Matter 1.6.1 BridgedDeviceBasicInformation.PartNumber	equipment.identification.product_code	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductUrl	Matter 1.6.1 BridgedDeviceBasicInformation.ProductUrl	equipment.identification.product_url	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductLabel	Matter 1.6.1 BridgedDeviceBasicInformation.ProductLabel	equipment.identification.product_label	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SerialNumber	Matter 1.6.1 BridgedDeviceBasicInformation.SerialNumber	equipment.identification.serial_number	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.LocalConfigDisabled	Matter 1.6.1 BridgedDeviceBasicInformation.LocalConfigDisabled		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.Reachable	Matter 1.6.1 BridgedDeviceBasicInformation.Reachable	equipment.status.reachable	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.UniqueId	Matter 1.6.1 BridgedDeviceBasicInformation.UniqueId		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.CaseSessionsPerFabric	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.CaseSessionsPerFabric		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.SubscriptionsPerFabric	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.SubscriptionsPerFabric		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.SimultaneousInvocationsSupported	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.SimultaneousInvocationsSupported		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.SimultaneousWritesSupported	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.SimultaneousWritesSupported		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.ReadPathsSupported	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.ReadPathsSupported		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.CapabilityMinima.SubscribePathsSupported	Matter 1.6.1 BridgedDeviceBasicInformation.CapabilityMinima.SubscribePathsSupported		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductAppearance	Matter 1.6.1 BridgedDeviceBasicInformation.ProductAppearance		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductAppearance.Finish	Matter 1.6.1 BridgedDeviceBasicInformation.ProductAppearance.Finish		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductAppearance.PrimaryColor	Matter 1.6.1 BridgedDeviceBasicInformation.ProductAppearance.PrimaryColor		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SpecificationVersion	Matter 1.6.1 BridgedDeviceBasicInformation.SpecificationVersion		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.MaxPathsPerInvoke	Matter 1.6.1 BridgedDeviceBasicInformation.MaxPathsPerInvoke		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ConfigurationVersion	Matter 1.6.1 BridgedDeviceBasicInformation.ConfigurationVersion		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.cmd.KeepActive	Matter 1.6.1 BridgedDeviceBasicInformation.cmd.KeepActive		unknown	matter.unmapped.v1	Request
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.cmd.KeepActive.StayActiveDuration	Matter 1.6.1 BridgedDeviceBasicInformation.cmd.KeepActive.StayActiveDuration		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.cmd.KeepActive.TimeoutMs	Matter 1.6.1 BridgedDeviceBasicInformation.cmd.KeepActive.TimeoutMs		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.StartUp	Matter 1.6.1 BridgedDeviceBasicInformation.ev.StartUp	equipment.event.bridged_device_basic_information_start_up	added
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.StartUp.SoftwareVersion	Matter 1.6.1 BridgedDeviceBasicInformation.ev.StartUp.SoftwareVersion		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.ShutDown	Matter 1.6.1 BridgedDeviceBasicInformation.ev.ShutDown	equipment.event.bridged_device_basic_information_shut_down	added
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.Leave	Matter 1.6.1 BridgedDeviceBasicInformation.ev.Leave	equipment.event.bridged_device_basic_information_leave	added
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.Leave.FabricIndex	Matter 1.6.1 BridgedDeviceBasicInformation.ev.Leave.FabricIndex		unknown	matter.unmapped.v1	conformance X
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.ReachableChanged	Matter 1.6.1 BridgedDeviceBasicInformation.ev.ReachableChanged	equipment.event.reachable_changed	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.ReachableChanged.ReachableNewValue	Matter 1.6.1 BridgedDeviceBasicInformation.ev.ReachableChanged.ReachableNewValue	equipment.event.reachable_changed	carried		payload_fact=equipment.status.reachable
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.ActiveChanged	Matter 1.6.1 BridgedDeviceBasicInformation.ev.ActiveChanged	equipment.event.bridged_device_basic_information_active_changed	added
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ev.ActiveChanged.PromisedActiveDuration	Matter 1.6.1 BridgedDeviceBasicInformation.ev.ActiveChanged.PromisedActiveDuration		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.DeviceTypeList	Matter 1.6.1 Descriptor.DeviceTypeList		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.DeviceTypeList.DeviceType	Matter 1.6.1 Descriptor.DeviceTypeList.DeviceType		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.DeviceTypeList.Revision	Matter 1.6.1 Descriptor.DeviceTypeList.Revision		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.ServerList	Matter 1.6.1 Descriptor.ServerList		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.ClientList	Matter 1.6.1 Descriptor.ClientList		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.PartsList	Matter 1.6.1 Descriptor.PartsList		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.TagList	Matter 1.6.1 Descriptor.TagList		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.TagList.MfgCode	Matter 1.6.1 Descriptor.TagList.MfgCode		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.TagList.NamespaceId	Matter 1.6.1 Descriptor.TagList.NamespaceId		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.TagList.Tag	Matter 1.6.1 Descriptor.TagList.Tag		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.TagList.Label	Matter 1.6.1 Descriptor.TagList.Label		unknown	matter.unmapped.v1
+matter	Descriptor	Descriptor.EndpointUniqueId	Matter 1.6.1 Descriptor.EndpointUniqueId		unknown	matter.unmapped.v1
+matter	FixedLabel	FixedLabel.LabelList	Matter 1.6.1 FixedLabel.LabelList		unknown	matter.unmapped.v1
+matter	FixedLabel	FixedLabel.LabelList.Label	Matter 1.6.1 FixedLabel.LabelList.Label		unknown	matter.unmapped.v1
+matter	FixedLabel	FixedLabel.LabelList.Value	Matter 1.6.1 FixedLabel.LabelList.Value		unknown	matter.unmapped.v1
+matter	UserLabel	UserLabel.LabelList	Matter 1.6.1 UserLabel.LabelList		unknown	matter.unmapped.v1
+matter	UserLabel	UserLabel.LabelList.Label	Matter 1.6.1 UserLabel.LabelList.Label		unknown	matter.unmapped.v1
+matter	UserLabel	UserLabel.LabelList.Value	Matter 1.6.1 UserLabel.LabelList.Value		unknown	matter.unmapped.v1
+matter	Identify	Identify.IdentifyTime	Matter 1.6.1 Identify.IdentifyTime		unknown	matter.unmapped.v1
+matter	Identify	Identify.IdentifyType	Matter 1.6.1 Identify.IdentifyType		unknown	matter.unmapped.v1
+matter	Identify	Identify.cmd.Identify	Matter 1.6.1 Identify.cmd.Identify		unknown	matter.unmapped.v1	Request
+matter	Identify	Identify.cmd.Identify.IdentifyTime	Matter 1.6.1 Identify.cmd.Identify.IdentifyTime		unknown	matter.unmapped.v1
+matter	Identify	Identify.cmd.TriggerEffect	Matter 1.6.1 Identify.cmd.TriggerEffect		unknown	matter.unmapped.v1	Request
+matter	Identify	Identify.cmd.TriggerEffect.EffectIdentifier	Matter 1.6.1 Identify.cmd.TriggerEffect.EffectIdentifier		unknown	matter.unmapped.v1
+matter	Identify	Identify.cmd.TriggerEffect.EffectVariant	Matter 1.6.1 Identify.cmd.TriggerEffect.EffectVariant		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.PowerMode	Matter 1.6.1 ElectricalPowerMeasurement.PowerMode		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.NumberOfMeasurementTypes	Matter 1.6.1 ElectricalPowerMeasurement.NumberOfMeasurementTypes		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy.MeasurementType	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy.MeasurementType		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy.Measured	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy.Measured		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy.MinMeasuredValue	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy.MinMeasuredValue		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy.MaxMeasuredValue	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy.MaxMeasuredValue		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Accuracy.AccuracyRanges	Matter 1.6.1 ElectricalPowerMeasurement.Accuracy.AccuracyRanges		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.RangeMin	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.RangeMin		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.RangeMax	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.RangeMax		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.PercentMax	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.PercentMax		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.PercentMin	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.PercentMin		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.PercentTypical	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.PercentTypical		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.FixedMax	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.FixedMax		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.FixedMin	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.FixedMin		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.AccuracyRanges.FixedTypical	Matter 1.6.1 ElectricalPowerMeasurement.AccuracyRanges.FixedTypical		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges	Matter 1.6.1 ElectricalPowerMeasurement.Ranges		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.MeasurementType	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.MeasurementType		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.Min	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.Min		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.Max	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.Max		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.StartTimestamp	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.StartTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.EndTimestamp	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.EndTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.MinTimestamp	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.MinTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.MaxTimestamp	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.MaxTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.StartSystime	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.StartSystime		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.EndSystime	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.EndSystime		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.MinSystime	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.MinSystime		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Ranges.MaxSystime	Matter 1.6.1 ElectricalPowerMeasurement.Ranges.MaxSystime		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Voltage	Matter 1.6.1 ElectricalPowerMeasurement.Voltage		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ActiveCurrent	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ReactiveCurrent	Matter 1.6.1 ElectricalPowerMeasurement.ReactiveCurrent		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ApparentCurrent	Matter 1.6.1 ElectricalPowerMeasurement.ApparentCurrent		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ActivePower	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ReactivePower	Matter 1.6.1 ElectricalPowerMeasurement.ReactivePower		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ApparentPower	Matter 1.6.1 ElectricalPowerMeasurement.ApparentPower		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.RmsVoltage	Matter 1.6.1 ElectricalPowerMeasurement.RmsVoltage		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.RmsCurrent	Matter 1.6.1 ElectricalPowerMeasurement.RmsCurrent		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.RmsPower	Matter 1.6.1 ElectricalPowerMeasurement.RmsPower		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.Frequency	Matter 1.6.1 ElectricalPowerMeasurement.Frequency		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.HarmonicCurrents	Matter 1.6.1 ElectricalPowerMeasurement.HarmonicCurrents		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.HarmonicPhases	Matter 1.6.1 ElectricalPowerMeasurement.HarmonicPhases		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.HarmonicMeasurement.Order	Matter 1.6.1 ElectricalPowerMeasurement.HarmonicMeasurement.Order		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.HarmonicMeasurement.Measurement	Matter 1.6.1 ElectricalPowerMeasurement.HarmonicMeasurement.Measurement		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.PowerFactor	Matter 1.6.1 ElectricalPowerMeasurement.PowerFactor		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.NeutralCurrent	Matter 1.6.1 ElectricalPowerMeasurement.NeutralCurrent		unknown	matter.unmapped.v1
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ev.MeasurementPeriodRanges	Matter 1.6.1 ElectricalPowerMeasurement.ev.MeasurementPeriodRanges	equipment.event.electrical_power_measurement_measurement_period_ranges	added
+matter	ElectricalPowerMeasurement	ElectricalPowerMeasurement.ev.MeasurementPeriodRanges.Ranges	Matter 1.6.1 ElectricalPowerMeasurement.ev.MeasurementPeriodRanges.Ranges		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy.MeasurementType	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy.MeasurementType		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy.Measured	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy.Measured		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy.MinMeasuredValue	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy.MinMeasuredValue		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy.MaxMeasuredValue	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy.MaxMeasuredValue		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.Accuracy.AccuracyRanges	Matter 1.6.1 ElectricalEnergyMeasurement.Accuracy.AccuracyRanges		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.RangeMin	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.RangeMin		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.RangeMax	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.RangeMax		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.PercentMax	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.PercentMax		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.PercentMin	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.PercentMin		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.PercentTypical	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.PercentTypical		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.FixedMax	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.FixedMax		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.FixedMin	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.FixedMin		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.AccuracyRanges.FixedTypical	Matter 1.6.1 ElectricalEnergyMeasurement.AccuracyRanges.FixedTypical		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.Energy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.Energy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.StartTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.StartTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.EndTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.EndTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.StartSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.StartSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.EndSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.EndSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.ApparentEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.ApparentEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyImported.ReactiveEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported.ReactiveEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.Energy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.Energy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.StartTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.StartTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.EndTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.EndTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.StartSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.StartSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.EndSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.EndSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.ApparentEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.ApparentEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyExported.ReactiveEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported.ReactiveEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.Energy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.Energy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.StartTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.StartTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.EndTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.EndTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.StartSystime	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.StartSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.EndSystime	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.EndSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.ApparentEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.ApparentEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyImported.ReactiveEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyImported.ReactiveEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.Energy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.Energy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.StartTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.StartTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.EndTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.EndTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.StartSystime	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.StartSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.EndSystime	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.EndSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.ApparentEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.ApparentEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.PeriodicEnergyExported.ReactiveEnergy	Matter 1.6.1 ElectricalEnergyMeasurement.PeriodicEnergyExported.ReactiveEnergy		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyReset	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyReset		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyReset.ImportedResetTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyReset.ImportedResetTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyReset.ExportedResetTimestamp	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyReset.ExportedResetTimestamp		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyReset.ImportedResetSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyReset.ImportedResetSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.CumulativeEnergyReset.ExportedResetSystime	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyReset.ExportedResetSystime		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured	Matter 1.6.1 ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured	equipment.event.electrical_energy_measurement_cumulative_energy_measured	added
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured.EnergyImported	Matter 1.6.1 ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured.EnergyImported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured.EnergyExported	Matter 1.6.1 ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured.EnergyExported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured	Matter 1.6.1 ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured	equipment.event.electrical_energy_measurement_periodic_energy_measured	added
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured.EnergyImported	Matter 1.6.1 ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured.EnergyImported		unknown	matter.unmapped.v1
+matter	ElectricalEnergyMeasurement	ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured.EnergyExported	Matter 1.6.1 ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured.EnergyExported		unknown	matter.unmapped.v1
+matter	PowerTopology	PowerTopology.AvailableEndpoints	Matter 1.6.1 PowerTopology.AvailableEndpoints		unknown	matter.unmapped.v1
+matter	PowerTopology	PowerTopology.ActiveEndpoints	Matter 1.6.1 PowerTopology.ActiveEndpoints		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.MeterType	Matter 1.6.1 MeterIdentification.MeterType		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.PointOfDelivery	Matter 1.6.1 MeterIdentification.PointOfDelivery		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.MeterSerialNumber	Matter 1.6.1 MeterIdentification.MeterSerialNumber	equipment.identification.serial_number	carried
+matter	MeterIdentification	MeterIdentification.ProtocolVersion	Matter 1.6.1 MeterIdentification.ProtocolVersion		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.PowerThreshold	Matter 1.6.1 MeterIdentification.PowerThreshold		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.PowerThreshold.PowerThreshold	Matter 1.6.1 MeterIdentification.PowerThreshold.PowerThreshold		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.PowerThreshold.ApparentPowerThreshold	Matter 1.6.1 MeterIdentification.PowerThreshold.ApparentPowerThreshold		unknown	matter.unmapped.v1
+matter	MeterIdentification	MeterIdentification.PowerThreshold.PowerThresholdSource	Matter 1.6.1 MeterIdentification.PowerThreshold.PowerThresholdSource		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.Status	Matter 1.6.1 PowerSource.Status	equipment.power.source_status	carried
+matter	PowerSource	PowerSource.Order	Matter 1.6.1 PowerSource.Order	equipment.power.source_order	carried
+matter	PowerSource	PowerSource.Description	Matter 1.6.1 PowerSource.Description	equipment.power.source_description	carried
+matter	PowerSource	PowerSource.WiredAssessedInputVoltage	Matter 1.6.1 PowerSource.WiredAssessedInputVoltage	equipment.power.wired_input_voltage	carried
+matter	PowerSource	PowerSource.WiredAssessedInputFrequency	Matter 1.6.1 PowerSource.WiredAssessedInputFrequency	equipment.power.wired_input_frequency	carried
+matter	PowerSource	PowerSource.WiredCurrentType	Matter 1.6.1 PowerSource.WiredCurrentType	equipment.power.wired_current_type	carried
+matter	PowerSource	PowerSource.WiredAssessedCurrent	Matter 1.6.1 PowerSource.WiredAssessedCurrent	equipment.power.wired_current	carried
+matter	PowerSource	PowerSource.WiredNominalVoltage	Matter 1.6.1 PowerSource.WiredNominalVoltage	equipment.power.wired_nominal_voltage	carried
+matter	PowerSource	PowerSource.WiredMaximumCurrent	Matter 1.6.1 PowerSource.WiredMaximumCurrent	equipment.power.wired_maximum_current	carried
+matter	PowerSource	PowerSource.WiredPresent	Matter 1.6.1 PowerSource.WiredPresent	equipment.power.wired_present	carried
+matter	PowerSource	PowerSource.ActiveWiredFaults	Matter 1.6.1 PowerSource.ActiveWiredFaults	equipment.power.wired_faults	carried
+matter	PowerSource	PowerSource.BatVoltage	Matter 1.6.1 PowerSource.BatVoltage	equipment.power.battery_voltage	carried
+matter	PowerSource	PowerSource.BatPercentRemaining	Matter 1.6.1 PowerSource.BatPercentRemaining	equipment.power.battery_charge_ratio	carried
+matter	PowerSource	PowerSource.BatTimeRemaining	Matter 1.6.1 PowerSource.BatTimeRemaining	equipment.power.battery_time_remaining	carried
+matter	PowerSource	PowerSource.BatChargeLevel	Matter 1.6.1 PowerSource.BatChargeLevel	equipment.power.battery_charge_level	carried
+matter	PowerSource	PowerSource.BatReplacementNeeded	Matter 1.6.1 PowerSource.BatReplacementNeeded	equipment.power.battery_replacement_needed	carried
+matter	PowerSource	PowerSource.BatReplaceability	Matter 1.6.1 PowerSource.BatReplaceability	equipment.power.battery_replaceability	carried
+matter	PowerSource	PowerSource.BatPresent	Matter 1.6.1 PowerSource.BatPresent	equipment.power.battery_present	carried
+matter	PowerSource	PowerSource.ActiveBatFaults	Matter 1.6.1 PowerSource.ActiveBatFaults	equipment.power.battery_faults	carried
+matter	PowerSource	PowerSource.BatReplacementDescription	Matter 1.6.1 PowerSource.BatReplacementDescription	equipment.power.battery_replacement_description	carried
+matter	PowerSource	PowerSource.BatCommonDesignation	Matter 1.6.1 PowerSource.BatCommonDesignation	equipment.power.battery_common_designation	carried
+matter	PowerSource	PowerSource.BatAnsiDesignation	Matter 1.6.1 PowerSource.BatAnsiDesignation	equipment.power.battery_ansi_designation	carried
+matter	PowerSource	PowerSource.BatIecDesignation	Matter 1.6.1 PowerSource.BatIecDesignation	equipment.power.battery_iec_designation	carried
+matter	PowerSource	PowerSource.BatApprovedChemistry	Matter 1.6.1 PowerSource.BatApprovedChemistry	equipment.power.battery_chemistry	carried
+matter	PowerSource	PowerSource.BatCapacity	Matter 1.6.1 PowerSource.BatCapacity	equipment.power.battery_capacity	carried
+matter	PowerSource	PowerSource.BatQuantity	Matter 1.6.1 PowerSource.BatQuantity	equipment.power.battery_quantity	carried
+matter	PowerSource	PowerSource.BatChargeState	Matter 1.6.1 PowerSource.BatChargeState	equipment.power.battery_charge_state	carried
+matter	PowerSource	PowerSource.BatTimeToFullCharge	Matter 1.6.1 PowerSource.BatTimeToFullCharge	equipment.power.battery_time_to_full	carried
+matter	PowerSource	PowerSource.BatFunctionalWhileCharging	Matter 1.6.1 PowerSource.BatFunctionalWhileCharging	equipment.power.battery_functional_while_charging	carried
+matter	PowerSource	PowerSource.BatChargingCurrent	Matter 1.6.1 PowerSource.BatChargingCurrent	equipment.power.battery_charging_current	carried
+matter	PowerSource	PowerSource.ActiveBatChargeFaults	Matter 1.6.1 PowerSource.ActiveBatChargeFaults	equipment.power.battery_charge_faults	carried
+matter	PowerSource	PowerSource.EndpointList	Matter 1.6.1 PowerSource.EndpointList		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.WiredFaultChange	Matter 1.6.1 PowerSource.ev.WiredFaultChange	equipment.event.wired_fault_change	carried
+matter	PowerSource	PowerSource.ev.WiredFaultChange.Current	Matter 1.6.1 PowerSource.ev.WiredFaultChange.Current		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.WiredFaultChange.Previous	Matter 1.6.1 PowerSource.ev.WiredFaultChange.Previous		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.BatFaultChange	Matter 1.6.1 PowerSource.ev.BatFaultChange	equipment.event.battery_fault_change	carried
+matter	PowerSource	PowerSource.ev.BatFaultChange.Current	Matter 1.6.1 PowerSource.ev.BatFaultChange.Current		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.BatFaultChange.Previous	Matter 1.6.1 PowerSource.ev.BatFaultChange.Previous		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.BatChargeFaultChange	Matter 1.6.1 PowerSource.ev.BatChargeFaultChange	equipment.event.battery_charge_fault_change	carried
+matter	PowerSource	PowerSource.ev.BatChargeFaultChange.Current	Matter 1.6.1 PowerSource.ev.BatChargeFaultChange.Current		unknown	matter.unmapped.v1
+matter	PowerSource	PowerSource.ev.BatChargeFaultChange.Previous	Matter 1.6.1 PowerSource.ev.BatChargeFaultChange.Previous		unknown	matter.unmapped.v1
+matter	Messages	Messages.Messages	Matter 1.6.1 Messages.Messages	equipment.message.text	carried
+matter	Messages	Messages.Messages	Matter 1.6.1 Messages.Messages	equipment.message.time	carried
+matter	Messages	Messages.ActiveMessageIds	Matter 1.6.1 Messages.ActiveMessageIds		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest	Matter 1.6.1 Messages.cmd.PresentMessagesRequest		unknown	matter.unmapped.v1	Request
+matter	Messages	Messages.cmd.PresentMessagesRequest.MessageId	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.MessageId		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.Priority	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.Priority		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.MessageControl	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.MessageControl		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.StartTime	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.StartTime		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.Duration	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.Duration		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.MessageText	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.MessageText		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.PresentMessagesRequest.Responses	Matter 1.6.1 Messages.cmd.PresentMessagesRequest.Responses		unknown	matter.unmapped.v1
+matter	Messages	Messages.cmd.CancelMessagesRequest	Matter 1.6.1 Messages.cmd.CancelMessagesRequest		unknown	matter.unmapped.v1	Request
+matter	Messages	Messages.cmd.CancelMessagesRequest.MessageIds	Matter 1.6.1 Messages.cmd.CancelMessagesRequest.MessageIds		unknown	matter.unmapped.v1
+matter	Messages	Messages.ev.MessageQueued	Matter 1.6.1 Messages.ev.MessageQueued	equipment.event.message_queued	carried
+matter	Messages	Messages.ev.MessagePresented	Matter 1.6.1 Messages.ev.MessagePresented	equipment.event.messages_message_presented	added
+matter	Messages	Messages.ev.MessageComplete	Matter 1.6.1 Messages.ev.MessageComplete	equipment.event.messages_message_complete	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxPressure	Matter 1.6.1 PumpConfigurationAndControl.MaxPressure		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxSpeed	Matter 1.6.1 PumpConfigurationAndControl.MaxSpeed		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxFlow	Matter 1.6.1 PumpConfigurationAndControl.MaxFlow		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MinConstPressure	Matter 1.6.1 PumpConfigurationAndControl.MinConstPressure		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxConstPressure	Matter 1.6.1 PumpConfigurationAndControl.MaxConstPressure		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MinCompPressure	Matter 1.6.1 PumpConfigurationAndControl.MinCompPressure		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxCompPressure	Matter 1.6.1 PumpConfigurationAndControl.MaxCompPressure		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MinConstSpeed	Matter 1.6.1 PumpConfigurationAndControl.MinConstSpeed		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxConstSpeed	Matter 1.6.1 PumpConfigurationAndControl.MaxConstSpeed		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MinConstFlow	Matter 1.6.1 PumpConfigurationAndControl.MinConstFlow		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxConstFlow	Matter 1.6.1 PumpConfigurationAndControl.MaxConstFlow		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MinConstTemp	Matter 1.6.1 PumpConfigurationAndControl.MinConstTemp		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.MaxConstTemp	Matter 1.6.1 PumpConfigurationAndControl.MaxConstTemp		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.PumpStatus	Matter 1.6.1 PumpConfigurationAndControl.PumpStatus		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.EffectiveOperationMode	Matter 1.6.1 PumpConfigurationAndControl.EffectiveOperationMode		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.EffectiveControlMode	Matter 1.6.1 PumpConfigurationAndControl.EffectiveControlMode		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.Capacity	Matter 1.6.1 PumpConfigurationAndControl.Capacity		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.Speed	Matter 1.6.1 PumpConfigurationAndControl.Speed		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.LifetimeRunningHours	Matter 1.6.1 PumpConfigurationAndControl.LifetimeRunningHours		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.Power	Matter 1.6.1 PumpConfigurationAndControl.Power		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.LifetimeEnergyConsumed	Matter 1.6.1 PumpConfigurationAndControl.LifetimeEnergyConsumed		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.OperationMode	Matter 1.6.1 PumpConfigurationAndControl.OperationMode		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ControlMode	Matter 1.6.1 PumpConfigurationAndControl.ControlMode		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.AlarmMask	Matter 1.6.1 PumpConfigurationAndControl.AlarmMask		unknown	matter.unmapped.v1
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.SupplyVoltageLow	Matter 1.6.1 PumpConfigurationAndControl.ev.SupplyVoltageLow	equipment.event.pump_configuration_and_control_supply_voltage_low	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.SupplyVoltageHigh	Matter 1.6.1 PumpConfigurationAndControl.ev.SupplyVoltageHigh	equipment.event.pump_configuration_and_control_supply_voltage_high	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.PowerMissingPhase	Matter 1.6.1 PumpConfigurationAndControl.ev.PowerMissingPhase	equipment.event.pump_configuration_and_control_power_missing_phase	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.SystemPressureLow	Matter 1.6.1 PumpConfigurationAndControl.ev.SystemPressureLow	equipment.event.pump_configuration_and_control_system_pressure_low	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.SystemPressureHigh	Matter 1.6.1 PumpConfigurationAndControl.ev.SystemPressureHigh	equipment.event.pump_configuration_and_control_system_pressure_high	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.DryRunning	Matter 1.6.1 PumpConfigurationAndControl.ev.DryRunning	equipment.event.pump_configuration_and_control_dry_running	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.MotorTemperatureHigh	Matter 1.6.1 PumpConfigurationAndControl.ev.MotorTemperatureHigh	equipment.event.pump_configuration_and_control_motor_temperature_high	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.PumpMotorFatalFailure	Matter 1.6.1 PumpConfigurationAndControl.ev.PumpMotorFatalFailure	equipment.event.pump_configuration_and_control_pump_motor_fatal_failure	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.ElectronicTemperatureHigh	Matter 1.6.1 PumpConfigurationAndControl.ev.ElectronicTemperatureHigh	equipment.event.pump_configuration_and_control_electronic_temperature_high	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.PumpBlocked	Matter 1.6.1 PumpConfigurationAndControl.ev.PumpBlocked	equipment.event.pump_configuration_and_control_pump_blocked	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.SensorFailure	Matter 1.6.1 PumpConfigurationAndControl.ev.SensorFailure	equipment.event.pump_configuration_and_control_sensor_failure	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.ElectronicNonFatalFailure	Matter 1.6.1 PumpConfigurationAndControl.ev.ElectronicNonFatalFailure	equipment.event.pump_configuration_and_control_electronic_non_fatal_failure	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.ElectronicFatalFailure	Matter 1.6.1 PumpConfigurationAndControl.ev.ElectronicFatalFailure	equipment.event.pump_configuration_and_control_electronic_fatal_failure	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.GeneralFault	Matter 1.6.1 PumpConfigurationAndControl.ev.GeneralFault	equipment.event.pump_configuration_and_control_general_fault	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.Leakage	Matter 1.6.1 PumpConfigurationAndControl.ev.Leakage	equipment.event.pump_configuration_and_control_leakage	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.AirDetection	Matter 1.6.1 PumpConfigurationAndControl.ev.AirDetection	equipment.event.pump_configuration_and_control_air_detection	added
+matter	PumpConfigurationAndControl	PumpConfigurationAndControl.ev.TurbineOperation	Matter 1.6.1 PumpConfigurationAndControl.ev.TurbineOperation	equipment.event.pump_configuration_and_control_turbine_operation	added
+matter	DeviceEnergyManagement	DeviceEnergyManagement.EsaType	Matter 1.6.1 DeviceEnergyManagement.EsaType		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.EsaCanGenerate	Matter 1.6.1 DeviceEnergyManagement.EsaCanGenerate		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.EsaState	Matter 1.6.1 DeviceEnergyManagement.EsaState		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.AbsMinPower	Matter 1.6.1 DeviceEnergyManagement.AbsMinPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.AbsMaxPower	Matter 1.6.1 DeviceEnergyManagement.AbsMaxPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustmentCapability	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustmentCapability		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustmentCapability.PowerAdjustCapability	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustmentCapability.PowerAdjustCapability		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustmentCapability.Cause	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustmentCapability.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustStruct.MinPower	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustStruct.MinPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustStruct.MaxPower	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustStruct.MaxPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustStruct.MinDuration	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustStruct.MinDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.PowerAdjustStruct.MaxDuration	Matter 1.6.1 DeviceEnergyManagement.PowerAdjustStruct.MaxDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast	Matter 1.6.1 DeviceEnergyManagement.Forecast		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.ForecastId	Matter 1.6.1 DeviceEnergyManagement.Forecast.ForecastId		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.ActiveSlotNumber	Matter 1.6.1 DeviceEnergyManagement.Forecast.ActiveSlotNumber		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.StartTime	Matter 1.6.1 DeviceEnergyManagement.Forecast.StartTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.EndTime	Matter 1.6.1 DeviceEnergyManagement.Forecast.EndTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.EarliestStartTime	Matter 1.6.1 DeviceEnergyManagement.Forecast.EarliestStartTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.LatestEndTime	Matter 1.6.1 DeviceEnergyManagement.Forecast.LatestEndTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.IsPausable	Matter 1.6.1 DeviceEnergyManagement.Forecast.IsPausable		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.Slots	Matter 1.6.1 DeviceEnergyManagement.Forecast.Slots		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Forecast.ForecastUpdateReason	Matter 1.6.1 DeviceEnergyManagement.Forecast.ForecastUpdateReason		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MinDuration	Matter 1.6.1 DeviceEnergyManagement.Slot.MinDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MaxDuration	Matter 1.6.1 DeviceEnergyManagement.Slot.MaxDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.DefaultDuration	Matter 1.6.1 DeviceEnergyManagement.Slot.DefaultDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.ElapsedSlotTime	Matter 1.6.1 DeviceEnergyManagement.Slot.ElapsedSlotTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.RemainingSlotTime	Matter 1.6.1 DeviceEnergyManagement.Slot.RemainingSlotTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.SlotIsPausable	Matter 1.6.1 DeviceEnergyManagement.Slot.SlotIsPausable		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MinPauseDuration	Matter 1.6.1 DeviceEnergyManagement.Slot.MinPauseDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MaxPauseDuration	Matter 1.6.1 DeviceEnergyManagement.Slot.MaxPauseDuration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.ManufacturerEsaState	Matter 1.6.1 DeviceEnergyManagement.Slot.ManufacturerEsaState		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.NominalPower	Matter 1.6.1 DeviceEnergyManagement.Slot.NominalPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MinPower	Matter 1.6.1 DeviceEnergyManagement.Slot.MinPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MaxPower	Matter 1.6.1 DeviceEnergyManagement.Slot.MaxPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.NominalEnergy	Matter 1.6.1 DeviceEnergyManagement.Slot.NominalEnergy		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.Costs	Matter 1.6.1 DeviceEnergyManagement.Slot.Costs		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MinPowerAdjustment	Matter 1.6.1 DeviceEnergyManagement.Slot.MinPowerAdjustment		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MaxPowerAdjustment	Matter 1.6.1 DeviceEnergyManagement.Slot.MaxPowerAdjustment		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MinDurationAdjustment	Matter 1.6.1 DeviceEnergyManagement.Slot.MinDurationAdjustment		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Slot.MaxDurationAdjustment	Matter 1.6.1 DeviceEnergyManagement.Slot.MaxDurationAdjustment		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Cost.CostType	Matter 1.6.1 DeviceEnergyManagement.Cost.CostType		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Cost.Value	Matter 1.6.1 DeviceEnergyManagement.Cost.Value		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Cost.DecimalPoints	Matter 1.6.1 DeviceEnergyManagement.Cost.DecimalPoints		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Cost.Currency	Matter 1.6.1 DeviceEnergyManagement.Cost.Currency		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.OptOutState	Matter 1.6.1 DeviceEnergyManagement.OptOutState		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PowerAdjustRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.PowerAdjustRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PowerAdjustRequest.Power	Matter 1.6.1 DeviceEnergyManagement.cmd.PowerAdjustRequest.Power		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PowerAdjustRequest.Duration	Matter 1.6.1 DeviceEnergyManagement.cmd.PowerAdjustRequest.Duration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PowerAdjustRequest.Cause	Matter 1.6.1 DeviceEnergyManagement.cmd.PowerAdjustRequest.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.CancelPowerAdjustRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.CancelPowerAdjustRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.StartTimeAdjustRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.StartTimeAdjustRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.StartTimeAdjustRequest.RequestedStartTime	Matter 1.6.1 DeviceEnergyManagement.cmd.StartTimeAdjustRequest.RequestedStartTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.StartTimeAdjustRequest.Cause	Matter 1.6.1 DeviceEnergyManagement.cmd.StartTimeAdjustRequest.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PauseRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.PauseRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PauseRequest.Duration	Matter 1.6.1 DeviceEnergyManagement.cmd.PauseRequest.Duration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.PauseRequest.Cause	Matter 1.6.1 DeviceEnergyManagement.cmd.PauseRequest.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.ResumeRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.ResumeRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.ModifyForecastRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.ModifyForecastRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.ModifyForecastRequest.ForecastId	Matter 1.6.1 DeviceEnergyManagement.cmd.ModifyForecastRequest.ForecastId		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.ModifyForecastRequest.SlotAdjustments	Matter 1.6.1 DeviceEnergyManagement.cmd.ModifyForecastRequest.SlotAdjustments		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.ModifyForecastRequest.Cause	Matter 1.6.1 DeviceEnergyManagement.cmd.ModifyForecastRequest.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.SlotAdjustment.SlotIndex	Matter 1.6.1 DeviceEnergyManagement.SlotAdjustment.SlotIndex		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.SlotAdjustment.NominalPower	Matter 1.6.1 DeviceEnergyManagement.SlotAdjustment.NominalPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.SlotAdjustment.Duration	Matter 1.6.1 DeviceEnergyManagement.SlotAdjustment.Duration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.RequestConstraintBasedForecast	Matter 1.6.1 DeviceEnergyManagement.cmd.RequestConstraintBasedForecast		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.RequestConstraintBasedForecast.Constraints	Matter 1.6.1 DeviceEnergyManagement.cmd.RequestConstraintBasedForecast.Constraints		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.RequestConstraintBasedForecast.Cause	Matter 1.6.1 DeviceEnergyManagement.cmd.RequestConstraintBasedForecast.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Constraints.StartTime	Matter 1.6.1 DeviceEnergyManagement.Constraints.StartTime		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Constraints.Duration	Matter 1.6.1 DeviceEnergyManagement.Constraints.Duration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Constraints.NominalPower	Matter 1.6.1 DeviceEnergyManagement.Constraints.NominalPower		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Constraints.MaximumEnergy	Matter 1.6.1 DeviceEnergyManagement.Constraints.MaximumEnergy		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.Constraints.LoadControl	Matter 1.6.1 DeviceEnergyManagement.Constraints.LoadControl		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.cmd.CancelRequest	Matter 1.6.1 DeviceEnergyManagement.cmd.CancelRequest		unknown	matter.unmapped.v1	Request
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.PowerAdjustStart	Matter 1.6.1 DeviceEnergyManagement.ev.PowerAdjustStart	equipment.event.device_energy_management_power_adjust_start	added
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.PowerAdjustEnd	Matter 1.6.1 DeviceEnergyManagement.ev.PowerAdjustEnd	equipment.event.device_energy_management_power_adjust_end	added
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.PowerAdjustEnd.Cause	Matter 1.6.1 DeviceEnergyManagement.ev.PowerAdjustEnd.Cause		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.PowerAdjustEnd.Duration	Matter 1.6.1 DeviceEnergyManagement.ev.PowerAdjustEnd.Duration		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.PowerAdjustEnd.EnergyUse	Matter 1.6.1 DeviceEnergyManagement.ev.PowerAdjustEnd.EnergyUse		unknown	matter.unmapped.v1
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.Paused	Matter 1.6.1 DeviceEnergyManagement.ev.Paused	equipment.event.device_energy_management_paused	added
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.Resumed	Matter 1.6.1 DeviceEnergyManagement.ev.Resumed	equipment.event.device_energy_management_resumed	added
+matter	DeviceEnergyManagement	DeviceEnergyManagement.ev.Resumed.Cause	Matter 1.6.1 DeviceEnergyManagement.ev.Resumed.Cause		unknown	matter.unmapped.v1
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.NodeLabel	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel	equipment.operation.set_label	carried		write of the label
+eebus	Alarm	Alarm.Threshold	SPINE 1.3.0 Resource §4.3.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.alarmId	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.alarmType	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.description	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.evaluationPeriod	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.label	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.measuredValue	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.scopeType	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.thresholdId	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmData.timestamp	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.alarmId	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.alarmType	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.description	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.evaluationPeriod	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.label	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.measuredValue	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.scopeType	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.thresholdId	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmDataElements.timestamp	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.alarmCancelled	SPINE 1.3.0 Resource Table 179		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.alarmData	SPINE 1.3.0 Resource Table 178		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.alarmId	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.alarmType	SPINE 1.3.0 Resource Table 26; Table 27		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.description	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.evaluationPeriod	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.label	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.measuredValue	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.overThreshold	SPINE 1.3.0 Resource Table 179		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.scopeType	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.thresholdId	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.timestamp	SPINE 1.3.0 Resource Table 26		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListData.underThreshold	SPINE 1.3.0 Resource Table 179		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListDataSelectors	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListDataSelectors.alarmId	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	Alarm	Alarm.alarmListDataSelectors.scopeType	SPINE 1.3.0 Resource §A.2.3		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCall	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCall.bindingId	SPINE 1.3.0 Resource Table 188		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCall.clientAddress	SPINE 1.3.0 Resource Table 188		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCall.serverAddress	SPINE 1.3.0 Resource Table 188		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCallElements	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCallElements.bindingId	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCallElements.clientAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementDeleteCallElements.serverAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData.bindingId	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData.clientAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData.description	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData.label	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryData.serverAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements.bindingId	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements.clientAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements.description	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements.label	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryDataElements.serverAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData	SPINE 1.3.0 Resource §5.3.5.2.3		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.bindingId	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.bindingManagementEntryData	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.clientAddress	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.description	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.label	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListData.serverAddress	SPINE 1.3.0 Resource Table 186		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListDataSelectors	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListDataSelectors.bindingId	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListDataSelectors.clientAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementEntryListDataSelectors.serverAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCall	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCall.clientAddress	SPINE 1.3.0 Resource Table 187		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCall.serverAddress	SPINE 1.3.0 Resource Table 187		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCall.serverFeatureType	SPINE 1.3.0 Resource Table 187		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCallElements	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCallElements.clientAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCallElements.serverAddress	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	BindingManagement	BindingManagement.bindingManagementRequestCallElements.serverFeatureType	SPINE 1.3.0 Resource §A.2.5		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData	SPINE 1.3.0 Resource §4.3.6.2		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.battery	SPINE 1.3.0 Resource Table 191		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.brandName	SPINE 1.3.0 Resource Table 35	equipment.identification.brand_name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.dc	SPINE 1.3.0 Resource Table 191		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.deviceCode	SPINE 1.3.0 Resource Table 35	equipment.identification.product_code	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.deviceName	SPINE 1.3.0 Resource Table 35	equipment.identification.product_name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.hardwareRevision	SPINE 1.3.0 Resource Table 35	equipment.identification.hardware_revision	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.mains3Phase	SPINE 1.3.0 Resource Table 191		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.mainsSinglePhase	SPINE 1.3.0 Resource Table 191		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerDescription	SPINE 1.3.0 Resource Table 35	equipment.identification.product_description	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerLabel	SPINE 1.3.0 Resource Table 35	equipment.identification.product_label	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerNodeIdentification	SPINE 1.3.0 Resource Table 35		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.powerSource	SPINE 1.3.0 Resource Table 35; Table 36	equipment.identification.power_source_kind	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.serialNumber	SPINE 1.3.0 Resource Table 35	equipment.identification.serial_number	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.softwareRevision	SPINE 1.3.0 Resource Table 35	equipment.identification.software_revision	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.unknown	SPINE 1.3.0 Resource Table 191		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.vendorCode	SPINE 1.3.0 Resource Table 35	equipment.identification.vendor_code	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.vendorName	SPINE 1.3.0 Resource Table 35	equipment.identification.vendor_name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.brandName	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.deviceCode	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.deviceName	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.hardwareRevision	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.manufacturerDescription	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.manufacturerLabel	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.manufacturerNodeIdentification	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.powerSource	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.serialNumber	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.softwareRevision	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.vendorCode	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerDataElements.vendorName	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData	SPINE 1.3.0 Resource §4.3.6.5.1		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userDescription	SPINE 1.3.0 Resource Table 192	equipment.label.description	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userLabel	SPINE 1.3.0 Resource Table 192	equipment.label.name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userNodeIdentification	SPINE 1.3.0 Resource Table 37		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserDataElements	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserDataElements.userDescription	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserDataElements.userLabel	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserDataElements.userNodeIdentification	SPINE 1.3.0 Resource §A.2.7		unknown	eebus.unmapped.v1
+eebus	DeviceClassification	DeviceClassification.none	SPINE 1.3.0 Resource §4.3.6		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatData	SPINE 1.3.0 Resource §4.3.8.5.1		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatData.heartbeatCounter	SPINE 1.3.0 Resource Table 47		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatData.heartbeatTimeout	SPINE 1.3.0 Resource Table 47		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatData.timestamp	SPINE 1.3.0 Resource Table 47		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatDataElements	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatDataElements.heartbeatCounter	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatDataElements.heartbeatTimeout	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisHeartbeatDataElements.timestamp	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceData	SPINE 1.3.0 Resource §4.3.8.6.1		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceData.bootCounter	SPINE 1.3.0 Resource Table 48		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceData.installationTime	SPINE 1.3.0 Resource Table 48		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceData.nextService	SPINE 1.3.0 Resource Table 48		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceData.timestamp	SPINE 1.3.0 Resource Table 48		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceDataElements	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceDataElements.bootCounter	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceDataElements.installationTime	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceDataElements.nextService	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisServiceDataElements.timestamp	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData	SPINE 1.3.0 Resource §4.3.8.2		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.lastErrorCode	SPINE 1.3.0 Resource Table 44	equipment.diagnosis.last_error_code	carried
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	SPINE 1.3.0 Resource Table 44; Table 45	equipment.diagnosis.operating_state	carried
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.powerSupplyCondition	SPINE 1.3.0 Resource Table 44; Table 46		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.timestamp	SPINE 1.3.0 Resource Table 44		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.totalUpTime	SPINE 1.3.0 Resource Table 44	equipment.diagnosis.operating_time	carried
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.upTime	SPINE 1.3.0 Resource Table 44		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.vendorStateCode	SPINE 1.3.0 Resource Table 44	equipment.diagnosis.vendor_state_code	carried
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.lastErrorCode	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.operatingState	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.powerSupplyCondition	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.timestamp	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.totalUpTime	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.upTime	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateDataElements.vendorStateCode	SPINE 1.3.0 Resource §A.2.9		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.none	SPINE 1.3.0 Resource §4.3.8		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.Measurement	SPINE 1.3.0 Resource §4.3.10		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.characteristicContext	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.characteristicId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.characteristicType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.unit	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicData.value	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.characteristicContext	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.characteristicId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.characteristicType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.unit	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicDataElements.value	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData	SPINE 1.3.0 Resource §4.3.10.6.1		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.characteristicContext	SPINE 1.3.0 Resource Table 59; Table 60		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.characteristicId	SPINE 1.3.0 Resource Table 59		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.characteristicType	SPINE 1.3.0 Resource Table 59; Table 61		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.electricalConnectionCharacteristicData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.electricalConnectionId	SPINE 1.3.0 Resource Table 59		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.parameterId	SPINE 1.3.0 Resource Table 59		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.unit	SPINE 1.3.0 Resource Table 59		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListData.value	SPINE 1.3.0 Resource Table 59		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors.characteristicContext	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors.characteristicId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors.characteristicType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionCharacteristicListDataSelectors.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.acConnectedPhases	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.acRmsPeriodDuration	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.description	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.label	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.positiveEnergyDirection	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.powerSupplyType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionData.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.acConnectedPhases	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.acRmsPeriodDuration	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.description	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.label	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.positiveEnergyDirection	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.powerSupplyType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionDataElements.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData	SPINE 1.3.0 Resource §4.3.10.8.1		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.acConnectedPhases	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.acRmsPeriodDuration	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.description	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.electricalConnectionDescriptionData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.electricalConnectionId	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.label	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.positiveEnergyDirection	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.powerSupplyType	SPINE 1.3.0 Resource Table 63		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListData.scopeType	SPINE 1.3.0 Resource Table 217		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListDataSelectors	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListDataSelectors.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionDescriptionListDataSelectors.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.acMeasuredHarmonic	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.acMeasuredInReferenceTo	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.acMeasuredPhases	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.acMeasurementType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.acMeasurementVariant	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.description	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.label	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.measurementId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionData.voltageType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.acMeasuredHarmonic	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.acMeasuredInReferenceTo	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.acMeasuredPhases	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.acMeasurementType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.acMeasurementVariant	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.description	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.label	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.measurementId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionDataElements.voltageType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData	SPINE 1.3.0 Resource §4.3.10.2		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.acMeasuredHarmonic	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.acMeasuredInReferenceTo	SPINE 1.3.0 Resource Table 52; Table 55		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.acMeasuredPhases	SPINE 1.3.0 Resource Table 52; Table 54		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.acMeasurementType	SPINE 1.3.0 Resource Table 52; Table 56		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.acMeasurementVariant	SPINE 1.3.0 Resource Table 52; Table 57		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.description	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.electricalConnectionId	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.electricalConnectionParameterDescriptionData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.label	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.measurementId	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.parameterId	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.scopeType	SPINE 1.3.0 Resource Table 52		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListData.voltageType	SPINE 1.3.0 Resource Table 52; Table 53		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListDataSelectors	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListDataSelectors.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListDataSelectors.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionParameterDescriptionListDataSelectors.scopeType	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetData.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetData.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetData.permittedValueSet	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetDataElements	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetDataElements.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetDataElements.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetDataElements.permittedValueSet	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListData	SPINE 1.3.0 Resource §4.3.10.5.1		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListData.electricalConnectionId	SPINE 1.3.0 Resource Table 58		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListData.electricalConnectionPermittedValueSetData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListData.parameterId	SPINE 1.3.0 Resource Table 58		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListDataSelectors	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListDataSelectors.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionPermittedValueSetListDataSelectors.parameterId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.consumptionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.currentEnergyMode	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.productionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.timestamp	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.totalConsumptionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateData.totalProductionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.consumptionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.currentEnergyMode	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.productionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.timestamp	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.totalConsumptionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateDataElements.totalProductionTime	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData	SPINE 1.3.0 Resource §4.3.10.7.1		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.consumptionTime	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.currentEnergyMode	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.electricalConnectionId	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.electricalConnectionStateData	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.productionTime	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.timestamp	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.totalConsumptionTime	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListData.totalProductionTime	SPINE 1.3.0 Resource Table 62		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListDataSelectors	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	ElectricalConnection	ElectricalConnection.electricalConnectionStateListDataSelectors.electricalConnectionId	SPINE 1.3.0 Resource §A.2.11		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationData.authorized	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationData.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationData.identificationType	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationData.identificationValue	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationDataElements	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationDataElements.authorized	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationDataElements.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationDataElements.identificationType	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationDataElements.identificationValue	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData	SPINE 1.3.0 Resource Table 77		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData.authorized	SPINE 1.3.0 Resource Table 77		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData.identificationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData.identificationId	SPINE 1.3.0 Resource Table 77		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData.identificationType	SPINE 1.3.0 Resource Table 77; Table 78		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListData.identificationValue	SPINE 1.3.0 Resource Table 77		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListDataSelectors	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListDataSelectors.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.identificationListDataSelectors.identificationType	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationData.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationData.isLatestSession	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationData.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationData.timePeriod	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationDataElements	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationDataElements.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationDataElements.isLatestSession	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationDataElements.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationDataElements.timePeriod	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData	SPINE 1.3.0 Resource Table 79		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData.identificationId	SPINE 1.3.0 Resource Table 79		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData.isLatestSession	SPINE 1.3.0 Resource Table 79		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData.sessionId	SPINE 1.3.0 Resource Table 79		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData.sessionIdentificationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListData.timePeriod	SPINE 1.3.0 Resource Table 79		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListDataSelectors	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListDataSelectors.identificationId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListDataSelectors.isLatestSession	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListDataSelectors.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionIdentificationListDataSelectors.timePeriod	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationData.measurementId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationData.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationDataElements	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationDataElements.measurementId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationDataElements.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListData	SPINE 1.3.0 Resource Table 80		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListData.measurementId	SPINE 1.3.0 Resource Table 80		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListData.sessionId	SPINE 1.3.0 Resource Table 80		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListData.sessionMeasurementRelationData	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListDataSelectors	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Identification	Identification.sessionMeasurementRelationListDataSelectors.sessionId	SPINE 1.3.0 Resource §A.2.13		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsData.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsData.valueRangeMax	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsData.valueRangeMin	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsData.valueStepSize	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsDataElements	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsDataElements.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsDataElements.valueRangeMax	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsDataElements.valueRangeMin	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsDataElements.valueStepSize	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData	SPINE 1.3.0 Resource Table 99		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData.measurementConstraintsData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData.measurementId	SPINE 1.3.0 Resource Table 99		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData.valueRangeMax	SPINE 1.3.0 Resource Table 99		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData.valueRangeMin	SPINE 1.3.0 Resource Table 99		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListData.valueStepSize	SPINE 1.3.0 Resource Table 99		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListDataSelectors	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementConstraintsListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.evaluationPeriod	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.timestamp	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.value	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.valueSource	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.valueState	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.valueTendency	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementData.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.evaluationPeriod	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.timestamp	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.value	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.valueSource	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.valueState	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.valueTendency	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDataElements.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.calibrationValue	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.commodityType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.description	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.label	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.measurementType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.scopeType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionData.unit	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.calibrationValue	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.commodityType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.description	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.label	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.measurementType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.scopeType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionDataElements.unit	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.calibrationValue	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.commodityType	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.description	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.label	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.measurementDescriptionData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.measurementId	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.measurementType	SPINE 1.3.0 Resource Table 100; Table 101		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.scopeType	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListData.unit	SPINE 1.3.0 Resource Table 100		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListDataSelectors	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListDataSelectors.commodityType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListDataSelectors.measurementType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementDescriptionListDataSelectors.scopeType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData	SPINE 1.3.0 Resource Table 93		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.evaluationPeriod	SPINE 1.3.0 Resource Table 93; Table 94		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.measurementData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.measurementId	SPINE 1.3.0 Resource Table 93		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.timestamp	SPINE 1.3.0 Resource Table 93		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.value	SPINE 1.3.0 Resource Table 93		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.valueSource	SPINE 1.3.0 Resource Table 93; Table 95		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.valueState	SPINE 1.3.0 Resource Table 93; Table 97		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.valueTendency	SPINE 1.3.0 Resource Table 93; Table 96		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListData.valueType	SPINE 1.3.0 Resource Table 93; Table 94		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListDataSelectors	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListDataSelectors.timestampInterval	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementListDataSelectors.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.evaluationPeriod	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.timestamp	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.value	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.valueSource	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.valueState	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.valueTendency	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesData.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.evaluationPeriod	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.timestamp	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.value	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.valueSource	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.valueState	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.valueTendency	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesDataElements.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.evaluationPeriod	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.measurementId	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.measurementSeriesData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.timestamp	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.value	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.valueSource	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.valueState	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.valueTendency	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListData.valueType	SPINE 1.3.0 Resource Table 98		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListDataSelectors	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListDataSelectors.timestampInterval	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementSeriesListDataSelectors.valueType	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationData.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationData.thresholdId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationDataElements	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationDataElements.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationDataElements.thresholdId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListData	SPINE 1.3.0 Resource Table 102		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListData.measurementId	SPINE 1.3.0 Resource Table 102		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListData.measurementThresholdRelationData	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListData.thresholdId	SPINE 1.3.0 Resource Table 102		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListDataSelectors	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListDataSelectors.measurementId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Measurement	Measurement.measurementThresholdRelationListDataSelectors.thresholdId	SPINE 1.3.0 Resource §A.2.15		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingData	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingData.messagingNumber	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingData.text	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingData.timestamp	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingData.type	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingDataElements	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingDataElements.messagingNumber	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingDataElements.text	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingDataElements.timestamp	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingDataElements.type	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListData	SPINE 1.3.0 Resource Table 103		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListData.messagingData	SPINE 1.3.0 Resource Table 254		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListData.messagingNumber	SPINE 1.3.0 Resource Table 103		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListData.selectors	SPINE 1.3.0 Resource §5.3.16.2.3		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListData.text	SPINE 1.3.0 Resource Table 103	equipment.message.text	carried
+eebus	Messaging	Messaging.messagingListData.timestamp	SPINE 1.3.0 Resource Table 103	equipment.message.time	carried
+eebus	Messaging	Messaging.messagingListData.type	SPINE 1.3.0 Resource Table 103; Table 104	equipment.message.kind	carried
+eebus	Messaging	Messaging.messagingListDataSelectors	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListDataSelectors.messagingNumber	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	Messaging	Messaging.messagingListDataSelectors.timestampInterval	SPINE 1.3.0 Resource §A.2.16		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall.clientAddress	SPINE 1.3.0 Resource Table 302		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall.selectors	SPINE 1.3.0 Resource §5.3.22.4.3		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall.serverAddress	SPINE 1.3.0 Resource Table 302		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall.subscriptionId	SPINE 1.3.0 Resource Table 302		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCall.subscriptionManagementDeleteCall	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCallElements	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCallElements.clientAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCallElements.serverAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementDeleteCallElements.subscriptionId	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData.clientAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData.description	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData.label	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData.serverAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryData.subscriptionId	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements.clientAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements.description	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements.label	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements.serverAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryDataElements.subscriptionId	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.clientAddress	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.description	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.label	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.selectors	SPINE 1.3.0 Resource §5.3.22.2.3		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.serverAddress	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.subscriptionId	SPINE 1.3.0 Resource Table 300		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementEntryListData.subscriptionManagementEntryData	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall.clientAddress	SPINE 1.3.0 Resource Table 301		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall.selectors	SPINE 1.3.0 Resource §5.3.22.3.3		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall.serverAddress	SPINE 1.3.0 Resource Table 301		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall.serverFeatureType	SPINE 1.3.0 Resource Table 301		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCall.subscriptionManagementRequestCall	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCallElements	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCallElements.clientAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCallElements.serverAddress	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	SubscriptionManagement	SubscriptionManagement.subscriptionManagementRequestCallElements.serverFeatureType	SPINE 1.3.0 Resource §A.2.23		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorData	SPINE 1.3.0 Resource §5.3.28.3.3		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorData.distributorPriority	SPINE 1.3.0 Resource Table 148		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorData.isTimeDistributor	SPINE 1.3.0 Resource Table 148		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorData.timeDistributorData	SPINE 1.3.0 Resource Table 148		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorDataElements	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorDataElements.distributorPriority	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorDataElements.isTimeDistributor	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorEnquiryCall	SPINE 1.3.0 Resource §5.3.28.5.2		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorEnquiryCall.timeDistributorEnquiryCall	SPINE 1.3.0 Resource §4.3.30.7		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeDistributorEnquiryCallElements	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationData	SPINE 1.3.0 Resource §5.3.28.2.1		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationData.calendarWeek	SPINE 1.3.0 Resource Table 147		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationData.dayOfWeek	SPINE 1.3.0 Resource Table 147		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationData.timeInformationData	SPINE 1.3.0 Resource Table 147		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationData.utc	SPINE 1.3.0 Resource Table 147	equipment.time.current	carried
+eebus	TimeInformation	TimeInformation.timeInformationData.utcOffset	SPINE 1.3.0 Resource Table 147	equipment.time.timezone	carried
+eebus	TimeInformation	TimeInformation.timeInformationDataElements	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationDataElements.calendarWeek	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationDataElements.dayOfWeek	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationDataElements.utc	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timeInformationDataElements.utcOffset	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionData	SPINE 1.3.0 Resource §5.3.28.4.3		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionData.clockDrift	SPINE 1.3.0 Resource Table 149		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionData.isSynchronised	SPINE 1.3.0 Resource Table 149		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionData.lastSyncAt	SPINE 1.3.0 Resource Table 149		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionData.timePrecisionData	SPINE 1.3.0 Resource Table 149		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionDataElements	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionDataElements.clockDrift	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionDataElements.isSynchronised	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	TimeInformation	TimeInformation.timePrecisionDataElements.lastSyncAt	SPINE 1.3.0 Resource §A.2.28		unknown	eebus.unmapped.v1
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	MOB 1.0.0 scenario 2 Table 39 MOB-025	equipment.diagnosis.operating_state	carried		normalOperation, standby, failure, temporarilyNotReady, off
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	MOI Table 21 MOI-021	equipment.diagnosis.operating_state	carried		normalOperation, standby, failure, temporarilyNotReady, off
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	MOI Table 51 MOI-021	equipment.diagnosis.operating_state	carried		normalOperation, standby, failure, temporarilyNotReady, off
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	EVSECC 1.0.1 scenario 2 Tables 7 and 9	equipment.diagnosis.operating_state	carried		normalOperation, failure
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.operatingState	EVCC scenario 7 Tables 12 and 18	equipment.diagnosis.operating_state	carried		normalOperation, standby
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.vendorStateCode	MOI Table 21 MOI-022	equipment.diagnosis.vendor_state_code	carried
+eebus	DeviceDiagnosis	DeviceDiagnosis.deviceDiagnosisStateData.vendorStateCode	MOI Table 51 MOI-022	equipment.diagnosis.vendor_state_code	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userLabel	VHAN scenario 1 Table 8 VHAN-001	equipment.label.name	carried		subject Heating Circuit; read and notification; no write; equipment.dimension.resource
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userLabel	VHAN scenario 2 Table 10 VHAN-002	equipment.label.name	carried		subject Heating Zone; read and notification; no write
+eebus	DeviceClassification	DeviceClassification.deviceClassificationUserData.userLabel	VHAN scenario 3 Table 12 VHAN-003	equipment.label.name	carried		subject HVAC Room; read and notification; no write
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerLabel	MOI scenario 1 Table 14 MOI-017	equipment.label.name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerLabel	MOB scenario 1 Table 36 MOB-017	equipment.label.name	carried
+eebus	DeviceClassification	DeviceClassification.deviceClassificationManufacturerData.manufacturerDescription	MOI scenario 1 Table 14 MOI-018	equipment.label.description	carried
+two_vendors				equipment.diagnosis.error_history_code	carried		two-vendor research; fault code history with time
+two_vendors				equipment.diagnosis.error_history_time	carried		two-vendor research; fault code history with time
+semreg		relation.site_system		relation.site_system	carried		D13
+semreg		relation.electrical_supply		relation.electrical_supply	carried		D13
+semreg		relation.storage_coupling		relation.storage_coupling	carried		D13
+semreg		relation.meter_measures		relation.meter_measures	carried		D13
+semreg		relation.energy_control		relation.energy_control	carried		D13
+semreg		thermal.relation.pump_member		thermal.relation.pump_member	carried		D13
+semreg		infrastructure.relation.circuit_line_pair		infrastructure.relation.circuit_line_pair	carried		D13
+semreg		relation.relays		relation.relays	carried		D13
+semreg		equipment.diagnosis.link_state		equipment.diagnosis.link_state	added		F3-089
+semreg		equipment.diagnosis.degraded_reason		equipment.diagnosis.degraded_reason	added		F3-089
+semreg		equipment.diagnosis.controller_capability		equipment.diagnosis.controller_capability	added		F3-089
+matter		equipment.dimension.unit	Matter 1.6.1 BasicInformation.VendorName; Matter 1.6.1 BridgedDeviceBasicInformation.VendorName; SPINE 1.3.0 DeviceClassification; SPINE 1.3.0 DeviceDiagnosis	equipment.dimension.unit	carried
+matter		equipment.dimension.resource	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel; SPINE 1.3.0 DeviceClassification.deviceClassificationUserData; VHAN scenario 1 Table 8 VHAN-001	equipment.dimension.resource	carried		VHAN-001 associates this resource dimension
+two_vendors		equipment.dimension.history_index		equipment.dimension.history_index	carried		unconfirmed two-vendor row; F5-005
+eebus		equipment.dimension.message	SPINE 1.3.0 Messaging.messagingListData	equipment.dimension.message	carried
+matter		equipment.service.unit	Matter 1.6.1 BasicInformation.VendorName; SPINE 1.3.0 DeviceClassification	equipment.service.unit	carried
+matter		equipment.service.resource	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel; SPINE 1.3.0 DeviceClassification.deviceClassificationUserData	equipment.service.resource	carried
+matter		equipment.capability.read.unit	Matter 1.6.1 BasicInformation.VendorName; SPINE 1.3.0 DeviceClassification	equipment.capability.read.unit	carried
+matter		equipment.capability.read.resource	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel; SPINE 1.3.0 DeviceClassification.deviceClassificationUserData	equipment.capability.read.resource	carried
+matter		equipment.portal.read.unit	Matter 1.6.1 BasicInformation.VendorName; SPINE 1.3.0 DeviceClassification	equipment.portal.read.unit	carried
+matter		equipment.portal.read.resource	Matter 1.6.1 BridgedDeviceBasicInformation.NodeLabel; SPINE 1.3.0 DeviceClassification.deviceClassificationUserData	equipment.portal.read.resource	carried

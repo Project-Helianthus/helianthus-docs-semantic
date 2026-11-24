@@ -1,0 +1,10 @@
+operation	capability	effect_rule	service	argument	parameters	matter_1_6_1	eebus	admission	note	source	review
+equipment.operation.general_diagnostics_test_event_trigger						GeneralDiagnostics.cmd.TestEventTrigger		matter_baseline	request command	Matter 1.6.1 GeneralDiagnostics.cmd.TestEventTrigger
+equipment.operation.general_diagnostics_time_snapshot						GeneralDiagnostics.cmd.TimeSnapshot		matter_baseline	request command	Matter 1.6.1 GeneralDiagnostics.cmd.TimeSnapshot
+equipment.operation.general_diagnostics_payload_test_request						GeneralDiagnostics.cmd.PayloadTestRequest		matter_baseline	request command	Matter 1.6.1 GeneralDiagnostics.cmd.PayloadTestRequest
+equipment.operation.software_diagnostics_reset_watermarks						SoftwareDiagnostics.cmd.ResetWatermarks		matter_baseline	request command	Matter 1.6.1 SoftwareDiagnostics.cmd.ResetWatermarks
+equipment.operation.time_synchronization_set_utc_time						TimeSynchronization.cmd.SetUtcTime		matter_baseline	request command	Matter 1.6.1 TimeSynchronization.cmd.SetUtcTime
+equipment.operation.time_synchronization_set_trusted_time_source						TimeSynchronization.cmd.SetTrustedTimeSource		matter_baseline	request command	Matter 1.6.1 TimeSynchronization.cmd.SetTrustedTimeSource
+equipment.operation.time_synchronization_set_time_zone						TimeSynchronization.cmd.SetTimeZone		matter_baseline	request command	Matter 1.6.1 TimeSynchronization.cmd.SetTimeZone
+equipment.operation.time_synchronization_set_dst_offset						TimeSynchronization.cmd.SetDstOffset		matter_baseline	request command	Matter 1.6.1 TimeSynchronization.cmd.SetDstOffset
+equipment.operation.time_synchronization_set_default_ntp						TimeSynchronization.cmd.SetDefaultNtp		matter_baseline	request command	Matter 1.6.1 TimeSynchronization.cmd.SetDefaultNtp
