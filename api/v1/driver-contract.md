@@ -18,6 +18,15 @@ contract it freezes, or a public file written as `repository:path`. The page
 copies no specification text. Restricted specification text is cited by title,
 version, and requirement identifier or scenario number only (OPERATOR item 34).
 
+The numbered and named labels (OPERATOR items, RULES rules, decision and ruling
+identifiers, design contracts) point at project decision records that are not
+published in this repository. This page does not republish them: each rule
+is the normative statement, and a label is a pointer for the project
+owner, not public evidence. Until a public source index exists, a reader treats
+a rule whose only support is such a label as a project decision, not as a fact
+verified against a public source. Public source files are named as
+`repository:path`.
+
 The vectors that make each rule checkable are in
 [`acceptance/contracts/`](../../acceptance/contracts/check_expected_outcomes.py).
 Each vector has an `id` and a canonical `expected` outcome; the checker compares
