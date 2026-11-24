@@ -615,3 +615,126 @@ def test_unconfirmed_vendor_research_stays_unconfirmed():
         if row["concept"] == "inverter temperatures by sensor position"
     )
     assert temperatures["verification_level"] == "specification"
+
+
+def test_allocated_current_withholds_enable_charging():
+    rows = {row["element"]: row for row in _rows("pe06-elements-on-main.tsv")}
+    row = rows["evse.operation.set_allocated_current"]
+    assert row["matter_1_6_1"] == ""
+    assert "EnableCharging" not in row["matter_1_6_1"]
+    assert "EnableCharging" not in row["source"]
+    assert "matter.unmapped.v1" in row["source"]
+    assert row["eebus"] == "OPEV-sc1"
+    assert "OPEV-sc1" in row["source"]
+    assert row["verification_level"] == "specification"
+    for name in ("ChargingEnabledUntil", "MinimumChargeCurrent", "MaximumChargeCurrent"):
+        assert name in row["review"]
+    assert "evse.limit.allocated_current" in row["review"]
+    assert "matter association removed" in row["review"]
+    assert "evse.operation.set_supply" in row["review"]
+    supply = next(
+        item
+        for item in _rows("pe06-operations.tsv")
+        if item["operation"] == "evse.operation.set_supply"
+    )
+    assert "EnableCharging" in supply["matter_1_6_1"]
+    signature = supply["argument"] + " " + supply["parameters"]
+    assert "evse.limit.charging_enabled_until" in signature
+    assert "evse.limit.minimum_charge_current" in signature
+
+
+def test_current_and_next_tariff_days_project_date():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    expected = {
+        "energy.tariff.current_day": "CommodityTariff.CurrentDay.Date",
+        "energy.tariff.next_day": "CommodityTariff.NextDay.Date",
+    }
+    for element, matter in expected.items():
+        row = fields[element]
+        assert row["value_kind"] == "time"
+        assert row["matter_1_6_1"] == matter
+        assert row["matter_1_6_1"] not in {
+            "CommodityTariff.CurrentDay",
+            "CommodityTariff.NextDay",
+        }
+        assert "DayStruct.Date" in row["source"]
+        assert "DayType" in row["source"]
+        assert "DayEntryIds" in row["source"]
+        assert "not projected" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert row["eebus"] == ""
+        assert "DayType" in row["review"]
+        assert "DayEntryIds" in row["review"]
+        assert row["verification_level"] == "specification"
+
+
+def test_day_entry_and_pattern_qualifiers_use_their_collections():
+    rows = {row["id"]: row for row in _rows("pe12-qualifier-dimensions.tsv")}
+    entry = rows["energy.dimension.day_entry"]
+    pattern = rows["energy.dimension.day_pattern"]
+    assert entry["matter_eebus"] == "CommodityTariff.DayEntries.DayEntryId"
+    assert pattern["matter_eebus"] == "CommodityTariff.DayPatterns.DayPatternId"
+    for row, identifier in (
+        (entry, "DayEntryId"),
+        (pattern, "DayPatternId"),
+    ):
+        assert "TariffComponents" not in row["matter_eebus"]
+        assert "IncentiveTable" not in row["matter_eebus"]
+        assert identifier in row["source"]
+        assert "TariffComponentId" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert row["verification_level"] == "specification"
+        assert identifier in row["review"]
+    component = rows["energy.dimension.component"]
+    assert "CommodityTariff.TariffComponents" in component["matter_eebus"]
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    assert fields["energy.tariff.day_entry_start"]["qualifiers"] == "energy.dimension.day_entry"
+    assert "energy.dimension.day_pattern" in fields["energy.tariff.day_pattern_days"]["qualifiers"]
+    assert "energy.dimension.day_entry" in fields["energy.tariff.day_pattern_entry"]["qualifiers"]
+
+
+def test_harmonic_order_keeps_uint8_source_range():
+    row = next(
+        item
+        for item in _rows("pe10-qualifier-dimensions.tsv")
+        if item["id"] == "infrastructure.dimension.harmonic_order"
+    )
+    assert row["matter_eebus"] == "ElectricalPowerMeasurement.HarmonicMeasurement.Order"
+    assert "63" not in row["note"]
+    assert "min 1" in row["note"]
+    assert "uint8" in row["source"]
+    assert "min 1" in row["source"]
+    assert "encoding range: uint8" in row["source"]
+    assert "1 to 255" in row["source"]
+    assert "not a specification maximum" in row["source"]
+    assert "HarmonicCurrents" in row["source"]
+    assert "HarmonicPhases" in row["source"]
+    assert "63" in row["review"]
+    assert "max 25" in row["review"]
+    assert row["verification_level"] == "specification"
+    fields = {item["id"]: item for item in _rows("pe10-fields.tsv")}
+    for element in ("infrastructure.ac.harmonic_current", "infrastructure.ac.harmonic_phase"):
+        assert fields[element]["qualifiers"] == "infrastructure.dimension.harmonic_order"
+
+
+def test_reactive_import_export_leave_signed_power_mapped():
+    rows = {row["element"]: row for row in _rows("pe10-elements-on-main.tsv")}
+    signed = rows["infrastructure.ac.reactive_power"]
+    assert signed["matter_1_6_1"] == "ElectricalPowerMeasurement.ReactivePower"
+    assert signed["eebus"] == "SPINE:measurement.acPowerReactive"
+    for element in ("infrastructure.power.import_reactive", "infrastructure.power.export_reactive"):
+        row = rows[element]
+        assert row["matter_1_6_1"] == ""
+        assert row["eebus"] == ""
+        assert "ReactivePower" not in row["matter_1_6_1"]
+        assert "ReactivePower" not in row["source"]
+        assert "acPowerReactive" not in row["eebus"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert "power-mVAR" in row["review"]
+        assert "nonnegative" in row["review"]
+        assert "no sign convention" in row["review"]
+        assert "native-unit projection" in row["review"]
+        assert "matter association removed" in row["review"]
+        assert "infrastructure.ac.reactive_power" in row["review"]
+        assert row["verification_level"] == "specification"
