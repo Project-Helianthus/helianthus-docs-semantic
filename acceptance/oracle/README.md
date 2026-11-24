@@ -53,7 +53,7 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/gateway-goldens.json` | path, sha256, checking test and exit status at the pin of every golden of the frozen gateway | recorded-current |
 | `current/gateway/cmd-gateway/ss02/` | native records of the Vaillant hot-water mappers and of the gateway Growatt CAN receive path | recorded-current |
 | `current/canbusreg/canbusreg/ss02/` | native records of the registry Growatt CAN classifier | recorded-current |
-| `current/modbusreg/sunspec/ss02/` | native records of the SunSpec decoder and monitoring capability on the Model 103 W and W_SF operands | recorded-current |
+| `current/modbusreg/sunspec/ss02/` | native records of the SunSpec decoder and monitoring capability on the Model 103 W and W_SF operands, with each fact's number, enum number and symbol, or bits and bit symbols | recorded-current |
 | `current/semreg/semreg-v1-graph/` | the catalog bytes embedded in the SemReg enforcement source and their sha256 | recorded-current |
 | `current/sessions/<family>/<case>/session.json` | the published input of a whole session | synthetic |
 | `current/sessions/<family>/<case>/output.json` | the frozen output of that session on the old process | recorded-current |
@@ -96,7 +96,12 @@ extracted cache or the donor clones, and `go.sum` verifies them.
 - `python3 acceptance/oracle/check.py --replay <reference>` verifies the sha256 of every input entry, re-records the
   reference, runs every indexed session, and compares every `expected-output` entry byte for byte with the committed file or,
   for a digest-only entry, with the frozen digest. A missing, changed or extra actual output exits nonzero. For each binary
-  it requires the delivered file and an independent rebuild to have the recorded SHA-256.
+  it requires the delivered file and an independent rebuild to have the recorded SHA-256. The `go install` form has no
+  `-trimpath`, so its executable embeds the Go root and module cache paths of the host that built it. When the rebuild
+  differs from the delivered file, the comparison sets only those paths aside: it requires the same toolchain version,
+  module graph with hashes and build settings, section list, symbol table (names, kinds and sizes, except the size of the
+  string that holds the Go root path) and byte-identical path-free sections.
+- `python3 -m pytest acceptance/oracle/test_oracle_checks.py` checks the SunSpec native records and that rebuild comparison.
 - `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` when they are recorded.
 
 ## Sources

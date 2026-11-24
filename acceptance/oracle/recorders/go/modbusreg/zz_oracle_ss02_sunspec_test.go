@@ -10,10 +10,21 @@ import (
 func oracleSunSpecDecision(decision CapabilityDecision) map[string]any {
 	facts := []any{}
 	for _, fact := range decision.Facts() {
-		number, isNumber := fact.Value().Number()
-		entry := map[string]any{"field_id": fact.FieldID(), "unit": fact.Unit()}
-		if isNumber {
+		value := fact.Value()
+		entry := map[string]any{"field_id": fact.FieldID(), "unit": fact.Unit(), "kind": string(value.Kind())}
+		if number, isNumber := value.Number(); isNumber {
 			entry["number"] = number
+		}
+		if enumNumber, symbol, isEnum := value.Enum(); isEnum {
+			entry["enum_number"] = enumNumber
+			entry["enum_symbol"] = symbol
+		}
+		if bits, symbols, isBitfield := value.Bitfield(); isBitfield {
+			if symbols == nil {
+				symbols = []string{}
+			}
+			entry["bits"] = bits
+			entry["bit_symbols"] = symbols
 		}
 		facts = append(facts, entry)
 	}

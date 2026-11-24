@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import struct
 import subprocess
 import sys
 from pathlib import Path
@@ -126,6 +127,83 @@ def describe(expected_file, actual_file):
     return ""
 
 
+UNTRIMMED_FORM = "go install module@version"
+# Sections of a Go ELF executable that carry no file system path and no address downstream of one.
+HOST_PATH_SYMBOL = "runtime.defaultGOROOT.str"
+PATH_FREE_SECTIONS = (".typelink", ".go.buildinfo", ".debug_abbrev", ".debug_frame", ".debug_loclists", ".debug_rnglists", ".debug_addr", ".strtab", ".shstrtab")
+
+
+def elf_view(data):
+    """Section names and sizes, the path-free sections' digests, the symbol table without addresses, and the build information of a Go ELF64 executable."""
+    shoff = struct.unpack_from("<Q", data, 0x28)[0]
+    shentsize, shnum, shstrndx = struct.unpack_from("<HHH", data, 0x3A)
+    raw = [struct.unpack_from("<IIQQQQ", data, shoff + index * shentsize) for index in range(shnum)]
+    names_at = raw[shstrndx][4]
+
+    def text(offset, base):
+        return data[base + offset:data.index(b"\0", base + offset)].decode("utf-8", "replace")
+
+    sections = {text(name, names_at): (kind, offset, size) for name, kind, _flags, _addr, offset, size in raw}
+    body = {name: data[offset:offset + size] for name, (kind, offset, size) in sections.items() if kind != 8}
+    symbols = []
+    if ".symtab" in body and ".strtab" in body:
+        table, names = body[".symtab"], body[".strtab"]
+        for position in range(0, len(table) - 23, 24):
+            name, info, _other, _shndx, _value, size = struct.unpack_from("<IBBHQQ", table, position)
+            symbol = names[name:names.index(b"\0", name)].decode("utf-8", "replace")
+            # The size of the string that holds the Go root path is the length of that path: the one symbol that records a host path.
+            symbols.append((symbol, info, 0 if symbol == HOST_PATH_SYMBOL else size))
+    info = body.get(".go.buildinfo", b"")
+    version = modinfo = b""
+    if info.startswith(b"\xff Go buildinf:") and info[15] & 2:
+        cursor = 32
+        parts = []
+        for _ in range(2):
+            length = shift = 0
+            while True:
+                byte = info[cursor]
+                cursor += 1
+                length |= (byte & 0x7F) << shift
+                shift += 7
+                if byte < 0x80:
+                    break
+            parts.append(info[cursor:cursor + length])
+            cursor += length
+        version, modinfo = parts
+    return {"sections": [(name, kind, size) for name, (kind, _offset, size) in sections.items()], "path_free": {name: hashlib.sha256(body[name]).hexdigest() for name in PATH_FREE_SECTIONS if name in body},
+            "symbols": sorted(symbols), "version": version, "modinfo": modinfo}
+
+
+def untrimmed_differences(delivered, rebuilt):
+    """Why a rebuild of an untrimmed build (no -trimpath) is not the delivered binary once the host-dependent build paths are set aside.
+
+    The executable embeds the Go root and module cache paths of the host that built it, in .rodata, .gopclntab and the debug sections,
+    and every section laid out after them moves with their lengths. What is compared instead is everything those paths do not touch:
+    toolchain version, module graph with its hashes and build settings, section names, the symbol table (names, kinds, sizes) and the
+    byte content of the path-free sections."""
+    left, right = elf_view(delivered), elf_view(rebuilt)
+    problems = []
+    if not left["version"] or not left["modinfo"]:
+        problems.append("the delivered binary carries no readable build information")
+    if left["version"] != right["version"]:
+        problems.append("toolchain version differs")
+    if left["modinfo"] != right["modinfo"]:
+        problems.append("module graph, hashes or build settings differ")
+    if [name for name, _kind, _size in left["sections"]] != [name for name, _kind, _size in right["sections"]]:
+        problems.append("section list differs")
+    if left["symbols"] != right["symbols"]:
+        problems.append("symbol table differs")
+    for name in PATH_FREE_SECTIONS:
+        if left["path_free"].get(name) != right["path_free"].get(name):
+            problems.append(f"path-free section {name} differs")
+    return problems
+
+
+def host_independent(entry):
+    """A manifest entry without what depends on the host: the digest and size of an untrimmed build, and the host platform of the toolchain."""
+    return {key: (" ".join(value.split()[:3]) if key == "toolchain" else value) for key, value in entry.items() if key not in ("sha256", "size")}
+
+
 def compare_build(reference, actual_oracle):
     errors = []
     committed_bom = {p.name: p for p in (HERE / "bom").glob(f"{reference}-*.json")}
@@ -150,6 +228,13 @@ def compare_build(reference, actual_oracle):
         scratch = actual_oracle / entry["file"]
         if entry["id"] not in rebuilt or not scratch.is_file():
             errors.append(f"binary {entry['id']}: not rebuilt")
+        elif entry["build_form"] == UNTRIMMED_FORM and sha256(scratch) != entry["sha256"]:
+            # No -trimpath: the delivered bytes hold the paths of the host that built them (README, binaries).
+            problems = untrimmed_differences(delivered.read_bytes(), scratch.read_bytes())
+            if problems:
+                errors.append(f"binary {entry['id']}: independent rebuild is not the delivered binary apart from host-dependent build paths: " + "; ".join(problems))
+            elif host_independent(rebuilt[entry["id"]]) != host_independent(entry):
+                errors.append(f"binary {entry['id']}: rebuilt manifest entry differs from binaries.json")
         elif sha256(scratch) != entry["sha256"]:
             errors.append(f"binary {entry['id']}: independent rebuild does not have the recorded sha256")
         elif rebuilt[entry["id"]] != entry:

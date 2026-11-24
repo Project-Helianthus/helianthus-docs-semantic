@@ -18,93 +18,118 @@
     "facts": [
       {
         "field_id": "inverter.ac.current.total",
+        "kind": "number",
         "number": "1",
         "unit": "A"
       },
       {
         "field_id": "inverter.ac.current.phase_a",
+        "kind": "number",
         "number": "1",
         "unit": "A"
       },
       {
         "field_id": "inverter.ac.current.phase_b",
+        "kind": "number",
         "number": "1",
         "unit": "A"
       },
       {
         "field_id": "inverter.ac.current.phase_c",
+        "kind": "number",
         "number": "1",
         "unit": "A"
       },
       {
         "field_id": "inverter.ac.voltage.phase_a",
+        "kind": "number",
         "number": "1",
         "unit": "V"
       },
       {
         "field_id": "inverter.ac.voltage.phase_b",
+        "kind": "number",
         "number": "1",
         "unit": "V"
       },
       {
         "field_id": "inverter.ac.voltage.phase_c",
+        "kind": "number",
         "number": "1",
         "unit": "V"
       },
       {
         "field_id": "inverter.ac.power.active",
+        "kind": "number",
         "number": "1500",
         "unit": "W"
       },
       {
         "field_id": "inverter.ac.frequency",
+        "kind": "number",
         "number": "1",
         "unit": "Hz"
       },
       {
         "field_id": "inverter.ac.energy_lifetime",
+        "kind": "number",
         "number": "1",
         "unit": "Wh"
       },
       {
         "field_id": "inverter.temperature.cabinet",
+        "kind": "number",
         "number": "1",
         "unit": "C"
       },
       {
+        "enum_number": 4,
+        "enum_symbol": "MPPT",
         "field_id": "inverter.operating_state",
+        "kind": "enum",
         "unit": "none"
       },
       {
+        "bit_symbols": [],
+        "bits": 0,
         "field_id": "inverter.events.1",
+        "kind": "bitfield",
         "unit": "none"
       },
       {
+        "bit_symbols": [],
+        "bits": 0,
         "field_id": "inverter.events.2",
+        "kind": "bitfield",
         "unit": "none"
       },
       {
         "field_id": "inverter.ac.power.apparent",
+        "kind": "number",
         "number": "0",
         "unit": "VA"
       },
       {
         "field_id": "inverter.ac.power.reactive",
+        "kind": "number",
         "number": "0",
         "unit": "var"
       },
       {
         "field_id": "inverter.ac.voltage.line_ab",
+        "kind": "number",
         "number": "0",
         "unit": "V"
       },
       {
         "field_id": "inverter.ac.voltage.line_bc",
+        "kind": "number",
         "number": "0",
         "unit": "V"
       },
       {
         "field_id": "inverter.ac.voltage.line_ca",
+        "kind": "number",
         "number": "0",
         "unit": "V"
       }
