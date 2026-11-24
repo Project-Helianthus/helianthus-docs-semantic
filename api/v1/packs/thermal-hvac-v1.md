@@ -147,7 +147,7 @@ The FactKey dimension contracts are `thermal.dimension.system`,
 `thermal.dimension.ventilation`, `thermal.dimension.heat_generator`,
 `thermal.dimension.thermal_store`, `thermal.dimension.terminal_unit`,
 `thermal.dimension.refrigerant_circuit`, `thermal.dimension.compressor`,
-and `thermal.dimension.pump`;
+`thermal.dimension.pump`, and `thermal.dimension.room`;
 each is typed text and names one resource. They preserve separate instances
 without a guessed canonical face.
 
@@ -155,6 +155,7 @@ without a guessed canonical face.
 |---|---|---|---|---|
 | thermal system | function | `thermal.dimension.system` | `thermal.service.system` | `thermal.capability.read.system` |
 | zone | function | `thermal.dimension.zone` | `thermal.service.zone` | `thermal.capability.read.zone` |
+| room | function | `thermal.dimension.room` | `thermal.service.room` | `thermal.capability.read.room` |
 | thermal circuit | function | `thermal.dimension.circuit` | `thermal.service.circuit` | `thermal.capability.read.circuit` |
 | domestic hot water | function | `thermal.dimension.dhw` | `thermal.service.dhw` | `thermal.capability.read.dhw` |
 | ventilation system | function | `thermal.dimension.ventilation` | `thermal.service.ventilation` | `thermal.capability.read.ventilation` |
@@ -171,7 +172,7 @@ current binding: `thermal.capability.set_temperature` on the zone service and
 `thermal.capability.set_mode` on the system service. Indoor and outdoor units
 are not kinds.
 
-The pack declares five relation definitions. Each names the dimensions of its
+The pack declares eight relation definitions. Each names the dimensions of its
 `from` and `to` ends as lists and its cardinality; the
 [element catalog](../element-catalog-v1.json) states the core type,
 orientation, endpoint kinds, medium, admitted basis classes and planes:
@@ -183,6 +184,9 @@ orientation, endpoint kinds, medium, admitted basis classes and planes:
 | `thermal.relation.air_supply` | `supplies`, air | terminal unit, ventilation system | zone | many to many | configuration | energy |
 | `thermal.relation.refrigerant_circuit_member` | `groups` | refrigerant circuit | heat generator, terminal unit | one to many | configuration, gate rule | physical, hydraulic |
 | `thermal.relation.generator_compressor` | `contains` | heat generator | compressor | one to many | gate rule | physical, hydraulic, diagnostic |
+| `thermal.relation.circuit_room` | `contains` | thermal circuit | room | one to many | configuration | physical |
+| `thermal.relation.circuit_zone` | `contains` | thermal circuit | zone | one to many | configuration | physical |
+| `thermal.relation.zone_room` | `contains` | zone | room | one to many | configuration | physical |
 
 The core-owned definition `relation.thermal_control` (`controls`) runs from
 generic equipment to the thermal system, zone, thermal circuit, domestic hot
@@ -194,8 +198,10 @@ a dimension of this pack.
 A relation instance is published only with the basis class its native owner
 documents; without it the relation is unknown and no absence statement is
 made. `thermal.relation.fluid_supply` admits configuration until a native
-owner documents another class. Refrigerant pressures are published only when
-the native owner proves the pressure reference; compressor speed only when
+owner documents another class. `thermal.relation.fluid_supply` is a separate
+supplies relation and is not a physical parent. Refrigerant pressures are
+published only when the native owner proves the pressure reference; compressor
+speed only when
 it proves the mechanical meaning and the unit.
 
 Through the fluid facts, the fluid kinds and `thermal.relation.fluid_supply`
@@ -232,8 +238,10 @@ The placement and the unit rule are recorded in the
 and the [decision on thermal fields and units](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/65#issuecomment-6878640674),
 with the [research report on thermal quantities and units](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/65#issuecomment-6878641100)
 and the [research note on the canonical temperature unit](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/65#issuecomment-6878641365).
-Identifiers stay provisional under the
+Identifiers recorded before the room kind stay provisional under the
 [naming contract](../../../architecture/naming-contract.md).
+Room identifiers are admitted there with the historical name equal to the
+canonical name and with no confirmation question.
 
 ## Operations, effects, and readback
 
@@ -246,6 +254,71 @@ not published because the catalog cannot imply a native route. Both require
 current generation, qualified active capability, exact route, and authority
 admission. Dispatch, ACK, readback, and result remain separate; applied needs
 current-generation confirming readback and indeterminate handoff forbids retry.
+
+`resource.room` is the SPINE 1.3.0 section 4.2.33 entity type HVACRoom.
+HeatingZone remains `resource.zone`. A room is not folded into a zone.
+`thermal.dimension.room`, `thermal.service.room` and
+`thermal.capability.read.room` are members of the physical, energy and control
+planes. The read descriptor is `thermal.portal.read.room`.
+
+Room quantities are `unit.kelvin` and carry no bounds:
+`thermal.room.limit_absolute_minimum_heating_setpoint`,
+`thermal.room.limit_absolute_maximum_heating_setpoint`,
+`thermal.room.limit_absolute_minimum_cooling_setpoint`,
+`thermal.room.limit_absolute_maximum_cooling_setpoint`,
+`thermal.room.limit_minimum_heating_setpoint`,
+`thermal.room.limit_maximum_heating_setpoint`,
+`thermal.room.limit_minimum_cooling_setpoint`,
+`thermal.room.limit_maximum_cooling_setpoint`,
+`thermal.room.limit_setpoint_step`,
+`thermal.room.measurement_air_temperature`,
+`thermal.room.setpoint_occupied_cooling`,
+`thermal.room.setpoint_occupied_heating`, and
+`thermal.room.setpoint_temperature_setpoint`.
+`thermal.room.measurement_air_temperature` is an aggregation member on the
+energy and control planes (MRT 1.0.0 scenario 1). The other room quantities
+are control facts. Heating limits and the occupied heating setpoint cite
+CRHT 1.0.0 scenario 1. Cooling limits and the occupied cooling setpoint cite
+CRCT 1.0.0 scenario 1. The temperature setpoint cites CRHT 1.0.0 scenario 1.
+The reviewed table calls `thermal.room.limit_setpoint_step` signed. No
+supplies relation is named for that fact, so the catalog records direction
+`not_applicable` and infers no sign.
+
+`thermal.room.mode_zone` symbols are `auto`, `eco`, `off` and `on`
+(MRHSF 1.0.0 scenario 1). `thermal.room.mode_zone_cooling` uses the same four
+symbols (MRCSF 1.0.0 scenario 1). Comfort stays a symbol of `thermal.mode.zone`
+and is not a room mode.
+
+`thermal.relation.circuit_zone` and `thermal.relation.zone_room` are the
+circuit-to-zone-to-room containment of CRHSF/MRHSF 1.0.0 section 3.2.2.1
+Figure 5 option 2. `thermal.relation.circuit_room` is Figure 5 option 1.
+Each containment row is `contains`, one to many, basis class configuration,
+and the physical plane only.
+
+Room writes are control operations on `thermal.service.room`. Each argument
+is a fact of `thermal.dimension.room`:
+
+- `thermal.room.operation_set_zone_mode` takes `thermal.room.mode_zone`
+  through `thermal.room.capability_set_zone_mode` and
+  `thermal.room.effect_set_zone_mode` (CRHSF 1.0.0 scenario 1).
+- `thermal.room.operation_set_zone_cooling_mode` takes
+  `thermal.room.mode_zone_cooling` through
+  `thermal.room.capability_set_zone_cooling_mode` and
+  `thermal.room.effect_set_zone_cooling_mode` (CRCSF 1.0.0 scenario 1).
+- `thermal.room.operation_set_occupied_heating` takes
+  `thermal.room.setpoint_occupied_heating` through
+  `thermal.room.capability_set_occupied_heating` and
+  `thermal.room.effect_set_occupied_heating` (CRHT 1.0.0 scenario 1).
+- `thermal.room.operation_set_occupied_cooling` takes
+  `thermal.room.setpoint_occupied_cooling` through
+  `thermal.room.capability_set_occupied_cooling` and
+  `thermal.room.effect_set_occupied_cooling` (CRCT 1.0.0 scenario 1).
+- `thermal.room.operation_set_temperature` takes
+  `thermal.room.setpoint_temperature_setpoint` through
+  `thermal.room.capability_set_temperature` and
+  `thermal.room.effect_set_temperature` (CRHT 1.0.0 scenario 1).
+
+A room control does not take a zone argument.
 
 ## Lifecycle and qualification
 
@@ -267,7 +340,8 @@ Read descriptors are `thermal.portal.read.system`, `thermal.portal.read.zone`,
 `thermal.portal.read.ventilation`, `thermal.portal.read.heat_generator`,
 `thermal.portal.read.thermal_store`, `thermal.portal.read.terminal_unit`,
 `thermal.portal.read.refrigerant_circuit`,
-`thermal.portal.read.compressor`, and `thermal.portal.read.pump`. Operation descriptors are
+`thermal.portal.read.compressor`, `thermal.portal.read.pump`, and
+`thermal.portal.read.room`. Operation descriptors are
 `thermal.portal.operation.set_temperature` and `thermal.portal.operation.set_mode`.
 Portal consumes promoted definitions and admission; it cannot define truth,
 authority, lifecycle, or native routes.

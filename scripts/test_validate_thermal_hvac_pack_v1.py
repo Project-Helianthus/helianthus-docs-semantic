@@ -42,7 +42,8 @@ STORE = "thermal.dimension.thermal_store"
 TERMINAL = "thermal.dimension.terminal_unit"
 REFRIGERANT = "thermal.dimension.refrigerant_circuit"
 COMPRESSOR = "thermal.dimension.compressor"
-RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump"}
+ROOM = "thermal.dimension.room"
+RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM}
 # Temperature bounds of the placement, in kelvin: -100 to 200 and -50 to 150 degrees Celsius plus 273.15.
 AIR = (Fraction(-100), Fraction(200))
 SETPOINT = (Fraction(-50), Fraction(150))
@@ -106,6 +107,21 @@ FIELD_TABLE = {
     "thermal.overrun.one_time_ventilation": (SYSTEM, None, None),
     "thermal.overrun.hvac_system_off": (SYSTEM, None, None),
     "thermal.overrun.valve_kick": (SYSTEM, None, None),
+    "thermal.room.limit_absolute_maximum_cooling_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_absolute_maximum_heating_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_absolute_minimum_cooling_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_absolute_minimum_heating_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_maximum_cooling_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_maximum_heating_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_minimum_cooling_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_minimum_heating_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.room.limit_setpoint_step": (ROOM, "unit.kelvin", None),
+    "thermal.room.measurement_air_temperature": (ROOM, "unit.kelvin", None),
+    "thermal.room.mode_zone": (ROOM, None, None),
+    "thermal.room.mode_zone_cooling": (ROOM, None, None),
+    "thermal.room.setpoint_occupied_cooling": (ROOM, "unit.kelvin", None),
+    "thermal.room.setpoint_occupied_heating": (ROOM, "unit.kelvin", None),
+    "thermal.room.setpoint_temperature_setpoint": (ROOM, "unit.kelvin", None),
 }
 # Overrun identity: field id, system dimension, and the four status symbols.
 # Symbol lists stay in canonical sorted order, the same rule as thermal.mode.system.
@@ -142,6 +158,9 @@ RELATION_TABLE = {
     "thermal.relation.air_supply": ([TERMINAL, VENTILATION], [ZONE], "many_to_many"),
     "thermal.relation.refrigerant_circuit_member": ([REFRIGERANT], [GENERATOR, TERMINAL], "one_to_many"),
     "thermal.relation.generator_compressor": ([GENERATOR], [COMPRESSOR], "one_to_many"),
+    "thermal.relation.circuit_room": ([CIRCUIT], [ROOM], "one_to_many"),
+    "thermal.relation.circuit_zone": ([CIRCUIT], [ZONE], "one_to_many"),
+    "thermal.relation.zone_room": ([ZONE], [ROOM], "one_to_many"),
 }
 # Identifiers the placement removes; none may remain in the pack vectors, the page or the validator.
 REMOVED = (
@@ -244,6 +263,15 @@ def field_axis_mutants(document: dict) -> int:
             wrong["catalog"]["definitions"]["fields"][index]["unit"] = wrong_unit
             reject(wrong, "field unit")
             count += 1
+        if bounds is None:
+            inserted = copy.deepcopy(document)
+            definitions(inserted)["fields"][index]["bounds"] = {
+                "minimum": {"coefficient": "0", "exponent10": 0},
+                "maximum": {"coefficient": "1", "exponent10": 0},
+            }
+            reject(inserted, "field bounds differ")
+            count += 1
+            continue
         for side in ("minimum", "maximum"):
             shifted = copy.deepcopy(document)
             bound = shifted["catalog"]["definitions"]["fields"][index]["bounds"][side]
@@ -545,7 +573,7 @@ def append_qualifier(document: dict) -> None:
     extra = copy.deepcopy(definitions(document)["fact_dimensions"][0])
     extra["id"] = "thermal.dimension.quantity"
     extra["ref"]["id"] = "thermal.dimension.quantity"
-    extra["order"] = 120
+    extra["order"] = 1000
     definitions(document)["fact_dimensions"].append(extra)
 
 
@@ -554,6 +582,296 @@ def set_bounds(document: dict) -> None:
         "minimum": {"coefficient": "3", "exponent10": 1},
         "maximum": {"coefficient": "1", "exponent10": 1},
     }
+
+
+ROOM_QUANTITIES = (
+    "thermal.room.limit_absolute_maximum_cooling_setpoint",
+    "thermal.room.limit_absolute_maximum_heating_setpoint",
+    "thermal.room.limit_absolute_minimum_cooling_setpoint",
+    "thermal.room.limit_absolute_minimum_heating_setpoint",
+    "thermal.room.limit_maximum_cooling_setpoint",
+    "thermal.room.limit_maximum_heating_setpoint",
+    "thermal.room.limit_minimum_cooling_setpoint",
+    "thermal.room.limit_minimum_heating_setpoint",
+    "thermal.room.limit_setpoint_step",
+    "thermal.room.measurement_air_temperature",
+    "thermal.room.setpoint_occupied_cooling",
+    "thermal.room.setpoint_occupied_heating",
+    "thermal.room.setpoint_temperature_setpoint",
+)
+ROOM_MODES = ("thermal.room.mode_zone", "thermal.room.mode_zone_cooling")
+ROOM_TOKENS = ("auto", "eco", "off", "on")
+# operation, capability, argument fact, effect
+ROOM_OPERATIONS = (
+    ("thermal.room.operation_set_occupied_cooling", "thermal.room.capability_set_occupied_cooling",
+     "thermal.room.setpoint_occupied_cooling", "thermal.room.effect_set_occupied_cooling"),
+    ("thermal.room.operation_set_occupied_heating", "thermal.room.capability_set_occupied_heating",
+     "thermal.room.setpoint_occupied_heating", "thermal.room.effect_set_occupied_heating"),
+    ("thermal.room.operation_set_temperature", "thermal.room.capability_set_temperature",
+     "thermal.room.setpoint_temperature_setpoint", "thermal.room.effect_set_temperature"),
+    ("thermal.room.operation_set_zone_cooling_mode", "thermal.room.capability_set_zone_cooling_mode",
+     "thermal.room.mode_zone_cooling", "thermal.room.effect_set_zone_cooling_mode"),
+    ("thermal.room.operation_set_zone_mode", "thermal.room.capability_set_zone_mode",
+     "thermal.room.mode_zone", "thermal.room.effect_set_zone_mode"),
+)
+ROOM_RELATIONS = (
+    "thermal.relation.circuit_room",
+    "thermal.relation.circuit_zone",
+    "thermal.relation.zone_room",
+)
+ZONE_ARGUMENT = {
+    "thermal.room.operation_set_occupied_cooling": "thermal.setpoint.temperature_setpoint",
+    "thermal.room.operation_set_occupied_heating": "thermal.setpoint.temperature_setpoint",
+    "thermal.room.operation_set_temperature": "thermal.setpoint.temperature_setpoint",
+    "thermal.room.operation_set_zone_cooling_mode": "thermal.mode.zone",
+    "thermal.room.operation_set_zone_mode": "thermal.mode.zone",
+}
+
+
+def room_symbols(identifier: str) -> list[str]:
+    return [f"{identifier}.{token}" for token in ROOM_TOKENS]
+
+
+def check_room_quantities(fields: dict) -> None:
+    for identifier in ROOM_QUANTITIES:
+        field = fields[identifier]
+        if field["dimension"] != ROOM or field.get("unit") != "unit.kelvin" or "bounds" in field:
+            raise AssertionError(f"{identifier} is not an unbounded room kelvin quantity")
+
+
+def check_room_modes(fields: dict) -> None:
+    for identifier in ROOM_MODES:
+        symbols = fields[identifier].get("symbols")
+        if symbols != room_symbols(identifier):
+            raise AssertionError(f"{identifier} symbols differ")
+        if any(symbol.endswith(".comfort") for symbol in symbols):
+            raise AssertionError(f"{identifier} includes zone comfort")
+    zone_symbols = fields["thermal.mode.zone"].get("symbols", [])
+    if "thermal.mode.zone.comfort" not in zone_symbols:
+        raise AssertionError("zone mode lost comfort")
+
+
+def check_room_operations(document: dict) -> None:
+    operations = {item["id"]: item for item in definitions(document)["operations"]}
+    capabilities = {item["id"]: item for item in definitions(document)["capabilities"]}
+    for operation_id, capability_id, argument, effect_id in ROOM_OPERATIONS:
+        operation = operations[operation_id]
+        names_room = operation["capability"] == capability_id
+        names_room = names_room and operation["arguments"] == [argument]
+        names_room = names_room and operation["effect_rule"] == effect_id
+        if not names_room:
+            raise AssertionError(f"{operation_id} does not name its room fact")
+        if capabilities[capability_id]["service"] != "thermal.service.room":
+            raise AssertionError(f"{capability_id} is not on the room service")
+
+
+def check_room_containment(document: dict) -> None:
+    relations = definitions(document)["relations"]
+    fluid = next(item for item in relations if item["id"] == "thermal.relation.fluid_supply")
+    observed = (fluid["from"], fluid["to"], fluid["cardinality"])
+    if observed != RELATION_TABLE["thermal.relation.fluid_supply"]:
+        raise AssertionError("fluid supply changed")
+    text = validator.DOCUMENT.read_text(encoding="utf-8")
+    if "not a physical parent" not in text:
+        raise AssertionError("thermal page does not keep fluid supply separate from containment")
+    if "distinct from the single zone setpoint" not in text:
+        raise AssertionError("thermal page does not distinguish the occupancy setpoints")
+
+
+def check_room(document: dict) -> None:
+    """Room facts, operations and the three containment rows.
+
+    Identity fields and the production mutation each case catches:
+    each room quantity id: removing the field is rejected as a field catalog mismatch;
+    dimension: moving it off thermal.dimension.room is rejected as a subject mismatch;
+    unit: replacing unit.kelvin is rejected as a field unit mismatch;
+    bounds: inserting a bounds pair is rejected as bounds differ;
+    each room mode id: removing the field is rejected as a field catalog mismatch;
+    each mode token auto, eco, off and on: replacing that token is rejected as
+    invalid semantic symbols;
+    comfort: inserting a comfort symbol is rejected as room mode includes zone comfort;
+    each room operation id: renaming the operation is rejected as an operation catalog mismatch;
+    capability: pointing the operation at another room capability, and aligning
+    its arguments with that capability's constraints, is rejected as
+    room operation argument is not the room fact;
+    argument fact: swapping in the zone fact, with the capability constraints updated
+    to the same fact, is rejected as room operation argument is not the room fact;
+    effect: pointing the operation at another room effect is rejected as
+    room operation argument is not the room fact;
+    service: moving the capability onto thermal.service.zone is rejected as
+    room operation argument is not the room fact;
+    each containment id thermal.relation.circuit_room, thermal.relation.circuit_zone
+    and thermal.relation.zone_room: renaming it is rejected as a relation catalog mismatch;
+    from: replacing the from list is rejected as endpoints or cardinality differ;
+    to: replacing the to list is rejected as endpoints or cardinality differ;
+    cardinality: setting one_to_one is rejected as endpoints or cardinality differ.
+    """
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    check_room_quantities(fields)
+    check_room_modes(fields)
+    check_room_operations(document)
+    check_room_containment(document)
+    print("room_identity: PASS")
+
+
+def room_operation_index(document: dict, operation_id: str) -> int:
+    operations = definitions(document)["operations"]
+    return next(i for i, item in enumerate(operations) if item["id"] == operation_id)
+
+
+def room_relation_index(document: dict, identifier: str) -> int:
+    relations = definitions(document)["relations"]
+    return next(i for i, item in enumerate(relations) if item["id"] == identifier)
+
+
+def room_quantity_mutants(document: dict) -> int:
+    count = 0
+    for identifier in ROOM_QUANTITIES:
+        index = field_index(document, identifier)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        moved = copy.deepcopy(document)
+        definitions(moved)["fields"][index]["dimension"] = ZONE
+        reject(moved, "field subject differs")
+        wrong = copy.deepcopy(document)
+        definitions(wrong)["fields"][index]["unit"] = "unit.watt"
+        reject(wrong, "field unit")
+        inserted = copy.deepcopy(document)
+        definitions(inserted)["fields"][index]["bounds"] = {
+            "minimum": {"coefficient": "0", "exponent10": 0},
+            "maximum": {"coefficient": "1", "exponent10": 0},
+        }
+        reject(inserted, "field bounds differ")
+        count += 4
+    return count
+
+
+def room_mode_mutants(document: dict) -> int:
+    count = 0
+    for identifier in ROOM_MODES:
+        index = field_index(document, identifier)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        for token in ROOM_TOKENS:
+            renamed = copy.deepcopy(document)
+            symbols = definitions(renamed)["fields"][index]["symbols"]
+            symbols[symbols.index(f"{identifier}.{token}")] = f"{identifier}.paused"
+            reject(renamed, "field has invalid semantic symbols")
+            count += 1
+        comfort = copy.deepcopy(document)
+        symbols = definitions(comfort)["fields"][index]["symbols"]
+        symbols.append(f"{identifier}.comfort")
+        symbols.sort()
+        reject(comfort, "room mode includes zone comfort")
+        count += 1
+    return count
+
+
+def room_operation_rename_mutants(document: dict) -> int:
+    count = 0
+    for operation_id, _capability_id, _argument, _effect_id in ROOM_OPERATIONS:
+        index = room_operation_index(document, operation_id)
+        renamed = copy.deepcopy(document)
+        item = definitions(renamed)["operations"][index]
+        item["id"] += "_other"
+        item["ref"]["id"] += "_other"
+        reject(renamed, "operation catalog")
+        count += 1
+    return count
+
+
+def room_capability_mutants(document: dict) -> int:
+    count = 0
+    for operation_id, capability_id, _argument, _effect_id in ROOM_OPERATIONS:
+        index = room_operation_index(document, operation_id)
+        other_capability = "thermal.room.capability_set_temperature"
+        if capability_id == other_capability:
+            other_capability = "thermal.room.capability_set_zone_mode"
+        swapped = copy.deepcopy(document)
+        item = definitions(swapped)["operations"][index]
+        other = next(capability for capability in definitions(swapped)["capabilities"]
+                     if capability["id"] == other_capability)
+        item["capability"] = other_capability
+        item["arguments"] = list(other["constraints"])
+        item["argument_constraints"] = list(other["constraints"])
+        reject(swapped, "room operation argument is not the room fact")
+        count += 1
+    return count
+
+
+def room_zone_argument_mutants(document: dict) -> int:
+    count = 0
+    for operation_id, capability_id, _argument, _effect_id in ROOM_OPERATIONS:
+        index = room_operation_index(document, operation_id)
+        zone_fact = ZONE_ARGUMENT[operation_id]
+        swapped = copy.deepcopy(document)
+        item = definitions(swapped)["operations"][index]
+        item["arguments"] = [zone_fact]
+        item["argument_constraints"] = [zone_fact]
+        for capability in definitions(swapped)["capabilities"]:
+            if capability["id"] == capability_id:
+                capability["constraints"] = [zone_fact]
+        reject(swapped, "room operation argument is not the room fact")
+        count += 1
+    return count
+
+
+def room_effect_mutants(document: dict) -> int:
+    count = 0
+    for operation_id, _capability_id, _argument, effect_id in ROOM_OPERATIONS:
+        index = room_operation_index(document, operation_id)
+        other_effect = "thermal.room.effect_set_temperature"
+        if effect_id == other_effect:
+            other_effect = "thermal.room.effect_set_zone_mode"
+        swapped = copy.deepcopy(document)
+        definitions(swapped)["operations"][index]["effect_rule"] = other_effect
+        reject(swapped, "room operation argument is not the room fact")
+        count += 1
+    return count
+
+
+def room_service_mutants(document: dict) -> int:
+    count = 0
+    for _operation_id, capability_id, _argument, _effect_id in ROOM_OPERATIONS:
+        moved = copy.deepcopy(document)
+        for capability in definitions(moved)["capabilities"]:
+            if capability["id"] == capability_id:
+                capability["service"] = "thermal.service.zone"
+        reject(moved, "room operation argument is not the room fact")
+        count += 1
+    return count
+
+
+def room_relation_mutants(document: dict) -> int:
+    count = 0
+    for identifier in ROOM_RELATIONS:
+        index = room_relation_index(document, identifier)
+        renamed = copy.deepcopy(document)
+        item = definitions(renamed)["relations"][index]
+        item["id"] += "_other"
+        item["ref"]["id"] += "_other"
+        reject(renamed, "relation catalog")
+        moved_from = copy.deepcopy(document)
+        definitions(moved_from)["relations"][index]["from"] = [STORE]
+        reject(moved_from, "relation endpoints or cardinality differ")
+        moved_to = copy.deepcopy(document)
+        definitions(moved_to)["relations"][index]["to"] = [STORE]
+        reject(moved_to, "relation endpoints or cardinality differ")
+        changed = copy.deepcopy(document)
+        definitions(changed)["relations"][index]["cardinality"] = "one_to_one"
+        reject(changed, "relation endpoints or cardinality differ")
+        count += 4
+    return count
+
+
+def room_mutants(document: dict) -> int:
+    return (room_quantity_mutants(document) + room_mode_mutants(document)
+            + room_operation_rename_mutants(document) + room_capability_mutants(document)
+            + room_zone_argument_mutants(document) + room_effect_mutants(document)
+            + room_service_mutants(document) + room_relation_mutants(document))
 
 
 # name -> (mutation of a copy of the document, expected rejection)
@@ -612,6 +930,8 @@ def main() -> None:
     print(f"overrun_identity_mutants: {overrun_identity_mutants(document)} REJECTED")
     print(f"occupancy_identity_mutants: {occupancy_identity_mutants(document)} REJECTED")
     print(f"pump_and_valve_mutants: {pump_and_valve_mutants(document)} REJECTED")
+    check_room(document)
+    print(f"room_mutants: {room_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":

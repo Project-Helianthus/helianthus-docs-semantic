@@ -642,8 +642,8 @@ These are the six views docs-semantic#67 names. Reconciliation:
   refrigerant resource kinds still need admission.
 - **Communication** (data paths of loggers, controllers and hubs) is the
   `relays` part of the provenance plane.
-- **Spatial** (rooms, areas) has no basis in the accepted public contract and
-  is not defined.
+- **Spatial** is not a plane. Rooms and areas have no seventh plane. A room
+  is `resource.room` (section 10.8), distinct from `resource.zone`.
 
 A seventh plane needs the admission rule and relation definitions whose
 navigation no lens over the existing planes can express.
@@ -870,6 +870,17 @@ electrical circuit become two kinds. The 21 relation definitions become
 relation definitions with an explicit core type, orientation and kinds. Every
 element whose subject or membership cannot be decided from accepted text
 receives `unknown` with a tracking issue instead of being dropped.
+
+### 10.8 HVAC room and value state
+
+SPINE 1.3.0 section 4.2.33 entity type HVACRoom is `resource.room`.
+HeatingZone is `resource.zone`. A room is not folded into a zone.
+
+An eeBUS value source and an eeBUS value state map onto the kernel origin,
+assertion and validity. Measured maps to observed, calculated maps to derived,
+and empirical maps to inferred. Out of range maps to validity suspect, and the
+bound is kept. A value outside the device-queried or specified range is
+published and marked validity suspect. It is not dropped and it is not clamped.
 
 ## 11. Publication and coherence
 
