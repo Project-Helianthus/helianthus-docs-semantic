@@ -470,6 +470,27 @@ EXCLUDED_IDS = (
 )
 
 
+def reject_admitted_field(document, ident, index, kind, fields):
+    """One admitted field, and the production mutation that catches each changed attribute."""
+    case(document, ident + "_kind", "noncanonical kind", lambda catalog, index=index, kind=kind: catalog["definitions"]["fields"][index].update(kind="text" if kind != "text" else "boolean"))
+    case(document, ident + "_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
+    if kind == "quantity" and "unit" in fields[ident]:
+        other_unit = "unit.second" if fields[ident]["unit"] != "unit.second" else "unit.watt"
+        case(document, ident + "_unit", "canonical quantity contract", lambda catalog, index=index, other_unit=other_unit: catalog["definitions"]["fields"][index].update(unit=other_unit))
+    if kind == "quantity":
+        low, _high = validator.FIELD_BOUNDS[ident]
+        if low is None:
+            case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+        else:
+            case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["minimum"].update(coefficient="9"))
+    elif kind == "text":
+        case(document, ident + "_unit", "canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.watt"))
+    else:
+        case(document, ident + "_symbols", "canonical symbol contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["other_symbol"]))
+    if "qualifiers" in fields[ident]:
+        case(document, ident + "_qualifiers", "field qualifiers", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(qualifiers=["pv.dimension.array"]))
+
+
 def check_admitted_fields(document):
     """Each admitted field identity and the production mutation that catches it.
 
@@ -508,24 +529,8 @@ def check_admitted_fields(document):
             field["ref"]["id"] = field["id"]
 
         case(document, ident + "_id", "fields catalog", rename)
-        case(document, ident + "_kind", "noncanonical kind", lambda catalog, index=index, kind=kind: catalog["definitions"]["fields"][index].update(kind="text" if kind != "text" else "boolean"))
         case(document, ident + "_dimension", "noncanonical kind", lambda catalog, index=index, other_dimension=other_dimension: catalog["definitions"]["fields"][index].update(dimension=other_dimension))
-        case(document, ident + "_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
-        if kind == "quantity" and "unit" in fields[ident]:
-            other_unit = "unit.second" if fields[ident]["unit"] != "unit.second" else "unit.watt"
-            case(document, ident + "_unit", "canonical quantity contract", lambda catalog, index=index, other_unit=other_unit: catalog["definitions"]["fields"][index].update(unit=other_unit))
-        if kind == "quantity":
-            low, _high = validator.FIELD_BOUNDS[ident]
-            if low is None:
-                case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
-            else:
-                case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["minimum"].update(coefficient="9"))
-        elif kind == "text":
-            case(document, ident + "_unit", "canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.watt"))
-        else:
-            case(document, ident + "_symbols", "canonical symbol contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["other_symbol"]))
-        if "qualifiers" in fields[ident]:
-            case(document, ident + "_qualifiers", "field qualifiers", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(qualifiers=["pv.dimension.array"]))
+        reject_admitted_field(document, ident, index, kind, fields)
     print("admitted_fields: PASS")
 
 

@@ -283,11 +283,8 @@ def validate_defs(catalog):
             continue
         if kind == "quantity":
             check_plain_quantity(item, unit, minimum, maximum, base)
-        elif kind == "text":
-            if set(item) != base:
-                raise ValueError("field has invalid canonical text contract")
-        elif set(item) != base | {"symbols"} or tuple(item.get("symbols", ())) != tuple(symbols) or any(SYMBOL.fullmatch(symbol) is None for symbol in item.get("symbols", ())):
-            raise ValueError("field has invalid canonical symbol contract")
+        else:
+            check_text_or_symbol(item, kind, symbols, base)
     dimensions = refs(definitions.get("fact_dimensions"), "fact dimensions", DIMS)
     if any(set(item) != {"id", "ref", "value_kind", "order"} or item.get("value_kind") != "text" for item in dimensions.values()):
         raise ValueError("dimension association")
@@ -332,6 +329,15 @@ def check_plain_quantity(item, unit, minimum, maximum, base):
     bounds = {"minimum": {"coefficient": minimum[0], "exponent10": minimum[1]}, "maximum": {"coefficient": maximum[0], "exponent10": maximum[1]}}
     if set(item) != base | {"unit", "bounds"} or item.get("unit") != unit or item.get("bounds") != bounds or not less(bounds["minimum"], bounds["maximum"]):
         raise ValueError("field has invalid canonical quantity contract")
+
+
+def check_text_or_symbol(item, kind, symbols, base):
+    if kind == "text":
+        if set(item) != base:
+            raise ValueError("field has invalid canonical text contract")
+        return
+    if set(item) != base | {"symbols"} or tuple(item.get("symbols", ())) != tuple(symbols) or any(SYMBOL.fullmatch(symbol) is None for symbol in item.get("symbols", ())):
+        raise ValueError("field has invalid canonical symbol contract")
 
 
 def check_qualified_field(identifier, item, kind, unit, base):
