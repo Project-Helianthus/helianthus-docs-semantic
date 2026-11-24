@@ -113,13 +113,15 @@ def assert_distinct_quantities(fields):
 
 def assert_distinct_portals(document):
     portals = {item["id"]: tuple(item.get("fields", ())) for item in document["catalog"]["definitions"]["portal_contributions"]}
-    if portals.get("pv.portal.read.string") != ("pv.dc.energy",):
-        raise AssertionError("string read is not only pv.dc.energy")
+    string_fields = portals.get("pv.portal.read.string", ())
+    if string_fields[:1] != ("pv.dc.energy",) or "pv.energy.generated" in string_fields:
+        raise AssertionError("string read no longer keeps pv.dc.energy off system energy")
     system_fields = portals.get("pv.portal.read.system", ())
     if "pv.energy.generated" not in system_fields or "pv.dc.energy" in system_fields:
         raise AssertionError("system read no longer holds only system energy")
     phase = portals.get("pv.portal.read.phase", ())
-    if phase != ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage"):
+    original_phase = ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage")
+    if phase[:len(original_phase)] != original_phase:
         raise AssertionError("phase read is not the five phase quantities")
 
 
@@ -376,7 +378,7 @@ def main():
     case(document, "duplicate_field_order", "fields noncanonical order", lambda c: c["definitions"]["fields"][1].update(order=10))
     case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
     case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
-    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":320}))
+    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":950}))
     case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
     case(document, "availability_policy_conflated", "availability policy", lambda c: c["availability_policy"].update(effective_availability="pv.status.operating"))
     case(document, "topology_self_edge", "topology relation association", lambda c: c["definitions"]["relations"][0].update(to="pv.dimension.system"))
@@ -446,6 +448,90 @@ def check_accuracy_facts(document):
     case(document, "measurement_value_kind", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0].update(value_kind="text"))
     case(document, "measurement_symbol", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0]["symbols"].__setitem__(0, "other_symbol"))
     print("accuracy_facts: PASS")
+    check_admitted_fields(document)
+
+
+PRIOR_FIELDS = frozenset({
+    "pv.dc.voltage", "pv.dc.current", "pv.dc.power", "pv.dc.energy",
+    "pv.ac.voltage", "pv.ac.current", "pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.reactive_power",
+    "pv.ac.frequency", "pv.ac.power_factor", "pv.energy.generated", "pv.energy.yield_day", "pv.energy.yield_month",
+    "pv.energy.yield_year", "pv.temperature.inverter", "pv.limit.active_power", "pv.limit.active_power_ratio",
+    "pv.limit.export_power", "pv.status.operating", "pv.status.derating", "pv.status.fault",
+    "pv.dc.aggregate_voltage", "pv.dc.aggregate_current", "pv.dc.aggregate_power",
+    "pv.ac.aggregate_voltage", "pv.ac.aggregate_current", "pv.ac.aggregate_active_power",
+    "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_reactive_power",
+    "pv.accuracy.measured", "pv.accuracy.ratio_maximum",
+})
+EXCLUDED_IDS = (
+    "pv.status.operating_detail", "pv.temperature.sensor", "pv.configuration.maximum_active_power",
+    "pv.configuration.maximum_apparent_power", "pv.configuration.maximum_reactive_power",
+    "pv.input.state", "pv.input.temperature", "pv.measurement.irradiance", "pv.measurement.module_temperature",
+    "pv.dimension.temperature_sensor", "pv.operation.set_power_settings", "pv.operation.set_active_power_limit_ratio",
+)
+
+
+def reject_admitted_field(document, ident, index, kind, fields):
+    """One admitted field, and the production mutation that catches each changed attribute."""
+    case(document, ident + "_kind", "noncanonical kind", lambda catalog, index=index, kind=kind: catalog["definitions"]["fields"][index].update(kind="text" if kind != "text" else "boolean"))
+    case(document, ident + "_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
+    if kind == "quantity" and "unit" in fields[ident]:
+        other_unit = "unit.second" if fields[ident]["unit"] != "unit.second" else "unit.watt"
+        case(document, ident + "_unit", "canonical quantity contract", lambda catalog, index=index, other_unit=other_unit: catalog["definitions"]["fields"][index].update(unit=other_unit))
+    if kind == "quantity":
+        low, _high = validator.FIELD_BOUNDS[ident]
+        if low is None:
+            case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+        else:
+            case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["minimum"].update(coefficient="9"))
+    elif kind == "text":
+        case(document, ident + "_unit", "canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.watt"))
+    else:
+        case(document, ident + "_symbols", "canonical symbol contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["other_symbol"]))
+    if "qualifiers" in fields[ident]:
+        case(document, ident + "_qualifiers", "field qualifiers", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(qualifiers=["pv.dimension.array"]))
+
+
+def check_admitted_fields(document):
+    """Each admitted field identity and the production mutation that catches it.
+
+    id: renaming the field and its ref fails the fields catalog.
+    kind, dimension and optional: each change fails the noncanonical field check.
+    quantity unit: another canonical unit fails the quantity contract.
+    empty bounds: setting a minimum fails the quantity contract.
+    closed bounds: changing the minimum coefficient fails the quantity contract.
+    symbol and symbols: replacing the symbol list fails the symbol contract.
+    text: adding a unit fails the text contract.
+    qualifiers: replacing the qualifier list fails field qualifiers.
+    """
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    if fields["pv.configuration.grid_code"]["kind"] != "text" or fields["pv.configuration.grid_code"]["dimension"] != "pv.dimension.inverter":
+        raise AssertionError("grid_code")
+    if any("sunspec" in ident for ident in fields) or any(ident in fields for ident in EXCLUDED_IDS):
+        raise AssertionError("excluded setting")
+    if validator.FIELD_CONTRACTS["pv.accuracy.measured"] != ("boolean", None, "pv.dimension.inverter", True, None):
+        raise AssertionError("measured pilot")
+    if validator.FIELD_CONTRACTS["pv.accuracy.ratio_maximum"] != ("quantity", "unit.ratio", "pv.dimension.inverter", True, None):
+        raise AssertionError("ratio pilot")
+    if validator.FIELD_BOUNDS["pv.accuracy.ratio_maximum"] != (None, None):
+        raise AssertionError("ratio bounds")
+    new_ids = [ident for ident in validator.FIELD_CONTRACTS if ident not in PRIOR_FIELDS]
+    if len(new_ids) != 63 or set(validator.FIELD_CONTRACTS) != set(fields):
+        raise AssertionError("field catalog")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    for ident in new_ids:
+        kind = validator.FIELD_CONTRACTS[ident][0]
+        index = positions[ident]
+        other_dimension = "pv.dimension.array" if fields[ident]["dimension"] != "pv.dimension.array" else "pv.dimension.input"
+
+        def rename(catalog, index=index):
+            field = catalog["definitions"]["fields"][index]
+            field["id"] = field["id"] + "_moved"
+            field["ref"]["id"] = field["id"]
+
+        case(document, ident + "_id", "fields catalog", rename)
+        case(document, ident + "_dimension", "noncanonical kind", lambda catalog, index=index, other_dimension=other_dimension: catalog["definitions"]["fields"][index].update(dimension=other_dimension))
+        reject_admitted_field(document, ident, index, kind, fields)
+    print("admitted_fields: PASS")
 
 
 if __name__ == "__main__":

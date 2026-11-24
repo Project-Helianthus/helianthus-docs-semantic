@@ -57,7 +57,7 @@ def check_si_units(document):
         raise AssertionError("validator unit set differs from the unit rule")
     fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
     for field in fields.values():
-        if field["kind"] == "quantity" and field["unit"] not in SI_UNITS:
+        if field["kind"] == "quantity" and "unit" in field and field["unit"] not in SI_UNITS:
             raise AssertionError(f"{field['id']} declares {field['unit']}")
     for identifier, (unit, minimum, maximum, factor, offset) in CONVERTED.items():
         expected = {"minimum": converted(minimum, factor, offset), "maximum": converted(maximum, factor, offset)}
@@ -203,14 +203,16 @@ def assert_new_quantities(fields):
             raise AssertionError(f"{identifier} is not its distinct quantity")
 
 
-def assert_grid_portals(portals):
+def assert_grid_portals(portals, fields):
     meter = portals.get("infrastructure.portal.read.meter", ())
     grid = portals.get("infrastructure.portal.read.grid_connection", ())
     phase = portals.get("infrastructure.portal.read.phase", ())
-    if meter != ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum",
-                 "infrastructure.energy.export", "infrastructure.energy.import",
-                 "infrastructure.energy.self_consumption"):
-        raise AssertionError("meter read is not the accuracy facts, then export, import, and self-consumption")
+    prior_meter = ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum",
+                   "infrastructure.energy.export", "infrastructure.energy.import",
+                   "infrastructure.energy.self_consumption")
+    meter_fields = tuple(sorted(ident for ident, field in fields.items() if field["dimension"] == "infrastructure.dimension.meter"))
+    if meter != meter_fields or not set(prior_meter) <= set(meter):
+        raise AssertionError("meter read is not exactly the meter fields, including export, import, and self-consumption")
     if "infrastructure.limit.fallback_power" not in grid or "infrastructure.power.pcc" not in grid:
         raise AssertionError("grid-connection read misses the fallback limit or point-of-coupling power")
     if "infrastructure.power.import_active" not in grid or "infrastructure.power.export_active" not in grid:
@@ -235,12 +237,13 @@ def assert_grid_members(document):
     fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
     assert_kept_quantities(fields)
     services = {item["id"] for item in document["catalog"]["definitions"]["services"]}
-    unchanged = services == SERVICES and document["catalog"]["definitions"]["operations"] == []
-    if not unchanged or len(document["catalog"]["definitions"]["capabilities"]) != 6:
+    capabilities = {item["id"] for item in document["catalog"]["definitions"]["capabilities"]}
+    unchanged = services == SERVICES | {"infrastructure.service.load"} and document["catalog"]["definitions"]["operations"] == []
+    if not unchanged or len(capabilities) != 6 or "infrastructure.capability.read.load" in capabilities:
         raise AssertionError("a service, capability, or operation changed")
     assert_new_quantities(fields)
     portals = {item["id"]: tuple(item.get("fields", ())) for item in document["catalog"]["definitions"]["portal_contributions"]}
-    assert_grid_portals(portals)
+    assert_grid_portals(portals, fields)
     assert_grid_page()
 
 
@@ -358,6 +361,114 @@ def check_accuracy_facts(document):
     case(document, "measurement_value_kind", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0].update(value_kind="text"))
     case(document, "measurement_symbol", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0]["symbols"].__setitem__(0, "other_symbol"))
     print("accuracy_facts: PASS")
+    check_admitted_fields(document)
+
+
+PRIOR_FIELDS = frozenset({
+    "infrastructure.ac.voltage", "infrastructure.ac.voltage_line_line", "infrastructure.ac.current",
+    "infrastructure.ac.active_power", "infrastructure.ac.reactive_power", "infrastructure.ac.apparent_power",
+    "infrastructure.ac.frequency", "infrastructure.ac.power_factor", "infrastructure.power.import_active",
+    "infrastructure.power.pcc", "infrastructure.limit.fallback_power", "infrastructure.power.export_active",
+    "infrastructure.power.import_reactive", "infrastructure.power.export_reactive", "infrastructure.power.apparent",
+    "infrastructure.energy.import", "infrastructure.energy.export", "infrastructure.energy.self_consumption",
+    "infrastructure.status.connection", "infrastructure.status.readiness", "infrastructure.status.breaker",
+    "infrastructure.status.fault", "infrastructure.status.interlock",
+    "infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum",
+})
+EXCLUDED_IDS = (
+    "infrastructure.energy.reactive_quadrant", "infrastructure.dimension.quadrant",
+    "infrastructure.relation.site_load", "infrastructure.relation.load_meter",
+    "infrastructure.capability.read.load",
+)
+
+
+def reject_admitted_field(document, ident, index, kind, unit, minimum, other_dimension, has_qualifiers):
+    """One admitted field, and the production mutation that catches each changed attribute."""
+    case(document, ident + "_kind", "noncanonical kind", lambda catalog, index=index, kind=kind: catalog["definitions"]["fields"][index].update(kind="text" if kind != "text" else "boolean"))
+    case(document, ident + "_dimension", "noncanonical kind", lambda catalog, index=index, other_dimension=other_dimension: catalog["definitions"]["fields"][index].update(dimension=other_dimension))
+    case(document, ident + "_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
+    if kind == "quantity" and unit is not None:
+        other_unit = "unit.second" if unit != "unit.second" else "unit.watt"
+        case(document, ident + "_unit", "canonical quantity contract", lambda catalog, index=index, other_unit=other_unit: catalog["definitions"]["fields"][index].update(unit=other_unit))
+    if kind == "quantity" and minimum is None:
+        case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+    elif kind == "quantity":
+        case(document, ident + "_minimum", "canonical quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["minimum"].update(coefficient="9"))
+    elif kind == "text":
+        case(document, ident + "_unit", "canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.watt"))
+    else:
+        case(document, ident + "_symbols", "canonical symbol contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["other_symbol"]))
+    if has_qualifiers:
+        case(document, ident + "_qualifiers", "field qualifiers", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(qualifiers=["infrastructure.dimension.site"]))
+
+
+def check_admitted_fields(document):
+    """Each admitted field identity and the production mutation that catches it.
+
+    id: renaming the field and its ref fails the fields catalog.
+    kind, dimension and optional: each change fails the noncanonical field check.
+    quantity unit: another canonical unit fails the quantity contract.
+    empty bounds: setting a minimum fails the quantity contract.
+    closed bounds: changing the minimum coefficient fails the quantity contract.
+    symbol and symbols: replacing the symbol list fails the symbol contract.
+    text: adding a unit fails the text contract.
+    qualifiers: replacing the qualifier list fails field qualifiers.
+    """
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    if any("sunspec" in ident for ident in fields) or any(ident in fields for ident in EXCLUDED_IDS):
+        raise AssertionError("excluded setting")
+    if "pv.configuration.grid_code" in fields:
+        raise AssertionError("grid_code is not an infrastructure element")
+    if validator.FIELD_CONTRACTS["infrastructure.accuracy.measured"] != validator.boolean("infrastructure.dimension.meter"):
+        raise AssertionError("measured pilot")
+    if validator.FIELD_CONTRACTS["infrastructure.accuracy.ratio_maximum"] != validator.empty_quantity("unit.ratio", "infrastructure.dimension.meter"):
+        raise AssertionError("ratio pilot")
+    new_ids = [ident for ident in validator.FIELD_CONTRACTS if ident not in PRIOR_FIELDS]
+    if len(new_ids) != 43 or set(validator.FIELD_CONTRACTS) != set(fields):
+        raise AssertionError("field catalog")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    for ident in new_ids:
+        kind, unit, dimension, _optional, _symbols, minimum, _maximum = validator.FIELD_CONTRACTS[ident]
+        index = positions[ident]
+        other_dimension = "infrastructure.dimension.site" if dimension != "infrastructure.dimension.site" else "infrastructure.dimension.meter"
+
+        def rename(catalog, index=index):
+            field = catalog["definitions"]["fields"][index]
+            field["id"] = field["id"] + "_moved"
+            field["ref"]["id"] = field["id"]
+
+        case(document, ident + "_id", "fields catalog", rename)
+        reject_admitted_field(document, ident, index, kind, unit, minimum, other_dimension, "qualifiers" in fields[ident])
+    check_events(document)
+    print("admitted_fields: PASS")
+
+
+def check_events(document):
+    """Each event identity and the production mutation that catches it.
+
+    id: renaming the event and its ref fails the events catalog.
+    service, trigger, condition, origin and payload: each change fails the event association.
+    """
+    expected = {
+        "infrastructure.event.supply_condition_changed": ("infrastructure.service.grid_connection", "infrastructure.status.supply_condition", "changed", (), "derived"),
+        "infrastructure.event.energy_measured": ("infrastructure.service.meter", "infrastructure.energy.import", "changed", ("infrastructure.energy.export",), "emitted"),
+    }
+    events = document["catalog"]["definitions"]["events"]
+    if {item["id"]: (item["service"], item["trigger"], item["condition"], tuple(item["payload"]), item["origin"]) for item in events} != expected:
+        raise AssertionError("events")
+    for index, ident in enumerate(item["id"] for item in events):
+        def rename(catalog, index=index):
+            event = catalog["definitions"]["events"][index]
+            event["id"] = event["id"] + "_moved"
+            event["ref"]["id"] = event["id"]
+
+        case(document, ident + "_id", "events catalog", rename)
+        case(document, ident + "_service", "event association", lambda catalog, index=index: catalog["definitions"]["events"][index].update(service="infrastructure.service.site"))
+        case(document, ident + "_trigger", "event association", lambda catalog, index=index: catalog["definitions"]["events"][index].update(trigger="infrastructure.status.fault"))
+        case(document, ident + "_condition", "event association", lambda catalog, index=index: catalog["definitions"]["events"][index].update(condition="entered"))
+        case(document, ident + "_origin", "event association", lambda catalog, index=index: catalog["definitions"]["events"][index].update(origin="emitted" if catalog["definitions"]["events"][index]["origin"] != "emitted" else "derived"))
+        case(document, ident + "_payload", "event association", lambda catalog, index=index: catalog["definitions"]["events"][index].update(payload=["infrastructure.status.fault"]))
+    print("events: PASS")
 
 
 if __name__ == "__main__":

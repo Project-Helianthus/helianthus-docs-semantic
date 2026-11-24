@@ -61,6 +61,7 @@ VECTOR_GROUPS = (
     ("fields", "fact"), ("fact_dimensions", "dimension"), ("qualifier_dimensions", "dimension"),
     ("services", "service"), ("relations", "relation"), ("capabilities", "capability"),
     ("operations", "operation"), ("effect_rules", "effect_rule"), ("portal_contributions", "presentation"),
+    ("events", "event"),
 )
 STORAGE_GROUPS = (
     ("field_specs", "fact"), ("services", "service"), ("relations", "relation"),

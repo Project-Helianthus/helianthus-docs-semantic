@@ -6,6 +6,18 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The PV pack and the infrastructure pack publish the remaining admitted
+  `pv` and `infrastructure` rows. `pv.configuration.grid_code` is the eeBUS
+  grid-code fact. SunSpec grid-code settings have no element. Two-vendor-only
+  rows, the source-not-found power-settings operation, and the two load
+  relations stay out. `infrastructure.portal.read.load` reads the load fields.
+  `infrastructure.capability.read.load` is not added. Empty bounds stay empty.
+  New signed quantities name `pv.relation.inverter_array` or
+  `infrastructure.relation.feeder_circuit`. The eight pilot ids are unchanged.
+  Each new fact is an unknown Matter 1.6.1 row with reason
+  `matter.unmapped.v1`. `infrastructure.service.load` has one roster row,
+  disposition `unsupported` and reason `matter.service_not_requested_item.v1`.
+  The historical Matter 1.7 roster stays at 184 items. No pack version is raised.
 - The thermal pack publishes `resource.room` and `thermal.dimension.room` on
   the physical, energy and control planes, with `thermal.service.room`,
   fifteen `thermal.room` facts, five room operations and their capabilities

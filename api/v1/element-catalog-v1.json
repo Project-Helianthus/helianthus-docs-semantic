@@ -1623,6 +1623,32 @@
           "kind": "core",
           "contract": "helianthus.semantic.kernel/v1"
         },
+        "id": "resource.load",
+        "version": "1.0.0"
+      },
+      "element_kind": "resource_kind",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "anchor_class": "function"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
         "id": "resource.meter",
         "version": "1.0.0"
       },
@@ -4040,6 +4066,51 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.ac.apparent_current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.ac.apparent_power",
         "version": "1.0.0"
       },
@@ -4172,6 +4243,223 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.ac.harmonic_current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.harmonic_order",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.ac.harmonic_phase",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.harmonic_order",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.ac.neutral_current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.circuit",
+            "version": "1.0.0"
+          },
+          "kind": "resource.electrical_circuit"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.ac.phase_power_factor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.ac.power_factor",
         "version": "1.0.0"
       },
@@ -4206,6 +4494,62 @@
         "aggregation": "member",
         "direction": "signed",
         "sign_reference": "native_convention"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.ac.reactive_current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        }
       }
     },
     {
@@ -4789,6 +5133,36 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.dimension.harmonic_order",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "quantity",
+        "unit": "unit.one"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.dimension.line_pair",
         "version": "1.0.0"
       },
@@ -4807,6 +5181,36 @@
       "attributes": {
         "role": "resource",
         "resource_kind": "resource.line_pair"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.dimension.load",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "role": "resource",
+        "resource_kind": "resource.load"
       }
     },
     {
@@ -4956,6 +5360,96 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.energy.apparent_export",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.energy.apparent_import",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.energy.export",
         "version": "1.0.0"
       },
@@ -5044,6 +5538,186 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.energy.phase_export",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.energy.phase_import",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.energy.reactive_export",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.energy.reactive_import",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.energy.self_consumption",
         "version": "1.0.0"
       },
@@ -5088,6 +5762,122 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.event.energy_measured",
+        "version": "1.0.0"
+      },
+      "element_kind": "event",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.service.meter",
+          "version": "1.0.0"
+        },
+        "trigger": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.energy.import",
+          "version": "1.0.0"
+        },
+        "condition": "changed",
+        "payload": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.energy.export",
+            "version": "1.0.0"
+          }
+        ],
+        "origin": "emitted"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.event.supply_condition_changed",
+        "version": "1.0.0"
+      },
+      "element_kind": "event",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.service.grid_connection",
+          "version": "1.0.0"
+        },
+        "trigger": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.status.supply_condition",
+          "version": "1.0.0"
+        },
+        "condition": "changed",
+        "payload": [],
+        "origin": "derived"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.limit.fallback_power",
         "version": "1.0.0"
       },
@@ -5121,6 +5911,1389 @@
         },
         "aggregation": "member",
         "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.limit.pv_curtailment_factor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.load.active_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.load.energy_consumed",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.load.energy_produced",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.load.phase_active_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.apparent_power_threshold",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.kind",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.point_of_delivery",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.power_threshold",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.power_threshold_source",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.meter.protocol_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.meter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.ac_current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.actor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.committed_power_plan",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.per",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.slots",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.use_case_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.use_case_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.value_range_min",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mgcp.value_source",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.ac_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.ac_voltage",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.actor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.one",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.per",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.slots",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.use_case_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.use_case_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.value_range_min",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.mpc.value_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          },
+          "kind": "resource.load"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
       }
     },
     {
@@ -5221,6 +7394,33 @@
         "arm": "accepted_pack",
         "evidence": [
           "api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "target": "portal"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.portal.read.load",
+        "version": "1.0.0"
+      },
+      "element_kind": "presentation",
+      "disposition": "unsupported",
+      "planes": [],
+      "reason": "catalog.reason.target_presentation",
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
         ]
       },
       "attributes": {
@@ -6057,6 +8257,46 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.service.load",
+        "version": "1.0.0"
+      },
+      "element_kind": "service",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "fact_key_dimension": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.dimension.load",
+          "version": "1.0.0"
+        },
+        "subject_kind": "resource.load"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.service.meter",
         "version": "1.0.0"
       },
@@ -6365,6 +8605,51 @@
         "arm": "accepted_pack",
         "evidence": [
           "api/v1/packs/infrastructure-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          },
+          "kind": "resource.grid_connection"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.status.supply_condition",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
         ]
       },
       "attributes": {
@@ -6785,6 +9070,152 @@
         },
         "aggregation": "member",
         "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.ac.phase_energy_exported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.ac.phase_energy_imported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.ac.phase_power_factor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          },
+          "kind": "resource.phase"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        }
       }
     },
     {
@@ -7381,6 +9812,51 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.configuration.grid_code",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.dc.aggregate_current",
         "version": "1.0.0"
       },
@@ -7393,6 +9869,51 @@
         "arm": "accepted_pack",
         "evidence": [
           "api/v1/packs/pv-inverter-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "aggregate",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.dc.aggregate_energy",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
         ]
       },
       "attributes": {
@@ -7828,6 +10349,70 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.dimension.period",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "symbol",
+        "symbols": [
+          "day",
+          "month",
+          "year"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.dimension.period_offset",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "quantity",
+        "unit": "unit.one"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.dimension.phase",
         "version": "1.0.0"
       },
@@ -8013,6 +10598,141 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.energy.apparent_exported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.energy.apparent_imported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.energy.consumed",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.energy.generated",
         "version": "1.0.0"
       },
@@ -8045,6 +10765,96 @@
           "kind": "resource.pv_system"
         },
         "aggregation": "aggregate",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.energy.reactive_exported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.energy.reactive_imported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
         "direction": "non_negative"
       }
     },
@@ -8090,6 +10900,75 @@
         },
         "aggregation": "aggregate",
         "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.energy.yield_history",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "aggregate",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period_offset",
+            "version": "1.0.0"
+          }
+        ]
       }
     },
     {
@@ -8312,6 +11191,1634 @@
           "kind": "resource.pv_system"
         },
         "aggregation": "not_applicable",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_day",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_day_historical",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period_offset",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_month",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_month_historical",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period_offset",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_total",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_year",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ac_yield_year_historical",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.period_offset",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.actor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.device_code",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.device_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.ec1",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.hardware_revision",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.manufacturer_label",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.moi_016b",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.moi_018",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.moi_022",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.serial_number",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.software_revision",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.timestamp",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.use_case_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.use_case_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.vendor_code",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.moi.vendor_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.mps.actor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.mps.ec1",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.mps.use_case_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.mps.use_case_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.nameplate.apparent_consumption_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.nameplate.apparent_production_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.nameplate.consumption_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.nameplate.peak_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.nameplate.production_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "member",
         "direction": "non_negative"
       }
     },
@@ -9210,6 +13717,51 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.status.battery_availability",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.status.derating",
         "version": "1.0.0"
       },
@@ -9254,6 +13806,51 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.status.failure_states",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbols",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.status.fault",
         "version": "1.0.0"
       },
@@ -9266,6 +13863,96 @@
         "arm": "accepted_pack",
         "evidence": [
           "api/v1/packs/pv-inverter-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.status.functional_states",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbols",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          },
+          "kind": "resource.inverter"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.status.grid_connection",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
         ]
       },
       "attributes": {
@@ -9342,6 +14029,422 @@
             "version": "1.0.0"
           }
         },
+        "id": "pv.status.string_availability",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.azimuth",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.current",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.insulation_resistance",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.temperature",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.tilt",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.string.voltage",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.string",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_string"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.system.active_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "aggregate",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
         "id": "pv.temperature.inverter",
         "version": "1.0.0"
       },
@@ -9374,6 +14477,343 @@
           "kind": "resource.inverter"
         },
         "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.ac_power_total",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "aggregate",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.ac_yield_total",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "aggregate",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.actor",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.ec1",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.use_case_name",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.use_case_version",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        },
+        "id": "pv.vapd.vapd_004",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/pv-inverter-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/174"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.pv",
+                "version": "1.0.0"
+              }
+            },
+            "id": "pv.dimension.system",
+            "version": "1.0.0"
+          },
+          "kind": "resource.pv_system"
+        },
+        "aggregation": "not_applicable",
         "direction": "not_applicable"
       }
     },
