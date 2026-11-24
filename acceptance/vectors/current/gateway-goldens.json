@@ -1,0 +1,1703 @@
+{
+  "format": "helianthus-oracle-gateway-goldens/1",
+  "source": {
+    "repository": "helianthus-ebusgateway",
+    "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+  },
+  "files": [
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/matter_feed.json",
+      "sha256": "1930f1b88451f6eb928d916d3c3b3c35bdaa4e805b83725cbb1025ec5a2b1f4d",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMatterProfileCharacterizationFeed' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/mcp_evse.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/mcp_evse.json",
+      "sha256": "5de273b49f318ef0a7f6afd089797e3734b9ba7a9de930dd24fc21737ac0eb5f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/mcp_pv.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/mcp_pv.json",
+      "sha256": "b01eb084322684e2b43dafba71c6b426d2904496d757ccc7ef529905fcfef6fd",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/mcp_storage.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/mcp_storage.json",
+      "sha256": "6abf1ce8c94749e881fb1c778c021f205acdc01824472afb7d27be4a131c5dd4",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/portal_catalog.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/portal_catalog.json",
+      "sha256": "04d17015f649692bc3cbdb08885849bc005b4002ec3cf9c1a6362dabf3262b33",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/portal_source_capture.json",
+      "path": "cmd/gateway/testdata/characterization/consumers/portal_source_capture.json",
+      "sha256": "cbb5b6f58f2ceb0c5ba4ce1a633caa8dedcd825d7f3271c2e50d82cf0a6245a5",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/consumers/prometheus_semantic.txt",
+      "path": "cmd/gateway/testdata/characterization/consumers/prometheus_semantic.txt",
+      "sha256": "97a7fdf567a2697b38e7fa8a99747703a5a993d203d0305d51b76c2bc986587b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationConsumersOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/current.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/current.json",
+      "sha256": "a3b0784c0b355792e3d4749a571495642a6ca7c82c1777f74df3bbfc49855767",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/current_at.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/current_at.json",
+      "sha256": "0916e35d124091f949d5988372b89dc4bd93bbd2c75375521749c7875f8dbd9b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/ids.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/ids.json",
+      "sha256": "aeac77b8d2dbff841d36f24a06d866c55600adf46225b0b815e0ae4d31e1beca",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/mcp_publish4.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/mcp_publish4.json",
+      "sha256": "cc9bd63aab960a3b52bad3e7889988c02ef6906b6a99a4dd25d10a3cd617838b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish1.canonical.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish1.canonical.json",
+      "sha256": "22b4bf0b85ff1951b38902f6037d7dedf7d31ae7e675c9a0c60a09c7313316c2",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish1.public.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish1.public.json",
+      "sha256": "60cf0b39ea26f6c4ef3f66827f6c617390962525cf5ba007a2af59bd66a4889d",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish2.canonical.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish2.canonical.json",
+      "sha256": "8b3aa44a19d75ca7eb4ee748d9fc260874a53dd5bcd22cf637b2e8a684f99f1c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish2.public.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish2.public.json",
+      "sha256": "c20741452e23cbfebac71102f1b3bb843648dfd24156336dd22e134d2b559fc6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish3_soft_starting.canonical.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish3_soft_starting.canonical.json",
+      "sha256": "bfc08f12d5855edbb113d4ebd4082941828e541e27fb893758c2bc62cd675224",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/growatt_first_incarnation/publish3_soft_starting.public.json",
+      "path": "cmd/gateway/testdata/characterization/growatt_first_incarnation/publish3_soft_starting.public.json",
+      "sha256": "a3b0784c0b355792e3d4749a571495642a6ca7c82c1777f74df3bbfc49855767",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattCharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/m2m/evse.json",
+      "path": "cmd/gateway/testdata/characterization/m2m/evse.json",
+      "sha256": "5c16e8b3d85b6e51fe8c5765761c1958c4b103b2f3a340f54bf1fb09a6855f6e",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationM2MGraphQLOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/m2m/pv.json",
+      "path": "cmd/gateway/testdata/characterization/m2m/pv.json",
+      "sha256": "57a0184157d451bc4fc46c2fab5b95ec109e885202e6cab64ae80cc4cf057db4",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationM2MGraphQLOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/m2m/storage.json",
+      "path": "cmd/gateway/testdata/characterization/m2m/storage.json",
+      "sha256": "a0cbcc3113a3c53f0972c0446686852d150d966b7798c1a3072371fec8dc1b1c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCharacterizationM2MGraphQLOfAllThreeFamilies' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/mcp_sequence3.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/mcp_sequence3.json",
+      "sha256": "793a455ed9a56a80660d46818cbf9d2ea1802fbaac874bf46bfd3f8e85280331",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.canonical.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.canonical.json",
+      "sha256": "08fd1ec86ef4168e4d7f38f242855f24f7ec70e7fda20647e53d724624da2d69",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.current_at.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.current_at.json",
+      "sha256": "3bdf1cd6a344d0cb2836469e418f6ef40832fd3752e5dfa2cbbba45aa2cc59e4",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.ids.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.ids.json",
+      "sha256": "51b3af5e515301cc955beee4db5e2ae04096111af885e7cbe72244c55550ca17",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.public.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence2.public.json",
+      "sha256": "0368fcf20beac5d1515cfb428fbfb841f55a365e0d1648621d07aa2380813e07",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.canonical.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.canonical.json",
+      "sha256": "bb1377d0eb7bf288b67782d2b94ded1cda103c9aaafdf1dd972d39bcd5f05c14",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.current_at.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.current_at.json",
+      "sha256": "613975b0b5d031262d6734c68cea14f281cad5c4855d6902b0e0688ea65fc9d0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.ids.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.ids.json",
+      "sha256": "0867e286d7d6622569458b839fec7ed43fdb087a0e750489ea7f354d8b8774ba",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.public.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_owner_first_incarnation/sequence3.public.json",
+      "sha256": "dc33d7e6281ae928a0b3b52c9c867471bbc45a2c4dd8749c455666668e4b9761",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/characterization/tesla_successor/first_publication.ids.json",
+      "path": "cmd/gateway/testdata/characterization/tesla_successor/first_publication.ids.json",
+      "sha256": "9c512adcb1049ec1d5cd5a7330c3cd0a2529d5c24d71dca265fb1a47b7a60715",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaHSCRetainedOwnerSuccessorFirstPublicationIsAcceptedOnTheRetainedKernel' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/growatt_project_conformance.json",
+      "path": "cmd/gateway/testdata/growatt_project_conformance.json",
+      "sha256": "ccf538ef6581a5aa993cd744811482935b18a511b4b0f53c2a6d2292db543797",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCX22VoltageAndMemberDictionary|TestCX22ComposedThreeFamiliesAndTwoProviderIsolation' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/huawei/sdongle_replay.json",
+      "path": "cmd/gateway/testdata/huawei/sdongle_replay.json",
+      "sha256": "cc4f0b4f48992c666ed34a8fbfd234bb397418cf24290f12077a3aec956d495a",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10TCPProviderPVSnapshotParity|TestH10MappingValuesAndWithheldFacts|TestH10LostChildIdentityWithdrawsOnlyThatChild' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/huawei/smartlogger_replay.json",
+      "path": "cmd/gateway/testdata/huawei/smartlogger_replay.json",
+      "sha256": "fff086a752a1db70fb6137c0df7baf136e98440e4452b1bbcf1baff9469855fa",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10TCPProviderPVSnapshotParity|TestH10MappingValuesAndWithheldFacts|TestH10LostChildIdentityWithdrawsOnlyThatChild' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/issue469_graphql_daemon_status.golden.json",
+      "path": "cmd/gateway/testdata/issue469_graphql_daemon_status.golden.json",
+      "sha256": "51b55c77a61e72a4fd5c1e7e3a0765be522b34e2c4774b94ef13dbd1f3736ac6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestIssue469GraphQLDaemonStatusMatchesMCPRuntimeStatus' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/issue469_runtime_status.golden.json",
+      "path": "cmd/gateway/testdata/issue469_runtime_status.golden.json",
+      "sha256": "c8ff356151290e2594a80d03af8b2df9b89728d16716be8d176847ccd9947a06",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestIssue469MCPRuntimeStatusSerializesCachedDaemonReleaseGolden' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/vaillant_publication/cache_hydrated_partial_reads.golden.json",
+      "path": "cmd/gateway/testdata/vaillant_publication/cache_hydrated_partial_reads.golden.json",
+      "sha256": "1b278ae42a4b072c42fcc5f980ea93d8668238bed5b169a3a1145529118acf67",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantPublicationGolden' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/vaillant_publication/full_site.golden.json",
+      "path": "cmd/gateway/testdata/vaillant_publication/full_site.golden.json",
+      "sha256": "ef86effa57c98eeb30643195aed331394b19423fb984a6d8166159026593bce6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantPublicationGolden' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+      "path": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+      "sha256": "6deef142442561ce31a605d57f23ee602ea042094cd0483b06b5c0e4af84be9d",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantPublicationGolden' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:cmd/gateway/testdata/watch_summary_direct_apply_policy.golden.json",
+      "path": "cmd/gateway/testdata/watch_summary_direct_apply_policy.golden.json",
+      "sha256": "eecab0719ca7201c8ce0cc16ef3df099db2f834f9dce45e984ec93d8fdc16f02",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMCPWatchSummaryProviderAdapter_DirectApplyPolicyGoldenAndNormalizedFlagClasses' ./cmd/gateway/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:docs/mcp-tool-inventory.md",
+      "path": "docs/mcp-tool-inventory.md",
+      "sha256": "6bd40ee81a8953d6d079ffab5d06e3f1f7fbb5489e56ad15dac4e424634f8c36",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMCPInventoryRegistrationCoverage' ./cmd/gateway/",
+          "exit_status": 0
+        },
+        {
+          "command": "go test -count=1 -run 'TestMCPToolInventory|TestNewServerKeepsPublicToolsListManifest' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:docs/metrics-inventory.json",
+      "path": "docs/metrics-inventory.json",
+      "sha256": "a55d6423439b07e560a3cd2bedae7b94762e0beaa93d3b0ff445200c82d5be4c",
+      "checkers": [
+        {
+          "command": "python3 -m pytest tests/test_metrics_inventory_docs.py::test_inventory_and_documentation -q -p no:cacheprovider",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:graphql/testdata/query_schema_introspection.golden.json",
+      "path": "graphql/testdata/query_schema_introspection.golden.json",
+      "sha256": "e3b423cb5058e9092eefdb428feb7ff63ff2a4ccbf3817e0587e171fb16936ef",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestQuerySchemaMatchesIntrospectionGolden|TestQuerySchemaIntrospectionGoldenRecordsTheDocument' ./graphql/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:graphql/testdata/register_derived_names.json",
+      "path": "graphql/testdata/register_derived_names.json",
+      "sha256": "fec8f66d7a381c4a79a81fea07b0d658ef4679f09ac95635cfbc613a2770ac75",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRegisterNamesFixtureIsConsistent|TestGraphQLPublishesDocsEbusRegisterNames' ./graphql/",
+          "exit_status": 0
+        },
+        {
+          "command": "go test -count=1 -run 'TestMCPPublishesDocsEbusRegisterNames' ./mcp/",
+          "exit_status": 0
+        },
+        {
+          "command": "go test -count=1 -run 'TestPortalPublishesDocsEbusRegisterNames' ./portal/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/positive/graph.json",
+      "path": "internal/candidatefacts/testdata/canonical/positive/graph.json",
+      "sha256": "b5c5d79e540a1691ee60c6db3e9405a92d9d544d871c74b26800fe449a318b0e",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP07BuildVerifyReplayAreDeterministicAndCanonical' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/positive/replay-result.json",
+      "path": "internal/candidatefacts/testdata/canonical/positive/replay-result.json",
+      "sha256": "8280f6278ffe8598dfd767bb5bf9e60dce3c145b4612174b7c5a32fbff282f5c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP07BuildVerifyReplayAreDeterministicAndCanonical' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/positive/source-terminal-graph.json",
+      "path": "internal/candidatefacts/testdata/canonical/positive/source-terminal-graph.json",
+      "sha256": "2fd356d9d3262281bcf830154d8507bbb237f3f0d091b737365e3812cdeaafb3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP07SourceTerminalBuildVerifyReplayAreCanonical' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/positive/source-terminal-replay-result.json",
+      "path": "internal/candidatefacts/testdata/canonical/positive/source-terminal-replay-result.json",
+      "sha256": "ba478963171fc238e76ee19036119e0f2543d98f73c35c124abef4028b2fae22",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP07SourceTerminalBuildVerifyReplayAreCanonical' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/source/m625-bundle.json",
+      "path": "internal/candidatefacts/testdata/canonical/source/m625-bundle.json",
+      "sha256": "f7296868773f81468413504992bd8dce5c74d5037e8135ca33b105da64ddc9a4",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run '^TestMSP07RawFirstBuildConsumesM625PathsAndCloudObservation$' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/source/m625-source-replay.json",
+      "path": "internal/candidatefacts/testdata/canonical/source/m625-source-replay.json",
+      "sha256": "c6dcd896e307c7ab57b685f63f80e5f740d780eb416c34992d7a77d267264adb",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run '^TestMSP07RawFirstBuildConsumesM625PathsAndCloudObservation$' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/source/replay-result.json",
+      "path": "internal/candidatefacts/testdata/canonical/source/replay-result.json",
+      "sha256": "3061c507677f1f41861c20096ff7581ccb6e35c2e01bf66a568e2277df285539",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run '^TestMSP08PinsExecutableV1ArtifactsAndM7Inputs$' ./internal/coexistence/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/candidatefacts/testdata/canonical/source/source-terminal-replay-result.json",
+      "path": "internal/candidatefacts/testdata/canonical/source/source-terminal-replay-result.json",
+      "sha256": "82ed1c66222348746abd9f4291e10b968314363160ba4cfc568044390aced9d2",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP07SourceTerminalBuildVerifyReplayAreCanonical' ./internal/candidatefacts/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/coexistence/testdata/canonical/positive/evidence.json",
+      "path": "internal/coexistence/testdata/canonical/positive/evidence.json",
+      "sha256": "49c922974ea0e04c83bc08bc87379667984ae9379a4e9e6faae75771a9432ae6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP08ProductionHarnessConformance' ./internal/coexistence/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/coexistence/testdata/canonical/positive/live-public-status.json",
+      "path": "internal/coexistence/testdata/canonical/positive/live-public-status.json",
+      "sha256": "63ecafd94d507cedadc2cba4bb9ac108488d1020d3b43b0ad034409460826428",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run '^TestMSP08PublicStatusProjectionIsDeterministicAndMetadataClosed$' ./internal/coexistence/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/coexistence/testdata/canonical/positive/report.json",
+      "path": "internal/coexistence/testdata/canonical/positive/report.json",
+      "sha256": "8a6fbc4db1166aca40dcfd3f1088fabc36186b590f8059e362070fd7725f7e43",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP08ProductionHarnessConformance' ./internal/coexistence/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/matrix/testdata/full88-dryrun.golden",
+      "path": "internal/matrix/testdata/full88-dryrun.golden",
+      "sha256": "6fd0754d5a5cbfeaed1f4f7aac8cdd1f761c77159f560a176eec18c5fb58d369",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDryRunGoldenFull88AndPassiveUnchanged' ./internal/matrix/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/matrix/testdata/passive-dryrun.golden",
+      "path": "internal/matrix/testdata/passive-dryrun.golden",
+      "sha256": "6be6a3950c15c094585e1d996ffa413b3da24b885be920c832e3d266d8f1bd9c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDryRunGoldenFull88AndPassiveUnchanged' ./internal/matrix/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/ids.json",
+      "sha256": "38fcd0422fb021aa2d803fdb297017ab5c9b875c639ec084e01af8c3dc6fc1e2",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/publish1.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/publish1.canonical.json",
+      "sha256": "eb6c89aa98703a34d14a70e5b286c8fd9e9e970ebbf88ce82fa7650b08da69bf",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/publish2.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/publish2.canonical.json",
+      "sha256": "21fee10b273d3104e9475a8e2f2bfa26f90b9abbe694862b49088e5dbd2d0701",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/read1.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/read1.json",
+      "sha256": "b867615425a0cf2f979e2a66e1d65f0f7285d5da4704828d6be3c61fc78495db",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/read2.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/read2.json",
+      "sha256": "59dff488e25a187dcf134c404636acfbb8336e0273a93bbb125a425423a8737c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_first_incarnation/single_at.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_first_incarnation/single_at.json",
+      "sha256": "a2e7a5228c7c183c9a88c58b7ea5abf9081a2a9396ae4d255328c233542292d3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/1_generation1_first.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/1_generation1_first.canonical.json",
+      "sha256": "42b74127e409fa6b0d0720d862c57c3173b581422279b6d150f8e9afdbdcfadc",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/1_generation1_first.ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/1_generation1_first.ids.json",
+      "sha256": "0786d5de3d8f2be581ae6d86f7766d0cfddc20c54285608ec0e13c71a2174261",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/2_generation1_refresh.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/2_generation1_refresh.canonical.json",
+      "sha256": "76ac9ce7ff3af5512347614bf4e97dfd786ad92637a0abec241e8b153529694b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/2_generation1_refresh.ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/2_generation1_refresh.ids.json",
+      "sha256": "1714991d28c8522d003da293acf7f1d309a8c5bf08cb8cdc3d991d254d85d589",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/3_generation2_replacement.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/3_generation2_replacement.canonical.json",
+      "sha256": "57ee9ec8041deec37d861149c0f59d5d34047945a1f9f4a37e714c5e219d2d4c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/3_generation2_replacement.ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/3_generation2_replacement.ids.json",
+      "sha256": "9991ba6bd825a3a3e2eb5645ee849aa5e45e60bd90ec82cf68406042b757398a",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/4_generation2_refresh.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/4_generation2_refresh.canonical.json",
+      "sha256": "2c28bf84074fcede81089ce3c65d79fa4e73e307f603b58efcb49b0a832d6e39",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/4_generation2_refresh.ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/4_generation2_refresh.ids.json",
+      "sha256": "34639258c078e81fb85a47dc7d8059f370d89bec475f4373569e48b4e3b9266a",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/5_epoch_replacement.canonical.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/5_epoch_replacement.canonical.json",
+      "sha256": "39d87577bd41233687b8a89f83351a437279e084d9aa5261e42f117e9ea4e8b0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/modbusadapter/testdata/characterization/pv_generation_replacement/5_epoch_replacement.ids.json",
+      "path": "internal/modbusadapter/testdata/characterization/pv_generation_replacement/5_epoch_replacement.ids.json",
+      "sha256": "b02d57f9ca1694c5629934cfb56e41eaa17ad7560b1e30efa617a6a2d7976bec",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestPVCharacterizationGenerationAndEpochReplacement' ./internal/modbusadapter/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/promotionlock/testdata/canonical/positive/captured-runtime-zero-profile.json",
+      "path": "internal/promotionlock/testdata/canonical/positive/captured-runtime-zero-profile.json",
+      "sha256": "7e23ae7fca8ab141b5bb5cd989e5f268eaea6ee11bad95b149b2af31768bb8cd",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run '^TestIssue1694DeclaredProfileCountsEighteenPromotedLeaves$' ./internal/promotionlock/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/promotionlock/testdata/canonical/positive/result.json",
+      "path": "internal/promotionlock/testdata/canonical/positive/result.json",
+      "sha256": "8085052a9dbe0f34279e992ec56b095f28fb826aad742e76183f8ee1c6c00bd1",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP085SyntheticConformanceRemainsCanonicalAndNonLive' ./internal/promotionlock/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/semhub/testdata/scripted_event_stream.golden.json",
+      "path": "internal/semhub/testdata/scripted_event_stream.golden.json",
+      "sha256": "7432f216b279d4937cd8c12b727c4ff7cdf3b2dffa12b8449909e6ccdd1095b3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestScriptedEventStreamGolden' ./internal/semhub/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:internal/syncevidence/testdata/canonical/positive/replay-result.json",
+      "path": "internal/syncevidence/testdata/canonical/positive/replay-result.json",
+      "sha256": "3061c507677f1f41861c20096ff7581ccb6e35c2e01bf66a568e2277df285539",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestMSP065CanonicalFixturesPositiveReplayAndAllNegatives' ./internal/syncevidence/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:m2mgraphql/testdata/semantic_pv_current.golden.json",
+      "path": "m2mgraphql/testdata/semantic_pv_current.golden.json",
+      "sha256": "10442d581a3914f22532129a25547148b66f3c27c81f46d7abce26b1ae9e28eb",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticPVCurrentUsesOneEvaluatedProjection' ./m2mgraphql/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/command_get_alpha.golden.json",
+      "path": "mcp/ebusstandard/testdata/command_get_alpha.golden.json",
+      "sha256": "af0b8738750f62d2d166240aed447fb2f1daf8c69d576a518d0fa432ddc60e3f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGolden_CommandGet' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/commands_list_pb03.golden.json",
+      "path": "mcp/ebusstandard/testdata/commands_list_pb03.golden.json",
+      "sha256": "080894c11da2994f14c03ad800387794ae7ce92dcdb39d25eb5acd78c95697eb",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGolden_CommandsList' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/decode_alpha.golden.json",
+      "path": "mcp/ebusstandard/testdata/decode_alpha.golden.json",
+      "sha256": "7870c45cfd9a60bbc47ccb5632f2222780ecf4b191d858e4e1c5dcefbb3e7804",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGolden_Decode' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/forward_compat_synthetic_v1_1.golden.json",
+      "path": "mcp/ebusstandard/testdata/forward_compat_synthetic_v1_1.golden.json",
+      "sha256": "bd6288ef3dd556eb5017d53a398dc39f1ec34709a32d814bc70ee7f5aeb9e225",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestForwardCompat_UnknownEnumsParse' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/forward_compat_unknown_active_transport_v1_1.golden.json",
+      "path": "mcp/ebusstandard/testdata/forward_compat_unknown_active_transport_v1_1.golden.json",
+      "sha256": "040c4688ee8adcc1528ed786ff3bc30b27124971df4a19da7f25ce44a93e425e",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestForwardCompat_UnknownActiveTransport_GoldenParses|TestForwardCompat_UnknownActiveTransport_ProducerEmits|TestForwardCompat_UnknownActiveTransport_HashStable|TestForwardCompat_UnknownActiveTransport_ConsumerFailsClosed' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/ebusstandard/testdata/services_list.golden.json",
+      "path": "mcp/ebusstandard/testdata/services_list.golden.json",
+      "sha256": "fde1833e32b978d78e7b036dd0e92310ebca5f80cc5e65a734d90cfc4292339e",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGolden_ServicesList' ./mcp/ebusstandard/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_identification_evidence.golden.json",
+      "path": "mcp/testdata/bus_identification_evidence.golden.json",
+      "sha256": "8df4d87367e5a5a2e260c2e46a875e4b96fd365a9a0ad0080c9113cfbdf3ae25",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestIdentificationEvidenceGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_empty.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_empty.golden.json",
+      "sha256": "46866e86fbe23bdfb49e7b3f4b3b64c8d7e3b464c9cb6cbc11d795eb262f4138",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_filtered.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_filtered.golden.json",
+      "sha256": "bb3bbb52579202c8c1b363cb1f7218bd746287bd725209c39542578a32fe4ddd",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_invalid_family.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_invalid_family.golden.json",
+      "sha256": "437e3913b346e141fc6ab9b7ad8f928978f92fd2de52a21a0218f990e8931efa",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_invalid_limit.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_invalid_limit.golden.json",
+      "sha256": "779dd1dd99b4637498aa990621e0937a4db36dd0b651c869fc3a7051c510cebf",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_populated.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_populated.golden.json",
+      "sha256": "bb3bbb52579202c8c1b363cb1f7218bd746287bd725209c39542578a32fe4ddd",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_protocol_specimens_schema.golden.json",
+      "path": "mcp/testdata/bus_protocol_specimens_schema.golden.json",
+      "sha256": "0071bb7b89ddc53620caff65d0603bc625d63b26bcfee2777afde30bbbfceeb7",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestProtocolSpecimensStableGoldens' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/bus_summary_startup_reason.golden.json",
+      "path": "mcp/testdata/bus_summary_startup_reason.golden.json",
+      "sha256": "4bc9316323bd9345193e624e28a3cbf4f6ea20c0d9a4d1b4adf7bc178644dfb7",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestBusSummaryStartupReasonGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.canonical.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.canonical.json",
+      "sha256": "320fff7467206dc146e99096a15277c4306d10220a2bcda1f3b4c7acdbb9ebc5",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.current_at.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.current_at.json",
+      "sha256": "1934437b95d8e00c80c96dd6deed0929f133c77d86f5fe9b2db3cc6e6e3db1ad",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.graphql.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.graphql.json",
+      "sha256": "fa5d183b65116be67b45ad214ba7fd70cf707090a4df21380ae4cdd5bb954f68",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.mcp.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.mcp.json",
+      "sha256": "720f158c5a2940bf6be3970e710a333cd5e9de82cf745cb588f15fe83c7c4229",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.public.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence1.public.json",
+      "sha256": "768dfbeb69a60d5a3b32b126aa52c1e46ca351b2750a937400242b23a1157e3f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.canonical.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.canonical.json",
+      "sha256": "fe05e5f1eb3b1f31b9849366ebf53c735d86c58b7bf62043183a1db87f539457",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.current_at.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.current_at.json",
+      "sha256": "81a19d378296b641657e12bff03e4dda7d8252d5bbe17f29fdf0224380010583",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.graphql.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.graphql.json",
+      "sha256": "69eb2b2775d96f164d093089841338a074b01f87056d2e828fed810fe01c13a3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.mcp.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.mcp.json",
+      "sha256": "738ec121753efc99d8d851281bbaa77c1834b22da0ba74c00ce9d929008656f7",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.public.json",
+      "path": "mcp/testdata/characterization/tesla_publication_first_incarnation/sequence2.public.json",
+      "sha256": "5254ad57c7b9368ab12a5722034ec6c415bedc14f5aa1eaea5782904ad76c7e3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSECharacterizationFirstIncarnationLegacyIdentityAndPublicBytes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/device_retained_list_confirmed.golden.json",
+      "path": "mcp/testdata/device_retained_list_confirmed.golden.json",
+      "sha256": "839063494b092cfc1a4582d0cdbd78a8e6d68355e0b149ff65aabc0a65672bc6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDeviceRetainedOriginGoldenEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/device_retained_passive_confirmed.golden.json",
+      "path": "mcp/testdata/device_retained_passive_confirmed.golden.json",
+      "sha256": "8bc5ba9f7c1a29166b4990d0e7a828981cd52b9c640e9110c6e2bb27f38c1566",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDeviceRetainedOriginGoldenEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/device_retained_static_confirmed.golden.json",
+      "path": "mcp/testdata/device_retained_static_confirmed.golden.json",
+      "sha256": "a66320f982d1ff916325ea584bf3fac50d97f5c94ba37bf1d0de8dc4230c563f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDeviceRetainedOriginGoldenEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/device_zero_alias.golden.json",
+      "path": "mcp/testdata/device_zero_alias.golden.json",
+      "sha256": "0449d0e1a496461e8709a669e7d2b564a4dd00b353656611ab217b99fb7e964c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestDeviceGetZeroAliasGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/growatt_protocol_ii_call_envelope.golden.json",
+      "path": "mcp/testdata/growatt_protocol_ii_call_envelope.golden.json",
+      "sha256": "0af2e42aa59eb41ddee7161b416046524e6df7db9f3eefe92840379b69b61a78",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattProtocolIIV1GoldenToolsListAndCallEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/growatt_protocol_ii_tools_list.golden.json",
+      "path": "mcp/testdata/growatt_protocol_ii_tools_list.golden.json",
+      "sha256": "55c88a8d99de53083fc5d9c35619da74eaa14e4cab58b9b9fd8fd810d0caf472",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestGrowattProtocolIIV1GoldenToolsListAndCallEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/huawei_emma_instance_status.golden.json",
+      "path": "mcp/testdata/huawei_emma_instance_status.golden.json",
+      "sha256": "179b0b34e4b42a0ddeb5ded2c72117f48b3d8e100b081f7704cf02c89065ddb9",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10NativeInstanceSchemaAndEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/huawei_instance_schema.golden.json",
+      "path": "mcp/testdata/huawei_instance_schema.golden.json",
+      "sha256": "d7c1001d483a40120811d297bbbbc36879ca2b1bc7623d7d7241426168f9d184",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10NativeInstanceSchemaAndEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/huawei_sdongle_instance_status.golden.json",
+      "path": "mcp/testdata/huawei_sdongle_instance_status.golden.json",
+      "sha256": "b1a7a199c5d8a059c73cdad6a55cde7b070068f40236e09e9cef69f660523db7",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10NativeInstanceSchemaAndEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/huawei_smartlogger_instance_status.golden.json",
+      "path": "mcp/testdata/huawei_smartlogger_instance_status.golden.json",
+      "sha256": "e2488418028eba6d029fe40d0326105a8be5df40ef6a2a94bf443a39ec208220",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestH10NativeInstanceSchemaAndEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_0.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_0.canonical.json",
+      "sha256": "81669e00f7e54e459671d9baa4050338c1fc004e793351cc544675badeb6b3c1",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_10.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_10.canonical.json",
+      "sha256": "1aadd64e3d1d546ef65c8235fa1311d2aea2cc7df5dc6cea9fafd1c097bd7457",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_100.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_100.canonical.json",
+      "sha256": "e2a53cd390a493b38aae3baf02c2dbce529c6443524d14dc416008e4e149b0a7",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_18.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_18.canonical.json",
+      "sha256": "82c4b58fa1385db5e3f78ed7d2a372a40f69ed3642807bf2dd526d2503ae26f4",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_20.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_20.canonical.json",
+      "sha256": "8495b635dd06687bc0ee9f74bc613664f5d4a1eda8d327194f4b1c272d7f477b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/issue1026_evse_decimal_30.canonical.json",
+      "path": "mcp/testdata/issue1026_evse_decimal_30.canonical.json",
+      "sha256": "9d677cd1af0bda687dcc06432066f571cc7feb01cde57f8befa497016799906c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestTeslaGen3EVSESemanticCanonicalCurrentDecimals' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/legacy_invoke_invalid_address.golden.json",
+      "path": "mcp/testdata/legacy_invoke_invalid_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/legacy_invoke_out_of_range_address.golden.json",
+      "path": "mcp/testdata/legacy_invoke_out_of_range_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/modbus_v1_profile_observation.golden.json",
+      "path": "mcp/testdata/modbus_v1_profile_observation.golden.json",
+      "sha256": "399c41d2c9bc7ddf025ba69829b98ee33e4dd8ca3ffa01526c97a02d6406410c",
+      "checker": null,
+      "note": "no test at the pin reads this file: the pinned tree names it nowhere outside its own testdata directory"
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/modbus_v1_raw_read.golden.json",
+      "path": "mcp/testdata/modbus_v1_raw_read.golden.json",
+      "sha256": "9c249d6b9700a2892379f3dbeb73b141ff837c621b0fad6fd1fcb0034253c0f9",
+      "checker": null,
+      "note": "no test at the pin reads this file: the pinned tree names it nowhere outside its own testdata directory"
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_devices_get_invalid_address.golden.json",
+      "path": "mcp/testdata/registry_devices_get_invalid_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_devices_get_out_of_range_address.golden.json",
+      "path": "mcp/testdata/registry_devices_get_out_of_range_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_methods_list_invalid_address.golden.json",
+      "path": "mcp/testdata/registry_methods_list_invalid_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_methods_list_out_of_range_address.golden.json",
+      "path": "mcp/testdata/registry_methods_list_out_of_range_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_planes_list_invalid_address.golden.json",
+      "path": "mcp/testdata/registry_planes_list_invalid_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/registry_planes_list_out_of_range_address.golden.json",
+      "path": "mcp/testdata/registry_planes_list_out_of_range_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_invalid_address.golden.json",
+      "path": "mcp/testdata/rpc_invoke_invalid_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_invalid_intent_precedes_lookup.golden.json",
+      "path": "mcp/testdata/rpc_invoke_invalid_intent_precedes_lookup.golden.json",
+      "sha256": "2b5603690339883dde98a0392590bd0064a4445e7842faecd6b041ec0d8c6abc",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallInvokeV1InvalidIntentPrecedesRouteLookup' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_invalid_method.golden.json",
+      "path": "mcp/testdata/rpc_invoke_invalid_method.golden.json",
+      "sha256": "783592a5f18250cef6b83c06e5c0ddbe6fa960c8ddaa7c6561ba5354106d95df",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_invalid_plane.golden.json",
+      "path": "mcp/testdata/rpc_invoke_invalid_plane.golden.json",
+      "sha256": "7792cd3add93b775ad4aef359f24ff11fdfaf74937d1aed0a97be2cba02198ec",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_malformed_allow_dangerous.golden.json",
+      "path": "mcp/testdata/rpc_invoke_malformed_allow_dangerous.golden.json",
+      "sha256": "98f18ce030efcfd2d6c3bc68655816d153fb077c9d817b1060bcf434bb83b5d5",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallInvokeV1MalformedArgumentReturnsStableEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/rpc_invoke_out_of_range_address.golden.json",
+      "path": "mcp/testdata/rpc_invoke_out_of_range_address.golden.json",
+      "sha256": "c0bd3fab8f63d82473843c9f36013f0dfe435dc3a58c68922ab3bd19deea9ed0",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestServer_ToolsCallChangedArgumentErrorsHaveStableEnvelopes' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/runtime_control_characterization.json",
+      "path": "mcp/testdata/runtime_control_characterization.json",
+      "sha256": "6218688b79a69c0bff7733e2261764a4d926597d32e9136b3c509ef0fa8ca185",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRuntimeControlCharacterizationMCPPayloads' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/runtime_control_outputs.json",
+      "path": "mcp/testdata/runtime_control_outputs.json",
+      "sha256": "4372785820cab8560982075a767dd0747f9b9316a82cd1de86a1f23290a98395",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRuntimeControlOutputsGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/runtime_control_recovery_contract.json",
+      "path": "mcp/testdata/runtime_control_recovery_contract.json",
+      "sha256": "df122839172ab9d7be265cd5ff3c0d7b6049d506065554a131d144c191cd8554",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRuntimeControlRecoveryMatchesTheContractFixtures' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/runtime_control_tools.json",
+      "path": "mcp/testdata/runtime_control_tools.json",
+      "sha256": "b9ce84b8df0fd68f6af1251a61639d80367acc1f994fcf8f5305335fd6a2479c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRuntimeControlToolsGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/runtime_status_regulator_capability.golden.json",
+      "path": "mcp/testdata/runtime_status_regulator_capability.golden.json",
+      "sha256": "751a4b53f8d1117d3e0e3ad0da3985dea8f6a7668b51d67c4283e74ec19fdeda",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestRuntimeStatusRegulatorCapabilityGoldenAndFailClosed' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_boiler_status_unknown.golden.json",
+      "path": "mcp/testdata/semantic_boiler_status_unknown.golden.json",
+      "sha256": "bfa7e9700b0cfb4de59618ff06dce8f41ba0187a8e07d87141a299002ecc36b5",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticBoilerStatusUnknownGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_circuits_state.golden.json",
+      "path": "mcp/testdata/semantic_circuits_state.golden.json",
+      "sha256": "fb24097f39cbe5c8193636a40e965a1785ff1f796f8421a6619ba4f9389b2f6b",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticCircuitsStateGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_populated_planes.golden.json",
+      "path": "mcp/testdata/semantic_populated_planes.golden.json",
+      "sha256": "50952e2f947780b91617500c878d7f17b10f20a02471d14b1d02825e7ada72c6",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticPopulatedPlanesGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_snapshot.json",
+      "path": "mcp/testdata/semantic_snapshot.json",
+      "sha256": "1fd1a69dbe44b0d2094b9da05216a45424328bb32c151836bec3736fb8ee91c1",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestM10DiscoveryGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_snapshot_dhw_bivalence_bound.golden.json",
+      "path": "mcp/testdata/semantic_snapshot_dhw_bivalence_bound.golden.json",
+      "sha256": "bb53bb7bed45ab6e289f9efa5312dc5cda1a402a2e952f5e0fa7dee1d664e959",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticSnapshotDHWBivalenceBoundGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_system_dhw_bivalence_bound.golden.json",
+      "path": "mcp/testdata/semantic_system_dhw_bivalence_bound.golden.json",
+      "sha256": "0118802793998518ab8d90a1318fe02354928a434f45116308447a8589e4046c",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticSystemDHWBivalenceBoundGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/semantic_zones_dhw.golden.json",
+      "path": "mcp/testdata/semantic_zones_dhw.golden.json",
+      "sha256": "fcf1d2359ed60a6a46df7e8f64b4580e9f1fb8bc1dabc33fad28252f33f15a8f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestSemanticZonesAndDHWGoldenEnvelope' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/vaillant_b503_errors_history_list.golden.json",
+      "path": "mcp/testdata/vaillant_b503_errors_history_list.golden.json",
+      "sha256": "44c08b9a2815e06455327bcc703c86eb662d7e53efa33e3fee932be819932a07",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantB503PromotedToolsGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/vaillant_b503_live_monitor_session_get.golden.json",
+      "path": "mcp/testdata/vaillant_b503_live_monitor_session_get.golden.json",
+      "sha256": "8715f14099719cb9aee662921b7bfb9f412692ca120c3deb1e9ad1772b56d2c3",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantB503PromotedToolsGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/vaillant_b503_live_monitor_session_refreshing.golden.json",
+      "path": "mcp/testdata/vaillant_b503_live_monitor_session_refreshing.golden.json",
+      "sha256": "d894c046bdfae8e6e5b684644150f70045af735407f43f425b587d2834d5998f",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantB503LiveMonitorSessionRefreshingGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:mcp/testdata/vaillant_b503_promoted_tools.golden.json",
+      "path": "mcp/testdata/vaillant_b503_promoted_tools.golden.json",
+      "sha256": "b9c486d295d8c7a5f2c992db2b57cb891cb68293cb02fd0393d84eb8d891c9cc",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestVaillantB503PromotedToolsGolden' ./mcp/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:portal/catalogv1/testdata/catalog-negative-vectors.json",
+      "path": "portal/catalogv1/testdata/catalog-negative-vectors.json",
+      "sha256": "cb7b67acffe16571744d08cb0183afc4d0e6bc9c4fe90c03ae247b9ba2a39b35",
+      "checker": null,
+      "note": "the pin has no checker for this file (the pinned tree names it only in docs/architecture/naming-inventory.json)"
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:portal/catalogv1/testdata/five-domain-catalog.json",
+      "path": "portal/catalogv1/testdata/five-domain-catalog.json",
+      "sha256": "c9c87522562a9bb62380d9291d9a2d18e8abc22cab7fb88446338ed372c92f9a",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCatalogSchemaClosesEveryPopulatedWireItem' ./portal/catalogv1/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:portal/contributionv1/testdata/five-domain-catalog.json",
+      "path": "portal/contributionv1/testdata/five-domain-catalog.json",
+      "sha256": "fb3f05ca02ab4e5ab5d4e9ae4c23f7d4cb6be4a26c790b2ecba7a9d928031467",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestCanonicalDigestBoundsDirectManifestAndCanonicalizesUnorderedArrays|TestCanonicalizePreservesExplicitEmptyRequiredArrays|TestCanonicalizeSortsDefensivelyWithoutMutatingInput|TestDecodeAcceptsSchemaValidIntegralOrderSpellings|TestDecodeDistinguishesPresentZeroOrderFromMissingOrder' ./portal/contributionv1/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:portal/contributionv1/testdata/invalid-manifests.json",
+      "path": "portal/contributionv1/testdata/invalid-manifests.json",
+      "sha256": "11ce5b9bbc3554c5649b282161ce2d4b3b259ef3ad6206b280208a3f596ade05",
+      "checkers": [
+        {
+          "command": "go test -count=1 -run 'TestInvalidManifestsFailClosed' ./portal/contributionv1/",
+          "exit_status": 0
+        }
+      ]
+    },
+    {
+      "ref": "helianthus-ebusgateway@37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa:portal/contributionv1/testdata/state-matrix.json",
+      "path": "portal/contributionv1/testdata/state-matrix.json",
+      "sha256": "0be809322b61618d8fac8bbd2231327e54f0997dc52127a19a54ca36222ad1d6",
+      "checkers": [
+        {
+          "command": "node --test portal/web/test/portal-contribution-v1.test.mjs",
+          "exit_status": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "case": "sunspec-103-short-inconsistent-length",
+  "input": {
+    "model_103_length": 30,
+    "models": [
+      1,
+      103
+    ]
+  },
+  "note": "a Model 103 occurrence declaring length 30 instead of 50",
+  "output": {
+    "admitted": false,
+    "facts": [],
+    "profile": "sunspec.inverter.three_phase.monitoring@1.0.0",
+    "reason": "INVALID_CHAIN"
+  },
+  "path": "modbusreg sunspec EvaluateThreePhaseMonitoring"
+}

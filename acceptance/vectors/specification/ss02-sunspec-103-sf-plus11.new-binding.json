@@ -1,0 +1,40 @@
+{
+  "format": "helianthus-oracle-spec-ss02-new-binding/1",
+  "origin": "specification",
+  "case": "sunspec-103-sf-plus11",
+  "kind": "new-binding",
+  "pairs_with_native": {
+    "case": "sunspec-103-sf-plus11",
+    "path": "acceptance/vectors/current/modbusreg/sunspec/ss02/sunspec-103-sf-plus11.native.json",
+    "scope": "native decoder and monitoring capability of the registry; the gateway producer disposition is not recorded in this revision"
+  },
+  "sources": [
+    {
+      "document": "SunSpec Information Model Reference, model 103 (three phase inverter, integer)",
+      "points": [
+        "W (word 14, int16, unit W)",
+        "W_SF (word 15, scale factor, valid range -10..10)"
+      ],
+      "counting": "model ID at word 0 and length at word 1"
+    }
+  ],
+  "input": {
+    "model": 103,
+    "length": 50,
+    "W_raw": 1500,
+    "W_SF": 11
+  },
+  "binding": {
+    "point": "inverter.ac.power.active",
+    "target": "pv.ac.aggregate_active_power",
+    "subject": "inverter",
+    "unit": "W",
+    "policy": "pv.telemetry.fast.v1"
+  },
+  "expected": {
+    "value": "unknown",
+    "reason": "scale factor +11 is outside -10..10"
+  },
+  "note": "signed scale-factor word +11",
+  "metadata_operand": "acceptance/vectors/specification/ss02-candidate-metadata-operand.json"
+}

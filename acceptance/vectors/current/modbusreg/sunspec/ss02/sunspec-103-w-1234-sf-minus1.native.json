@@ -1,0 +1,116 @@
+{
+  "case": "sunspec-103-w-1234-sf-minus1",
+  "input": {
+    "W_SF_word_15": 65535,
+    "W_word_14": 1234,
+    "common": {
+      "firmware": "1.0",
+      "manufacturer": "Maker",
+      "model": "Model"
+    },
+    "length": 50,
+    "model": 103,
+    "other_points": "pinned integer inverter fixture"
+  },
+  "note": "W 1234 with SF -1",
+  "output": {
+    "admitted": true,
+    "facts": [
+      {
+        "field_id": "inverter.ac.current.total",
+        "number": "1",
+        "unit": "A"
+      },
+      {
+        "field_id": "inverter.ac.current.phase_a",
+        "number": "1",
+        "unit": "A"
+      },
+      {
+        "field_id": "inverter.ac.current.phase_b",
+        "number": "1",
+        "unit": "A"
+      },
+      {
+        "field_id": "inverter.ac.current.phase_c",
+        "number": "1",
+        "unit": "A"
+      },
+      {
+        "field_id": "inverter.ac.voltage.phase_a",
+        "number": "1",
+        "unit": "V"
+      },
+      {
+        "field_id": "inverter.ac.voltage.phase_b",
+        "number": "1",
+        "unit": "V"
+      },
+      {
+        "field_id": "inverter.ac.voltage.phase_c",
+        "number": "1",
+        "unit": "V"
+      },
+      {
+        "field_id": "inverter.ac.power.active",
+        "number": "123.4",
+        "unit": "W"
+      },
+      {
+        "field_id": "inverter.ac.frequency",
+        "number": "1",
+        "unit": "Hz"
+      },
+      {
+        "field_id": "inverter.ac.energy_lifetime",
+        "number": "1",
+        "unit": "Wh"
+      },
+      {
+        "field_id": "inverter.temperature.cabinet",
+        "number": "1",
+        "unit": "C"
+      },
+      {
+        "field_id": "inverter.operating_state",
+        "unit": "none"
+      },
+      {
+        "field_id": "inverter.events.1",
+        "unit": "none"
+      },
+      {
+        "field_id": "inverter.events.2",
+        "unit": "none"
+      },
+      {
+        "field_id": "inverter.ac.power.apparent",
+        "number": "0",
+        "unit": "VA"
+      },
+      {
+        "field_id": "inverter.ac.power.reactive",
+        "number": "0",
+        "unit": "var"
+      },
+      {
+        "field_id": "inverter.ac.voltage.line_ab",
+        "number": "0",
+        "unit": "V"
+      },
+      {
+        "field_id": "inverter.ac.voltage.line_bc",
+        "number": "0",
+        "unit": "V"
+      },
+      {
+        "field_id": "inverter.ac.voltage.line_ca",
+        "number": "0",
+        "unit": "V"
+      }
+    ],
+    "profile": "sunspec.inverter.three_phase.monitoring@1.0.0",
+    "reason": "ADMITTED"
+  },
+  "path": "modbusreg sunspec EvaluateThreePhaseMonitoring on a Common model followed by Model 103 (length 50)"
+}

@@ -1,0 +1,425 @@
+{
+  "format": "helianthus-oracle-pre-port-losses/1",
+  "derived": true,
+  "derivation": "pre-port introspection fields, snake-case normalized, not present in the current pin's introspection golden and not a previous_name row of its register_derived_names.json",
+  "current_pin": {
+    "repository": "helianthus-ebusgateway",
+    "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+  },
+  "losses": [
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.flowsetHcMaxC",
+      "normalized": "boiler_config.flowset_hc_max_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/2"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.flowsetHwcMaxC",
+      "normalized": "boiler_config.flowset_hwc_max_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/3"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.hoursTillService",
+      "normalized": "boiler_config.hours_till_service",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.installerMenuCode",
+      "normalized": "boiler_config.installer_menu_code",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.partloadHcKW",
+      "normalized": "boiler_config.partload_hc_kw",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/10"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.partloadHwcKW",
+      "normalized": "boiler_config.partload_hwc_kw",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/11"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerConfig.phoneNumber",
+      "normalized": "boiler_config.phone_number",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/14"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.centralHeatingHours",
+      "normalized": "boiler_diagnostics.central_heating_hours",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.centralHeatingStarts",
+      "normalized": "boiler_diagnostics.central_heating_starts",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/1"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.deactivationsIFC",
+      "normalized": "boiler_diagnostics.deactivations_ifc",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.deactivationsTemplimiter",
+      "normalized": "boiler_diagnostics.deactivations_templimiter",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/5"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.dhwHours",
+      "normalized": "boiler_diagnostics.dhw_hours",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.dhwStarts",
+      "normalized": "boiler_diagnostics.dhw_starts",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/9"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.fanHours",
+      "normalized": "boiler_diagnostics.fan_hours",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/14"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerDiagnostics.pumpHours",
+      "normalized": "boiler_diagnostics.pump_hours",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/18"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.dhwTempDesiredC",
+      "normalized": "boiler_state.dhw_temp_desired_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.dhwWaterFlowLpm",
+      "normalized": "boiler_state.dhw_water_flow_lpm",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.diverterValvePositionPct",
+      "normalized": "boiler_state.diverter_valve_position_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/14"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.fanSpeedRpm",
+      "normalized": "boiler_state.fan_speed_rpm",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/18"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.flowTempDesiredC",
+      "normalized": "boiler_state.flow_temp_desired_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/22"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.flowTemperatureC",
+      "normalized": "boiler_state.flow_temperature_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/23"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.ionisationVoltageUa",
+      "normalized": "boiler_state.ionisation_voltage_ua",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/30"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.modulationPct",
+      "normalized": "boiler_state.modulation_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/32"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.primaryCircuitFlowLpm",
+      "normalized": "boiler_state.primary_circuit_flow_lpm",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/34"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.stateNumber",
+      "normalized": "boiler_state.state_number",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/38"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.storageLoadPumpPct",
+      "normalized": "boiler_state.storage_load_pump_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/40"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.targetFanSpeedRpm",
+      "normalized": "boiler_state.target_fan_speed_rpm",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/42"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "BoilerState.waterPressureBar",
+      "normalized": "boiler_state.water_pressure_bar",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/44"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.coolingEnabled",
+      "normalized": "circuit_config.cooling_enabled",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.flowTempMaxC",
+      "normalized": "circuit_config.flow_temp_max_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/2"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.flowTempMinC",
+      "normalized": "circuit_config.flow_temp_min_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/3"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.frostProtC",
+      "normalized": "circuit_config.frost_prot_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.heatingCurve",
+      "normalized": "circuit_config.heating_curve",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.roomTempControl",
+      "normalized": "circuit_config.room_temp_control",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/10"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitConfig.summerLimitC",
+      "normalized": "circuit_config.summer_limit_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/12"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.dewPoint",
+      "normalized": "circuit_state.dew_point",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.flowSetpointC",
+      "normalized": "circuit_state.flow_setpoint_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.flowTemperatureC",
+      "normalized": "circuit_state.flow_temperature_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/7"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.humidity",
+      "normalized": "circuit_state.humidity",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/10"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.mixerPositionPct",
+      "normalized": "circuit_state.mixer_position_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/11"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.pumpActive",
+      "normalized": "circuit_state.pump_active",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/13"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.pumpHours",
+      "normalized": "circuit_state.pump_hours",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/14"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "CircuitState.pumpStarts",
+      "normalized": "circuit_state.pump_starts",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/15"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwConfig.holidayEndDate",
+      "normalized": "dhw_config.holiday_end_date",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwConfig.holidayStartDate",
+      "normalized": "dhw_config.holiday_start_date",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/1"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwConfig.operatingMode",
+      "normalized": "dhw_config.operating_mode",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwConfig.targetTempC",
+      "normalized": "dhw_config.target_temp_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/7"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwState.currentTempC",
+      "normalized": "dhw_state.current_temp_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "DhwState.specialFunction",
+      "normalized": "dhw_state.special_function",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemConfig.alternativePoint",
+      "normalized": "system_config.alternative_point",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/2"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemConfig.dhwBivalencePoint",
+      "normalized": "system_config.dhw_bivalence_point",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemConfig.hcEmergencyTemperature",
+      "normalized": "system_config.hc_emergency_temperature",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemConfig.hwcMaxFlowTempDesired",
+      "normalized": "system_config.hwc_max_flow_temp_desired",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/10"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemConfig.installerPhone",
+      "normalized": "system_config.installer_phone",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/14"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemState.hwcCylinderTemperatureBottom",
+      "normalized": "system_state.hwc_cylinder_temperature_bottom",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemState.hwcCylinderTemperatureTop",
+      "normalized": "system_state.hwc_cylinder_temperature_top",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/1"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemState.maintenanceDue",
+      "normalized": "system_state.maintenance_due",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/4"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "SystemState.outdoorTemperatureAvg24h",
+      "normalized": "system_state.outdoor_temperature_avg24h",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/7"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.holidayEndDate",
+      "normalized": "zone_config.holiday_end_date",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/6"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.holidayEndTime",
+      "normalized": "zone_config.holiday_end_time",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/7"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.holidaySetpoint",
+      "normalized": "zone_config.holiday_setpoint",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.holidayStartDate",
+      "normalized": "zone_config.holiday_start_date",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/9"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.holidayStartTime",
+      "normalized": "zone_config.holiday_start_time",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/10"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.quickVetoDuration",
+      "normalized": "zone_config.quick_veto_duration",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/20"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneConfig.quickVetoSetpoint",
+      "normalized": "zone_config.quick_veto_setpoint",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/22"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneState.currentHumidityPct",
+      "normalized": "zone_state.current_humidity_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/0"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneState.currentTempC",
+      "normalized": "zone_state.current_temp_c",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/1"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneState.specialFunction",
+      "normalized": "zone_state.special_function",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/8"
+    },
+    {
+      "surface": "graphql",
+      "published_at_pre_port": "ZoneState.valvePositionPct",
+      "normalized": "zone_state.valve_position_pct",
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/10"
+    }
+  ]
+}

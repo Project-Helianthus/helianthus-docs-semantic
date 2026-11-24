@@ -1,0 +1,37 @@
+{
+  "format": "helianthus-oracle-bom/1",
+  "reference": "current",
+  "entry": "semreg",
+  "slug_at_pin": "helianthus-semreg",
+  "commit": "69a9143a16a0e0b3d9d2c12e358b2aae5042ec89",
+  "main": {
+    "path": "github.com/Project-Helianthus/helianthus-semreg",
+    "go": "1.22"
+  },
+  "modules": [
+    {
+      "path": "golang.org/x/mod",
+      "version": "v0.17.0",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/sync",
+      "version": "v0.11.0",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/text",
+      "version": "v0.22.0",
+      "sum": "h1:bofq7m3/HAFvbF51jz3Q9wLg3jkvSPuiZu/pD1XwgtM=",
+      "go_mod_sum": "h1:YRoo4H8PVmsu+E3Ou7cqLVH8oXWIHVoX0jqUWALQhfY="
+    },
+    {
+      "path": "golang.org/x/tools",
+      "version": "v0.21.1-0.20240508182429-e35e4ccd0d2d",
+      "sum": "",
+      "go_mod_sum": ""
+    }
+  ]
+}

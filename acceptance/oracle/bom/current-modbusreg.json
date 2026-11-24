@@ -1,0 +1,19 @@
+{
+  "format": "helianthus-oracle-bom/1",
+  "reference": "current",
+  "entry": "modbusreg",
+  "slug_at_pin": "helianthus-modbusreg",
+  "commit": "0171db7de5b546165636e6ade317d45304ff1dc0",
+  "main": {
+    "path": "github.com/Project-Helianthus/helianthus-modbusreg",
+    "go": "1.22"
+  },
+  "modules": [
+    {
+      "path": "github.com/Project-Helianthus/helianthus-modbus",
+      "version": "v0.3.1-0.20261014112527-df5bdc80771c",
+      "sum": "h1:/afxettNlxgpDKk+ExmTySEmmf2mbahJ5izr5jtg2yM=",
+      "go_mod_sum": "h1:Nr8SW7fE3SIjnp+rj8PCOtwk8JZ9wqafu1ZCgq3Zz+Q="
+    }
+  ]
+}

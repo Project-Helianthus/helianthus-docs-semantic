@@ -1,0 +1,46 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "vaillant-poller-full-site",
+  "reference": "current",
+  "scenario": "full_site",
+  "description": "Complete synthetic Vaillant poller session: discovery, one refresh pass of every plane, then four write steps, on the pinned virtual site and its simulated clock.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionVaillantPoller"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/vaillant_publication_golden_test.go",
+      "sha256": "d5fbdac85a1d3e1b56130f8dca45d76fe43f0b32c2db83d74c30c2dd71e66522"
+    },
+    {
+      "path": "cmd/gateway/vaillant_publication_site_test.go",
+      "sha256": "5c12414dce2fa84da79198536e46509f14d7bae8703b143482de25a508a8173b"
+    },
+    {
+      "path": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+      "sha256": "6deef142442561ce31a605d57f23ee602ea042094cd0483b06b5c0e4af84be9d"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "start": "2026-01-05T06:00:00Z",
+    "step_gap": "11m",
+    "frame_cost": "20ms"
+  },
+  "state": {
+    "cache_seed": null
+  },
+  "input": {
+    "steps": [
+      "startup_discovery",
+      "refresh pass (13 refresh tasks)",
+      "write_boiler_config",
+      "write_system_config",
+      "write_zone_time_program",
+      "write_dhw_time_program"
+    ]
+  }
+}

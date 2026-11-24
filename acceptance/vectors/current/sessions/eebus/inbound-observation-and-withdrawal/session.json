@@ -1,0 +1,30 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "eebus-inbound-observation-and-withdrawal",
+  "reference": "current",
+  "scenario": "inbound-observation-and-withdrawal",
+  "description": "Synthetic eeBUS inbound session: remote observations of the synthetic node are read into the promoted overlay, an outdoor measurement description drifts and its value is withdrawn, then the remote runtime turns degraded and every value is withdrawn.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionEEBus"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/eebus_inbound_values_test.go",
+      "sha256": "78f50e86dd8559dada0e1e33dcdbaec38bdae8fbf5e105b5e18197c0de189a06"
+    }
+  ],
+  "clock": {
+    "kind": "fixed",
+    "instant": "2026-01-02T03:04:05Z"
+  },
+  "state": {
+    "remote_runtime_epoch": 7,
+    "connection_generation": 3
+  },
+  "input": {
+    "direction": "inbound"
+  }
+}

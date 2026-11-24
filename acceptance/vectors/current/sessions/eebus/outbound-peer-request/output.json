@@ -1,0 +1,58 @@
+{
+  "acquisitions": [],
+  "build": {
+    "build_command": "go test -c -trimpath -o replay-eebus-outbound-peer-request.test ./cmd/gateway/",
+    "executable_sha256": "1d37d4966a37b6791c3517adfe3a69196f405af1b170a31894c04567a7d31781",
+    "invocation": "replay-eebus-outbound-peer-request.test -test.run ^TestOracleSessionEEBus$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    },
+    "toolchain": "go version go1.26.2 darwin/arm64"
+  },
+  "format": "helianthus-oracle-session-output/1",
+  "outcomes": [
+    {
+      "error": "semantic operation: UNAVAILABLE: eebus output relay unwired",
+      "error_code": "UNAVAILABLE",
+      "request": {
+        "Arguments": null,
+        "AssetID": "asset:synthetic",
+        "BindingID": "binding:synthetic",
+        "CapabilityInstanceID": "capability:synthetic",
+        "ExpectedCapabilityInstanceRevision": "1",
+        "ExpectedCapabilityRevision": "1",
+        "ExpectedDriverGeneration": "1",
+        "ExpectedSemanticRevision": "1",
+        "ExpectedSourceEpochID": "epoch:synthetic",
+        "Operation": {
+          "id": "synthetic.operation.set",
+          "pack": {
+            "id": "helianthus.pack.synthetic",
+            "version": "1.0.0"
+          },
+          "version": "1.0.0"
+        },
+        "Preconditions": null,
+        "Timeout": 0
+      },
+      "result": {
+        "Acknowledgement": null,
+        "Delivery": null,
+        "KernelOutcome": null,
+        "ReadbackRelation": null,
+        "Reason": null,
+        "Status": ""
+      },
+      "step": "peer-request"
+    }
+  ],
+  "public_outputs": [],
+  "publications": [],
+  "reference": "current",
+  "sends": [],
+  "session": "eebus-outbound-peer-request",
+  "session_sha256": "eeaa317c59141469b9df17963910727d8700d80f36d881707fe0bb5f9cce9ccc",
+  "withdrawals": []
+}

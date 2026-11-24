@@ -1,0 +1,31 @@
+{
+  "format": "helianthus-oracle-bom/1",
+  "reference": "current",
+  "entry": "ebusreg",
+  "slug_at_pin": "helianthus-ebusreg",
+  "commit": "e10169e930c823de6a6f44a410c1883c1d84d33d",
+  "main": {
+    "path": "github.com/Project-Helianthus/helianthus-ebusreg",
+    "go": "1.22"
+  },
+  "modules": [
+    {
+      "path": "github.com/Project-Helianthus/helianthus-ebusgo",
+      "version": "v0.5.1-0.20260507140006-4dfa4a22cec3",
+      "sum": "h1:U90kuV7LhIkiwnD1iZFGV29Vpd87S119DXDcso4cCp8=",
+      "go_mod_sum": "h1:thVkNAfYJ0Qv4jvdpr6xeCFokeUQAeuAbq510DXYXMU="
+    },
+    {
+      "path": "gopkg.in/check.v1",
+      "version": "v0.0.0-20161208181325-20d25e280405",
+      "sum": "",
+      "go_mod_sum": "h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0="
+    },
+    {
+      "path": "gopkg.in/yaml.v3",
+      "version": "v3.0.1",
+      "sum": "h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=",
+      "go_mod_sum": "h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM="
+    }
+  ]
+}

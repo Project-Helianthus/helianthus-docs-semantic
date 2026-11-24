@@ -1,0 +1,211 @@
+{
+  "format": "helianthus-oracle-bom/1",
+  "reference": "current",
+  "entry": "matterreg",
+  "slug_at_pin": "helianthus-matter-binding",
+  "commit": "c811b401288e81731dc4e7a301f266d8f56599d1",
+  "main": {
+    "path": "github.com/Project-Helianthus/helianthus-matter-binding",
+    "go": "1.27.4"
+  },
+  "modules": [
+    {
+      "path": "filippo.io/nistec",
+      "version": "v0.0.4",
+      "sum": "h1:F14ZHT5htWlMnQVPndX9ro9arf56cBhQxq4LnDI491s=",
+      "go_mod_sum": "h1:PK/lw8I1gQT4hUML4QGaqljwdDaFcMyFKSXN7kjrtKI="
+    },
+    {
+      "path": "github.com/SukramJ/go-fabric",
+      "version": "v0.22.2",
+      "sum": "h1:HnyaeM+hhrfiD+IYHcH1oPj0NvOpYgimzU+2jc4CNrc=",
+      "go_mod_sum": "h1:ZENqwL+a1p3zfhSO7vjwhx6PqVxsCY8UhgNAY/FBD+c="
+    },
+    {
+      "path": "github.com/dustin/go-humanize",
+      "version": "v1.1.0",
+      "sum": "h1:dbKTrvD0klcbBV/h4AWJdMuZogJACoMlvWIWZ5b2xWg=",
+      "go_mod_sum": "h1:hc1CvRkJMsgxqjmjMQF3QNRAZBwY8AXBAzKYoSX9sFI="
+    },
+    {
+      "path": "github.com/google/pprof",
+      "version": "v0.0.0-20261016150608-1facf8f91b50",
+      "sum": "h1:PlNWJRxu5APSV0pWqfIsZ0qt9OOGHSWfZQ4zvx+WgWs=",
+      "go_mod_sum": "h1:yUo1AMMpsPIDFGuwDK8nLcf8+vvAd5l2O6JDZ6hpwrM="
+    },
+    {
+      "path": "github.com/google/uuid",
+      "version": "v1.6.0",
+      "sum": "h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=",
+      "go_mod_sum": "h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo="
+    },
+    {
+      "path": "github.com/hashicorp/golang-lru/v2",
+      "version": "v2.0.7",
+      "sum": "h1:a+bsQ5rvGLjzHuww6tVxozPZFVghXaHOwFs4luLUK2k=",
+      "go_mod_sum": "h1:QeFd9opnmA6QUJc5vARoKUSoFhyfM2/ZepoAG6RGpeM="
+    },
+    {
+      "path": "github.com/mattn/go-isatty",
+      "version": "v0.0.24",
+      "sum": "h1:tGZZoVgT/KiqK1c8ocVLeDS8BSWMRd47J3Lbz7vsReI=",
+      "go_mod_sum": "h1:nMCL3Zebbrt45jsMDgnfIwz6ydEQApk5oEI3HqDio6A="
+    },
+    {
+      "path": "github.com/miekg/dns",
+      "version": "v1.1.73",
+      "sum": "h1:uhT8nJxmTrPJYClxVxTCX+CVn6qnzSiybRk72Z6DgrE=",
+      "go_mod_sum": "h1:RW2Obtfd5NZHvOFe3zYG0W8koWOQtAzyHaLo8vASBuQ="
+    },
+    {
+      "path": "github.com/ncruces/go-strftime",
+      "version": "v1.1.0",
+      "sum": "h1:vtPmPWMkb539RGV9WpWT9EwJGvrOCKvMNI4obWL47Hk=",
+      "go_mod_sum": "h1:yVaq7iwCN09vHRrKBrrflXT0M9tTMG2KmZ9Fj7xeG/g="
+    },
+    {
+      "path": "github.com/remyoudompheng/bigfft",
+      "version": "v0.0.0-20230129092748-24d4a6f8daec",
+      "sum": "h1:W09IVJc94icq4NjY3clb7Lk8O1qJ8BdBEF8z0ibU0rE=",
+      "go_mod_sum": "h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo="
+    },
+    {
+      "path": "golang.org/x/crypto",
+      "version": "v0.58.0",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/exp",
+      "version": "v0.0.0-20261014143641-f0251eb4aa3e",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/mod",
+      "version": "v0.42.0",
+      "sum": "h1:ICeL3t2L30ljSPHHxDnR4fqVcBt/zR2zJAb9juavmQg=",
+      "go_mod_sum": "h1:u5fzIrRInkL8MaO1cbRkUHT64v303YIT5KEqpNr7jRs="
+    },
+    {
+      "path": "golang.org/x/net",
+      "version": "v0.62.0",
+      "sum": "h1:18ELalfM5+XNRwzM2nYqXsZQ9ByS1uhj2O/U7+5jqRY=",
+      "go_mod_sum": "h1:WgDCOTH8iwtB66T4/GfI94AHo/hhdb7Hah9NDseQfiI="
+    },
+    {
+      "path": "golang.org/x/sync",
+      "version": "v0.24.0",
+      "sum": "h1:iqiDrGoDgyuvAKrhLQthUEzU/R378N78gXbBjxed7oA=",
+      "go_mod_sum": "h1:sUUOizhqBxiL6pEWpqNLUiaJn1ShEbZ6BBqskPbjZm0="
+    },
+    {
+      "path": "golang.org/x/sys",
+      "version": "v0.49.0",
+      "sum": "h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=",
+      "go_mod_sum": "h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og="
+    },
+    {
+      "path": "golang.org/x/term",
+      "version": "v0.47.0",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/text",
+      "version": "v0.43.0",
+      "sum": "",
+      "go_mod_sum": ""
+    },
+    {
+      "path": "golang.org/x/tools",
+      "version": "v0.52.0",
+      "sum": "h1:ryxg4U63oaUYk7uOLTF37n43f4qgtGvqV4Ioit1BaEs=",
+      "go_mod_sum": "h1:ItcP5UNaVGG+Yc4eIYmaFLNJ4soEopkx5Y2d4lcEurs="
+    },
+    {
+      "path": "modernc.org/cc/v4",
+      "version": "v4.30.3",
+      "sum": "h1:aDq8gIX1X7+VFgO/JYYji6pLWL2H4tv3g8WatT3KCys=",
+      "go_mod_sum": "h1:OnovgIhbbMXMu1aISnJ0wvVD1KnW+cAUJkIrAWh+kVI="
+    },
+    {
+      "path": "modernc.org/ccgo/v4",
+      "version": "v4.37.0",
+      "sum": "h1:BAuJCUtIHIxFIYaFhqXIw5YaoMBlNCUlFovejHfMip4=",
+      "go_mod_sum": "h1:/8627VhwWtAbqUXmPORxFQU5SgLrAx2jl9seLw9GBhY="
+    },
+    {
+      "path": "modernc.org/fileutil",
+      "version": "v1.4.0",
+      "sum": "h1:j6ZzNTftVS054gi281TyLjHPp6CPHr2KCxEXjEbD6SM=",
+      "go_mod_sum": "h1:EqdKFDxiByqxLk8ozOxObDSfcVOv/54xDs/DUHdvCUU="
+    },
+    {
+      "path": "modernc.org/gc/v2",
+      "version": "v2.6.5",
+      "sum": "h1:nyqdV8q46KvTpZlsw66kWqwXRHdjIlJOhG6kxiV/9xI=",
+      "go_mod_sum": "h1:YgIahr1ypgfe7chRuJi2gD7DBQiKSLMPgBQe9oIiito="
+    },
+    {
+      "path": "modernc.org/gc/v3",
+      "version": "v3.2.0",
+      "sum": "h1:/Y3LGDMQaoYf55PebP1qsZ5FDGgAZyG1RYKEHeQzh1o=",
+      "go_mod_sum": "h1:HFK/6AGESC7Ex+EZJhJ2Gni6cTaYpSMmU/cT9RmlfYY="
+    },
+    {
+      "path": "modernc.org/goabi0",
+      "version": "v0.2.0",
+      "sum": "h1:HvEowk7LxcPd0eq6mVOAEMai46V+i7Jrj13t4AzuNks=",
+      "go_mod_sum": "h1:CEFRnnJhKvWT1c1JTI3Avm+tgOWbkOu5oPA8eH8LnMI="
+    },
+    {
+      "path": "modernc.org/libc",
+      "version": "v1.79.0",
+      "sum": "h1:9Dvvv++bAMSkSuBzuOFAatbTV5OIoq6Y6FohmD3e7q8=",
+      "go_mod_sum": "h1:uT3kR61NsbeKJSLqq83GJwSnZMVLlSjyAz4DfTaBy1M="
+    },
+    {
+      "path": "modernc.org/mathutil",
+      "version": "v1.7.1",
+      "sum": "h1:GCZVGXdaN8gTqB1Mf/usp1Y/hSqgI2vAGGP4jZMCxOU=",
+      "go_mod_sum": "h1:4p5IwJITfppl0G4sUEDtCr4DthTaT47/N3aT6MhfgJg="
+    },
+    {
+      "path": "modernc.org/memory",
+      "version": "v1.12.1",
+      "sum": "h1:nFMiWrpStgZczNl6XI9GnIk/rWhYIyHGUaR04pGbp9g=",
+      "go_mod_sum": "h1:/JP4VbVC+K5sU2wZi9bHoq2MAkCnrt2r98UGeSK7Mjw="
+    },
+    {
+      "path": "modernc.org/opt",
+      "version": "v0.2.0",
+      "sum": "h1:tGyef5ApycA7FSEOMraay9SaTk5zmbx7Tu+cJs4QKZg=",
+      "go_mod_sum": "h1:03fq9lsNfvkYSfxrfUhZCWPk1lm4cq4N+Bh//bEtgns="
+    },
+    {
+      "path": "modernc.org/sortutil",
+      "version": "v1.2.1",
+      "sum": "h1:+xyoGf15mM3NMlPDnFqrteY07klSFxLElE2PVuWIJ7w=",
+      "go_mod_sum": "h1:7ZI3a3REbai7gzCLcotuw9AC4VZVpYMjDzETGsSMqJE="
+    },
+    {
+      "path": "modernc.org/sqlite",
+      "version": "v1.61.0",
+      "sum": "h1:sQi63oLQ9uquAUA4CzOisH35Q3pEszkPBuHM0tFL8CY=",
+      "go_mod_sum": "h1:f4gr5tbpx2umklaT/QVtbi/50hNdM+4ng+2zMo8KXJ0="
+    },
+    {
+      "path": "modernc.org/strutil",
+      "version": "v1.2.1",
+      "sum": "h1:UneZBkQA+DX2Rp35KcM69cSsNES9ly8mQWD71HKlOA0=",
+      "go_mod_sum": "h1:EHkiggD70koQxjVdSBM3JKM7k6L0FbGE5eymy9i3B9A="
+    },
+    {
+      "path": "modernc.org/token",
+      "version": "v1.1.0",
+      "sum": "h1:Xl7Ap9dKaEs5kLoOQeQmPWevfnk/DM5qcLcYlA8ys6Y=",
+      "go_mod_sum": "h1:UGzOrNV1mAFSEB63lOFHIpNRUVMvYTc6yu1SMY/XTDM="
+    }
+  ]
+}

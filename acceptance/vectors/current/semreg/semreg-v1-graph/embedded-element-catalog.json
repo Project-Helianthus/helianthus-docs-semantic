@@ -1,0 +1,17 @@
+{
+  "format": "helianthus-oracle-semreg-embedded-catalog/1",
+  "source": {
+    "repository": "helianthus-semreg",
+    "commit": "69a9143a16a0e0b3d9d2c12e358b2aae5042ec89",
+    "path": "semreg/v1/graph/enforcement.go",
+    "constant": "embeddedCatalog"
+  },
+  "embedded_bytes": 412862,
+  "embedded_sha256": "6c8d5c5c65327ef289c504db8378bc824c7170f5d7cb55e714625728feb526a4",
+  "pinned_digest_constant": "sha256:6c8d5c5c65327ef289c504db8378bc824c7170f5d7cb55e714625728feb526a4",
+  "fixture": {
+    "path": "fixtures/v1/element-catalog-v1.json",
+    "sha256": "6c8d5c5c65327ef289c504db8378bc824c7170f5d7cb55e714625728feb526a4",
+    "equal_to_embedded_bytes": true
+  }
+}
