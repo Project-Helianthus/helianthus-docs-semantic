@@ -92,6 +92,23 @@ def test_limit_curve_write_accepts_maximum_power():
     assert "energy.series.slot_power_maximum" in row["effect_rule"]
     assert "limit-curve" in row["effect_rule"]
     assert "forecast" in row["effect_rule"]
+    assert "ModifyForecastRequest" in row["matter_1_6_1"]
+    assert "CancelRequest" in row["matter_1_6_1"]
+    assert "ModifyForecastRequest" in row["source"]
+    assert "CancelRequest" in row["source"]
+    assert "POEN-011" in row["eebus"] and "POEN-021" in row["eebus"]
+    assert "POEN-031" in row["eebus"] and "CEVC-sc2" in row["eebus"]
+    assert "RequestConstraintBasedForecast" not in row["matter_1_6_1"]
+    assert "RequestConstraintBasedForecast" not in row["source"]
+    assert "RequestConstraintBasedForecast" not in row["note"]
+    assert "RequestConstraintBasedForecast" not in row["effect_rule"]
+    assert "slot_start" not in signature
+    assert "StartTime" not in row["argument"] and "StartTime" not in row["parameters"]
+    assert "Constraints.StartTime" in row["review"]
+    assert "no start timestamp" in row["review"]
+    assert "no derivation" in row["review"]
+    assert "command association removed" in row["review"]
+    assert row["verification_level"] == "specification"
 
 
 def test_session_start_does_not_use_session_duration():
@@ -785,8 +802,35 @@ def test_harmonic_order_keeps_uint8_source_range():
     assert "max 25" in row["review"]
     assert row["verification_level"] == "specification"
     fields = {item["id"]: item for item in _rows("pe10-fields.tsv")}
-    for element in ("infrastructure.ac.harmonic_current", "infrastructure.ac.harmonic_phase"):
-        assert fields[element]["qualifiers"] == "infrastructure.dimension.harmonic_order"
+    withheld = {
+        "infrastructure.ac.harmonic_current": (
+            "ElectricalPowerMeasurement.HarmonicCurrents",
+            "ampere qualification withheld",
+            "unit.ampere",
+        ),
+        "infrastructure.ac.harmonic_phase": (
+            "ElectricalPowerMeasurement.HarmonicPhases",
+            "radian qualification withheld",
+            "unit.radian",
+        ),
+    }
+    for element, (matter, qualification, unit) in withheld.items():
+        row = fields[element]
+        assert row["qualifiers"] == "infrastructure.dimension.harmonic_order"
+        assert row["unit"] == ""
+        assert row["minimum"] == "" and row["maximum"] == ""
+        assert matter in row["matter_1_6_1"]
+        assert "HarmonicMeasurement.Measurement" in row["source"]
+        assert "no unit name" in row["source"]
+        assert "conversion undeclared" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert "bound not in specification" in row["source"]
+        assert "HarmonicMeasurement.Measurement" in row["review"]
+        assert "no scale" in row["review"]
+        assert qualification in row["review"]
+        assert "bound not in specification" in row["review"]
+        assert unit not in "\t".join(row.values())
+        assert row["verification_level"] == "specification"
 
 
 def test_reactive_import_export_leave_signed_power_mapped():
