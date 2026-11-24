@@ -386,6 +386,15 @@ class Repo:
             "old_present": False,
             "source": "gg10-lead",
         })
+        self.write_json("vec/diff-north-any.json", {
+            "approval": "approved-transition",
+            "case": "*",
+            "field": "northbound",
+            "new": "present",
+            "old": None,
+            "old_present": False,
+            "source": "gg10-lead",
+        })
         self.write_json("vec/diff-status.json", {
             "approval": "approved-status",
             "case": "*",
@@ -1812,6 +1821,7 @@ class ManifestCLITest(unittest.TestCase):
             output="kept=1",
             differences=[northbound],
         )
+        accounted["case"] = "north"
         accounted["old_output"] = "kept=1"
         accounted["new_output"] = "kept=1\nnorthbound=present"
         self.assert_ok(self.repo.receipt("accounted-output", accounted, self.repo.dest, "ebusgo"))
@@ -1823,6 +1833,7 @@ class ManifestCLITest(unittest.TestCase):
             output="kept=1",
             differences=[northbound],
         )
+        extra["case"] = "north"
         extra["old_output"] = "kept=1"
         extra["new_output"] = "kept=1\nnorthbound=present\nextra=1"
         before_extra = manifest_path.read_bytes()
@@ -1836,6 +1847,7 @@ class ManifestCLITest(unittest.TestCase):
             output="kept=1",
             differences=[northbound],
         )
+        session["case"] = "north"
         session["old_output"] = "kept=1"
         session["new_output"] = "kept=1\nnorthbound=present"
         self.assert_ok(self.repo.receipt("accounted-output", session, self.repo.dest, "ebusgo"))
@@ -2637,6 +2649,99 @@ class ManifestCLITest(unittest.TestCase):
         snapshot = self._gg13_snapshot()
         self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
         self.assertEqual(self._gg13_snapshot(), snapshot)
+
+    def test_output_approval_stays_inside_its_case(self) -> None:
+        northbound = {
+            "case": "north",
+            "field": "northbound",
+            "old_present": False,
+            "old": None,
+            "new": "present",
+        }
+        spec = self.repo.base(
+            "output-scope",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-north.json")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        path = self.repo.manifest_path("output-scope")
+        original = path.read_bytes()
+        crossed = self.repo.result(
+            "ebusgo", "row", self.repo.merged,
+            output="kept=1",
+            differences=[northbound],
+        )
+        crossed["case"] = "south"
+        crossed["old_output"] = "kept=1"
+        crossed["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_fail(
+            self.repo.receipt("output-scope", crossed, self.repo.dest, "ebusgo"),
+            "unapproved-difference: northbound",
+        )
+        self.assertEqual(path.read_bytes(), original)
+        planted = json.loads(original)
+        planted["receipts"] = []
+        for kind, commit in (("row", self.repo.merged), ("whole-session", self.repo.integrated)):
+            planted["receipts"].append({
+                "repository": "ebusgo",
+                "kind": kind,
+                "case": "south",
+                "donor_sha": self.repo.sha,
+                "destination_commit": commit,
+                "old_status": 0,
+                "new_status": 0,
+                "old_output": "kept=1",
+                "new_output": "kept=1\nnorthbound=present",
+                "differences": [northbound],
+                "compared": [],
+                "outcome": "approved-difference",
+            })
+        planted_path = self.repo.root / "acceptance" / "manifests" / "output-scope-planted.json"
+        planted_path.write_text(json.dumps(planted), encoding="utf-8")
+        deletion = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(planted_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        snapshot = self._gg13_snapshot()
+        self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
+        self.assertEqual(self._gg13_snapshot(), snapshot)
+        same = self.repo.result(
+            "ebusgo", "row", self.repo.merged,
+            output="kept=1",
+            differences=[northbound],
+        )
+        same["case"] = "north"
+        same["old_output"] = "kept=1"
+        same["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_ok(self.repo.receipt("output-scope", same, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("output-scope")["receipts"][0]["case"], "north")
+        wildcard = self.repo.base(
+            "output-wildcard-scope",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-north-any.json")],
+        )
+        self.assert_ok(self.repo.generate(wildcard))
+        global_result = self.repo.result(
+            "ebusgo", "row", self.repo.merged,
+            output="kept=1",
+            differences=[{
+                "case": "*",
+                "field": "northbound",
+                "old_present": False,
+                "old": None,
+                "new": "present",
+            }],
+        )
+        global_result["case"] = "south"
+        global_result["old_output"] = "kept=1"
+        global_result["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_ok(self.repo.receipt("output-wildcard-scope", global_result, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("output-wildcard-scope")["receipts"][0]["case"], "south")
 
     def test_conflicting_reference_pins_are_rejected(self) -> None:
         meas_sig = self.repo.sig["measurement_rows.go"]

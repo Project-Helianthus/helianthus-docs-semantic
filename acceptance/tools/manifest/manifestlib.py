@@ -1503,10 +1503,12 @@ def _difference_matches(diff: dict[str, Any], change: dict[str, Any]) -> bool:
 def _output_errors(manifest: dict[str, Any], record: dict[str, Any]) -> list[str]:
     """Name output changes that the approved vectors do not account for.
 
-    A listed vector accounts for a change only when the old and new outputs
-    differ by that field's `field=value` line and the vector names the same
-    old presence, old value and new value. Any other byte change is unapproved,
-    including when another approved vector such as execution_status is present.
+    A listed vector accounts for a change only when its case covers the result
+    case, the old and new outputs differ by that field's `field=value` line,
+    and the vector names the same old presence, old value and new value.
+    ``*`` is the only case that covers a different result. Any other byte
+    change is unapproved, including when another approved vector such as
+    execution_status is present.
     """
     old = record.get("old_output", "")
     new = record.get("new_output", "")
@@ -1520,6 +1522,7 @@ def _output_errors(manifest: dict[str, Any], record: dict[str, Any]) -> list[str
     errors: list[str] = []
     if residual:
         errors.append("unapproved-difference: output")
+    result_case = str(record.get("case") or "*")
     differences = list(record.get("differences") or [])
     used = [False] * len(differences)
     for change in changes:
@@ -1527,10 +1530,12 @@ def _output_errors(manifest: dict[str, Any], record: dict[str, Any]) -> list[str
         for index, diff in enumerate(differences):
             if used[index] or not _difference_matches(diff, change):
                 continue
-            case = diff.get("case", record.get("case", "*"))
+            vector_case = diff.get("case", result_case)
+            if not _case_covers(vector_case, result_case):
+                continue
             if not _approved(
                 manifest,
-                case,
+                vector_case,
                 change["field"],
                 change["old_present"],
                 change["old"],
@@ -1562,8 +1567,8 @@ def _judge_receipt(manifest: dict[str, Any], result: dict[str, Any]) -> list[str
         errors.append("unapproved-difference: execution_status")
     differences = result.get("differences") or []
     for diff in differences:
-        if diff.get("field") == "execution_status" and not _case_covers(diff.get("case"), result_case):
-            errors.append("unapproved-difference: execution_status")
+        if not _case_covers(diff.get("case"), result_case):
+            errors.append(f"unapproved-difference: {diff['field']}")
             continue
         old_present = bool(diff.get("old_present", True))
         if not _approved(
@@ -1643,8 +1648,8 @@ def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool
         return False
     if receipt_entry.get("outcome") not in {"equal", "approved-difference"}:
         return False
+    result_case = str(receipt_entry.get("case") or "*")
     if int(receipt_entry["old_status"]) != int(receipt_entry["new_status"]):
-        result_case = str(receipt_entry.get("case") or "*")
         if not _status_vector_matches(
             manifest,
             result_case,
@@ -1659,9 +1664,7 @@ def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool
         if not listed:
             return False
     for diff in receipt_entry.get("differences") or []:
-        if diff.get("field") == "execution_status" and not _case_covers(
-            diff.get("case"), str(receipt_entry.get("case") or "*")
-        ):
+        if not _case_covers(diff.get("case"), result_case):
             return False
         if not _approved(
             manifest,

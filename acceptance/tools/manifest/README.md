@@ -210,7 +210,7 @@ The case `*` covers every case.
 A vector for one case does not cover another.
 Output fields are whole lines of the form `field=value`.
 Each occurrence of a repeated field is compared on its own, so a later copy does not replace an earlier one.
-Every added, removed or changed field must be named by an approved vector with that field's old presence, old value and new value, and every other output line must be identical.
+Every added, removed or changed field must be named by an approved vector that covers the result case, with that field's old presence, old value and new value, and every other output line must be identical.
 An approved `execution_status` vector does not account for any other output change.
 An extra field is an unapproved difference.
 The stored receipt keeps `case`, `old_status`, `new_status`, both outputs, the differences, `donor_sha`, `destination_commit` and `outcome` (`equal` or `approved-difference`).
