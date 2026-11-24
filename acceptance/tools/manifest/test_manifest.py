@@ -1572,6 +1572,152 @@ class ManifestCLITest(unittest.TestCase):
         self.assertEqual(self.repo.manifest("status-move")["receipts"][0]["old_status"], 0)
         self.assertEqual(self.repo.manifest("status-move")["receipts"][0]["new_status"], 1)
 
+    def test_approved_vectors_must_account_for_output_changes(self) -> None:
+        spec = self.repo.base(
+            "accounted-output",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[
+                self.repo.difference("vec/diff-status.json"),
+                self.repo.difference("vec/diff-north.json"),
+            ],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        manifest_path = self.repo.manifest_path("accounted-output")
+        original = manifest_path.read_bytes()
+        status = {
+            "case": "*",
+            "field": "execution_status",
+            "old_present": True,
+            "old": "0",
+            "new": "1",
+        }
+        northbound = {
+            "case": "north",
+            "field": "northbound",
+            "old_present": False,
+            "old": None,
+            "new": "present",
+        }
+        unrelated = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            output="correct",
+            differences=[status],
+        )
+        unrelated["new_output"] = "unrelated-output"
+        self.assert_fail(
+            self.repo.receipt("accounted-output", unrelated, self.repo.dest, "ebusgo"),
+            "unapproved-difference: output",
+        )
+        self.assertEqual(manifest_path.read_bytes(), original)
+        decoy = self.repo.result(
+            "ebusgo", "row", self.repo.merged,
+            output="correct",
+            differences=[northbound],
+        )
+        decoy["new_output"] = "unrelated-output"
+        self.assert_fail(
+            self.repo.receipt("accounted-output", decoy, self.repo.dest, "ebusgo"),
+            "unapproved-difference: output",
+        )
+        self.assertEqual(manifest_path.read_bytes(), original)
+        hidden = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            output="kept=1",
+            differences=[status],
+        )
+        hidden["old_output"] = "kept=1"
+        hidden["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_fail(
+            self.repo.receipt("accounted-output", hidden, self.repo.dest, "ebusgo"),
+            "unapproved-difference: northbound",
+        )
+        self.assertEqual(manifest_path.read_bytes(), original)
+
+        def entry(kind: str, commit: str, old_output: str, new_output: str, differences: list) -> dict:
+            return {
+                "repository": "ebusgo",
+                "kind": kind,
+                "donor_sha": self.repo.sha,
+                "destination_commit": commit,
+                "old_status": 0,
+                "new_status": 1,
+                "old_output": old_output,
+                "new_output": new_output,
+                "differences": differences,
+                "compared": [],
+                "outcome": "approved-difference",
+            }
+
+        planted_path = self.repo.root / "acceptance" / "manifests" / "accounted-planted.json"
+        planted = json.loads(original)
+        planted["receipts"] = [
+            entry("row", self.repo.merged, "correct", "unrelated-output", [status]),
+            entry("whole-session", self.repo.integrated, "correct", "unrelated-output", [status]),
+        ]
+        planted_path.write_text(json.dumps(planted), encoding="utf-8")
+        deletion = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(planted_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        list_path = self.repo.root / "acceptance" / "manifests" / "GG13.lst"
+        record_path = self.repo.root / "acceptance" / "manifests" / "GG13.json"
+        before_list = list_path.read_bytes() if list_path.exists() else None
+        before_record = record_path.read_bytes() if record_path.exists() else None
+        self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
+        after_list = list_path.read_bytes() if list_path.exists() else None
+        after_record = record_path.read_bytes() if record_path.exists() else None
+        self.assertEqual(after_list, before_list)
+        self.assertEqual(after_record, before_record)
+
+        accounted = self.repo.result(
+            "ebusgo", "row", self.repo.merged,
+            output="kept=1",
+            differences=[northbound],
+        )
+        accounted["old_output"] = "kept=1"
+        accounted["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_ok(self.repo.receipt("accounted-output", accounted, self.repo.dest, "ebusgo"))
+        stored = self.repo.manifest("accounted-output")["receipts"][0]
+        self.assertEqual(stored["outcome"], "approved-difference")
+        self.assertEqual(stored["new_output"], "kept=1\nnorthbound=present")
+        extra = self.repo.result(
+            "ebusgo", "whole-session", self.repo.integrated,
+            output="kept=1",
+            differences=[northbound],
+        )
+        extra["old_output"] = "kept=1"
+        extra["new_output"] = "kept=1\nnorthbound=present\nextra=1"
+        before_extra = manifest_path.read_bytes()
+        self.assert_fail(
+            self.repo.receipt("accounted-output", extra, self.repo.dest, "ebusgo"),
+            "unapproved-difference: extra",
+        )
+        self.assertEqual(manifest_path.read_bytes(), before_extra)
+        session = self.repo.result(
+            "ebusgo", "whole-session", self.repo.integrated,
+            output="kept=1",
+            differences=[northbound],
+        )
+        session["old_output"] = "kept=1"
+        session["new_output"] = "kept=1\nnorthbound=present"
+        self.assert_ok(self.repo.receipt("accounted-output", session, self.repo.dest, "ebusgo"))
+        deletion["manifests"] = [str(manifest_path)]
+        self.assert_ok(self.repo.deletion(deletion))
+        self.assertIn(b"closure/closed/moved.go\n", list_path.read_bytes())
+        if before_list is None:
+            list_path.unlink()
+        else:
+            list_path.write_bytes(before_list)
+        if before_record is None:
+            record_path.unlink()
+        else:
+            record_path.write_bytes(before_record)
+
     def test_each_destination_repository_needs_its_own_receipts(self) -> None:
         spec = self.repo.base(
             "two-dest",

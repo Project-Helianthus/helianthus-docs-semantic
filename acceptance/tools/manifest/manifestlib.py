@@ -1142,6 +1142,124 @@ def compare(manifest_path: Path, destination: Path) -> int:
     return 0
 
 
+def _field_assignment(line: str) -> tuple[str, str] | None:
+    if "=" not in line:
+        return None
+    key, value = line.split("=", 1)
+    if not key or key[0].isdigit():
+        return None
+    allowed = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-")
+    if any(character not in allowed for character in key):
+        return None
+    return key, value
+
+
+def _output_delta(old: str, new: str) -> tuple[list[dict[str, Any]], bool]:
+    """Changed `field=value` lines, and whether any other bytes differ."""
+
+    def split(text: str) -> tuple[dict[str, str], list[str]]:
+        fields: dict[str, str] = {}
+        residual: list[str] = []
+        for line in text.splitlines():
+            assignment = _field_assignment(line)
+            if assignment is None:
+                residual.append(line)
+                continue
+            fields[assignment[0]] = assignment[1]
+        return fields, residual
+
+    old_fields, old_residual = split(old)
+    new_fields, new_residual = split(new)
+    changes: list[dict[str, Any]] = []
+    for field in sorted(set(old_fields) | set(new_fields)):
+        in_old = field in old_fields
+        in_new = field in new_fields
+        if in_old and in_new and old_fields[field] == new_fields[field]:
+            continue
+        if in_new and not in_old:
+            changes.append({
+                "field": field,
+                "old_present": False,
+                "old": None,
+                "new": new_fields[field],
+            })
+        elif in_old and not in_new:
+            changes.append({
+                "field": field,
+                "old_present": True,
+                "old": old_fields[field],
+                "new": None,
+            })
+        else:
+            changes.append({
+                "field": field,
+                "old_present": True,
+                "old": old_fields[field],
+                "new": new_fields[field],
+            })
+    residual = old_residual != new_residual or (not changes and old != new)
+    return changes, residual
+
+
+def _difference_matches(diff: dict[str, Any], change: dict[str, Any]) -> bool:
+    if diff.get("field") != change["field"]:
+        return False
+    old_present = bool(diff.get("old_present", True))
+    if old_present != change["old_present"]:
+        return False
+    if diff.get("new") != change["new"]:
+        return False
+    if old_present and diff.get("old") != change["old"]:
+        return False
+    return True
+
+
+def _output_errors(manifest: dict[str, Any], record: dict[str, Any]) -> list[str]:
+    """Name output changes that the approved vectors do not account for.
+
+    A listed vector accounts for a change only when the old and new outputs
+    differ by that field's `field=value` line and the vector names the same
+    old presence, old value and new value. Any other byte change is unapproved,
+    including when another approved vector such as execution_status is present.
+    """
+    old = record.get("old_output", "")
+    new = record.get("new_output", "")
+    if old is None:
+        old = ""
+    if new is None:
+        new = ""
+    if old == new:
+        return []
+    changes, residual = _output_delta(str(old), str(new))
+    errors: list[str] = []
+    if residual:
+        errors.append("unapproved-difference: output")
+    differences = list(record.get("differences") or [])
+    used = [False] * len(differences)
+    for change in changes:
+        match_at = None
+        for index, diff in enumerate(differences):
+            if used[index] or not _difference_matches(diff, change):
+                continue
+            case = diff.get("case", record.get("case", "*"))
+            if not _approved(
+                manifest,
+                case,
+                change["field"],
+                change["old_present"],
+                change["old"],
+                change["new"],
+            ):
+                continue
+            match_at = index
+            break
+        if match_at is None:
+            errors.append(f"unapproved-difference: {change['field']}")
+        else:
+            used[match_at] = True
+    return errors
+
+
 def _judge_receipt(manifest: dict[str, Any], result: dict[str, Any]) -> list[str]:
     errors = []
     if result["tested_donor_sha"] != manifest["donor"]["sha"]:
@@ -1171,9 +1289,7 @@ def _judge_receipt(manifest: dict[str, Any], result: dict[str, Any]) -> list[str
             diff.get("new"),
         ):
             errors.append(f"unapproved-difference: {diff['field']}")
-    if result.get("old_output") != result.get("new_output"):
-        if not differences:
-            errors.append("unapproved-difference: output")
+    errors.extend(_output_errors(manifest, result))
     return errors
 
 
@@ -1251,6 +1367,8 @@ def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool
             diff.get("new"),
         ):
             return False
+    if _output_errors(manifest, receipt_entry):
+        return False
     return True
 
 

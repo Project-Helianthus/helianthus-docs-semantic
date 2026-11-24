@@ -195,6 +195,9 @@ A result for a repository that is not a destination of the manifest is rejected.
 `differences` entries are `case`, `field`, `old_present`, `old` and `new`.
 Only an exact approved vector is accepted.
 A status change with equal output bytes is an unapproved difference unless an approved `execution_status` vector names it.
+Output fields are whole lines of the form `field=value`.
+Every added, removed or changed field must be named by an approved vector with that field's old presence, old value and new value, and every other output line must be identical.
+An approved `execution_status` vector does not account for any other output change.
 An extra field is an unapproved difference.
 The stored receipt keeps `old_status`, `new_status`, both outputs, the differences, `donor_sha`, `destination_commit` and `outcome` (`equal` or `approved-difference`).
 
