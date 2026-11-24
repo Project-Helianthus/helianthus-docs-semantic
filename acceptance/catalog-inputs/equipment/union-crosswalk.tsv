@@ -90,8 +90,8 @@ matter	BasicInformation	BasicInformation.HardwareVersion	Matter 1.6.1 BasicInfor
 matter	BasicInformation	BasicInformation.HardwareVersionString	Matter 1.6.1 BasicInformation.HardwareVersionString	equipment.identification.hardware_revision	carried
 matter	BasicInformation	BasicInformation.SoftwareVersion	Matter 1.6.1 BasicInformation.SoftwareVersion	equipment.identification.software_revision	carried
 matter	BasicInformation	BasicInformation.SoftwareVersionString	Matter 1.6.1 BasicInformation.SoftwareVersionString	equipment.identification.software_revision	carried
-matter	BasicInformation	BasicInformation.ManufacturingDate	Matter 1.6.1 BasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried
-matter	BasicInformation	BasicInformation.PartNumber	Matter 1.6.1 BasicInformation.PartNumber	equipment.identification.product_code	carried
+matter	BasicInformation	BasicInformation.ManufacturingDate	Matter 1.6.1 BasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried		Matter string length 8 to 16 retained as text
+matter	BasicInformation	BasicInformation.PartNumber	Matter 1.6.1 BasicInformation.PartNumber	equipment.identification.part_number	carried		distinct from equipment.identification.product_code
 matter	BasicInformation	BasicInformation.ProductUrl	Matter 1.6.1 BasicInformation.ProductUrl	equipment.identification.product_url	carried
 matter	BasicInformation	BasicInformation.ProductLabel	Matter 1.6.1 BasicInformation.ProductLabel	equipment.identification.product_label	carried
 matter	BasicInformation	BasicInformation.SerialNumber	Matter 1.6.1 BasicInformation.SerialNumber	equipment.identification.serial_number	carried
@@ -129,8 +129,8 @@ matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.HardwareVersi
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.HardwareVersionString	Matter 1.6.1 BridgedDeviceBasicInformation.HardwareVersionString	equipment.identification.hardware_revision	carried
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SoftwareVersion	Matter 1.6.1 BridgedDeviceBasicInformation.SoftwareVersion	equipment.identification.software_revision	carried
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SoftwareVersionString	Matter 1.6.1 BridgedDeviceBasicInformation.SoftwareVersionString	equipment.identification.software_revision	carried
-matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ManufacturingDate	Matter 1.6.1 BridgedDeviceBasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried
-matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.PartNumber	Matter 1.6.1 BridgedDeviceBasicInformation.PartNumber	equipment.identification.product_code	carried
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ManufacturingDate	Matter 1.6.1 BridgedDeviceBasicInformation.ManufacturingDate	equipment.identification.manufacturing_date	carried		Matter string length 8 to 16 retained as text
+matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.PartNumber	Matter 1.6.1 BridgedDeviceBasicInformation.PartNumber	equipment.identification.part_number	carried		distinct from equipment.identification.product_code
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductUrl	Matter 1.6.1 BridgedDeviceBasicInformation.ProductUrl	equipment.identification.product_url	carried
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.ProductLabel	Matter 1.6.1 BridgedDeviceBasicInformation.ProductLabel	equipment.identification.product_label	carried
 matter	BridgedDeviceBasicInformation	BridgedDeviceBasicInformation.SerialNumber	Matter 1.6.1 BridgedDeviceBasicInformation.SerialNumber	equipment.identification.serial_number	carried
@@ -311,7 +311,7 @@ matter	PowerSource	PowerSource.WiredAssessedCurrent	Matter 1.6.1 PowerSource.Wir
 matter	PowerSource	PowerSource.WiredNominalVoltage	Matter 1.6.1 PowerSource.WiredNominalVoltage	equipment.power.wired_nominal_voltage	carried
 matter	PowerSource	PowerSource.WiredMaximumCurrent	Matter 1.6.1 PowerSource.WiredMaximumCurrent	equipment.power.wired_maximum_current	carried
 matter	PowerSource	PowerSource.WiredPresent	Matter 1.6.1 PowerSource.WiredPresent	equipment.power.wired_present	carried
-matter	PowerSource	PowerSource.ActiveWiredFaults	Matter 1.6.1 PowerSource.ActiveWiredFaults	equipment.power.wired_faults	carried
+matter	PowerSource	PowerSource.ActiveWiredFaults	Matter 1.6.1 PowerSource.ActiveWiredFaults	equipment.power.wired_faults	carried		empty source list converts to the symbol set no_fault; no_fault is not a source enum member; no_fault is absent from a non-empty source list
 matter	PowerSource	PowerSource.BatVoltage	Matter 1.6.1 PowerSource.BatVoltage	equipment.power.battery_voltage	carried
 matter	PowerSource	PowerSource.BatPercentRemaining	Matter 1.6.1 PowerSource.BatPercentRemaining	equipment.power.battery_charge_ratio	carried
 matter	PowerSource	PowerSource.BatTimeRemaining	Matter 1.6.1 PowerSource.BatTimeRemaining	equipment.power.battery_time_remaining	carried
@@ -319,7 +319,7 @@ matter	PowerSource	PowerSource.BatChargeLevel	Matter 1.6.1 PowerSource.BatCharge
 matter	PowerSource	PowerSource.BatReplacementNeeded	Matter 1.6.1 PowerSource.BatReplacementNeeded	equipment.power.battery_replacement_needed	carried
 matter	PowerSource	PowerSource.BatReplaceability	Matter 1.6.1 PowerSource.BatReplaceability	equipment.power.battery_replaceability	carried
 matter	PowerSource	PowerSource.BatPresent	Matter 1.6.1 PowerSource.BatPresent	equipment.power.battery_present	carried
-matter	PowerSource	PowerSource.ActiveBatFaults	Matter 1.6.1 PowerSource.ActiveBatFaults	equipment.power.battery_faults	carried
+matter	PowerSource	PowerSource.ActiveBatFaults	Matter 1.6.1 PowerSource.ActiveBatFaults	equipment.power.battery_faults	carried		empty source list converts to the symbol set no_fault; no_fault is not a source enum member; no_fault is absent from a non-empty source list
 matter	PowerSource	PowerSource.BatReplacementDescription	Matter 1.6.1 PowerSource.BatReplacementDescription	equipment.power.battery_replacement_description	carried
 matter	PowerSource	PowerSource.BatCommonDesignation	Matter 1.6.1 PowerSource.BatCommonDesignation	equipment.power.battery_common_designation	carried
 matter	PowerSource	PowerSource.BatAnsiDesignation	Matter 1.6.1 PowerSource.BatAnsiDesignation	equipment.power.battery_ansi_designation	carried
@@ -331,7 +331,7 @@ matter	PowerSource	PowerSource.BatChargeState	Matter 1.6.1 PowerSource.BatCharge
 matter	PowerSource	PowerSource.BatTimeToFullCharge	Matter 1.6.1 PowerSource.BatTimeToFullCharge	equipment.power.battery_time_to_full	carried
 matter	PowerSource	PowerSource.BatFunctionalWhileCharging	Matter 1.6.1 PowerSource.BatFunctionalWhileCharging	equipment.power.battery_functional_while_charging	carried
 matter	PowerSource	PowerSource.BatChargingCurrent	Matter 1.6.1 PowerSource.BatChargingCurrent	equipment.power.battery_charging_current	carried
-matter	PowerSource	PowerSource.ActiveBatChargeFaults	Matter 1.6.1 PowerSource.ActiveBatChargeFaults	equipment.power.battery_charge_faults	carried
+matter	PowerSource	PowerSource.ActiveBatChargeFaults	Matter 1.6.1 PowerSource.ActiveBatChargeFaults	equipment.power.battery_charge_faults	carried		empty source list converts to the symbol set no_fault; no_fault is not a source enum member; no_fault is absent from a non-empty source list
 matter	PowerSource	PowerSource.EndpointList	Matter 1.6.1 PowerSource.EndpointList		unknown	matter.unmapped.v1
 matter	PowerSource	PowerSource.ev.WiredFaultChange	Matter 1.6.1 PowerSource.ev.WiredFaultChange	equipment.event.wired_fault_change	carried
 matter	PowerSource	PowerSource.ev.WiredFaultChange.Current	Matter 1.6.1 PowerSource.ev.WiredFaultChange.Current		unknown	matter.unmapped.v1
