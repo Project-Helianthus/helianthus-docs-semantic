@@ -445,6 +445,161 @@ def test_ratio_write_stays_unqualified_without_a_writable_clause():
     assert watt["verification_level"] == "specification"
 
 
+MEASUREMENT_TYPE_SYMBOLS = (
+    "unspecified",
+    "voltage",
+    "active_current",
+    "reactive_current",
+    "apparent_current",
+    "active_power",
+    "reactive_power",
+    "apparent_power",
+    "rms_voltage",
+    "rms_current",
+    "rms_power",
+    "frequency",
+    "power_factor",
+    "neutral_current",
+    "electrical_energy",
+    "reactive_energy",
+    "apparent_energy",
+)
+MEASUREMENT_TYPE_MEMBERS = (
+    "Unspecified",
+    "Voltage",
+    "ActiveCurrent",
+    "ReactiveCurrent",
+    "ApparentCurrent",
+    "ActivePower",
+    "ReactivePower",
+    "ApparentPower",
+    "RmsVoltage",
+    "RmsCurrent",
+    "RmsPower",
+    "Frequency",
+    "PowerFactor",
+    "NeutralCurrent",
+    "ElectricalEnergy",
+    "ReactiveEnergy",
+    "ApparentEnergy",
+)
+PERCENT_MAX = (
+    "ElectricalPowerMeasurement.Accuracy.AccuracyRanges.PercentMax, "
+    "ElectricalEnergyMeasurement.Accuracy.AccuracyRanges.PercentMax"
+)
+
+
+def _symbols(attributes):
+    marker = "symbols "
+    text = attributes.split(marker, 1)[1]
+    return tuple(part.strip() for part in text.split(","))
+
+
+def test_active_power_limit_withholds_power_adjust_request():
+    rows = {row["element"]: row for row in _rows("pe03-elements-on-main.tsv")}
+    operation = rows["pv.operation.set_active_power_limit"]
+    limit = rows["pv.limit.active_power"]
+    for row in (operation, limit):
+        assert row["matter_1_6_1"] == ""
+        assert "PowerAdjustRequest" not in row["matter_1_6_1"]
+        assert "PowerAdjustRequest" not in row["source"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert row["eebus"] == "LPP-011"
+        assert "LPP-011" in row["source"]
+        assert "Limitation of Power Production V1.0.0 [LPP-011]" in row["source"]
+        assert row["verification_level"] == "specification"
+        assert "PowerAdjustRequest" in row["review"]
+        assert "Duration" in row["review"]
+        assert "Cause" in row["review"]
+        assert "energy.operation.adjust_power" in row["review"]
+        assert "matter association removed" in row["review"]
+    assert "pv.limit.active_power" in operation["review"]
+    assert "temporary adjustment" in operation["review"]
+    adjust = next(
+        item
+        for item in _rows("pe07-operations.tsv")
+        if item["operation"] == "energy.operation.adjust_power"
+    )
+    signature = adjust["argument"] + " " + adjust["parameters"]
+    assert adjust["argument"] == "energy.esa.requested_power"
+    assert "energy.esa.requested_duration" in signature
+    assert "energy.esa.request_cause" in signature
+    assert "PowerAdjustRequest" in adjust["matter_1_6_1"]
+
+
+def test_measurement_type_qualifiers_keep_distinct_enum_members():
+    expected = {
+        "pe03-qualifier-dimensions.tsv": "pv.dimension.measurement_type",
+        "pe10-qualifier-dimensions.tsv": "infrastructure.dimension.measurement_type",
+    }
+    for name, element in expected.items():
+        row = next(item for item in _rows(name) if item["id"] == element)
+        assert _symbols(row["attributes"]) == MEASUREMENT_TYPE_SYMBOLS
+        assert len(set(MEASUREMENT_TYPE_SYMBOLS)) == len(MEASUREMENT_TYPE_SYMBOLS)
+        for member in MEASUREMENT_TYPE_MEMBERS:
+            assert member in row["source"]
+        assert "MeasurementTypeEnum" in row["matter_eebus"]
+        assert "ElectricalPowerMeasurement.MeasurementTypeEnum" in row["matter_eebus"]
+        assert "ElectricalEnergyMeasurement.MeasurementTypeEnum" in row["matter_eebus"]
+        assert "RmsVoltage" in row["note"]
+        assert "NeutralCurrent" in row["note"]
+        assert "Unspecified" in row["note"]
+        assert row["verification_level"] == "specification"
+
+
+def test_accuracy_ratio_is_a_restricted_percent_max_projection():
+    rows = {
+        "pe03-fields.tsv": "pv.accuracy.ratio_maximum",
+        "pe10-fields.tsv": "infrastructure.accuracy.ratio_maximum",
+    }
+    for name, element in rows.items():
+        row = next(item for item in _rows(name) if item["id"] == element)
+        assert row["matter_1_6_1"] == PERCENT_MAX
+        assert row["matter_1_6_1"] != (
+            "ElectricalPowerMeasurement.Accuracy, ElectricalEnergyMeasurement.Accuracy"
+        )
+        assert "PercentMax" in row["source"]
+        assert "one AccuracyRanges entry" in row["source"]
+        assert "multiple ranges are unsupported" in row["source"]
+        assert "FixedMax" in row["source"]
+        assert "the Accuracy structure is not this scalar" in row["source"]
+        assert "no range qualifier" in row["source"]
+        assert "percent100ths / 10000" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert row["eebus"] == ""
+        assert row["minimum"] == "" and row["maximum"] == ""
+        assert row["review"] == "bound not in specification"
+        assert row["unit"] == "unit.ratio"
+        assert "measurement_type" in row["qualifiers"]
+
+
+def test_calendar_yields_withhold_periodic_energy_until_period_matches():
+    rows = {row["element"]: row for row in _rows("pe03-elements-on-main.tsv")}
+    boundaries = {
+        "pv.energy.yield_day": "day",
+        "pv.energy.yield_month": "month",
+        "pv.energy.yield_year": "year",
+    }
+    for element, boundary in boundaries.items():
+        row = rows[element]
+        assert row["matter_1_6_1"] == ""
+        assert row["eebus"] == ""
+        assert "PeriodicEnergyExported" not in row["matter_1_6_1"]
+        assert "PeriodicEnergyExported" not in row["source"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert "PeriodicEnergyExported" in row["review"]
+        assert "StartTimestamp" in row["review"]
+        assert "EndTimestamp" in row["review"]
+        assert "StartSystime" in row["review"]
+        assert "EndSystime" in row["review"]
+        assert boundary in row["review"]
+        assert "matter association removed" in row["review"]
+        assert "MOI-042a" in row["review"]
+        assert "pv.dimension.inverter" in row["review"]
+        assert row["verification_level"] == "specification"
+
+
 def test_unconfirmed_vendor_research_stays_unconfirmed():
     for name, concepts in UNCONFIRMED_RESEARCH.items():
         rows = {row["concept"]: row for row in _rows(name)}
