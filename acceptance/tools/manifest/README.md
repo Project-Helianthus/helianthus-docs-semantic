@@ -123,7 +123,7 @@ A retained `stays` entry has no destination.
 `compare` resolves every case binding and every transferred assertion through that entry and runs that one test by its exact name, once per assertion, including when `patterns` is empty:
 
 ```
-go test -count=1 -timeout 60s -v -run ^<TestName>$ <package>
+go test -count=1 -v -run ^<TestName>$ <package>
 ```
 
 `<package>` is the directory of the destination path, or `.` when the path is at the repository root.

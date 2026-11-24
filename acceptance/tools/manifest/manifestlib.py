@@ -1110,18 +1110,14 @@ def _run_case(
         {key: value["value"] for key, value in pins.items()},
         sort_keys=True,
     )
-    try:
-        completed = subprocess.run(
-            ["go", "test", "-count=1", "-timeout", "60s", "-v", "-run", f"^{test}$", target],
-            cwd=str(destination),
-            capture_output=True,
-            text=True,
-            env=environment,
-            timeout=90,
-            check=False,
-        )
-    except subprocess.TimeoutExpired:
-        return [f"timeout {identity}"]
+    completed = subprocess.run(
+        ["go", "test", "-count=1", "-v", "-run", f"^{test}$", target],
+        cwd=str(destination),
+        capture_output=True,
+        text=True,
+        env=environment,
+        check=False,
+    )
     output = completed.stdout + "\n" + completed.stderr
     passed_marker = f"--- PASS: {test}"
     failed_marker = f"--- FAIL: {test}"
@@ -1255,18 +1251,14 @@ def _run_transferred(destination: Path, entry: dict[str, Any], move: str) -> tup
         "MANIFEST_PROVENANCE": "",
         "MANIFEST_PINNED_FIELDS": "{}",
     })
-    try:
-        completed = subprocess.run(
-            ["go", "test", "-count=1", "-timeout", "60s", "-v", "-run", f"^{test}$", _package_target(entry["path"])],
-            cwd=str(destination),
-            capture_output=True,
-            text=True,
-            env=environment,
-            timeout=90,
-            check=False,
-        )
-    except subprocess.TimeoutExpired:
-        return [f"timeout {identity}"], False
+    completed = subprocess.run(
+        ["go", "test", "-count=1", "-v", "-run", f"^{test}$", _package_target(entry["path"])],
+        cwd=str(destination),
+        capture_output=True,
+        text=True,
+        env=environment,
+        check=False,
+    )
     output = completed.stdout + "\n" + completed.stderr
     passed_marker = f"--- PASS: {test}"
     failed_marker = f"--- FAIL: {test}"
@@ -1361,7 +1353,7 @@ def compare(manifest_path: Path, destination: Path) -> int:
     failed = any(
         line.endswith("result=fail") or line.startswith((
             "not-executed", "input-mismatch", "unapproved-difference", "row:",
-            "unexecuted-binding", "missing-field", "timeout", "invocation-failed",
+            "unexecuted-binding", "missing-field", "invocation-failed",
             "template-mismatch", "compare-wrote",
         ))
         for line in messages

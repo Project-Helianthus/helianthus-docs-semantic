@@ -6,6 +6,7 @@ Fixtures are synthetic. Revisions and digests are computed at runtime.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 import shutil
@@ -13,7 +14,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import ExitStack, redirect_stdout
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -2680,6 +2683,116 @@ class ManifestCLITest(unittest.TestCase):
         self.assertNotIn("result=pass", compared.stdout)
         self.assertEqual(self.repo.manifest_path("absence-baseline").read_bytes(), before)
         self.assertEqual(edited_path.read_bytes(), planted_bytes)
+
+
+class CompareTimeoutPolicyTest(unittest.TestCase):
+    def test_long_destination_run_is_compared(self) -> None:
+        """A destination run is not cut off, and its field result is kept."""
+        if str(TOOL) not in sys.path:
+            sys.path.insert(0, str(TOOL))
+        import manifestlib
+
+        calls: list[tuple[list[str], bool]] = []
+
+        def fake_run(args, **kwargs):
+            argv = [str(arg) for arg in args]
+            calls.append((argv, "timeout" in kwargs))
+            capped = "timeout" in kwargs or any(
+                arg == "-timeout" or arg.startswith("-timeout=") for arg in argv
+            )
+            if capped:
+                raise subprocess.TimeoutExpired(cmd=args, timeout=kwargs.get("timeout") or 60)
+            env = kwargs.get("env") or {}
+            test_name = ""
+            if "-run" in argv:
+                test_name = argv[argv.index("-run") + 1].strip("^$")
+            case = env.get("MANIFEST_CASE", "")
+            row = env.get("MANIFEST_ROW", "")
+            assertion = env.get("MANIFEST_ASSERTION", "")
+            stdout = (
+                f"--- PASS: {test_name}\n"
+                f"MANIFEST_RESULT case={case} row={row} assertion={assertion}\n"
+                f"MANIFEST_INPUT raw={env.get('MANIFEST_RAW', '')} "
+                f"qualifiers={env.get('MANIFEST_QUALIFIERS', '')} "
+                f"clock={env.get('MANIFEST_CLOCK', '')} "
+                f"state={env.get('MANIFEST_STATE', '')}\n"
+                "MANIFEST_FIELD field=reading expected=230 observed=230\n"
+            )
+            return subprocess.CompletedProcess(args, 0, stdout=stdout, stderr="")
+
+        def fake_reload(_tool, recorded):
+            projection = recorded.get("projection")
+            if not isinstance(projection, dict):
+                return None, "unavailable: fixture"
+            return projection, None
+
+        inputs = {"raw": "aa", "qualifiers": "q", "clock": "t0", "state": "idle"}
+        manifest = {
+            "row": "slow-row",
+            "expectations": [{
+                "case": "slow-case",
+                "kind": "donor-backed",
+                "inputs": inputs,
+                "references": [{
+                    "role": "donor-output",
+                    "projection": {"fields": {"reading": "230"}},
+                }],
+                "rows": [],
+            }],
+            "expected_differences": [],
+            "assertions": [],
+            "destinations": [
+                {
+                    "kind": "assertion",
+                    "name": "moved-assert",
+                    "function": "TestMovedReplay",
+                    "test": "TestMovedReplay",
+                    "path": "session/moved_test.go",
+                },
+                {
+                    "kind": "case",
+                    "case": "slow-case",
+                    "row": "slow-row",
+                    "assertion": "slow-assert",
+                    "test": "TestSlowReplay",
+                    "path": "session/replay_test.go",
+                },
+            ],
+            "patterns": [],
+        }
+        with tempfile.TemporaryDirectory(prefix="qq06-long-run-") as directory:
+            path = Path(directory) / "slow.json"
+            path.write_text(json.dumps(manifest), encoding="utf-8")
+            buffer = io.StringIO()
+            with ExitStack() as stack:
+                stack.enter_context(patch.object(manifestlib.subprocess, "run", fake_run))
+                stack.enter_context(patch.object(manifestlib, "_reload_reference", fake_reload))
+                with redirect_stdout(buffer):
+                    code = manifestlib.compare(path, Path(directory))
+            text = buffer.getvalue()
+        self.assertEqual(code, 0, text)
+        self.assertIn("compare: ok", text)
+        self.assertIn("assertion=moved-assert", text)
+        self.assertIn("assertion=slow-assert", text)
+        self.assertIn("result=pass", text)
+        self.assertIn(
+            "field assertion=slow-assert field=reading expected=230 observed=230",
+            text,
+        )
+        self.assertFalse(any(line.startswith("timeout") for line in text.splitlines()), text)
+        self.assertEqual(len(calls), 2, calls)
+        invoked = []
+        for argv, has_timeout in calls:
+            self.assertFalse(has_timeout, argv)
+            self.assertFalse(
+                any(arg == "-timeout" or arg.startswith("-timeout=") for arg in argv),
+                argv,
+            )
+            invoked.append(argv[argv.index("-run") + 1])
+        self.assertEqual(invoked, ["^TestMovedReplay$", "^TestSlowReplay$"])
+        readme = (TOOL / "README.md").read_text(encoding="utf-8")
+        self.assertIn("go test -count=1 -v -run ^<TestName>$ <package>", readme)
+        self.assertNotIn("-timeout", readme)
 
 
 if __name__ == "__main__":
