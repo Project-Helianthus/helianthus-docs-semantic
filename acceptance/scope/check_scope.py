@@ -120,6 +120,73 @@ def leakage_re():
     return re.compile("|".join(parts), re.I)
 
 
+PUBLIC_CELL_SKIP = {
+    "package", "slice", "key", "operations", "promotion",
+    "verification", "qualification", "delivered_by",
+}
+
+
+def private_locator_re():
+    """Private audit files, plan ids and local notes. Public citations stay."""
+    plan = r"(?:PA|PB|PC|PD|PE|PF|PG)\d{2}"
+    parts = [
+        r"E/comparison\b",
+        r"(?<![\w./-])comparison\.md",
+        r"\bcomparison index\b",
+        r"Chapter index:\s*audit\b",
+        r"\bidentifier harvest\b",
+        r"\bdirectory listing\b",
+        r"\bNOTES\b",
+        r"\bPrivate VRF research\b",
+        r"ship-spine",
+        r"\blocal files\b",
+        r"\baudit\s+(?:0?3|A\b|package\b|cell\b|index\b|bundle\b|key\b|text\b|controllable\b)",
+        r"(?i:\bAudit\s+(?:bundle|letter|says|binds|semreg)\b)",
+        r"(?i:\bAudit\s+text\s+says\b)",
+        r"(?i:\bAudit\s+row\s+says\b)",
+        r"(?i:\baudit\s+0\d\b)",
+        r"(?i:\baudit ticket\b)",
+        r"(?i:\bthe audit\b)",
+        r"LEAD-MAP",
+        r"\bRECONCILE\b",
+        r"\bQUEUE\b",
+        r"\bis not in or\b",
+        r"\bCW\d{2}\b",
+        r"\bAudit\s+E\b",
+        r"\bPE\s+rows\b",
+        r"\bnew_home\b",
+        r"05-matter\.md",
+        r"COMMANDMENTS\.md",
+        r"proposals\.md",
+        r"\bB-eebus(?:-remote)?\b",
+        r"(?:→|->)",
+        r"\b" + plan + r"\b",
+        r"\bGT-(?:E)?\d+\b",
+        r"\bzip PDF\b",
+        r"control/drafts/",
+        r"Helianthus Project/",
+        r"chapter headings:\d",
+        r"Matter index lines \d",
+        r"eeBUS index lines \d",
+    ]
+    return re.compile("|".join(parts))
+
+
+def check_public_cells(rows, label):
+    pattern = private_locator_re()
+    errors = []
+    for row in rows:
+        for column, value in row.items():
+            if column in PUBLIC_CELL_SKIP:
+                continue
+            if pattern.search(value):
+                errors.append(
+                    label + " " + row.get("slice", "") + " " + row.get("key", "")
+                    + " " + column + " cites a private locator"
+                )
+    return errors
+
+
 def delivered_by(cell):
     if not cell or cell.strip().lower() in {"none", ""}:
         return "none"
@@ -374,6 +441,8 @@ def check_rows(rows, draft_rows, readme, scope_dir, docs_modbus, docs_canbus):
             errors.append(f"unconfirmed subset {len(subset)} != {len(unconfirmed)}")
     errors.extend(check_readme(readme, rows))
     errors.extend(check_leakage(scope_dir))
+    errors.extend(check_public_cells(rows, "denominator"))
+    errors.extend(check_public_cells(subset, "unconfirmed"))
     return errors, pending
 
 
