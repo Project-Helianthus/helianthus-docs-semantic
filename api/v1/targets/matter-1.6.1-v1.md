@@ -53,6 +53,49 @@ kernel-v1 request and exact snapshot/revision binding. Fact rows keep their
 canonical runtime FactKey dimensions, read from the catalog subject. These are
 runtime bindings, not synthetic values supplied by the descriptor.
 
+Measurement-type association, unverified and not added to the catalog. The
+Matter column recorded for the measurement-type dimension is
+`ElectricalPowerMeasurement.Accuracy`. For the measured boolean the recorded
+columns are `ElectricalPowerMeasurement.Accuracy`,
+`ElectricalPowerMeasurement.NumberOfMeasurementTypes` and
+`ElectricalEnergyMeasurement.Accuracy`; for the maximum ratio they are
+`ElectricalPowerMeasurement.Accuracy` and `ElectricalEnergyMeasurement.Accuracy`.
+No versioned public source is cited for these associations yet, so they are
+unverified. They are Matter columns, not one device type, cluster, attribute or
+conversion, and not a `MeasurementAccuracyStruct`. No row is `transformed` on
+this basis, and no struct is published.
+
+The accuracy and measurement-type elements of a fed subject are not in the
+catalog: `pv.accuracy.measured`, `pv.accuracy.ratio_maximum`,
+`pv.dimension.measurement_type`, `infrastructure.accuracy.measured`,
+`infrastructure.accuracy.ratio_maximum` and
+`infrastructure.dimension.measurement_type`. The element catalog schema does
+not forbid them: it admits a qualifier role on a dimension element, and it
+admits a resolved fact subject with its dimension. They stay undeclared because
+a pack declaration for a new pilot field sits outside this write set, and a
+catalog definition that no accepted pack declares fails `extra_pack_refs` in
+`scripts/validate_element_catalog_v1.py`. The PV and infrastructure pack
+validators pin their field contracts, which is also outside this write set.
+Neither fed subject's elements are added in this change.
+
+The CAN chemistry pair is not added, and neither id substitutes for the other.
+The denominator row `can.chemistry` names `storage.attribute.chemistry`, which
+is absent at the pin. The storage element set names
+`storage.configuration.battery_type` for the chemistry field instead. Both ids
+are withheld. The CAN charge and discharge current limits,
+`storage.limit.charge_current` and `storage.limit.discharge_current`, are
+withheld with the storage pack pin: the storage validator pins the field-spec
+count and the table digest, and it requires a minimum and a maximum on each
+quantity field. The storage pack is outside this write set, so none of the four
+ids is added.
+
+Electrical Power Measurement is not complete: `PowerMode`,
+`MinMeasuredValue`, `MaxMeasuredValue`, `AccuracyRanges`, `RangeMin` and
+`RangeMax` have no catalog element and no source in the cited tables. The
+mandatory `NumberOfMeasurementTypes` has no catalog count, and `ActivePower` has
+several partial sources and no single element id. Electrical Sensor `0x0510` is
+therefore not a complete endpoint in this row.
+
 Only `evse.ac.current` is `transformed`, with reason
 `matter.phase_association_by_relation.v1`, to device/cluster/attribute
 `0x0510 / 0x0090 / 0x0005`. Multiply exact amperes by 1000; emit only an integral,

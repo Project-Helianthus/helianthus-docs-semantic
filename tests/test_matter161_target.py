@@ -507,5 +507,30 @@ class Matter161TargetTests(unittest.TestCase):
                 self.assertEqual(result, expected)
 
 
+class Matter161ProjectionPageTests(unittest.TestCase):
+    PAGE = ROOT / 'api/v1/targets/matter-1.6.1-v1.md'
+
+    def setUp(self):
+        self.text = self.PAGE.read_text()
+
+    def test_chemistry_pair_and_current_limits_are_recorded_as_withheld(self):
+        for ident in ['storage.attribute.chemistry',
+                      'storage.configuration.battery_type',
+                      'storage.limit.charge_current',
+                      'storage.limit.discharge_current']:
+            with self.subTest(ident=ident):
+                self.assertIn(ident, self.text)
+        self.assertIn('withheld', self.text)
+
+    def test_no_false_unresolved_subject_schema_cause(self):
+        self.assertNotIn('unresolved subject', self.text)
+        self.assertNotIn('qualifier dimension only', self.text)
+
+    def test_internal_table_names_are_not_cited_as_source(self):
+        self.assertNotIn('PE03', self.text)
+        self.assertNotIn('PE10', self.text)
+        self.assertIn('unverified', self.text)
+
+
 if __name__ == '__main__':
     unittest.main()
