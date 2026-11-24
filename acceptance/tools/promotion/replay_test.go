@@ -159,7 +159,13 @@ func recordOutputs(t *testing.T, records map[string][]byte, prefix, directory st
 
 func privateDirectory(t *testing.T) string {
 	t.Helper()
-	directory := filepath.Join(t.TempDir(), "output")
+	// The commands open every component of -output-dir with O_NOFOLLOW, so the
+	// temporary directory must be given without symlinked ancestors.
+	base, err := filepath.EvalSymlinks(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	directory := filepath.Join(base, "output")
 	if err := os.Mkdir(directory, 0o700); err != nil {
 		t.Fatal(err)
 	}
