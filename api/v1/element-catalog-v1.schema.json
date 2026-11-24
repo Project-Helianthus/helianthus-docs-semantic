@@ -95,9 +95,9 @@
       }
     },
     "publicUrl": {
-      "description": "Evidence: a GitHub issue, a GitHub file on the default branch or at a full 40-hexadecimal commit, or a published specification outside GitHub.",
+      "description": "Evidence: a GitHub issue, a GitHub file in another repository, a published specification outside GitHub, or a repository-relative path in this repository. A relative reference resolves against the repository revision that carries the catalog.",
       "type": "string",
-      "pattern": "^https://(github\\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/(issues/[1-9][0-9]*|blob/(main|[0-9a-f]{40})/[^\\s]+)|(?!github\\.com/)[^\\s/]+\\.[^\\s/]+/[^\\s]*)$"
+      "pattern": "^(?:https://(github\\.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+/(issues/[1-9][0-9]*|blob/(main|[0-9a-f]{40})/[^\\s]+)|(?!github\\.com/)[^\\s/]+\\.[^\\s/]+/[^\\s]*)|(?:(?!\\.\\.)[A-Za-z0-9._-]+/)+(?!\\.\\.)[A-Za-z0-9._-]+(?:#[A-Za-z0-9._~%-]+)?)$"
     },
     "issueUrl": {
       "type": "string",

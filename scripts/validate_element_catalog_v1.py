@@ -25,7 +25,7 @@ generator, which this module never imports:
 | CAT-3 | section 10.3 per entry | ``membership_missing`` |
 | CAT-4 | the planes and core types of sections 7.1 and 8.1, PLN-5, PLN-6, LNS-1, at most one installation root, resolvable references | ``membership_missing``, ``duplicate_identity``, ``invalid_value`` |
 | CAT-5 | pack-owned definitions stay inside their pack; owners per element kind; the ``native.`` namespace | ``definition_owner_conflict`` |
-| CAT-6 | the admission arm allowed per plane, core type and element; ``accepted_pack`` only for seed references | ``invalid_value`` |
+| CAT-6 | the admission arm allowed per plane, core type and element; ``accepted_pack`` only for seed references; a page of this repository is a repository-relative path of a file in the tree | ``invalid_value`` |
 | CAT-7 | a signed fact names a ``supplies`` relation, or ``native_convention`` for a seed reference | ``invalid_value``, ``membership_missing`` |
 | CAT-8 | canonical entry order | ``noncanonical_order`` |
 | CAT-9 | unique scheme identifiers, each with a ``public_registry`` admission record | ``duplicate_identity``, ``invalid_value`` |
@@ -106,6 +106,14 @@ CORE_ARMS = {
     "presentation": frozenset({"accepted_kernel"}),
 }
 SCHEME_ARM = "public_registry"
+# Graph section 10.5: a page of this repository is a repository-relative path.
+# A relative reference resolves against the revision that carries the catalog.
+THIS_REPO_BLOB = "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/"
+RELATIVE_EVIDENCE_PATH = re.compile(
+    r"(?:(?!\.\.)[A-Za-z0-9._-]+/)+(?!\.\.)[A-Za-z0-9._-]+\Z"
+)
+RELATIVE_EVIDENCE_MISSING = "repository-relative evidence is not a path in this tree"
+THIS_REPO_BLOB_EVIDENCE = "this repository is cited by a repository-relative path"
 # Graph section 10.2: referenced definitions per element kind and the kind they name.
 REFERENCE_ATTRIBUTES = {
     "service": (("fact_key_dimension", "dimension"),),
@@ -841,6 +849,39 @@ def allowed_arms(entry):
     return CORE_ARMS.get(entry["element_kind"], frozenset())
 
 
+def repository_evidence_problem(link):
+    """A page of this repository must be a file path in the tree that carries the catalog."""
+    if link.startswith(THIS_REPO_BLOB):
+        return THIS_REPO_BLOB_EVIDENCE
+    if link.startswith(("https://", "http://")):
+        return None
+    path = link.split("#", 1)[0]
+    if RELATIVE_EVIDENCE_PATH.fullmatch(path) is None:
+        return RELATIVE_EVIDENCE_MISSING
+    target = (ROOT / path).resolve()
+    try:
+        target.relative_to(ROOT.resolve())
+    except ValueError:
+        return RELATIVE_EVIDENCE_MISSING
+    if not target.is_file():
+        return RELATIVE_EVIDENCE_MISSING
+    return None
+
+
+def repository_evidence_findings(catalog):
+    records = [(f"plane {item['id']}", item["admission"]) for item in catalog["planes"]]
+    records += [(f"core type {item['id']}", item["admission"]) for item in catalog["core_relation_types"]]
+    records += [(f"scheme {item['id']}", item["admission"]) for item in catalog["identification_schemes"]]
+    records += [(entry_name(entry), entry["admission"]) for entry in catalog["elements"]]
+    findings = []
+    for name, admission in records:
+        for link in admission["evidence"]:
+            problem = repository_evidence_problem(link)
+            if problem is not None:
+                findings.append(Finding("invalid_value", "CAT-6", name, problem))
+    return findings
+
+
 def check_admission(catalog, index, inputs):
     findings = []
     structures = [("plane", item) for item in catalog["planes"]]
@@ -857,6 +898,7 @@ def check_admission(catalog, index, inputs):
         elif arm == "accepted_pack" and ref_key(entry["ref"]) not in inputs.seed:
             findings.append(Finding("invalid_value", "CAT-6", entry_name(entry),
                                     "arm accepted_pack outside the frozen seed references"))
+    findings.extend(repository_evidence_findings(catalog))
     return findings
 
 

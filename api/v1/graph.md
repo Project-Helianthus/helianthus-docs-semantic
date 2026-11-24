@@ -844,8 +844,10 @@ highest-precision industry-standard unit is acceptable.
 | Any later resource kind, core type, plane, core or pack relation definition, or fact definition | new | the full rule | yes | when not representable |
 | Identification scheme | new per entry; an identity convention, not a concept of the common model | arm `public_registry`: docs-semantic review on public evidence of the scheme and its issuing registry | no | no |
 
-Evidence for an admission record is a public link pinned to a revision: a
-repository file at a full commit, an issue, or a published specification.
+Evidence for an admission record is a GitHub issue, a published specification,
+a file in another repository, or a repository-relative path of a file in this
+repository.
+A relative reference resolves against the repository revision that carries the catalog.
 
 ### 10.6 Source-specific extension
 

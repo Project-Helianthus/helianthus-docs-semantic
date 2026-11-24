@@ -84,10 +84,15 @@ OUTSIDE_LENS_PLANE = {
     "lens.provenance": "resource.heat_generator",
 }
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
-THERMAL_PAGE = (
-    "https://github.com/Project-Helianthus/helianthus-docs-semantic/blob/main/"
-    "api/v1/packs/thermal-hvac-v1.md"
-)
+THERMAL_PAGE = "api/v1/packs/thermal-hvac-v1.md"
+THIS_REPO_PAGES = {
+    "api/v1/kernel.md",
+    "api/v1/packs/evse-v1.md",
+    "api/v1/packs/infrastructure-v1.md",
+    "api/v1/packs/pv-inverter-v1.md",
+    "api/v1/packs/storage-bms-v1.md",
+    "api/v1/packs/thermal-hvac-v1.md",
+}
 OVERRUN_FACTS = (
     "thermal.overrun.hvac_system_off",
     "thermal.overrun.one_day_at_home",
@@ -124,6 +129,13 @@ MULTI_ENDPOINT_RELATION = "thermal.relation.fluid_supply"
 THERMAL_VECTORS = validator.VECTOR_FILES[0]
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER = "relation" + "ships"
+
+
+def evidence_links(catalog):
+    records = list(catalog["planes"]) + list(catalog["core_relation_types"])
+    records += list(catalog["identification_schemes"]) + list(catalog["elements"])
+    for record in records:
+        yield from record["admission"]["evidence"]
 
 
 def entry_of(catalog, ident):
@@ -171,6 +183,31 @@ class CommittedCatalog(unittest.TestCase):
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
         self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 394 entries"))
+
+    def test_same_repository_pages_are_relative_paths(self):
+        relative = []
+        issues = []
+        other = []
+        for link in evidence_links(CATALOG):
+            self.assertIsNone(validator.repository_evidence_problem(link), link)
+            if link.startswith("https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/"):
+                issues.append(link)
+            elif link.startswith("https://"):
+                self.assertNotIn("helianthus-docs-semantic", link)
+                other.append(link)
+            else:
+                path = link.split("#", 1)[0]
+                self.assertEqual(link, path)
+                self.assertTrue((validator.ROOT / path).is_file(), link)
+                relative.append(link)
+        self.assertEqual(set(relative), THIS_REPO_PAGES)
+        self.assertTrue(issues)
+        self.assertTrue(any("connectedhomeip" in link for link in other))
+        contract = validator.GRAPH_PAGE.read_text(encoding="utf-8")
+        self.assertIn(
+            "A relative reference resolves against the repository revision that carries the catalog.",
+            contract,
+        )
 
     def test_overrun_evidence_is_a_document_link(self):
         for ident in OVERRUN_FACTS:
@@ -240,6 +277,23 @@ class Mutations(unittest.TestCase):
         self.assertTrue(matching, f"no {error} {rule} finding among {[str(item) for item in findings]}")
         self.assertTrue(validator.validate(catalog, INPUTS, SCHEMA), "validate accepted the mutation")
         return findings
+
+    def test_missing_repository_path_is_rejected(self):
+        self.rejects(
+            lambda c: entry_of(c, "pv.energy.generated")["admission"].__setitem__(
+                "evidence", ["api/v1/packs/missing-page.md"]),
+            "invalid_value", "CAT-6", "pv.energy.generated", validator.RELATIVE_EVIDENCE_MISSING)
+
+    def test_branch_link_to_this_repository_is_rejected(self):
+        branch = validator.THIS_REPO_BLOB + "api/v1/packs/pv-inverter-v1.md"
+        self.rejects(
+            lambda c: entry_of(c, "pv.energy.generated")["admission"].__setitem__("evidence", [branch]),
+            "invalid_value", "CAT-6", "pv.energy.generated", validator.THIS_REPO_BLOB_EVIDENCE)
+
+    def test_fragment_on_an_existing_page_is_kept(self):
+        catalog = mutate_copy(lambda c: entry_of(c, "pv.energy.generated")["admission"].__setitem__(
+            "evidence", ["api/v1/packs/pv-inverter-v1.md#limit"]))
+        self.assertEqual(validator.validate(catalog, INPUTS, SCHEMA), [])
 
     # CAT-1
     def test_missing_pack_field(self):
