@@ -138,6 +138,39 @@ def test_compare_build_rejects_an_untrimmed_rebuild_with_other_code(delivered, t
     assert len(errors) == 1 and "code or data section .text differs" in errors[0]
 
 
+def trimmed_tree(root, toolchain, **changes):
+    entry = next(item for item in json.loads((HERE / "binaries.json").read_text(encoding="utf-8"))["binaries"] if item["id"] == "current-gateway")
+    delivered_file = HERE / entry["file"]
+    oracle = root / "oracle"
+    (oracle / "binaries").mkdir(parents=True)
+    (oracle / "bom").mkdir()
+    shutil.copyfile(delivered_file, oracle / entry["file"])
+    (oracle / "binaries.json").write_text(json.dumps({"binaries": [entry]}), encoding="utf-8")
+    actual = root / "actual"
+    (actual / "binaries").mkdir(parents=True)
+    shutil.copyfile(delivered_file, actual / entry["file"])
+    (actual / "binaries.json").write_text(json.dumps({"binaries": [dict(entry, toolchain=toolchain, **changes)]}), encoding="utf-8")
+    return oracle, actual
+
+
+def test_compare_build_accepts_a_byte_identical_trimmed_rebuild_on_another_host_platform(tmp_path, monkeypatch):
+    oracle, actual = trimmed_tree(tmp_path, "go version go1.26.2 linux/amd64")
+    monkeypatch.setattr(check, "HERE", oracle)
+    assert check.compare_build("current", actual) == []
+
+
+@pytest.mark.parametrize("toolchain,changes", [
+    ("go version go1.26.3 linux/amd64", {}),
+    ("go version go1.26.2 linux/amd64", {"note": "other"}),
+    ("go version go1.26.2 linux/amd64", {"size": 1}),
+])
+def test_compare_build_still_rejects_a_trimmed_rebuild_with_other_version_or_metadata(tmp_path, monkeypatch, toolchain, changes):
+    oracle, actual = trimmed_tree(tmp_path, toolchain, **changes)
+    monkeypatch.setattr(check, "HERE", oracle)
+    errors = check.compare_build("current", actual)
+    assert len(errors) == 1 and "rebuilt manifest entry differs" in errors[0]
+
+
 PROGRAM = """package main
 
 import (

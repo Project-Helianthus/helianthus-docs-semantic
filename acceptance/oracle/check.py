@@ -351,7 +351,9 @@ def compare_build(reference, actual_oracle):
                 errors.append(f"binary {entry['id']}: rebuilt manifest entry differs from binaries.json")
         elif sha256(scratch) != entry["sha256"]:
             errors.append(f"binary {entry['id']}: independent rebuild does not have the recorded sha256")
-        elif rebuilt[entry["id"]] != entry:
+        elif (host_independent(rebuilt[entry["id"]]) != host_independent(entry)
+              or rebuilt[entry["id"]].get("sha256") != entry["sha256"] or rebuilt[entry["id"]].get("size") != entry.get("size")):
+            # The digest and size are those of the delivered bytes; only the host platform of the toolchain may differ.
             errors.append(f"binary {entry['id']}: rebuilt manifest entry differs from binaries.json")
     return errors
 
