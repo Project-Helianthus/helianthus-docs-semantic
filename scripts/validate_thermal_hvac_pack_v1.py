@@ -26,16 +26,43 @@ CANONICAL_UNITS = frozenset({
     "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule",
 })
 SUBJECTS = ("system", "zone", "circuit", "dhw", "ventilation", "heat_generator", "thermal_store",
-            "terminal_unit", "refrigerant_circuit", "compressor")
+            "terminal_unit", "refrigerant_circuit", "compressor", "room")
 # Pump is a resource subject with a service and a read descriptor, and with no capability.
 RESOURCE_SUBJECTS = (*SUBJECTS, "pump")
 DIMS = {f"thermal.dimension.{name}" for name in RESOURCE_SUBJECTS}
 SERVICE_DIMENSION = {f"thermal.service.{name}": f"thermal.dimension.{name}" for name in RESOURCE_SUBJECTS}
 SERVICES = set(SERVICE_DIMENSION)
 CAPS = {f"thermal.capability.read.{name}" for name in SUBJECTS} | {
-    "thermal.capability.set_temperature", "thermal.capability.set_mode"}
-OPS = {"thermal.operation.set_temperature", "thermal.operation.set_mode"}
-EFFECTS = {"thermal.effect.set_temperature", "thermal.effect.set_mode"}
+    "thermal.capability.set_temperature", "thermal.capability.set_mode",
+    "thermal.room.capability_set_occupied_cooling", "thermal.room.capability_set_occupied_heating",
+    "thermal.room.capability_set_temperature", "thermal.room.capability_set_zone_cooling_mode",
+    "thermal.room.capability_set_zone_mode"}
+OPS = {"thermal.operation.set_temperature", "thermal.operation.set_mode",
+       "thermal.room.operation_set_occupied_cooling", "thermal.room.operation_set_occupied_heating",
+       "thermal.room.operation_set_temperature", "thermal.room.operation_set_zone_cooling_mode",
+       "thermal.room.operation_set_zone_mode"}
+EFFECTS = {"thermal.effect.set_temperature", "thermal.effect.set_mode",
+           "thermal.room.effect_set_occupied_cooling", "thermal.room.effect_set_occupied_heating",
+           "thermal.room.effect_set_temperature", "thermal.room.effect_set_zone_cooling_mode",
+           "thermal.room.effect_set_zone_mode"}
+# Room operation -> (capability, room fact, effect). The argument is that fact, not a zone fact.
+ROOM_OPERATIONS = {
+    "thermal.room.operation_set_occupied_cooling": (
+        "thermal.room.capability_set_occupied_cooling", "thermal.room.setpoint_occupied_cooling",
+        "thermal.room.effect_set_occupied_cooling"),
+    "thermal.room.operation_set_occupied_heating": (
+        "thermal.room.capability_set_occupied_heating", "thermal.room.setpoint_occupied_heating",
+        "thermal.room.effect_set_occupied_heating"),
+    "thermal.room.operation_set_temperature": (
+        "thermal.room.capability_set_temperature", "thermal.room.setpoint_temperature_setpoint",
+        "thermal.room.effect_set_temperature"),
+    "thermal.room.operation_set_zone_cooling_mode": (
+        "thermal.room.capability_set_zone_cooling_mode", "thermal.room.mode_zone_cooling",
+        "thermal.room.effect_set_zone_cooling_mode"),
+    "thermal.room.operation_set_zone_mode": (
+        "thermal.room.capability_set_zone_mode", "thermal.room.mode_zone",
+        "thermal.room.effect_set_zone_mode"),
+}
 PORTAL = {f"thermal.portal.read.{name}" for name in RESOURCE_SUBJECTS} | {
     "thermal.portal.operation.set_temperature", "thermal.portal.operation.set_mode"}
 KELVIN = ("unit.kelvin", ("17315", -2), ("47315", -2))
@@ -92,6 +119,21 @@ FIELD_CONTRACT = {
     "thermal.overrun.one_time_ventilation": ("system", ("active", "finished", "inactive", "running")),
     "thermal.overrun.hvac_system_off": ("system", ("active", "finished", "inactive", "running")),
     "thermal.overrun.valve_kick": ("system", ("active", "finished", "inactive", "running")),
+    "thermal.room.limit_absolute_maximum_cooling_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_absolute_maximum_heating_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_absolute_minimum_cooling_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_absolute_minimum_heating_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_maximum_cooling_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_maximum_heating_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_minimum_cooling_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_minimum_heating_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.room.limit_setpoint_step": ("room", ("unit.kelvin",)),
+    "thermal.room.measurement_air_temperature": ("room", ("unit.kelvin",)),
+    "thermal.room.mode_zone": ("room", ("auto", "eco", "off", "on")),
+    "thermal.room.mode_zone_cooling": ("room", ("auto", "eco", "off", "on")),
+    "thermal.room.setpoint_occupied_cooling": ("room", ("unit.kelvin",)),
+    "thermal.room.setpoint_occupied_heating": ("room", ("unit.kelvin",)),
+    "thermal.room.setpoint_temperature_setpoint": ("room", ("unit.kelvin",)),
 }
 FIELDS = set(FIELD_CONTRACT)
 # Relation -> (from subjects, to subjects, cardinality), table A4 of the accepted placement.
@@ -108,6 +150,9 @@ RELATION_CONTRACT = {
     "thermal.relation.refrigerant_circuit_member": (("refrigerant_circuit",), ("heat_generator", "terminal_unit"),
                                                     "one_to_many"),
     "thermal.relation.generator_compressor": (("heat_generator",), ("compressor",), "one_to_many"),
+    "thermal.relation.circuit_room": (("circuit",), ("room",), "one_to_many"),
+    "thermal.relation.circuit_zone": (("circuit",), ("zone",), "one_to_many"),
+    "thermal.relation.zone_room": (("zone",), ("room",), "one_to_many"),
 }
 CARDINALITIES = {"one_to_one", "one_to_many", "many_to_many"}
 DOMAINS = {
@@ -205,14 +250,18 @@ def validate_quantity(field, contract):
         raise ValueError("field has invalid unit ID")
     if unit not in CANONICAL_UNITS:
         raise ValueError("field unit is outside the canonical SI unit set")
-    bounds = field.get("bounds", {})
-    minimum, maximum = decimal_pair(bounds.get("minimum")), decimal_pair(bounds.get("maximum"))
-    if magnitude(minimum) >= magnitude(maximum):
-        raise ValueError("field unordered numeric bounds")
     if not isinstance(contract, tuple) or not contract or not contract[0].startswith("unit."):
         raise ValueError("field kind differs from the placement")
     if unit != contract[0]:
         raise ValueError("field unit differs from the placement")
+    if len(contract) == 1:
+        if "bounds" in field:
+            raise ValueError("field bounds differ from the placement")
+        return
+    bounds = field.get("bounds", {})
+    minimum, maximum = decimal_pair(bounds.get("minimum")), decimal_pair(bounds.get("maximum"))
+    if magnitude(minimum) >= magnitude(maximum):
+        raise ValueError("field unordered numeric bounds")
     if (minimum, maximum) != contract[1:]:
         raise ValueError("field bounds differ from the placement")
 
@@ -241,6 +290,9 @@ def validate_field(field):
     if not isinstance(field.get("optional"), bool):
         raise ValueError("field lacks optionality")
     subject, contract = FIELD_CONTRACT[field["id"]]
+    if field["id"].startswith("thermal.room.mode_") and any(
+            isinstance(symbol, str) and symbol.endswith(".comfort") for symbol in field.get("symbols", [])):
+        raise ValueError("room mode includes zone comfort")
     if field["kind"] == "quantity":
         validate_quantity(field, contract)
     else:
@@ -271,8 +323,9 @@ def validate_capabilities(caps, services):
             raise ValueError("capability lacks exact argument constraint")
 
 
-def validate_operations(ops, caps, effects):
+def validate_operations(ops, caps, effects, fields):
     capability_ids = {item["id"] for item in caps}
+    dimension_of = {field["id"]: field["dimension"] for field in fields}
     for item in ops:
         if (item.get("capability") not in capability_ids or not set(item.get("arguments", [])) <= FIELDS
                 or item.get("effect_rule") not in effects):
@@ -286,6 +339,12 @@ def validate_operations(ops, caps, effects):
             raise ValueError("operation lacks admission/readback")
         if item.get("stages") != OPERATION_STAGES or item.get("terminal_outcomes") != OUTCOMES:
             raise ValueError("operation stages/outcomes are incomplete")
+        if item["id"] in ROOM_OPERATIONS:
+            capability_id, argument, effect_id = ROOM_OPERATIONS[item["id"]]
+            if (item.get("capability") != capability_id or item.get("arguments") != [argument]
+                    or item.get("effect_rule") != effect_id or capability.get("service") != "thermal.service.room"
+                    or dimension_of.get(argument) != "thermal.dimension.room"):
+                raise ValueError("room operation argument is not the room fact")
 
 
 def validate_portal(portal, services, operations, fields):
@@ -321,7 +380,7 @@ def validate_defs(catalog):
         raise ValueError("service missing dimension contract")
     validate_relations(definitions.get("relations"))
     validate_capabilities(caps, SERVICES)
-    validate_operations(ops, caps, EFFECTS)
+    validate_operations(ops, caps, EFFECTS, fields)
     for item in effects:
         if item.get("operation") not in OPS or item.get("fact") not in FIELDS or item.get("operator") != "equal":
             raise ValueError("effect dangling reference")

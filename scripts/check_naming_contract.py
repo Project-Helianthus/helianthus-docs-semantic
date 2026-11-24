@@ -15,13 +15,17 @@ def validate_row(row):
     if row['status'] == 'proven_rename':
         if row['question'] is not None or row['kind'] != 'definition_literal' or row['source'] != 'semreg/v1/packs/thermal/definitions.go':
             raise ValueError('invalid proof row')
+    elif row['status'] == 'admitted':
+        if (row['question'] is not None or row['kind'] != 'definition_literal'
+                or row['canonical_name'] != row['historical_name']):
+            raise ValueError('admitted row is not a literal identity')
     elif row['status'] != 'provisional' or not row['question'] or row['canonical_name'] != row['historical_name']:
         raise ValueError('unresolved row changed or lacks question')
 
 
 def validate(data):
     rows = data['rows']
-    expected_counts = dict(zip(('pv', 'storage', 'evse', 'thermal', 'infrastructure'), (70, 66, 53, 128, 63)))
+    expected_counts = dict(zip(('pv', 'storage', 'evse', 'thermal', 'infrastructure'), (70, 66, 53, 172, 63)))
     counts = Counter(r['source'].split('/')[3] for r in rows)
     if counts != expected_counts or any(r['kind'] not in ('definition_literal', 'go_identifier') for r in rows):
         raise ValueError('inventory coverage or kind differs')

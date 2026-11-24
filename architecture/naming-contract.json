@@ -3040,6 +3040,358 @@
       "canonical_name": "thermal.effect.set_mode",
       "status": "provisional",
       "question": "Confirm identity, role, vocabulary and consumer applicability before adoption."
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.room",
+      "canonical_name": "thermal.dimension.room",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.room",
+      "canonical_name": "thermal.service.room",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.room",
+      "canonical_name": "thermal.capability.read.room",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_absolute_maximum_cooling_setpoint",
+      "canonical_name": "thermal.room.limit_absolute_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_absolute_maximum_heating_setpoint",
+      "canonical_name": "thermal.room.limit_absolute_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_absolute_minimum_cooling_setpoint",
+      "canonical_name": "thermal.room.limit_absolute_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_absolute_minimum_heating_setpoint",
+      "canonical_name": "thermal.room.limit_absolute_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_maximum_cooling_setpoint",
+      "canonical_name": "thermal.room.limit_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_maximum_heating_setpoint",
+      "canonical_name": "thermal.room.limit_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_minimum_cooling_setpoint",
+      "canonical_name": "thermal.room.limit_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_minimum_heating_setpoint",
+      "canonical_name": "thermal.room.limit_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.limit_setpoint_step",
+      "canonical_name": "thermal.room.limit_setpoint_step",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.measurement_air_temperature",
+      "canonical_name": "thermal.room.measurement_air_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone",
+      "canonical_name": "thermal.room.mode_zone",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone_cooling",
+      "canonical_name": "thermal.room.mode_zone_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.setpoint_occupied_cooling",
+      "canonical_name": "thermal.room.setpoint_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.setpoint_occupied_heating",
+      "canonical_name": "thermal.room.setpoint_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.setpoint_temperature_setpoint",
+      "canonical_name": "thermal.room.setpoint_temperature_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone.auto",
+      "canonical_name": "thermal.room.mode_zone.auto",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone.eco",
+      "canonical_name": "thermal.room.mode_zone.eco",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone.off",
+      "canonical_name": "thermal.room.mode_zone.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone.on",
+      "canonical_name": "thermal.room.mode_zone.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone_cooling.auto",
+      "canonical_name": "thermal.room.mode_zone_cooling.auto",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone_cooling.eco",
+      "canonical_name": "thermal.room.mode_zone_cooling.eco",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone_cooling.off",
+      "canonical_name": "thermal.room.mode_zone_cooling.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.mode_zone_cooling.on",
+      "canonical_name": "thermal.room.mode_zone_cooling.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.capability_set_occupied_cooling",
+      "canonical_name": "thermal.room.capability_set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.operation_set_occupied_cooling",
+      "canonical_name": "thermal.room.operation_set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.effect_set_occupied_cooling",
+      "canonical_name": "thermal.room.effect_set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.capability_set_occupied_heating",
+      "canonical_name": "thermal.room.capability_set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.operation_set_occupied_heating",
+      "canonical_name": "thermal.room.operation_set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.effect_set_occupied_heating",
+      "canonical_name": "thermal.room.effect_set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.capability_set_temperature",
+      "canonical_name": "thermal.room.capability_set_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.operation_set_temperature",
+      "canonical_name": "thermal.room.operation_set_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.effect_set_temperature",
+      "canonical_name": "thermal.room.effect_set_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.capability_set_zone_cooling_mode",
+      "canonical_name": "thermal.room.capability_set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.operation_set_zone_cooling_mode",
+      "canonical_name": "thermal.room.operation_set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.effect_set_zone_cooling_mode",
+      "canonical_name": "thermal.room.effect_set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.capability_set_zone_mode",
+      "canonical_name": "thermal.room.capability_set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.operation_set_zone_mode",
+      "canonical_name": "thermal.room.operation_set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.room.effect_set_zone_mode",
+      "canonical_name": "thermal.room.effect_set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.circuit_room",
+      "canonical_name": "thermal.relation.circuit_room",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.circuit_zone",
+      "canonical_name": "thermal.relation.circuit_zone",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.zone_room",
+      "canonical_name": "thermal.relation.zone_room",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {

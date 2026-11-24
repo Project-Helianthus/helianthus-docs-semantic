@@ -184,7 +184,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 402 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 440 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -286,11 +286,31 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 337)
-        self.assertEqual(kinds.count("relation"), 26)
-        self.assertEqual(kinds.count("presentation"), 39)
-        self.assertEqual(kinds.count("dimension"), 39)
+        self.assertEqual(len(kinds), 374)
+        self.assertEqual(kinds.count("relation"), 29)
+        self.assertEqual(kinds.count("presentation"), 40)
+        self.assertEqual(kinds.count("dimension"), 40)
         self.assertEqual(len(INPUTS.kernel_types), 28)
+
+    def test_room_planes_and_containment(self):
+        planes = ["physical", "energy", "control"]
+        self.assertEqual(entry_of(CATALOG, "resource.room")["planes"], planes)
+        self.assertEqual(entry_of(CATALOG, "thermal.dimension.room")["planes"], planes)
+        self.assertEqual(entry_of(CATALOG, "resource.room")["attributes"]["anchor_class"], "function")
+        for ident in (
+            "thermal.relation.circuit_room",
+            "thermal.relation.circuit_zone",
+            "thermal.relation.zone_room",
+        ):
+            entry = entry_of(CATALOG, ident)
+            self.assertEqual(entry["planes"], ["physical"])
+            self.assertEqual(entry["attributes"]["core_type"], "contains")
+            self.assertNotIn("medium", entry["attributes"])
+        fluid = entry_of(CATALOG, "thermal.relation.fluid_supply")
+        self.assertEqual(fluid["attributes"]["core_type"], "supplies")
+        self.assertEqual(fluid["attributes"]["medium"], "heat_transfer_fluid")
+        self.assertEqual(fluid["planes"], ["energy", "hydraulic"])
+        self.assertNotIn("physical", fluid["planes"])
 
     def test_generator_is_not_imported(self):
         self.assertNotIn("generate_element_catalog_v1", sys.modules)
@@ -334,6 +354,21 @@ class Mutations(unittest.TestCase):
     # CAT-1
     def test_missing_pack_field(self):
         self.rejects(lambda c: remove(c, FIELD), "membership_missing", "CAT-1", FIELD)
+
+    def test_room_relation_requires_physical(self):
+        for ident in (
+            "thermal.relation.circuit_room",
+            "thermal.relation.circuit_zone",
+            "thermal.relation.zone_room",
+        ):
+            self.rejects(
+                lambda catalog, ident=ident: entry_of(catalog, ident).__setitem__("planes", ["energy"]),
+                "membership_missing", "CAT-4", ident, "PLN-6")
+
+    def test_room_dimension_follows_kind_planes(self):
+        self.rejects(
+            lambda catalog: entry_of(catalog, "resource.room").__setitem__("planes", ["energy", "control"]),
+            "membership_missing", "CAT-4", "thermal.dimension.room", "PLN-5")
 
     def test_extra_pack_reference(self):
         self.rejects(lambda c: add_copy(c, FIELD, "evse.ac.synthetic_extra"),

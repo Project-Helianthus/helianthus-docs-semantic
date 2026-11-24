@@ -1805,6 +1805,33 @@
           "kind": "core",
           "contract": "helianthus.semantic.kernel/v1"
         },
+        "id": "resource.room",
+        "version": "1.0.0"
+      },
+      "element_kind": "resource_kind",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "anchor_class": "function"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
         "id": "resource.site",
         "version": "1.0.0"
       },
@@ -12153,6 +12180,46 @@
             "version": "1.0.0"
           }
         },
+        "id": "thermal.capability.read.room",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
         "id": "thermal.capability.read.system",
         "version": "1.0.0"
       },
@@ -12675,6 +12742,37 @@
       "attributes": {
         "role": "resource",
         "resource_kind": "resource.refrigerant_circuit"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.dimension.room",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "role": "resource",
+        "resource_kind": "resource.room"
       }
     },
     {
@@ -14748,6 +14846,33 @@
             "version": "1.0.0"
           }
         },
+        "id": "thermal.portal.read.room",
+        "version": "1.0.0"
+      },
+      "element_kind": "presentation",
+      "disposition": "unsupported",
+      "planes": [],
+      "reason": "catalog.reason.target_presentation",
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "target": "portal"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
         "id": "thermal.portal.read.system",
         "version": "1.0.0"
       },
@@ -14909,6 +15034,134 @@
         "basis_classes": [
           "configuration"
         ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.circuit_room",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.thermal_circuit"
+        ],
+        "to_kinds": [
+          "resource.room"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.circuit_zone",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.thermal_circuit"
+        ],
+        "to_kinds": [
+          "resource.zone"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        }
       }
     },
     {
@@ -15113,6 +15366,1536 @@
           "configuration",
           "gate_rule"
         ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.zone_room",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.zone"
+        ],
+        "to_kinds": [
+          "resource.room"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.capability_set_occupied_cooling",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_occupied_cooling",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.capability_set_occupied_heating",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_occupied_heating",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.capability_set_temperature",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_temperature",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.capability_set_zone_cooling_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_zone_cooling_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.capability_set_zone_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.service.room",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_zone_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.effect_set_occupied_cooling",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_occupied_cooling",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_occupied_cooling",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.effect_set_occupied_heating",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_occupied_heating",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_occupied_heating",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.effect_set_temperature",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_temperature",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_temperature_setpoint",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.effect_set_zone_cooling_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_zone_cooling_mode",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.mode_zone_cooling",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.effect_set_zone_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.operation_set_zone_mode",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.mode_zone",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_absolute_maximum_cooling_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_absolute_maximum_heating_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_absolute_minimum_cooling_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_absolute_minimum_heating_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_maximum_cooling_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_maximum_heating_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_minimum_cooling_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_minimum_heating_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.limit_setpoint_step",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.measurement_air_temperature",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.mode_zone",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.mode_zone_cooling",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.operation_set_occupied_cooling",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.capability_set_occupied_cooling",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_occupied_cooling",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.effect_set_occupied_cooling",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.operation_set_occupied_heating",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.capability_set_occupied_heating",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_occupied_heating",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.effect_set_occupied_heating",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.operation_set_temperature",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.capability_set_temperature",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.setpoint_temperature_setpoint",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.effect_set_temperature",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.operation_set_zone_cooling_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.capability_set_zone_cooling_mode",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.mode_zone_cooling",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.effect_set_zone_cooling_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.operation_set_zone_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.capability_set_zone_mode",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.mode_zone",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.room.effect_set_zone_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.setpoint_occupied_cooling",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.setpoint_occupied_heating",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.room.setpoint_temperature_setpoint",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.room",
+            "version": "1.0.0"
+          },
+          "kind": "resource.room"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
       }
     },
     {
@@ -15358,6 +17141,47 @@
           "version": "1.0.0"
         },
         "subject_kind": "resource.refrigerant_circuit"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.service.room",
+        "version": "1.0.0"
+      },
+      "element_kind": "service",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173"
+        ]
+      },
+      "attributes": {
+        "fact_key_dimension": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            }
+          },
+          "id": "thermal.dimension.room",
+          "version": "1.0.0"
+        },
+        "subject_kind": "resource.room"
       }
     },
     {

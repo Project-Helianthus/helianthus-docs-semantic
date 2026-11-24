@@ -6,6 +6,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The thermal pack publishes `resource.room` and `thermal.dimension.room` on
+  the physical, energy and control planes, with `thermal.service.room`,
+  fifteen `thermal.room` facts, five room operations and their capabilities
+  and effect rules, and the containment relations
+  `thermal.relation.circuit_room`, `thermal.relation.circuit_zone` and
+  `thermal.relation.zone_room`. Room quantities are `unit.kelvin` with no
+  bounds. `thermal.relation.fluid_supply` stays a separate supplies relation
+  and is not a physical parent. The Matter 1.6.1 roster gains the room facts,
+  the read capability, the five write capabilities, the five operations, the
+  service and the three relations. The historical Matter 1.7 roster stays at
+  184 items. No pack version is raised.
 - Active gateway-composition owner references use
   `Project-Helianthus/helianthus-gateway@<gateway-commit>`, and Matter
   registry references use `Project-Helianthus/helianthus-matterreg`

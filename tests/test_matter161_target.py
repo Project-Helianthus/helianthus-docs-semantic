@@ -299,7 +299,35 @@ class Matter161TargetTests(unittest.TestCase):
         pilot = {'pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
                  'infrastructure.accuracy.measured', 'infrastructure.accuracy.ratio_maximum',
                  'storage.limit.charge_current', 'storage.limit.discharge_current'}
-        self.assertEqual({row['ref']['id'] for row in extra}, pilot)
+        room = {
+            'thermal.capability.read.room',
+            'thermal.room.capability_set_occupied_cooling',
+            'thermal.room.capability_set_occupied_heating',
+            'thermal.room.capability_set_temperature',
+            'thermal.room.capability_set_zone_cooling_mode',
+            'thermal.room.capability_set_zone_mode',
+            'thermal.room.limit_absolute_maximum_cooling_setpoint',
+            'thermal.room.limit_absolute_maximum_heating_setpoint',
+            'thermal.room.limit_absolute_minimum_cooling_setpoint',
+            'thermal.room.limit_absolute_minimum_heating_setpoint',
+            'thermal.room.limit_maximum_cooling_setpoint',
+            'thermal.room.limit_maximum_heating_setpoint',
+            'thermal.room.limit_minimum_cooling_setpoint',
+            'thermal.room.limit_minimum_heating_setpoint',
+            'thermal.room.limit_setpoint_step',
+            'thermal.room.measurement_air_temperature',
+            'thermal.room.mode_zone',
+            'thermal.room.mode_zone_cooling',
+            'thermal.room.operation_set_occupied_cooling',
+            'thermal.room.operation_set_occupied_heating',
+            'thermal.room.operation_set_temperature',
+            'thermal.room.operation_set_zone_cooling_mode',
+            'thermal.room.operation_set_zone_mode',
+            'thermal.room.setpoint_occupied_cooling',
+            'thermal.room.setpoint_occupied_heating',
+            'thermal.room.setpoint_temperature_setpoint',
+        }
+        self.assertEqual({row['ref']['id'] for row in extra}, pilot | room)
         for row in extra:
             self.assertEqual(row['disposition'], 'unknown')
             self.assertEqual(row['reason'], 'matter.unmapped.v1')
