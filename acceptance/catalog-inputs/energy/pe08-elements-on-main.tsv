@@ -1,0 +1,20 @@
+element	matter_1_6_1	eebus	verification_level	source	review
+storage.energy.charged	ElectricalEnergyMeasurement.CumulativeEnergyImported	MOB-061	specification	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported; Monitoring of Battery V1.0.0 [MOB-061]; MOB-061	
+storage.energy.discharged	ElectricalEnergyMeasurement.CumulativeEnergyExported	MOB-062	specification	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported; Monitoring of Battery V1.0.0 [MOB-062]; MOB-062	
+storage.energy.nominal_capacity		MOB-081	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-081]; MOB-081	
+storage.energy.remaining		MOB-023	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-023]; MOB-023	
+storage.energy.usable_capacity		MOB-024	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-024]; MOB-024	
+storage.limit.charge_power		COB-022	specification	matter.unmapped.v1; Control of Battery V1.0.0 [COB-022]; COB-022	
+storage.limit.discharge_power		COB-023	specification	matter.unmapped.v1; Control of Battery V1.0.0 [COB-023]; COB-023	
+storage.operation.set_charge_limit		COB-022	specification	matter.unmapped.v1; Control of Battery V1.0.0 [COB-022]; COB-022	
+storage.operation.set_discharge_limit		COB-023	specification	matter.unmapped.v1; Control of Battery V1.0.0 [COB-023]; COB-023	
+storage.pack.current	ElectricalPowerMeasurement.ActiveCurrent, PowerSource.BatChargingCurrent	MOB-041	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent, PowerSource.BatChargingCurrent; Monitoring of Battery V1.0.0 [MOB-041]; MOB-041	
+storage.pack.power	ElectricalPowerMeasurement.ActivePower	MOB-031	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of Battery V1.0.0 [MOB-031]; MOB-031; DC pack power is not AC interface power	
+storage.pack.voltage	PowerSource.BatVoltage, ElectricalPowerMeasurement.Voltage	MOB-051	specification	Matter 1.6.1 PowerSource.BatVoltage, ElectricalPowerMeasurement.Voltage; Monitoring of Battery V1.0.0 [MOB-051]; MOB-051	
+storage.state.soc	PowerSource.BatPercentRemaining	MOB-021	specification	Matter 1.6.1 PowerSource.BatPercentRemaining; Monitoring of Battery V1.0.0 [MOB-021]; MOB-021	
+storage.state.soh		MOB-022	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-022]; MOB-022	
+storage.status.alarm	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
+storage.status.operating	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
+storage.status.protection	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
+storage.status.warning	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
+storage.temperature.pack	TemperatureMeasurement.MeasuredValue	MOB-091	specification	Matter 1.6.1 TemperatureMeasurement.MeasuredValue; Monitoring of Battery V1.0.0 [MOB-091]; MOB-091	

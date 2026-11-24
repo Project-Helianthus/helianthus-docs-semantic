@@ -1,0 +1,17 @@
+element	matter_1_6_1	eebus	verification_level	source	review
+infrastructure.ac.active_power	ElectricalPowerMeasurement.ActivePower	MGCP-021	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of Grid Connection Point V1.0.0 [MGCP-021]; MGCP-021	
+infrastructure.ac.apparent_power	ElectricalPowerMeasurement.ApparentPower	SPINE:measurement.acPowerApparent	specification	Matter 1.6.1 ElectricalPowerMeasurement.ApparentPower; SPINE:measurement.acPowerApparent	
+infrastructure.ac.current	ElectricalPowerMeasurement.ActiveCurrent	MGCP-051	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent; Monitoring of Grid Connection Point V1.0.0 [MGCP-051]; MGCP-051	
+infrastructure.ac.frequency	ElectricalPowerMeasurement.Frequency	MGCP-071	specification	Matter 1.6.1 ElectricalPowerMeasurement.Frequency; Monitoring of Grid Connection Point V1.0.0 [MGCP-071]; MGCP-071	
+infrastructure.ac.power_factor	ElectricalPowerMeasurement.PowerFactor	SPINE:measurement.acCosPhiGrid	specification	Matter 1.6.1 ElectricalPowerMeasurement.PowerFactor; SPINE:measurement.acCosPhiGrid	
+infrastructure.ac.reactive_power	ElectricalPowerMeasurement.ReactivePower	SPINE:measurement.acPowerReactive	specification	Matter 1.6.1 ElectricalPowerMeasurement.ReactivePower; SPINE:measurement.acPowerReactive	
+infrastructure.ac.voltage	ElectricalPowerMeasurement.Voltage	MGCP-061	specification	Matter 1.6.1 ElectricalPowerMeasurement.Voltage; Monitoring of Grid Connection Point V1.0.0 [MGCP-061]; MGCP-061	
+infrastructure.ac.voltage_line_line		MGCP-061/4, MGCP-061/5, MGCP-061/6	specification	matter.unmapped.v1; Monitoring of Grid Connection Point V1.0.0 [MGCP-061/4]; Monitoring of Grid Connection Point V1.0.0 [MGCP-061/5]; Monitoring of Grid Connection Point V1.0.0 [MGCP-061/6]; MGCP-061/4, MGCP-061/5, MGCP-061/6	
+infrastructure.energy.export	ElectricalEnergyMeasurement.CumulativeEnergyExported	MGCP-031	specification	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyExported; Monitoring of Grid Connection Point V1.0.0 [MGCP-031]; MGCP-031	
+infrastructure.energy.import	ElectricalEnergyMeasurement.CumulativeEnergyImported	MGCP-041	specification	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported; Monitoring of Grid Connection Point V1.0.0 [MGCP-041]; MGCP-041	
+infrastructure.energy.self_consumption		SPINE:scope.selfConsumption	specification	matter.unmapped.v1; SPINE:scope.selfConsumption	
+infrastructure.limit.fallback_power		POEN-031	specification	matter.unmapped.v1; Power Envelope V1.0.0 [POEN-031]; POEN-031	
+infrastructure.power.apparent	ElectricalPowerMeasurement.ApparentPower	SPINE:measurement.acPowerApparent	specification	Matter 1.6.1 ElectricalPowerMeasurement.ApparentPower; SPINE:measurement.acPowerApparent	
+infrastructure.power.export_reactive	ElectricalPowerMeasurement.ReactivePower	SPINE:measurement.acPowerReactive	specification	Matter 1.6.1 ElectricalPowerMeasurement.ReactivePower; SPINE:measurement.acPowerReactive	
+infrastructure.power.import_reactive	ElectricalPowerMeasurement.ReactivePower	SPINE:measurement.acPowerReactive	specification	Matter 1.6.1 ElectricalPowerMeasurement.ReactivePower; SPINE:measurement.acPowerReactive	
+infrastructure.power.pcc	ElectricalPowerMeasurement.ActivePower	MGCP-021	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of Grid Connection Point V1.0.0 [MGCP-021]; MGCP-021	

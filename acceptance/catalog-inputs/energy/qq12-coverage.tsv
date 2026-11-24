@@ -1,0 +1,649 @@
+use_case	version	scenario	feature	function	element	actor	element_id	status	verification_level	review
+lpc	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.lpc.use_case_name	added	specification	
+lpp	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.lpp.use_case_name	added	specification	
+mgcp	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		infrastructure.mgcp.use_case_name	added	specification	
+mpc	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		infrastructure.mpc.use_case_name	added	specification	
+poen	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.poen.use_case_name	added	specification	
+podf	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.podf.use_case_name	added	specification	
+tout	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.tout.use_case_name	added	specification	
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.itpcm.use_case_name	added	specification	
+ohpcf	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		energy.ohpcf.use_case_name	added	specification	
+lpc	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	EnergyGuard	energy.lpc.actor	added	specification	
+lpc	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	ControllableSystem	energy.lpc.actor	added	specification	
+lpp	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	EnergyGuard	energy.lpp.actor	added	specification	
+lpp	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	ControllableSystem	energy.lpp.actor	added	specification	
+mgcp	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	infrastructure.mgcp.actor	added	specification	
+mgcp	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	GridConnectionPoint	infrastructure.mgcp.actor	added	specification	
+mpc	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	infrastructure.mpc.actor	added	specification	
+poen	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	TransmissionBroker	energy.poen.actor	added	specification	
+poen	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	CEM	energy.poen.actor	added	specification	
+podf	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	EnergyBroker	energy.podf.actor	added	specification	
+podf	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	Transmission Broker	energy.podf.actor	added	specification	
+podf	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	CEM	energy.podf.actor	added	specification	
+tout	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	EnergyBroker	energy.tout.actor	added	specification	
+tout	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	TransmissionBroker	energy.tout.actor	added	specification	
+tout	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	CEM	energy.tout.actor	added	specification	
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementUseCaseData	actor	EnergyConsumer	energy.itpcm.actor	added	specification	
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementUseCaseData	actor	CEM	energy.itpcm.actor	added	specification	
+ohpcf	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	CEM	energy.ohpcf.actor	added	specification	
+ohpcf	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	Compressor	energy.ohpcf.actor	added	specification	
+lpc	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.lpc.use_case_version	added	specification	
+lpp	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.lpp.use_case_version	added	specification	
+mgcp	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		infrastructure.mgcp.use_case_version	added	specification	
+mpc	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		infrastructure.mpc.use_case_version	added	specification	
+poen	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.poen.use_case_version	added	specification	
+podf	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.podf.use_case_version	added	specification	
+tout	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.tout.use_case_version	added	specification	
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.itpcm.use_case_version	added	specification	
+ohpcf	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		energy.ohpcf.use_case_version	added	specification	
+lpc	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpp	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mgcp	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mpc	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+poen	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+podf	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+tout	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+ohpcf	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpc	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpp	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mgcp	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mpc	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+poen	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+podf	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+tout	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+ohpcf	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpc	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpp	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mgcp	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mpc	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+poen	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+podf	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+tout	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+itpcm	1.0.0 RC3		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+ohpcf	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+lpc	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		energy.lpc.heartbeat_timestamp	added	specification	
+lpp	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		energy.lpp.heartbeat_timestamp	added	specification	
+lpc	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		energy.lpc.heartbeat_counter	added	specification	
+lpp	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		energy.lpp.heartbeat_counter	added	specification	
+lpc	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		energy.heartbeat.timeout	mapped	specification	
+lpp	1.0.0	3	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		energy.heartbeat.timeout	mapped	specification	
+lpc	1.0.0	1	LoadControl	loadControlLimitDescriptionListData plus loadControlLimitListData	activePowerLimit		energy.dimension.subject	mapped	specification	
+lpp	1.0.0	1	LoadControl	loadControlLimitDescriptionListData plus loadControlLimitListData	LPP-011		energy.dimension.subject	mapped	specification	
+lpc	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	failsafeConsumptionActivePowerLimit		energy.limit.consumption_failsafe_power	mapped	specification	
+lpp	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	failsafeProductionActivePowerLimit		energy.limit.production_failsafe_power	mapped	specification	
+lpc	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	failsafeDurationMinimum		energy.limit.consumption_failsafe_duration_minimum	mapped	specification	
+lpp	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	failsafeDurationMinimum		energy.limit.production_failsafe_duration_minimum	mapped	specification	
+mgcp	1.0.0	1	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	pvCurtailmentLimitFactor		infrastructure.limit.pv_curtailment_factor	mapped	specification	
+itpcm	1.0.0 RC3	1	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData plus deviceConfigurationKeyValueListData	ITPCM-031		energy.itpcm.itpcm_031	added	specification	
+lpc	1.0.0	4	ElectricalConnection	electricalConnectionCharacteristicListData	characteristicContext		energy.nameplate.consumption_nominal_maximum	mapped	specification	
+lpc	1.0.0	4	ElectricalConnection	electricalConnectionCharacteristicListData	characteristicType		energy.nameplate.consumption_contractual_maximum	mapped	specification	
+podf	1.0.0	2	ElectricalConnection	electricalConnectionCharacteristicListData	characteristicType		energy.nameplate.consumption_contractual_maximum	mapped	specification	
+lpp	1.0.0	4	ElectricalConnection	electricalConnectionCharacteristicListData	characteristicType		energy.nameplate.production_nominal_maximum	mapped	specification	
+mpc	1.0.0	1	Measurement	measurementDescriptionListData and measurementListData	acPowerTotal		infrastructure.load.active_power	mapped	specification	
+mgcp	1.0.0	2	Measurement	measurementDescriptionListData and measurementListData	acPowerTotal		infrastructure.ac.active_power	mapped	specification	
+mpc	1.0.0	1	Measurement	measurementDescriptionListData and measurementListData	acPower		infrastructure.mpc.ac_power	added	specification	
+mpc	1.0.0	2	Measurement	measurementDescriptionListData and measurementListData	acEnergyConsumed		infrastructure.load.energy_consumed	mapped	specification	
+mpc	1.0.0	2	Measurement	measurementDescriptionListData and measurementListData	acEnergyProduced		infrastructure.load.energy_produced	mapped	specification	
+mgcp	1.0.0	3	Measurement	measurementDescriptionListData and measurementListData	gridFeedIn		infrastructure.energy.export	mapped	specification	
+mgcp	1.0.0	4	Measurement	measurementDescriptionListData and measurementListData	gridConsumption		infrastructure.energy.import	mapped	specification	
+mpc	1.0.0	3	Measurement	measurementDescriptionListData and measurementListData	acCurrent		evse.ac.current	mapped	specification	
+mgcp	1.0.0	5	Measurement	measurementDescriptionListData and measurementListData	acCurrent		infrastructure.mgcp.ac_current	added	specification	
+mpc	1.0.0	4	Measurement	measurementDescriptionListData and measurementListData	acVoltage		infrastructure.mpc.ac_voltage	added	specification	
+mgcp	1.0.0	6	Measurement	measurementDescriptionListData and measurementListData	acVoltage		infrastructure.ac.voltage_line_line	mapped	specification	
+mpc	1.0.0	5	Measurement	measurementDescriptionListData and measurementListData	acFrequency		evse.ac.frequency	mapped	specification	
+mgcp	1.0.0	7	Measurement	measurementDescriptionListData and measurementListData	acFrequency		infrastructure.ac.frequency	mapped	specification	
+mpc	1.0.0	5	Measurement	measurementListData	valueState		infrastructure.mpc.value_state	added	specification	
+mgcp	1.0.0	2	Measurement	measurementListData	valueSource		infrastructure.mgcp.value_source	added	specification	
+lpc	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.lpc.value_range_min	added	specification	
+lpp	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.lpp.value_range_min	added	specification	
+mgcp	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		infrastructure.mgcp.value_range_min	added	specification	
+mpc	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		infrastructure.mpc.value_range_min	added	specification	
+poen	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.poen.value_range_min	added	specification	
+podf	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.podf.value_range_min	added	specification	
+tout	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.tout.value_range_min	added	specification	
+itpcm	1.0.0 RC3		Measurement	measurementConstraintsListData	valueRangeMin		energy.itpcm.value_range_min	added	specification	
+ohpcf	1.0.0		Measurement	measurementConstraintsListData	valueRangeMin		energy.ohpcf.value_range_min	added	specification	
+mpc	1.0.0	5	ElectricalConnection	electricalConnectionDescriptionListData	one		infrastructure.mpc.one	added	specification	
+poen	1.0.0	1	TimeSeries	timeSeriesDescriptionListData, timeSeriesConstraintsListData, timeSeriesListData	activePowerLimit		energy.dimension.series	mapped	specification	
+podf	1.0.0	1	TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	activePowerForecast		energy.dimension.series	mapped	specification	
+tout	1.0.0	1	IncentiveTable	incentiveTableDescriptionData	each		energy.incentive.boundary_lower	mapped	specification	
+lpc	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.lpc.per	added	specification	
+lpp	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.lpp.per	added	specification	
+mgcp	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		infrastructure.mgcp.per	added	specification	
+mpc	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		infrastructure.mpc.per	added	specification	
+poen	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.poen.per	added	specification	
+podf	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.podf.per	added	specification	
+tout	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.tout.per	added	specification	
+itpcm	1.0.0 RC3		IncentiveTable	incentiveTableConstraintsData	per		energy.itpcm.per	added	specification	
+ohpcf	1.0.0		IncentiveTable	incentiveTableConstraintsData	per		energy.ohpcf.per	added	specification	
+lpc	1.0.0		IncentiveTable	incentiveTableData	slots		energy.lpc.slots	added	specification	
+lpp	1.0.0		IncentiveTable	incentiveTableData	slots		energy.lpp.slots	added	specification	
+mgcp	1.0.0		IncentiveTable	incentiveTableData	slots		infrastructure.mgcp.slots	added	specification	
+mpc	1.0.0		IncentiveTable	incentiveTableData	slots		infrastructure.mpc.slots	added	specification	
+poen	1.0.0		IncentiveTable	incentiveTableData	slots		energy.poen.slots	added	specification	
+podf	1.0.0		IncentiveTable	incentiveTableData	slots		energy.podf.slots	added	specification	
+tout	1.0.0		IncentiveTable	incentiveTableData	slots		energy.tout.slots	added	specification	
+itpcm	1.0.0 RC3		IncentiveTable	incentiveTableData	slots		energy.itpcm.slots	added	specification	
+ohpcf	1.0.0		IncentiveTable	incentiveTableData	slots		energy.ohpcf.slots	added	specification	
+itpcm	1.0.0 RC3	2	IncentiveTable	incentiveTableDescriptionData and incentiveTableData	simpleCommittedIncentiveTable		energy.itpcm.simple_committed_incentive_table	added	specification	
+lpc	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.lpc.committed_power_plan	added	specification	
+lpp	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.lpp.committed_power_plan	added	specification	
+mgcp	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		infrastructure.mgcp.committed_power_plan	added	specification	
+mpc	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		infrastructure.dimension.load	mapped	specification	
+poen	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.poen.committed_power_plan	added	specification	
+podf	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.podf.committed_power_plan	added	specification	
+tout	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.tout.committed_power_plan	added	specification	
+itpcm	1.0.0 RC3		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.itpcm.committed_power_plan	added	specification	
+ohpcf	1.0.0		TimeSeries	timeSeriesDescriptionListData and timeSeriesListData	committedPowerPlan		energy.ohpcf.committed_power_plan	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	flexibility		energy.ohpcf.flexibility	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	alternatives		energy.ohpcf.alternatives	added	specification	
+ohpcf	1.0.0	2	SmartEnergyManagementPs	smartEnergyManagementPsData	alternatives		energy.ohpcf.alternatives	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	isPausable		energy.ohpcf.is_pausable	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	isStoppable		energy.ohpcf.is_stoppable	added	specification	
+moi	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		pv.moi.use_case_name	added	specification	
+mob	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		storage.mob.use_case_name	added	specification	
+cob	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseName		storage.cob.use_case_name	added	specification	
+mps	1.0.0 RC4		NodeManagement	nodeManagementUseCaseData	useCaseName		pv.mps.use_case_name	added	specification	
+vabd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseName		storage.vabd.use_case_name	added	specification	
+vapd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseName		pv.vapd.use_case_name	added	specification	
+moi	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	pv.moi.actor	added	specification	
+moi	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	Inverter	pv.moi.actor	added	specification	
+mob	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	storage.mob.actor	added	specification	
+mob	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	Battery	storage.mob.actor	added	specification	
+cob	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	CEM	storage.cob.actor	added	specification	
+cob	1.0.0		NodeManagement	nodeManagementUseCaseData	actor	Inverter	storage.cob.actor	added	specification	
+mps	1.0.0 RC4		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	pv.mps.actor	added	specification	
+mps	1.0.0 RC4		NodeManagement	nodeManagementUseCaseData	actor	PVString	pv.mps.actor	added	specification	
+vabd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	VisualizationAppliance	storage.vabd.actor	added	specification	
+vabd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	BatterySystem	storage.vabd.actor	added	specification	
+vapd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	VisualizationAppliance	pv.vapd.actor	added	specification	
+vapd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	PVSystem	pv.vapd.actor	added	specification	
+moi	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		pv.moi.use_case_version	added	specification	
+mob	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		storage.mob.use_case_version	added	specification	
+cob	1.0.0		NodeManagement	nodeManagementUseCaseData	useCaseVersion		storage.cob.use_case_version	added	specification	
+mps	1.0.0 RC4		NodeManagement	nodeManagementUseCaseData	useCaseVersion		pv.mps.use_case_version	added	specification	
+vabd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		storage.vabd.use_case_version	added	specification	
+vapd	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		pv.vapd.use_case_version	added	specification	
+moi	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mob	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+cob	1.0.0		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mps	1.0.0 RC4		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vabd	1.0.0 RC1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vapd	1.0.0 RC1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+moi	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mob	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+cob	1.0.0		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mps	1.0.0 RC4		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vabd	1.0.0 RC1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vapd	1.0.0 RC1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+moi	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mob	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+cob	1.0.0		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+mps	1.0.0 RC4		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vabd	1.0.0 RC1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+vapd	1.0.0 RC1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	deviceName		pv.moi.device_name	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	deviceName		storage.mob.device_name	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	deviceCode		pv.moi.device_code	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	deviceCode		storage.mob.device_code	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	serialNumber		pv.moi.serial_number	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	serialNumber		storage.mob.serial_number	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	softwareRevision		pv.moi.software_revision	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	softwareRevision		storage.mob.software_revision	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		pv.moi.hardware_revision	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		storage.mob.hardware_revision	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	vendorName		pv.moi.vendor_name	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	vendorName		storage.mob.vendor_name	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	vendorCode		pv.moi.vendor_code	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	vendorCode		storage.mob.vendor_code	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	MOI-016b		pv.moi.moi_016b	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	MOI-016b		storage.mob.moi_016b	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		pv.moi.manufacturer_label	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		storage.mob.manufacturer_label	added	specification	
+moi	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	MOI-018		pv.moi.moi_018	added	specification	
+mob	1.0.0	1	DeviceClassification	deviceClassificationManufacturerData	MOI-018		storage.mob.moi_018	added	specification	
+moi	1.0.0	1	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	inverterGridCode		pv.configuration.grid_code	mapped	specification	
+moi	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	pvStringAvailabilityStatus		pv.status.string_availability	mapped	specification	
+moi	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	batteryAvailabilityStatus		pv.status.battery_availability	mapped	specification	
+moi	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	gridConnectionStatus		pv.status.grid_connection	mapped	specification	
+moi	1.0.0	6	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	timeToAcChargePowerMax		storage.nameplate.time_to_ac_charge_power_maximum	mapped	specification	
+moi	1.0.0	6	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	timeToAcDischargePowerMax		storage.nameplate.time_to_ac_discharge_power_maximum	mapped	specification	
+mob	1.0.0	7	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	batteryType		storage.configuration.battery_type	mapped	specification	
+mob	1.0.0	8	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	maxCycleCountPerDay		storage.configuration.maximum_cycles_per_day	mapped	specification	
+mps	1.0.0 RC4	5	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	tilt		pv.string.tilt	mapped	specification	
+mps	1.0.0 RC4	5	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	azimuth		pv.string.azimuth	mapped	specification	
+vapd	1.0.0 RC1	1	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	peakPowerOfPvSystem		pv.nameplate.peak_power	mapped	specification	
+cob	1.0.0	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	maxAcChargePower		storage.limit.ac_charge_power	mapped	specification	
+cob	1.0.0	3	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	COB-031		storage.operation.set_control_mode	mapped	specification	
+cob	1.0.0	3	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	defaultAcPower		storage.configuration.default_ac_power	mapped	specification	
+cob	1.0.0	4	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	failsafeAcPowerSetpoint		storage.configuration.failsafe_ac_power	mapped	specification	
+cob	1.0.0	4	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData and deviceConfigurationKeyValueListData	COB-044		storage.configuration.failsafe_duration_minimum	mapped	specification	
+moi	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		pv.status.derating	mapped	specification	
+mob	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		storage.status.alarm	mapped	specification	
+moi	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	timestamp		pv.moi.timestamp	added	specification	
+mob	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	timestamp		storage.mob.timestamp	added	specification	
+moi	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	MOI-022		pv.moi.moi_022	added	specification	
+mob	1.0.0	2	DeviceDiagnosis	deviceDiagnosisStateData	MOI-022		storage.mob.moi_022	added	specification	
+cob	1.0.0	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		storage.cob.heartbeat_timestamp	added	specification	
+cob	1.0.0	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		storage.cob.heartbeat_counter	added	specification	
+cob	1.0.0	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		storage.cob.heartbeat_timeout	added	specification	
+moi	1.0.0	2	StateInformation	stateInformationListData	MOI-026		pv.status.derating	mapped	specification	
+moi	1.0.0		ElectricalConnection	electricalConnectionDescriptionListData	ec1		pv.moi.ec1	added	specification	
+mob	1.0.0		ElectricalConnection	electricalConnectionDescriptionListData	ec1		storage.mob.ec1	added	specification	
+cob	1.0.0		ElectricalConnection	electricalConnectionDescriptionListData	ec1		storage.cob.ec1	added	specification	
+mps	1.0.0 RC4		ElectricalConnection	electricalConnectionDescriptionListData	ec1		pv.mps.ec1	added	specification	
+vabd	1.0.0 RC1		ElectricalConnection	electricalConnectionDescriptionListData	ec1		storage.vabd.ec1	added	specification	
+vapd	1.0.0 RC1		ElectricalConnection	electricalConnectionDescriptionListData	ec1		pv.vapd.ec1	added	specification	
+vabd	1.0.0 RC1	1	ElectricalConnection	electricalConnectionDescriptionListData	VABD-005		storage.vabd.vabd_005	added	specification	
+vapd	1.0.0 RC1	2	ElectricalConnection	electricalConnectionDescriptionListData	VAPD-004		pv.vapd.vapd_004	added	specification	
+moi	1.0.0	3	Measurement	measurementDescriptionListData, measurementConstraintsListData, measurementListData; parameter description on <p1> / <m1>	acPowerApparentTotal		pv.ac.aggregate_apparent_power	mapped	specification	
+moi	1.0.0	3	Measurement	measurementDescriptionListData, measurementConstraintsListData, measurementListData; parameter description on <p1> / <m1>	acPowerApparent		pv.ac.apparent_power	mapped	specification	
+moi	1.0.0	3	Measurement	measurementDescriptionListData, measurementConstraintsListData, measurementListData; parameter description on <p1> / <m1>	acPowerReactiveTotal		pv.ac.aggregate_reactive_power	mapped	specification	
+moi	1.0.0	3	Measurement	measurementDescriptionListData, measurementConstraintsListData, measurementListData; parameter description on <p1> / <m1>	acPowerReactive		pv.ac.reactive_power	mapped	specification	
+moi	1.0.0	4	Measurement	description, constraints, measurementListData; parameter <p5> / <m5>	acYieldTotal		pv.moi.ac_yield_total	added	specification	
+moi	1.0.0	4	Measurement	description, constraints, measurementListData; parameter <p6> / <m6>	acYieldDay		pv.moi.ac_yield_day	added	specification	
+moi	1.0.0	4	Measurement	description and constraints shared with the current day row; measurementSeriesListData	acYieldDayHistorical		pv.moi.ac_yield_day_historical	added	specification	
+moi	1.0.0	4	Measurement	description, constraints, measurementListData; parameter <p7> / <m7>	acYieldMonth		pv.moi.ac_yield_month	added	specification	
+moi	1.0.0	4	Measurement	measurementSeriesListData sharing <m7>	acYieldMonthHistorical		pv.moi.ac_yield_month_historical	added	specification	
+moi	1.0.0	4	Measurement	description, constraints, measurementListData; parameter <p8> / <m8>	acYieldYear		pv.moi.ac_yield_year	added	specification	
+moi	1.0.0	4	Measurement	measurementSeriesListData sharing <m8>	acYieldYearHistorical		pv.moi.ac_yield_year_historical	added	specification	
+moi	1.0.0	5	Measurement	description, constraints, list; parameter <p9> / <m9>	acCosPhi		pv.ac.power_factor	mapped	specification	
+moi	1.0.0	7	Measurement	description, constraints, list; no electrical connection	componentTemperature		pv.temperature.inverter	mapped	specification	
+mob	1.0.0	2	Measurement	description, constraints, list; no electrical connection on this id	stateOfCharge		storage.state.soc	mapped	specification	
+mob	1.0.0	2	Measurement	description, constraints, list	MOB-022		storage.state.soh	mapped	specification	
+mob	1.0.0	2	Measurement	description, constraints, list	MOB-023		storage.energy.remaining	mapped	specification	
+mob	1.0.0	2	Measurement	description, constraints, list; parameter <p1> / <m4>, no voltageType on this item	useableCapacity		storage.energy.nominal_capacity	mapped	specification	
+mob	1.0.0	3	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-031		storage.pack.power	mapped	specification	
+mob	1.0.0	4	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-041		storage.pack.current	mapped	specification	
+mob	1.0.0	5	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-051		storage.pack.voltage	mapped	specification	
+mob	1.0.0	6	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-061		storage.energy.charged	mapped	specification	
+mob	1.0.0	6	Measurement	description, constraints, list; parameter <p2> / <m5>, voltageType dc	MOB-062		storage.energy.discharged	mapped	specification	
+mob	1.0.0	7	Measurement	description, constraints, list; no electrical connection	MOB-071		storage.state.cycle_count	mapped	specification	
+mob	1.0.0	9	Measurement	description, constraints, list; no electrical connection	MOB-091		storage.temperature.pack	mapped	specification	
+mps	1.0.0 RC4	1	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-011		pv.dc.aggregate_power	mapped	specification	
+mps	1.0.0 RC4	2	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-021		pv.dc.aggregate_current	mapped	specification	
+mps	1.0.0 RC4	3	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-031		pv.dc.aggregate_voltage	mapped	specification	
+mps	1.0.0 RC4	4	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-041		pv.dc.energy	mapped	specification	
+mps	1.0.0 RC4	5	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType dc	MPS-051		pv.string.insulation_resistance	mapped	specification	
+mps	1.0.0 RC4	6	Measurement	description, constraints, list; no electrical connection and no commodityType	MPS-061		pv.string.temperature	mapped	specification	
+vabd	1.0.0 RC1	1	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType ac, acMeasurementType real	VABD-001a		storage.interface.ac_power	mapped	specification	
+vabd	1.0.0 RC1	2	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType ac, acMeasurementType real	charge		storage.system.energy_charged	mapped	specification	
+vabd	1.0.0 RC1	3	Measurement	description, constraints, list; parameter <p1> / <m1>, voltageType ac, acMeasurementType real	discharge		storage.system.energy_discharged	mapped	specification	
+vabd	1.0.0 RC1	4	Measurement	description, constraints, list; no electrical connection	VABD-004a		storage.system.state_of_charge	mapped	specification	
+vapd	1.0.0 RC1	2	Measurement	description, constraints, list; parameter <p1> power, voltageType ac, acMeasurementType real	acPowerTotal		pv.vapd.ac_power_total	added	specification	
+vapd	1.0.0 RC1	3	Measurement	description, constraints, list; parameter <p2> yield	acYieldTotal		pv.vapd.ac_yield_total	added	specification	
+moi	1.0.0	6	ElectricalConnection	electricalConnectionCharacteristicListData	cc1		pv.nameplate.production_nominal_maximum	mapped	specification	
+moi	1.0.0	6	ElectricalConnection	electricalConnectionCharacteristicListData	cc2		pv.ac.aggregate_apparent_power	mapped	specification	
+moi	1.0.0	6	ElectricalConnection	electricalConnectionCharacteristicListData	MOI-061b		pv.nameplate.consumption_nominal_maximum	mapped	specification	
+moi	1.0.0	6	ElectricalConnection	electricalConnectionCharacteristicListData	cc4		pv.ac.aggregate_apparent_power	mapped	specification	
+moi	1.0.0	6	ElectricalConnection	electricalConnectionCharacteristicListData	cc5		energy.esa.maximum_power	mapped	specification	
+mob	1.0.0	8	ElectricalConnection	electricalConnectionCharacteristicListData	cc1		storage.energy.nominal_capacity	mapped	specification	
+mob	1.0.0	8	ElectricalConnection	electricalConnectionCharacteristicListData	cc2		storage.nameplate.dc_charge_power_maximum	mapped	specification	
+mob	1.0.0	8	ElectricalConnection	electricalConnectionCharacteristicListData	cc3		storage.nameplate.dc_discharge_power_maximum	mapped	specification	
+cob	1.0.0	1	Setpoint	setpointDescriptionListData, setpointConstraintsListData, setpointListData	batteryAcPower		storage.interface.ac_power	mapped	specification	
+cob	1.0.0	1	Setpoint	setpointDescriptionListData, setpointConstraintsListData, setpointListData	batteryDcPower		storage.setpoint.dc_power	mapped	specification	
+cob	1.0.0	2	Setpoint	setpointDescriptionListData, setpointConstraintsListData, setpointListData	pccPower		storage.setpoint.pcc_power	mapped	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.cevc.use_case_name	added	specification	
+evcc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.evcc.use_case_name	added	specification	
+evcem	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.evcem.use_case_name	added	specification	
+evcs	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.evcs.use_case_name	added	specification	
+evsecc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.evsecc.use_case_name	added	specification	
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.evsoc.use_case_name	added	specification	
+opev	1.0.1b		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.opev.use_case_name	added	specification	
+oscev	1.0.1b		NodeManagement	nodeManagementUseCaseData	useCaseName		evse.oscev.use_case_name	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.cevc.actor	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.cevc.actor	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EnergyGuard	evse.cevc.actor	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EnergyBroker	evse.cevc.actor	added	specification	
+evcc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.evcc.actor	added	specification	
+evcc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.evcc.actor	added	specification	
+evcem	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.evcem.actor	added	specification	
+evcem	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.evcem.actor	added	specification	
+evcs	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.evcs.actor	added	specification	
+evcs	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EnergyBroker	evse.evcs.actor	added	specification	
+evcs	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EVSE	evse.evcs.actor	added	specification	
+evsecc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.evsecc.actor	added	specification	
+evsecc	1.0.1		NodeManagement	nodeManagementUseCaseData	actor	EVSE	evse.evsecc.actor	added	specification	
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.evsoc.actor	added	specification	
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	actor	MonitoringAppliance	evse.evsoc.actor	added	specification	
+opev	1.0.1b		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.opev.actor	added	specification	
+opev	1.0.1b		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.opev.actor	added	specification	
+opev	1.0.1b		NodeManagement	nodeManagementUseCaseData	actor	EnergyGuard	evse.opev.actor	added	specification	
+oscev	1.0.1b		NodeManagement	nodeManagementUseCaseData	actor	EV	evse.oscev.actor	added	specification	
+oscev	1.0.1b		NodeManagement	nodeManagementUseCaseData	actor	CEM	evse.oscev.actor	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.cevc.use_case_version	added	specification	
+evcc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.evcc.use_case_version	added	specification	
+evcem	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.evcem.use_case_version	added	specification	
+evcs	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.evcs.use_case_version	added	specification	
+evsecc	1.0.1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.evsecc.use_case_version	added	specification	
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.evsoc.use_case_version	added	specification	
+opev	1.0.1b		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.opev.use_case_version	added	specification	
+oscev	1.0.1b		NodeManagement	nodeManagementUseCaseData	useCaseVersion		evse.oscev.use_case_version	added	specification	
+cevc	1.0.1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcc	1.0.1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcem	1.0.1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcs	1.0.1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsecc	1.0.1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+opev	1.0.1b		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+oscev	1.0.1b		NodeManagement	nodeManagementDetailedDiscoveryData	nodeManagementDetailedDiscoveryData		transport.node_management_detailed_discovery_data	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+cevc	1.0.1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcc	1.0.1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcem	1.0.1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcs	1.0.1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsecc	1.0.1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+opev	1.0.1b		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+oscev	1.0.1b		NodeManagement	nodeManagementSubscriptionRequestCall	nodeManagementSubscriptionRequestCall		transport.node_management_subscription_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+cevc	1.0.1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcc	1.0.1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcem	1.0.1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcs	1.0.1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsecc	1.0.1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evsoc	1.0.0 RC1		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+opev	1.0.1b		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+oscev	1.0.1b		NodeManagement	nodeManagementBindingRequestCall	nodeManagementBindingRequestCall		transport.node_management_binding_request_call	transport	specification	SHIP/SPINE stack carries subscription, binding and detailed discovery
+evcc	1.0.1	5	DeviceClassification	deviceClassificationManufacturerData	deviceName		evse.evcc.device_name	added	specification	
+evsecc	1.0.1	1	DeviceClassification	deviceClassificationManufacturerData	deviceName		evse.evsecc.device_name	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.cevc.device_code	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.evcc.device_code	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.evcem.device_code	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.evcs.device_code	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.evsecc.device_code	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.evsoc.device_code	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.opev.device_code	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	deviceCode		evse.oscev.device_code	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.cevc.serial_number	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.evcc.serial_number	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.evcem.serial_number	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.evcs.serial_number	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.evsecc.serial_number	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.evsoc.serial_number	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.opev.serial_number	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	serialNumber		evse.oscev.serial_number	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.cevc.software_revision	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.evcc.software_revision	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.evcem.software_revision	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.evcs.software_revision	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.evsecc.software_revision	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.evsoc.software_revision	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.opev.software_revision	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	softwareRevision		evse.oscev.software_revision	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.cevc.hardware_revision	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.evcc.hardware_revision	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.evcem.hardware_revision	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.evcs.hardware_revision	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.evsecc.hardware_revision	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.evsoc.hardware_revision	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.opev.hardware_revision	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	hardwareRevision		evse.oscev.hardware_revision	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.cevc.vendor_name	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.evcc.vendor_name	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.evcem.vendor_name	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.evcs.vendor_name	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.evsecc.vendor_name	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.evsoc.vendor_name	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.opev.vendor_name	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	vendorName		evse.oscev.vendor_name	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.cevc.vendor_code	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.evcc.vendor_code	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.evcem.vendor_code	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.evcs.vendor_code	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.evsecc.vendor_code	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.evsoc.vendor_code	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.opev.vendor_code	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	vendorCode		evse.oscev.vendor_code	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.cevc.brand_name	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.evcc.brand_name	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.evcem.brand_name	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.evcs.brand_name	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.evsecc.brand_name	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.evsoc.brand_name	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.opev.brand_name	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	brandName		evse.oscev.brand_name	added	specification	
+cevc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.cevc.manufacturer_label	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.evcc.manufacturer_label	added	specification	
+evcem	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.evcem.manufacturer_label	added	specification	
+evcs	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.evcs.manufacturer_label	added	specification	
+evsecc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.evsecc.manufacturer_label	added	specification	
+evsoc	1.0.0 RC1		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.evsoc.manufacturer_label	added	specification	
+opev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.opev.manufacturer_label	added	specification	
+oscev	1.0.1b		DeviceClassification	deviceClassificationManufacturerData	manufacturerLabel		evse.oscev.manufacturer_label	added	specification	
+evcc	1.0.1		DeviceClassification	deviceClassificationManufacturerData	manufacturerDescription		evse.evcc.manufacturer_description	added	specification	
+evcc	1.0.1	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	keyId		evse.evcc.key_id	added	specification	
+evcc	1.0.1	3	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	keyId		evse.evcc.key_id	added	specification	
+evcc	1.0.1	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	keyName		evse.evcc.key_name	added	specification	
+evcc	1.0.1	3	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	keyName		evse.evcc.key_name	added	specification	
+evcc	1.0.1	2	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	valueType		evse.evcc.value_type	added	specification	
+evcc	1.0.1	3	DeviceConfiguration	deviceConfigurationKeyValueDescriptionListData	valueType		evse.evcc.value_type	added	specification	
+evcc	1.0.1	2	DeviceConfiguration	deviceConfigurationKeyValueListData	keyId		evse.evcc.key_id	added	specification	
+evcc	1.0.1	3	DeviceConfiguration	deviceConfigurationKeyValueListData	keyId		evse.evcc.key_id	added	specification	
+evcc	1.0.1	2	DeviceConfiguration	deviceConfigurationKeyValueListData	one		evse.evcc.one	added	specification	
+evcc	1.0.1	3	DeviceConfiguration	deviceConfigurationKeyValueListData	one		evse.evcc.one	added	specification	
+evcc	1.0.1		DeviceConfiguration	deviceConfigurationKeyValueListData	iso15118		evse.evcc.iso15118	added	specification	
+evcc	1.0.1		DeviceConfiguration	deviceConfigurationKeyValueListData	EVCC-006		evse.evcc.evcc_006	added	specification	
+evcc	1.0.1	4	Identification	identificationListData	identificationId		evse.evcc.identification_id	added	specification	
+evcc	1.0.1		Identification	identificationListData	EVCC-007		evse.evcc.evcc_007	added	specification	
+evcc	1.0.1		Identification	identificationListData	identificationValue		evse.evcc.identification_value	added	specification	
+cevc	1.0.1	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		evse.cevc.heartbeat_timestamp	added	specification	
+cevc	1.0.1	6	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		evse.cevc.heartbeat_timestamp	added	specification	
+opev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		evse.opev.heartbeat_timestamp	added	specification	
+oscev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	timestamp		evse.oscev.heartbeat_timestamp	added	specification	
+cevc	1.0.1	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		evse.cevc.heartbeat_counter	added	specification	
+cevc	1.0.1	6	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		evse.cevc.heartbeat_counter	added	specification	
+opev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		evse.opev.heartbeat_counter	added	specification	
+oscev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatCounter		evse.oscev.heartbeat_counter	added	specification	
+cevc	1.0.1	5	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		evse.cevc.heartbeat_timeout	added	specification	
+cevc	1.0.1	6	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		evse.cevc.heartbeat_timeout	added	specification	
+opev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		evse.opev.heartbeat_timeout	added	specification	
+oscev	1.0.1b	2	DeviceDiagnosis	deviceDiagnosisHeartbeatData	heartbeatTimeout		evse.oscev.heartbeat_timeout	added	specification	
+cevc	1.0.1	7	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		evse.cevc.operating_state	added	specification	
+oscev	1.0.1b	3	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		evse.oscev.operating_state	added	specification	
+evsecc	1.0.1	2	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		evse.evsecc.operating_state	added	specification	
+evcc	1.0.1	7	DeviceDiagnosis	deviceDiagnosisStateData	operatingState		evse.evcc.operating_state	added	specification	
+opev	1.0.1b	3	DeviceDiagnosis	deviceDiagnosisStateData	lastErrorCode		evse.opev.last_error_code	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	timeSeriesDescriptionData		evse.cevc.time_series_description_data	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	timeSeriesDescriptionData		evse.cevc.time_series_description_data	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	timeSeriesDescriptionData		evse.cevc.time_series_description_data	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	timeSeriesType		evse.cevc.time_series_type	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	timeSeriesType		evse.cevc.time_series_type	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	timeSeriesType		evse.cevc.time_series_type	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	timeSeriesWriteable		evse.cevc.time_series_writeable	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	timeSeriesWriteable		evse.cevc.time_series_writeable	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	timeSeriesWriteable		evse.cevc.time_series_writeable	added	specification	
+cevc	1.0.1		TimeSeries	timeSeriesDescriptionListData	CEVC-015		evse.cevc.cevc_015	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	measurementId		evse.cevc.measurement_id	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	measurementId		evse.cevc.measurement_id	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	measurementId		evse.cevc.measurement_id	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesDescriptionListData	unit		evse.cevc.unit	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesDescriptionListData	unit		evse.cevc.unit	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesDescriptionListData	unit		evse.cevc.unit	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	timeSeriesConstraintsData		evse.cevc.time_series_constraints_data	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	timeSeriesConstraintsData		evse.cevc.time_series_constraints_data	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	timeSeriesConstraintsData		evse.cevc.time_series_constraints_data	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotCountMin		evse.cevc.slot_count_min	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotCountMin		evse.cevc.slot_count_min	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotCountMin		evse.cevc.slot_count_min	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotCountMax		evse.cevc.slot_count_max	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotCountMax		evse.cevc.slot_count_max	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotCountMax		evse.cevc.slot_count_max	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotDurationMin		evse.cevc.slot_duration_min	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotDurationMin		evse.cevc.slot_duration_min	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotDurationMin		evse.cevc.slot_duration_min	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	earliestTimeSeriesStartTime		evse.cevc.earliest_time_series_start_time	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	earliestTimeSeriesStartTime		evse.cevc.earliest_time_series_start_time	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	earliestTimeSeriesStartTime		evse.cevc.earliest_time_series_start_time	added	specification	
+cevc	1.0.1		TimeSeries	timeSeriesConstraintsListData	CEVC-012		evse.cevc.cevc_012	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotValueMin		evse.cevc.slot_value_min	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotValueMin		evse.cevc.slot_value_min	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotValueMin		evse.cevc.slot_value_min	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotValueMax		evse.cevc.slot_value_max	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotValueMax		evse.cevc.slot_value_max	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotValueMax		evse.cevc.slot_value_max	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesConstraintsListData	slotValueStepSize		evse.cevc.slot_value_step_size	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesConstraintsListData	slotValueStepSize		evse.cevc.slot_value_step_size	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesConstraintsListData	slotValueStepSize		evse.cevc.slot_value_step_size	added	specification	
+cevc	1.0.1		TimeSeries	timeSeriesListData	CEVC-007		evse.cevc.cevc_007	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesListData	timeSeriesId		evse.cevc.time_series_id	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesListData	timePeriod		evse.cevc.time_period	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesListData	timePeriod		evse.cevc.time_period	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesListData	timePeriod		evse.cevc.time_period	added	specification	
+cevc	1.0.1		TimeSeries	timeSeriesListData	CEVC-001		evse.cevc.cevc_001	added	specification	
+cevc	1.0.1	1	TimeSeries	timeSeriesListData	timeSeriesSlot		evse.cevc.time_series_slot	added	specification	
+cevc	1.0.1	2	TimeSeries	timeSeriesListData	timeSeriesSlot		evse.cevc.time_series_slot	added	specification	
+cevc	1.0.1	4	TimeSeries	timeSeriesListData	timeSeriesSlot		evse.cevc.time_series_slot	added	specification	
+cevc	1.0.1		TimeSeries	timeSeriesListData	timeSeriesSlot		evse.cevc.time_series_slot	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableDescriptionData	incentiveTableDescription		evse.cevc.incentive_table_description	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableDescriptionData	tariffDescription		evse.cevc.tariff_description	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableDescriptionData	tariffDescription		evse.cevc.tariff_description	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableDescriptionData	CEVC-023		evse.cevc.cevc_023	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableDescriptionData	tier		evse.cevc.tier	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableDescriptionData	tier		evse.cevc.tier	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableConstraintsData	incentiveTableConstraints		evse.cevc.incentive_table_constraints	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableConstraintsData	tariffConstraints		evse.cevc.tariff_constraints	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableConstraintsData	incentiveSlotConstraints		evse.cevc.incentive_slot_constraints	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableData	incentiveTable		evse.cevc.incentive_table	added	specification	
+cevc	1.0.1	3	IncentiveTable	incentiveTableData	incentiveSlot		evse.cevc.incentive_slot	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableData	CEVC-028		evse.cevc.cevc_028	added	specification	
+cevc	1.0.1		IncentiveTable	incentiveTableData	CEVC-054		evse.cevc.cevc_054	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	loadControlLimitDescriptionData		evse.opev.load_control_limit_description_data	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	loadControlLimitDescriptionData		evse.oscev.load_control_limit_description_data	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	limitType		evse.opev.limit_type	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	limitType		evse.oscev.limit_type	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	limitCategory		evse.opev.limit_category	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	limitCategory		evse.oscev.limit_category	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	unit		evse.opev.unit	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	unit		evse.oscev.unit	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	scopeType		evse.opev.scope_type	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	scopeType		evse.oscev.scope_type	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	measurementId		evse.opev.measurement_id	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitDescriptionListData	measurementId		evse.oscev.measurement_id	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitListData	loadControlLimitData		evse.opev.load_control_limit_data	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitListData	loadControlLimitData		evse.oscev.load_control_limit_data	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitListData	isLimitChangeable		evse.opev.is_limit_changeable	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitListData	isLimitChangeable		evse.oscev.is_limit_changeable	added	specification	
+opev	1.0.1b		LoadControl	loadControlLimitListData	OPEV-004		evse.opev.opev_004	added	specification	
+opev	1.0.1b	1	LoadControl	loadControlLimitListData	scale		evse.opev.scale	added	specification	
+oscev	1.0.1b	1	LoadControl	loadControlLimitListData	scale		evse.oscev.scale	added	specification	
+evcc	1.0.1	6	ElectricalConnection	electricalConnectionParameterDescriptionListData	electricalConnectionId		evse.evcc.electrical_connection_id	added	specification	
+evcem	1.0.1	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	electricalConnectionId		evse.evcem.electrical_connection_id	added	specification	
+evcem	1.0.1	3	ElectricalConnection	electricalConnectionParameterDescriptionListData	electricalConnectionId		evse.evcem.electrical_connection_id	added	specification	
+evcem	1.0.1	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	parameterId		evse.evcem.parameter_id	added	specification	
+evcc	1.0.1	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	parameterId		evse.evcc.parameter_id	added	specification	
+opev	1.0.1b	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	parameterId		evse.opev.parameter_id	added	specification	
+oscev	1.0.1b	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	parameterId		evse.oscev.parameter_id	added	specification	
+evcc	1.0.1	6	ElectricalConnection	electricalConnectionParameterDescriptionListData	measurementId		evse.evcc.measurement_id	added	specification	
+evcem	1.0.1	2	ElectricalConnection	electricalConnectionParameterDescriptionListData	measurementId		evse.evcem.measurement_id	added	specification	
+cevc	1.0.1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.cevc.scope_type	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.evcc.scope_type	added	specification	
+evcem	1.0.1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.evcem.scope_type	added	specification	
+evcs	1.0.1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.evcs.scope_type	added	specification	
+evsecc	1.0.1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.evsecc.scope_type	added	specification	
+evsoc	1.0.0 RC1		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.evsoc.scope_type	added	specification	
+opev	1.0.1b		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.opev.scope_type	added	specification	
+oscev	1.0.1b		ElectricalConnection	electricalConnectionParameterDescriptionListData	scopeType		evse.oscev.scope_type	added	specification	
+evcem	1.0.1	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	acMeasuredPhases		evse.evcem.ac_measured_phases	added	specification	
+evcem	1.0.1	2	ElectricalConnection	electricalConnectionParameterDescriptionListData	acMeasuredPhases		evse.evcem.ac_measured_phases	added	specification	
+evcem	1.0.1	3	ElectricalConnection	electricalConnectionParameterDescriptionListData	acMeasuredPhases		evse.evcem.ac_measured_phases	added	specification	
+evcem	1.0.1	1	ElectricalConnection	electricalConnectionParameterDescriptionListData	acMeasurementVariant		evse.evcem.ac_measurement_variant	added	specification	
+evcem	1.0.1	3	ElectricalConnection	electricalConnectionParameterDescriptionListData	voltageType		evse.evcem.voltage_type	added	specification	
+cevc	1.0.1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.cevc.electrical_connection_id	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.evcc.electrical_connection_id	added	specification	
+evcem	1.0.1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.evcem.electrical_connection_id	added	specification	
+evcs	1.0.1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.evcs.electrical_connection_id	added	specification	
+evsecc	1.0.1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.evsecc.electrical_connection_id	added	specification	
+evsoc	1.0.0 RC1		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.evsoc.electrical_connection_id	added	specification	
+opev	1.0.1b		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.opev.electrical_connection_id	added	specification	
+oscev	1.0.1b		ElectricalConnection	electricalConnectionDescriptionListData	electricalConnectionId		evse.oscev.electrical_connection_id	added	specification	
+cevc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.cevc.electrical_connection_id	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.evcc.electrical_connection_id	added	specification	
+evcem	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.evcem.electrical_connection_id	added	specification	
+evcs	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.evcs.electrical_connection_id	added	specification	
+evsecc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.evsecc.electrical_connection_id	added	specification	
+evsoc	1.0.0 RC1		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.evsoc.electrical_connection_id	added	specification	
+opev	1.0.1b		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.opev.electrical_connection_id	added	specification	
+oscev	1.0.1b		ElectricalConnection	electricalConnectionPermittedValueSetListData	electricalConnectionId		evse.oscev.electrical_connection_id	added	specification	
+cevc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.cevc.permitted_value_set	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.evcc.permitted_value_set	added	specification	
+evcem	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.evcem.permitted_value_set	added	specification	
+evcs	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.evcs.permitted_value_set	added	specification	
+evsecc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.evsecc.permitted_value_set	added	specification	
+evsoc	1.0.0 RC1		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.evsoc.permitted_value_set	added	specification	
+opev	1.0.1b		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.opev.permitted_value_set	added	specification	
+oscev	1.0.1b		ElectricalConnection	electricalConnectionPermittedValueSetListData	permittedValueSet		evse.oscev.permitted_value_set	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	EVCC-017		evse.evcc.evcc_017	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	EVCC-018		evse.evcc.evcc_018	added	specification	
+evcc	1.0.1		ElectricalConnection	electricalConnectionPermittedValueSetListData	EVCC-019		evse.evcc.evcc_019	added	specification	
+evsoc	1.0.0 RC1	2	ElectricalConnection	electricalConnectionCharacteristicListData	electricalConnectionId		evse.evsoc.electrical_connection_id	added	specification	
+evsoc	1.0.0 RC1	2	ElectricalConnection	electricalConnectionCharacteristicListData	characteristicContext		evse.evsoc.characteristic_context	added	specification	
+evsoc	1.0.0 RC1		ElectricalConnection	electricalConnectionCharacteristicListData	EVSOC-002		evse.evsoc.evsoc_002	added	specification	
+evcem	1.0.1	1	Measurement	measurementDescriptionListData	measurementId		evse.evcem.measurement_id	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementDescriptionListData	measurementId		evse.evsoc.measurement_id	added	specification	
+evcem	1.0.1	1	Measurement	measurementDescriptionListData	measurementType		evse.evcem.measurement_type	added	specification	
+evcem	1.0.1	3	Measurement	measurementDescriptionListData	measurementType		evse.evcem.measurement_type	added	specification	
+evcem	1.0.1	4	Measurement	measurementDescriptionListData	measurementType		evse.evcem.measurement_type	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementDescriptionListData	measurementType		evse.evsoc.measurement_type	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementDescriptionListData	measurementType		evse.evsoc.measurement_type	added	specification	
+evsoc	1.0.0 RC1	4	Measurement	measurementDescriptionListData	measurementType		evse.evsoc.measurement_type	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementDescriptionListData	commodityType		evse.evsoc.commodity_type	added	specification	
+evcem	1.0.1	1	Measurement	measurementConstraintsListData	measurementConstraintsData		evse.evcem.measurement_constraints_data	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementConstraintsListData	measurementConstraintsData		evse.evsoc.measurement_constraints_data	added	specification	
+evcem	1.0.1	1	Measurement	measurementConstraintsListData	valueRangeMin		evse.evcem.value_range_min	added	specification	
+evcem	1.0.1	3	Measurement	measurementConstraintsListData	valueRangeMin		evse.evcem.value_range_min	added	specification	
+evcem	1.0.1	4	Measurement	measurementConstraintsListData	valueRangeMin		evse.evcem.value_range_min	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementConstraintsListData	valueRangeMin		evse.evsoc.value_range_min	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementConstraintsListData	valueRangeMin		evse.evsoc.value_range_min	added	specification	
+evsoc	1.0.0 RC1	4	Measurement	measurementConstraintsListData	valueRangeMin		evse.evsoc.value_range_min	added	specification	
+evcem	1.0.1	1	Measurement	measurementListData	measurementId		evse.evcem.measurement_id	added	specification	
+evcem	1.0.1	3	Measurement	measurementListData	measurementId		evse.evcem.measurement_id	added	specification	
+evcem	1.0.1	4	Measurement	measurementListData	measurementId		evse.evcem.measurement_id	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementListData	measurementId		evse.evsoc.measurement_id	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementListData	measurementId		evse.evsoc.measurement_id	added	specification	
+evsoc	1.0.0 RC1	4	Measurement	measurementListData	measurementId		evse.evsoc.measurement_id	added	specification	
+evcem	1.0.1	1	Measurement	measurementListData	timestamp		evse.evcem.timestamp	added	specification	
+evcem	1.0.1	3	Measurement	measurementListData	timestamp		evse.evcem.timestamp	added	specification	
+evcem	1.0.1	4	Measurement	measurementListData	timestamp		evse.evcem.timestamp	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementListData	timestamp		evse.evsoc.timestamp	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementListData	timestamp		evse.evsoc.timestamp	added	specification	
+evsoc	1.0.0 RC1	4	Measurement	measurementListData	timestamp		evse.evsoc.timestamp	added	specification	
+evcem	1.0.1	1	Measurement	measurementListData	current		evse.evcem.current	added	specification	
+evcem	1.0.1	3	Measurement	measurementListData	current		evse.evcem.current	added	specification	
+evcem	1.0.1	4	Measurement	measurementListData	current		evse.evcem.current	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementListData	current		evse.evsoc.current	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementListData	current		evse.evsoc.current	added	specification	
+evsoc	1.0.0 RC1	4	Measurement	measurementListData	current		evse.evsoc.current	added	specification	
+evcem	1.0.1	3	Measurement	measurementListData	valueSource		evse.evcem.value_source	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementListData	valueSource		evse.evsoc.value_source	added	specification	
+evsoc	1.0.0 RC1	3	Measurement	measurementListData	valueSource		evse.evsoc.value_source	added	specification	
+evsoc	1.0.0 RC1	1	Measurement	measurementListData	valueState		evse.evsoc.value_state	added	specification	
+evcs	1.0.1	1	Bill	billDescriptionListData	billDescriptionData		evse.evcs.bill_description_data	added	specification	
+evcs	1.0.1	1	Bill	billDescriptionListData	billWriteable		evse.evcs.bill_writeable	added	specification	
+evcs	1.0.1		Bill	billDescriptionListData	EVCS-009		evse.evcs.evcs_009	added	specification	
+evcs	1.0.1	1	Bill	billDescriptionListData	supportedBillType		evse.evcs.supported_bill_type	added	specification	
+evcs	1.0.1	1	Bill	billConstraintsListData	billConstraintsData		evse.evcs.bill_constraints_data	added	specification	
+evcs	1.0.1	1	Bill	billConstraintsListData	positionCountMin		evse.evcs.position_count_min	added	specification	
+evcs	1.0.1	1	Bill	billConstraintsListData	positionCountMax		evse.evcs.position_count_max	added	specification	
+evcs	1.0.1	1	Bill	billListData	billData		evse.evcs.bill_data	added	specification	
+evcs	1.0.1		Bill	billListData	total		evse.evcs.total	added	specification	
+evcs	1.0.1		Bill	billListData	position		evse.evcs.position	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	alternativesCount		energy.ohpcf.alternatives_count	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	totalSequencesCountMax		energy.ohpcf.total_sequences_count_max	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	supportsReselection		energy.ohpcf.supports_reselection	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	sequenceId		energy.ohpcf.sequence_id	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	earliestStartTime		energy.ohpcf.earliest_start_time	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	latestEndTime		energy.ohpcf.latest_end_time	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	defaultDuration		energy.ohpcf.default_duration	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	activeDurationMin		energy.ohpcf.active_duration_min	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	pauseDurationMin		energy.ohpcf.pause_duration_min	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	elapsedSlotTime		energy.ohpcf.elapsed_slot_time	added	specification	
+ohpcf	1.0.0	1	SmartEnergyManagementPs	smartEnergyManagementPsData	remainingSlotTime		energy.ohpcf.remaining_slot_time	added	specification	

@@ -1,0 +1,3 @@
+id	attributes	matter_eebus	admission	note	verification_level	source	review
+energy.dimension.direct_control_timestamp	value kind text; key timestamp	SPINE:DirectControl.directControlActivityListData.timestamp	eebus	activity-instance key; SPINE timestamp as AbsoluteOrRelativeTimeType	specification	EEBUS SPINE V1.3.0 §4.3.9.4.2 Table 49; §5.3.10 Table 204 AbsoluteOrRelativeTimeType	
+energy.dimension.job	value kind text; key jobId	SPINE:TaskManagement.jobId	eebus	in no plane	specification	EEBUS SPINE V1.3.0 §4.3.28 Tables 138 139 140; §5.3.26 Tables 330 331	

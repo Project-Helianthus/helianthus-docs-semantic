@@ -1,0 +1,5 @@
+id	attributes	matter_eebus	admission	note	verification_level	source	review
+pv.dimension.period	value kind symbol; symbols day, month, year	MOI-042a, MOI-043a, MOI-044a	eebus		specification	Monitoring of Inverter V1.0.0 [MOI-042a]; Monitoring of Inverter V1.0.0 [MOI-043a]; Monitoring of Inverter V1.0.0 [MOI-044a]; MOI-042a, MOI-043a, MOI-044a	
+pv.dimension.period_offset	value kind quantity	MOI-042b, MOI-043b, MOI-044b	eebus	0 = current period; history	specification	Monitoring of Inverter V1.0.0 [MOI-042b]; Monitoring of Inverter V1.0.0 [MOI-043b]; Monitoring of Inverter V1.0.0 [MOI-044b]; MOI-042b, MOI-043b, MOI-044b	
+pv.dimension.measurement_type	value kind symbol; symbols voltage, active_current, reactive_current, apparent_current, active_power, reactive_power, apparent_power, frequency, power_factor, electrical_energy, reactive_energy, apparent_energy	ElectricalPowerMeasurement.Accuracy	matter_baseline		specification	ElectricalPowerMeasurement.Accuracy	
+pv.dimension.temperature_sensor	value kind symbol; symbols cabinet, heat_sink, transformer, other		two_vendors (inverter_temperatures)		specification	matter.unmapped.v1; eebus.unmapped.v1	
