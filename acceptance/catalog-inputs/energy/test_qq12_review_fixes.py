@@ -297,6 +297,154 @@ def test_tariff_randomization_offsets_stay_signed_and_unbounded():
     assert "CommodityTariff.DayEntries" in entry["matter_1_6_1"]
 
 
+DIAGNOSTIC_STATUS = (
+    "storage.status.alarm",
+    "storage.status.operating",
+    "storage.status.protection",
+    "storage.status.warning",
+)
+ENERGY_FIELDS = {
+    "pe10-fields.tsv": {
+        "infrastructure.energy.reactive_import": (
+            "CumulativeEnergyImported",
+            "ReactiveEnergy",
+            "feat.REAE",
+            "energy-mVARh",
+            "unit.volt_ampere_reactive_second",
+        ),
+        "infrastructure.energy.reactive_export": (
+            "CumulativeEnergyExported",
+            "ReactiveEnergy",
+            "feat.REAE",
+            "energy-mVARh",
+            "unit.volt_ampere_reactive_second",
+        ),
+        "infrastructure.energy.apparent_import": (
+            "CumulativeEnergyImported",
+            "ApparentEnergy",
+            "feat.APPE",
+            "energy-mVAh",
+            "unit.volt_ampere_second",
+        ),
+        "infrastructure.energy.apparent_export": (
+            "CumulativeEnergyExported",
+            "ApparentEnergy",
+            "feat.APPE",
+            "energy-mVAh",
+            "unit.volt_ampere_second",
+        ),
+    },
+    "pe03-fields.tsv": {
+        "pv.energy.reactive_imported": (
+            "CumulativeEnergyImported",
+            "ReactiveEnergy",
+            "feat.REAE",
+            "energy-mVARh",
+            "unit.volt_ampere_reactive_second",
+        ),
+        "pv.energy.reactive_exported": (
+            "CumulativeEnergyExported",
+            "ReactiveEnergy",
+            "feat.REAE",
+            "energy-mVARh",
+            "unit.volt_ampere_reactive_second",
+        ),
+        "pv.energy.apparent_imported": (
+            "CumulativeEnergyImported",
+            "ApparentEnergy",
+            "feat.APPE",
+            "energy-mVAh",
+            "unit.volt_ampere_second",
+        ),
+        "pv.energy.apparent_exported": (
+            "CumulativeEnergyExported",
+            "ApparentEnergy",
+            "feat.APPE",
+            "energy-mVAh",
+            "unit.volt_ampere_second",
+        ),
+    },
+}
+
+
+def test_battery_diagnostics_leave_bat_charge_state_unmapped():
+    rows = {row["element"]: row for row in _rows("pe08-elements-on-main.tsv")}
+    for element in DIAGNOSTIC_STATUS:
+        row = rows[element]
+        assert row["matter_1_6_1"] == ""
+        assert "BatChargeState" not in row["matter_1_6_1"]
+        assert "BatChargeState" not in row["source"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert row["eebus"] == "MOB-025"
+        assert "MOB-025" in row["source"]
+        assert "Monitoring of Battery V1.0.0 [MOB-025]" in row["source"]
+        assert row["verification_level"] == "specification"
+        assert "IsCharging" in row["review"]
+        assert "IsAtFullCharge" in row["review"]
+        assert "IsNotCharging" in row["review"]
+        assert "Unknown" in row["review"]
+        assert "matter.unmapped.v1" not in row["review"]
+
+
+def test_reactive_and_apparent_energy_cite_value_fields():
+    for name, expected in ENERGY_FIELDS.items():
+        rows = {row["id"]: row for row in _rows(name)}
+        seen = set()
+        for element, (attribute, field, feature, native, unit) in expected.items():
+            row = rows[element]
+            matter = f"ElectricalEnergyMeasurement.{attribute}.{field}"
+            assert row["matter_1_6_1"] == matter
+            assert "feat.REAE" not in row["matter_1_6_1"]
+            assert "feat.APPE" not in row["matter_1_6_1"]
+            assert row["unit"] == unit
+            assert row["eebus"] == ""
+            assert "eebus.unmapped.v1" in row["source"]
+            assert matter in row["source"]
+            assert f"availability {feature}" in row["source"]
+            assert native in row["source"]
+            assert unit in row["source"]
+            assert "3.6" in row["source"]
+            assert row["minimum"] == "" and row["maximum"] == ""
+            assert row["review"] == "bound not in specification"
+            seen.add(row["matter_1_6_1"])
+        assert len(seen) == 4
+
+
+def test_ratio_write_stays_unqualified_without_a_writable_clause():
+    row = next(
+        item
+        for item in _rows("pe03-operations.tsv")
+        if item["operation"] == "pv.operation.set_active_power_limit_ratio"
+    )
+    assert row["argument"] == "pv.limit.active_power_ratio"
+    assert row["eebus"] == ""
+    assert row["admission"] == ""
+    assert row["matter_1_6_1"] == ""
+    assert row["verification_level"] == "source not found"
+    assert row["verification_level"] != "specification"
+    assert "eebus.unmapped.v1" in row["source"]
+    assert "matter.unmapped.v1" in row["source"]
+    assert "MGCP-011" not in row["eebus"]
+    assert "LPP-011" not in row["eebus"]
+    assert row["review"].startswith("source not found:")
+    assert "writable ratio" in row["review"]
+    assert "read,event" in row["review"]
+    assert "set_production_limit" in row["review"]
+    limit = next(
+        item
+        for item in _rows("pe03-elements-on-main.tsv")
+        if item["element"] == "pv.limit.active_power_ratio"
+    )
+    assert "MGCP-011" in limit["eebus"]
+    watt = next(
+        item
+        for item in _rows("pe07-operations.tsv")
+        if item["operation"] == "energy.operation.set_production_limit"
+    )
+    assert watt["eebus"] == "LPP-011"
+    assert watt["verification_level"] == "specification"
+
+
 def test_unconfirmed_vendor_research_stays_unconfirmed():
     for name, concepts in UNCONFIRMED_RESEARCH.items():
         rows = {row["concept"]: row for row in _rows(name)}

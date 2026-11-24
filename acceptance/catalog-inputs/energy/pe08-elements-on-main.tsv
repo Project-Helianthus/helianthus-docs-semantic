@@ -13,8 +13,8 @@ storage.pack.power	ElectricalPowerMeasurement.ActivePower	MOB-031	specification	
 storage.pack.voltage	PowerSource.BatVoltage, ElectricalPowerMeasurement.Voltage	MOB-051	specification	Matter 1.6.1 PowerSource.BatVoltage, ElectricalPowerMeasurement.Voltage; Monitoring of Battery V1.0.0 [MOB-051]; MOB-051	
 storage.state.soc	PowerSource.BatPercentRemaining	MOB-021	specification	Matter 1.6.1 PowerSource.BatPercentRemaining; Monitoring of Battery V1.0.0 [MOB-021]; MOB-021	
 storage.state.soh		MOB-022	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-022]; MOB-022	
-storage.status.alarm	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
-storage.status.operating	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
-storage.status.protection	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
-storage.status.warning	PowerSource.BatChargeState	MOB-025	specification	Matter 1.6.1 PowerSource.BatChargeState; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	
+storage.status.alarm		MOB-025	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	PowerSource.BatChargeState is Unknown, IsCharging, IsAtFullCharge or IsNotCharging and does not establish an alarm; matter association removed
+storage.status.operating		MOB-025	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	PowerSource.BatChargeState is Unknown, IsCharging, IsAtFullCharge or IsNotCharging and does not establish operating state; matter association removed
+storage.status.protection		MOB-025	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	PowerSource.BatChargeState is Unknown, IsCharging, IsAtFullCharge or IsNotCharging and does not establish a protection condition; matter association removed
+storage.status.warning		MOB-025	specification	matter.unmapped.v1; Monitoring of Battery V1.0.0 [MOB-025]; MOB-025	PowerSource.BatChargeState is Unknown, IsCharging, IsAtFullCharge or IsNotCharging and does not establish a warning; matter association removed
 storage.temperature.pack	TemperatureMeasurement.MeasuredValue	MOB-091	specification	Matter 1.6.1 TemperatureMeasurement.MeasuredValue; Monitoring of Battery V1.0.0 [MOB-091]; MOB-091	
