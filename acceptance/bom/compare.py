@@ -28,7 +28,11 @@ CLASSES = ("same", "rename", "go-fabric re-pin", "unexplained")
 def ident(m):
     if m is None:
         return None
-    return {"version": m["version"], "sum": m["sum"], "go_mod_sum": m["go_mod_sum"]}
+    out = {"version": m["version"], "sum": m["sum"], "go_mod_sum": m["go_mod_sum"]}
+    # A replacement changes the resolved source, so its path, version and checksum are part of identity.
+    if m.get("replace") is not None:
+        out["replace"] = m["replace"]
+    return out
 
 
 def pair(kind, repository, before_path, after_path, before, after, cls):
@@ -50,17 +54,18 @@ def compare_repository(repository, before, after):
     # The go-fabric re-pin exists only on matterreg and only when the requirement's release moved.
     repin = repository == FABRIC_REPOSITORY and fabric_before != fabric_after
 
+    def changed_cls(path):
+        # Only the go-fabric requirement itself is exempt. Other changes that follow the re-pin (added or removed
+        # indirect modules, checksum drift, go directive raises) have no verified delta recorded here, so they stay
+        # unexplained and stop the row.
+        return "go-fabric re-pin" if repin and path == FABRIC else "unexplained"
+
     main_before, main_after = before["main"], after["main"]
     main_cls = "rename" if RENAMES.get(main_before["path"]) == main_after["path"] else "unexplained"
     pairs.append(pair("main", repository, main_before["path"], main_after["path"], None, None, main_cls))
 
     go_before, go_after = main_before["go"], main_after["go"]
-    if go_before == go_after:
-        go_cls = "same"
-    elif repin:
-        go_cls = "go-fabric re-pin"
-    else:
-        go_cls = "unexplained"
+    go_cls = "same" if go_before == go_after else "unexplained"
     pairs.append(pair("go", repository, go_before, go_after, None, None, go_cls))
 
     after_by_path = {m["path"]: m for m in after["modules"]}
@@ -69,17 +74,17 @@ def compare_repository(repository, before, after):
         target = RENAMES.get(m["path"], m["path"])
         a = after_by_path.get(target)
         if a is None:
-            cls = "go-fabric re-pin" if repin else "unexplained"
+            cls = changed_cls(m["path"])
         else:
             matched.add(target)
             if ident(m) == ident(a):
                 cls = "rename" if target != m["path"] else "same"
             else:
-                cls = "go-fabric re-pin" if repin else "unexplained"
+                cls = changed_cls(m["path"])
         pairs.append(pair("module", repository, m["path"], target, ident(m), ident(a), cls))
     for a in after["modules"]:
         if a["path"] not in matched:
-            cls = "go-fabric re-pin" if repin else "unexplained"
+            cls = changed_cls(a["path"])
             pairs.append(pair("module", repository, None, a["path"], None, ident(a), cls))
     return pairs, {"before": fabric_before, "after": fabric_after}
 
