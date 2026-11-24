@@ -12,6 +12,7 @@ VECTORS = ROOT / "api/v1/packs/pv-inverter-acceptance-vectors.json"
 DOCUMENT = ROOT / "api/v1/packs/pv-inverter-v1.md"
 PACK = {"id": "helianthus.pack.pv", "version": "1.0.0"}
 ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+SYMBOL = re.compile(r"^[a-z][a-z0-9._]*$")
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
                              "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
@@ -91,6 +92,69 @@ FIELD_CONTRACTS = {
     "pv.ac.aggregate_reactive_power": ("quantity", "unit.volt_ampere_reactive", "pv.dimension.inverter", True, None),
     "pv.accuracy.measured": ("boolean", None, "pv.dimension.inverter", True, None),
     "pv.accuracy.ratio_maximum": ("quantity", "unit.ratio", "pv.dimension.inverter", True, None),
+    "pv.configuration.grid_code": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.status.functional_states": ("symbols", None, "pv.dimension.inverter", True, ("functional_1", "functional_2", "functional_3", "functional_4", "functional_5", "functional_6", "functional_7", "functional_8", "functional_9", "functional_10", "functional_11", "functional_12", "functional_13")),
+    "pv.status.failure_states": ("symbols", None, "pv.dimension.inverter", True, ("failure_1", "failure_2", "failure_3", "failure_4", "failure_5", "failure_6", "failure_7", "failure_8", "failure_9", "failure_10", "failure_11", "failure_12", "failure_13", "failure_14", "failure_15", "failure_16", "failure_17", "failure_18")),
+    "pv.status.string_availability": ("symbol", None, "pv.dimension.string", True, ("available", "not_available")),
+    "pv.status.battery_availability": ("symbol", None, "pv.dimension.inverter", True, ("available", "not_available")),
+    "pv.status.grid_connection": ("symbol", None, "pv.dimension.inverter", True, ("connected", "not_connected", "unknown")),
+    "pv.nameplate.production_nominal_maximum": ("quantity", "unit.watt", "pv.dimension.inverter", True, None),
+    "pv.nameplate.consumption_nominal_maximum": ("quantity", "unit.watt", "pv.dimension.inverter", True, None),
+    "pv.nameplate.apparent_production_nominal_maximum": ("quantity", "unit.volt_ampere", "pv.dimension.inverter", True, None),
+    "pv.nameplate.apparent_consumption_nominal_maximum": ("quantity", "unit.volt_ampere", "pv.dimension.inverter", True, None),
+    "pv.nameplate.peak_power": ("quantity", "unit.watt", "pv.dimension.system", True, None),
+    "pv.string.power": ("quantity", "unit.watt", "pv.dimension.string", True, None),
+    "pv.string.current": ("quantity", "unit.ampere", "pv.dimension.string", True, None),
+    "pv.string.voltage": ("quantity", "unit.volt", "pv.dimension.string", True, None),
+    "pv.string.insulation_resistance": ("quantity", "unit.ohm", "pv.dimension.string", True, None),
+    "pv.string.tilt": ("quantity", "unit.radian", "pv.dimension.string", True, None),
+    "pv.string.azimuth": ("quantity", "unit.radian", "pv.dimension.string", True, None),
+    "pv.string.temperature": ("quantity", "unit.kelvin", "pv.dimension.string", True, None),
+    "pv.energy.yield_history": ("quantity", "unit.joule", "pv.dimension.system", True, None),
+    "pv.system.active_power": ("quantity", "unit.watt", "pv.dimension.system", True, None),
+    "pv.energy.consumed": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.energy.reactive_exported": ("quantity", "unit.volt_ampere_reactive_second", "pv.dimension.inverter", True, None),
+    "pv.energy.reactive_imported": ("quantity", "unit.volt_ampere_reactive_second", "pv.dimension.inverter", True, None),
+    "pv.energy.apparent_exported": ("quantity", "unit.volt_ampere_second", "pv.dimension.inverter", True, None),
+    "pv.energy.apparent_imported": ("quantity", "unit.volt_ampere_second", "pv.dimension.inverter", True, None),
+    "pv.ac.phase_power_factor": ("quantity", "unit.ratio", "pv.dimension.phase", True, None),
+    "pv.ac.phase_energy_exported": ("quantity", "unit.joule", "pv.dimension.phase", True, None),
+    "pv.ac.phase_energy_imported": ("quantity", "unit.joule", "pv.dimension.phase", True, None),
+    "pv.dc.aggregate_energy": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.use_case_name": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.mps.use_case_name": ("text", None, "pv.dimension.string", True, None),
+    "pv.vapd.use_case_name": ("text", None, "pv.dimension.system", True, None),
+    "pv.moi.actor": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.mps.actor": ("text", None, "pv.dimension.string", True, None),
+    "pv.vapd.actor": ("text", None, "pv.dimension.system", True, None),
+    "pv.moi.use_case_version": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.mps.use_case_version": ("text", None, "pv.dimension.string", True, None),
+    "pv.vapd.use_case_version": ("text", None, "pv.dimension.system", True, None),
+    "pv.moi.device_name": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.device_code": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.serial_number": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.software_revision": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.hardware_revision": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.vendor_name": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.vendor_code": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.moi_016b": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.manufacturer_label": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.moi_018": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.timestamp": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.moi_022": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.moi.ec1": ("text", None, "pv.dimension.inverter", True, None),
+    "pv.mps.ec1": ("text", None, "pv.dimension.string", True, None),
+    "pv.vapd.ec1": ("text", None, "pv.dimension.system", True, None),
+    "pv.vapd.vapd_004": ("text", None, "pv.dimension.system", True, None),
+    "pv.moi.ac_yield_total": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_day": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_day_historical": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_month": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_month_historical": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_year": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.moi.ac_yield_year_historical": ("quantity", "unit.joule", "pv.dimension.inverter", True, None),
+    "pv.vapd.ac_power_total": ("quantity", "unit.watt", "pv.dimension.system", True, None),
+    "pv.vapd.ac_yield_total": ("quantity", "unit.joule", "pv.dimension.system", True, None),
 }
 FIELD_BOUNDS = {
     "pv.dc.voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
@@ -121,17 +185,60 @@ FIELD_BOUNDS = {
     "pv.ac.aggregate_apparent_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
     "pv.ac.aggregate_reactive_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
     "pv.accuracy.ratio_maximum": (None, None),
+    "pv.nameplate.production_nominal_maximum": (None, None),
+    "pv.nameplate.consumption_nominal_maximum": (None, None),
+    "pv.nameplate.apparent_production_nominal_maximum": (None, None),
+    "pv.nameplate.apparent_consumption_nominal_maximum": (None, None),
+    "pv.nameplate.peak_power": (None, None),
+    "pv.string.power": (None, None),
+    "pv.string.current": (None, None),
+    "pv.string.voltage": (None, None),
+    "pv.string.insulation_resistance": (None, None),
+    "pv.string.tilt": (None, None),
+    "pv.string.azimuth": (None, None),
+    "pv.string.temperature": (None, None),
+    "pv.energy.yield_history": (None, None),
+    "pv.system.active_power": (None, None),
+    "pv.energy.consumed": (None, None),
+    "pv.energy.reactive_exported": (None, None),
+    "pv.energy.reactive_imported": (None, None),
+    "pv.energy.apparent_exported": (None, None),
+    "pv.energy.apparent_imported": (None, None),
+    "pv.ac.phase_power_factor": ({"coefficient": "-1", "exponent10": 0}, {"coefficient": "1", "exponent10": 0}),
+    "pv.ac.phase_energy_exported": (None, None),
+    "pv.ac.phase_energy_imported": (None, None),
+    "pv.dc.aggregate_energy": (None, None),
+    "pv.moi.ac_yield_total": (None, None),
+    "pv.moi.ac_yield_day": (None, None),
+    "pv.moi.ac_yield_day_historical": (None, None),
+    "pv.moi.ac_yield_month": (None, None),
+    "pv.moi.ac_yield_month_historical": (None, None),
+    "pv.moi.ac_yield_year": (None, None),
+    "pv.moi.ac_yield_year_historical": (None, None),
+    "pv.vapd.ac_power_total": (None, None),
+    "pv.vapd.ac_yield_total": (None, None),
 }
 QUALIFIED = {
     "pv.accuracy.measured": ("pv.dimension.measurement_type",),
     "pv.accuracy.ratio_maximum": ("pv.dimension.measurement_type",),
+    "pv.energy.yield_history": ("pv.dimension.period", "pv.dimension.period_offset"),
+    "pv.moi.ac_yield_day": ("pv.dimension.period",),
+    "pv.moi.ac_yield_day_historical": ("pv.dimension.period", "pv.dimension.period_offset"),
+    "pv.moi.ac_yield_month": ("pv.dimension.period",),
+    "pv.moi.ac_yield_month_historical": ("pv.dimension.period", "pv.dimension.period_offset"),
+    "pv.moi.ac_yield_year": ("pv.dimension.period",),
+    "pv.moi.ac_yield_year_historical": ("pv.dimension.period", "pv.dimension.period_offset"),
 }
 MEASUREMENT_SYMBOLS = (
     "active_current", "active_power", "apparent_current", "apparent_energy", "apparent_power",
     "electrical_energy", "frequency", "neutral_current", "power_factor", "reactive_current",
     "reactive_energy", "reactive_power", "rms_current", "rms_power", "rms_voltage", "unspecified", "voltage",
 )
-QUALIFIER_DIMS = {"pv.dimension.measurement_type"}
+QUALIFIER_SPECS = {
+    "pv.dimension.measurement_type": ("symbol", MEASUREMENT_SYMBOLS),
+    "pv.dimension.period": ("symbol", ("day", "month", "year")),
+    "pv.dimension.period_offset": ("quantity", "unit.one"),
+}
 DIMS = {"pv.dimension.system", "pv.dimension.inverter", "pv.dimension.array",
         "pv.dimension.string", "pv.dimension.input", "pv.dimension.phase"}
 SERVICE_DIMENSIONS = {"pv.service.system": "pv.dimension.system",
@@ -159,12 +266,14 @@ OPS = {"pv.operation.set_active_power_limit": ("pv.capability.set_active_power_l
        "pv.operation.set_export_limit": ("pv.capability.set_export_limit", ("pv.limit.export_power",), "pv.effect.set_export_limit")}
 EFFECTS = {"pv.effect.set_active_power_limit": ("pv.operation.set_active_power_limit", "pv.limit.active_power"),
            "pv.effect.set_export_limit": ("pv.operation.set_export_limit", "pv.limit.export_power")}
-PORTAL_READS = {"pv.portal.read.system": ("pv.service.system", ("pv.energy.generated", "pv.limit.export_power", "pv.energy.yield_day", "pv.energy.yield_month", "pv.energy.yield_year")),
-                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_current", "pv.ac.aggregate_reactive_power", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.accuracy.measured", "pv.accuracy.ratio_maximum", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.limit.active_power_ratio", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
-                "pv.portal.read.array": ("pv.service.array", ()),
-                "pv.portal.read.string": ("pv.service.string", ("pv.dc.energy",)),
+PORTAL_READS = {
+                "pv.portal.read.system": ("pv.service.system", ("pv.energy.generated", "pv.limit.export_power", "pv.energy.yield_day", "pv.energy.yield_month", "pv.energy.yield_year", "pv.energy.yield_history", "pv.nameplate.peak_power", "pv.system.active_power", "pv.vapd.ac_power_total", "pv.vapd.ac_yield_total", "pv.vapd.actor", "pv.vapd.ec1", "pv.vapd.use_case_name", "pv.vapd.use_case_version", "pv.vapd.vapd_004")),
+                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_current", "pv.ac.aggregate_reactive_power", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.accuracy.measured", "pv.accuracy.ratio_maximum", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.limit.active_power_ratio", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter", "pv.configuration.grid_code", "pv.dc.aggregate_energy", "pv.energy.apparent_exported", "pv.energy.apparent_imported", "pv.energy.consumed", "pv.energy.reactive_exported", "pv.energy.reactive_imported", "pv.moi.ac_yield_day", "pv.moi.ac_yield_day_historical", "pv.moi.ac_yield_month", "pv.moi.ac_yield_month_historical", "pv.moi.ac_yield_total", "pv.moi.ac_yield_year", "pv.moi.ac_yield_year_historical", "pv.moi.actor", "pv.moi.device_code", "pv.moi.device_name", "pv.moi.ec1", "pv.moi.hardware_revision", "pv.moi.manufacturer_label", "pv.moi.moi_016b", "pv.moi.moi_018", "pv.moi.moi_022", "pv.moi.serial_number", "pv.moi.software_revision", "pv.moi.timestamp", "pv.moi.use_case_name", "pv.moi.use_case_version", "pv.moi.vendor_code", "pv.moi.vendor_name", "pv.nameplate.apparent_consumption_nominal_maximum", "pv.nameplate.apparent_production_nominal_maximum", "pv.nameplate.consumption_nominal_maximum", "pv.nameplate.production_nominal_maximum", "pv.status.battery_availability", "pv.status.failure_states", "pv.status.functional_states", "pv.status.grid_connection")),
                 "pv.portal.read.input": ("pv.service.input", ("pv.dc.current", "pv.dc.power", "pv.dc.voltage")),
-                "pv.portal.read.phase": ("pv.service.phase", ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage"))}
+                "pv.portal.read.phase": ("pv.service.phase", ("pv.ac.active_power", "pv.ac.apparent_power", "pv.ac.current", "pv.ac.reactive_power", "pv.ac.voltage", "pv.ac.phase_energy_exported", "pv.ac.phase_energy_imported", "pv.ac.phase_power_factor")),
+                "pv.portal.read.array": ("pv.service.array", ()),
+                "pv.portal.read.string": ("pv.service.string", ("pv.dc.energy", "pv.mps.actor", "pv.mps.ec1", "pv.mps.use_case_name", "pv.mps.use_case_version", "pv.status.string_availability", "pv.string.azimuth", "pv.string.current", "pv.string.insulation_resistance", "pv.string.power", "pv.string.temperature", "pv.string.tilt", "pv.string.voltage")),
+}
 PORTAL_OPS = {"pv.portal.operation.set_active_power_limit": "pv.operation.set_active_power_limit",
               "pv.portal.operation.set_export_limit": "pv.operation.set_export_limit"}
 MAPPINGS = {
@@ -253,6 +362,8 @@ def validate_field(field):
         validate_boolean_field(field)
     elif kind == "quantity":
         validate_quantity_field(field, unit)
+    elif kind == "text":
+        validate_text_field(field)
     else:
         validate_symbol_field(field, symbols)
 
@@ -295,9 +406,14 @@ def require_closed_quantity(field, unit, low, high):
         raise ValueError("field has invalid canonical quantity contract")
 
 
+def validate_text_field(field):
+    if set(field) != field_keys(field):
+        raise ValueError("field has invalid canonical text contract")
+
+
 def validate_symbol_field(field, symbols):
     actual_symbols = field.get("symbols")
-    if set(field) != field_keys(field) | {"symbols"} or not isinstance(actual_symbols, list) or tuple(actual_symbols) != symbols or actual_symbols != sorted(actual_symbols) or len(actual_symbols) != len(set(actual_symbols)) or any(not isinstance(symbol, str) or not ID.fullmatch(symbol) for symbol in actual_symbols):
+    if set(field) != field_keys(field) | {"symbols"} or not isinstance(actual_symbols, list) or tuple(actual_symbols) != tuple(symbols) or len(actual_symbols) != len(set(actual_symbols)) or any(not isinstance(symbol, str) or SYMBOL.fullmatch(symbol) is None for symbol in actual_symbols):
         raise ValueError("field has invalid canonical symbol contract")
 
 
@@ -359,9 +475,14 @@ def validate_defs(catalog):
 
 
 def validate_qualifier_dimensions(definitions):
-    qualifiers = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_DIMS)
-    if any(item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != MEASUREMENT_SYMBOLS or set(item) != {"id", "ref", "value_kind", "symbols", "order"} for item in qualifiers.values()):
-        raise ValueError("qualifier dimension")
+    qualifiers = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_SPECS)
+    for ident, item in qualifiers.items():
+        kind, payload = QUALIFIER_SPECS[ident]
+        if kind == "symbol":
+            if item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != tuple(payload) or set(item) != {"id", "ref", "value_kind", "symbols", "order"}:
+                raise ValueError("qualifier dimension")
+        elif item.get("value_kind") != "quantity" or item.get("unit") != payload or set(item) != {"id", "ref", "value_kind", "unit", "order"}:
+            raise ValueError("qualifier dimension")
 
 
 def validate_catalog(catalog):

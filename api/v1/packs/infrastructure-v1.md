@@ -152,3 +152,70 @@ including its rule for in-place changes until the 0.7 release.
 Run `python3 scripts/validate_infrastructure_pack_v1.py`,
 `python3 scripts/test_validate_infrastructure_pack_v1.py`, and
 `./scripts/check_docs.sh`.
+
+## Load, events, and further fields
+
+`resource.load` is a function on the physical and energy planes.
+`infrastructure.dimension.load` and `infrastructure.service.load` use those planes.
+`infrastructure.portal.read.load` reads every load-dimension field.
+`infrastructure.capability.read.load` is not a member.
+`infrastructure.dimension.harmonic_order` is `unit.one` and stores no minimum.
+`infrastructure.ac.phase_power_factor`, `infrastructure.ac.harmonic_current` and `infrastructure.ac.harmonic_phase` withhold the unit.
+`infrastructure.limit.pv_curtailment_factor` is closed from 0 to 1.
+Empty bounds stay empty.
+A new signed quantity names `infrastructure.relation.feeder_circuit`.
+`pv.configuration.grid_code` is not an infrastructure element.
+`infrastructure.event.supply_condition_changed` is derived from `infrastructure.status.supply_condition`.
+`infrastructure.event.energy_measured` is emitted from `infrastructure.energy.import` with payload `infrastructure.energy.export`.
+
+```text
+infrastructure.load.active_power
+infrastructure.load.phase_active_power
+infrastructure.load.energy_consumed
+infrastructure.load.energy_produced
+infrastructure.energy.reactive_import
+infrastructure.energy.reactive_export
+infrastructure.energy.apparent_import
+infrastructure.energy.apparent_export
+infrastructure.energy.phase_import
+infrastructure.energy.phase_export
+infrastructure.ac.phase_power_factor
+infrastructure.ac.reactive_current
+infrastructure.ac.apparent_current
+infrastructure.ac.neutral_current
+infrastructure.ac.harmonic_current
+infrastructure.ac.harmonic_phase
+infrastructure.limit.pv_curtailment_factor
+infrastructure.meter.kind
+infrastructure.meter.point_of_delivery
+infrastructure.meter.protocol_version
+infrastructure.meter.power_threshold
+infrastructure.meter.apparent_power_threshold
+infrastructure.meter.power_threshold_source
+infrastructure.status.supply_condition
+infrastructure.mgcp.use_case_name
+infrastructure.mpc.use_case_name
+infrastructure.mgcp.actor
+infrastructure.mpc.actor
+infrastructure.mgcp.use_case_version
+infrastructure.mpc.use_case_version
+infrastructure.mpc.ac_power
+infrastructure.mgcp.ac_current
+infrastructure.mpc.ac_voltage
+infrastructure.mpc.value_state
+infrastructure.mgcp.value_source
+infrastructure.mgcp.value_range_min
+infrastructure.mpc.value_range_min
+infrastructure.mpc.one
+infrastructure.mgcp.per
+infrastructure.mpc.per
+infrastructure.mgcp.slots
+infrastructure.mpc.slots
+infrastructure.mgcp.committed_power_plan
+infrastructure.dimension.harmonic_order
+infrastructure.dimension.load
+infrastructure.service.load
+infrastructure.portal.read.load
+infrastructure.event.supply_condition_changed
+infrastructure.event.energy_measured
+```

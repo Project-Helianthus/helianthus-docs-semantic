@@ -12,6 +12,7 @@ VECTORS = ROOT / "api/v1/packs/infrastructure-acceptance-vectors.json"
 DOCUMENT = ROOT / "api/v1/packs/infrastructure-v1.md"
 PACK = {"id": "helianthus.pack.infrastructure", "version": "1.0.0"}
 ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
+SYMBOL = re.compile(r"^[a-z][a-z0-9._]*$")
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
                              "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
@@ -73,6 +74,18 @@ def empty_quantity(unit, dimension):
     return ("quantity", unit, dimension, True, None, None, None)
 
 
+def text_field(dimension):
+    return ("text", None, dimension, True, None, None, None)
+
+
+def symbols_field(dimension, names):
+    return ("symbols", None, dimension, True, tuple(names), None, None)
+
+
+def unitless_quantity(dimension):
+    return ("quantity", None, dimension, True, None, None, None)
+
+
 MEASUREMENT_SYMBOLS = (
     "active_current", "active_power", "apparent_current", "apparent_energy", "apparent_power",
     "electrical_energy", "frequency", "neutral_current", "power_factor", "reactive_current",
@@ -81,8 +94,10 @@ MEASUREMENT_SYMBOLS = (
 QUALIFIED = {
     "infrastructure.accuracy.measured": ("infrastructure.dimension.measurement_type",),
     "infrastructure.accuracy.ratio_maximum": ("infrastructure.dimension.measurement_type",),
+    "infrastructure.ac.harmonic_current": ("infrastructure.dimension.harmonic_order",),
+    "infrastructure.ac.harmonic_phase": ("infrastructure.dimension.harmonic_order",),
 }
-QUALIFIER_DIMS = {"infrastructure.dimension.measurement_type"}
+QUALIFIER_DIMS = {"infrastructure.dimension.measurement_type", "infrastructure.dimension.harmonic_order"}
 
 
 FIELD_CONTRACTS = {
@@ -111,9 +126,52 @@ FIELD_CONTRACTS = {
     "infrastructure.status.interlock": symbol("infrastructure.dimension.circuit", ["infrastructure.status.interlock.active", "infrastructure.status.interlock.clear"]),
     "infrastructure.accuracy.measured": boolean("infrastructure.dimension.meter"),
     "infrastructure.accuracy.ratio_maximum": empty_quantity("unit.ratio", "infrastructure.dimension.meter"),
+    "infrastructure.load.active_power": empty_quantity("unit.watt", "infrastructure.dimension.load"),
+    "infrastructure.load.phase_active_power": empty_quantity("unit.watt", "infrastructure.dimension.phase"),
+    "infrastructure.load.energy_consumed": empty_quantity("unit.joule", "infrastructure.dimension.load"),
+    "infrastructure.load.energy_produced": empty_quantity("unit.joule", "infrastructure.dimension.load"),
+    "infrastructure.energy.reactive_import": empty_quantity("unit.volt_ampere_reactive_second", "infrastructure.dimension.meter"),
+    "infrastructure.energy.reactive_export": empty_quantity("unit.volt_ampere_reactive_second", "infrastructure.dimension.meter"),
+    "infrastructure.energy.apparent_import": empty_quantity("unit.volt_ampere_second", "infrastructure.dimension.meter"),
+    "infrastructure.energy.apparent_export": empty_quantity("unit.volt_ampere_second", "infrastructure.dimension.meter"),
+    "infrastructure.energy.phase_import": empty_quantity("unit.joule", "infrastructure.dimension.phase"),
+    "infrastructure.energy.phase_export": empty_quantity("unit.joule", "infrastructure.dimension.phase"),
+    "infrastructure.ac.phase_power_factor": unitless_quantity("infrastructure.dimension.phase"),
+    "infrastructure.ac.reactive_current": empty_quantity("unit.ampere", "infrastructure.dimension.phase"),
+    "infrastructure.ac.apparent_current": empty_quantity("unit.ampere", "infrastructure.dimension.phase"),
+    "infrastructure.ac.neutral_current": empty_quantity("unit.ampere", "infrastructure.dimension.circuit"),
+    "infrastructure.ac.harmonic_current": unitless_quantity("infrastructure.dimension.phase"),
+    "infrastructure.ac.harmonic_phase": unitless_quantity("infrastructure.dimension.phase"),
+    "infrastructure.limit.pv_curtailment_factor": quantity("unit.ratio", "infrastructure.dimension.grid_connection", ("0", 0), ("1", 0)),
+    "infrastructure.meter.kind": symbol("infrastructure.dimension.meter", ["utility", "private", "generic"]),
+    "infrastructure.meter.point_of_delivery": text_field("infrastructure.dimension.meter"),
+    "infrastructure.meter.protocol_version": text_field("infrastructure.dimension.meter"),
+    "infrastructure.meter.power_threshold": empty_quantity("unit.watt", "infrastructure.dimension.meter"),
+    "infrastructure.meter.apparent_power_threshold": empty_quantity("unit.volt_ampere", "infrastructure.dimension.meter"),
+    "infrastructure.meter.power_threshold_source": symbol("infrastructure.dimension.meter", ["contract", "regulator", "equipment"]),
+    "infrastructure.status.supply_condition": symbol("infrastructure.dimension.grid_connection", ["normal", "over_voltage", "under_voltage", "over_frequency", "under_frequency", "outage"]),
+    "infrastructure.mgcp.use_case_name": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.use_case_name": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.actor": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.actor": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.use_case_version": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.use_case_version": text_field("infrastructure.dimension.load"),
+    "infrastructure.mpc.ac_power": empty_quantity("unit.watt", "infrastructure.dimension.load"),
+    "infrastructure.mgcp.ac_current": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.ac_voltage": text_field("infrastructure.dimension.load"),
+    "infrastructure.mpc.value_state": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.value_source": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mgcp.value_range_min": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.value_range_min": text_field("infrastructure.dimension.load"),
+    "infrastructure.mpc.one": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.per": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.per": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.slots": text_field("infrastructure.dimension.grid_connection"),
+    "infrastructure.mpc.slots": text_field("infrastructure.dimension.load"),
+    "infrastructure.mgcp.committed_power_plan": text_field("infrastructure.dimension.grid_connection"),
 }
-DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
-SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
+DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair", "load")}
+SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair", "load")}
 RELATIONS = {
     "infrastructure.relation.site_grid_connection": ("infrastructure.dimension.site", "infrastructure.dimension.grid_connection", "one_to_many"),
     "infrastructure.relation.grid_connection_feeder": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.feeder", "one_to_many"),
@@ -122,16 +180,21 @@ RELATIONS = {
     "infrastructure.relation.grid_connection_meter": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.meter", "one_to_many"),
 }
 DEFINITION_GROUPS = {"fields", "fact_dimensions", "qualifier_dimensions", "services", "relations", "capabilities",
-                     "operations", "effect_rules", "portal_contributions"}
+                     "operations", "effect_rules", "portal_contributions", "events"}
+EVENTS = {
+    "infrastructure.event.supply_condition_changed": {"service": "infrastructure.service.grid_connection", "trigger": "infrastructure.status.supply_condition", "condition": "changed", "payload": (), "origin": "derived"},
+    "infrastructure.event.energy_measured": {"service": "infrastructure.service.meter", "trigger": "infrastructure.energy.import", "condition": "changed", "payload": ("infrastructure.energy.export",), "origin": "emitted"},
+}
 CAPS = {f"infrastructure.capability.read.{name}": f"infrastructure.service.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
 PORTAL = {
     "infrastructure.portal.read.site": ("infrastructure.service.site", ("infrastructure.status.fault",)),
-    "infrastructure.portal.read.grid_connection": ("infrastructure.service.grid_connection", ("infrastructure.ac.frequency", "infrastructure.ac.power_factor", "infrastructure.limit.fallback_power", "infrastructure.power.apparent", "infrastructure.power.export_active", "infrastructure.power.export_reactive", "infrastructure.power.import_active", "infrastructure.power.import_reactive", "infrastructure.power.pcc", "infrastructure.status.connection", "infrastructure.status.readiness")),
+    "infrastructure.portal.read.grid_connection": ("infrastructure.service.grid_connection", ("infrastructure.ac.frequency", "infrastructure.ac.power_factor", "infrastructure.limit.fallback_power", "infrastructure.limit.pv_curtailment_factor", "infrastructure.mgcp.ac_current", "infrastructure.mgcp.actor", "infrastructure.mgcp.committed_power_plan", "infrastructure.mgcp.per", "infrastructure.mgcp.slots", "infrastructure.mgcp.use_case_name", "infrastructure.mgcp.use_case_version", "infrastructure.mgcp.value_range_min", "infrastructure.mgcp.value_source", "infrastructure.power.apparent", "infrastructure.power.export_active", "infrastructure.power.export_reactive", "infrastructure.power.import_active", "infrastructure.power.import_reactive", "infrastructure.power.pcc", "infrastructure.status.connection", "infrastructure.status.readiness", "infrastructure.status.supply_condition")),
     "infrastructure.portal.read.feeder": ("infrastructure.service.feeder", ()),
-    "infrastructure.portal.read.circuit": ("infrastructure.service.circuit", ("infrastructure.status.breaker", "infrastructure.status.interlock")),
-    "infrastructure.portal.read.phase": ("infrastructure.service.phase", ("infrastructure.ac.active_power", "infrastructure.ac.apparent_power", "infrastructure.ac.current", "infrastructure.ac.reactive_power", "infrastructure.ac.voltage")),
+    "infrastructure.portal.read.circuit": ("infrastructure.service.circuit", ("infrastructure.ac.neutral_current", "infrastructure.status.breaker", "infrastructure.status.interlock")),
+    "infrastructure.portal.read.phase": ("infrastructure.service.phase", ("infrastructure.ac.active_power", "infrastructure.ac.apparent_current", "infrastructure.ac.apparent_power", "infrastructure.ac.current", "infrastructure.ac.harmonic_current", "infrastructure.ac.harmonic_phase", "infrastructure.ac.phase_power_factor", "infrastructure.ac.reactive_current", "infrastructure.ac.reactive_power", "infrastructure.ac.voltage", "infrastructure.energy.phase_export", "infrastructure.energy.phase_import", "infrastructure.load.phase_active_power")),
+    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum", "infrastructure.energy.apparent_export", "infrastructure.energy.apparent_import", "infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.reactive_export", "infrastructure.energy.reactive_import", "infrastructure.energy.self_consumption", "infrastructure.meter.apparent_power_threshold", "infrastructure.meter.kind", "infrastructure.meter.point_of_delivery", "infrastructure.meter.power_threshold", "infrastructure.meter.power_threshold_source", "infrastructure.meter.protocol_version")),
     "infrastructure.portal.read.line_pair": ("infrastructure.service.line_pair", ("infrastructure.ac.voltage_line_line",)),
-    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum", "infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption")),
+    "infrastructure.portal.read.load": ("infrastructure.service.load", ("infrastructure.load.active_power", "infrastructure.load.energy_consumed", "infrastructure.load.energy_produced", "infrastructure.mpc.ac_power", "infrastructure.mpc.ac_voltage", "infrastructure.mpc.actor", "infrastructure.mpc.one", "infrastructure.mpc.per", "infrastructure.mpc.slots", "infrastructure.mpc.use_case_name", "infrastructure.mpc.use_case_version", "infrastructure.mpc.value_range_min", "infrastructure.mpc.value_state")),
 }
 MAPPINGS = {
     "infrastructure.mapping.ebus": {"id":"infrastructure.mapping.ebus","native_owner":"helianthus-docs-ebus","source_refs":["ebus_docs"],"state":"unknown_profile_specific","qualification":"identity_provenance_only","control_route":"none","live_authority":False,"loss":"unknown"},
@@ -215,15 +278,15 @@ def validate_defs(catalog):
         base = {"id", "ref", "kind", "dimension", "optional", "order"}
         if (item.get("kind"), item.get("dimension"), item.get("optional")) != (kind, dimension, optional):
             raise ValueError("field has noncanonical kind, dimension, or optionality")
-        if qualified_shape(kind, minimum, maximum):
+        if identifier in QUALIFIED:
             check_qualified_field(identifier, item, kind, unit, base)
             continue
         if kind == "quantity":
-            require_canonical_unit(item.get("unit"))
-            bounds = {"minimum": {"coefficient": minimum[0], "exponent10": minimum[1]}, "maximum": {"coefficient": maximum[0], "exponent10": maximum[1]}}
-            if set(item) != base | {"unit", "bounds"} or item.get("unit") != unit or item.get("bounds") != bounds or not less(bounds["minimum"], bounds["maximum"]):
-                raise ValueError("field has invalid canonical quantity contract")
-        elif set(item) != base | {"symbols"} or tuple(item.get("symbols", ())) != symbols or item["symbols"] != sorted(item["symbols"]):
+            check_plain_quantity(item, unit, minimum, maximum, base)
+        elif kind == "text":
+            if set(item) != base:
+                raise ValueError("field has invalid canonical text contract")
+        elif set(item) != base | {"symbols"} or tuple(item.get("symbols", ())) != tuple(symbols) or any(SYMBOL.fullmatch(symbol) is None for symbol in item.get("symbols", ())):
             raise ValueError("field has invalid canonical symbol contract")
     dimensions = refs(definitions.get("fact_dimensions"), "fact dimensions", DIMS)
     if any(set(item) != {"id", "ref", "value_kind", "order"} or item.get("value_kind") != "text" for item in dimensions.values()):
@@ -247,6 +310,8 @@ def validate_defs(catalog):
             raise ValueError("Portal read association")
         coverage.update(members)
     exact(coverage, set(fields), "Portal read field coverage")
+    if "events" in DEFINITION_GROUPS:
+        check_events(definitions)
 
 
 def check_read_only(definitions):
@@ -254,25 +319,55 @@ def check_read_only(definitions):
         raise ValueError("read-only operation boundary")
 
 
-def qualified_shape(kind, minimum, maximum):
-    return kind == "boolean" or (kind == "quantity" and minimum is None and maximum is None)
+def check_plain_quantity(item, unit, minimum, maximum, base):
+    if unit is None:
+        if "unit" in item or minimum is not None or maximum is not None or set(item) != base | {"bounds"} or item.get("bounds") != {"minimum": None, "maximum": None}:
+            raise ValueError("field has invalid canonical quantity contract")
+        return
+    require_canonical_unit(item.get("unit"))
+    if minimum is None and maximum is None:
+        if set(item) != base | {"unit", "bounds"} or item.get("unit") != unit or item.get("bounds") != {"minimum": None, "maximum": None}:
+            raise ValueError("field has invalid canonical quantity contract")
+        return
+    bounds = {"minimum": {"coefficient": minimum[0], "exponent10": minimum[1]}, "maximum": {"coefficient": maximum[0], "exponent10": maximum[1]}}
+    if set(item) != base | {"unit", "bounds"} or item.get("unit") != unit or item.get("bounds") != bounds or not less(bounds["minimum"], bounds["maximum"]):
+        raise ValueError("field has invalid canonical quantity contract")
 
 
 def check_qualified_field(identifier, item, kind, unit, base):
-    if kind == "boolean":
-        if set(item) != base | {"qualifiers"} or tuple(item.get("qualifiers", ())) != QUALIFIED[identifier]:
-            raise ValueError("field qualifiers")
-        return
     if tuple(item.get("qualifiers", ())) != QUALIFIED[identifier]:
         raise ValueError("field qualifiers")
-    if set(item) != base | {"unit", "bounds", "qualifiers"} or item.get("unit") != unit or item.get("bounds") != {"minimum": None, "maximum": None}:
+    if kind == "boolean":
+        if set(item) != base | {"qualifiers"}:
+            raise ValueError("field qualifiers")
+        return
+    members = base | {"bounds", "qualifiers"}
+    if unit is None:
+        if "unit" in item or set(item) != members or item.get("bounds") != {"minimum": None, "maximum": None}:
+            raise ValueError("field has invalid canonical quantity contract")
+        return
+    require_canonical_unit(item.get("unit"))
+    if set(item) != members | {"unit"} or item.get("unit") != unit or item.get("bounds") != {"minimum": None, "maximum": None}:
         raise ValueError("field has invalid canonical quantity contract")
 
 
 def check_qualifier_dimensions(definitions):
     qualifiers = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_DIMS)
-    if any(set(item) != {"id", "ref", "value_kind", "symbols", "order"} or item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != MEASUREMENT_SYMBOLS for item in qualifiers.values()):
-        raise ValueError("qualifier dimension")
+    for ident, item in qualifiers.items():
+        if ident == "infrastructure.dimension.harmonic_order":
+            if set(item) != {"id", "ref", "value_kind", "unit", "order"} or item.get("value_kind") != "quantity" or item.get("unit") != "unit.one":
+                raise ValueError("qualifier dimension")
+            continue
+        if set(item) != {"id", "ref", "value_kind", "symbols", "order"} or item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != MEASUREMENT_SYMBOLS:
+            raise ValueError("qualifier dimension")
+
+
+def check_events(definitions):
+    events = refs(definitions.get("events"), "events", EVENTS)
+    for ident, item in events.items():
+        spec = EVENTS[ident]
+        if set(item) != {"id", "ref", "service", "trigger", "condition", "payload", "origin", "order"} or item.get("service") != spec["service"] or item.get("trigger") != spec["trigger"] or item.get("condition") != spec["condition"] or tuple(item.get("payload", ())) != tuple(spec["payload"]) or item.get("origin") != spec["origin"]:
+            raise ValueError("event association")
 
 
 def validate_catalog(catalog):

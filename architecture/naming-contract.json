@@ -3392,6 +3392,910 @@
       "canonical_name": "thermal.relation.zone_room",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.configuration.grid_code",
+      "canonical_name": "pv.configuration.grid_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.functional_states",
+      "canonical_name": "pv.status.functional_states",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.failure_states",
+      "canonical_name": "pv.status.failure_states",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.string_availability",
+      "canonical_name": "pv.status.string_availability",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.battery_availability",
+      "canonical_name": "pv.status.battery_availability",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.status.grid_connection",
+      "canonical_name": "pv.status.grid_connection",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.nameplate.production_nominal_maximum",
+      "canonical_name": "pv.nameplate.production_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.nameplate.consumption_nominal_maximum",
+      "canonical_name": "pv.nameplate.consumption_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.nameplate.apparent_production_nominal_maximum",
+      "canonical_name": "pv.nameplate.apparent_production_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.nameplate.apparent_consumption_nominal_maximum",
+      "canonical_name": "pv.nameplate.apparent_consumption_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.nameplate.peak_power",
+      "canonical_name": "pv.nameplate.peak_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.power",
+      "canonical_name": "pv.string.power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.current",
+      "canonical_name": "pv.string.current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.voltage",
+      "canonical_name": "pv.string.voltage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.insulation_resistance",
+      "canonical_name": "pv.string.insulation_resistance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.tilt",
+      "canonical_name": "pv.string.tilt",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.azimuth",
+      "canonical_name": "pv.string.azimuth",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.string.temperature",
+      "canonical_name": "pv.string.temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.yield_history",
+      "canonical_name": "pv.energy.yield_history",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.system.active_power",
+      "canonical_name": "pv.system.active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.consumed",
+      "canonical_name": "pv.energy.consumed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.reactive_exported",
+      "canonical_name": "pv.energy.reactive_exported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.reactive_imported",
+      "canonical_name": "pv.energy.reactive_imported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.apparent_exported",
+      "canonical_name": "pv.energy.apparent_exported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.energy.apparent_imported",
+      "canonical_name": "pv.energy.apparent_imported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.phase_power_factor",
+      "canonical_name": "pv.ac.phase_power_factor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.phase_energy_exported",
+      "canonical_name": "pv.ac.phase_energy_exported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.ac.phase_energy_imported",
+      "canonical_name": "pv.ac.phase_energy_imported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dc.aggregate_energy",
+      "canonical_name": "pv.dc.aggregate_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.use_case_name",
+      "canonical_name": "pv.moi.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.mps.use_case_name",
+      "canonical_name": "pv.mps.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.use_case_name",
+      "canonical_name": "pv.vapd.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.actor",
+      "canonical_name": "pv.moi.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.mps.actor",
+      "canonical_name": "pv.mps.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.actor",
+      "canonical_name": "pv.vapd.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.use_case_version",
+      "canonical_name": "pv.moi.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.mps.use_case_version",
+      "canonical_name": "pv.mps.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.use_case_version",
+      "canonical_name": "pv.vapd.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.device_name",
+      "canonical_name": "pv.moi.device_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.device_code",
+      "canonical_name": "pv.moi.device_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.serial_number",
+      "canonical_name": "pv.moi.serial_number",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.software_revision",
+      "canonical_name": "pv.moi.software_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.hardware_revision",
+      "canonical_name": "pv.moi.hardware_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.vendor_name",
+      "canonical_name": "pv.moi.vendor_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.vendor_code",
+      "canonical_name": "pv.moi.vendor_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.moi_016b",
+      "canonical_name": "pv.moi.moi_016b",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.manufacturer_label",
+      "canonical_name": "pv.moi.manufacturer_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.moi_018",
+      "canonical_name": "pv.moi.moi_018",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.timestamp",
+      "canonical_name": "pv.moi.timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.moi_022",
+      "canonical_name": "pv.moi.moi_022",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ec1",
+      "canonical_name": "pv.moi.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.mps.ec1",
+      "canonical_name": "pv.mps.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.ec1",
+      "canonical_name": "pv.vapd.ec1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.vapd_004",
+      "canonical_name": "pv.vapd.vapd_004",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_total",
+      "canonical_name": "pv.moi.ac_yield_total",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_day",
+      "canonical_name": "pv.moi.ac_yield_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_day_historical",
+      "canonical_name": "pv.moi.ac_yield_day_historical",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_month",
+      "canonical_name": "pv.moi.ac_yield_month",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_month_historical",
+      "canonical_name": "pv.moi.ac_yield_month_historical",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_year",
+      "canonical_name": "pv.moi.ac_yield_year",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.moi.ac_yield_year_historical",
+      "canonical_name": "pv.moi.ac_yield_year_historical",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.ac_power_total",
+      "canonical_name": "pv.vapd.ac_power_total",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.vapd.ac_yield_total",
+      "canonical_name": "pv.vapd.ac_yield_total",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.period",
+      "canonical_name": "pv.dimension.period",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/pv/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "pv.dimension.period_offset",
+      "canonical_name": "pv.dimension.period_offset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.load.active_power",
+      "canonical_name": "infrastructure.load.active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.load.phase_active_power",
+      "canonical_name": "infrastructure.load.phase_active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.load.energy_consumed",
+      "canonical_name": "infrastructure.load.energy_consumed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.load.energy_produced",
+      "canonical_name": "infrastructure.load.energy_produced",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.reactive_import",
+      "canonical_name": "infrastructure.energy.reactive_import",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.reactive_export",
+      "canonical_name": "infrastructure.energy.reactive_export",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.apparent_import",
+      "canonical_name": "infrastructure.energy.apparent_import",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.apparent_export",
+      "canonical_name": "infrastructure.energy.apparent_export",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.phase_import",
+      "canonical_name": "infrastructure.energy.phase_import",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.energy.phase_export",
+      "canonical_name": "infrastructure.energy.phase_export",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.phase_power_factor",
+      "canonical_name": "infrastructure.ac.phase_power_factor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.reactive_current",
+      "canonical_name": "infrastructure.ac.reactive_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.apparent_current",
+      "canonical_name": "infrastructure.ac.apparent_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.neutral_current",
+      "canonical_name": "infrastructure.ac.neutral_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.harmonic_current",
+      "canonical_name": "infrastructure.ac.harmonic_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.ac.harmonic_phase",
+      "canonical_name": "infrastructure.ac.harmonic_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.limit.pv_curtailment_factor",
+      "canonical_name": "infrastructure.limit.pv_curtailment_factor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.kind",
+      "canonical_name": "infrastructure.meter.kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.point_of_delivery",
+      "canonical_name": "infrastructure.meter.point_of_delivery",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.protocol_version",
+      "canonical_name": "infrastructure.meter.protocol_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.power_threshold",
+      "canonical_name": "infrastructure.meter.power_threshold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.apparent_power_threshold",
+      "canonical_name": "infrastructure.meter.apparent_power_threshold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.meter.power_threshold_source",
+      "canonical_name": "infrastructure.meter.power_threshold_source",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.status.supply_condition",
+      "canonical_name": "infrastructure.status.supply_condition",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.use_case_name",
+      "canonical_name": "infrastructure.mgcp.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.use_case_name",
+      "canonical_name": "infrastructure.mpc.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.actor",
+      "canonical_name": "infrastructure.mgcp.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.actor",
+      "canonical_name": "infrastructure.mpc.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.use_case_version",
+      "canonical_name": "infrastructure.mgcp.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.use_case_version",
+      "canonical_name": "infrastructure.mpc.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.ac_power",
+      "canonical_name": "infrastructure.mpc.ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.ac_current",
+      "canonical_name": "infrastructure.mgcp.ac_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.ac_voltage",
+      "canonical_name": "infrastructure.mpc.ac_voltage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.value_state",
+      "canonical_name": "infrastructure.mpc.value_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.value_source",
+      "canonical_name": "infrastructure.mgcp.value_source",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.value_range_min",
+      "canonical_name": "infrastructure.mgcp.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.value_range_min",
+      "canonical_name": "infrastructure.mpc.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.one",
+      "canonical_name": "infrastructure.mpc.one",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.per",
+      "canonical_name": "infrastructure.mgcp.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.per",
+      "canonical_name": "infrastructure.mpc.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.slots",
+      "canonical_name": "infrastructure.mgcp.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mpc.slots",
+      "canonical_name": "infrastructure.mpc.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.mgcp.committed_power_plan",
+      "canonical_name": "infrastructure.mgcp.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.harmonic_order",
+      "canonical_name": "infrastructure.dimension.harmonic_order",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.dimension.load",
+      "canonical_name": "infrastructure.dimension.load",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.service.load",
+      "canonical_name": "infrastructure.service.load",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.event.supply_condition_changed",
+      "canonical_name": "infrastructure.event.supply_condition_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.event.energy_measured",
+      "canonical_name": "infrastructure.event.energy_measured",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {

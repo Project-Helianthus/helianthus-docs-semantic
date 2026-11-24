@@ -91,10 +91,14 @@ pv.portal.operation.set_export_limit
 
 ## Capability and operation boundary
 
-Every quantity field other than `pv.accuracy.ratio_maximum` carries its
-published minimum and maximum as an exact kernel `Decimal`
-`{coefficient, exponent10}` pair in the acceptance catalog. The ratio
-maximum has both bounds empty.
+A quantity carries closed minimum and maximum kernel `Decimal`
+`{coefficient, exponent10}` bounds only when its fact table states both.
+Empty bounds stay empty. `pv.accuracy.ratio_maximum` has both bounds empty.
+`pv.ac.phase_power_factor` is closed from -1 to 1.
+`pv.configuration.grid_code` is the eeBUS grid-code fact.
+SunSpec grid-code settings have no element.
+A new signed quantity names `pv.relation.inverter_array`.
+Seed signed rows keep `native_convention`.
 Those per-field values are part of this PackRef and cannot be broadened,
 narrowed, or re-encoded under the same version.
 
@@ -191,3 +195,78 @@ Run `python3 scripts/validate_pv_inverter_pack_v1.py`,
 missing five-domain catalog, invalid canonical field/topology, unqualified
 mapping, absent lifecycle/loss/counter coverage, generic enable/disable,
 unadmitted operation, missing Portal coverage, or an invalid bound/order.
+
+## Admitted identifiers
+
+`pv.configuration.grid_code` is a catalog element on `pv.dimension.inverter`.
+SunSpec grid-code settings have no element.
+`pv.dimension.period` is day, month, year.
+`pv.dimension.period_offset` is `unit.one` and stores no bound.
+
+```text
+pv.configuration.grid_code
+pv.status.functional_states
+pv.status.failure_states
+pv.status.string_availability
+pv.status.battery_availability
+pv.status.grid_connection
+pv.nameplate.production_nominal_maximum
+pv.nameplate.consumption_nominal_maximum
+pv.nameplate.apparent_production_nominal_maximum
+pv.nameplate.apparent_consumption_nominal_maximum
+pv.nameplate.peak_power
+pv.string.power
+pv.string.current
+pv.string.voltage
+pv.string.insulation_resistance
+pv.string.tilt
+pv.string.azimuth
+pv.string.temperature
+pv.energy.yield_history
+pv.system.active_power
+pv.energy.consumed
+pv.energy.reactive_exported
+pv.energy.reactive_imported
+pv.energy.apparent_exported
+pv.energy.apparent_imported
+pv.ac.phase_power_factor
+pv.ac.phase_energy_exported
+pv.ac.phase_energy_imported
+pv.dc.aggregate_energy
+pv.moi.use_case_name
+pv.mps.use_case_name
+pv.vapd.use_case_name
+pv.moi.actor
+pv.mps.actor
+pv.vapd.actor
+pv.moi.use_case_version
+pv.mps.use_case_version
+pv.vapd.use_case_version
+pv.moi.device_name
+pv.moi.device_code
+pv.moi.serial_number
+pv.moi.software_revision
+pv.moi.hardware_revision
+pv.moi.vendor_name
+pv.moi.vendor_code
+pv.moi.moi_016b
+pv.moi.manufacturer_label
+pv.moi.moi_018
+pv.moi.timestamp
+pv.moi.moi_022
+pv.moi.ec1
+pv.mps.ec1
+pv.vapd.ec1
+pv.vapd.vapd_004
+pv.moi.ac_yield_total
+pv.moi.ac_yield_day
+pv.moi.ac_yield_day_historical
+pv.moi.ac_yield_month
+pv.moi.ac_yield_month_historical
+pv.moi.ac_yield_year
+pv.moi.ac_yield_year_historical
+pv.vapd.ac_power_total
+pv.vapd.ac_yield_total
+pv.dimension.period
+pv.dimension.period_offset
+```
