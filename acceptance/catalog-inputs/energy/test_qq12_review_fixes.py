@@ -1042,3 +1042,78 @@ def test_energy_rows_declare_projection_loss():
     assert "TariffComponentIds is a list" in quantity["source"]
     assert "list order is not projected" in quantity["source"]
     assert quantity["review"] == "bound not in specification"
+
+
+def test_forecast_nominal_energy_stays_signed():
+    fields = {row["id"]: row for row in _rows("pe07-fields.tsv")}
+    energy = fields["energy.series.slot_energy_nominal"]
+    power = fields["energy.series.slot_power_nominal"]
+    assert energy["value_kind"] == "quantity"
+    assert energy["unit"] == "unit.joule"
+    assert energy["direction"] == "signed"
+    assert energy["direction"] != "non_negative"
+    assert energy["minimum"] == "" and energy["maximum"] == ""
+    assert "Slot.NominalEnergy" in energy["source"]
+    assert "int64" in energy["source"]
+    assert "no nonnegative constraint" in energy["source"]
+    assert "bound not in specification" in energy["source"]
+    assert energy["review"] == "bound not in specification"
+    assert "DeviceEnergyManagement.Forecast" in energy["matter_1_6_1"]
+    assert power["direction"] == "signed"
+    assert power["unit"] == "unit.watt"
+
+
+def test_tariff_component_threshold_withholds_joule_unit():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    row = fields["energy.tariff.component_threshold"]
+    assert row["value_kind"] == "quantity"
+    assert row["unit"] == ""
+    assert row["matter_1_6_1"] == "CommodityTariff.TariffComponents"
+    assert "unit.joule" not in "\t".join(row.values())
+    assert "TariffComponentStruct.Threshold" in row["source"]
+    assert "nullable int64" in row["source"]
+    assert "no unit name" in row["source"]
+    assert "no scale" in row["source"]
+    assert "conversion undeclared" in row["source"]
+    assert "KWh" in row["source"] and "KVAh" in row["source"]
+    assert "supply no conversion" in row["source"]
+    assert "joule qualification withheld" in row["source"]
+    assert "unit uncertainty" in row["source"]
+    assert "bound not in specification" in row["source"]
+    assert "joule qualification withheld" in row["review"]
+    assert "no unit name" in row["review"]
+    assert "no scale" in row["review"]
+    assert "unit uncertainty" in row["review"]
+    assert "KWh" in row["review"] and "KVAh" in row["review"]
+    assert "supply no conversion" in row["review"]
+    assert row["verification_level"] == "specification"
+    assert fields["energy.tariff.component_power_threshold"]["unit"] == "unit.watt"
+    assert fields["energy.tariff.component_apparent_power_threshold"]["unit"] == "unit.volt_ampere"
+
+
+def test_measured_flags_use_accuracy_measured():
+    expected = {
+        "pe03-fields.tsv": "pv.accuracy.measured",
+        "pe10-fields.tsv": "infrastructure.accuracy.measured",
+    }
+    matter = (
+        "ElectricalPowerMeasurement.Accuracy.Measured, "
+        "ElectricalEnergyMeasurement.Accuracy.Measured"
+    )
+    for name, element in expected.items():
+        row = next(item for item in _rows(name) if item["id"] == element)
+        assert row["value_kind"] == "boolean"
+        assert row["matter_1_6_1"] == matter
+        assert "NumberOfMeasurementTypes" not in row["matter_1_6_1"]
+        assert "NumberOfMeasurementTypes" not in row["source"]
+        assert "Accuracy.Measured" in row["matter_1_6_1"]
+        assert "Accuracy.Measured" in row["source"]
+        assert "MeasurementType" in row["source"]
+        assert "same entry" in row["source"]
+        assert "measurement_type" in row["qualifiers"]
+        assert "eebus.unmapped.v1" in row["source"]
+        assert row["eebus"] == ""
+        assert "NumberOfMeasurementTypes" in row["review"]
+        assert "uint8" in row["review"]
+        assert "not this boolean" in row["review"]
+        assert row["verification_level"] == "specification"
