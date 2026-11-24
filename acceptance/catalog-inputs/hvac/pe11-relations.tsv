@@ -1,0 +1,3 @@
+relation	core_type	from	to	cardinality	matter_eebus	admission	note	source	review
+thermal.relation.fan_member	contains	thermal.dimension.terminal_unit, thermal.dimension.ventilation, thermal.dimension.heat_generator	thermal.dimension.fan	one_to_many	DeviceType:RoomAirConditioner, SPINE:entity.Fan	matter_baseline		DeviceType:RoomAirConditioner; SPINE 1.3.0 §4.2 entity type Fan	unchanged
+thermal.relation.filter_member	contains	thermal.dimension.ventilation, thermal.dimension.terminal_unit	thermal.dimension.air_filter	one_to_many	DeviceType:AirPurifier	matter_baseline		DeviceType:AirPurifier	unchanged

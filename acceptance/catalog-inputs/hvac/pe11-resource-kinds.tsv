@@ -1,0 +1,3 @@
+id	attributes	matter_eebus	admission	note	source	review
+resource.fan	anchor class component	DeviceType:Fan, FanControl.FanMode, SPINE:entity.Fan	matter_baseline		DeviceType:Fan; FanControl.FanMode; SPINE 1.3.0 §4.2 entity type Fan	unchanged
+resource.air_filter	anchor class component	HepaFilterMonitoring.Condition, ActivatedCarbonFilterMonitoring.Condition	matter_baseline		HepaFilterMonitoring.Condition; ActivatedCarbonFilterMonitoring.Condition	unchanged

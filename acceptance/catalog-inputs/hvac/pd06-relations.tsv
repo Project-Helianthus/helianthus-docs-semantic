@@ -1,0 +1,2 @@
+relation	core_type	medium	from_kinds	to_kinds	cardinality	orientation	over_time	planes	basis_classes	admission	source	review
+thermal.relation.fluid_supply	supplies	heat_transfer_fluid	resource.heat_generator, resource.thermal_circuit, resource.thermal_store	resource.domestic_hot_water, resource.terminal_unit, resource.thermal_circuit, resource.thermal_store, resource.zone	many_to_many	as_core	false	energy, hydraulic	configuration, gate_rule	two_vendors		source not found: resolved SD-06 assignment in the ND01 page and fixture

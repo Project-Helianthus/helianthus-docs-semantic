@@ -1,0 +1,5 @@
+id	attributes	matter_eebus	admission	note	source	review
+thermal.dimension.preset	value kind text	Thermostat.Presets	matter_baseline	preset handle	Thermostat.Presets	unchanged
+thermal.dimension.time_program	value kind text	Thermostat.Schedules, SPINE:TimeTable	matter_baseline	program handle	Thermostat.Schedules; SPINE 1.3.0 §4.3.32 and §5.3.30, feature TimeTable	unchanged
+thermal.dimension.program_entry	value kind quantity	Thermostat.Schedules, SPINE:TimeTable	matter_baseline	entry index, unit.one	Thermostat.Schedules; SPINE 1.3.0 §4.3.32 and §5.3.30, feature TimeTable	unchanged
+thermal.dimension.suggestion	value kind quantity	Thermostat.ThermostatSuggestions	matter_baseline	suggestion index, unit.one	Thermostat.ThermostatSuggestions	unchanged

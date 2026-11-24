@@ -1,0 +1,4 @@
+relation	core_type	from	to	cardinality	matter_eebus	admission	note	source	review
+thermal.relation.zone_room	contains	thermal.dimension.zone	thermal.dimension.room	one_to_many		eebus	basis configuration; planes physical	CRHSF 1.0.0 §3.2.2.1 Figure 5 option 2; MRHSF 1.0.0 §3.2.2.1 Figure 5 option 2	unchanged
+thermal.relation.circuit_room	contains	thermal.dimension.circuit	thermal.dimension.room	one_to_many		eebus	basis configuration; planes physical; resource kind resource.thermal_circuit	CRHSF 1.0.0 §3.2.2.1 Figure 5 option 1; MRHSF 1.0.0 §3.2.2.1 Figure 5 option 1	unchanged
+thermal.relation.circuit_zone	contains	thermal.dimension.circuit	thermal.dimension.zone	one_to_many		eebus	basis configuration; planes physical; distinct from thermal.relation.fluid_supply	CRHSF 1.0.0 §3.2.2.1 Figure 5 option 2; MRHSF 1.0.0 §3.2.2.1 Figure 5 option 2	unchanged

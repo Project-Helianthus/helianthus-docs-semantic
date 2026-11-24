@@ -1,0 +1,6 @@
+id	attributes	matter_eebus	admission	note	source	review
+thermal.service.valve	fact-key dimension thermal.dimension.valve	DeviceType:WaterValve	matter_baseline		DeviceType:WaterValve	unchanged
+thermal.service.solar_circuit	fact-key dimension thermal.dimension.solar_circuit	SPINE:entity.SolarThermalCircuit	eebus		SPINE 1.3.0 §4.2 entity type SolarThermalCircuit	unchanged
+thermal.service.solar_collector	fact-key dimension thermal.dimension.solar_collector	SPINE:entity.SolarThermalCircuit	eebus		SPINE 1.3.0 §4.2 entity type SolarThermalCircuit	unchanged
+thermal.service.detector	fact-key dimension thermal.dimension.detector	DeviceType:WaterLeakDetector	matter_baseline		DeviceType:WaterLeakDetector	unchanged
+thermal.service.water_tank	fact-key dimension thermal.dimension.water_tank	WaterTankLevelMonitoring.Condition	matter_baseline		WaterTankLevelMonitoring.Condition	unchanged
