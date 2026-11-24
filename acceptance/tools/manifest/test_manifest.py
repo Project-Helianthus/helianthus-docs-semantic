@@ -729,6 +729,79 @@ class ManifestCLITest(unittest.TestCase):
             f"unaccounted-assertion function={FN} assertion=observed-symbol",
         )
 
+    def test_compare_runs_split_assertions_without_mapping_rows(self) -> None:
+        assertions = [
+            {
+                "function": FN,
+                "name": "transaction-event",
+                "destination_repository": "ebusgo",
+                "destination_path": "dest/echo_test.go",
+                "test": "TestEcho",
+            },
+            {
+                "function": FN,
+                "name": "observed-symbol",
+                "destination_repository": "ebusgo",
+                "destination_path": "dest/echo_test.go",
+                "test": "TestEcho",
+            },
+        ]
+        spec = self.repo.base(
+            "split-compare",
+            moves=[self.repo.move("closure/split/moved.go", "engine/split.go")],
+            assertions=assertions,
+        )
+        self.assert_ok(self.repo.generate(spec))
+        manifest = self.repo.manifest("split-compare")
+        self.assertEqual(manifest["patterns"], [])
+        self.assertEqual(
+            sorted(item["name"] for item in manifest["assertions"]),
+            ["observed-symbol", "transaction-event"],
+        )
+        compared = self.repo.compare("split-compare", self.repo.dest)
+        self.assert_ok(compared)
+        outcomes = [line for line in compared.stdout.splitlines() if line.startswith("outcome ")]
+        self.assertEqual(len(outcomes), 2, detail(compared))
+        for name in ("transaction-event", "observed-symbol"):
+            self.assertTrue(
+                any(
+                    f"assertion={name}" in line and "test=TestEcho" in line and line.endswith("result=pass")
+                    for line in outcomes
+                ),
+                detail(compared),
+            )
+        self.assertIn("compare: ok", compared.stdout)
+        failed_dest = self.repo.private_dest()
+        plant(failed_dest, "fail-assertion", "observed-symbol\n")
+        failed = self.repo.compare("split-compare", failed_dest)
+        self.assert_fail(failed, "assertion=observed-symbol", "test=TestEcho", "result=fail")
+        self.assertNotIn("compare: ok", failed.stdout)
+        self.assertTrue(
+            any(
+                "assertion=transaction-event" in line and "test=TestEcho" in line and line.endswith("result=pass")
+                for line in failed.stdout.splitlines()
+            ),
+            detail(failed),
+        )
+        absent = self.repo.private_dest()
+        echo = absent / "dest" / "echo_test.go"
+        echo.write_text(
+            echo.read_text(encoding="utf-8").replace(
+                "func TestEcho(t *testing.T)    { report(t, false) }\n",
+                "",
+                1,
+            ),
+            encoding="utf-8",
+        )
+        missing = self.repo.compare("split-compare", absent)
+        self.assert_fail(
+            missing,
+            "not-executed move=split-compare",
+            "not-executed assertion=transaction-event",
+            "not-executed assertion=observed-symbol",
+        )
+        self.assertNotIn("compare: ok", missing.stdout)
+
     def test_left_behind_test_and_historical_specimen(self) -> None:
         move = [self.repo.move("closure/left/moved.go", "engine/left.go")]
         self.assert_fail(

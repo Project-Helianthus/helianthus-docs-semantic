@@ -112,6 +112,9 @@ func report(t *testing.T, second bool) {
 			}
 		}
 	}
+	if failedName, ok := fileText("fail-assertion"); ok && failedName == os.Getenv("MANIFEST_ASSERTION") {
+		t.Errorf("assertion=%s failed", failedName)
+	}
 	if mutated || origin != os.Getenv("MANIFEST_ORIGIN") || quality != os.Getenv("MANIFEST_QUALITY") || provenance != os.Getenv("MANIFEST_PROVENANCE") {
 		t.Errorf("mutated output")
 	}

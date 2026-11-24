@@ -61,7 +61,9 @@ It does not read a destination checkout and it cannot see a destination regressi
 A failing `generate`, `receipt` or `deletion` writes nothing.
 Failure lines are unique and sorted.
 `check` prints `check: ok` on success.
-`compare` prints one result per bound case and assertion and then `compare: ok`.
+`compare` prints one result per bound case and one result per transferred assertion, then `compare: ok`.
+A move whose `patterns` list is empty still runs each transferred assertion at its recorded destination test.
+When the manifest declares transferred assertions and none of them ran, `compare` fails with `not-executed move=<row>` and does not print `compare: ok`.
 
 ## Manifest
 
@@ -117,7 +119,7 @@ The same case and field, the same source and approval, and the same old and new 
 The test name is the Go function already present in that destination file.
 A retained `stays` entry has no destination.
 
-`compare` resolves every case binding through that entry and runs that one test by its exact name, once per bound assertion:
+`compare` resolves every case binding and every transferred assertion through that entry and runs that one test by its exact name, once per assertion, including when `patterns` is empty:
 
 ```
 go test -count=1 -timeout 60s -v -run ^<TestName>$ <package>

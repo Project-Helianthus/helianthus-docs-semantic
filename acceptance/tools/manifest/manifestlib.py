@@ -1075,6 +1075,81 @@ def _run_case(
     return messages
 
 
+def _package_target(path: str) -> str:
+    package = str(Path(path).parent)
+    return "." if package in ("", ".") else "./" + package
+
+
+def _run_transferred(destination: Path, entry: dict[str, Any], move: str) -> tuple[list[str], bool]:
+    """Run one transferred assertion's destination test.
+
+    An empty patterns list does not skip this. The invocation counts as
+    executed only when that test runs and its own output names the assertion.
+    """
+    name = str(entry.get("name") or "")
+    test = str(entry.get("test") or "")
+    function = str(entry.get("function") or "")
+    identity = f"assertion={name} function={function} test={test} row={move}"
+    outcome = (
+        f"outcome assertion={name} test={test} invocation-status={{status}} "
+        f"case= row={move} result=fail"
+    )
+    if not test or not entry.get("path"):
+        return [f"not-executed {identity}"], False
+    environment = os.environ.copy()
+    environment.update({
+        "GOWORK": "off",
+        "GOFLAGS": "-mod=mod",
+        "GOPROXY": "off",
+        "GOSUMDB": "off",
+        "GO111MODULE": "on",
+        "MANIFEST_CASE": "",
+        "MANIFEST_ROW": move,
+        "MANIFEST_ASSERTION": name,
+        "MANIFEST_FUNCTION": function,
+        "MANIFEST_RAW": "",
+        "MANIFEST_QUALIFIERS": "",
+        "MANIFEST_CLOCK": "",
+        "MANIFEST_STATE": "",
+        "MANIFEST_ORIGIN": "",
+        "MANIFEST_QUALITY": "",
+        "MANIFEST_SOURCE": "",
+        "MANIFEST_TIMING": "",
+        "MANIFEST_PROVENANCE": "",
+        "MANIFEST_PINNED_FIELDS": "{}",
+    })
+    try:
+        completed = subprocess.run(
+            ["go", "test", "-count=1", "-timeout", "60s", "-v", "-run", f"^{test}$", _package_target(entry["path"])],
+            cwd=str(destination),
+            capture_output=True,
+            text=True,
+            env=environment,
+            timeout=90,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return [f"timeout {identity}"], False
+    output = completed.stdout + "\n" + completed.stderr
+    passed_marker = f"--- PASS: {test}"
+    failed_marker = f"--- FAIL: {test}"
+    named = any(
+        item.get("assertion") == name
+        for item in _parse_marked(output, "MANIFEST_RESULT ")
+    )
+    ran = "no tests to run" not in output and (passed_marker in output or failed_marker in output)
+    if not ran or not named:
+        return [outcome.format(status=completed.returncode), f"not-executed {identity}"], False
+    if completed.returncode != 0 or failed_marker in output:
+        return [outcome.format(status=completed.returncode)], True
+    return [
+        (
+            f"outcome assertion={name} test={test} invocation-status={completed.returncode} "
+            f"case= row={move} result=pass"
+        ),
+    ], True
+
+
 def compare(manifest_path: Path, destination: Path) -> int:
     manifest = load_json(manifest_path)
     before = manifest_path.read_bytes()
@@ -1095,7 +1170,18 @@ def compare(manifest_path: Path, destination: Path) -> int:
     expectations = {item["case"]: item for item in manifest["expectations"]}
     messages: list[str] = []
     ran = False
+    # Transferred assertions are destination checks even when patterns is empty.
+    # Success requires those checks to have run; zero executions name the move.
+    declared = list(manifest.get("assertions") or [])
+    executed: set[tuple[str, str]] = set()
+    move = str(manifest.get("row") or "")
     for entry in manifest["destinations"]:
+        if entry.get("kind") == "assertion":
+            lines, did_run = _run_transferred(destination, entry, move)
+            messages.extend(lines)
+            if did_run:
+                executed.add((str(entry.get("function") or ""), str(entry.get("name") or "")))
+            continue
         if entry.get("kind") != "case":
             continue
         ran = True
@@ -1104,6 +1190,21 @@ def compare(manifest_path: Path, destination: Path) -> int:
             messages.append(f"row: {entry['row']}")
             continue
         messages.extend(_run_case(destination, entry, expectation, manifest))
+    seen_destinations = {
+        (str(entry.get("function") or ""), str(entry.get("name") or ""))
+        for entry in manifest["destinations"]
+        if entry.get("kind") == "assertion"
+    }
+    for assertion in declared:
+        key = (str(assertion.get("function") or ""), str(assertion.get("name") or ""))
+        if key in executed or key in seen_destinations:
+            continue
+        messages.append(
+            "not-executed "
+            f"assertion={assertion.get('name', '')} function={assertion.get('function', '')} test= row={move}"
+        )
+    if declared and not executed:
+        messages.append(f"not-executed move={move}")
     for pattern in manifest["patterns"]:
         for case in pattern.get("cases") or []:
             found = any(
@@ -1129,7 +1230,7 @@ def compare(manifest_path: Path, destination: Path) -> int:
         ))
         for line in messages
     )
-    if not ran and not manifest["patterns"]:
+    if not failed and not ran and not manifest["patterns"] and not declared:
         import sys
         sys.stdout.write("compare: ok\n")
         return 0
