@@ -94,6 +94,51 @@ def test_limit_curve_write_accepts_maximum_power():
     assert "forecast" in row["effect_rule"]
 
 
+def test_session_start_does_not_use_session_duration():
+    fields = {row["id"]: row for row in _rows("pe06-fields.tsv")}
+    start = fields["evse.session.start"]
+    duration = fields["evse.session.duration"]
+    assert start["value_kind"] == "time"
+    assert start["matter_1_6_1"] == ""
+    assert "SessionDuration" not in start["matter_1_6_1"]
+    assert "SessionDuration" not in start["source"]
+    assert "matter.unmapped.v1" in start["source"]
+    assert start["eebus"] == "EVCS-sc1"
+    assert start["admission"] == "eebus"
+    assert "evse.session.duration" in start["review"]
+    assert duration["matter_1_6_1"] == "EnergyEvse.SessionDuration"
+    assert duration["unit"] == "unit.second"
+    assert "EnergyEvse.SessionDuration" in duration["source"]
+
+
+def test_charge_direction_leaves_bat_charge_state_unmapped():
+    row = next(item for item in _rows("pe08-fields.tsv") if item["id"] == "storage.status.charge_direction")
+    assert row["matter_1_6_1"] == ""
+    assert "BatChargeState" not in row["matter_1_6_1"]
+    assert "matter.unmapped.v1" in row["source"]
+    assert "eebus.unmapped.v1" in row["source"]
+    assert row["symbols"] == "charging, discharging, idle, starting"
+    assert "IsNotCharging" in row["review"]
+    assert "IsAtFullCharge" in row["review"]
+    assert "Unknown" in row["review"]
+    assert "matter.unmapped.v1" not in row["review"]
+
+
+def test_metered_quantity_joule_is_active_energy_only():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    quantity = fields["energy.metering.quantity"]
+    basis = fields["energy.tariff.unit_basis"]
+    assert quantity["unit"] == "unit.joule"
+    assert quantity["matter_1_6_1"] == "CommodityMetering.MeteredQuantity"
+    assert "TariffUnit KWh" in quantity["source"]
+    assert "KVAh unmapped" in quantity["source"]
+    assert "restricted to" in quantity["source"]
+    assert quantity["review"] == "bound not in specification"
+    assert "apparent_energy" in basis["symbols"]
+    assert "energy" in basis["symbols"].split(", ")
+    assert "CommodityMetering.TariffUnit" in basis["matter_1_6_1"]
+
+
 def test_unconfirmed_vendor_research_stays_unconfirmed():
     for name, concepts in UNCONFIRMED_RESEARCH.items():
         rows = {row["concept"]: row for row in _rows(name)}
