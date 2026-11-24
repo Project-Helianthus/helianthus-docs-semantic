@@ -854,3 +854,61 @@ def test_reactive_import_export_leave_signed_power_mapped():
         assert "matter association removed" in row["review"]
         assert "infrastructure.ac.reactive_power" in row["review"]
         assert row["verification_level"] == "specification"
+
+
+def test_pack_current_and_voltage_withhold_unitless_power_source_attributes():
+    rows = {row["element"]: row for row in _rows("pe08-elements-on-main.tsv")}
+    current = rows["storage.pack.current"]
+    voltage = rows["storage.pack.voltage"]
+    assert current["matter_1_6_1"] == "ElectricalPowerMeasurement.ActiveCurrent"
+    assert "BatChargingCurrent" not in current["matter_1_6_1"]
+    assert "BatChargingCurrent" not in current["source"]
+    assert "ElectricalPowerMeasurement.ActiveCurrent" in current["source"]
+    assert "Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent" in current["source"]
+    assert current["eebus"] == "MOB-041"
+    assert "Monitoring of Battery V1.0.0 [MOB-041]" in current["source"]
+    assert "MOB-041" in current["source"]
+    assert "uint32" in current["review"]
+    assert "no unit name" in current["review"]
+    assert "conversion undeclared" in current["review"]
+    assert "qualified mapping withheld" in current["review"]
+    assert "BatChargingCurrent" in current["review"]
+    assert current["verification_level"] == "specification"
+    assert voltage["matter_1_6_1"] == "ElectricalPowerMeasurement.Voltage"
+    assert "BatVoltage" not in voltage["matter_1_6_1"]
+    assert "BatVoltage" not in voltage["source"]
+    assert "ElectricalPowerMeasurement.Voltage" in voltage["source"]
+    assert "Matter 1.6.1 ElectricalPowerMeasurement.Voltage" in voltage["source"]
+    assert voltage["eebus"] == "MOB-051"
+    assert "Monitoring of Battery V1.0.0 [MOB-051]" in voltage["source"]
+    assert "MOB-051" in voltage["source"]
+    assert "uint32" in voltage["review"]
+    assert "no unit name" in voltage["review"]
+    assert "conversion undeclared" in voltage["review"]
+    assert "qualified mapping withheld" in voltage["review"]
+    assert "BatVoltage" in voltage["review"]
+    assert voltage["verification_level"] == "specification"
+    power = rows["storage.pack.power"]
+    assert power["matter_1_6_1"] == "ElectricalPowerMeasurement.ActivePower"
+    assert power["eebus"] == "MOB-031"
+
+
+def test_operating_status_restricts_power_source_projection():
+    row = {item["element"]: item for item in _rows("pe03-elements-on-main.tsv")}["pv.status.operating"]
+    assert row["matter_1_6_1"] == "PowerSource.Status"
+    assert "Matter 1.6.1 PowerSource.Status" in row["source"]
+    assert "qualified projection restricted" in row["source"]
+    assert "native PowerSourceStatusEnum" in row["source"]
+    assert "preserved separately" in row["source"]
+    assert "Unspecified" in row["source"] and "Unavailable" in row["source"]
+    assert "are not generating, idle or standby" in row["source"]
+    for symbol in ("generating", "idle", "standby"):
+        assert symbol not in row["matter_1_6_1"]
+        assert symbol in row["review"]
+    assert "Unspecified" in row["review"] and "Unavailable" in row["review"]
+    assert "cannot stand for" in row["review"]
+    assert "native PowerSource.Status preserved separately" in row["review"]
+    assert "qualified projection restricted" in row["review"]
+    assert "MOI-021" in row["eebus"] and "MOI-026" in row["eebus"]
+    assert "MOI-021" in row["source"] and "MOI-026" in row["source"]
+    assert row["verification_level"] == "specification"
