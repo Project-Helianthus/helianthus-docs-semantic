@@ -139,6 +139,91 @@ def test_metered_quantity_joule_is_active_energy_only():
     assert "CommodityMetering.TariffUnit" in basis["matter_1_6_1"]
 
 
+def test_mode_rows_keep_uint8_identity_and_tag_metadata():
+    evse = {row["id"]: row for row in _rows("pe06-fields.tsv")}
+    esa = {row["id"]: row for row in _rows("pe07-fields.tsv")}
+    closed = {
+        "evse.mode": {"manual", "time_of_use", "solar_charging", "v2x"},
+        "energy.esa.mode": {
+            "no_optimization",
+            "device_optimization",
+            "local_optimization",
+            "grid_optimization",
+        },
+    }
+    for row in (evse["evse.mode"], esa["energy.esa.mode"]):
+        assert row["value_kind"] == "quantity"
+        assert row["unit"] == "unit.one"
+        assert row["direction"] == "not_applicable"
+        assert row["symbols"] == ""
+        assert row["minimum"] == "" and row["maximum"] == ""
+        assert "uint8" in row["source"]
+        assert "ModeTag" in row["source"]
+        assert row["matter_1_6_1"].endswith("CurrentMode")
+        assert "bound not in specification" in row["review"]
+        assert closed[row["id"]].isdisjoint(set(filter(None, row["symbols"].split(", "))))
+    for row, shared in (
+        (evse["evse.mode_supported"], "Manual"),
+        (esa["energy.esa.mode_supported"], "NoOptimization"),
+    ):
+        assert row["value_kind"] == "text"
+        assert row["symbols"] == ""
+        assert "SupportedModes.Mode" in row["source"]
+        assert "uint8" in row["source"]
+        assert "ModeTag" in row["source"]
+        assert "Auto" in row["source"]
+        assert shared in row["source"]
+        assert "manufacturer" in row["source"]
+        assert "not the identifier" in row["source"]
+        assert "not the mode value" in row["review"]
+    for name, operation, argument in (
+        ("pe06-operations.tsv", "evse.operation.set_evse_mode", "evse.mode"),
+        ("pe07-operations.tsv", "energy.operation.set_esa_mode", "energy.esa.mode"),
+    ):
+        row = next(item for item in _rows(name) if item["operation"] == operation)
+        assert row["argument"] == argument
+        assert row["matter_1_6_1"].endswith("ChangeToMode.NewMode")
+        assert "uint8" in row["effect_rule"]
+        assert "ModeTag" in row["effect_rule"]
+        assert "NewMode" in row["note"]
+        assert "uint8" in row["source"]
+        assert "ModeTag" in row["note"]
+
+
+def test_price_description_uses_the_struct_payload():
+    row = {item["id"]: item for item in _rows("pe12-fields.tsv")}["energy.price.current_description"]
+    assert row["value_kind"] == "text"
+    assert "GetDetailedPriceRequest" not in row["matter_1_6_1"]
+    assert "GetDetailedPriceRequest" not in row["source"]
+    assert "CommodityPrice.CurrentPrice" in row["matter_1_6_1"]
+    assert "GetDetailedPriceResponse.CurrentPrice" in row["matter_1_6_1"]
+    assert "CommodityPriceStruct.Description" in row["source"]
+    assert "CommodityPrice.CurrentPrice" in row["source"]
+    assert "GetDetailedPriceResponse.CurrentPrice" in row["source"]
+    assert "GetDetailedPriceRequest" not in row["review"]
+    assert "CommodityPriceStruct.Description" in row["review"]
+
+
+def test_tariff_randomization_offsets_stay_signed_and_unbounded():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    default = fields["energy.tariff.randomization_offset"]
+    entry = fields["energy.tariff.day_entry_randomization_offset"]
+    for row in (default, entry):
+        assert row["value_kind"] == "quantity"
+        assert row["unit"] == "unit.second"
+        assert row["direction"] == "signed"
+        assert row["direction"] != "non_negative"
+        assert row["minimum"] == "" and row["maximum"] == ""
+        assert row["review"] == "bound not in specification"
+        assert "int16" in row["source"]
+        assert "no nonnegative constraint" in row["source"]
+        assert "bound not in specification" in row["source"]
+    assert "DefaultRandomizationOffset" in default["matter_1_6_1"]
+    assert "DefaultRandomizationOffset" in default["source"]
+    assert "DayEntryStruct.RandomizationOffset" in entry["source"]
+    assert "CommodityTariff.DayEntries" in entry["matter_1_6_1"]
+
+
 def test_unconfirmed_vendor_research_stays_unconfirmed():
     for name, concepts in UNCONFIRMED_RESEARCH.items():
         rows = {row["concept"]: row for row in _rows(name)}
