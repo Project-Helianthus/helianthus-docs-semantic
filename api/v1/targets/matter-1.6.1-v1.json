@@ -106,6 +106,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.ac.connected_phases",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.ac.connected_phases"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.ac.connected_phases",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.ac.connected_phases",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.connector",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.ac.current",
         "version": "1.0.0"
       },
@@ -248,6 +301,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.ac.total_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.ac.total_active_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.ac.total_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.ac.total_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.ac.voltage",
         "version": "1.0.0"
       },
@@ -293,6 +399,42 @@
             }
           }
         ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.clear_targets",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.clear_targets"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.clear_targets",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
       }
     },
     {
@@ -481,6 +623,42 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.capability.read.vehicle",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.read.vehicle"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.read.vehicle",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.capability.set_allocated_current",
         "version": "1.0.0"
       },
@@ -509,6 +687,631 @@
           "revisions": "exact_input_revisions"
         },
         "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_allocated_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_allocated_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_allocated_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_allocated_current_with_expiry",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_allocated_current_with_expiry"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_allocated_current_with_expiry",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_evse_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_evse_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_evse_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_failsafe_current",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_failsafe_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_failsafe_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_randomization_delay_window",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_randomization_delay_window"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_randomization_delay_window",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_recommended_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_recommended_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_recommended_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_supply",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_supply"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_supply",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_target",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_target"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_target",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_user_maximum_charge_current",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_user_maximum_charge_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_user_maximum_charge_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.capability.set_vehicle_efficiency",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.capability.set_vehicle_efficiency"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "evse.capability.set_vehicle_efficiency",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.configuration.randomization_delay_window",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.configuration.randomization_delay_window"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.configuration.randomization_delay_window",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.configuration.randomization_delay_window",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.demand.departure_time",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.demand.departure_time"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.demand.departure_time",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.demand.departure_time",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.demand.maximum_energy",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.demand.maximum_energy"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.demand.maximum_energy",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.demand.maximum_energy",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.demand.minimum_energy",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.demand.minimum_energy"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.demand.minimum_energy",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.demand.minimum_energy",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.demand.optimal_energy",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.demand.optimal_energy"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.demand.optimal_energy",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.demand.optimal_energy",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
       }
     },
     {
@@ -570,6 +1373,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.energy.lifetime_exported",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.energy.lifetime_exported"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.energy.lifetime_exported",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.energy.lifetime_exported",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.meter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.energy.session",
         "version": "1.0.0"
       },
@@ -602,6 +1458,59 @@
             "pack_id": "helianthus.pack.evse",
             "pack_version": "1.0.0",
             "fact_id": "evse.energy.session",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.energy.session_discharged",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.energy.session_discharged"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.energy.session_discharged",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.energy.session_discharged",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {
@@ -782,6 +1691,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.limit.allocated_current_expiry",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.allocated_current_expiry"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.allocated_current_expiry",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.allocated_current_expiry",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.connector",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.limit.allocated_current_phase",
         "version": "1.0.0"
       },
@@ -822,6 +1784,59 @@
                   "version": "1.0.0"
                 },
                 "id": "evse.dimension.phase",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.charging_enabled_until",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.charging_enabled_until"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.charging_enabled_until",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.charging_enabled_until",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
                 "version": "1.0.0"
               }
             }
@@ -888,6 +1903,572 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.limit.discharging_enabled_until",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.discharging_enabled_until"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.discharging_enabled_until",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.discharging_enabled_until",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.failsafe_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.failsafe_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.failsafe_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.failsafe_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.maximum_discharge_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.maximum_discharge_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.maximum_discharge_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.maximum_discharge_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.connector",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.minimum_charge_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.minimum_charge_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.minimum_charge_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.minimum_charge_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.connector",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.recommended_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.recommended_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.recommended_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.recommended_current_phase",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.phase",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.user_maximum_charge_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.user_maximum_charge_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.user_maximum_charge_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.user_maximum_charge_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.vehicle_maximum_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.vehicle_maximum_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.vehicle_maximum_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.vehicle_maximum_current_phase",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.phase",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.limit.vehicle_minimum_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.limit.vehicle_minimum_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.limit.vehicle_minimum_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.vehicle_minimum_current_phase",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.phase",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.mode",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.mode",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.mode_supported",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.mode_supported"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.mode_supported",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.mode_supported",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.clear_targets",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.clear_targets"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.clear_targets",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.operation.set_allocated_current",
         "version": "1.0.0"
       },
@@ -909,6 +2490,366 @@
         "requested": {
           "kind": "operation",
           "item_id": "evse.operation.set_allocated_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_allocated_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_allocated_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_allocated_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_allocated_current_with_expiry",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_allocated_current_with_expiry"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_allocated_current_with_expiry",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_evse_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_evse_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_evse_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_failsafe_current",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_failsafe_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_failsafe_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_randomization_delay_window",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_randomization_delay_window"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_randomization_delay_window",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_recommended_current_phase",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_recommended_current_phase"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_recommended_current_phase",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_supply",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_supply"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_supply",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_target",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_target"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_target",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_user_maximum_charge_current",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_user_maximum_charge_current"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_user_maximum_charge_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.operation.set_vehicle_efficiency",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.operation.set_vehicle_efficiency"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "evse.operation.set_vehicle_efficiency",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -1283,6 +3224,356 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.service.vehicle",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.service.vehicle"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.asymmetric_charging",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.asymmetric_charging"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.asymmetric_charging",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.asymmetric_charging",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.communication_standard",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.communication_standard"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.communication_standard",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.communication_standard",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.identifier",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.identifier"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.identifier",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.identifier",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.rfid_token",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.rfid_token"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.rfid_token",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.rfid_token",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.session.start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.session.start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.session.start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.session.start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.status.charging",
         "version": "1.0.0"
       },
@@ -1442,6 +3733,59 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.status.fault_cause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.status.fault_cause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.status.fault_cause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.status.fault_cause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.status.interlock",
         "version": "1.0.0"
       },
@@ -1535,6 +3879,1543 @@
                   "version": "1.0.0"
                 },
                 "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.status.state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.status.state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.status.state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.connector",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.status.supply",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.status.supply"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.status.supply",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.status.supply",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.cost",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.cost"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.cost",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.cost",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.currency",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.currency"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.currency",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.currency",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.end",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.end"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.end",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.end",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.energy_grid",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.energy_grid"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.energy_grid",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.energy_grid",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.energy_self_produced",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.energy_self_produced"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.energy_self_produced",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.energy_self_produced",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.summary.self_produced_ratio",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.summary.self_produced_ratio"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.summary.self_produced_ratio",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.summary.self_produced_ratio",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.session",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.added_energy",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.added_energy"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.added_energy",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.added_energy",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.days",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.days"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.days",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.days",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.next_required_energy",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.next_required_energy"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.next_required_energy",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.next_required_energy",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.next_start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.next_start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.next_start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.next_start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.next_state_of_charge",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.next_state_of_charge"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.next_state_of_charge",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.next_state_of_charge",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.next_target_time",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.next_target_time"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.next_target_time",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.next_target_time",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.schedule_count",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.schedule_count"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.schedule_count",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.schedule_count",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.state_of_charge",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.state_of_charge"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.state_of_charge",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.state_of_charge",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.target.time_of_day",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.target.time_of_day"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.target.time_of_day",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.target.time_of_day",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.ac_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.ac_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.ac_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.ac_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.approximate_efficiency",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.approximate_efficiency"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.approximate_efficiency",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.approximate_efficiency",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.evse",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.battery_capacity",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.battery_capacity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.battery_capacity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.battery_capacity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.connection",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.connection"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.connection",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.connection",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.identifier",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.identifier"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.identifier",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.identifier",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.maximum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.maximum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.maximum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.maximum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.minimum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.minimum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.minimum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.minimum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.sleep",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.sleep"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.sleep",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.sleep",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.standby_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.standby_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.standby_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.standby_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.state_of_charge",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.state_of_charge"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.state_of_charge",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.state_of_charge",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.state_of_health",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.state_of_health"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.state_of_health",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.state_of_health",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.vehicle.travel_range",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "evse.vehicle.travel_range"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "evse.vehicle.travel_range",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.vehicle.travel_range",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "id": "evse.dimension.vehicle",
                 "version": "1.0.0"
               }
             }

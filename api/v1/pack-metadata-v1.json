@@ -23,6 +23,14 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "unit.currency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "unit.hertz",
           "version": "1.0.0"
         },
@@ -32,6 +40,38 @@
             "version": "1.0.0"
           },
           "id": "unit.joule",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.metre",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.one",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.second",
           "version": "1.0.0"
         },
         {
@@ -65,6 +105,14 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.ac.connected_phases",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.ac.current",
           "version": "1.0.0"
         },
@@ -81,7 +129,23 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.ac.total_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.ac.voltage",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.clear_targets",
           "version": "1.0.0"
         },
         {
@@ -129,7 +193,143 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.capability.read.vehicle",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.capability.set_allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_allocated_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_allocated_current_with_expiry",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_evse_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_failsafe_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_randomization_delay_window",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_recommended_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_supply",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_target",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_user_maximum_charge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.capability.set_vehicle_efficiency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.configuration.randomization_delay_window",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.demand.departure_time",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.demand.maximum_energy",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.demand.minimum_energy",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.demand.optimal_energy",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.clear_targets",
           "version": "1.0.0"
         },
         {
@@ -145,6 +345,86 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.effect.set_allocated_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_allocated_current_with_expiry",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_evse_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_failsafe_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_randomization_delay_window",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_recommended_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_supply",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_target",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_user_maximum_charge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.effect.set_vehicle_efficiency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.energy.lifetime",
           "version": "1.0.0"
         },
@@ -153,7 +433,23 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.energy.lifetime_exported",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.energy.session",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.energy.session_discharged",
           "version": "1.0.0"
         },
         {
@@ -185,7 +481,23 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.limit.allocated_current_expiry",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.limit.allocated_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.charging_enabled_until",
           "version": "1.0.0"
         },
         {
@@ -201,7 +513,175 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.limit.discharging_enabled_until",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.failsafe_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.maximum_discharge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.minimum_charge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.recommended_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.user_maximum_charge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.vehicle_maximum_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.limit.vehicle_minimum_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.mode_supported",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.clear_targets",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current_with_expiry",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_evse_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_failsafe_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_randomization_delay_window",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_recommended_current_phase",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_supply",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_target",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_user_maximum_charge_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_vehicle_efficiency",
           "version": "1.0.0"
         },
         {
@@ -249,6 +729,62 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.service.vehicle",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.asymmetric_charging",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.communication_standard",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.duration",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.identifier",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.rfid_token",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.session.start",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.status.charging",
           "version": "1.0.0"
         },
@@ -273,6 +809,14 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.status.fault_cause",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.status.interlock",
           "version": "1.0.0"
         },
@@ -289,7 +833,247 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.status.state",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.status.supply",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.cost",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.currency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.end",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.energy_grid",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.energy_self_produced",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.summary.self_produced_ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.added_energy",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.days",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.next_required_energy",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.next_start",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.next_state_of_charge",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.next_target_time",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.schedule_count",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.state_of_charge",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.target.time_of_day",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.ac_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.approximate_efficiency",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.battery_capacity",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.connection",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.identifier",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.maximum_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.minimum_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.sleep",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.standby_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.state_of_charge",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.state_of_health",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.vehicle.travel_range",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "unit.ampere",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.currency",
           "version": "1.0.0"
         },
         {
@@ -306,6 +1090,38 @@
             "version": "1.0.0"
           },
           "id": "unit.joule",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.metre",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.one",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "unit.second",
           "version": "1.0.0"
         },
         {
@@ -349,6 +1165,32 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.ac.connected_phases",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
             "version": "1.0.0"
           }
         },
@@ -410,6 +1252,32 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.ac.total_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.ac.voltage",
             "version": "1.0.0"
           },
@@ -427,6 +1295,129 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.configuration.randomization_delay_window",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.demand.departure_time",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.demand.maximum_energy",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.demand.minimum_energy",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.demand.optimal_energy",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
             "version": "1.0.0"
           }
         },
@@ -462,7 +1453,59 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.energy.lifetime_exported",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.energy.session",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.energy.session_discharged",
             "version": "1.0.0"
           },
           "canonical_unit": {
@@ -566,6 +1609,25 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.limit.allocated_current_expiry",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.limit.allocated_current_phase",
             "version": "1.0.0"
           },
@@ -592,6 +1654,25 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.limit.charging_enabled_until",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.limit.configured_current",
             "version": "1.0.0"
           },
@@ -609,6 +1690,373 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.discharging_enabled_until",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.failsafe_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.maximum_discharge_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.minimum_charge_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.recommended_current_phase",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.user_maximum_charge_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.vehicle_maximum_current_phase",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.vehicle_minimum_current_phase",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.mode",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.mode_supported",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.asymmetric_charging",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.communication_standard",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.duration",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.identifier",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.rfid_token",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.session.start",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
             "version": "1.0.0"
           }
         },
@@ -675,6 +2123,25 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.status.fault_cause",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.status.interlock",
             "version": "1.0.0"
           },
@@ -704,6 +2171,683 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.state",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.supply",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.cost",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.currency",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.currency",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.end",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.energy_grid",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.energy_self_produced",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.summary.self_produced_ratio",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.session",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.added_energy",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.days",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.next_required_energy",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.next_start",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.next_state_of_charge",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.next_target_time",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.schedule_count",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.state_of_charge",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.time_of_day",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.ac_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.approximate_efficiency",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.battery_capacity",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.connection",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.identifier",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.maximum_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.minimum_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.sleep",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.standby_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.state_of_charge",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.state_of_health",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.travel_range",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.metre",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
             "version": "1.0.0"
           }
         }
@@ -798,9 +2942,45 @@
             "id": "evse.dimension.session",
             "version": "1.0.0"
           }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.vehicle",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
         }
       ],
       "capabilities": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.clear_targets",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
         {
           "ref": {
             "pack": {
@@ -897,6 +3077,24 @@
               "id": "helianthus.pack.evse",
               "version": "1.0.0"
             },
+            "id": "evse.capability.read.vehicle",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.vehicle",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
             "id": "evse.capability.set_allocated_current",
             "version": "1.0.0"
           },
@@ -908,9 +3106,231 @@
             "id": "evse.service.connector",
             "version": "1.0.0"
           }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current_phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current_with_expiry",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_evse_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_failsafe_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_randomization_delay_window",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_recommended_current_phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_supply",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_target",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_user_maximum_charge_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_vehicle_efficiency",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          }
         }
       ],
       "operations": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.clear_targets",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.clear_targets",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.schedule_count",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.clear_targets",
+            "version": "1.0.0"
+          }
+        },
         {
           "ref": {
             "pack": {
@@ -950,6 +3370,504 @@
               "version": "1.0.0"
             },
             "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current_phase",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current_phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.allocated_current_phase",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current_phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current_with_expiry",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_allocated_current_with_expiry",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.connector",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.allocated_current",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current_with_expiry",
+            "version": "1.0.0"
+          },
+          "parameters": [
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.allocated_current_expiry",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_evse_mode",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_evse_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.mode",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_evse_mode",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_failsafe_current",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_failsafe_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.failsafe_current",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_failsafe_current",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_randomization_delay_window",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_randomization_delay_window",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.configuration.randomization_delay_window",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_randomization_delay_window",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_recommended_current_phase",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_recommended_current_phase",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.phase",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.recommended_current_phase",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_recommended_current_phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_supply",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_supply",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.status.supply",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_supply",
+            "version": "1.0.0"
+          },
+          "parameters": [
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.allocated_current",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.charging_enabled_until",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.discharging_enabled_until",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.maximum_discharge_current",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.limit.minimum_charge_current",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_target",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_target",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.target.time_of_day",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_target",
+            "version": "1.0.0"
+          },
+          "parameters": [
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.target.added_energy",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.target.days",
+              "version": "1.0.0"
+            },
+            {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.target.state_of_charge",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_user_maximum_charge_current",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_user_maximum_charge_current",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.limit.user_maximum_charge_current",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_user_maximum_charge_current",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_vehicle_efficiency",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.capability.set_vehicle_efficiency",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.service.evse",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.vehicle.approximate_efficiency",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_vehicle_efficiency",
             "version": "1.0.0"
           }
         }

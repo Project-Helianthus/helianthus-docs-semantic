@@ -6,6 +6,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The EVSE pack publishes the admitted vehicle, session, limit, target and mode
+  facts, the changed events `evse.event.fault` and `evse.event.rfid`, and eleven
+  operations with their capabilities and effect rules. `resource.vehicle` and
+  `evse.service.vehicle` are added. `evse.operation.set_allocated_current` and its
+  set case stay. No release case is added. Four entered or left events stay out
+  because a fact stores no symbols. Three signed quantities use direction
+  `not_applicable` until an EVSE supplies relation is admitted.
+  `evse.vehicle.approximate_efficiency` has no unit. Empty bounds stay empty.
+  New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. The historical
+  Matter 1.7 roster stays at 184 items. No pack version is raised.
 - The storage pack publishes the admitted pack, interface and system facts,
   two fault events, and fifteen interface operations with their capabilities
   and effect rules. `storage.operation.set_ac_power`,
