@@ -124,6 +124,79 @@ def test_charge_direction_leaves_bat_charge_state_unmapped():
     assert "matter.unmapped.v1" not in row["review"]
 
 
+def test_joule_prices_are_active_energy_only():
+    fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
+    basis = fields["energy.tariff.unit_basis"]
+    assert "apparent_energy" in basis["symbols"]
+    assert "energy" in basis["symbols"].split(", ")
+    prices = {
+        "energy.price.current": "CommodityPrice.TariffUnit",
+        "energy.price.forecast_price": "CommodityPrice.TariffUnit",
+        "energy.tariff.component_price": "CommodityTariff.TariffUnit",
+    }
+    for element, tariff_unit in prices.items():
+        row = fields[element]
+        assert row["unit"] == "unit.currency_per_joule"
+        assert "restricted to" in row["source"]
+        assert f"{tariff_unit} KWh" in row["source"]
+        assert "KVAh unmapped" in row["source"]
+        assert "KVAh" not in row["matter_1_6_1"]
+        assert row["review"] == "bound not in specification"
+    incentive = fields["energy.incentive.incentive_value"]
+    assert incentive["unit"] == "unit.currency_per_joule"
+    assert incentive["matter_1_6_1"] == ""
+    assert "TariffUnit" not in incentive["source"]
+
+
+def test_battery_fault_sets_keep_unspecified():
+    fields = {row["id"]: row for row in _rows("pe08-fields.tsv")}
+    events = {row["event"]: row for row in _rows("pe08-events.tsv")}
+    faults = fields["storage.status.faults"]
+    charge = fields["storage.status.charge_faults"]
+    assert faults["symbols"].split(", ")[0] == "unspecified"
+    assert "over_temperature" in faults["symbols"].split(", ")
+    assert "under_temperature" in faults["symbols"].split(", ")
+    assert "BatFaultEnum Unspecified" in faults["source"]
+    assert "empty list" in faults["review"]
+    assert faults["matter_1_6_1"] == "PowerSource.ActiveBatFaults"
+    assert charge["symbols"].split(", ")[0] == "unspecified"
+    assert "safety_timeout" in charge["symbols"].split(", ")
+    assert "ambient_too_hot" in charge["symbols"].split(", ")
+    assert "BatChargeFaultEnum Unspecified" in charge["source"]
+    assert "empty list" in charge["review"]
+    assert charge["matter_1_6_1"] == "PowerSource.ActiveBatChargeFaults"
+    fault_event = events["storage.event.fault_change"]
+    charge_event = events["storage.event.charge_fault_change"]
+    assert fault_event["trigger_fact"] == "storage.status.faults"
+    assert fault_event["condition"] == "changed"
+    assert "BatFaultEnum Unspecified" in fault_event["source"]
+    assert "Unspecified" in fault_event["review"]
+    assert charge_event["trigger_fact"] == "storage.status.charge_faults"
+    assert charge_event["condition"] == "changed"
+    assert "BatChargeFaultEnum Unspecified" in charge_event["source"]
+    assert "Unspecified" in charge_event["review"]
+
+
+def test_inverter_fault_and_derating_leave_power_source_status_unmapped():
+    rows = {row["element"]: row for row in _rows("pe03-elements-on-main.tsv")}
+    for element, reason in (
+        ("pv.status.derating", "derating"),
+        ("pv.status.fault", "fault"),
+    ):
+        row = rows[element]
+        assert row["matter_1_6_1"] == ""
+        assert "PowerSource.Status" not in row["source"]
+        assert "matter.unmapped.v1" in row["source"]
+        assert "MOI-021" in row["eebus"] and "MOI-026" in row["eebus"]
+        assert "MOI-021" in row["source"] and "MOI-026" in row["source"]
+        assert reason in row["review"]
+        assert "matter association removed" in row["review"]
+    operating = rows["pv.status.operating"]
+    assert operating["matter_1_6_1"] == "PowerSource.Status"
+    assert "Matter 1.6.1 PowerSource.Status" in operating["source"]
+    assert "MOI-021" in operating["eebus"] and "MOI-026" in operating["eebus"]
+
+
 def test_metered_quantity_joule_is_active_energy_only():
     fields = {row["id"]: row for row in _rows("pe12-fields.tsv")}
     quantity = fields["energy.metering.quantity"]
