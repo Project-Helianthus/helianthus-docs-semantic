@@ -17,9 +17,9 @@ from a DefinitionID. Quantity bounds use kernel `Decimal` objects
 
 Each canonical field record declares optionality. State of charge and health are
 ratios bounded from 0 through 1. Energy, capacity, pack voltage, cell-voltage
-extrema, and admitted charge/discharge limits have a minimum of 0 and an explicit
-unbounded maximum. Pack and cell temperatures are in kelvin with a minimum of 0,
-absolute zero, and an explicit unbounded maximum. Pack current and power retain
+extrema, and admitted charge and discharge power limits have a minimum of 0 and an explicit
+unbounded maximum. `storage.limit.charge_current` and `storage.limit.discharge_current` are `unit.ampere` on `storage.dimension.pack`, and both bounds are empty. Pack and cell temperatures are in kelvin with a minimum of 0,
+absolute zero, and an explicit unbounded maximum. Pack current and pack power retain
 explicit unbounded minimum and maximum because their native reference or sign is
 not normalized by this contract. Symbol records carry their complete accepted set.
 

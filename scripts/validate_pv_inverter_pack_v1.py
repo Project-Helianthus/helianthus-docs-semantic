@@ -15,7 +15,7 @@ ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
                              "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
-                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"})
+                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule"})
 DOMAINS = {"thermal_hvac": ("helianthus.pack.thermal", "accepted"),
            "pv_inverter": ("helianthus.pack.pv", "accepted"),
            "storage_bms": ("helianthus.pack.storage", "accepted"),
@@ -89,6 +89,8 @@ FIELD_CONTRACTS = {
     "pv.ac.aggregate_active_power": ("quantity", "unit.watt", "pv.dimension.inverter", True, None),
     "pv.ac.aggregate_apparent_power": ("quantity", "unit.volt_ampere", "pv.dimension.inverter", True, None),
     "pv.ac.aggregate_reactive_power": ("quantity", "unit.volt_ampere_reactive", "pv.dimension.inverter", True, None),
+    "pv.accuracy.measured": ("boolean", None, "pv.dimension.inverter", True, None),
+    "pv.accuracy.ratio_maximum": ("quantity", "unit.ratio", "pv.dimension.inverter", True, None),
 }
 FIELD_BOUNDS = {
     "pv.dc.voltage": ({"coefficient":"0","exponent10":0},{"coefficient":"2","exponent10":3}),
@@ -118,7 +120,18 @@ FIELD_BOUNDS = {
     "pv.ac.aggregate_active_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
     "pv.ac.aggregate_apparent_power": ({"coefficient":"0","exponent10":0},{"coefficient":"1","exponent10":7}),
     "pv.ac.aggregate_reactive_power": ({"coefficient":"-1","exponent10":7},{"coefficient":"1","exponent10":7}),
+    "pv.accuracy.ratio_maximum": (None, None),
 }
+QUALIFIED = {
+    "pv.accuracy.measured": ("pv.dimension.measurement_type",),
+    "pv.accuracy.ratio_maximum": ("pv.dimension.measurement_type",),
+}
+MEASUREMENT_SYMBOLS = (
+    "active_current", "active_power", "apparent_current", "apparent_energy", "apparent_power",
+    "electrical_energy", "frequency", "neutral_current", "power_factor", "reactive_current",
+    "reactive_energy", "reactive_power", "rms_current", "rms_power", "rms_voltage", "unspecified", "voltage",
+)
+QUALIFIER_DIMS = {"pv.dimension.measurement_type"}
 DIMS = {"pv.dimension.system", "pv.dimension.inverter", "pv.dimension.array",
         "pv.dimension.string", "pv.dimension.input", "pv.dimension.phase"}
 SERVICE_DIMENSIONS = {"pv.service.system": "pv.dimension.system",
@@ -132,8 +145,8 @@ RELATIONS = {"pv.relation.system_inverter": ("pv.dimension.system", "pv.dimensio
              "pv.relation.array_string": ("pv.dimension.array", "pv.dimension.string", "one_to_many"),
              "pv.relation.inverter_input": ("pv.dimension.inverter", "pv.dimension.input", "one_to_many"),
              "pv.relation.inverter_phase": ("pv.dimension.inverter", "pv.dimension.phase", "one_to_many")}
-DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
-                     "effect_rules", "portal_contributions"}
+DEFINITION_GROUPS = {"fields", "fact_dimensions", "qualifier_dimensions", "services", "relations", "capabilities",
+                     "operations", "effect_rules", "portal_contributions"}
 CAPS = {"pv.capability.read.system": ("pv.service.system", None),
         "pv.capability.read.inverter": ("pv.service.inverter", None),
         "pv.capability.read.array": ("pv.service.array", None),
@@ -147,7 +160,7 @@ OPS = {"pv.operation.set_active_power_limit": ("pv.capability.set_active_power_l
 EFFECTS = {"pv.effect.set_active_power_limit": ("pv.operation.set_active_power_limit", "pv.limit.active_power"),
            "pv.effect.set_export_limit": ("pv.operation.set_export_limit", "pv.limit.export_power")}
 PORTAL_READS = {"pv.portal.read.system": ("pv.service.system", ("pv.energy.generated", "pv.limit.export_power", "pv.energy.yield_day", "pv.energy.yield_month", "pv.energy.yield_year")),
-                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_current", "pv.ac.aggregate_reactive_power", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.limit.active_power_ratio", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
+                "pv.portal.read.inverter": ("pv.service.inverter", ("pv.ac.aggregate_active_power", "pv.ac.aggregate_apparent_power", "pv.ac.aggregate_current", "pv.ac.aggregate_reactive_power", "pv.ac.aggregate_voltage", "pv.ac.frequency", "pv.ac.power_factor", "pv.accuracy.measured", "pv.accuracy.ratio_maximum", "pv.dc.aggregate_current", "pv.dc.aggregate_power", "pv.dc.aggregate_voltage", "pv.limit.active_power", "pv.limit.active_power_ratio", "pv.status.derating", "pv.status.fault", "pv.status.operating", "pv.temperature.inverter")),
                 "pv.portal.read.array": ("pv.service.array", ()),
                 "pv.portal.read.string": ("pv.service.string", ("pv.dc.energy",)),
                 "pv.portal.read.input": ("pv.service.input", ("pv.dc.current", "pv.dc.power", "pv.dc.voltage")),
@@ -219,6 +232,14 @@ def decimal_less(left, right):
     return left_coefficient * 10 ** (left_exponent - shared_exponent) < right_coefficient * 10 ** (right_exponent - shared_exponent)
 
 
+def qualifier_tuple(field):
+    expected = QUALIFIED.get(field.get("id"))
+    actual = tuple(field.get("qualifiers", ()))
+    if expected is None:
+        return "qualifiers" not in field
+    return actual == expected
+
+
 def validate_field(field):
     contract = FIELD_CONTRACTS.get(field.get("id"))
     if contract is None:
@@ -226,18 +247,57 @@ def validate_field(field):
     kind, unit, dimension, optional, symbols = contract
     if field.get("kind") != kind or field.get("dimension") != dimension or type(field.get("optional")) is not bool or field["optional"] != optional:
         raise ValueError("field has noncanonical kind, dimension, or optionality")
-    required = {"id", "ref", "kind", "dimension", "optional", "order"}
-    if kind == "quantity":
-        if not isinstance(field.get("unit"), str) or not ID.fullmatch(field["unit"]):
-            raise ValueError("invalid unit ID")
-        require_canonical_unit(field["unit"])
-        bounds = field.get("bounds", {})
-        expected_bounds = {"minimum": FIELD_BOUNDS[field["id"]][0], "maximum": FIELD_BOUNDS[field["id"]][1]}
-        if set(field) != required | {"unit", "bounds"} or field.get("unit") != unit or not decimal_less(bounds.get("minimum"), bounds.get("maximum")) or bounds != expected_bounds:
-            raise ValueError("field has invalid canonical quantity contract")
+    if not qualifier_tuple(field):
+        raise ValueError("field qualifiers")
+    if kind == "boolean":
+        validate_boolean_field(field)
+    elif kind == "quantity":
+        validate_quantity_field(field, unit)
+    else:
+        validate_symbol_field(field, symbols)
+
+
+def field_keys(field):
+    return {"id", "ref", "kind", "dimension", "optional", "order"}
+
+
+def validate_boolean_field(field):
+    if set(field) != field_keys(field) | {"qualifiers"}:
+        raise ValueError("field has noncanonical kind, dimension, or optionality")
+
+
+def validate_quantity_field(field, unit):
+    if not isinstance(field.get("unit"), str) or not ID.fullmatch(field["unit"]):
+        raise ValueError("invalid unit ID")
+    require_canonical_unit(field["unit"])
+    low, high = FIELD_BOUNDS[field["id"]]
+    if low is None and high is None:
+        require_empty_quantity(field, unit)
         return
+    require_closed_quantity(field, unit, low, high)
+
+
+def quantity_members(field):
+    extra = {"qualifiers"} if field["id"] in QUALIFIED else set()
+    return field_keys(field) | {"unit", "bounds"} | extra
+
+
+def require_empty_quantity(field, unit):
+    bounds = field.get("bounds", {})
+    if set(field) != quantity_members(field) or field.get("unit") != unit or bounds != {"minimum": None, "maximum": None}:
+        raise ValueError("field has invalid canonical quantity contract")
+
+
+def require_closed_quantity(field, unit, low, high):
+    bounds = field.get("bounds", {})
+    expected_bounds = {"minimum": low, "maximum": high}
+    if set(field) != quantity_members(field) or field.get("unit") != unit or not decimal_less(bounds.get("minimum"), bounds.get("maximum")) or bounds != expected_bounds:
+        raise ValueError("field has invalid canonical quantity contract")
+
+
+def validate_symbol_field(field, symbols):
     actual_symbols = field.get("symbols")
-    if set(field) != required | {"symbols"} or not isinstance(actual_symbols, list) or tuple(actual_symbols) != symbols or actual_symbols != sorted(actual_symbols) or len(actual_symbols) != len(set(actual_symbols)) or any(not isinstance(symbol, str) or not ID.fullmatch(symbol) for symbol in actual_symbols):
+    if set(field) != field_keys(field) | {"symbols"} or not isinstance(actual_symbols, list) or tuple(actual_symbols) != symbols or actual_symbols != sorted(actual_symbols) or len(actual_symbols) != len(set(actual_symbols)) or any(not isinstance(symbol, str) or not ID.fullmatch(symbol) for symbol in actual_symbols):
         raise ValueError("field has invalid canonical symbol contract")
 
 
@@ -256,6 +316,7 @@ def validate_defs(catalog):
     dimensions = refs(definitions.get("fact_dimensions"), "fact dimensions", DIMS)
     if any(dimension.get("value_kind") != "text" or set(dimension) != {"id", "ref", "value_kind", "order"} for dimension in dimensions.values()):
         raise ValueError("dimension has invalid value kind")
+    validate_qualifier_dimensions(definitions)
     services = refs(definitions.get("services"), "services", SERVICE_DIMENSIONS)
     for identifier, service in services.items():
         if service.get("fact_key_dimension") != SERVICE_DIMENSIONS[identifier] or set(service) != {"id", "ref", "fact_key_dimension", "order"}:
@@ -295,6 +356,12 @@ def validate_defs(catalog):
         elif contribution.get("kind") != "operation" or contribution.get("operation") != PORTAL_OPS[identifier] or contribution.get("admission") != "current_only" or set(contribution) != {"id", "ref", "kind", "operation", "admission", "order"}:
             raise ValueError("Portal operation association")
     exact(read_fields, set(FIELD_CONTRACTS), "read descriptor field coverage")
+
+
+def validate_qualifier_dimensions(definitions):
+    qualifiers = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_DIMS)
+    if any(item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != MEASUREMENT_SYMBOLS or set(item) != {"id", "ref", "value_kind", "symbols", "order"} for item in qualifiers.values()):
+        raise ValueError("qualifier dimension")
 
 
 def validate_catalog(catalog):

@@ -335,12 +335,26 @@ def package_dimension(element, concern):
     return None
 
 
+def waiting_holds(element, dimension, index):
+    """A waiting row holds while its element is absent, or defined on another dimension.
+
+    The interface current-limit rows name storage.limit.charge_current and
+    storage.limit.discharge_current. Those ids are pack facts, so this native
+    field is not emitted as the pack fact.
+    """
+    fact = index.facts.get(element) if element else None
+    if fact is None:
+        return True
+    catalog_dimension = fact["subject"]["dimension"]["id"].rsplit(".", 1)[-1]
+    return catalog_dimension != dimension
+
+
 def row_shape(disposition, element, concern, reason, dimension, index):
-    """Mapped rows name a pack fact. Waiting rows name a package E element. The rest name a reason."""
+    """Mapped rows name a pack fact. Waiting rows name a package E element this field does not emit. The rest name a reason."""
     if disposition == "mapped":
         return element in index.facts and concern is None and reason is None
     if disposition == "waiting":
-        return element not in index.facts and package_dimension(element, concern) == dimension and reason is None
+        return waiting_holds(element, dimension, index) and package_dimension(element, concern) == dimension and reason is None
     return disposition == "not_admitted" and element is None and concern is None and bool(reason)
 
 

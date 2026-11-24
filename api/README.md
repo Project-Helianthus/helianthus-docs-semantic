@@ -252,6 +252,26 @@ project owner:
 Two parts are decided by the project owner: ampere-hour (`unit.ampere_hour`)
 is kept as it is, and percent becomes a ratio from 0 to 1.
 
+The same working reading admits these further SI units, each used only by a
+field that declares it:
+
+- second (`unit.second`);
+- cubic metre (`unit.cubic_metre`);
+- metre (`unit.metre`);
+- ohm (`unit.ohm`);
+- radian (`unit.radian`);
+- one (`unit.one`);
+- volt-ampere reactive second (`unit.volt_ampere_reactive_second`);
+- volt-ampere second (`unit.volt_ampere_second`);
+- kilogram per cubic metre (`unit.kilogram_per_cubic_metre`);
+- becquerel per cubic metre (`unit.becquerel_per_cubic_metre`);
+- kilogram per joule (`unit.kilogram_per_joule`);
+- watt per square metre (`unit.watt_per_square_metre`);
+- metre per joule (`unit.metre_per_joule`).
+
+Two identifiers are not SI. They name money, and the currency is an ISO 4217
+text fact of the same subject: `unit.currency` and `unit.currency_per_joule`.
+
 These conversions are exact: kelvin is degree Celsius plus 273.15 (a
 temperature difference takes the factor 1 and no offset), a ratio is percent
 divided by 100, joule is kilowatt-hour times 3 600 000, and pascal is bar
@@ -323,6 +343,7 @@ Each in-place change made under the exception of the version rule before the
 | 2026-11-18 | The PV pack gains day, month and year yield `pv.energy.yield_day`, `pv.energy.yield_month` and `pv.energy.yield_year` in `unit.joule` on `pv.dimension.system`, minimum 0 and maximum the same bound as `pv.energy.generated`, and `pv.limit.active_power_ratio` in `unit.ratio` on `pv.dimension.inverter`, minimum 0 and maximum 1. The three yields are periods. The ratio is not the watt limit. `pv.energy.generated` and `pv.limit.active_power` stay. `pv.operation.set_active_power_limit` still takes the watt argument. No service, capability or operation is added, and no version is raised. | The PV acceptance vectors: four fields, and the system and inverter portal field lists. The PV validator field contracts and bounds. The element catalog from 387 to 391 entries and its pack-reference count from 322 to 326, its seed references, and the catalog digest recorded by the graph vectors. The PV record of `api/v1/pack-metadata-v1.json`. The Matter 1.7 pass line from 177 kernel-v1 rows (1 transformed, 176 unknown) to 181 kernel-v1 rows (1 transformed, 180 unknown), and four unknown fact rows on each Matter roster. The PV naming rows from 66 to 70. SemReg re-copies these bytes and does not invent the elements. |
 | 2026-11-18 | The infrastructure pack gains self-consumption `infrastructure.energy.self_consumption` in `unit.joule` on `infrastructure.dimension.meter`, minimum 0 and maximum the same bound as `infrastructure.energy.import`, point-of-coupling power `infrastructure.power.pcc` in `unit.watt` on `infrastructure.dimension.grid_connection`, signed, with the same bounds as `infrastructure.ac.active_power`, and the fallback grid limit `infrastructure.limit.fallback_power` in `unit.watt` on `infrastructure.dimension.grid_connection`, minimum 0 and maximum the same bound as `infrastructure.power.import_active`. Self-consumption is not the import counter. Point-of-coupling power is not the import/export pair. The fallback grid limit is not the PV export limit. Import and export energy and power stay, including reactive and apparent power, and line-to-line voltage stays. No service, capability or operation is added, and no version is raised. | The infrastructure acceptance vectors: three fields, and the meter and grid-connection portal field lists. The infrastructure validator field contracts. The element catalog from 391 to 394 entries and its pack-reference count from 326 to 329, its seed references, and the catalog digest recorded by the graph vectors. The infrastructure record of `api/v1/pack-metadata-v1.json`. The Matter 1.7 pass line from 181 kernel-v1 rows (1 transformed, 180 unknown) to 184 kernel-v1 rows (1 transformed, 183 unknown), and three unknown fact rows on each Matter roster. The infrastructure naming rows from 60 to 63. SemReg re-copies these bytes and does not invent the elements. |
 | 2026-11-18 | The [low-voltage BMS CAN storage mapping gate](v1/mappings/growatt-bms-can-storage-v1.md) states, per CAN profile and native field, the storage element, dimension and conversion, or the package E element the field waits for. No version is raised. | None: the storage pack, the RS-485 gate and the family catalog stay. |
+| 2026-11-24 | Contract shapes for class-level subjects, qualifiers on facts, the qualifier-dimension value kind, the event kind, operation parameters, an open pack list, identification schemes `scheme.ieee.eui48` and `scheme.ieee.eui64`, and empty quantity bounds. The [unit rule](#unit-rule) gains thirteen further SI units and the two currency identifiers. The catalog gains `storage.limit.charge_current` and `storage.limit.discharge_current` (`unit.ampere` on `storage.dimension.pack`, both bounds empty) and, for the PV inverter and the electrical infrastructure meter, `accuracy.measured` (boolean), `accuracy.ratio_maximum` (`unit.ratio`, bounds empty) and `dimension.measurement_type` (qualifier dimension). Each measured fact and each ratio fact is qualified by its measurement-type dimension. `storage.capacity.charge` and `storage.capacity.discharge` stay `unit.ampere_hour`. `storage.attribute.chemistry` and `storage.configuration.battery_type` are not added. The Matter 1.6.1 rows of the six facts are `unknown` with `matter.unmapped.v1` and no target; the two measurement-type dimensions have no roster row. The only transformed row remains `evse.ac.current`. No Accuracy struct is published. The Electrical Sensor endpoint is not delivered. The low-voltage CAN storage gate keeps the interface rows `charge_current_limit` and `discharge_current_limit` waiting: the catalog defines those ids on `storage.dimension.pack`, and this gate does not emit the interface native field as that pack fact. No version is raised. | The element catalog from 394 to 402 entries and its pack-reference count from 329 to 337. The catalog schema, the pack-metadata schema and the five pack validators' unit sets. Storage `field_specs` from 23 to 25; the interface capability field list is unchanged and the interlock field stays last. The PV, infrastructure and storage pack vectors and pages, and the storage contract tables. Pack metadata rebuilt from the one source list. Graph vectors `G-POS-SUBJ-CLASS-1`, `G-NEG-SUBJ-CLASS-1`, `G-POS-QUAL-1` and `G-NEG-QUAL-1`, and the catalog digest those vectors record. Six unknown fact rows on the Matter 1.6.1 roster. The historical Matter 1.7 operand and its 184-item roster stay. `scripts/validate_growatt_bms_can_storage_mapping.py` accepts a waiting row when the named fact is absent or defined on another dimension, and refuses it when the catalog dimension equals the row dimension. |
 
 ## Matter 1.6.1 target
 

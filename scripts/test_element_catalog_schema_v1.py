@@ -39,6 +39,10 @@ LIFECYCLE = "kernel.synthetic_lifecycle"
 PRESENTATION = "synthetic.portal.load"
 SCHEME = "scheme.synthetic_registry"
 LENS = "lens.synthetic_energy"
+CLASS_DIM = "synthetic.dimension.equipment_class"
+CLASS_SERVICE = "synthetic.service.equipment_class"
+CLASS_FACT = "synthetic.field.class_power"
+EVENT = "synthetic.event.mode_changed"
 PLANES = ("physical", "energy", "hydraulic", "control", "diagnostic", "provenance")
 CORE_TYPES = ("contains", "groups", "supplies", "measures", "controls", "hosts", "relays")
 
@@ -86,8 +90,12 @@ def structure_elements():
         entry("relation", PACK, SUPPLIES,
               relation_attributes("supplies", medium="electrical", endpoint_dimensions=endpoints)),
         entry("dimension", PACK, RESOURCE_DIM, {"role": "resource", "resource_kind": KIND}),
-        entry("dimension", PACK, QUALIFIER_DIM, {"role": "qualifier"}),
+        entry("dimension", PACK, QUALIFIER_DIM, {"role": "qualifier", "value_kind": "text"}),
+        entry("dimension", PACK, CLASS_DIM, {"role": "resource", "anchor_classes": ["equipment"]}),
         entry("service", PACK, SERVICE, {"fact_key_dimension": ref(PACK, RESOURCE_DIM), "subject_kind": KIND}),
+        entry("service", PACK, CLASS_SERVICE, {
+            "fact_key_dimension": ref(PACK, CLASS_DIM), "subject_classes": ["equipment"],
+        }),
     ]
 
 
@@ -100,8 +108,13 @@ def fact_elements():
     native = entry("fact", NATIVE, NATIVE_EXT, fact_attributes("text", {"status": "unresolved"}, "not_applicable"),
                    "eebus")
     return [
-        entry("fact", PACK, SIGNED,
-              fact_attributes("quantity", resolved, "signed", sign_reference="native_convention")),
+        entry("fact", PACK, SIGNED, fact_attributes(
+            "quantity", resolved, "signed", sign_reference="native_convention",
+            qualifiers=[ref(PACK, QUALIFIER_DIM)],
+        )),
+        entry("fact", PACK, CLASS_FACT, fact_attributes(
+            "quantity", {"status": "resolved", "dimension": ref(PACK, CLASS_DIM)}, "non_negative",
+        )),
         two_vendors,
         outside(entry("fact", PACK, UNKNOWN, fact_attributes("symbol", unresolved, "not_applicable")),
                 "subject_not_established", ISSUE),
@@ -117,7 +130,12 @@ def control_elements():
               planes=["control"]),
         entry("operation", PACK, OPERATION, {
             "capability": ref(PACK, CAPABILITY), "argument": ref(PACK, SIGNED), "effect_rule": ref(PACK, EFFECT),
+            "parameters": [ref(PACK, TWO_VENDORS)],
         }, planes=["control"]),
+        entry("event", PACK, EVENT, {
+            "service": ref(PACK, SERVICE), "trigger": ref(PACK, SIGNED), "condition": "changed",
+            "payload": [], "origin": "derived",
+        }),
         pinned,
         entry("evidence_state", CORE, EVIDENCE, {"kernel_type": "SyntheticEvidence", "values": ["fresh", "stale"]},
               "accepted_kernel", ["provenance"]),
@@ -231,6 +249,9 @@ PROBES = {
     "lens with depth 0": ([(("lenses", LENS, "max_depth"), 0)], "lens/properties/max_depth/minimum"),
     "installation root is not a boolean": ([(at(KIND, "attributes", "installation_root"), "yes")],
                                             "resourceKindAttributes/properties/installation_root/type"),
+    "resource dimension names neither a kind nor anchor classes": (
+        [(at(RESOURCE_DIM, "attributes", "resource_kind"), DROP)], "dimensionAttributes/then/oneOf"),
+    "event without a trigger": ([(at(EVENT, "attributes", "trigger"), DROP)], "eventAttributes/required"),
 }
 
 # JSON pointer of every if node -> operations of a probe that only that conditional rejects
@@ -258,6 +279,9 @@ CONDITIONAL_PROBES = {
     "#/$defs/element/allOf/14/if": [(at(EFFECT, "attributes", "fact"), DROP)],
     "#/$defs/element/allOf/15/if": [(at(EVIDENCE, "attributes", "kernel_type"), "synthetic_evidence")],
     "#/$defs/element/allOf/16/if": PROBES["presentation as member"][0],
+    "#/$defs/dimensionAttributes/allOf/0/if": [(at(QUALIFIER_DIM, "attributes", "value_kind"), DROP)],
+    "#/$defs/element/allOf/18/if": PROBES["event without a trigger"][0],
+    "#/$defs/eventAttributes/allOf/0/if": [(at(EVENT, "attributes", "symbols"), ["synthetic.symbol.entered"])],
 }
 
 
@@ -325,7 +349,7 @@ class PublishedSchemaTest(unittest.TestCase):
 
 class NegativeProbeTest(unittest.TestCase):
     def test_probe_count(self):
-        self.assertEqual(len(PROBES), 29)
+        self.assertEqual(len(PROBES), 31)
 
     def test_each_probe_rejected_for_its_rule(self):
         for name, (operations, location) in PROBES.items():

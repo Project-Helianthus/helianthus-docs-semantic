@@ -34,7 +34,13 @@ availability, and operation records, never symbols.
 
 Fact-key dimensions are `pv.dimension.system`, `pv.dimension.inverter`,
 `pv.dimension.array`, `pv.dimension.string`, `pv.dimension.input`, and
-`pv.dimension.phase`. The corresponding services and explicit relation
+`pv.dimension.phase`. `pv.dimension.measurement_type` is a qualifier
+dimension, not a fact-key dimension. `pv.accuracy.measured` is a boolean and
+`pv.accuracy.ratio_maximum` is `unit.ratio` on `pv.dimension.inverter`. Both
+are qualified by `pv.dimension.measurement_type`. The ratio bounds are empty.
+This pack does not publish an Accuracy struct.
+
+The corresponding services and explicit relation
 definitions preserve system-to-inverter, inverter-to-array, array-to-string,
 inverter-to-input, and inverter-to-phase records. Each of the five relation
 definitions declares the cardinality `one_to_many` of
@@ -62,6 +68,8 @@ pv.energy.yield_year              pv.limit.active_power
 pv.limit.active_power_ratio       pv.limit.export_power
 pv.status.operating               pv.status.derating
 pv.status.fault
+pv.accuracy.measured              pv.accuracy.ratio_maximum
+pv.dimension.measurement_type
 pv.service.system                 pv.service.inverter
 pv.service.array                  pv.service.string
 pv.service.input                  pv.service.phase
@@ -83,8 +91,10 @@ pv.portal.operation.set_export_limit
 
 ## Capability and operation boundary
 
-Every quantity field carries its published minimum and maximum as an exact
-kernel `Decimal` `{coefficient, exponent10}` pair in the acceptance catalog.
+Every quantity field other than `pv.accuracy.ratio_maximum` carries its
+published minimum and maximum as an exact kernel `Decimal`
+`{coefficient, exponent10}` pair in the acceptance catalog. The ratio
+maximum has both bounds empty.
 Those per-field values are part of this PackRef and cannot be broadened,
 narrowed, or re-encoded under the same version.
 

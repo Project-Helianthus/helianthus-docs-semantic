@@ -126,7 +126,9 @@ PACK_RELATIONS = ("pv.relation.inverter_array", "evse.relation.evse_connector",
 # Thermal relations with one endpoint kind on each side, and with several on one side.
 SINGLE_ENDPOINT_RELATION = "thermal.relation.generator_compressor"
 MULTI_ENDPOINT_RELATION = "thermal.relation.fluid_supply"
-THERMAL_VECTORS = validator.VECTOR_FILES[0]
+VECTOR_FILES = tuple(validator.ROOT / path for path in validator.ACCEPTED_PACK_SOURCES
+                     if path != validator.STORAGE_SOURCE)
+THERMAL_VECTORS = VECTOR_FILES[0]
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER = "relation" + "ships"
 
@@ -182,7 +184,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 394 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 402 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -248,12 +250,46 @@ class CommittedCatalog(unittest.TestCase):
         self.assertEqual(consumed["direction"], "non_negative")
         self.assertEqual(consumed["subject"]["dimension"]["id"], "infrastructure.dimension.meter")
 
+    def test_pilot_facts_schemes_and_absent_chemistry(self):
+        present = {entry["ref"]["id"] for entry in CATALOG["elements"]}
+        for ident in ("storage.attribute.chemistry", "storage.configuration.battery_type"):
+            self.assertNotIn(ident, present)
+        for ident in ("storage.limit.charge_current", "storage.limit.discharge_current"):
+            entry = entry_of(CATALOG, ident)
+            self.assertEqual(entry["element_kind"], "fact")
+            self.assertEqual(entry["planes"], ["energy"])
+            self.assertEqual(entry["admission"]["arm"], "two_vendors")
+            subject = entry["attributes"]["subject"]
+            self.assertEqual(subject["dimension"]["id"], "storage.dimension.pack")
+            self.assertEqual(subject["kind"], "resource.battery_pack")
+            self.assertNotIn("qualifiers", entry["attributes"])
+            self.assertEqual(entry["attributes"]["value_kind"], "quantity")
+            self.assertEqual(entry["attributes"]["direction"], "non_negative")
+        for ident in ("pv.accuracy.measured", "infrastructure.accuracy.measured"):
+            attributes = entry_of(CATALOG, ident)["attributes"]
+            self.assertEqual(attributes["value_kind"], "boolean")
+            self.assertEqual([item["id"] for item in attributes["qualifiers"]],
+                             [ident.split(".", 1)[0] + ".dimension.measurement_type"])
+        for ident in ("pv.accuracy.ratio_maximum", "infrastructure.accuracy.ratio_maximum"):
+            attributes = entry_of(CATALOG, ident)["attributes"]
+            self.assertEqual(attributes["value_kind"], "quantity")
+            self.assertEqual([item["id"] for item in attributes["qualifiers"]],
+                             [ident.split(".", 1)[0] + ".dimension.measurement_type"])
+        for ident in ("pv.dimension.measurement_type", "infrastructure.dimension.measurement_type"):
+            attributes = entry_of(CATALOG, ident)["attributes"]
+            self.assertEqual(attributes["role"], "qualifier")
+            self.assertEqual(attributes["value_kind"], "symbol")
+            self.assertGreater(len(attributes["symbols"]), 1)
+        schemes = CATALOG["identification_schemes"]
+        self.assertEqual([item["id"] for item in schemes], ["scheme.ieee.eui48", "scheme.ieee.eui64"])
+        self.assertTrue(all(item["admission"]["arm"] == "public_registry" for item in schemes))
+
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 329)
+        self.assertEqual(len(kinds), 337)
         self.assertEqual(kinds.count("relation"), 26)
         self.assertEqual(kinds.count("presentation"), 39)
-        self.assertEqual(kinds.count("dimension"), 37)
+        self.assertEqual(kinds.count("dimension"), 39)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_generator_is_not_imported(self):
@@ -513,6 +549,101 @@ class Mutations(unittest.TestCase):
             catalog["identification_schemes"] = [scheme("scheme.synthetic"), scheme("scheme.synthetic")]
         self.rejects(mutate, "duplicate_identity", "CAT-9", "scheme.synthetic")
 
+    def test_scheme_record_fields_are_the_two_ieee_schemes(self):
+        # id: swapping the two records changes the ordered scheme list.
+        # issuer_registry and token_form: each field of the first record is replaced.
+        def swap(catalog):
+            schemes = catalog["identification_schemes"]
+            schemes[0], schemes[1] = schemes[1], schemes[0]
+
+        def issuer(catalog):
+            catalog["identification_schemes"][0]["issuer_registry"] = "other"
+
+        def token(catalog):
+            catalog["identification_schemes"][0]["token_form"] = "synthetic token"
+
+        for mutate in (swap, issuer, token):
+            with self.subTest(mutate=mutate.__name__):
+                self.rejects(mutate, "invalid_value", "CAT-9", "identification schemes",
+                             "scheme.ieee.eui48 then scheme.ieee.eui64")
+
+    def test_qualifier_that_is_not_a_qualifier_dimension(self):
+        def mutate(catalog):
+            entry_of(catalog, "pv.accuracy.measured")["attributes"]["qualifiers"] = [
+                ref_of(catalog, "pv.dimension.inverter")]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
+                     "qualifier is not a qualifier dimension")
+
+    def test_qualifier_from_another_pack(self):
+        def mutate(catalog):
+            entry_of(catalog, "pv.accuracy.measured")["attributes"]["qualifiers"] = [
+                ref_of(catalog, "infrastructure.dimension.measurement_type")]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
+                     "qualifier is not a dimension of the same pack")
+
+    def test_qualifiers_out_of_order(self):
+        def mutate(catalog):
+            entry_of(catalog, "pv.accuracy.measured")["attributes"]["qualifiers"] = [
+                ref_of(catalog, "pv.dimension.phase"), ref_of(catalog, "pv.dimension.measurement_type")]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
+                     "qualifiers are not a sorted unique list")
+
+    def test_unsorted_anchor_classes(self):
+        def mutate(catalog):
+            attributes = entry_of(catalog, "pv.dimension.inverter")["attributes"]
+            del attributes["resource_kind"]
+            attributes["anchor_classes"] = ["equipment", "component"]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.dimension.inverter",
+                     "anchor classes are not sorted unique")
+
+    def test_class_level_fact_carries_a_resource_kind(self):
+        def mutate(catalog):
+            attributes = entry_of(catalog, "pv.dimension.inverter")["attributes"]
+            del attributes["resource_kind"]
+            attributes["anchor_classes"] = ["equipment"]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
+                     "class-level fact carries a resource kind")
+
+    def test_parameter_equal_to_the_argument(self):
+        def mutate(catalog):
+            attributes = entry_of(catalog, "pv.operation.set_active_power_limit")["attributes"]
+            attributes["parameters"] = [copy.deepcopy(attributes["argument"])]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.operation.set_active_power_limit",
+                     "parameter equals the argument")
+
+    def test_parameter_from_another_pack(self):
+        def mutate(catalog):
+            entry_of(catalog, "pv.operation.set_active_power_limit")["attributes"]["parameters"] = [
+                ref_of(catalog, "storage.limit.charge_current")]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.operation.set_active_power_limit",
+                     "parameter is not a field of the same pack")
+
+    def test_parameters_out_of_order(self):
+        def mutate(catalog):
+            entry_of(catalog, "pv.operation.set_active_power_limit")["attributes"]["parameters"] = [
+                ref_of(catalog, "pv.limit.export_power"), ref_of(catalog, "pv.limit.active_power_ratio")]
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.operation.set_active_power_limit",
+                     "parameters are not a sorted unique list")
+
+    def test_event_trigger_from_another_pack(self):
+        def mutate(catalog):
+            trigger = entry_of(catalog, "infrastructure.energy.import")
+            event = copy.deepcopy(entry_of(catalog, "pv.accuracy.measured"))
+            event["ref"]["id"] = "pv.event.synthetic"
+            event["element_kind"] = "event"
+            event["planes"] = list(trigger["planes"])
+            event["attributes"] = {
+                "service": ref_of(catalog, "pv.service.inverter"),
+                "trigger": ref_of(catalog, "infrastructure.energy.import"),
+                "condition": "changed",
+                "payload": [],
+                "origin": "derived",
+            }
+            catalog["elements"].append(event)
+            resort(catalog)
+        self.rejects(mutate, "invalid_value", "CAT-2", "pv.event.synthetic",
+                     "trigger is not a fact of the same pack")
+
 
 class PackInputs(unittest.TestCase):
     """The validator reads the relation definitions only in their one encoding."""
@@ -536,7 +667,7 @@ class PackInputs(unittest.TestCase):
         def mutate(document):
             definitions = document["catalog"]["definitions"]
             definitions[EARLIER_MEMBER] = definitions.pop("relations")
-        for path in validator.VECTOR_FILES:
+        for path in VECTOR_FILES:
             with self.subTest(pack=path.name), self.assertRaisesRegex(ValueError, "definition groups outside"):
                 self.load_with(path, mutate)
 
@@ -548,7 +679,7 @@ class PackInputs(unittest.TestCase):
             self.load_with(THERMAL_VECTORS, mutate)
 
     def test_vector_relation_without_cardinality(self):
-        for path in validator.VECTOR_FILES:
+        for path in VECTOR_FILES:
             with self.subTest(pack=path.name), self.assertRaises(KeyError):
                 self.load_with(path, lambda d: d["catalog"]["definitions"]["relations"][0].pop("cardinality"))
 

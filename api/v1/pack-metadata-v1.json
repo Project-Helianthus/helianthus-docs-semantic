@@ -1097,6 +1097,22 @@
             "id": "helianthus.pack.infrastructure",
             "version": "1.0.0"
           },
+          "id": "infrastructure.accuracy.measured",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.ratio_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
           "id": "infrastructure.capability.read.circuit",
           "version": "1.0.0"
         },
@@ -1587,6 +1603,51 @@
               "version": "1.0.0"
             },
             "id": "infrastructure.dimension.line_pair",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.measured",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.ratio_maximum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
             "version": "1.0.0"
           }
         },
@@ -2368,6 +2429,22 @@
             "id": "helianthus.pack.pv",
             "version": "1.0.0"
           },
+          "id": "pv.accuracy.measured",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.ratio_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
           "id": "pv.capability.read.array",
           "version": "1.0.0"
         },
@@ -3034,6 +3111,51 @@
               "version": "1.0.0"
             },
             "id": "pv.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.measured",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.ratio_maximum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
             "version": "1.0.0"
           }
         },
@@ -4026,7 +4148,23 @@
             "id": "helianthus.pack.storage",
             "version": "1.1.0"
           },
+          "id": "storage.limit.charge_current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
           "id": "storage.limit.charge_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.limit.discharge_current",
           "version": "1.1.0"
         },
         {
@@ -4503,6 +4641,32 @@
               "id": "helianthus.pack.storage",
               "version": "1.1.0"
             },
+            "id": "storage.limit.charge_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
             "id": "storage.limit.charge_power",
             "version": "1.1.0"
           },
@@ -4520,6 +4684,32 @@
               "version": "1.1.0"
             },
             "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.limit.discharge_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
             "version": "1.1.0"
           }
         },

@@ -15,7 +15,7 @@ ID = re.compile(r"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$")
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS = frozenset({"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
                              "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
-                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"})
+                             "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule"})
 DOMAINS = {
     "thermal_hvac": ("helianthus.pack.thermal", "accepted"),
     "pv_inverter": ("helianthus.pack.pv", "accepted"),
@@ -65,6 +65,26 @@ def symbol(dimension, symbols):
     return ("symbol", None, dimension, True, tuple(symbols), None, None)
 
 
+def boolean(dimension):
+    return ("boolean", None, dimension, True, None, None, None)
+
+
+def empty_quantity(unit, dimension):
+    return ("quantity", unit, dimension, True, None, None, None)
+
+
+MEASUREMENT_SYMBOLS = (
+    "active_current", "active_power", "apparent_current", "apparent_energy", "apparent_power",
+    "electrical_energy", "frequency", "neutral_current", "power_factor", "reactive_current",
+    "reactive_energy", "reactive_power", "rms_current", "rms_power", "rms_voltage", "unspecified", "voltage",
+)
+QUALIFIED = {
+    "infrastructure.accuracy.measured": ("infrastructure.dimension.measurement_type",),
+    "infrastructure.accuracy.ratio_maximum": ("infrastructure.dimension.measurement_type",),
+}
+QUALIFIER_DIMS = {"infrastructure.dimension.measurement_type"}
+
+
 FIELD_CONTRACTS = {
     "infrastructure.ac.voltage": quantity("unit.volt", "infrastructure.dimension.phase", ("0", 0), ("1", 3)),
     "infrastructure.ac.voltage_line_line": quantity("unit.volt", "infrastructure.dimension.line_pair", ("0", 0), ("1", 3)),
@@ -89,6 +109,8 @@ FIELD_CONTRACTS = {
     "infrastructure.status.breaker": symbol("infrastructure.dimension.circuit", ["infrastructure.status.breaker.closed", "infrastructure.status.breaker.open"]),
     "infrastructure.status.fault": symbol("infrastructure.dimension.site", ["infrastructure.status.fault.clear", "infrastructure.status.fault.present"]),
     "infrastructure.status.interlock": symbol("infrastructure.dimension.circuit", ["infrastructure.status.interlock.active", "infrastructure.status.interlock.clear"]),
+    "infrastructure.accuracy.measured": boolean("infrastructure.dimension.meter"),
+    "infrastructure.accuracy.ratio_maximum": empty_quantity("unit.ratio", "infrastructure.dimension.meter"),
 }
 DIMS = {f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
 SERVICES = {f"infrastructure.service.{name}": f"infrastructure.dimension.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter", "line_pair")}
@@ -99,8 +121,8 @@ RELATIONS = {
     "infrastructure.relation.circuit_phase": ("infrastructure.dimension.circuit", "infrastructure.dimension.phase", "one_to_many"),
     "infrastructure.relation.grid_connection_meter": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.meter", "one_to_many"),
 }
-DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
-                     "effect_rules", "portal_contributions"}
+DEFINITION_GROUPS = {"fields", "fact_dimensions", "qualifier_dimensions", "services", "relations", "capabilities",
+                     "operations", "effect_rules", "portal_contributions"}
 CAPS = {f"infrastructure.capability.read.{name}": f"infrastructure.service.{name}" for name in ("site", "grid_connection", "feeder", "circuit", "phase", "meter")}
 PORTAL = {
     "infrastructure.portal.read.site": ("infrastructure.service.site", ("infrastructure.status.fault",)),
@@ -109,7 +131,7 @@ PORTAL = {
     "infrastructure.portal.read.circuit": ("infrastructure.service.circuit", ("infrastructure.status.breaker", "infrastructure.status.interlock")),
     "infrastructure.portal.read.phase": ("infrastructure.service.phase", ("infrastructure.ac.active_power", "infrastructure.ac.apparent_power", "infrastructure.ac.current", "infrastructure.ac.reactive_power", "infrastructure.ac.voltage")),
     "infrastructure.portal.read.line_pair": ("infrastructure.service.line_pair", ("infrastructure.ac.voltage_line_line",)),
-    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption")),
+    "infrastructure.portal.read.meter": ("infrastructure.service.meter", ("infrastructure.accuracy.measured", "infrastructure.accuracy.ratio_maximum", "infrastructure.energy.export", "infrastructure.energy.import", "infrastructure.energy.self_consumption")),
 }
 MAPPINGS = {
     "infrastructure.mapping.ebus": {"id":"infrastructure.mapping.ebus","native_owner":"helianthus-docs-ebus","source_refs":["ebus_docs"],"state":"unknown_profile_specific","qualification":"identity_provenance_only","control_route":"none","live_authority":False,"loss":"unknown"},
@@ -193,6 +215,9 @@ def validate_defs(catalog):
         base = {"id", "ref", "kind", "dimension", "optional", "order"}
         if (item.get("kind"), item.get("dimension"), item.get("optional")) != (kind, dimension, optional):
             raise ValueError("field has noncanonical kind, dimension, or optionality")
+        if qualified_shape(kind, minimum, maximum):
+            check_qualified_field(identifier, item, kind, unit, base)
+            continue
         if kind == "quantity":
             require_canonical_unit(item.get("unit"))
             bounds = {"minimum": {"coefficient": minimum[0], "exponent10": minimum[1]}, "maximum": {"coefficient": maximum[0], "exponent10": maximum[1]}}
@@ -203,6 +228,7 @@ def validate_defs(catalog):
     dimensions = refs(definitions.get("fact_dimensions"), "fact dimensions", DIMS)
     if any(set(item) != {"id", "ref", "value_kind", "order"} or item.get("value_kind") != "text" for item in dimensions.values()):
         raise ValueError("dimension association")
+    check_qualifier_dimensions(definitions)
     services = refs(definitions.get("services"), "services", SERVICES)
     if any(set(item) != {"id", "ref", "fact_key_dimension", "order"} or item.get("fact_key_dimension") != SERVICES[key] for key, item in services.items()):
         raise ValueError("service association")
@@ -212,8 +238,7 @@ def validate_defs(catalog):
     capabilities = refs(definitions.get("capabilities"), "capabilities", CAPS)
     if any(set(item) != {"id", "ref", "service", "activation", "order"} or item.get("service") != CAPS[key] or item.get("activation") != "qualified_current_binding" for key, item in capabilities.items()):
         raise ValueError("capability association")
-    if definitions.get("operations") != [] or definitions.get("effect_rules") != []:
-        raise ValueError("read-only operation boundary")
+    check_read_only(definitions)
     portal = refs(definitions.get("portal_contributions"), "Portal contributions", PORTAL)
     coverage = set()
     for key, item in portal.items():
@@ -222,6 +247,32 @@ def validate_defs(catalog):
             raise ValueError("Portal read association")
         coverage.update(members)
     exact(coverage, set(fields), "Portal read field coverage")
+
+
+def check_read_only(definitions):
+    if definitions.get("operations") != [] or definitions.get("effect_rules") != []:
+        raise ValueError("read-only operation boundary")
+
+
+def qualified_shape(kind, minimum, maximum):
+    return kind == "boolean" or (kind == "quantity" and minimum is None and maximum is None)
+
+
+def check_qualified_field(identifier, item, kind, unit, base):
+    if kind == "boolean":
+        if set(item) != base | {"qualifiers"} or tuple(item.get("qualifiers", ())) != QUALIFIED[identifier]:
+            raise ValueError("field qualifiers")
+        return
+    if tuple(item.get("qualifiers", ())) != QUALIFIED[identifier]:
+        raise ValueError("field qualifiers")
+    if set(item) != base | {"unit", "bounds", "qualifiers"} or item.get("unit") != unit or item.get("bounds") != {"minimum": None, "maximum": None}:
+        raise ValueError("field has invalid canonical quantity contract")
+
+
+def check_qualifier_dimensions(definitions):
+    qualifiers = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_DIMS)
+    if any(set(item) != {"id", "ref", "value_kind", "symbols", "order"} or item.get("value_kind") != "symbol" or tuple(item.get("symbols", ())) != MEASUREMENT_SYMBOLS for item in qualifiers.values()):
+        raise ValueError("qualifier dimension")
 
 
 def validate_catalog(catalog):

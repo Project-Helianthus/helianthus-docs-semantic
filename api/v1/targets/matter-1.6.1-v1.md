@@ -42,8 +42,8 @@ implementation equivalent to 1.6.1.
 
 The roster is derived from the [element catalog](../element-catalog-v1.json):
 one row for every fact, capability, operation, service and relation definition
-owned by the five accepted packs, 177 rows in all (88 facts, 32 capabilities,
-7 operations, 29 services and 21 relation definitions). Pack versions are EVSE,
+owned by the five accepted packs, 252 rows in all (146 facts, 37 capabilities,
+7 operations, 36 services and 26 relation definitions). Pack versions are EVSE,
 Infrastructure, PV and Thermal `1.0.0`, and Storage `1.1.0`, as the catalog
 keys them. Core-owned elements, dimensions, effect rules and presentations are
 not requested; the rows that cite them account for them. Rows sort by exact
@@ -53,48 +53,39 @@ kernel-v1 request and exact snapshot/revision binding. Fact rows keep their
 canonical runtime FactKey dimensions, read from the catalog subject. These are
 runtime bindings, not synthetic values supplied by the descriptor.
 
-Measurement-type association, unverified and not added to the catalog. The
-Matter column recorded for the measurement-type dimension is
-`ElectricalPowerMeasurement.Accuracy`. For the measured boolean the recorded
-columns are `ElectricalPowerMeasurement.Accuracy`,
+Measurement-type association, unverified. The Matter column recorded for the
+measurement-type dimension is `ElectricalPowerMeasurement.Accuracy`. For the
+measured boolean the recorded columns are `ElectricalPowerMeasurement.Accuracy`,
 `ElectricalPowerMeasurement.NumberOfMeasurementTypes` and
 `ElectricalEnergyMeasurement.Accuracy`; for the maximum ratio they are
 `ElectricalPowerMeasurement.Accuracy` and `ElectricalEnergyMeasurement.Accuracy`.
 No versioned public source is cited for these associations yet, so they are
 unverified. They are Matter columns, not one device type, cluster, attribute or
 conversion, and not a `MeasurementAccuracyStruct`. No row is `transformed` on
-this basis, and no struct is published.
+this basis, and no struct is published. `pv.dimension.measurement_type` and
+`infrastructure.dimension.measurement_type` have no roster row.
 
-The accuracy and measurement-type elements of a fed subject are not in the
-catalog: `pv.accuracy.measured`, `pv.accuracy.ratio_maximum`,
+The fed subject is the PV inverter. The catalog members are
+`pv.accuracy.measured`, `pv.accuracy.ratio_maximum`,
 `pv.dimension.measurement_type`, `infrastructure.accuracy.measured`,
 `infrastructure.accuracy.ratio_maximum` and
-`infrastructure.dimension.measurement_type`. The element catalog schema does
-not forbid them: it admits a qualifier role on a dimension element, and it
-admits a resolved fact subject with its dimension. They stay undeclared because
-a pack declaration for a new pilot field sits outside this write set, and a
-catalog definition that no accepted pack declares fails `extra_pack_refs` in
-`scripts/validate_element_catalog_v1.py`. The PV and infrastructure pack
-validators pin their field contracts, which is also outside this write set.
-Neither fed subject's elements are added in this change.
-
-The CAN chemistry pair is not added, and neither id substitutes for the other.
-The denominator row `can.chemistry` names `storage.attribute.chemistry`, which
-is absent at the pin. The storage element set names
-`storage.configuration.battery_type` for the chemistry field instead. Both ids
-are withheld. The CAN charge and discharge current limits,
-`storage.limit.charge_current` and `storage.limit.discharge_current`, are
-withheld with the storage pack pin: the storage validator pins the field-spec
-count and the table digest, and it requires a minimum and a maximum on each
-quantity field. The storage pack is outside this write set, so none of the four
-ids is added.
+`infrastructure.dimension.measurement_type`. The two measured facts are
+booleans and the two ratio facts are `unit.ratio`, each qualified by its
+measurement-type dimension. `storage.attribute.chemistry` and
+`storage.configuration.battery_type` are not added, and neither id substitutes
+for the other. `storage.limit.charge_current` and
+`storage.limit.discharge_current` are catalog members, `unit.ampere` on
+`storage.dimension.pack`, with both bounds empty. The six facts are the two
+measured facts, the two ratio facts and the two current limits. Each of the
+six facts has one `unknown` row, reason `matter.unmapped.v1`, and no target
+member.
 
 Electrical Power Measurement is not complete: `PowerMode`,
 `MinMeasuredValue`, `MaxMeasuredValue`, `AccuracyRanges`, `RangeMin` and
 `RangeMax` have no catalog element and no source in the cited tables. The
 mandatory `NumberOfMeasurementTypes` has no catalog count, and `ActivePower` has
 several partial sources and no single element id. Electrical Sensor `0x0510` is
-therefore not a complete endpoint in this row.
+therefore not a complete endpoint, and this row does not deliver it.
 
 Only `evse.ac.current` is `transformed`, with reason
 `matter.phase_association_by_relation.v1`, to device/cluster/attribute
@@ -126,7 +117,7 @@ the medium where the catalog states one. Every `measures` definition and every
 reason `matter.power_topology_endpoint_unallocated.v1`. Its `target_construct`
 names the Power Topology cluster `0x009C` with equivalence **Hypothesis**. That
 construct carries an electrical association only between allocated endpoints.
-This descriptor allocates none, so no association is emitted. The other 16
+This descriptor allocates none, so no association is emitted. The other 21
 relation definitions (`contains`, `groups` and `hosts`) remain `unknown` with
 `matter.relation_construct_not_adopted.v1`. Their target constructs lie outside
 the three adopted model identities. No relation row is `unrepresentable`: the
@@ -134,11 +125,11 @@ catalog's admission record of every core type used here names a construct of
 the target data model.
 
 Kernel-v1 `ItemKind` names facts, relations, capabilities and operations only,
-so a service is never a requested item. Each of the 29 services is
+so a service is never a requested item. Each of the 36 services is
 `unsupported` with `matter.service_not_requested_item.v1`, a null `requested`
 member and no FactKey. Its subject has no allocated endpoint in this target.
 
-All other 126 facts/capabilities/operations remain kernel-v1 `unknown` with
+All other 189 facts/capabilities/operations remain kernel-v1 `unknown` with
 `matter.unmapped.v1` and irreversible policy loss. They create no target lookup,
 inferred fallback, intent, authority, route, operation or control. A similar
 name or model identity cannot promote them. Protocol-native facts still require

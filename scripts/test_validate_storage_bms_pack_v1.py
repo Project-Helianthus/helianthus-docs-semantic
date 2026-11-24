@@ -12,7 +12,7 @@ v=importlib.util.module_from_spec(spec); sys.modules[spec.name]=v; spec.loader.e
 # The member name used before the in-place rename, assembled so that no file spells it.
 EARLIER_MEMBER='relation'+'ships'
 # The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
-SI_UNITS={'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt'}
+SI_UNITS={'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt', 'unit.second', 'unit.cubic_metre', 'unit.metre', 'unit.ohm', 'unit.radian', 'unit.one', 'unit.volt_ampere_reactive_second', 'unit.volt_ampere_second', 'unit.kilogram_per_cubic_metre', 'unit.becquerel_per_cubic_metre', 'unit.kilogram_per_joule', 'unit.watt_per_square_metre', 'unit.metre_per_joule', 'unit.currency', 'unit.currency_per_joule'}
 # Customary and prefixed units that no pack field may declare.
 NOT_SI=('unit.percent','unit.kilowatt_hour','unit.celsius','unit.kilowatt','unit.bar','unit.litre_per_minute')
 ZERO={'coefficient':'0','exponent10':0}
@@ -140,16 +140,47 @@ def check_si_units(data, table):
     print('si_units_and_exact_bounds: PASS')
 
 
+def check_current_limits(table):
+    """Current-limit fields and the production mutation each one catches.
+
+    field_specs length: removing storage.limit.charge_current fails exact counts.
+    id: renaming that field fails the DefinitionIndex order.
+    unit: a unit outside the SI set fails the unit check.
+    dimension: moving it off storage.dimension.pack fails the table digest.
+    bounds.minimum: filling the charge-current minimum fails the table digest.
+    bounds.maximum: filling the discharge-current maximum fails the table digest.
+    interlock last: swapping the last field off storage.status.interlock fails the interlock check.
+    interface field list: inserting the current limit fails the interface capability check.
+    """
+    specs = table['field_specs']
+    if len(specs) != 25:
+        raise AssertionError('field_specs is not 25')
+    if specs[-1]['id'] != 'storage.status.interlock':
+        raise AssertionError('interlock is not last')
+    for ident in ('storage.limit.charge_current', 'storage.limit.discharge_current'):
+        field = next(item for item in specs if item['id'] == ident)
+        if field['unit'] != 'unit.ampere' or field['dimension'] != 'storage.dimension.pack':
+            raise AssertionError(ident)
+        if field['bounds'] != {'minimum': None, 'maximum': None}:
+            raise AssertionError(ident + ' bounds are not empty')
+    cap = next(item for item in table['capabilities'] if item['id'] == 'storage.capability.read.interface')
+    expected = ['storage.limit.charge_power', 'storage.limit.discharge_power', 'storage.status.interlock']
+    if cap['field_ids'] != expected:
+        raise AssertionError('interface capability field list changed')
+    print('current_limits: PASS')
+
+
 def main():
  data=v.load(); table=v.tables(); v.document(data,table); v.validate(data['catalog'],table)
  TestStorageEnergyCapacitiesStayJoule().run()
  check_si_units(data,table)
+ check_current_limits(table)
  catalog_cases=[
   ('wrong_pack',lambda c:c['pack'].update(id='helianthus.pack.pv'),'PackRef'),
   ('wrong_pack_version',lambda c:c['pack'].update(version='1.0.0'),'PackRef'),
   ('missing_domain',lambda c:c['domain_catalog'].pop(),'five-domain'),
   ('missing_field',lambda c:c['definitions']['fields'].pop(),'field catalog'),
-  ('interlock_symbol_drift',lambda c:c['definitions']['fields'][22]['symbols'].reverse(),'field catalog'),
+  ('interlock_symbol_drift',lambda c:c['definitions']['fields'][24]['symbols'].reverse(),'field catalog'),
   ('unit_swap',lambda c:c['definitions']['fields'][0].update(unit='unit.volt'),'field catalog'),
   ('dimension_swap',lambda c:c['definitions']['fields'][0].update(dimension='storage.dimension.cell'),'field catalog'),
   ('can_live',lambda c:c['candidate_mappings'][0].update(physical_qualified=True),'mapping'),
@@ -173,8 +204,8 @@ def main():
   ('quantity_unit_retyped',lambda t:t['field_specs'][0].update(unit='unit.volt'),'exact contract tables'),
   ('quantity_dimension_crosswire',lambda t:t['field_specs'][0].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('duplicate_field_id',lambda t:t['field_specs'][1].update(id='storage.state.soc'),'duplicate field'),
-  ('interlock_field_drift',lambda t:t['field_specs'][22].update(dimension='storage.dimension.pack'),'interlock field'),
-  ('interlock_symbol_drift',lambda t:t['field_specs'][22]['symbols'].reverse(),'interlock field'),
+  ('interlock_field_drift',lambda t:t['field_specs'][24].update(dimension='storage.dimension.pack'),'interlock field'),
+  ('interlock_symbol_drift',lambda t:t['field_specs'][24]['symbols'].reverse(),'interlock field'),
   ('service_dimension_crosswire',lambda t:t['services'][2].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('relation_endpoint_crosswire',lambda t:t['relations'][0].update(to='storage.service.pack'),'exact contract tables'),
   ('relation_origin_crosswire',lambda t:t['relations'][1].update(**{'from':'storage.service.system'}),'exact contract tables'),
@@ -217,6 +248,14 @@ def main():
   ('kelvin_minimum_dropped',lambda t:t['field_specs'][12]['bounds'].update(minimum=None),'exact contract tables'),
   ('kelvin_minimum_left_in_celsius',lambda t:t['field_specs'][13]['bounds'].update(minimum={'coefficient':'-27315','exponent10':-2}),'exact contract tables'),
   ('capacity_moved_to_joule',lambda t:t['field_specs'][10].update(unit='unit.joule'),'exact contract tables'),
+  ('charge_current_removed',lambda t:t['field_specs'].pop(next(i for i,field in enumerate(t['field_specs']) if field['id']=='storage.limit.charge_current')),'exact counts'),
+  ('charge_current_renamed',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.charge_current').update(id='storage.limit.charge_current_moved'),'noncanonical DefinitionIndex order'),
+  ('charge_current_unit',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.charge_current').update(unit='unit.percent'),'field unit is outside the canonical SI unit set'),
+  ('charge_current_dimension',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.charge_current').update(dimension='storage.dimension.cell'),'exact contract tables'),
+  ('charge_current_minimum',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.charge_current')['bounds'].update(minimum={'coefficient':'0','exponent10':0}),'exact contract tables'),
+  ('discharge_current_maximum',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.discharge_current')['bounds'].update(maximum={'coefficient':'1','exponent10':0}),'exact contract tables'),
+  ('interlock_not_last',lambda t:t['field_specs'].__setitem__(slice(-2,None),list(reversed(t['field_specs'][-2:]))),'interlock field'),
+  ('current_on_interface',lambda t:next(item for item in t['capabilities'] if item['id']=='storage.capability.read.interface')['field_ids'].insert(0,'storage.limit.charge_current'),'qualified-current interface capability'),
  ]
  table_cases += [('field_%d_unit_%s' % (index, unit.removeprefix('unit.')), lambda t, index=index, unit=unit: t['field_specs'][index].update(unit=unit), 'field unit is outside the canonical SI unit set') for index in (0, 1, 5, 6, 12, 13) for unit in NOT_SI]
  for case in table_cases: table_case(*case)

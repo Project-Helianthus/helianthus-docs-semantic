@@ -46,7 +46,7 @@ MAX_CUT_MEMBERS = 256
 FINDING_KINDS = ("anchor_parent_unresolved", "contradicted_absence", "duplicate_identity", "same_unit", "ungraphed")
 COHERENCE_STATES = ("coherent", "stale", "dangling", "outside_cut", "excluded", "conflict")
 
-VECTOR_ID = re.compile("^G-(POS|NEG)-[A-Z]+-[0-9]+$")
+VECTOR_ID = re.compile("^G-(POS|NEG)-[A-Z]+(?:-[A-Z]+)?-[0-9]+$")
 ERROR_HEADING = re.compile("^### Error: `([a-z][a-z0-9_]*)`$", re.MULTILINE)
 SECTION_19 = re.compile(r"^## 19\. Conformance$(.*?)^## 20\.", re.MULTILINE | re.DOTALL)
 STATEMENT_ROW = re.compile(
@@ -919,6 +919,68 @@ def check_cuts(document: dict[str, Any], context: Context) -> list[str]:
         states |= {entry["coherence"] for entry in cut["relation_coherence"]}
     problems += [f"no accepted cut vector has finding {kind}" for kind in sorted(set(FINDING_KINDS) - kinds)]
     problems += [f"no accepted cut vector has coherence {state}" for state in sorted(set(COHERENCE_STATES) - states)]
+    return sorted_problems(problems)
+
+
+SUBJECT_CASE_IDS = frozenset({
+    "G-POS-SUBJ-CLASS-1", "G-NEG-SUBJ-CLASS-1", "G-POS-QUAL-1", "G-NEG-QUAL-1",
+})
+ANCHOR_CLASSES = ("component", "equipment", "episode", "function")
+
+
+def class_list_error(values: Any) -> str | None:
+    if not isinstance(values, list) or not values:
+        return "invalid_value"
+    if any(not isinstance(item, str) for item in values) or values != sorted(values) or len(values) != len(set(values)):
+        return "invalid_value"
+    if any(item not in ANCHOR_CLASSES for item in values):
+        return "invalid_value"
+    return None
+
+
+def qualifier_list_error(values: Any) -> str | None:
+    """An empty qualifier list is well typed. Inequality is unknown_member, not invalid_value."""
+    if not isinstance(values, list) or any(not isinstance(item, str) for item in values):
+        return "invalid_value"
+    if values != sorted(values) or len(values) != len(set(values)):
+        return "invalid_value"
+    return None
+
+
+def subject_case_error(check: Any) -> str | None:
+    if not isinstance(check, dict):
+        return "invalid_value"
+    if "anchor_classes" in check or "anchor_class" in check:
+        error = class_list_error(check.get("anchor_classes"))
+        if error is not None:
+            return error
+        resource = check.get("anchor_class")
+        if not isinstance(resource, str) or resource not in ANCHOR_CLASSES:
+            return "invalid_value"
+        if resource not in check["anchor_classes"]:
+            return "identity_drift"
+        return None
+    declared = check.get("declared_qualifiers")
+    key = check.get("key_qualifiers")
+    if qualifier_list_error(declared) is not None or qualifier_list_error(key) is not None:
+        return "invalid_value"
+    if list(declared) != list(key):
+        return "unknown_member"
+    return None
+
+
+def check_subject_cases(document: dict[str, Any], context: Context) -> list[str]:
+    problems = []
+    for vector in document["vectors"]:
+        if vector["id"] not in SUBJECT_CASE_IDS:
+            continue
+        error = subject_case_error(vector.get("input", {}).get("subject_check"))
+        expect = vector["expect"]
+        if error is None:
+            if expect.get("result") != "accept" or not expect.get("assertions"):
+                problems.append(f"{vector['id']}: subject case is admitted")
+        elif expect.get("error_id") != error or expect.get("result") != "reject" or expect.get("state_unchanged") is not True:
+            problems.append(f"{vector['id']}: expected {expect.get('error_id')} differs from {error}")
     return sorted_problems(problems)
 
 
@@ -1831,6 +1893,7 @@ RULES = (
     ("statements", check_statements),
     ("cuts", check_cuts),
     ("reads", check_reads),
+    ("subject_cases", check_subject_cases),
     ("catalog_digest", check_catalog_digest),
 )
 

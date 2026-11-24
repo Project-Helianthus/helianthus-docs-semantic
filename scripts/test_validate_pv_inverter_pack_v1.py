@@ -20,7 +20,7 @@ EARLIER_MEMBER = "relation" + "ships"
 # The SI unit set of the unit rule in api/README.md; a pack field declares no other unit.
 SI_UNITS = {"unit.ampere", "unit.ampere_hour", "unit.cubic_metre_per_second", "unit.hertz", "unit.joule",
             "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
-            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt"}
+            "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule"}
 # Each field the rule moved: SI unit, customary bounds before the move, exact factor and offset.
 CONVERTED = {
     "pv.energy.generated": ("unit.joule", ("0", 0), ("1", 12), Fraction(3600000), Fraction(0)),
@@ -376,7 +376,7 @@ def main():
     case(document, "duplicate_field_order", "fields noncanonical order", lambda c: c["definitions"]["fields"][1].update(order=10))
     case(document, "duplicate_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.idle", "pv.status.operating.idle"]))
     case(document, "nul_symbol", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating\u0000", "pv.status.operating.idle", "pv.status.operating.standby"]))
-    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":270}))
+    case(document, "availability_symbol_reintroduced", "fields catalog", lambda c: c["definitions"]["fields"].append({"id":"pv.status.availability","ref":{"pack":validator.PACK,"id":"pv.status.availability","version":"1.0.0"},"kind":"symbol","dimension":"pv.dimension.inverter","symbols":["pv.status.availability.available"],"optional":True,"order":320}))
     case(document, "readiness_conflates_unavailable", "canonical symbol contract", lambda c: c["definitions"]["fields"][15].update(symbols=["pv.status.operating.generating", "pv.status.operating.idle", "pv.status.operating.unavailable"]))
     case(document, "availability_policy_conflated", "availability policy", lambda c: c["availability_policy"].update(effective_availability="pv.status.operating"))
     case(document, "topology_self_edge", "topology relation association", lambda c: c["definitions"]["relations"][0].update(to="pv.dimension.system"))
@@ -400,6 +400,52 @@ def main():
     case(document, "extra_normative_mapping", "native mapping boundary", lambda c: c["candidate_mappings"].append({"id":"pv.mapping.extra","native_owner":"helianthus-semreg","source_refs":[],"state":"normative","qualification":"qualified","loss":"none"}))
     case(document, "tesla_provenance_reintroduced", "pinned public inputs", lambda c: c["inputs"][4].update(id="tesla_docs_modbus", revision="d16ff91ff808803fa31c67a6a10eb2a4faa70937"))
     print("focused_mutations: 51 REJECTED")
+    check_accuracy_facts(document)
+
+
+def check_accuracy_facts(document):
+    """Accuracy identity fields and the production mutation each one catches.
+
+    pv.accuracy.measured id: renaming the field and its ref fails the fields catalog.
+    kind, dimension and optional: each change fails the noncanonical field check.
+    qualifiers: dropping them fails field qualifiers.
+    pv.accuracy.ratio_maximum unit: another SI unit fails the quantity contract.
+    bounds minimum and bounds maximum: filling either fails the quantity contract.
+    pv.dimension.measurement_type value_kind: text fails the qualifier dimension check.
+    symbols: replacing one symbol fails the qualifier dimension check.
+    """
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    measured = fields["pv.accuracy.measured"]
+    ratio = fields["pv.accuracy.ratio_maximum"]
+    if measured["kind"] != "boolean" or tuple(measured["qualifiers"]) != ("pv.dimension.measurement_type",):
+        raise AssertionError("measured fact")
+    if ratio["kind"] != "quantity" or ratio["unit"] != "unit.ratio" or ratio["bounds"] != {"minimum": None, "maximum": None}:
+        raise AssertionError("ratio fact")
+    if tuple(ratio["qualifiers"]) != ("pv.dimension.measurement_type",):
+        raise AssertionError("ratio qualifiers")
+    qualifier = document["catalog"]["definitions"]["qualifier_dimensions"][0]
+    if qualifier["id"] != "pv.dimension.measurement_type" or qualifier["value_kind"] != "symbol":
+        raise AssertionError("measurement type")
+    if tuple(qualifier["symbols"]) != validator.MEASUREMENT_SYMBOLS:
+        raise AssertionError("measurement symbols")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+
+    def rename(catalog, ident):
+        field = catalog["definitions"]["fields"][positions[ident]]
+        field["id"] = ident + "_moved"
+        field["ref"]["id"] = field["id"]
+
+    case(document, "measured_id", "fields catalog", lambda catalog: rename(catalog, "pv.accuracy.measured"))
+    case(document, "measured_kind", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.measured"]].update(kind="symbol"))
+    case(document, "measured_dimension", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.measured"]].update(dimension="pv.dimension.phase"))
+    case(document, "measured_optional", "noncanonical kind", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.measured"]].update(optional=False))
+    case(document, "measured_qualifiers", "field qualifiers", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.measured"]].pop("qualifiers"))
+    case(document, "ratio_unit", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.ratio_maximum"]].update(unit="unit.watt"))
+    case(document, "ratio_minimum", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.ratio_maximum"]]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+    case(document, "ratio_maximum", "canonical quantity contract", lambda catalog: catalog["definitions"]["fields"][positions["pv.accuracy.ratio_maximum"]]["bounds"].update(maximum={"coefficient": "1", "exponent10": 0}))
+    case(document, "measurement_value_kind", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0].update(value_kind="text"))
+    case(document, "measurement_symbol", "qualifier dimension", lambda catalog: catalog["definitions"]["qualifier_dimensions"][0]["symbols"].__setitem__(0, "other_symbol"))
+    print("accuracy_facts: PASS")
 
 
 if __name__ == "__main__":
