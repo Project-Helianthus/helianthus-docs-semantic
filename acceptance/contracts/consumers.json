@@ -1,0 +1,200 @@
+[
+  {
+    "id": "C-NO-TRANSPORT",
+    "expected": {
+      "outcome": "a no transport publisher with a virtual node, typed links and an operator-declared observation keeping its Origin evidence",
+      "transport": null,
+      "virtual_node": "durable key",
+      "typed_link_to_foreign_node": true,
+      "foreign_to_foreign_link": "retained in the runtime overlay, resolved with no fabricated resource, kernel validation not relaxed",
+      "origin_evidence": "kept",
+      "start_output_receives": [
+        "SemanticInput",
+        "ScopedOperations"
+      ]
+    },
+    "explanation": "The StartOutput handoff of SemanticInput and ScopedOperations."
+  },
+  {
+    "id": "C-DERIVED",
+    "expected": {
+      "outcome": "a derived value carries its lineage and is never presented as measured",
+      "origin": "derived",
+      "lineage": "kept",
+      "presented_as_measured": false
+    },
+    "explanation": "Origin kinds."
+  },
+  {
+    "id": "C-CYCLE",
+    "expected": {
+      "outcome": "a formula cycle is rejected",
+      "accepted": false,
+      "reason": "cycle"
+    },
+    "explanation": "Formula inputs."
+  },
+  {
+    "id": "C-REMOTE",
+    "expected": {
+      "outcome": "a remote read keeps (BridgeID, ID) and provenance under local publisher ownership",
+      "identity": "(BridgeID, ID)",
+      "discovery_is_authority": false
+    },
+    "explanation": "Remote bridge read."
+  },
+  {
+    "id": "C-DONOR",
+    "expected": {
+      "outcome": "a consumer does not mutate a donor snapshot",
+      "donor_snapshot_changed": false
+    },
+    "explanation": "Consumer."
+  },
+  {
+    "id": "C-COLLIDE",
+    "expected": {
+      "outcome": "the same local id on two bridges does not collide",
+      "bridges": 2,
+      "collision": false
+    },
+    "explanation": "Remote bridges."
+  },
+  {
+    "id": "C-LOOP",
+    "expected": {
+      "outcome": "reflected origins and loops are rejected",
+      "accepted": false
+    },
+    "explanation": "Loops."
+  },
+  {
+    "id": "C-ROUNDTRIP",
+    "expected": {
+      "outcome": "a serialized GraphQL round trip preserves the record",
+      "preserved": true
+    },
+    "explanation": "Serialization."
+  },
+  {
+    "id": "C-RESUME-ABA",
+    "expected": {
+      "outcome": "A to B to A returns both transitions, distinct from endpoint coalescing",
+      "transitions": 2,
+      "coalesced_to_endpoint": false,
+      "order": "commit order"
+    },
+    "explanation": "Resume replays every intervening commit."
+  },
+  {
+    "id": "C-CROSS-ASSET",
+    "expected": {
+      "outcome": "a virtual total of two assets resolves each foreign input at its exact revision",
+      "inputs": 2,
+      "resolved_at": "exact revision",
+      "local_candidate_lookup": false
+    },
+    "explanation": "InputRef on the captured cut."
+  },
+  {
+    "id": "C-REMOTE-CUT",
+    "expected": {
+      "outcome": "every page belongs to one cut",
+      "mixed_revision_view": false,
+      "advance_between_pages": "fails"
+    },
+    "explanation": "Remote pages."
+  },
+  {
+    "id": "C-REMOTE-RESYNC",
+    "expected": {
+      "outcome": "an expired or unavailable resume position is an explicit resync",
+      "resync": "explicit",
+      "silent_mixed_cut": false
+    },
+    "explanation": "Remote resume."
+  },
+  {
+    "id": "C-LENS-SUM",
+    "expected": {
+      "outcome": "a phase-only sum on the same captured cut returns the exact typed value with the observed aggregate",
+      "cut": "same",
+      "sum": "typed value"
+    },
+    "explanation": "RetrieveLens then SumMembers."
+  },
+  {
+    "id": "C-LENS-PARTIAL",
+    "expected": {
+      "outcome": "a partial cut keeps its lens members and paging with a separate sum absence",
+      "lens_result": "members and paging kept",
+      "early_reason_return": false,
+      "sum": "absence reason",
+      "cut": "same"
+    },
+    "explanation": "Verified separately on one cut."
+  },
+  {
+    "id": "C-LENS-OUTSIDE",
+    "expected": {
+      "outcome": "an outside-scope request is refused",
+      "accepted": false,
+      "scope_widened": false,
+      "revision_switched": false
+    },
+    "explanation": "The caller cannot widen the captured scope."
+  },
+  {
+    "id": "C-INVOKE-CALLBOUND",
+    "expected": {
+      "outcome": "a call-bound invocation has no absolute deadline and cannot be serialized or replayed",
+      "absolute_deadline": null,
+      "serializable": false,
+      "replayable": false,
+      "timeout_dropped_opts_in": false
+    },
+    "explanation": "InvokeCallBound."
+  },
+  {
+    "id": "C-INVOKE-FINITE",
+    "expected": {
+      "outcome": "ordinary invocation keeps the finite request and caller deadline rules",
+      "deadline": "finite"
+    },
+    "explanation": "Invoke."
+  },
+  {
+    "id": "C-COMPOUND-PARTIAL",
+    "expected": {
+      "outcome": "a compound result reports partial with ordered steps",
+      "partial": true,
+      "steps": "ordered",
+      "non_attempted_step": {
+        "delivery": null,
+        "acknowledgement": null,
+        "readback": null
+      },
+      "native_coordinates_exposed": false
+    },
+    "explanation": "CompoundExecution."
+  },
+  {
+    "id": "C-EXECUTOR-REGISTER",
+    "expected": {
+      "outcome": "registration alone cannot authorize a send and an old unregister cannot remove its successor",
+      "send_before_route_committed": false,
+      "foreign_duplicate_or_retired": "refused",
+      "stale_unregister_removes_successor": false
+    },
+    "explanation": "RegisterExecutor."
+  },
+  {
+    "id": "C-NATIVE-RESUME",
+    "expected": {
+      "outcome": "unavailable history resyncs and an unavailable pinned cut returns revision_conflict",
+      "history_unavailable": "resync",
+      "pinned_cut_unavailable": "revision_conflict"
+    },
+    "explanation": "Resume independent of retained cuts."
+  }
+]

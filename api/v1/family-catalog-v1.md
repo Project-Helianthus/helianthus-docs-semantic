@@ -18,7 +18,10 @@ fixture with their evidence references.
 
 Evidence basis: the SemReg decoder and validator, the fixture README, and the
 fixture's own reason statements at the revision above. They agree on the
-vocabularies, the state set, the composition rules and the gateway pin form.
+vocabularies, the state set and the composition rules of that revision. The
+`verification`, `module` and `version` members, the reason and evidence-kind
+vocabularies, the unbounded pack list and the consumer rule below were revised
+in place after it; the SemReg decoder and fixture adopt them separately.
 Contract requirements are broader than validator coverage in two places: the
 `@`/`#` evidence-owner forms are not enforced (the validator checks only a
 non-empty `owner` and the gateway pin), and member presence is not enforced for
@@ -49,8 +52,9 @@ Trailing data after the document is rejected.
 
 ### Family row
 
-Every member except `further_semantic_packs` is required; see
-[Packs of a row](#packs-of-a-row). `native_owner` and `semantic_pack` MAY be
+Every member except `further_semantic_packs`, `module` and `version` is
+required; see [Packs of a row](#packs-of-a-row) and
+[Composition](#composition). `native_owner` and `semantic_pack` MAY be
 empty strings when no native owner or capability pack exists; every other string
 MUST be non-empty.
 
@@ -64,12 +68,18 @@ MUST be non-empty.
 | `state` | string | One `Qualification` value; see [State](#state). |
 | `composition` | string | One composition value; see [Composition](#composition). |
 | `composition_verified` | boolean | See [Composition](#composition). |
+| `verification` | string | One verification value; see [Verification](#verification). |
+| `module` | string | Optional. The driver module that registers the family; see [Composition](#composition). |
+| `version` | string | Optional. The version of that module; see [Composition](#composition). |
 | `reason` | string | One reason value; see [Reason](#reason). |
 | `evidence` | array of evidence | At least one entry; see [Evidence](#evidence-references). |
 
 A catalog is complete only against a family list that its consumer pins (for
 INT-05, the family list of the INT-07 draft). Completeness is a consumer check:
-a missing or unlisted family is rejected, but this contract does not itself
+a missing required family is rejected, and a valid additional family that the
+list does not name is admitted. That differs from an unknown member of a Family
+object, which stays rejected. The family list is every family the registered
+drivers declare, with no fixed count, and this contract does not itself
 enumerate families.
 
 ## Packs of a row
@@ -78,10 +88,10 @@ A family whose elements belong to more than one accepted capability pack names
 every such pack in its row. `semantic_pack` holds the first of them and the
 optional `further_semantic_packs` holds the others:
 
-- `further_semantic_packs` is an array of 1 through 4 exact `PackRef` strings,
-  in the same form as `semantic_pack`. Its entries are unique, and
-  no entry equals `semantic_pack`. The bound follows from the five accepted
-  capability packs.
+- `further_semantic_packs` is an array of exact `PackRef` strings, in the same
+  form as `semantic_pack`, with no fixed count: a row names every accepted pack
+  it maps to. Its entries are unique, and
+  no entry equals `semantic_pack`.
 - It is allowed only when `semantic_pack` is non-empty.
 - It is omitted when the family has no further pack.
   A present empty array is rejected, so a row that names one pack or none
@@ -103,60 +113,71 @@ optional `further_semantic_packs` holds the others:
 to it. The definition lives in the
 [kernel v1 `Quality` type](kernel.md#type-quality): `candidate`,
 `qualified`, `unsupported`, `unknown`, `rejected`, with the semantics stated
-there (for example that `unsupported` and `rejected` forbid a value and
-promotion, and that `unknown` cannot be promoted or satisfy a capability). This
-contract does not redefine them.
+there. A state value keeps its meaning: `unsupported` and `rejected` forbid a
+value, and `unknown` stays distinct from a known capability. An already promoted
+element retains its actual candidate state, `unknown` included. A candidate
+state, `unsupported` and `rejected` included, is never by itself a promotion
+veto: a known SemReg element whose candidate becomes `unsupported` with no value
+validates as promoted when its value-presence requirements hold, and the
+separate capability and projection rules stay. This contract does not redefine
+the states.
 
 The catalog has no value for conditions such as "evidence blocked", "no
 admissible profile" or "no-go". Those conditions stay `unknown` or `candidate`
-and are named by `reason`. A catalog MUST NOT invent a state value, and a
-`qualified` row requires evidence that satisfies the owning native
-qualification and the semantic contract; a catalog entry, similar concept,
-address or model string alone is not such evidence.
+and are named by `reason`. A catalog MUST NOT invent a state value. A
+`qualified` row has the reason `declared_by_specification` and at least one
+evidence entry of kind `specification` from the pinned native specification or
+public documentation, with the declaration bound at runtime; a catalog entry,
+similar concept, address or model string alone is not such evidence.
 
 ## Composition
 
-`composition` records how the family reaches consumers at a pinned gateway
-revision.
+`composition` records how the family reaches consumers through the driver that
+registers it.
 
 | Value | Meaning |
 | --- | --- |
 | `composed` | The family is composed through SemReg. |
 | `composed_legacy` | The family is composed on a legacy layer, not through a SemReg pack. |
-| `provider_local` | The native provider emits the family and no gateway composition is claimed. |
+| `provider_local` | The native provider emits the family and no composition through SemReg is claimed. |
 | `not_composed` | No composition is claimed. |
 
 `composition_verified` is a flag, not a state:
 
+- `module` and `version` are the composition evidence of the driver's own
+  registration. Each is a string and is omitted when empty.
 - Any `composition` other than `not_composed` requires
-  `composition_verified=true` and at least one `gateway_composition` evidence
-  entry pinned to a full gateway commit.
-- `composition_verified=true` requires such a `gateway_composition` entry.
+  `composition_verified=true` and both `module` and `version`.
+- `composition_verified=true` requires both `module` and `version`.
 - A `not_composed` row MUST have `composition_verified=false` and MUST NOT carry
-  any `gateway_composition` evidence entry: verification and gateway-composition
-  evidence apply only to a claimed composition.
+  `module` or `version`: verification and composition evidence apply only to a
+  claimed composition.
 - `composition_verified=false` means the composition is **unverified**. It does
   not assert that the family is absent from the gateway, and `not_composed`
   with `composition_verified=false` means only that no composition is claimed.
 
+## Verification
+
+`verification` records the hardware-test level of the row. It is a recorded
+level beside `state`; it never raises or lowers qualification, promotion or an
+operation.
+
+| Value | Meaning |
+| --- | --- |
+| `tested_on_hardware` | A public hardware test record exists. The row carries at least one `hardware_test_record` evidence entry. |
+| `not_tested_on_hardware` | No hardware test is recorded. This holds no row below `qualified`. |
+
 ## Reason
 
-`reason` explains why a row is not stronger than its `state`. It is a closed
+`reason` states the basis of a row's `state`. It is a closed
 vocabulary; each value has one definition, and a value never changes meaning
 within v1.
 
 | Value | Definition |
 | --- | --- |
-| `offline_profile_only` | The cited native disposition admits an offline profile only. Source wording: "outcome OFFLINE_PROFILE_ADMITTED; live_qualified=false, write_authority=false, support_claim=false". |
-| `offline_mapping_gate_only` | The cited evidence is an accepted source-specific read-only mapping gate over offline observations. Source wording: "neither device support nor physical qualification". |
-| `family_compatible_offline` | The cited native evidence is offline and family-compatible only. Source wording: "offline family-compatible native evidence only"; "no sender, control route or live authority". Any narrower restriction, such as absolute allocation being withheld for a relative or unknown state while allocated and actual current stay separate native candidates, is the conditional rule of the owning pack or mapping and is not implied by this reason. |
-| `no_admissible_profile` | The pinned native sources establish no admissible exact profile tuple. Source wording: "establishes no admissible exact device-type/model-build/protocol tuple". |
-| `qualification_test_ready_offline` | A native qualification card reports the qualification as test-ready. Source wording: "QUALIFICATION_TEST_READY; HardwareTestReady, LiveQualified, CatalogRegistered, SupportClaim, WriteAuthority all false". |
-| `evidence_blocked` | A native qualification card or disposition reports the qualification as blocked on evidence. Source wording: "QUALIFICATION_EVIDENCE_BLOCKED". |
-| `no_go_missing_evidence` | The native owner recorded a no-go for lack of evidence. Source wording: "NO_GO / missing evidence; typed decoding, discovery and acquisition removed". |
-| `offline_replay_only` | The cited evidence is offline replay qualification of receive-only observations. Source wording: "replay-qualified offline" ... "receive-only" (the fixture inserts a pull-request reference between the fragments). |
+| `declared_by_specification` | The pinned native specification or public documentation declares the family's mapping, and the declaration is bound at runtime. A `qualified` row has this reason and a `specification` evidence entry. |
+| `specification_conflict` | Two public sources state conflicting facts. Both are recorded as evidence. |
 | `semantic_mapping_unknown` | Native receive-side evidence exists but the family's semantic mapping is not established. Source wording: "state cells remain native and opaque"; "no mapping is normative". |
-| `legacy_layer_composition` | The cited gateway composition evidence shows the family reaching consumers through the legacy semantic layer, not a SemReg pack publication. Source wording: "the legacy semantic layer, not a SemReg thermal pack publication". |
 | `unknown_pending_normative_source` | The family stays unknown while the dependency named `unknown_pending_normative_source` in the accepted packs is unresolved. Source wording: "remains unknown_pending_normative_source in every pack; no normative mapping or conformance claim". |
 | `no_producer` | No producer, topology instance or mapping is established for the family. Source wording: "no producer, topology instance or mapping exists". |
 
@@ -172,13 +193,13 @@ Each `evidence` entry is an object with exactly four non-empty string members.
 | Member | Rule |
 | --- | --- |
 | `owner` | Public repository reference in one of two forms. `Project-Helianthus/<repository>@<revision>` pins an immutable revision, so the `locator` path at that revision is reproducible. `Project-Helianthus/<repository>#<number>` names an issue or pull request thread; it pins no revision and its content can change, so it is used only for kinds `issue` and `pull_request`, and the `statement` records what the thread established when cited. |
-| `kind` | Evidence kind, for example `native_disposition`, `native_evidence`, `native_qualification_card`, `native_registry`, `semantic_contract`, `semreg_fixture`, `issue`, `pull_request` or `gateway_composition`. Kinds are an open, additive vocabulary. |
+| `kind` | Evidence kind, for example `native_disposition`, `native_evidence`, `native_qualification_card`, `native_registry`, `semantic_contract`, `semreg_fixture`, `specification`, `hardware_test_record`, `issue` or `pull_request`. Kinds are an open, additive vocabulary. |
 | `locator` | Path inside the repository at the pinned revision (`@` form), or the URL of the issue or pull request (`#` form). |
 | `statement` | What the cited material establishes, stated without copying restricted text and without claiming more than the source. |
 
-A `gateway_composition` entry cites gateway code for a composition claim. It
-MUST use the `@` form and its `owner` MUST be `Project-Helianthus/helianthus-gateway@` followed by the
-full 40-character commit SHA; an abbreviated revision is rejected. Evidence
+A `specification` entry cites the pinned native specification or public
+documentation that declares the mapping. A `hardware_test_record` entry cites a
+public hardware test record in a project repository. Evidence
 MUST be publishable: no private material, device capture, serial, network
 coordinate or credential.
 
@@ -197,6 +218,11 @@ in-place rule of [api/README.md](../README.md#version-rule) applies:
 A v1 reader rejects an unknown member and an out-of-vocabulary value; a v1
 reader that does not know an additively added value fails closed rather than
 mapping it to a known one.
+
+The row members `verification`, `module` and `version` and the revised `reason`
+and evidence-kind vocabularies were set in place before the 0.7 release,
+replacing the `gateway_composition` evidence kind and its gateway pin; no alias
+and no revision bump carries the earlier form.
 
 The family-row member `further_semantic_packs` was added in place before the
 0.7 release; the [in-place change record](../README.md#in-place-change-record)
@@ -228,9 +254,11 @@ evidence references support.
   packs, not by this contract; this page does not restate it.
 - Completeness against a family list is checked by the consumer against a list it
   pins; this contract names no list.
-- The SemReg validator checks only that `owner` is non-empty, apart from the
-  `gateway_composition` pin; the two `owner` forms above are a documentation
-  rule that the validator does not yet enforce.
+- The SemReg validator checks only that `owner` is non-empty; the two `owner`
+  forms above are a documentation rule that the validator does not yet enforce.
+- The SemReg decoder and fixture adopt the members and vocabularies revised in
+  place above, the unlisted valid family and the unbounded pack list in a
+  separate change.
 - An accepted mapping gate names its pack but no `family_id`. How the
   cross-check of [Packs of a row](#packs-of-a-row) associates a gate with a
   family row is for the SemReg cross-check to state; this page does not decide
@@ -244,17 +272,27 @@ shown at a pinned revision:
 - a fixture or decoder accepts a `state` outside the kernel `Qualification` set,
   or a document whose `states` member differs from it;
 - a row with a claimed composition is accepted without `composition_verified=true`
-  and a full-SHA `gateway_composition` entry;
+  and both `module` and `version`;
 - a `not_composed` row is accepted with `composition_verified=true` or with a
-  `gateway_composition` entry;
+  `module` or `version`;
+- a row is accepted whose `verification` is outside its two values, or whose
+  `tested_on_hardware` has no `hardware_test_record` evidence entry;
+- a `qualified` row is accepted without the reason `declared_by_specification`
+  and a `specification` evidence entry, or a row is held below `qualified` for
+  lack of a hardware test;
 - a document with an unknown or repeated member, or trailing data, is accepted;
+- a valid additional family that the consumer's list does not name is rejected,
+  a missing required family is accepted, or an unknown member of a family
+  object is accepted;
+- a candidate state is treated as a veto of promotion, or an already promoted
+  element is shown with a state other than its actual candidate state;
 - a `reason` value is used with a meaning that contradicts its definition above,
   or a row's `state` is `qualified` without the owning native qualification;
 - a family is dropped, or given a fabricated state, because its evidence is
   insufficient;
-- a row is accepted whose `further_semantic_packs` is present but empty, holds
-  more than four entries, repeats an entry, holds `semantic_pack`, is not in
-  canonical order or follows an empty `semantic_pack`;
+- a row is accepted whose `further_semantic_packs` is present but empty, repeats
+  an entry, holds `semantic_pack`, is not in canonical order or follows an empty
+  `semantic_pack`, or a row naming six accepted packs is rejected for its count;
 - a row is accepted whose packs leave out the pack of an accepted mapping gate
   of its family.
 

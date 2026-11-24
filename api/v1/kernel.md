@@ -691,11 +691,19 @@ The axes are independent and are never collapsed into one status:
 - `Freshness`: `fresh`, `stale`, `expired`, or `unknown`.
 
 `reasons` contains at most 16 unique sorted namespaced codes. An inferred value
-requires `Derivation`; an observed value forbids it. `promotion=promoted`
-requires `qualification=qualified`, `validity` of `good` or `suspect`, and
-`availability` of `available` or `degraded`. `unsupported` and `rejected`
-forbid a value and promotion. `withdrawn` forbids a value. `unknown` may retain
-an observed opaque native symbol but cannot be promoted or satisfy a capability.
+requires `Derivation`; an observed value forbids it. A candidate's
+qualification, validity, availability and freshness keep their recorded states,
+and none of them is by itself a veto on fact admission or on the promotion of an
+element. `unsupported`, `rejected` and `withdrawn` candidates have no value, and
+the assertion, derivation and value-presence requirements stay. A known element
+whose candidate becomes `unsupported` with no value therefore validates as
+promoted when those value-presence requirements hold. A state value keeps its
+meaning: `unknown` may retain an observed opaque native symbol and stays native
+unknown, distinct from a known capability, and a promoted Matter or eeBUS
+element whose current candidate is `unknown` retains that actual candidate state
+rather than being suppressed or shown as good. Conflict eligibility is defined
+in the [Conflict section](#type-conflict); the capability and projection rules
+stay separate.
 
 ## Facts, alternatives, and conflicts
 

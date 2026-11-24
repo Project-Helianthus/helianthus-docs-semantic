@@ -1,0 +1,270 @@
+[
+  {
+    "id": "I-TWO-LIFECYCLES",
+    "expected": {
+      "outcome": "equal sorted node ids, link keys, endpoints, types, aliases and source links",
+      "varied": [
+        "factory order",
+        "discovery order",
+        "clocks",
+        "generations"
+      ],
+      "compared": "canonical graph results after reopening durable state",
+      "excluded": [
+        "cut digests",
+        "timestamps",
+        "leases"
+      ]
+    },
+    "explanation": "Two fresh lifecycles with identical installation keys, configuration and topology."
+  },
+  {
+    "id": "I-THREE-INSTANCES",
+    "expected": {
+      "outcome": "three same-kind instances keep three disjoint node sets under their instance keys",
+      "instances": 3,
+      "shared_nodes": 0
+    },
+    "explanation": "Several instances of one driver kind do not share identity."
+  },
+  {
+    "id": "I-SHARED-EBUS",
+    "expected": {
+      "outcome": "two direct links and a shared bus keep one shared bus node",
+      "shared_bus_nodes": 1,
+      "direct_links": 2
+    },
+    "explanation": "A shared eBUS plus two direct links."
+  },
+  {
+    "id": "I-CHANGED-SERIAL",
+    "expected": {
+      "outcome": "a changed serial is a new unbound claim",
+      "new_claim": "unbound",
+      "old_reference": "kept",
+      "history": "kept",
+      "replacement_inferred": false,
+      "rebind": "only a person"
+    },
+    "explanation": "Nothing is inferred as a replacement."
+  },
+  {
+    "id": "I-ABSENT-TARGET",
+    "expected": {
+      "outcome": "the same To is kept while the target is absent and on its return",
+      "to": "unchanged",
+      "complete_cut": "dangling",
+      "partial_cut": "outside-cut",
+      "on_return": "same key resolves with every retained claim and basis",
+      "phantom_resource": false
+    },
+    "explanation": "A declaration to an absent target is kept."
+  },
+  {
+    "id": "I-TWO-PUBLISHERS",
+    "expected": {
+      "outcome": "two publishers keep separate bases",
+      "claims": 2,
+      "after_first_withdrawn": {
+        "remaining_claims": 1,
+        "basis": "second publisher's"
+      },
+      "after_target_return": {
+        "remaining_claims": 1,
+        "basis": "second publisher's"
+      }
+    },
+    "explanation": "Each publisher's claim and basis stay separate under one directed tuple."
+  },
+  {
+    "id": "I-ALLOC-LEGACY-SLOT",
+    "encoding": "legacy",
+    "expected": {
+      "outcome": "legacy slot id preserved",
+      "domain": "helianthus.semgraph.resource/v1",
+      "fields": [
+        "resource.zone",
+        "slot",
+        "resource:00000000000000000000000000000001",
+        "zone-1"
+      ],
+      "id": "resource:a0b7d12925ca145e10e3670e018086ce"
+    },
+    "explanation": "The donor allocator domain and encoding are kept exactly: each field preceded by one 0x00 byte."
+  },
+  {
+    "id": "I-ALLOC-LEGACY-KEY",
+    "encoding": "legacy",
+    "expected": {
+      "outcome": "legacy native key id preserved",
+      "domain": "helianthus.semgraph.resource/v1",
+      "kind": "resource.equipment",
+      "identity": {
+        "scheme": "scheme.ieee.eui48",
+        "issuer": "",
+        "token": "0A1B2C3D4E5F"
+      },
+      "id": "resource:eb2e2bec29873eff6599e98733aaa17e"
+    },
+    "explanation": "The identity key is sha256 of the canonical JSON of scheme, issuer and token; the id hashes kind, key, digest."
+  },
+  {
+    "id": "I-ALLOC-PATH-SLOT",
+    "encoding": "path",
+    "expected": {
+      "outcome": "path-node slot id",
+      "domain": "helianthus.semgraph.path-node/v1",
+      "key": {
+        "installation": "inst-a",
+        "driver_kind": "driver-x",
+        "instance_key": "i1",
+        "node_kind": "resource.bridge",
+        "anchor": {
+          "tag": "slot",
+          "parent": "",
+          "slot": "primary"
+        }
+      },
+      "id": "resource:70dc2ac7d92d82c2e1f254a5c532541d"
+    },
+    "explanation": "Length-prefixed fields under the path-node domain; an anchor without a parent has an empty parent field."
+  },
+  {
+    "id": "I-ALLOC-PATH-KEY",
+    "encoding": "path",
+    "expected": {
+      "outcome": "path-node key id",
+      "domain": "helianthus.semgraph.path-node/v1",
+      "key": {
+        "installation": "inst-a",
+        "driver_kind": "driver-x",
+        "instance_key": "i1",
+        "node_kind": "resource.bridge",
+        "anchor": {
+          "tag": "key",
+          "identity": {
+            "scheme": "scheme.ieee.eui48",
+            "issuer": "",
+            "token": "0A1B2C3D4E5F"
+          }
+        }
+      },
+      "id": "resource:ee5fba45d9c4a6dfd8dad3236f362e93"
+    },
+    "explanation": "A durable key anchor carries the identity digest."
+  },
+  {
+    "id": "I-ALLOC-INJECTIVE",
+    "encoding": "path",
+    "expected": {
+      "outcome": "field boundaries cannot shift",
+      "first": {
+        "fields": [
+          "a",
+          "bc",
+          "i1",
+          "resource.bridge",
+          "slot",
+          "",
+          "primary"
+        ],
+        "id": "resource:cba8c8d09199dde66a1cb714962a26ed"
+      },
+      "second": {
+        "fields": [
+          "ab",
+          "c",
+          "i1",
+          "resource.bridge",
+          "slot",
+          "",
+          "primary"
+        ],
+        "id": "resource:247e6998a2c167a928e81ca4c1b6facb"
+      },
+      "equal": false
+    },
+    "explanation": "The length prefix separates installation and driver kind at different boundaries."
+  },
+  {
+    "id": "I-ALLOC-VARY",
+    "encoding": "path",
+    "expected": {
+      "outcome": "every key field changes the id",
+      "domain": "helianthus.semgraph.path-node/v1",
+      "base": {
+        "installation": "inst-a",
+        "driver_kind": "driver-x",
+        "instance_key": "i1",
+        "node_kind": "resource.bridge",
+        "anchor": {
+          "tag": "slot",
+          "parent": "resource:00000000000000000000000000000001",
+          "slot": "primary"
+        },
+        "id": "resource:c26c0b683e132c9f0c564d4ad4513cf2"
+      },
+      "variants": [
+        {
+          "field": "installation",
+          "value": "inst-b",
+          "id": "resource:97c451ded54fdd490ebab2c1b4749cf2"
+        },
+        {
+          "field": "driver_kind",
+          "value": "driver-y",
+          "id": "resource:1b53bf34dc9352a6afccea5c05ce34b0"
+        },
+        {
+          "field": "instance_key",
+          "value": "i2",
+          "id": "resource:78bf3f7cd8944dce824e9655373a7970"
+        },
+        {
+          "field": "node_kind",
+          "value": "resource.link",
+          "id": "resource:cd978b53e338794ad8dee422d892d828"
+        },
+        {
+          "field": "parent",
+          "value": "resource:00000000000000000000000000000002",
+          "id": "resource:eca0387b619acfda72959460a3c38e41"
+        },
+        {
+          "field": "slot",
+          "value": "secondary",
+          "id": "resource:169a3c1f6fbf49027d2ab9db12a2dfa0"
+        },
+        {
+          "field": "anchor_tag",
+          "value": "key with identity token 0A1B2C3D4E5F",
+          "id": "resource:ee5fba45d9c4a6dfd8dad3236f362e93"
+        },
+        {
+          "field": "digest",
+          "value": "key with identity token 0A1B2C3D4E60",
+          "id": "resource:0ad6658796b5672a89c7b900b716b268"
+        }
+      ],
+      "all_distinct": true
+    },
+    "explanation": "Each variant changes one field of the base: installation, driver kind, instance key, node kind, parent, slot, anchor tag (with a native digest) and digest."
+  },
+  {
+    "id": "I-ALLOC-DOMAIN",
+    "encoding": "domain",
+    "expected": {
+      "outcome": "the two domains never collide",
+      "fields": [
+        "resource.bridge",
+        "slot",
+        "",
+        "primary"
+      ],
+      "legacy_id": "resource:0da424d548559cf247de0e155e51a59a",
+      "path_node_id": "resource:2d3eb89ad2eb726c88d1ee4482c4ffb9",
+      "equal": false
+    },
+    "explanation": "The same members under the legacy and the path-node domain give different ids."
+  }
+]

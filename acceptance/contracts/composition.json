@@ -1,0 +1,480 @@
+[
+  {
+    "id": "K-RETRY-ZERO",
+    "input": {
+      "Budget": 0,
+      "InitialDelay": "0s",
+      "MaxDelay": "0s",
+      "JitterRatio": 0,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 0,
+        "InitialDelay": "1s",
+        "MaxDelay": "1s",
+        "JitterRatio": 0.2,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "The zero value normalizes to one second, a maximum equal to the initial delay, and 20% jitter."
+  },
+  {
+    "id": "K-RETRY-BUDGET-NEGATIVE",
+    "input": {
+      "Budget": -3,
+      "InitialDelay": "2s",
+      "MaxDelay": "4s",
+      "JitterRatio": 0.1,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 0,
+        "InitialDelay": "2s",
+        "MaxDelay": "4s",
+        "JitterRatio": 0.1,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A negative budget becomes 0."
+  },
+  {
+    "id": "K-RETRY-INITIAL-NONPOSITIVE",
+    "input": {
+      "Budget": 2,
+      "InitialDelay": "-5s",
+      "MaxDelay": "0s",
+      "JitterRatio": 0.1,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 2,
+        "InitialDelay": "1s",
+        "MaxDelay": "1s",
+        "JitterRatio": 0.1,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "An initial delay of zero or less becomes one second, and the maximum then rises to it."
+  },
+  {
+    "id": "K-RETRY-MAX-BELOW-INITIAL",
+    "input": {
+      "Budget": 2,
+      "InitialDelay": "5s",
+      "MaxDelay": "2s",
+      "JitterRatio": 0.1,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 2,
+        "InitialDelay": "5s",
+        "MaxDelay": "5s",
+        "JitterRatio": 0.1,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A maximum below the initial delay becomes the initial delay."
+  },
+  {
+    "id": "K-RETRY-JITTER-ZERO",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.2,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A zero jitter ratio selects 0.2."
+  },
+  {
+    "id": "K-RETRY-JITTER-NEGATIVE",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": -0.1,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A negative jitter ratio disables jitter."
+  },
+  {
+    "id": "K-RETRY-JITTER-ABOVE",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0.9,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.5,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A jitter ratio above 0.5 becomes 0.5."
+  },
+  {
+    "id": "K-RETRY-JITTER-KEPT",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0.5,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "0s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.5,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "0s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "A jitter ratio of exactly 0.5 is kept."
+  },
+  {
+    "id": "K-RETRY-PERSISTENT-ENABLED",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0.3,
+      "Persistent": {
+        "Enabled": true,
+        "InitialDelay": "-1s",
+        "MaxDelay": "-2s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.3,
+        "Persistent": {
+          "Enabled": true,
+          "InitialDelay": "1s",
+          "MaxDelay": "1s"
+        }
+      }
+    },
+    "explanation": "Enabled persistent delays use the same initial and maximum rules."
+  },
+  {
+    "id": "K-RETRY-PERSISTENT-MAX-BELOW",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0.3,
+      "Persistent": {
+        "Enabled": true,
+        "InitialDelay": "3s",
+        "MaxDelay": "1s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.3,
+        "Persistent": {
+          "Enabled": true,
+          "InitialDelay": "3s",
+          "MaxDelay": "3s"
+        }
+      }
+    },
+    "explanation": "An enabled persistent maximum below its initial delay becomes that delay."
+  },
+  {
+    "id": "K-RETRY-PERSISTENT-DISABLED",
+    "input": {
+      "Budget": 1,
+      "InitialDelay": "1s",
+      "MaxDelay": "8s",
+      "JitterRatio": 0.3,
+      "Persistent": {
+        "Enabled": false,
+        "InitialDelay": "-1s",
+        "MaxDelay": "0s"
+      }
+    },
+    "expected": {
+      "outcome": "normalized retry policy",
+      "normalized": {
+        "Budget": 1,
+        "InitialDelay": "1s",
+        "MaxDelay": "8s",
+        "JitterRatio": 0.3,
+        "Persistent": {
+          "Enabled": false,
+          "InitialDelay": "-1s",
+          "MaxDelay": "0s"
+        }
+      }
+    },
+    "explanation": "Persistent delays are normalized only when enabled."
+  },
+  {
+    "id": "K-CONFIG-HANDOFF",
+    "expected": {
+      "outcome": "per-instance secret reference handoff",
+      "instances": [
+        {
+          "Instance": "i-a",
+          "Enabled": true,
+          "SecretRef": "ref-a"
+        },
+        {
+          "Instance": "i-b",
+          "Enabled": true,
+          "SecretRef": ""
+        }
+      ],
+      "host_resolves_secret": false,
+      "neighbour_reference_shared": false,
+      "operands_decoded_by": "factory"
+    },
+    "explanation": "Each instance carries its own unchanged reference; an omitted reference is empty and no neighbouring reference is shared."
+  },
+  {
+    "id": "K-EARLY-HANDLED-EXIT",
+    "expected": {
+      "outcome": "handled exit before flags",
+      "handled": true,
+      "exitCode": 3,
+      "err": null,
+      "configuration_parsed": false
+    },
+    "explanation": "A factory that recognizes its command returns the exit code and the host returns it before configuration parsing."
+  },
+  {
+    "id": "K-EARLY-HANDLED-ERROR",
+    "expected": {
+      "outcome": "handled error before flags",
+      "handled": true,
+      "exitCode": 1,
+      "err": "present",
+      "configuration_parsed": false
+    },
+    "explanation": "A handled error is returned by the host before configuration parsing."
+  },
+  {
+    "id": "K-EARLY-NOT-HANDLED",
+    "expected": {
+      "outcome": "not handled continues",
+      "handled": false,
+      "exitCode": 0,
+      "err": null,
+      "configuration_parsed": true
+    },
+    "explanation": "An unrecognized command leaves the host to continue with configuration parsing."
+  },
+  {
+    "id": "K-EARLY-NONPARTICIPATING",
+    "expected": {
+      "outcome": "nonparticipating factory is not called",
+      "factory_implements_interface": false,
+      "called": false,
+      "error": null
+    },
+    "explanation": "A factory without the interface need not implement it and is not called."
+  },
+  {
+    "id": "K-COMPOSE-CLAIMED",
+    "expected": {
+      "outcome": "claimed composition with module and version",
+      "composition": "composed",
+      "composition_verified": true,
+      "module": "synthetic.module",
+      "version": "1.0.0",
+      "accepted": true
+    },
+    "explanation": "A claimed composition carries both members and composition_verified=true."
+  },
+  {
+    "id": "K-COMPOSE-MISSING-MODULE",
+    "expected": {
+      "outcome": "missing module rejected",
+      "composition": "composed",
+      "composition_verified": true,
+      "module": null,
+      "version": "1.0.0",
+      "accepted": false
+    },
+    "explanation": "A claimed composition without module is rejected."
+  },
+  {
+    "id": "K-COMPOSE-MISSING-VERSION",
+    "expected": {
+      "outcome": "missing version rejected",
+      "composition": "composed",
+      "composition_verified": true,
+      "module": "synthetic.module",
+      "version": null,
+      "accepted": false
+    },
+    "explanation": "A claimed composition without version is rejected."
+  },
+  {
+    "id": "K-COMPOSE-NOT-COMPOSED",
+    "expected": {
+      "outcome": "not_composed carries neither",
+      "composition": "not_composed",
+      "composition_verified": false,
+      "module": null,
+      "version": null,
+      "accepted": true
+    },
+    "explanation": "not_composed carries neither module nor version and has composition_verified=false."
+  },
+  {
+    "id": "K-COMPOSE-NOT-COMPOSED-CARRIES",
+    "expected": {
+      "outcome": "not_composed carrying module rejected",
+      "composition": "not_composed",
+      "composition_verified": false,
+      "module": "synthetic.module",
+      "version": null,
+      "accepted": false
+    },
+    "explanation": "not_composed that carries a member is rejected."
+  },
+  {
+    "id": "K-VERIFICATION-HARDWARE",
+    "expected": {
+      "outcome": "tested_on_hardware needs a hardware test record",
+      "verification": "tested_on_hardware",
+      "evidence_kinds": [
+        "specification"
+      ],
+      "accepted": false
+    },
+    "explanation": "tested_on_hardware without a hardware_test_record entry is rejected; the level never changes qualification."
+  },
+  {
+    "id": "K-CALENDAR-GUARD",
+    "expected": {
+      "outcome": "immutable acquisition with same-calendar guard",
+      "reference": "one observed time and civil year, month and day",
+      "check_same_calendar": "ok",
+      "check_other_calendar_or_civil_day": "error"
+    },
+    "explanation": "The acquired reference is immutable and Check keeps the generation and civil-day guard."
+  },
+  {
+    "id": "K-LINK-NODE-SLOT",
+    "expected": {
+      "outcome": "link node slot selects the reserved key",
+      "slot": "uplink",
+      "key": "configured parent plus slot anchor in installation, driver and instance scope",
+      "transport_ownership_changed": false,
+      "exclusive_claim_matching_changed": false,
+      "empty_slot": "normal configured-link key construction"
+    },
+    "explanation": "LinkNodeSlot identifies equipment only and changes neither ownership nor claim matching."
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "L-QUERY",
+    "expected": {
+      "outcome": "the queried limit wins over the specification's",
+      "applies": "queried limit",
+      "origin": "device query at first population"
+    },
+    "explanation": "Limits."
+  },
+  {
+    "id": "L-SPEC",
+    "expected": {
+      "outcome": "with no query the specification's limit applies",
+      "applies": "specification's limit",
+      "origin": "specification clause"
+    },
+    "explanation": "Limits."
+  }
+]

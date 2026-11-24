@@ -1,0 +1,22 @@
+[
+  {
+    "id": "N-CUT",
+    "expected": {
+      "outcome": "the same keys, membership, schema, value, ordering, errors, scope, redaction, action effects and terminal outcome of an accepted invocation through GraphQL and MCP",
+      "surfaces": [
+        "GraphQL",
+        "MCP"
+      ],
+      "same_cut_and_principal": true
+    },
+    "explanation": "Parity."
+  },
+  {
+    "id": "N-OWNER",
+    "expected": {
+      "outcome": "a conflicting owner of a namespace is rejected",
+      "accepted": false
+    },
+    "explanation": "Namespace reservation."
+  }
+]

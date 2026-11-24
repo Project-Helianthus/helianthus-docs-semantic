@@ -1,0 +1,122 @@
+[
+  {
+    "id": "S-THREE-PATHS",
+    "expected": {
+      "outcome": "one element with three paths, each a source link with priority, path, resolution and availability",
+      "paths": 3,
+      "data_from": "highest current source",
+      "averaged": false
+    },
+    "explanation": "Two synthetic drivers give three paths to one element."
+  },
+  {
+    "id": "S-TIE",
+    "expected": {
+      "outcome": "the most recent receipt wins a tie, and indistinguishable receipts use source-key order",
+      "replay_refreshes_receipt": false,
+      "unrelated_device_clocks_compared": false
+    },
+    "explanation": "Only among the highest sources of a tie."
+  },
+  {
+    "id": "S-PRIORITY-TIE-ZERO",
+    "expected": {
+      "outcome": "typed priority-tie finding below the winner",
+      "priority_tie": 0,
+      "sources": [
+        "lower-a",
+        "lower-b"
+      ],
+      "sample_values": null,
+      "steps": null,
+      "incomparable_marker": null,
+      "winner": "unchanged"
+    },
+    "explanation": "Two lower-priority declarations tied at zero with no sample; the higher winner is unchanged."
+  },
+  {
+    "id": "S-WITHIN-STEP",
+    "expected": {
+      "outcome": "a difference within the larger step is no finding",
+      "difference": "0.4 K",
+      "steps": [
+        "0.5 K",
+        "0.1 K"
+      ],
+      "finding": null
+    },
+    "explanation": "Commensurate, contemporaneous SI samples with both steps known."
+  },
+  {
+    "id": "S-OVER-STEP",
+    "expected": {
+      "outcome": "a difference over the larger step is a finding and does not change the winner",
+      "difference": "0.8 K",
+      "steps": [
+        "0.5 K",
+        "0.1 K"
+      ],
+      "finding": "disagreement with sources, values and steps",
+      "winner": "unchanged"
+    },
+    "explanation": "A 0.5 °C step is 0.5 K."
+  },
+  {
+    "id": "S-MISSING-WINNER",
+    "expected": {
+      "outcome": "the element shows unknown with no substitution by a lower source",
+      "winner_state": "unknown",
+      "lower_source_used": false
+    },
+    "explanation": "The highest source has no data."
+  },
+  {
+    "id": "S-STOPPED",
+    "expected": {
+      "outcome": "a stopped generation keeps the source and its last value visible as stale; the mirror is not authoritative",
+      "state": "stale",
+      "highest_source": "unchanged",
+      "mirror_authoritative": false
+    },
+    "explanation": "GenerationStopped keeps the source."
+  },
+  {
+    "id": "S-WITHDRAWAL",
+    "expected": {
+      "outcome": "withdrawal of the declaration removes the source from current contention",
+      "contention": "removed",
+      "sample_withdrawn_in_same_commit": true
+    },
+    "explanation": "An explicit withdrawal."
+  },
+  {
+    "id": "S-OWNER",
+    "expected": {
+      "outcome": "the command is routed to the setting owner only: no broadcast and not to the latest reader",
+      "routed_to": "setting owner",
+      "broadcast": false,
+      "latest_reader": false,
+      "no_owner_route": "nothing sent"
+    },
+    "explanation": "A write goes to the one owner route checked at dispatch."
+  },
+  {
+    "id": "S-INCOMPARABLE",
+    "expected": {
+      "outcome": "a pre-change mirror sample against a fresh sample is incomparable, not disagreement",
+      "finding": "incomparable",
+      "disagreement": false
+    },
+    "explanation": "Not contemporaneous."
+  },
+  {
+    "id": "S-SLOTS",
+    "expected": {
+      "outcome": "two slots of one definition on one subject are two elements, each with its own source, candidate and route from one publisher commit",
+      "elements": 2,
+      "contend": false,
+      "commits": 1
+    },
+    "explanation": "Two schedule slots."
+  }
+]
