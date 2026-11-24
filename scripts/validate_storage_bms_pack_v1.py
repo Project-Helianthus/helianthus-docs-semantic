@@ -12,8 +12,8 @@ VECTORS=ROOT/'api/v1/packs/storage-bms-acceptance-vectors.json'
 TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
-COUNTS={'field_specs':25,'services':7,'capabilities':5,'relations':6,'operations':2,'effects':2,'portal_contributions':5}
-TABLE_MEMBERS={'capabilities','contract','definition_index','effects','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
+COUNTS={'field_specs':96,'services':7,'capabilities':20,'relations':7,'operations':17,'effects':17,'portal_contributions':5,'events':2}
+TABLE_MEMBERS={'capabilities','contract','definition_index','effects','events','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
 RELATION_MEMBERS={'id','from','to','cardinality','order'}
 DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
 DOMAINS={'thermal_hvac':('helianthus.pack.thermal','accepted'),'pv_inverter':('helianthus.pack.pv','exact_head_review'),'storage_bms':('helianthus.pack.storage','accepted'),'evse':('helianthus.pack.evse','follow_on'),'infrastructure':('helianthus.pack.infrastructure','follow_on')}
@@ -22,7 +22,7 @@ LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_di
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='6785a3e9936448809678a554b8642e85e0de12568f7bf0748a7ff3f5ab281309'
+TABLE_SHA256='376060ad0cc2afae81790d61a42e605d3b1503bc43a2b9bf27d3eed9274cd7ca'
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt', 'unit.second', 'unit.cubic_metre', 'unit.metre', 'unit.ohm', 'unit.radian', 'unit.one', 'unit.volt_ampere_reactive_second', 'unit.volt_ampere_second', 'unit.kilogram_per_cubic_metre', 'unit.becquerel_per_cubic_metre', 'unit.kilogram_per_joule', 'unit.watt_per_square_metre', 'unit.metre_per_joule', 'unit.currency', 'unit.currency_per_joule'})
 
@@ -47,6 +47,12 @@ def si_bounds(field):
     return field['bounds']['minimum'], field['bounds']['maximum']
 
 
+def check_plain_field(field):
+    """Boolean and text fields carry identity, kind, dimension and optionality only."""
+    if field.get('kind') not in ('boolean', 'text') or set(field) != {'id', 'kind', 'dimension', 'optional'}:
+        raise ValueError('field kind')
+
+
 def validate_tables(table):
  if table.get('contract')!='helianthus.pack.storage.tables/v1': raise ValueError('table contract')
  for name,count in COUNTS.items():
@@ -64,9 +70,9 @@ def validate_tables(table):
    if low is not None: low=decimal(low)
    if high is not None: high=decimal(high)
    if low is not None and high is not None and low>high: raise ValueError('reversed bounds')
-  elif field.get('kind')=='symbol':
+  elif field.get('kind') in ('symbol','symbols'):
    if set(field)!={'id','kind','dimension','optional','symbols'} or field['symbols']!=sorted(set(field['symbols'])): raise ValueError('field symbols')
-  else: raise ValueError('field kind')
+  else: check_plain_field(field)
  index=table.get('definition_index',{}); expected={'fields':[x['id'] for x in fields],'services':[x['id'] for x in table['services']],'capabilities':[x['id'] for x in table['capabilities']],'operations':[x['id'] for x in table['operations']],'effect_rules':[x['id'] for x in table['effects']]}
  if index.get('pack')!=PACK: raise ValueError('DefinitionIndex PackRef')
  for category,ids in expected.items():
@@ -124,9 +130,79 @@ def mutate(target,mutation):
  for segment in path[:-1]: cursor=cursor[int(segment)] if isinstance(cursor,list) else cursor[segment]
  cursor[int(path[-1]) if isinstance(cursor,list) else path[-1]]=mutation['value']
 
+POWER_OPERATIONS=(
+ 'storage.operation.set_ac_power',
+ 'storage.operation.set_dc_power',
+ 'storage.operation.set_pcc_power',
+)
+DURATION_PARAMETERS=['storage.setpoint.active','storage.setpoint.duration']
+EXPLICIT_ZERO={'coefficient':'0','exponent10':0}
+
+def check_duration_effect(vector, presence):
+    """Omitted duration stays empty. Explicit zero deactivates the setpoint."""
+    if presence == 'omitted':
+        if vector.get('duration') is not None:
+            raise ValueError('duration value')
+        omitted = vector.get('setpoint_effect') != 'omitted_validity'
+        waiting = vector.get('starts_at_receipt') is not False
+        if omitted or waiting:
+            raise ValueError('duration effect')
+        return
+    if vector.get('duration') != EXPLICIT_ZERO:
+        raise ValueError('duration value')
+    held = vector.get('setpoint_effect') != 'deactivate_setpoint'
+    started = vector.get('starts_at_receipt') is not True
+    if held or started:
+        raise ValueError('duration effect')
+
+
+def check_one_duration_vector(vector, operations, seen, canonical):
+    """One power operation's duration vector matches the table and is not a deadline."""
+    operation_id = vector.get('operation')
+    if operation_id not in POWER_OPERATIONS:
+        raise ValueError('duration operation')
+    operation = operations[operation_id]
+    if vector.get('argument') != operation.get('input'):
+        raise ValueError('duration argument')
+    parameters = vector.get('parameters')
+    if parameters != operation.get('parameters') or parameters != DURATION_PARAMETERS:
+        raise ValueError('duration parameters')
+    presence = vector.get('presence')
+    if presence not in ('omitted', 'explicit_zero'):
+        raise ValueError('duration presence')
+    identity = (operation_id, presence)
+    if identity in seen:
+        raise ValueError('duration distinct')
+    seen.add(identity)
+    if vector.get('command_deadline') is not False or 'deadline' in vector:
+        raise ValueError('duration deadline')
+    check_duration_effect(vector, presence)
+    canonical[identity] = json.dumps(vector.get('duration'), separators=(',', ':'), sort_keys=True)
+
+
+def check_duration_vectors(data, table):
+    """Omitted validity duration and explicit zero are distinct and neither is a command deadline."""
+    vectors = data.get('duration_vectors')
+    if not isinstance(vectors, list) or len(vectors) != 6:
+        raise ValueError('duration vectors')
+    operations = {item['id']: item for item in table['operations']}
+    seen = set()
+    canonical = {}
+    for vector in vectors:
+        check_one_duration_vector(vector, operations, seen, canonical)
+    if len(seen) != 6:
+        raise ValueError('duration distinct')
+    for operation_id in POWER_OPERATIONS:
+        omitted = canonical[(operation_id, 'omitted')]
+        explicit = canonical[(operation_id, 'explicit_zero')]
+        if omitted == explicit:
+            raise ValueError('duration distinct')
+
+
 def document(data,table=None):
  if data.get('contract')!='helianthus.semantic.pack.storage.acceptance/v1' or data.get('pack_contract')!='helianthus.pack.storage/v1': raise ValueError('contract')
- table=tables() if table is None else table; validate(data['catalog'],table)
+ table=tables() if table is None else table; check_duration_vectors(data,table)
+ validate(data['catalog'],table)
  for vector in data['vectors']:
   catalog=copy.deepcopy(data['catalog'])
   for mutation in vector.get('input',{}).get('mutations',[]): mutate(catalog,mutation)
@@ -140,7 +216,7 @@ def document(data,table=None):
 def main():
  document(load())
  text=DOCUMENT.read_text()
- for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority','storage.energy.remaining','storage.energy.usable_capacity','storage.energy.nominal_capacity'):
+ for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority','storage.energy.remaining','storage.energy.usable_capacity','storage.energy.nominal_capacity','may omit validity duration','starts counting at receipt','deactivates the setpoint','explicit zero','command execution deadline','storage.operation.set_ac_power','storage.operation.set_dc_power','storage.operation.set_pcc_power','storage.setpoint.active','storage.setpoint.duration'):
   if token not in text: raise ValueError('document boundary')
  print('storage/BMS pack v1.1: PASS')
 if __name__=='__main__': main()

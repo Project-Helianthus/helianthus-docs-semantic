@@ -66,7 +66,6 @@ The element ids are:
 | voltage limit | `storage.limit.charge_voltage` | interface |
 | current limit | `storage.limit.charge_current` | interface |
 | current limit | `storage.limit.discharge_current` | interface |
-| cycle count | `storage.state.cycle_count` | pack |
 | per-cell voltage | `storage.measurement.cell_voltage` | cell |
 | chemistry | `storage.attribute.chemistry` | pack |
 | insulation resistance | `storage.measurement.insulation_resistance` | pack |
@@ -110,10 +109,13 @@ identity evidence. The gate states no plane membership.
 | `storage.pack.current` | `resource.battery_pack` | `pack_terminals` |
 | `storage.state.soc` | `resource.battery_pack` | `pack_as_a_whole` |
 | `storage.state.soh` | `resource.battery_pack` | `pack_as_a_whole` |
+| `storage.state.cycle_count` | `resource.battery_pack` | `pack_as_a_whole` |
 
 Cell extrema use `storage.cell.voltage_maximum` and
 `storage.cell.voltage_minimum` on the cell dimension. They are mapped and not
 emitted. Per-cell voltage waits for `storage.measurement.cell_voltage`.
+`storage.state.cycle_count` is defined on the pack and is emitted. A
+module-sourced count is not that pack fact.
 
 ## Profiles
 
@@ -134,7 +136,7 @@ Selector `growatt.bms.low_voltage.can.v1_04`. The caller selects this profile. I
 | `remaining_capacity` | `0x314` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | none | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `full_charge_capacity` | `0x314` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | none | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `cell_voltage_spread` | `0x314` | `spread_is_not_a_cell_voltage` | `cell` | none | `millivolt_to_volt` | `not_admitted` | Proven |
-| `cycle_count` | `0x314` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `waiting` | Proven |
+| `cycle_count` | `0x314` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `mapped` | Proven |
 | `cell_voltage` | `0x315` | `storage.measurement.cell_voltage` | `cell` | slot=cell_index | `millivolt_to_volt` | `waiting` | Proven |
 | `maximum_cell_voltage` | `0x319` | `storage.cell.voltage_maximum` | `cell` | none | `millivolt_to_volt` | `mapped` | Proven |
 | `minimum_cell_voltage` | `0x319` | `storage.cell.voltage_minimum` | `cell` | none | `millivolt_to_volt` | `mapped` | Proven |
@@ -158,7 +160,7 @@ Selector `growatt.bms.low_voltage.can.pcs.standard`. The caller selects this pro
 | `remaining_capacity` | `0x314` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | none | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `full_charge_capacity` | `0x314` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | none | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `cell_voltage_spread` | `0x314` | `spread_is_not_a_cell_voltage` | `cell` | none | `millivolt_to_volt` | `not_admitted` | Proven |
-| `cycle_count` | `0x314` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `waiting` | Proven |
+| `cycle_count` | `0x314` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `mapped` | Proven |
 | `maximum_cell_voltage` | `0x319` | `storage.cell.voltage_maximum` | `cell` | none | `millivolt_to_volt` | `mapped` | Proven |
 | `minimum_cell_voltage` | `0x319` | `storage.cell.voltage_minimum` | `cell` | none | `millivolt_to_volt` | `mapped` | Proven |
 | `temperature_maximum` | `0x322` | `storage.temperature.cell` | `cell` | none | `celsius_plus_273_15` | `mapped` | Hypothesis |
@@ -178,7 +180,7 @@ Selector `growatt.bms.low_voltage.can.pcs.extended`. The caller selects this pro
 | `limit_word_1` | `0x1903` | `limit_quantity_unassigned` | `interface` | slot=stack_address | `unassigned` | `not_admitted` | Unknown |
 | `full_charge_capacity` | `0x1904` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=stack_address | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `remaining_capacity` | `0x1904` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=stack_address | `ampere_hour_unchanged` | `not_admitted` | Proven |
-| `cycle_count` | `0x1904` | `storage.state.cycle_count` | `pack` | slot=stack_address | `count_unchanged` | `waiting` | Proven |
+| `cycle_count` | `0x1904` | `storage.state.cycle_count` | `pack` | slot=stack_address | `count_unchanged` | `mapped` | Proven |
 | `maximum_cell_voltage` | `0x1905` | `storage.cell.voltage_maximum` | `cell` | slot=stack_address | `millivolt_to_volt` | `mapped` | Proven |
 | `minimum_cell_voltage` | `0x1905` | `storage.cell.voltage_minimum` | `cell` | slot=stack_address | `millivolt_to_volt` | `mapped` | Proven |
 | `temperature_maximum` | `0x1906` | `storage.temperature.cell` | `cell` | slot=stack_address | `celsius_plus_273_15` | `mapped` | Hypothesis |
@@ -192,7 +194,7 @@ Selector `growatt.bms.low_voltage.can.pcs.gauge`. The caller selects this profil
 | Source | Frame | Element | Dimension | Qualifiers | Conversion | Disposition | Grade |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `full_charge_capacity` | `0x316` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | none | `ampere_hour_unchanged` | `not_admitted` | Proven |
-| `fine_cycle_count` | `0x316` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `waiting` | Proven |
+| `fine_cycle_count` | `0x316` | `storage.state.cycle_count` | `pack` | none | `count_unchanged` | `mapped` | Proven |
 | `cell_source_word` | `0x315` | `storage.measurement.cell_voltage` | `cell` | slot=cell_index | `millivolt_to_volt` | `waiting` | Hypothesis |
 | `biased_accumulator` | `0x316` | `accumulator_is_not_ampere_hour` | `pack` | none | `unassigned` | `not_admitted` | Proven |
 
@@ -210,7 +212,7 @@ Selector `growatt.bms.low_voltage.can.pcs.parallel`. The caller selects this pro
 | `limit_word_1` | `0x62X` | `limit_quantity_unassigned` | `interface` | bank=caller_resolved_bank | `unassigned` | `not_admitted` | Unknown |
 | `full_charge_capacity` | `0x63X` | `capacity_unit_unassigned` | `pack` | bank=caller_resolved_bank | `unassigned` | `not_admitted` | Unknown |
 | `remaining_capacity` | `0x63X` | `capacity_unit_unassigned` | `pack` | bank=caller_resolved_bank | `unassigned` | `not_admitted` | Unknown |
-| `cycle_count` | `0x63X` | `storage.state.cycle_count` | `pack` | bank=caller_resolved_bank | `count_unchanged` | `waiting` | Unknown |
+| `cycle_count` | `0x63X` | `storage.state.cycle_count` | `pack` | bank=caller_resolved_bank | `count_unchanged` | `mapped` | Unknown |
 | `maximum_cell_voltage` | `0x64X` | `storage.cell.voltage_maximum` | `cell` | bank=caller_resolved_bank | `millivolt_to_volt` | `mapped` | Proven |
 | `minimum_cell_voltage` | `0x64X` | `storage.cell.voltage_minimum` | `cell` | bank=caller_resolved_bank | `millivolt_to_volt` | `mapped` | Proven |
 | `temperature_maximum` | `0x65X` | `storage.temperature.cell` | `cell` | bank=caller_resolved_bank | `celsius_plus_273_15` | `mapped` | Hypothesis |
@@ -238,7 +240,7 @@ Selector `growatt.bms.low_voltage.can.link`. The caller selects this profile. It
 | `fine_state_of_charge` | `0x1807` | `module_report_is_not_the_pack` | `module` | slot=module_source | `percent_over_100` | `not_admitted` | Hypothesis |
 | `full_charge_capacity` | `0x180B` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=module_source | `ampere_hour_unchanged` | `not_admitted` | Proven |
 | `remaining_capacity` | `0x180B` | `ampere_hour_estimate_is_not_a_pack_element` | `pack` | slot=module_source | `ampere_hour_unchanged` | `not_admitted` | Proven |
-| `fine_cycle_count` | `0x180B` | `storage.state.cycle_count` | `pack` | slot=module_source | `count_unchanged` | `waiting` | Proven |
+| `fine_cycle_count` | `0x180B` | `module_report_is_not_the_pack` | `module` | slot=module_source | `count_unchanged` | `not_admitted` | Proven |
 | `fine_temperature_maximum` | `0x1862` | `storage.temperature.cell` | `cell` | slot=module_source | `celsius_plus_273_15` | `mapped` | Hypothesis |
 | `fine_temperature_minimum` | `0x1862` | `storage.temperature.cell` | `cell` | slot=module_source | `celsius_plus_273_15` | `mapped` | Hypothesis |
 

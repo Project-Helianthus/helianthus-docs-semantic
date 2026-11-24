@@ -199,6 +199,13 @@
       "withheld_by": "unsupported:repeated_pack_identity"
     },
     {
+      "definition": "storage.relation.interface_supply",
+      "from_kind": "resource.storage_interface",
+      "to_kind": "resource.battery_pack",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "configuration:electrical_supply_sign_reference_not_stated_by_this_gate"
+    },
+    {
       "definition": "storage.relation.module_cell",
       "from_kind": "resource.battery_module",
       "to_kind": "resource.battery_cell",

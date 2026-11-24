@@ -125,6 +125,13 @@
       "withheld_by": "unsupported:repeated_pack_identity"
     },
     {
+      "definition": "storage.relation.interface_supply",
+      "from_kind": "resource.storage_interface",
+      "to_kind": "resource.battery_pack",
+      "outcome": "unknown_not_absent",
+      "withheld_by": "configuration:electrical_supply_sign_reference_not_stated_by_this_gate"
+    },
+    {
       "definition": "storage.relation.module_cell",
       "from_kind": "resource.battery_module",
       "to_kind": "resource.battery_cell",
@@ -195,11 +202,6 @@
       "concern": "current_limit",
       "element": "storage.limit.discharge_current",
       "dimension": "interface"
-    },
-    {
-      "concern": "cycle_count",
-      "element": "storage.state.cycle_count",
-      "dimension": "pack"
     },
     {
       "concern": "per_cell_voltage",
@@ -586,13 +588,13 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "mapped",
           "grade": "Proven",
-          "subject_kind": null,
-          "measurement_point": null,
+          "subject_kind": "resource.battery_pack",
+          "measurement_point": "pack_as_a_whole",
           "loss": [],
-          "emitted": false,
-          "package_e": "cycle_count",
+          "emitted": true,
+          "package_e": null,
           "reason": null
         },
         {
@@ -1118,13 +1120,13 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "mapped",
           "grade": "Proven",
-          "subject_kind": null,
-          "measurement_point": null,
+          "subject_kind": "resource.battery_pack",
+          "measurement_point": "pack_as_a_whole",
           "loss": [],
-          "emitted": false,
-          "package_e": "cycle_count",
+          "emitted": true,
+          "package_e": null,
           "reason": null
         },
         {
@@ -1552,13 +1554,13 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "mapped",
           "grade": "Proven",
-          "subject_kind": null,
-          "measurement_point": null,
+          "subject_kind": "resource.battery_pack",
+          "measurement_point": "pack_as_a_whole",
           "loss": [],
-          "emitted": false,
-          "package_e": "cycle_count",
+          "emitted": true,
+          "package_e": null,
           "reason": null
         },
         {
@@ -1811,13 +1813,13 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "mapped",
           "grade": "Proven",
-          "subject_kind": null,
-          "measurement_point": null,
+          "subject_kind": "resource.battery_pack",
+          "measurement_point": "pack_as_a_whole",
           "loss": [],
-          "emitted": false,
-          "package_e": "cycle_count",
+          "emitted": true,
+          "package_e": null,
           "reason": null
         },
         {
@@ -2129,13 +2131,13 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "mapped",
           "grade": "Unknown",
-          "subject_kind": null,
-          "measurement_point": null,
+          "subject_kind": "resource.battery_pack",
+          "measurement_point": "pack_as_a_whole",
           "loss": [],
-          "emitted": false,
-          "package_e": "cycle_count",
+          "emitted": true,
+          "package_e": null,
           "reason": null
         },
         {
@@ -2872,8 +2874,8 @@
           "source": "fine_cycle_count",
           "frame": "0x180B",
           "native_unit": "cycles",
-          "element": "storage.state.cycle_count",
-          "dimension": "pack",
+          "element": null,
+          "dimension": "module",
           "qualifiers": [
             {
               "name": "slot",
@@ -2893,14 +2895,14 @@
             },
             "rule": "count_unchanged"
           },
-          "disposition": "waiting",
+          "disposition": "not_admitted",
           "grade": "Proven",
           "subject_kind": null,
           "measurement_point": null,
           "loss": [],
           "emitted": false,
-          "package_e": "cycle_count",
-          "reason": null
+          "package_e": null,
+          "reason": "module_report_is_not_the_pack"
         },
         {
           "source": "fine_temperature_maximum",
@@ -3074,6 +3076,25 @@
           "reversible": true
         }
       ]
+    },
+    {
+      "target": "storage.state.cycle_count",
+      "native_unit": "cycles",
+      "unit": null,
+      "conversion": {
+        "factor": {
+          "coefficient": "1",
+          "exponent10": 0
+        },
+        "offset": {
+          "coefficient": "0",
+          "exponent10": 0
+        }
+      },
+      "subject_kind": "resource.battery_pack",
+      "measurement_point": "pack_as_a_whole",
+      "dimension": "storage.dimension.pack",
+      "loss": []
     }
   ]
 }

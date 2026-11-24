@@ -95,6 +95,7 @@ relation is unknown, not absent. Every Storage relation stays unknown here.
 | Definition | From kind | To kind | Withheld by |
 | --- | --- | --- | --- |
 | `storage.relation.battery_pack` | `resource.battery` | `resource.battery_pack` | `unsupported:repeated_pack_identity` |
+| `storage.relation.interface_supply` | `resource.storage_interface` | `resource.battery_pack` | `configuration:electrical_supply_sign_reference_not_stated_by_this_gate` |
 | `storage.relation.module_cell` | `resource.battery_module` | `resource.battery_cell` | `unsupported:pack_module_cell_string_topology` |
 | `storage.relation.pack_interface` | `resource.battery_pack` | `resource.storage_interface` | `unsupported:charge_discharge_limits` |
 | `storage.relation.pack_module` | `resource.battery_pack` | `resource.battery_module` | `unsupported:pack_module_cell_string_topology` |

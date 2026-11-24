@@ -14945,6 +14945,162 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.capability.set_ac_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_charge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_ac_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_discharge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.capability.set_charge_limit",
         "version": "1.1.0"
       },
@@ -14996,6 +15152,370 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.capability.set_control_mode",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_control_mode",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_dc_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_charge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_dc_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_discharge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_default_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_default_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_default_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_pcc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.capability.set_discharge_limit",
         "version": "1.1.0"
       },
@@ -15034,6 +15554,266 @@
             }
           },
           "id": "storage.operation.set_discharge_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_failsafe_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_failsafe_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_failsafe_duration_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_duration_minimum",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_failsafe_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_pcc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capability.set_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.interface",
+          "version": "1.1.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_pcc_power",
           "version": "1.1.0"
         }
       }
@@ -15103,6 +15883,96 @@
         "arm": "accepted_pack",
         "evidence": [
           "api/v1/packs/storage-bms-v1.md"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capacity.full_charge",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.capacity.remaining",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
         ]
       },
       "attributes": {
@@ -15212,6 +16082,845 @@
         },
         "aggregation": "member",
         "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.actor",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.ec1",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.heartbeat_counter",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.heartbeat_timeout",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.heartbeat_timestamp",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.use_case_name",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.cob.use_case_version",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.battery_type",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.control_mode",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.default_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.default_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.default_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.failsafe_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.failsafe_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.failsafe_duration_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.failsafe_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.configuration.maximum_cycles_per_day",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
       }
     },
     {
@@ -15432,6 +17141,156 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.effect.set_ac_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_charge_power_limit",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.ac_charge_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_ac_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_discharge_power_limit",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.ac_discharge_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_ac_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.effect.set_charge_limit",
         "version": "1.1.0"
       },
@@ -15481,6 +17340,356 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.effect.set_control_mode",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_control_mode",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.control_mode",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_dc_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_charge_power_limit",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.dc_charge_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_dc_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_discharge_power_limit",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.dc_discharge_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_dc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_default_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_ac_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_default_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_dc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_default_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_default_pcc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_pcc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.effect.set_discharge_limit",
         "version": "1.1.0"
       },
@@ -15517,6 +17726,256 @@
             }
           },
           "id": "storage.limit.discharge_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_failsafe_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_ac_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_failsafe_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_dc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_failsafe_duration_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_duration_minimum",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_duration_minimum",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_failsafe_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_failsafe_pcc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_pcc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.effect.set_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.operation.set_pcc_power",
+          "version": "1.1.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.pcc_power",
           "version": "1.1.0"
         }
       }
@@ -15750,6 +18209,258 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.event.charge_fault_change",
+        "version": "1.1.0"
+      },
+      "element_kind": "event",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.pack",
+          "version": "1.1.0"
+        },
+        "trigger": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.status.charge_faults",
+          "version": "1.1.0"
+        },
+        "condition": "changed",
+        "payload": [],
+        "origin": "emitted"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.event.fault_change",
+        "version": "1.1.0"
+      },
+      "element_kind": "event",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.service.pack",
+          "version": "1.1.0"
+        },
+        "trigger": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.status.faults",
+          "version": "1.1.0"
+        },
+        "condition": "changed",
+        "payload": [],
+        "origin": "emitted"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.interface.ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.limit.ac_charge_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.limit.ac_discharge_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.limit.charge_current",
         "version": "1.1.0"
       },
@@ -15829,6 +18540,98 @@
           "kind": "resource.storage_interface"
         },
         "aggregation": "not_applicable",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.limit.dc_charge_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.limit.dc_discharge_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
         "direction": "non_negative"
       }
     },
@@ -15932,6 +18735,1383 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.mob.actor",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.device_code",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.device_name",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.ec1",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.hardware_revision",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.manufacturer_label",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.moi_016b",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.moi_018",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.moi_022",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.serial_number",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.software_revision",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.timestamp",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.use_case_name",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.use_case_version",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.vendor_code",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.mob.vendor_name",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "provenance"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_charge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_charge_power_nominal_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_charge_power_nominal_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_discharge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_discharge_power_nominal_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.ac_discharge_power_nominal_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.dc_charge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.dc_discharge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.time_to_ac_charge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.nameplate.time_to_ac_discharge_power_maximum",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_ac_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_ac_charge_power_limit",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.ac_charge_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_ac_charge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_ac_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_ac_discharge_power_limit",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.ac_discharge_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_ac_discharge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_ac_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.ac_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_ac_power",
+          "version": "1.1.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.active",
+            "version": "1.1.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.duration",
+            "version": "1.1.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.operation.set_charge_limit",
         "version": "1.1.0"
       },
@@ -15979,6 +20159,457 @@
             }
           },
           "id": "storage.effect.set_charge_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_control_mode",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_control_mode",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.control_mode",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_control_mode",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_dc_charge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_dc_charge_power_limit",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.dc_charge_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_dc_charge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_dc_discharge_power_limit",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_dc_discharge_power_limit",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.limit.dc_discharge_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_dc_discharge_power_limit",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_dc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.dc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_dc_power",
+          "version": "1.1.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.active",
+            "version": "1.1.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.duration",
+            "version": "1.1.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_default_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_default_ac_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_ac_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_default_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_default_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_default_dc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_dc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_default_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_default_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_default_pcc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.default_pcc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_default_pcc_power",
           "version": "1.1.0"
         }
       }
@@ -16041,6 +20672,335 @@
           "id": "storage.effect.set_discharge_limit",
           "version": "1.1.0"
         }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_failsafe_ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_failsafe_ac_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_ac_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_failsafe_ac_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_failsafe_dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_failsafe_dc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_dc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_failsafe_dc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_failsafe_duration_minimum",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_failsafe_duration_minimum",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_duration_minimum",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_failsafe_duration_minimum",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_failsafe_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_failsafe_pcc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.configuration.failsafe_pcc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_failsafe_pcc_power",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.operation.set_pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.capability.set_pcc_power",
+          "version": "1.1.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.setpoint.pcc_power",
+          "version": "1.1.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.effect.set_pcc_power",
+          "version": "1.1.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.active",
+            "version": "1.1.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.setpoint.duration",
+            "version": "1.1.0"
+          }
+        ]
       }
     },
     {
@@ -16356,6 +21316,71 @@
               }
             },
             "id": "storage.dimension.battery",
+            "version": "1.1.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.relation.interface_supply",
+        "version": "1.1.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "core_type": "supplies",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.storage_interface"
+        ],
+        "to_kinds": [
+          "resource.battery_pack"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "medium": "electrical",
+        "basis_classes": [
+          "configuration"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
             "version": "1.1.0"
           },
           "to": {
@@ -16979,6 +22004,314 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.setpoint.ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.setpoint.active",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.setpoint.dc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.setpoint.duration",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.setpoint.pcc_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.interface",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_interface"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.state.cycle_count",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.state.soc",
         "version": "1.1.0"
       },
@@ -17083,6 +22416,186 @@
       },
       "attributes": {
         "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.status.charge_direction",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.status.charge_faults",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbols",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.status.charge_level",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.status.faults",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbols",
         "subject": {
           "status": "resolved",
           "dimension": {
@@ -17244,6 +22757,96 @@
             "version": "1.1.0"
           }
         },
+        "id": "storage.status.replacement_needed",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.status.state",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          },
+          "kind": "resource.battery_pack"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
         "id": "storage.status.warning",
         "version": "1.1.0"
       },
@@ -17276,6 +22879,197 @@
           "kind": "resource.battery_pack"
         },
         "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.system.ac_power",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "member",
+        "direction": "signed",
+        "sign_reference": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.system.energy_charged",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.system.energy_discharged",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.system.state_of_charge",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "member",
         "direction": "not_applicable"
       }
     },
@@ -17364,6 +23158,231 @@
           "kind": "resource.battery_pack"
         },
         "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.vabd.actor",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.vabd.ec1",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.vabd.use_case_name",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.vabd.use_case_version",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          }
+        },
+        "id": "storage.vabd.vabd_005",
+        "version": "1.1.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/storage-bms-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/175"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.storage",
+                "version": "1.1.0"
+              }
+            },
+            "id": "storage.dimension.system",
+            "version": "1.1.0"
+          },
+          "kind": "resource.storage_system"
+        },
+        "aggregation": "not_applicable",
         "direction": "not_applicable"
       }
     },

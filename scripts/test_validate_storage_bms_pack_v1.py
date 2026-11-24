@@ -2,6 +2,8 @@
 """Focused mutation coverage for the storage/BMS v1.1 exact contract."""
 import copy
 import importlib.util
+import json
+import re
 import sys
 from fractions import Fraction
 from pathlib import Path
@@ -153,7 +155,7 @@ def check_current_limits(table):
     interface field list: inserting the current limit fails the interface capability check.
     """
     specs = table['field_specs']
-    if len(specs) != 25:
+    if len(specs) != 96:
         raise AssertionError('field_specs is not 25')
     if specs[-1]['id'] != 'storage.status.interlock':
         raise AssertionError('interlock is not last')
@@ -180,7 +182,7 @@ def main():
   ('wrong_pack_version',lambda c:c['pack'].update(version='1.0.0'),'PackRef'),
   ('missing_domain',lambda c:c['domain_catalog'].pop(),'five-domain'),
   ('missing_field',lambda c:c['definitions']['fields'].pop(),'field catalog'),
-  ('interlock_symbol_drift',lambda c:c['definitions']['fields'][24]['symbols'].reverse(),'field catalog'),
+  ('interlock_symbol_drift',lambda c:next(field for field in c['definitions']['fields'] if field['id']=='storage.status.interlock')['symbols'].reverse(),'field catalog'),
   ('unit_swap',lambda c:c['definitions']['fields'][0].update(unit='unit.volt'),'field catalog'),
   ('dimension_swap',lambda c:c['definitions']['fields'][0].update(dimension='storage.dimension.cell'),'field catalog'),
   ('can_live',lambda c:c['candidate_mappings'][0].update(physical_qualified=True),'mapping'),
@@ -204,8 +206,8 @@ def main():
   ('quantity_unit_retyped',lambda t:t['field_specs'][0].update(unit='unit.volt'),'exact contract tables'),
   ('quantity_dimension_crosswire',lambda t:t['field_specs'][0].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('duplicate_field_id',lambda t:t['field_specs'][1].update(id='storage.state.soc'),'duplicate field'),
-  ('interlock_field_drift',lambda t:t['field_specs'][24].update(dimension='storage.dimension.pack'),'interlock field'),
-  ('interlock_symbol_drift',lambda t:t['field_specs'][24]['symbols'].reverse(),'interlock field'),
+  ('interlock_field_drift',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.status.interlock').update(dimension='storage.dimension.pack'),'interlock field'),
+  ('interlock_symbol_drift',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.status.interlock')['symbols'].reverse(),'interlock field'),
   ('service_dimension_crosswire',lambda t:t['services'][2].update(dimension='storage.dimension.cell'),'exact contract tables'),
   ('relation_endpoint_crosswire',lambda t:t['relations'][0].update(to='storage.service.pack'),'exact contract tables'),
   ('relation_origin_crosswire',lambda t:t['relations'][1].update(**{'from':'storage.service.system'}),'exact contract tables'),
@@ -256,9 +258,123 @@ def main():
   ('discharge_current_maximum',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.limit.discharge_current')['bounds'].update(maximum={'coefficient':'1','exponent10':0}),'exact contract tables'),
   ('interlock_not_last',lambda t:t['field_specs'].__setitem__(slice(-2,None),list(reversed(t['field_specs'][-2:]))),'interlock field'),
   ('current_on_interface',lambda t:next(item for item in t['capabilities'] if item['id']=='storage.capability.read.interface')['field_ids'].insert(0,'storage.limit.charge_current'),'qualified-current interface capability'),
+  ('text_field_extra_member',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.cob.actor').update(unit='unit.one'),'field kind'),
+  ('boolean_field_extra_member',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.setpoint.active').update(symbols=['on']),'field kind'),
+  ('symbols_field_extra_member',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.status.faults').update(unit='unit.one'),'field symbols'),
  ]
  table_cases += [('field_%d_unit_%s' % (index, unit.removeprefix('unit.')), lambda t, index=index, unit=unit: t['field_specs'][index].update(unit=unit), 'field unit is outside the canonical SI unit set') for index in (0, 1, 5, 6, 12, 13) for unit in NOT_SI]
  for case in table_cases: table_case(*case)
+ check_duration_identity()
  print('baseline: PASS; %d catalog and %d table mutations rejected'%(len(catalog_cases),len(table_cases)))
+
+
+def duration_case(name, change, error):
+    data = copy.deepcopy(v.load())
+    change(data)
+    try:
+        v.check_duration_vectors(data, v.tables())
+    except ValueError as value:
+        if error not in str(value):
+            raise AssertionError(value)
+    else:
+        raise AssertionError('duration mutation accepted')
+    print(name + ': REJECTED')
+
+
+def check_duration_identity():
+    """Each duration-vector identity field, and the production check its mutation fails.
+
+    operation: a limit operation id fails duration operation.
+    argument: a different setpoint fails duration argument.
+    parameter order: reversing storage.setpoint.active and storage.setpoint.duration fails duration parameters.
+    parameter id: replacing storage.setpoint.duration fails duration parameters.
+    presence: a token other than omitted or explicit_zero fails duration presence.
+    duration coefficient: an explicit zero coefficient other than 0 fails duration value.
+    duration exponent: an explicit zero exponent other than 0 fails duration value.
+    command_deadline: true fails duration deadline.
+    setpoint_effect: a different effect token fails duration effect.
+    presence collision: a second omitted record for the same operation fails duration distinct.
+    """
+    v.check_duration_vectors(v.load(), v.tables())
+    vectors = v.load()['duration_vectors']
+    omitted = next(item for item in vectors if item['presence'] == 'omitted')
+    explicit = next(item for item in vectors if item['operation'] == omitted['operation'] and item['presence'] == 'explicit_zero')
+    omitted_bytes = json.dumps(omitted['duration'], separators=(',', ':'), sort_keys=True)
+    explicit_bytes = json.dumps(explicit['duration'], separators=(',', ':'), sort_keys=True)
+    if omitted_bytes == explicit_bytes:
+        raise AssertionError('omitted and explicit zero are not distinct')
+    cases = [
+        ('duration_operation', lambda d: d['duration_vectors'][0].update(operation='storage.operation.set_charge_limit'), 'duration operation'),
+        ('duration_argument', lambda d: d['duration_vectors'][0].update(argument='storage.setpoint.dc_power'), 'duration argument'),
+        ('duration_parameter_order', lambda d: d['duration_vectors'][0]['parameters'].reverse(), 'duration parameters'),
+        ('duration_parameter_id', lambda d: d['duration_vectors'][0]['parameters'].__setitem__(1, 'storage.setpoint.ac_power'), 'duration parameters'),
+        ('duration_presence', lambda d: d['duration_vectors'][0].update(presence='blank'), 'duration presence'),
+        ('duration_coefficient', lambda d: next(item for item in d['duration_vectors'] if item['presence'] == 'explicit_zero')['duration'].update(coefficient='1'), 'duration value'),
+        ('duration_exponent', lambda d: next(item for item in d['duration_vectors'] if item['presence'] == 'explicit_zero')['duration'].update(exponent10=1), 'duration value'),
+        ('duration_deadline', lambda d: d['duration_vectors'][0].update(command_deadline=True), 'duration deadline'),
+        ('duration_effect', lambda d: next(item for item in d['duration_vectors'] if item['presence'] == 'explicit_zero').update(setpoint_effect='hold'), 'duration effect'),
+        ('duration_distinct', lambda d: next(item for item in d['duration_vectors'] if item['operation'] == d['duration_vectors'][0]['operation'] and item['presence'] == 'explicit_zero').update(presence='omitted', duration=None, setpoint_effect='omitted_validity', starts_at_receipt=False), 'duration distinct'),
+    ]
+    for case in cases:
+        duration_case(*case)
+    print('duration_vectors: PASS')
+
+
+def function_lines(path, name):
+    """Lines of one top-level function, from its definition through the next one."""
+    lines = Path(path).read_text().splitlines()
+    start = None
+    for index, line in enumerate(lines):
+        if line.startswith('def ' + name + '('):
+            start = index
+            break
+    if start is None:
+        raise AssertionError(name + ' is missing')
+    end = len(lines)
+    for index in range(start + 1, len(lines)):
+        if lines[index].startswith(('def ', 'class ', 'if __name__')):
+            end = index
+            break
+    return lines[start:end]
+
+
+def assert_no_joined_statements(path, name):
+    """A split checker has no semicolon statement and no clause with a trailing statement."""
+    clause = re.compile(r'^\s*(?:if|elif|else|for|try|except|while|with)\b.*:\s*\S')
+    for line in function_lines(path, name):
+        code = line.split('#', 1)[0]
+        if ';' in code or clause.search(code):
+            raise AssertionError(name + ' joins statements on one line')
+
+
+def test_duration_split_and_plain_fields():
+    """Duration checks stay split, and boolean, text and symbol shapes still fail closed."""
+    validator = ROOT / 'scripts/validate_storage_bms_pack_v1.py'
+    suite = Path(__file__)
+    for name in ('check_duration_vectors', 'check_one_duration_vector', 'check_duration_effect', 'check_plain_field'):
+        assert_no_joined_statements(validator, name)
+    for name in ('duration_case', 'check_duration_identity'):
+        assert_no_joined_statements(suite, name)
+    document = function_lines(validator, 'document')
+    semicolons = 0
+    for line in document:
+        semicolons += line.split('#', 1)[0].count(';')
+    if semicolons != 1:
+        raise AssertionError('document joined statements')
+    for line in function_lines(validator, 'validate_tables'):
+        if 'field kind' in line:
+            raise AssertionError('plain field check grew validate_tables')
+    check_duration_identity()
+    reject_plain_field('storage.cob.actor', 'unit', 'unit.one', 'field kind')
+    reject_plain_field('storage.setpoint.active', 'symbols', ['on'], 'field kind')
+    reject_plain_field('storage.status.faults', 'unit', 'unit.one', 'field symbols')
+
+
+def reject_plain_field(identifier, key, value, error):
+    table = copy.deepcopy(v.tables())
+    field = next(item for item in table['field_specs'] if item['id'] == identifier)
+    field[key] = value
+    reject_table(table, error)
+
 
 if __name__=='__main__': main()

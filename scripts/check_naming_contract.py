@@ -25,7 +25,7 @@ def validate_row(row):
 
 def validate(data):
     rows = data['rows']
-    expected_counts = dict(zip(('pv', 'storage', 'evse', 'thermal', 'infrastructure'), (135, 66, 53, 172, 111)))
+    expected_counts = dict(zip(('pv', 'storage', 'evse', 'thermal', 'infrastructure'), (135, 185, 53, 172, 111)))
     counts = Counter(r['source'].split('/')[3] for r in rows)
     if counts != expected_counts or any(r['kind'] not in ('definition_literal', 'go_identifier') for r in rows):
         raise ValueError('inventory coverage or kind differs')

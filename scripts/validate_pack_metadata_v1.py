@@ -36,7 +36,10 @@ def source_metadata(path):
     operations_out = []
     for item in operations:
         argument = item.get("arguments", [item.get("input")])[0]; effect = item.get("effect_rule", item.get("effect"))
-        operations_out.append({"ref": ref(pack, item["id"]), "capability": ref(pack, item["capability"]), "service": ref(pack, capability_by_id[item["capability"]]["service"]), "argument": ref(pack, argument), "effect": ref(pack, effect)})
+        record = {"ref": ref(pack, item["id"]), "capability": ref(pack, item["capability"]), "service": ref(pack, capability_by_id[item["capability"]]["service"]), "argument": ref(pack, argument), "effect": ref(pack, effect)}
+        if item.get("parameters"):
+            record["parameters"] = [ref(pack, parameter) for parameter in item["parameters"]]
+        operations_out.append(record)
     units = sorted({item["canonical_unit"]["id"] for item in fields if item["canonical_unit"]})
     known = [item["ref"] for item in fields + services + capabilities + operations_out] + [item["effect"] for item in operations_out] + [ref(pack, unit) for unit in units]
     return {"pack": pack, "source": path, "units": [ref(pack, unit) for unit in units], "definitions": sorted(known, key=key), "fields": sorted(fields, key=lambda item: key(item["ref"])), "services": sorted(services, key=lambda item: key(item["ref"])), "capabilities": sorted(capabilities, key=lambda item: key(item["ref"])), "operations": sorted(operations_out, key=lambda item: key(item["ref"]))}
@@ -82,7 +85,8 @@ class Registry:
                 return capabilities[key(capability)]["service"] == service and fields[key(field)]["dimension"] == services[key(service)]["fact_key_dimension"]
         return False
     def operation_matches(self, operation, capability, service, argument, effect):
-        return any(item == {"ref": operation, "capability": capability, "service": service, "argument": argument, "effect": effect} for pack in self._packs for item in pack["operations"])
+        required = {"ref": operation, "capability": capability, "service": service, "argument": argument, "effect": effect}
+        return any(all(item.get(name) == value for name, value in required.items()) for pack in self._packs for item in pack["operations"])
 def main():
     document = load(FIXTURE); validate(document); registry = Registry(document["packs"])
     for pack in document["packs"]:

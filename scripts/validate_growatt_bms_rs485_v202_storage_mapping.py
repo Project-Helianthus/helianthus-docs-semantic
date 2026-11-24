@@ -78,6 +78,7 @@ NATIVE_IDENTITY_EVIDENCE = ["mcu_software_version", "gauge_version", "bms_compan
 # Section 7.2: what withholds each storage relation the gate does not state; none is stated, none is absent.
 UNSTATED_BY = {
     "storage.relation.battery_pack": "unsupported:repeated_pack_identity",
+    "storage.relation.interface_supply": "configuration:electrical_supply_sign_reference_not_stated_by_this_gate",
     "storage.relation.module_cell": "unsupported:pack_module_cell_string_topology",
     "storage.relation.pack_interface": "unsupported:charge_discharge_limits",
     "storage.relation.pack_module": "unsupported:pack_module_cell_string_topology",

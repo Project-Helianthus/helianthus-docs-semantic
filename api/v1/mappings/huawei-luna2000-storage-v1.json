@@ -55,6 +55,7 @@
     ]
   },
   "unstated_relations": [
+    {"definition": "storage.relation.interface_supply", "from_kind": "resource.storage_interface", "to_kind": "resource.battery_pack", "outcome": "unknown_not_absent", "withheld_by": "configuration:electrical_supply_sign_reference_not_stated_by_this_gate"},
     {"definition": "storage.relation.module_cell", "from_kind": "resource.battery_module", "to_kind": "resource.battery_cell", "outcome": "unknown_not_absent", "withheld_by": "unsupported:cell_and_module_values"},
     {"definition": "storage.relation.pack_interface", "from_kind": "resource.battery_pack", "to_kind": "resource.storage_interface", "outcome": "unknown_not_absent", "withheld_by": "unsupported:charge_and_discharge_power_limits"},
     {"definition": "storage.relation.pack_module", "from_kind": "resource.battery_pack", "to_kind": "resource.battery_module", "outcome": "unknown_not_absent", "withheld_by": "unsupported:cell_and_module_values"},

@@ -66,7 +66,7 @@ VECTOR_GROUPS = (
 STORAGE_GROUPS = (
     ("field_specs", "fact"), ("services", "service"), ("relations", "relation"),
     ("capabilities", "capability"), ("operations", "operation"), ("effects", "effect_rule"),
-    ("portal_contributions", "presentation"),
+    ("portal_contributions", "presentation"), ("events", "event"),
 )
 STORAGE_INDEX_GROUPS = (
     ("fields", "fact"), ("services", "service"), ("capabilities", "capability"),
