@@ -132,6 +132,7 @@ An invocation that does not run the named test fails, including when the package
 
 The invocation receives `MANIFEST_CASE`, `MANIFEST_ROW`, `MANIFEST_ASSERTION`, `MANIFEST_RAW`, `MANIFEST_QUALIFIERS`, `MANIFEST_CLOCK`, `MANIFEST_STATE`, `MANIFEST_ORIGIN`, `MANIFEST_QUALITY`, `MANIFEST_SOURCE`, `MANIFEST_TIMING`, `MANIFEST_PROVENANCE` and `MANIFEST_PINNED_FIELDS`.
 Pinned field values are the manifest's expectations, not values regenerated from the test.
+Two references that pin different values for one field are rejected. An approved vector does not replace either pin.
 The test prints its own identity, the inputs it actually used, the template metadata it actually attached, and one line per compared field:
 
 ```
@@ -196,8 +197,11 @@ A result for a repository that is not a destination of the manifest is rejected.
 
 `differences` entries are `case`, `field`, `old_present`, `old` and `new`.
 Only an exact approved vector is accepted.
+`check`, `compare`, `receipt` and `deletion` read each approved vector from its pinned reference.
+A top-level case, field, presence, old value, new value, source or approval that differs from that reference is rejected.
 A status change with equal output bytes is an unapproved difference unless an approved `execution_status` vector names it.
 Output fields are whole lines of the form `field=value`.
+Each occurrence of a repeated field is compared on its own, so a later copy does not replace an earlier one.
 Every added, removed or changed field must be named by an approved vector with that field's old presence, old value and new value, and every other output line must be identical.
 An approved `execution_status` vector does not account for any other output change.
 An extra field is an unapproved difference.
@@ -213,7 +217,8 @@ A classifier manifest, one whose paths include `cmd/growatt-can-classify/` or `i
 `<deletion.json>` carries `row`, `donor_sha`, `ledger_commit`, `manifests`, `grants`, `reserves`, `live_inputs` and `retirement_evidence`.
 The ledger is the TSV files under `tools/boundary/` at `ledger_commit`, one finding per line: `path`, `kind`, `item`, `owner`, separated by tabs.
 A missing `tools/boundary/` tree stops the command.
-The list is written only when every kept finding is covered by a manifest whose every destination repository has its own row receipt and its own whole-session receipt, each naming the manifest donor and its own destination commit, and each exact equality or the precise approved difference.
+The list is written only when every kept finding is covered by a manifest whose donor repository is gateway, or `donor_repository` when the input names one, and whose donor SHA is the requested `donor_sha`.
+That manifest's every destination repository has its own row receipt and its own whole-session receipt, each naming the manifest donor and its own destination commit, and each exact equality or the precise approved difference.
 GG07 classifier paths also require the standalone receipt.
 A missing proof writes no list.
 

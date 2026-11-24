@@ -2295,6 +2295,299 @@ class ManifestCLITest(unittest.TestCase):
         )
         self.assert_fail(phase_run, "selector-mismatch row: opev-cmd", "field: phase")
 
+    def _gg13_snapshot(self) -> tuple[bytes | None, bytes | None]:
+        directory = self.repo.root / "acceptance" / "manifests"
+        listed = directory / "GG13.lst"
+        recorded = directory / "GG13.json"
+        return (
+            listed.read_bytes() if listed.exists() else None,
+            recorded.read_bytes() if recorded.exists() else None,
+        )
+
+    def _restore_gg13(self, snapshot: tuple[bytes | None, bytes | None]) -> None:
+        directory = self.repo.root / "acceptance" / "manifests"
+        for name, payload in (("GG13.lst", snapshot[0]), ("GG13.json", snapshot[1])):
+            path = directory / name
+            if payload is None:
+                if path.exists():
+                    path.unlink()
+            else:
+                path.write_bytes(payload)
+
+    def test_deletion_binds_the_requested_donor(self) -> None:
+        spec = self.repo.base(
+            "donor-bind",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        self.assert_ok(self.repo.receipt(
+            "donor-bind", self.repo.result("ebusgo", "row", self.repo.merged), self.repo.dest, "ebusgo",
+        ))
+        self.assert_ok(self.repo.receipt(
+            "donor-bind",
+            self.repo.result("ebusgo", "whole-session", self.repo.integrated),
+            self.repo.dest,
+            "ebusgo",
+        ))
+        manifest_path = self.repo.manifest_path("donor-bind")
+        clone = self.repo.root.parent / "donor-moved"
+        git(self.repo.root.parent, "clone", str(self.repo.root), str(clone))
+        moved = clone / "closure" / "closed" / "moved.go"
+        moved.write_text("package sample\n\nfunc Moved() int { return 2 }\n", encoding="utf-8")
+        git(clone, "add", "-A")
+        git(clone, "commit", "-m", "donor file changed")
+        new_sha = git_out(clone, "rev-parse", "HEAD")
+        self.assertNotEqual(new_sha, self.repo.sha)
+        base = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(manifest_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        snapshot = self._gg13_snapshot()
+        changed = dict(base)
+        changed["donor_sha"] = new_sha
+        changed["ledger_commit"] = new_sha
+        self.assert_fail(
+            self.repo.deletion(changed, gateway=clone),
+            "missing-receipt: closure/closed/moved.go",
+        )
+        self.assertEqual(self._gg13_snapshot(), snapshot)
+        other_repository = dict(base)
+        other_repository["donor_repository"] = "elsewhere"
+        self.assert_fail(
+            self.repo.deletion(other_repository),
+            "missing-receipt: closure/closed/moved.go",
+        )
+        self.assertEqual(self._gg13_snapshot(), snapshot)
+        edited = json.loads(manifest_path.read_text(encoding="utf-8"))
+        edited["donor"]["repository"] = "elsewhere"
+        edited_path = self.repo.root / "acceptance" / "manifests" / "donor-bind-elsewhere.json"
+        edited_path.write_text(json.dumps(edited), encoding="utf-8")
+        renamed = dict(base)
+        renamed["manifests"] = [str(edited_path)]
+        self.assert_fail(
+            self.repo.deletion(renamed),
+            "missing-receipt: closure/closed/moved.go",
+        )
+        self.assertEqual(self._gg13_snapshot(), snapshot)
+        self.assert_ok(self.repo.deletion(base))
+        recorded = json.loads((self.repo.root / "acceptance" / "manifests" / "GG13.json").read_text(encoding="utf-8"))
+        self.assertEqual(recorded["donor_sha"], self.repo.sha)
+        self.assertIn(b"closure/closed/moved.go\n", (self.repo.root / "acceptance" / "manifests" / "GG13.lst").read_bytes())
+        self._restore_gg13(snapshot)
+
+    def test_approved_vector_must_match_its_reference(self) -> None:
+        spec = self.repo.base(
+            "status-recheck",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-status.json")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        path = self.repo.manifest_path("status-recheck")
+        original = path.read_bytes()
+        body = json.loads(original)
+        self.assertEqual(body["expected_differences"][0]["new"], "1")
+        self.assertEqual(body["expected_differences"][0]["reference"]["projection"]["new"], "1")
+        body["expected_differences"][0]["new"] = "2"
+        path.write_text(json.dumps(body), encoding="utf-8")
+        try:
+            self.assert_fail(self.repo.check("status-recheck"), "mutated: docs-semantic:vec/diff-status.json")
+            widened = self.repo.result(
+                "ebusgo", "row", self.repo.merged, old_status=0, new_status=2,
+                differences=[{
+                    "case": "*",
+                    "field": "execution_status",
+                    "old_present": True,
+                    "old": "0",
+                    "new": "2",
+                }],
+            )
+            before = path.read_bytes()
+            self.assert_fail(
+                self.repo.receipt("status-recheck", widened, self.repo.dest, "ebusgo"),
+                "mutated: docs-semantic:vec/diff-status.json",
+            )
+            self.assertEqual(path.read_bytes(), before)
+            compared = self.repo.compare("status-recheck", self.repo.dest)
+            self.assert_fail(compared, "mutated: docs-semantic:vec/diff-status.json")
+            self.assertNotIn("compare: ok", compared.stdout)
+        finally:
+            path.write_bytes(original)
+        approved = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            differences=[{
+                "case": "*",
+                "field": "execution_status",
+                "old_present": True,
+                "old": "0",
+                "new": "1",
+            }],
+        )
+        self.assert_ok(self.repo.receipt("status-recheck", approved, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("status-recheck")["receipts"][0]["new_status"], 1)
+
+    def test_repeated_output_fields_stay_visible(self) -> None:
+        spec = self.repo.base(
+            "repeat-fields",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-status.json")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        path = self.repo.manifest_path("repeat-fields")
+        original = path.read_bytes()
+        status = {
+            "case": "*",
+            "field": "execution_status",
+            "old_present": True,
+            "old": "0",
+            "new": "1",
+        }
+        hidden = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1, differences=[status],
+        )
+        hidden["old_output"] = "reading=230\nreading=230\nexecution_status=0\n"
+        hidden["new_output"] = "reading=999\nreading=230\nexecution_status=1\n"
+        self.assert_fail(
+            self.repo.receipt("repeat-fields", hidden, self.repo.dest, "ebusgo"),
+            "unapproved-difference: reading",
+        )
+        self.assertEqual(path.read_bytes(), original)
+        snapshot = self._gg13_snapshot()
+        planted = json.loads(original)
+
+        def stored(kind: str, commit: str) -> dict:
+            return {
+                "repository": "ebusgo",
+                "kind": kind,
+                "donor_sha": self.repo.sha,
+                "destination_commit": commit,
+                "old_status": 0,
+                "new_status": 1,
+                "old_output": hidden["old_output"],
+                "new_output": hidden["new_output"],
+                "differences": [status],
+                "compared": [],
+                "outcome": "approved-difference",
+            }
+
+        planted["receipts"] = [
+            stored("row", self.repo.merged),
+            stored("whole-session", self.repo.integrated),
+        ]
+        planted_path = self.repo.root / "acceptance" / "manifests" / "repeat-planted.json"
+        planted_path.write_text(json.dumps(planted), encoding="utf-8")
+        deletion = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(planted_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
+        self.assertEqual(self._gg13_snapshot(), snapshot)
+        clean = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1, differences=[status],
+        )
+        clean["old_output"] = "reading=230\nreading=230\nexecution_status=0\n"
+        clean["new_output"] = "reading=230\nreading=230\nexecution_status=1\n"
+        self.assert_ok(self.repo.receipt("repeat-fields", clean, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("repeat-fields")["receipts"][0]["outcome"], "approved-difference")
+
+    def test_conflicting_reference_pins_are_rejected(self) -> None:
+        meas_sig = self.repo.sig["measurement_rows.go"]
+        selectors = selector_map(meas_sig, MEAS)
+        agree = self.repo.base(
+            "pin-agree",
+            mapping_rows=[self.repo.pattern(
+                "pin-row", "donor-backed", ["pin-case"], "pin-assert", meas_sig,
+                EXEMPLARS["measurement_rows.go"], fill(meas_sig, MEAS),
+                old_symbol="ReadMeas", bom="meas-reading",
+            )],
+            expectations=[self.repo.expectation(
+                "pin-case", "donor-backed",
+                [self.repo.bound("pin-row", "pin-assert", "TestEcho")],
+                selectors,
+                [
+                    self.repo.ref("donor-output", "vec/meas.json"),
+                    self.repo.ref("specification", "vec/meas.json"),
+                ],
+            )],
+        )
+        self.assert_ok(self.repo.generate(agree))
+        self.assert_ok(self.repo.check("pin-agree"))
+        agreed = self.repo.compare("pin-agree", self.repo.dest)
+        self.assert_ok(agreed)
+        self.assertIn("field=reading expected=230 observed=230", agreed.stdout)
+        side = self.repo.root.parent / "pin-side"
+        side.mkdir()
+        git(side, "init", "-b", "main")
+        payload = {"fields": {"reading": "231"}, "inputs": {}, "selectors": selectors}
+        vector = side / "vec" / "reading-231.json"
+        vector.parent.mkdir(parents=True)
+        vector.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        git(side, "add", "-A")
+        git(side, "commit", "-m", "reading pin")
+        pin_sha = git_out(side, "rev-parse", "HEAD")
+        git(self.repo.root, "fetch", str(side), "refs/heads/main:refs/pins/reading-231")
+        conflict = self.repo.base(
+            "pin-conflict",
+            mapping_rows=[self.repo.pattern(
+                "pin-row", "donor-backed", ["pin-case"], "pin-assert", meas_sig,
+                EXEMPLARS["measurement_rows.go"], fill(meas_sig, MEAS),
+                old_symbol="ReadMeas", bom="meas-reading",
+            )],
+            expectations=[self.repo.expectation(
+                "pin-case", "donor-backed",
+                [self.repo.bound("pin-row", "pin-assert", "TestEcho")],
+                selectors,
+                [
+                    self.repo.ref("donor-output", "vec/meas.json"),
+                    {
+                        "role": "specification",
+                        "repository": "docs-semantic",
+                        "revision": pin_sha,
+                        "path": "vec/reading-231.json",
+                    },
+                ],
+            )],
+        )
+        self.assert_fail(self.repo.generate(conflict), "conflicting-pin: pin-case", "field: reading")
+        self.assert_absent("pin-conflict")
+        blob = subprocess.check_output(
+            ["git", "-C", str(self.repo.root), "show", f"{pin_sha}:vec/reading-231.json"]
+        )
+        data = json.loads(blob)
+        edited = self.repo.manifest("pin-agree")
+        edited["expectations"][0]["references"].append({
+            "role": "specification",
+            "repository": "docs-semantic",
+            "revision": pin_sha,
+            "path": "vec/reading-231.json",
+            "blob_sha256": hashlib.sha256(blob).hexdigest(),
+            "projection": {
+                "fields": data.get("fields", {}),
+                "inputs": data.get("inputs", {}),
+                "selectors": data.get("selectors", {}),
+            },
+        })
+        edited_path = self.repo.root / "acceptance" / "manifests" / "pin-conflict.json"
+        edited_path.write_text(json.dumps(edited), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("pin-agree", manifest=edited_path),
+            "conflicting-pin: pin-case",
+            "field: reading",
+        )
+        compared = self.repo.compare("pin-agree", self.repo.dest, manifest=edited_path)
+        self.assert_fail(compared, "conflicting-pin: pin-case", "field: reading")
+        self.assertNotIn("expected=231", compared.stdout)
+        self.assertNotIn("compare: ok", compared.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

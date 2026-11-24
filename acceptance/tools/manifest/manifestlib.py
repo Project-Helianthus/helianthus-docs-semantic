@@ -155,6 +155,100 @@ def _reload_reference(tool: Path, recorded: dict[str, Any]) -> tuple[dict[str, A
     return projection, None
 
 
+def _difference_fields(source: dict[str, Any]) -> dict[str, Any]:
+    """Case, field, presence, values, source and approval of one vector."""
+    return {
+        "case": source.get("case"),
+        "field": source.get("field"),
+        "old_present": bool(source.get("old_present", True)),
+        "old": source.get("old"),
+        "new": source.get("new"),
+        "source": source.get("source"),
+        "approval": source.get("approval"),
+    }
+
+
+def _difference_agrees(entry: dict[str, Any], projection: dict[str, Any]) -> bool:
+    recorded = _difference_fields(entry)
+    pinned = _difference_fields(projection)
+    for key in ("case", "field", "source", "approval", "new", "old_present"):
+        if recorded[key] != pinned[key]:
+            return False
+    if recorded["old_present"] and recorded["old"] != pinned["old"]:
+        return False
+    return True
+
+
+def _revalidate_difference(
+    tool: Path, entry: dict[str, Any]
+) -> tuple[dict[str, Any] | None, str | None]:
+    """Vector taken from its reloaded reference, or why that reference was refused.
+
+    The top-level case, field, presence, values, source and approval must equal
+    the reference. Callers consume this vector and not the top-level copy.
+    """
+    recorded = entry.get("reference")
+    if not isinstance(recorded, dict):
+        return None, "mutated: :"
+    projection, problem = _reload_reference(tool, recorded)
+    if problem or projection is None:
+        return None, problem or f"mutated: {recorded.get('repository', '')}:{recorded.get('path', '')}"
+    if not _difference_agrees(entry, projection):
+        return None, f"mutated: {recorded.get('repository', '')}:{recorded.get('path', '')}"
+    return _difference_fields(projection), None
+
+
+def _difference_errors(manifest: dict[str, Any]) -> list[str]:
+    errors = []
+    for item in manifest.get("expected_differences") or []:
+        _vector, problem = _revalidate_difference(repo_root(), item)
+        if problem:
+            errors.append(problem)
+    return errors
+
+
+def _field_pins(reference: dict[str, Any]) -> dict[str, str]:
+    """Field values one reference pins. Output roles share one field namespace."""
+    projection = reference.get("projection") or {}
+    role = reference.get("role")
+    pins: dict[str, str] = {}
+    if role == "donor-native":
+        for key, value in (projection.get("fields") or {}).items():
+            pins[f"native.{key}"] = str(value)
+    elif role == "new-binding":
+        pins["binding.key"] = str(projection["key"])
+        pins["binding.subject"] = str(projection["subject"])
+        pins["binding.value"] = str(projection["value"])
+    elif role == "caller-template":
+        for key in TEMPLATE_KEYS:
+            pins[f"template.{key}"] = str(projection[key])
+    elif role in {"donor-output", "specification"}:
+        for key, value in (projection.get("fields") or {}).items():
+            pins[str(key)] = str(value)
+    return pins
+
+
+def _pin_conflict_errors(expectation: dict[str, Any]) -> list[str]:
+    """Refuse two references that pin different values for one field.
+
+    A later reference must not replace an earlier baseline. An approved
+    vector is the only way to name a change, and it is not a second pin.
+    """
+    seen: dict[str, str] = {}
+    errors: list[str] = []
+    case = str(expectation.get("case", ""))
+    for reference in expectation.get("references") or []:
+        for field, value in _field_pins(reference).items():
+            previous = seen.get(field)
+            if previous is None:
+                seen[field] = value
+                continue
+            if previous == value:
+                continue
+            errors.append(f"conflicting-pin: {case} field: {field}")
+    return errors
+
+
 def _bound_selectors(expectation: dict[str, Any], row_id: str) -> dict[str, Any]:
     """Selectors for one row: case selectors, then that row's own, then references.
 
@@ -346,6 +440,7 @@ def _pattern_records(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[lis
             "selectors": item.get("selectors") or {},
             "references": references,
         })
+        errors.extend(_pin_conflict_errors(recorded_expectations[-1]))
     differences = []
     for item in spec.get("expected_differences") or []:
         if item.get("old") == "*" or item.get("new") == "*":
@@ -376,12 +471,7 @@ def _pattern_records(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[lis
             "approval": item["approval"],
             "reference": recorded,
         }
-        for key in ("case", "field", "source", "approval", "new"):
-            if projection.get(key) != entry[key]:
-                errors.append(f"mutated: {item['repository']}:{item['path']}")
-        if bool(projection.get("old_present", True)) != entry["old_present"]:
-            errors.append(f"mutated: {item['repository']}:{item['path']}")
-        if entry["old_present"] and projection.get("old") != entry["old"]:
+        if not _difference_agrees(entry, projection):
             errors.append(f"mutated: {item['repository']}:{item['path']}")
         differences.append(entry)
     by_case = {item["case"]: item for item in recorded_expectations}
@@ -755,14 +845,21 @@ def _pattern_check(donor: Path, tool: Path, manifest: dict[str, Any]) -> list[st
         if missing:
             errors.append(f"selector-mismatch row: {row_id} field: {missing}")
     for expectation in manifest["expectations"]:
+        errors.extend(_pin_conflict_errors(expectation))
         for reference in expectation.get("references") or []:
             _reloaded, problem = _reload_reference(tool, reference)
             if problem:
                 errors.append(problem)
     for difference in manifest["expected_differences"]:
-        _reloaded, problem = _reload_reference(tool, difference["reference"])
-        if problem:
-            errors.append(problem)
+        recorded = difference.get("reference") or {}
+        reloaded, problem = _reload_reference(tool, difference["reference"])
+        if problem or reloaded is None:
+            errors.append(
+                problem or f"mutated: {recorded.get('repository', '')}:{recorded.get('path', '')}"
+            )
+            continue
+        if not _difference_agrees(difference, reloaded):
+            errors.append(f"mutated: {recorded.get('repository', '')}:{recorded.get('path', '')}")
     return errors
 
 
@@ -865,15 +962,30 @@ def check(manifest_path: Path, donor: Path) -> int:
 
 def _approved(manifest: dict[str, Any], case: str, field: str, old_present: bool, old: Any, new: Any) -> bool:
     for item in manifest.get("expected_differences") or []:
-        if item["case"] != case or item["field"] != field:
+        vector, problem = _revalidate_difference(repo_root(), item)
+        if problem or vector is None:
             continue
-        if bool(item.get("old_present", True)) != old_present:
+        if vector["case"] != case or vector["field"] != field:
             continue
-        if item.get("new") != new:
+        if vector["old_present"] != old_present:
             continue
-        if old_present and item.get("old") != old:
+        if vector["new"] != new:
+            continue
+        if old_present and vector["old"] != old:
             continue
         return True
+    return False
+
+
+def _status_vector_matches(manifest: dict[str, Any], case: str, old_status: int, new_status: int) -> bool:
+    if _approved(manifest, case, "execution_status", True, str(old_status), str(new_status)):
+        return True
+    for item in manifest.get("expected_differences") or []:
+        vector, problem = _revalidate_difference(repo_root(), item)
+        if problem or vector is None or vector["field"] != "execution_status":
+            continue
+        if str(vector.get("old")) == str(old_status) and str(vector.get("new")) == str(new_status):
+            return True
     return False
 
 
@@ -881,29 +993,22 @@ def _pins(manifest: dict[str, Any], expectation: dict[str, Any]) -> dict[str, di
     pins: dict[str, dict[str, Any]] = {}
     kind = expectation["kind"]
     for reference in expectation.get("references") or []:
-        projection = reference["projection"]
-        role = reference["role"]
-        if role == "donor-native":
-            for key, value in projection["fields"].items():
-                pins[f"native.{key}"] = {"present": True, "value": str(value)}
-        elif role == "new-binding":
-            pins["binding.key"] = {"present": True, "value": str(projection["key"])}
-            pins["binding.subject"] = {"present": True, "value": str(projection["subject"])}
-            pins["binding.value"] = {"present": True, "value": str(projection["value"])}
-        elif role == "caller-template":
-            for key in TEMPLATE_KEYS:
-                pins[f"template.{key}"] = {"present": True, "value": str(projection[key])}
-        elif role in {"donor-output", "specification"}:
-            for key, value in (projection.get("fields") or {}).items():
-                pins[str(key)] = {"present": True, "value": str(value)}
+        for name, value in _field_pins(reference).items():
+            proposed = {"present": True, "value": value}
+            current = pins.get(name)
+            # Keep the first pin when a later reference disagrees. Generation,
+            # check and compare reject that manifest before a comparison uses it.
+            if current is None or current == proposed:
+                pins[name] = proposed
     case = expectation["case"]
     for item in manifest.get("expected_differences") or []:
-        if item["case"] != case:
+        vector, problem = _revalidate_difference(repo_root(), item)
+        if problem or vector is None or vector["case"] != case:
             continue
-        if item.get("old_present", True):
-            pins.setdefault(item["field"], {"present": True, "value": str(item.get("old"))})
+        if vector["old_present"]:
+            pins.setdefault(vector["field"], {"present": True, "value": str(vector.get("old"))})
         else:
-            pins[item["field"]] = {"present": False, "value": "absent"}
+            pins[vector["field"]] = {"present": False, "value": "absent"}
     if kind == "binding":
         for key in ("binding.key", "binding.subject", "binding.value"):
             pins.setdefault(key, {"present": True, "value": ""})
@@ -1156,14 +1261,12 @@ def compare(manifest_path: Path, destination: Path) -> int:
     # compare reads references from the tool checkout and does not require the donor.
     reference_errors = []
     for expectation in manifest["expectations"]:
+        reference_errors.extend(_pin_conflict_errors(expectation))
         for reference in expectation.get("references") or []:
             _reloaded, problem = _reload_reference(repo_root(), reference)
             if problem:
                 reference_errors.append(problem)
-    for difference in manifest.get("expected_differences") or []:
-        _reloaded, problem = _reload_reference(repo_root(), difference["reference"])
-        if problem:
-            reference_errors.append(problem)
+    reference_errors.extend(_difference_errors(manifest))
     reference_errors.extend(_binding_problems(manifest))
     if reference_errors:
         return emit(reference_errors)
@@ -1256,47 +1359,52 @@ def _field_assignment(line: str) -> tuple[str, str] | None:
 
 
 def _output_delta(old: str, new: str) -> tuple[list[dict[str, Any]], bool]:
-    """Changed `field=value` lines, and whether any other bytes differ."""
+    """Changed field occurrences, and whether any other bytes differ.
 
-    def split(text: str) -> tuple[dict[str, str], list[str]]:
-        fields: dict[str, str] = {}
+    Each `field=value` line is its own occurrence. A later line does not
+    replace an earlier line of the same field.
+    """
+
+    def split(text: str) -> tuple[dict[str, list[str]], list[str]]:
+        fields: dict[str, list[str]] = {}
         residual: list[str] = []
         for line in text.splitlines():
             assignment = _field_assignment(line)
             if assignment is None:
                 residual.append(line)
                 continue
-            fields[assignment[0]] = assignment[1]
+            fields.setdefault(assignment[0], []).append(assignment[1])
         return fields, residual
 
     old_fields, old_residual = split(old)
     new_fields, new_residual = split(new)
     changes: list[dict[str, Any]] = []
     for field in sorted(set(old_fields) | set(new_fields)):
-        in_old = field in old_fields
-        in_new = field in new_fields
-        if in_old and in_new and old_fields[field] == new_fields[field]:
-            continue
-        if in_new and not in_old:
+        old_values = old_fields.get(field, [])
+        new_values = new_fields.get(field, [])
+        shared = min(len(old_values), len(new_values))
+        for index in range(shared):
+            if old_values[index] == new_values[index]:
+                continue
+            changes.append({
+                "field": field,
+                "old_present": True,
+                "old": old_values[index],
+                "new": new_values[index],
+            })
+        for value in new_values[shared:]:
             changes.append({
                 "field": field,
                 "old_present": False,
                 "old": None,
-                "new": new_fields[field],
+                "new": value,
             })
-        elif in_old and not in_new:
+        for value in old_values[shared:]:
             changes.append({
                 "field": field,
                 "old_present": True,
-                "old": old_fields[field],
+                "old": value,
                 "new": None,
-            })
-        else:
-            changes.append({
-                "field": field,
-                "old_present": True,
-                "old": old_fields[field],
-                "new": new_fields[field],
             })
     residual = old_residual != new_residual or (not changes and old != new)
     return changes, residual
@@ -1363,19 +1471,15 @@ def _output_errors(manifest: dict[str, Any], record: dict[str, Any]) -> list[str
 
 def _judge_receipt(manifest: dict[str, Any], result: dict[str, Any]) -> list[str]:
     errors = []
+    errors.extend(_difference_errors(manifest))
     if result["tested_donor_sha"] != manifest["donor"]["sha"]:
         errors.append("donor-sha")
     if result["tested_destination_commit"] != result["commit"]:
         errors.append("destination-commit")
     old_status = int(result["old_status"])
     new_status = int(result["new_status"])
-    if old_status != new_status and not _approved(
-        manifest, result.get("case", "*"), "execution_status", True, str(old_status), str(new_status)
-    ) and not any(
-        item["field"] == "execution_status"
-        and str(item.get("old")) == str(old_status)
-        and str(item.get("new")) == str(new_status)
-        for item in manifest.get("expected_differences") or []
+    if old_status != new_status and not _status_vector_matches(
+        manifest, str(result.get("case", "*")), old_status, new_status
     ):
         errors.append("unapproved-difference: execution_status")
     differences = result.get("differences") or []
@@ -1449,6 +1553,8 @@ def receipt(manifest_path: Path, result: dict[str, Any], checkouts: dict[str, Pa
 
 
 def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool:
+    if _difference_errors(manifest):
+        return False
     if receipt_entry.get("donor_sha") != manifest["donor"]["sha"]:
         return False
     if receipt_entry.get("destination_commit") in ("", None):
@@ -1517,6 +1623,13 @@ def _expand_grant(grant: str, files: list[str]) -> list[str]:
     return nested
 
 
+def _covers_requested_donor(manifest: dict[str, Any], spec: dict[str, Any]) -> bool:
+    """A covering manifest names the gateway donor at the requested revision."""
+    donor = manifest.get("donor") or {}
+    requested_repository = spec.get("donor_repository") or "gateway"
+    return donor.get("repository") == requested_repository and donor.get("sha") == spec.get("donor_sha")
+
+
 def deletion(spec: dict[str, Any], gateway: Path) -> int:
     row = spec["row"]
     if row not in DELETION_ROWS:
@@ -1554,6 +1667,8 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
                     donor_paths.extend(entry["paths"])
             symbol_files = {item["file"] for item in manifest["symbols"]}
             if finding["path"] not in donor_paths and finding["path"] not in symbol_files:
+                continue
+            if not _covers_requested_donor(manifest, spec):
                 continue
             if _destination_receipts_cover(manifest):
                 covered = True
