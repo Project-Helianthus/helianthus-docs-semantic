@@ -1,0 +1,2 @@
+relation	core_type	from	to	cardinality	matter_eebus	admission	note	verification_level	source	review
+evse.relation.connector_vehicle	hosts	evse.dimension.connector	evse.dimension.vehicle	one_to_one	EnergyEvse.State, EVCC-sc1	matter_baseline		specification	EV Commissioning and Configuration V1.0.1 [EVCC-sc1]; EnergyEvse.State, EVCC-sc1	

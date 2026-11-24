@@ -1,0 +1,3 @@
+relation	core_type	from	to	cardinality	matter_eebus	admission	note	verification_level	source	review
+infrastructure.relation.site_load	contains	infrastructure.dimension.site	infrastructure.dimension.load	one_to_many	MPC-011	eebus		specification	Monitoring of Power Consumption V1.0.0 [MPC-011]; MPC-011	
+infrastructure.relation.load_meter	measures	infrastructure.dimension.meter	infrastructure.dimension.load	one_to_many	MPC-011	eebus		specification	Monitoring of Power Consumption V1.0.0 [MPC-011]; MPC-011	

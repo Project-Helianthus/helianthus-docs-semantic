@@ -1,0 +1,3 @@
+event	service	trigger_fact	condition	symbols	payload	matter_1_6_1	eebus	admission	origin	verification_level	source	review
+infrastructure.event.supply_condition_changed	infrastructure.service.grid_connection	infrastructure.status.supply_condition	changed				SPINE:SupplyCondition	eebus	derived	specification	matter.unmapped.v1; SPINE:SupplyCondition	
+infrastructure.event.energy_measured	infrastructure.service.meter	infrastructure.energy.import	changed		infrastructure.energy.export	ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured, ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured		matter_baseline	emitted	specification	Matter 1.6.1 ElectricalEnergyMeasurement.ev.CumulativeEnergyMeasured, ElectricalEnergyMeasurement.ev.PeriodicEnergyMeasured; eebus.unmapped.v1	

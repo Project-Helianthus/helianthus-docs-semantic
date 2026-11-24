@@ -1,0 +1,16 @@
+element	matter_1_6_1	eebus	verification_level	source	review
+evse.ac.active_power	ElectricalPowerMeasurement.ActivePower	EVCEM-sc2, MPC-012	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActivePower; Monitoring of Power Consumption V1.0.0 [MPC-012]; EV Charging Electricity Measurement V1.0.1 [EVCEM-sc2]; EVCEM-sc2, MPC-012	
+evse.ac.current	ElectricalPowerMeasurement.ActiveCurrent	EVCEM-sc1, MPC-031	specification	Matter 1.6.1 ElectricalPowerMeasurement.ActiveCurrent; Monitoring of Power Consumption V1.0.0 [MPC-031]; EV Charging Electricity Measurement V1.0.1 [EVCEM-sc1]; EVCEM-sc1, MPC-031	
+evse.ac.frequency	ElectricalPowerMeasurement.Frequency	MPC-051	specification	Matter 1.6.1 ElectricalPowerMeasurement.Frequency; Monitoring of Power Consumption V1.0.0 [MPC-051]; MPC-051	
+evse.ac.voltage	ElectricalPowerMeasurement.Voltage	MPC-041	specification	Matter 1.6.1 ElectricalPowerMeasurement.Voltage; Monitoring of Power Consumption V1.0.0 [MPC-041]; MPC-041	
+evse.energy.lifetime	ElectricalEnergyMeasurement.CumulativeEnergyImported	MPC-021	specification	Matter 1.6.1 ElectricalEnergyMeasurement.CumulativeEnergyImported; Monitoring of Power Consumption V1.0.0 [MPC-021]; MPC-021	
+evse.energy.session	EnergyEvse.SessionEnergyCharged	EVCEM-sc3	specification	Matter 1.6.1 EnergyEvse.SessionEnergyCharged; EV Charging Electricity Measurement V1.0.1 [EVCEM-sc3]; EVCEM-sc3	
+evse.limit.advertised_current	EnergyEvse.MaximumChargeCurrent	OPEV-sc1	specification	Matter 1.6.1 EnergyEvse.MaximumChargeCurrent; Overload Protection by EV Charging Current Curtailment V1.0.1b [OPEV-sc1]; OPEV-sc1	
+evse.limit.allocated_current	EnergyEvse.MaximumChargeCurrent	OPEV-sc1	specification	Matter 1.6.1 EnergyEvse.MaximumChargeCurrent; Overload Protection by EV Charging Current Curtailment V1.0.1b [OPEV-sc1]; OPEV-sc1	
+evse.limit.allocated_current_phase		OPEV-sc1	specification	matter.unmapped.v1; Overload Protection by EV Charging Current Curtailment V1.0.1b [OPEV-sc1]; OPEV-sc1	
+evse.limit.configured_current	EnergyEvse.CircuitCapacity		specification	Matter 1.6.1 EnergyEvse.CircuitCapacity; eebus.unmapped.v1	
+evse.operation.set_allocated_current		OPEV-sc1	specification	matter.unmapped.v1; Overload Protection by EV Charging Current Curtailment V1.0.1b [OPEV-sc1]; OPEV-sc1	EnableCharging requires ChargingEnabledUntil, MinimumChargeCurrent and MaximumChargeCurrent; evse.operation.set_allocated_current accepts only evse.limit.allocated_current; matter association removed; evse.operation.set_supply keeps EnableCharging
+evse.status.charging	EnergyEvse.State	EVCC-sc1, EVCC-sc8	specification	Matter 1.6.1 EnergyEvse.State; EV Commissioning and Configuration V1.0.1 [EVCC-sc1]; EV Commissioning and Configuration V1.0.1 [EVCC-sc8]; EVCC-sc1, EVCC-sc8	
+evse.status.connection	EnergyEvse.State	EVCC-sc1, EVCC-sc8	specification	Matter 1.6.1 EnergyEvse.State; EV Commissioning and Configuration V1.0.1 [EVCC-sc1]; EV Commissioning and Configuration V1.0.1 [EVCC-sc8]; EVCC-sc1, EVCC-sc8	
+evse.status.fault	EnergyEvse.FaultState	EVSECC-sc2	specification	Matter 1.6.1 EnergyEvse.FaultState; EVSE Commissioning and Configuration V1.0.1 [EVSECC-sc2]; EVSECC-sc2	
+evse.status.readiness	EnergyEvse.SupplyState		specification	Matter 1.6.1 EnergyEvse.SupplyState; eebus.unmapped.v1	
