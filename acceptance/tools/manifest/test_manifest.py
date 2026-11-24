@@ -1975,6 +1975,177 @@ class ManifestCLITest(unittest.TestCase):
         self.assertNotIn("*", text)
         self.assertEqual(text.splitlines(), sorted(text.splitlines()))
 
+    def test_standalone_receipt_must_name_the_classifier_destination(self) -> None:
+        # The standalone proof is accepted only on a manifest that covers the
+        # classifier, and only when its repository and destination commit are a
+        # pair already recorded for that classifier destination.
+        classifier = self.repo.base(
+            "qf01-classifier",
+            moves=[self.repo.move("cmd/growatt-can-classify/main.go", "cmd/growatt-can-classify/main.go", "canbusreg")],
+            new_files=[{"repository": "ebusgo", "path": "engine/note.go"}],
+        )
+        internal = self.repo.base(
+            "qf01-internal",
+            moves=[self.repo.move("internal/growattcanclassify/classify.go", "internal/growattcanclassify/classify.go", "canbusreg")],
+        )
+        unrelated = self.repo.base(
+            "qf01-unrelated",
+            moves=[self.repo.move("cmd/gateway/stub.go", "engine/stub.go", "ebusgo")],
+            new_files=[{"repository": "canbusreg", "path": "notes/decoy.go"}],
+        )
+        self.assert_ok(self.repo.generate(classifier))
+        self.assert_ok(self.repo.generate(internal))
+        self.assert_ok(self.repo.generate(unrelated))
+        for row in ("qf01-classifier", "qf01-internal"):
+            self.assert_ok(self.repo.receipt(row, self.repo.result("canbusreg", "row", self.repo.merged), self.repo.dest, "canbusreg"))
+            self.assert_ok(self.repo.receipt(row, self.repo.result("canbusreg", "whole-session", self.repo.integrated), self.repo.dest, "canbusreg"))
+        self.assert_ok(self.repo.receipt("qf01-classifier", self.repo.result("ebusgo", "row", self.repo.merged), self.repo.dest, "ebusgo"))
+        self.assert_ok(self.repo.receipt(
+            "qf01-classifier",
+            self.repo.result("ebusgo", "whole-session", self.repo.integrated),
+            self.repo.dest,
+            "ebusgo",
+        ))
+        self.assert_ok(self.repo.receipt("qf01-unrelated", self.repo.result("ebusgo", "row", self.repo.merged), self.repo.dest, "ebusgo"))
+        self.assert_ok(self.repo.receipt(
+            "qf01-unrelated",
+            self.repo.result("ebusgo", "whole-session", self.repo.integrated),
+            self.repo.dest,
+            "ebusgo",
+        ))
+        standalone = self.repo.result(
+            "ebusgo", "standalone-classifier", self.repo.integrated, compared=list(SURFACES),
+        )
+        self.assert_ok(self.repo.receipt("qf01-unrelated", standalone, self.repo.dest, "ebusgo"))
+        body = {
+            "row": "GG07",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [
+                str(self.repo.manifest_path("qf01-classifier")),
+                str(self.repo.manifest_path("qf01-internal")),
+                str(self.repo.manifest_path("qf01-unrelated")),
+            ],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        list_path = self.repo.root / "acceptance" / "manifests" / "GG07.lst"
+        record_path = self.repo.root / "acceptance" / "manifests" / "GG07.json"
+        before_list = list_path.read_bytes() if list_path.exists() else None
+        before_record = record_path.read_bytes() if record_path.exists() else None
+
+        def unchanged() -> None:
+            after_list = list_path.read_bytes() if list_path.exists() else None
+            after_record = record_path.read_bytes() if record_path.exists() else None
+            self.assertEqual(after_list, before_list)
+            self.assertEqual(after_record, before_record)
+
+        try:
+            self.assert_fail(self.repo.deletion(body), "missing-receipt: standalone-classifier")
+            unchanged()
+            self.assert_ok(self.repo.receipt(
+                "qf01-classifier",
+                self.repo.result("ebusgo", "standalone-classifier", self.repo.integrated, compared=list(SURFACES)),
+                self.repo.dest,
+                "ebusgo",
+            ))
+            self.assert_fail(self.repo.deletion(body), "missing-receipt: standalone-classifier")
+            unchanged()
+            other_dest = self.repo.private_dest()
+            (other_dest / "REV-other.txt").write_text("other\n", encoding="utf-8")
+            git(other_dest, "add", "-A")
+            git(other_dest, "commit", "-m", "other")
+            other = git_out(other_dest, "rev-parse", "HEAD")
+            self.assertNotEqual(other, self.repo.merged)
+            self.assertNotEqual(other, self.repo.integrated)
+            self.assert_ok(self.repo.receipt(
+                "qf01-classifier",
+                self.repo.result("canbusreg", "standalone-classifier", other, compared=list(SURFACES)),
+                other_dest,
+                "canbusreg",
+            ))
+            self.assert_fail(self.repo.deletion(body), "missing-receipt: standalone-classifier")
+            unchanged()
+            self.assert_ok(self.repo.receipt(
+                "qf01-unrelated",
+                self.repo.result("canbusreg", "standalone-classifier", self.repo.integrated, compared=list(SURFACES)),
+                self.repo.dest,
+                "canbusreg",
+            ))
+            self.assert_fail(self.repo.deletion(body), "missing-receipt: standalone-classifier")
+            unchanged()
+            self.assert_ok(self.repo.receipt(
+                "qf01-classifier",
+                self.repo.result("canbusreg", "standalone-classifier", self.repo.integrated, compared=list(SURFACES)),
+                self.repo.dest,
+                "canbusreg",
+            ))
+            self.assert_ok(self.repo.deletion(body))
+            text = list_path.read_text(encoding="utf-8")
+            self.assertEqual(
+                text,
+                "cmd/growatt-can-classify/main.go\ninternal/growattcanclassify/classify.go\n",
+            )
+            self.assertNotIn("*", text)
+            self.assertNotIn("cmd/gateway/stub.go", text)
+            self.assertNotIn("engine/note.go", text)
+        finally:
+            if before_list is None:
+                list_path.unlink(missing_ok=True)
+            else:
+                list_path.write_bytes(before_list)
+            if before_record is None:
+                record_path.unlink(missing_ok=True)
+            else:
+                record_path.write_bytes(before_record)
+
+    def test_unsupported_mapping_kind_fails_generation_and_validation(self) -> None:
+        meas_sig = self.repo.sig["measurement_rows.go"]
+        meas_ops = fill(meas_sig, MEAS)
+        selectors = selector_map(meas_sig, MEAS)
+        typo = self.repo.base(
+            "batch-misspelled-kind",
+            mapping_rows=[self.repo.pattern(
+                "meas-typo", "specfication", ["in-case"], "in-assert", meas_sig,
+                EXEMPLARS["measurement_rows.go"], meas_ops,
+            )],
+            expectations=[self.repo.expectation(
+                "in-case", "specification",
+                [self.repo.bound("meas-typo", "in-assert", "TestEcho")],
+                selectors,
+                [],
+            )],
+        )
+        self.assert_fail(self.repo.generate(typo), "unsupported-kind: specfication")
+        self.assert_absent("batch-misspelled-kind")
+        held = self.repo.base(
+            "batch-kind-hold",
+            mapping_rows=[self.repo.pattern(
+                "meas-held", "specification", ["in-case"], "in-assert", meas_sig,
+                EXEMPLARS["measurement_rows.go"], meas_ops,
+            )],
+            expectations=[self.repo.expectation(
+                "in-case", "specification",
+                [self.repo.bound("meas-held", "in-assert", "TestEcho")],
+                selectors,
+                [self.repo.ref("specification", "vec/meas.json")],
+            )],
+        )
+        self.assert_ok(self.repo.generate(held))
+        path = self.repo.manifest_path("batch-kind-hold")
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["patterns"][0]["kind"], "specification")
+        manifest["patterns"][0]["kind"] = "specfication"
+        manifest["expectations"][0]["references"] = []
+        path.write_text(json.dumps(manifest), encoding="utf-8")
+        mutated = path.read_bytes()
+        self.assert_fail(self.repo.check("batch-kind-hold"), "unsupported-kind: specfication")
+        compared = self.repo.compare("batch-kind-hold", self.repo.dest)
+        self.assert_fail(compared, "unsupported-kind: specfication")
+        self.assertNotIn("compare: ok", compared.stdout)
+        self.assertEqual(path.read_bytes(), mutated)
+
     def test_gg10_retirement_evidence(self) -> None:
         groups = {
             "gg10-gateway": [
