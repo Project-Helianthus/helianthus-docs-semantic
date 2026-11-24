@@ -2588,6 +2588,99 @@ class ManifestCLITest(unittest.TestCase):
         self.assertNotIn("expected=231", compared.stdout)
         self.assertNotIn("compare: ok", compared.stdout)
 
+    def test_absence_approval_cannot_replace_a_pinned_baseline(self) -> None:
+        meas_sig = self.repo.sig["measurement_rows.go"]
+        selectors = selector_map(meas_sig, MEAS)
+        vector = {
+            "approval": "approved-transition",
+            "case": "reading-case",
+            "field": "reading",
+            "new": "999",
+            "old": None,
+            "old_present": False,
+            "source": "contradictory-approval",
+        }
+        side = self.repo.root.parent / "absence-side"
+        side.mkdir()
+        git(side, "init", "-b", "main")
+        payload = side / "vec" / "diff-reading-absent.json"
+        payload.parent.mkdir(parents=True)
+        payload.write_text(json.dumps(vector, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        git(side, "add", "-A")
+        git(side, "commit", "-m", "absence pin")
+        pin_sha = git_out(side, "rev-parse", "HEAD")
+        git(self.repo.root, "fetch", str(side), "refs/heads/main:refs/pins/reading-absent")
+        rows = [self.repo.pattern(
+            "reading-row", "donor-backed", ["reading-case"], "reading-assert", meas_sig,
+            EXEMPLARS["measurement_rows.go"], fill(meas_sig, MEAS),
+            old_symbol="ReadMeas", bom="meas-reading",
+        )]
+        expectations = [self.repo.expectation(
+            "reading-case", "donor-backed",
+            [self.repo.bound("reading-row", "reading-assert", "TestEcho")],
+            selectors,
+            [self.repo.ref("donor-output", "vec/meas.json")],
+        )]
+        contradictory = self.repo.base(
+            "absence-contradiction",
+            mapping_rows=rows,
+            expectations=expectations,
+            expected_differences=[{
+                **vector,
+                "repository": "docs-semantic",
+                "revision": pin_sha,
+                "path": "vec/diff-reading-absent.json",
+            }],
+        )
+        self.assert_fail(
+            self.repo.generate(contradictory),
+            "contradictory-absence: reading-case",
+            "field: reading",
+        )
+        self.assert_absent("absence-contradiction")
+        baseline = self.repo.base(
+            "absence-baseline",
+            mapping_rows=rows,
+            expectations=expectations,
+        )
+        self.assert_ok(self.repo.generate(baseline))
+        agreed = self.repo.compare("absence-baseline", self.repo.dest)
+        self.assert_ok(agreed)
+        self.assertIn("field=reading expected=230 observed=230", agreed.stdout)
+        blob = subprocess.check_output(
+            ["git", "-C", str(self.repo.root), "show", f"{pin_sha}:vec/diff-reading-absent.json"]
+        )
+        edited = self.repo.manifest("absence-baseline")
+        edited["expected_differences"] = [{
+            **vector,
+            "reference": {
+                "role": "expected-difference",
+                "repository": "docs-semantic",
+                "revision": pin_sha,
+                "path": "vec/diff-reading-absent.json",
+                "blob_sha256": hashlib.sha256(blob).hexdigest(),
+                "projection": json.loads(blob),
+            },
+        }]
+        edited_path = self.repo.root / "acceptance" / "manifests" / "absence-planted.json"
+        edited_path.write_text(json.dumps(edited), encoding="utf-8")
+        before = self.repo.manifest_path("absence-baseline").read_bytes()
+        planted_bytes = edited_path.read_bytes()
+        self.assert_fail(
+            self.repo.check("absence-baseline", manifest=edited_path),
+            "contradictory-absence: reading-case",
+            "field: reading",
+        )
+        planted = self.repo.private_dest()
+        plant(planted, "approved-new", "reading=999\n")
+        compared = self.repo.compare("absence-baseline", planted, manifest=edited_path)
+        self.assert_fail(compared, "contradictory-absence: reading-case", "field: reading")
+        self.assertNotIn("compare: ok", compared.stdout)
+        self.assertNotIn("expected=absent observed=999", compared.stdout)
+        self.assertNotIn("result=pass", compared.stdout)
+        self.assertEqual(self.repo.manifest_path("absence-baseline").read_bytes(), before)
+        self.assertEqual(edited_path.read_bytes(), planted_bytes)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -111,6 +111,7 @@ Roles are `donor-native`, `new-binding`, `caller-template`, `donor-output`, `spe
 An approved difference has `case`, `field`, `old_present`, `old`, `new`, `source`, `approval` and its reference.
 `old` or `new` of `*` is rejected.
 `old_present: false` is a frozen old absence with the approved new value.
+An absence whose field is already pinned by a reference for that case is rejected and does not replace that pin.
 The same case and field, the same source and approval, and the same old and new values must be in the referenced object.
 
 ## Destination test identity
@@ -132,7 +133,7 @@ An invocation that does not run the named test fails, including when the package
 
 The invocation receives `MANIFEST_CASE`, `MANIFEST_ROW`, `MANIFEST_ASSERTION`, `MANIFEST_RAW`, `MANIFEST_QUALIFIERS`, `MANIFEST_CLOCK`, `MANIFEST_STATE`, `MANIFEST_ORIGIN`, `MANIFEST_QUALITY`, `MANIFEST_SOURCE`, `MANIFEST_TIMING`, `MANIFEST_PROVENANCE` and `MANIFEST_PINNED_FIELDS`.
 Pinned field values are the manifest's expectations, not values regenerated from the test.
-Two references that pin different values for one field are rejected. An approved vector does not replace either pin.
+Two references that pin different values for one field are rejected. An approved vector does not replace either pin, and an absence approval does not replace a field a reference for that case already pins.
 The test prints its own identity, the inputs it actually used, the template metadata it actually attached, and one line per compared field:
 
 ```

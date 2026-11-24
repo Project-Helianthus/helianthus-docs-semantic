@@ -249,6 +249,32 @@ def _pin_conflict_errors(expectation: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _absence_contradiction_errors(manifest: dict[str, Any]) -> list[str]:
+    """Refuse an absence approval that denies a field a reference already pins.
+
+    ``old_present`` false is a frozen old absence. Applying it over a field
+    that an independent reference for the same case already contains would
+    replace that baseline with an absence pin.
+    """
+    expectations = {
+        item.get("case"): item for item in manifest.get("expectations") or []
+    }
+    errors: list[str] = []
+    for item in manifest.get("expected_differences") or []:
+        vector, problem = _revalidate_difference(repo_root(), item)
+        if problem or vector is None or vector["old_present"]:
+            continue
+        expectation = expectations.get(vector["case"])
+        if expectation is None:
+            continue
+        field = vector["field"]
+        for reference in expectation.get("references") or []:
+            if field in _field_pins(reference):
+                errors.append(f"contradictory-absence: {vector['case']} field: {field}")
+                break
+    return errors
+
+
 def _bound_selectors(expectation: dict[str, Any], row_id: str) -> dict[str, Any]:
     """Selectors for one row: case selectors, then that row's own, then references.
 
@@ -709,6 +735,9 @@ def build_manifest(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[dict[
         "expected_differences": differences,
         "receipts": [],
     }
+    contradiction = _absence_contradiction_errors(manifest)
+    if contradiction:
+        return None, contradiction
     return manifest, []
 
 
@@ -860,6 +889,7 @@ def _pattern_check(donor: Path, tool: Path, manifest: dict[str, Any]) -> list[st
             continue
         if not _difference_agrees(difference, reloaded):
             errors.append(f"mutated: {recorded.get('repository', '')}:{recorded.get('path', '')}")
+    errors.extend(_absence_contradiction_errors(manifest))
     return errors
 
 
@@ -1007,7 +1037,9 @@ def _pins(manifest: dict[str, Any], expectation: dict[str, Any]) -> dict[str, di
             continue
         if vector["old_present"]:
             pins.setdefault(vector["field"], {"present": True, "value": str(vector.get("old"))})
-        else:
+        elif vector["field"] not in pins:
+            # Absence names a field the references do not pin. It must not
+            # replace a baseline those references already recorded.
             pins[vector["field"]] = {"present": False, "value": "absent"}
     if kind == "binding":
         for key in ("binding.key", "binding.subject", "binding.value"):
@@ -1267,6 +1299,7 @@ def compare(manifest_path: Path, destination: Path) -> int:
             if problem:
                 reference_errors.append(problem)
     reference_errors.extend(_difference_errors(manifest))
+    reference_errors.extend(_absence_contradiction_errors(manifest))
     reference_errors.extend(_binding_problems(manifest))
     if reference_errors:
         return emit(reference_errors)
