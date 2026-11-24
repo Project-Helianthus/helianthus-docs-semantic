@@ -53,6 +53,22 @@ kernel-v1 request and exact snapshot/revision binding. Fact rows keep their
 canonical runtime FactKey dimensions, read from the catalog subject. These are
 runtime bindings, not synthetic values supplied by the descriptor.
 
+Measurement-type association, not added to the catalog: the PE03 and PE10
+tables state, for the measurement-type dimension, the Matter column
+`ElectricalPowerMeasurement.Accuracy`. For the measured boolean they state
+`ElectricalPowerMeasurement.Accuracy`, `ElectricalPowerMeasurement.NumberOfMeasurementTypes`
+and `ElectricalEnergyMeasurement.Accuracy`; for the maximum ratio they state
+`ElectricalPowerMeasurement.Accuracy` and `ElectricalEnergyMeasurement.Accuracy`.
+These are Matter columns, not one device type, cluster, attribute or conversion,
+and not a `MeasurementAccuracyStruct`. No row is `transformed` on this basis, and
+no struct is published. The accuracy elements are not in the catalog because the
+element catalog schema allows a qualifier dimension only on an unresolved subject.
+
+Electrical Power Measurement is not complete: `PowerMode`,
+`MinMeasuredValue`, `MaxMeasuredValue`, `AccuracyRanges`, `RangeMin` and
+`RangeMax` have no catalog element. Electrical Sensor `0x0510` is therefore not
+a complete endpoint in this row.
+
 Only `evse.ac.current` is `transformed`, with reason
 `matter.phase_association_by_relation.v1`, to device/cluster/attribute
 `0x0510 / 0x0090 / 0x0005`. Multiply exact amperes by 1000; emit only an integral,
