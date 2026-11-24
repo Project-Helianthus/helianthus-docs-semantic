@@ -1,0 +1,94 @@
+[
+  {
+    "id": "G-POS-SUBJ-CLASS-1",
+    "expected": {
+      "outcome": "a fact on a class-level dimension about an inverter accepted",
+      "accepted": true
+    },
+    "explanation": "Class-level."
+  },
+  {
+    "id": "G-NEG-SUBJ-CLASS-1",
+    "expected": {
+      "outcome": "a resource of an undeclared class rejected with a reason",
+      "accepted": false,
+      "reason": "undeclared class"
+    },
+    "explanation": "Class-level."
+  },
+  {
+    "id": "G-POS-QUAL-1",
+    "expected": {
+      "outcome": "a declared qualifier accepted",
+      "accepted": true
+    },
+    "explanation": "Qualifier."
+  },
+  {
+    "id": "G-NEG-QUAL-1",
+    "expected": {
+      "outcome": "an undeclared qualifier rejected with a reason",
+      "accepted": false,
+      "reason": "undeclared qualifier"
+    },
+    "explanation": "Qualifier."
+  },
+  {
+    "id": "G-POS-PARAM-OMIT-1",
+    "expected": {
+      "outcome": "an intent with only its arguments accepted: optional omitted",
+      "accepted": true
+    },
+    "explanation": "Parameters."
+  },
+  {
+    "id": "G-NEG-PARAM-REPEAT-1",
+    "expected": {
+      "outcome": "a repeated parameter rejected with a reason",
+      "accepted": false,
+      "reason": "repeated parameter"
+    },
+    "explanation": "Parameters."
+  },
+  {
+    "id": "G-NEG-PARAM-UNDECLARED-1",
+    "expected": {
+      "outcome": "an undeclared field rejected with a reason",
+      "accepted": false,
+      "reason": "undeclared field"
+    },
+    "explanation": "Parameters."
+  },
+  {
+    "id": "G-NEG-EVENT-PACK-1",
+    "expected": {
+      "outcome": "a foreign-pack payload fails the contract",
+      "accepted": false
+    },
+    "explanation": "Events."
+  },
+  {
+    "id": "G-NEG-EVENT-RELATION-1",
+    "expected": {
+      "outcome": "a foreign-pack relation fails the contract",
+      "accepted": false
+    },
+    "explanation": "Events."
+  },
+  {
+    "id": "G-POS-RELEASE-1",
+    "expected": {
+      "outcome": "the declared boolean false alone accepted under the release case: false alone",
+      "accepted": true
+    },
+    "explanation": "Release case."
+  },
+  {
+    "id": "G-NEG-RELEASE-MIXED-1",
+    "expected": {
+      "outcome": "a request carrying release and set arguments rejected: mixed case",
+      "accepted": false
+    },
+    "explanation": "Release case."
+  }
+]

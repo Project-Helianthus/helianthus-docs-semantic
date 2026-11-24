@@ -1,0 +1,96 @@
+[
+  {
+    "id": "J-ORDER",
+    "expected": {
+      "outcome": "opposite publication orders give the same join",
+      "orders": "opposite",
+      "joins_equal": true
+    },
+    "explanation": "Joins are computed from the claim set."
+  },
+  {
+    "id": "J-NO-PROOF",
+    "expected": {
+      "outcome": "no proof leaves the join unapplied",
+      "joined": false,
+      "reason": "no proof",
+      "status": "unapplied"
+    },
+    "explanation": "Nothing is inferred from resemblance."
+  },
+  {
+    "id": "J-MATCH",
+    "expected": {
+      "outcome": "a matching proof joins and the certified survivor is the representative",
+      "joined": true,
+      "representative": "certified survivor",
+      "member_references_resolvable": true
+    },
+    "explanation": "A full CertifiedJoin."
+  },
+  {
+    "id": "J-AMBIGUOUS",
+    "expected": {
+      "outcome": "ambiguous proof is unapplied with a finding",
+      "joined": false,
+      "finding": "ambiguous"
+    },
+    "explanation": "Incompatible driver proofs."
+  },
+  {
+    "id": "J-REPLAY",
+    "expected": {
+      "outcome": "a replay of the same certification changes nothing",
+      "state_changed": false
+    },
+    "explanation": "Idempotent."
+  },
+  {
+    "id": "J-MFR-SERIAL",
+    "expected": {
+      "outcome": "a complete, equal, unambiguous manufacturer and serial pair resolves as one resource",
+      "members": 2,
+      "resources": 1,
+      "scheme_id_used": false,
+      "admitted_by": "session publisher with ownership stamp"
+    },
+    "explanation": "ManufacturerSerialClaim from two protocol members."
+  },
+  {
+    "id": "J-MFR-SERIAL-MISSING",
+    "expected": {
+      "outcome": "a missing component infers no identity",
+      "resources": 2,
+      "reason": "kept"
+    },
+    "explanation": "Missing evidence."
+  },
+  {
+    "id": "J-MFR-SERIAL-AMBIGUOUS",
+    "expected": {
+      "outcome": "an ambiguous serial infers no identity",
+      "resources": 2,
+      "reason": "kept"
+    },
+    "explanation": "Ambiguous evidence."
+  },
+  {
+    "id": "J-BINDING-LINK",
+    "expected": {
+      "outcome": "the configured binding association changes neither identity membership nor routes",
+      "binding_resolves_to": "operator-selected resource",
+      "unrelated_links": "survive",
+      "certification": false,
+      "withdrawals_with_pending": {
+        "withdrawn_association": "disappears",
+        "other_qualified_association": "pending until its eligible carry"
+      },
+      "redeclared_withdrawn_binding": {
+        "link": "stays withdrawn",
+        "proposed": false,
+        "carried_by": "next eligible successor binding"
+      }
+    },
+    "explanation": "OperatorLinks in the eligible owner batch."
+  }
+]

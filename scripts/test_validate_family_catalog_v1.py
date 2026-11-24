@@ -45,10 +45,11 @@ class FamilyCatalogPageTest(unittest.TestCase):
         self.rejected(mutate("MUST have `composition_verified=false`", "MAY have `composition_verified=true`"))
 
     def test_not_composed_evidence_prohibition_deleted(self):
-        self.rejected(mutate("MUST NOT carry\n  any `gateway_composition` evidence entry", "MAY carry\n  any `gateway_composition` evidence entry"))
+        self.rejected(mutate("MUST NOT carry\n  `module` or `version`", "MAY carry\n  `module` or `version`"))
 
-    def test_gateway_pin_rule_deleted(self):
-        self.rejected(mutate("followed by the\nfull 40-character commit SHA", "followed by a revision"))
+    def test_module_and_version_rule_deleted(self):
+        self.rejected(mutate("`composition_verified=true` and both `module` and `version`", "`composition_verified=true`"))
+        self.rejected(mutate("`composition_verified=true` requires both `module` and `version`", "`composition_verified=true` requires a module"))
 
     def test_owner_forms_deleted(self):
         self.rejected(mutate("names an issue or pull request thread", "names a thread"))
@@ -81,7 +82,8 @@ class FurtherSemanticPacksTest(unittest.TestCase):
         self.assertEqual(v.FAMILY_MEMBERS, [
             "family_id", "name", "native_owner", "semantic_pack",
             "further_semantic_packs", "state", "composition",
-            "composition_verified", "reason", "evidence",
+            "composition_verified", "verification", "module", "version",
+            "reason", "evidence",
         ])
 
     def test_further_packs_row_deleted_renamed_or_moved(self):
@@ -97,11 +99,13 @@ class FurtherSemanticPacksTest(unittest.TestCase):
         ))
 
     def test_optional_member_rule(self):
-        self.rejected(mutate_once("Every member except `further_semantic_packs` is required", "All members are required"))
+        self.rejected(mutate_once("Every member except `further_semantic_packs`, `module` and `version` is\nrequired", "All members are\nrequired"))
 
-    def test_list_bound(self):
-        self.rejected(mutate_once("1 through 4", "1 through 5"))
-        self.rejected(mutate_once("1 through 4", "0 through 4"))
+    def test_no_list_bound(self):
+        self.assertNotIn("1 through 4", TEXT)
+        self.rejected(mutate_once("with no fixed count: a row names", "1 through 4 exact packs: a row names"))
+        self.rejected(mutate_once("with no fixed count: a row names", "with no fixed count: a row names"
+                                  " (The bound follows from the five accepted capability packs.) a row names"))
 
     def test_uniqueness_and_semantic_pack_exclusion(self):
         self.rejected(mutate_once("Its entries are unique", "Its entries may repeat"))
@@ -127,6 +131,107 @@ class FurtherSemanticPacksTest(unittest.TestCase):
 
     def test_rules_bound_to_their_section(self):
         self.rejected(mutate_once("## Packs of a row", "## Other"))
+
+
+ACCEPTED = {f"pack.{name}/1.0.0" for name in ("a", "b", "c", "d", "e", "f", "g")}
+
+
+def pack_row(*packs):
+    row = {"semantic_pack": packs[0]}
+    if packs[1:]:
+        row["further_semantic_packs"] = list(packs[1:])
+    return row
+
+
+class RowModelTest(unittest.TestCase):
+    def test_six_accepted_packs_accepted(self):
+        names = sorted(ACCEPTED)[:6]
+        self.assertEqual(v.check_row_packs(pack_row(*names), ACCEPTED), [])
+
+    def test_pack_rules_kept(self):
+        a, b, c = sorted(ACCEPTED)[:3]
+        self.assertTrue(v.check_row_packs({"semantic_pack": a, "further_semantic_packs": []}, ACCEPTED))
+        self.assertTrue(v.check_row_packs(pack_row(a, b, b), ACCEPTED))
+        self.assertTrue(v.check_row_packs(pack_row(a, a), ACCEPTED))
+        self.assertTrue(v.check_row_packs(pack_row(a, c, b), ACCEPTED))
+        self.assertTrue(v.check_row_packs(pack_row(b, a), ACCEPTED))
+        self.assertTrue(v.check_row_packs({"semantic_pack": "", "further_semantic_packs": [a]}, ACCEPTED))
+        self.assertTrue(v.check_row_packs(pack_row(a, "pack.unknown/1.0.0"), ACCEPTED))
+
+    def test_verification_qualification_and_composition(self):
+        spec = {"kind": "specification"}
+        record = {"kind": "hardware_test_record"}
+        base = {
+            "state": "qualified", "reason": "declared_by_specification", "evidence": [spec],
+            "composition": "composed", "composition_verified": True, "module": "m", "version": "1",
+            "verification": "not_tested_on_hardware",
+        }
+        self.assertEqual(v.check_row_state(base), [])
+        self.assertEqual(v.check_row_state(dict(base, verification="tested_on_hardware", evidence=[spec, record])), [])
+        self.assertTrue(v.check_row_state(dict(base, verification="tested_on_hardware")))
+        self.assertTrue(v.check_row_state(dict(base, verification="seen")))
+        self.assertTrue(v.check_row_state(dict(base, reason="semantic_mapping_unknown")))
+        self.assertTrue(v.check_row_state(dict(base, evidence=[record])))
+        self.assertTrue(v.check_row_state(dict(base, module="")))
+        self.assertTrue(v.check_row_state(dict(base, version="")))
+        self.assertTrue(v.check_row_state(dict(base, composition_verified=False)))
+        unclaimed = dict(base, composition="not_composed", composition_verified=False, module="", version="")
+        self.assertEqual(v.check_row_state(unclaimed), [])
+        self.assertTrue(v.check_row_state(dict(unclaimed, module="m")))
+        self.assertTrue(v.check_row_state(dict(unclaimed, version="1")))
+        self.assertTrue(v.check_row_state(dict(unclaimed, composition_verified=True)))
+
+
+def family_row(name):
+    row = {member: "x" for member in v.FAMILY_MEMBERS if member not in v.OPTIONAL_MEMBERS}
+    row["family_id"] = name
+    return row
+
+
+class ConsumerRuleTest(unittest.TestCase):
+    def test_unlisted_valid_family_accepted(self):
+        document = {"families": [family_row("one"), family_row("two"), family_row("extra")]}
+        self.assertEqual(v.check_catalog(document, ["one", "two"]), [])
+
+    def test_missing_required_family_rejected(self):
+        self.assertTrue(v.check_catalog({"families": [family_row("one")]}, ["one", "two"]))
+
+    def test_unknown_object_member_rejected(self):
+        row = dict(family_row("one"), invented="x")
+        self.assertTrue(v.check_catalog({"families": [row]}, ["one"]))
+
+    def test_missing_required_member_rejected(self):
+        row = family_row("one")
+        del row["verification"]
+        self.assertTrue(v.check_catalog({"families": [row]}, ["one"]))
+
+
+class StateTextTest(unittest.TestCase):
+    def rejected(self, text):
+        self.assertTrue(v.check(text))
+
+    def test_old_state_bans_rejected_when_restored(self):
+        self.rejected(mutate_once("`unsupported` and `rejected` forbid a\nvalue, and `unknown` stays distinct from a known capability.",
+                                  "`unsupported` and `rejected` forbid a value and promotion."))
+        self.rejected(mutate_once("An already promoted\nelement retains its actual candidate state, `unknown` included.",
+                                  "An `unknown` candidate cannot be promoted or satisfy a capability."))
+
+    def test_promotion_statements_deleted(self):
+        self.rejected(mutate_once("is never by itself a promotion\nveto", "is a promotion\nveto"))
+        self.rejected(mutate_once("validates as promoted when its value-presence requirements hold", "is not promoted"))
+        self.rejected(mutate_once("and the\nseparate capability and projection rules stay", "and nothing else applies"))
+
+    def test_qualified_rule_deleted(self):
+        self.rejected(mutate_once("has the reason `declared_by_specification` and at least one\nevidence entry of kind `specification`", "needs evidence"))
+
+    def test_consumer_rule_deleted(self):
+        self.rejected(mutate_once("a valid additional family that the\nlist does not name is admitted", "an unlisted family is rejected"))
+        self.rejected(mutate_once("an unknown member of a Family\nobject, which stays rejected", "an unknown member is fine"))
+
+    def test_verification_rules_deleted(self):
+        self.rejected(mutate_once("it never raises or lowers qualification, promotion or an\noperation", "it gates an operation"))
+        self.rejected(mutate_once("| `tested_on_hardware` |", "| `seen_on_one_device` |"))
+        self.rejected(mutate_once("The row carries at least one `hardware_test_record` evidence entry", "The row carries any evidence"))
 
 
 if __name__ == "__main__":
