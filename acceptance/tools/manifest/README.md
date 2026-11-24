@@ -119,6 +119,9 @@ The same case and field, the same source and approval, and the same old and new 
 `destinations` records, for each moved symbol, each transferred assertion and each pinned case, the destination `repository`, `path` and the existing behavior-named Go test.
 The test name is the Go function already present in that destination file.
 A retained `stays` entry has no destination.
+`check` requires one destination of kind `case` for each bound case.
+That entry must name `repository`, `path` and `test`.
+A missing or ambiguous entry fails and names the case, the row and the assertion.
 
 `compare` resolves every case binding and every transferred assertion through that entry and runs that one test by its exact name, once per assertion, including when `patterns` is empty:
 
@@ -188,7 +191,8 @@ The `sha256` of those exact bytes is stored with the repository and the donor co
 
 ## Receipts
 
-`<result.json>` carries `repository`, `kind` (`row`, `whole-session` or `standalone-classifier`), `commit`, `tested_donor_sha`, `tested_destination_commit`, `old_status`, `new_status`, `old_output`, `new_output`, `differences` and `compared`.
+`<result.json>` carries `repository`, `kind` (`row`, `whole-session` or `standalone-classifier`), `case`, `commit`, `tested_donor_sha`, `tested_destination_commit`, `old_status`, `new_status`, `old_output`, `new_output`, `differences` and `compared`.
+An omitted `case` is `*`.
 `tested_donor_sha` must be the manifest donor.
 `tested_destination_commit` must equal `commit`.
 A whole-session result filed at the destination commit already recorded for that repository's row receipt is rejected.
@@ -201,12 +205,15 @@ Only an exact approved vector is accepted.
 `check`, `compare`, `receipt` and `deletion` read each approved vector from its pinned reference.
 A top-level case, field, presence, old value, new value, source or approval that differs from that reference is rejected.
 A status change with equal output bytes is an unapproved difference unless an approved `execution_status` vector names it.
+That vector covers only its own case.
+The case `*` covers every case.
+A vector for one case does not cover another.
 Output fields are whole lines of the form `field=value`.
 Each occurrence of a repeated field is compared on its own, so a later copy does not replace an earlier one.
 Every added, removed or changed field must be named by an approved vector with that field's old presence, old value and new value, and every other output line must be identical.
 An approved `execution_status` vector does not account for any other output change.
 An extra field is an unapproved difference.
-The stored receipt keeps `old_status`, `new_status`, both outputs, the differences, `donor_sha`, `destination_commit` and `outcome` (`equal` or `approved-difference`).
+The stored receipt keeps `case`, `old_status`, `new_status`, both outputs, the differences, `donor_sha`, `destination_commit` and `outcome` (`equal` or `approved-difference`).
 
 The row comparison is filed at the batch's merged commit.
 The whole-session comparison is filed at its own integrated commit, which may be later.

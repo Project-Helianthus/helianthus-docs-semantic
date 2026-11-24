@@ -395,6 +395,15 @@ class Repo:
             "old_present": True,
             "source": "status-approval",
         })
+        self.write_json("vec/diff-status-case-a.json", {
+            "approval": "approved-status",
+            "case": "case-A",
+            "field": "execution_status",
+            "new": "1",
+            "old": "0",
+            "old_present": True,
+            "source": "status-approval",
+        })
 
     def run(self, *args: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
@@ -1145,6 +1154,54 @@ class ManifestCLITest(unittest.TestCase):
         missing = self.repo.compare("batch-326-shared", absent)
         self.assert_fail(missing, "not-executed case=m326 row=326-current assertion=current-assert test=TestCurrent")
         self.assertTrue(any("assertion=voltage-assert" in line and "result=pass" in line for line in missing.stdout.splitlines()), detail(missing))
+        shared_path = self.repo.manifest_path("batch-326-shared")
+        shared_bytes = shared_path.read_bytes()
+        current = "missing-destination case=m326 row=326-current assertion=current-assert"
+        voltage = "missing-destination case=m326 row=326-voltage assertion=voltage-assert"
+
+        def write_variant(name: str, mutate) -> Path:
+            body = json.loads(shared_bytes)
+            mutate(body)
+            path = self.repo.root / "acceptance" / "manifests" / name
+            path.write_text(json.dumps(body), encoding="utf-8")
+            return path
+
+        def drop_cases(body: dict) -> None:
+            body["destinations"] = [item for item in body["destinations"] if item.get("kind") != "case"]
+
+        dropped = write_variant("326-no-case-dest.json", drop_cases)
+        self.assert_fail(self.repo.check("batch-326-shared", manifest=dropped), voltage, current)
+        self.assertEqual(shared_path.read_bytes(), shared_bytes)
+
+        def blank(field: str):
+            def mutate(body: dict) -> None:
+                for item in body["destinations"]:
+                    if item.get("kind") == "case" and item.get("assertion") == "current-assert":
+                        item[field] = ""
+            return mutate
+
+        for field in ("test", "repository", "path"):
+            variant = write_variant(f"326-blank-{field}.json", blank(field))
+            completed = self.repo.check("batch-326-shared", manifest=variant)
+            self.assert_fail(completed, current)
+            self.assertNotIn(voltage, completed.stdout)
+        self.assertEqual(shared_path.read_bytes(), shared_bytes)
+
+        def duplicate(body: dict) -> None:
+            extra = [
+                dict(item)
+                for item in body["destinations"]
+                if item.get("kind") == "case" and item.get("assertion") == "current-assert"
+            ]
+            body["destinations"].extend(extra)
+
+        ambiguous = write_variant("326-ambiguous-dest.json", duplicate)
+        self.assert_fail(
+            self.repo.check("batch-326-shared", manifest=ambiguous),
+            "ambiguous-destination case=m326 row=326-current assertion=current-assert",
+        )
+        self.assert_ok(self.repo.check("batch-326-shared"))
+        self.assertEqual(shared_path.read_bytes(), shared_bytes)
 
     def test_protocol_shapes_do_not_substitute(self) -> None:
         can_sig = self.repo.sig["growatt_pcs_rows.go"]
@@ -2501,6 +2558,85 @@ class ManifestCLITest(unittest.TestCase):
         clean["new_output"] = "reading=230\nreading=230\nexecution_status=1\n"
         self.assert_ok(self.repo.receipt("repeat-fields", clean, self.repo.dest, "ebusgo"))
         self.assertEqual(self.repo.manifest("repeat-fields")["receipts"][0]["outcome"], "approved-difference")
+
+    def test_status_approval_stays_inside_its_case(self) -> None:
+        status_difference = {
+            "case": "case-A",
+            "field": "execution_status",
+            "old_present": True,
+            "old": "0",
+            "new": "1",
+        }
+        spec = self.repo.base(
+            "status-scope",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-status-case-a.json")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        path = self.repo.manifest_path("status-scope")
+        original = path.read_bytes()
+        crossed = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            differences=[status_difference],
+        )
+        crossed["case"] = "case-B"
+        self.assert_fail(
+            self.repo.receipt("status-scope", crossed, self.repo.dest, "ebusgo"),
+            "unapproved-difference: execution_status",
+        )
+        self.assertEqual(path.read_bytes(), original)
+        same = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            differences=[status_difference],
+        )
+        same["case"] = "case-A"
+        self.assert_ok(self.repo.receipt("status-scope", same, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("status-scope")["receipts"][0]["case"], "case-A")
+        path.write_bytes(original)
+        wildcard = self.repo.base(
+            "status-wildcard-scope",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            expected_differences=[self.repo.difference("vec/diff-status.json")],
+        )
+        self.assert_ok(self.repo.generate(wildcard))
+        global_result = self.repo.result(
+            "ebusgo", "row", self.repo.merged, old_status=0, new_status=1,
+            differences=[{"case": "*", "field": "execution_status", "old_present": True, "old": "0", "new": "1"}],
+        )
+        global_result["case"] = "case-B"
+        self.assert_ok(self.repo.receipt("status-wildcard-scope", global_result, self.repo.dest, "ebusgo"))
+        self.assertEqual(self.repo.manifest("status-wildcard-scope")["receipts"][0]["case"], "case-B")
+        planted = json.loads(original)
+        planted["receipts"] = []
+        for kind, commit in (("row", self.repo.merged), ("whole-session", self.repo.integrated)):
+            planted["receipts"].append({
+                "repository": "ebusgo",
+                "kind": kind,
+                "case": "case-B",
+                "donor_sha": self.repo.sha,
+                "destination_commit": commit,
+                "old_status": 0,
+                "new_status": 1,
+                "old_output": "same",
+                "new_output": "same",
+                "differences": [status_difference],
+                "compared": [],
+                "outcome": "approved-difference",
+            })
+        planted_path = self.repo.root / "acceptance" / "manifests" / "status-scope-planted.json"
+        planted_path.write_text(json.dumps(planted), encoding="utf-8")
+        deletion = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": self.repo.sha,
+            "manifests": [str(planted_path)],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        snapshot = self._gg13_snapshot()
+        self.assert_fail(self.repo.deletion(deletion), "missing-receipt: closure/closed/moved.go")
+        self.assertEqual(self._gg13_snapshot(), snapshot)
 
     def test_conflicting_reference_pins_are_rejected(self) -> None:
         meas_sig = self.repo.sig["measurement_rows.go"]

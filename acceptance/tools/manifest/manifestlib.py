@@ -973,6 +973,44 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _text_present(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _case_destination_problems(manifest: dict[str, Any]) -> list[str]:
+    """Each bound case needs one destination that names repository, path and test.
+
+    Zero matches, or a match that omits one of those fields, is a missing
+    identity. More than one match is ambiguous. The message names the case,
+    the row and the assertion.
+    """
+    errors = []
+    destinations = [
+        entry for entry in manifest.get("destinations") or []
+        if entry.get("kind") == "case"
+    ]
+    for pattern in manifest.get("patterns") or []:
+        row_id = str(pattern.get("row") or "")
+        assertion = str(pattern.get("assertion") or "")
+        for case in pattern.get("cases") or []:
+            matches = [
+                entry for entry in destinations
+                if entry.get("case") == case
+                and entry.get("row") == row_id
+                and entry.get("assertion") == assertion
+            ]
+            identity = f"case={case} row={row_id} assertion={assertion}"
+            if len(matches) > 1:
+                errors.append(f"ambiguous-destination {identity}")
+                continue
+            if len(matches) != 1 or any(
+                not _text_present(matches[0].get(key))
+                for key in ("repository", "path", "test")
+            ):
+                errors.append(f"missing-destination {identity}")
+    return errors
+
+
 def check(manifest_path: Path, donor: Path) -> int:
     manifest = load_json(manifest_path)
     before = manifest_path.read_bytes()
@@ -980,6 +1018,7 @@ def check(manifest_path: Path, donor: Path) -> int:
     errors.extend(_list_problem(manifest_path, manifest))
     errors.extend(_closure_check(donor, manifest))
     errors.extend(_binding_problems(manifest))
+    errors.extend(_case_destination_problems(manifest))
     errors.extend(_pattern_check(donor, repo_root(), manifest))
     if manifest_path.read_bytes() != before:
         errors.append("check-wrote")
@@ -1007,16 +1046,29 @@ def _approved(manifest: dict[str, Any], case: str, field: str, old_present: bool
     return False
 
 
+def _case_covers(vector_case: Any, result_case: str) -> bool:
+    """A vector covers a result when the cases are equal, or the vector is global.
+
+    ``*`` is the only global case. A vector for one named case does not cover
+    a result that names another case.
+    """
+    return vector_case == "*" or vector_case == result_case
+
+
 def _status_vector_matches(manifest: dict[str, Any], case: str, old_status: int, new_status: int) -> bool:
-    if _approved(manifest, case, "execution_status", True, str(old_status), str(new_status)):
+    """True when an approved status transition covers this result's case.
+
+    An exact case match is required. A vector whose case is ``*`` is the
+    explicit approval for every case. Matching only the old and new status
+    does not let one case's approval stand in for another.
+    """
+    old = str(old_status)
+    new = str(new_status)
+    if _approved(manifest, case, "execution_status", True, old, new):
         return True
-    for item in manifest.get("expected_differences") or []:
-        vector, problem = _revalidate_difference(repo_root(), item)
-        if problem or vector is None or vector["field"] != "execution_status":
-            continue
-        if str(vector.get("old")) == str(old_status) and str(vector.get("new")) == str(new_status):
-            return True
-    return False
+    if case == "*":
+        return False
+    return _approved(manifest, "*", "execution_status", True, old, new)
 
 
 def _pins(manifest: dict[str, Any], expectation: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -1503,12 +1555,16 @@ def _judge_receipt(manifest: dict[str, Any], result: dict[str, Any]) -> list[str
         errors.append("destination-commit")
     old_status = int(result["old_status"])
     new_status = int(result["new_status"])
+    result_case = str(result.get("case", "*"))
     if old_status != new_status and not _status_vector_matches(
-        manifest, str(result.get("case", "*")), old_status, new_status
+        manifest, result_case, old_status, new_status
     ):
         errors.append("unapproved-difference: execution_status")
     differences = result.get("differences") or []
     for diff in differences:
+        if diff.get("field") == "execution_status" and not _case_covers(diff.get("case"), result_case):
+            errors.append("unapproved-difference: execution_status")
+            continue
         old_present = bool(diff.get("old_present", True))
         if not _approved(
             manifest,
@@ -1560,6 +1616,7 @@ def receipt(manifest_path: Path, result: dict[str, Any], checkouts: dict[str, Pa
     entry = {
         "repository": repository,
         "kind": result["kind"],
+        "case": str(result.get("case", "*")),
         "donor_sha": result["tested_donor_sha"],
         "destination_commit": result["tested_destination_commit"],
         "old_status": int(result["old_status"]),
@@ -1587,9 +1644,25 @@ def _receipt_ok(receipt_entry: dict[str, Any], manifest: dict[str, Any]) -> bool
     if receipt_entry.get("outcome") not in {"equal", "approved-difference"}:
         return False
     if int(receipt_entry["old_status"]) != int(receipt_entry["new_status"]):
-        if not any(item.get("field") == "execution_status" for item in receipt_entry.get("differences") or []):
+        result_case = str(receipt_entry.get("case") or "*")
+        if not _status_vector_matches(
+            manifest,
+            result_case,
+            int(receipt_entry["old_status"]),
+            int(receipt_entry["new_status"]),
+        ):
+            return False
+        listed = [
+            item for item in receipt_entry.get("differences") or []
+            if item.get("field") == "execution_status" and _case_covers(item.get("case"), result_case)
+        ]
+        if not listed:
             return False
     for diff in receipt_entry.get("differences") or []:
+        if diff.get("field") == "execution_status" and not _case_covers(
+            diff.get("case"), str(receipt_entry.get("case") or "*")
+        ):
+            return False
         if not _approved(
             manifest,
             diff["case"],
