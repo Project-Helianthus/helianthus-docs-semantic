@@ -1391,6 +1391,105 @@ class ManifestCLITest(unittest.TestCase):
         self.assert_ok(structured)
         self.assertNotIn("outside-set", structured.stdout)
 
+    MB = "closure/cross/mb"
+    MU = "closure/cross/mu"
+    MD = "closure/cross/md"
+    MC = "closure/cross/mc"
+    MG = "closure/cross/mg"
+    MT = "closure/cross/mt"
+
+    def at(self, package: str, symbol: str) -> dict:
+        return {"package": package, "path": f"{package}/{package.rsplit('/', 1)[-1]}.go", "symbol": symbol}
+
+    def move_at(self, package: str, symbol: str) -> dict:
+        return self.repo.symbol(package, f"{package}/{package.rsplit('/', 1)[-1]}.go", symbol, "engine/m.go")
+
+    def test_a_method_of_a_type_of_another_donor_package_is_a_dependency(self) -> None:
+        use = self.move_at(self.MU, "Use")
+        box = self.at(self.MB, "Box")
+        open_method = self.repo.generate(self.symbol_spec("mq-open", [use], stay_symbols=[box]))
+        self.assert_fail(open_method)
+        self.assertEqual(open_method.stdout, f"outside-set: {self.MB}.Box.Required\n")
+        self.assert_absent("mq-open")
+        expr = self.repo.generate(self.symbol_spec("mq-expr", [self.move_at(self.MU, "Expr")], stay_symbols=[box]))
+        self.assert_fail(expr)
+        self.assertEqual(expr.stdout, f"outside-set: {self.MB}.Box.Required\n")
+        stays = [box, self.at(self.MB, "Box.Required")]
+        self.assert_ok(self.repo.generate(self.symbol_spec("mq-stays", [use], stay_symbols=stays)))
+        self.assert_ok(self.repo.check("mq-stays"))
+        moved = self.repo.generate(self.symbol_spec(
+            "mq-moved", [use, self.move_at(self.MB, "Box"), self.move_at(self.MB, "Box.Required")],
+        ))
+        self.assert_ok(moved)
+        uses = {item["name"]: item["uses"] for item in self.repo.manifest("mq-moved")["symbols"]}
+        self.assertEqual(uses["Use"], [f"{self.MB}.Box", f"{self.MB}.Box.Required"])
+
+    def test_a_redeclaring_short_assignment_keeps_the_receiver_type(self) -> None:
+        local = self.at(self.MU, "Local")
+        for name in ("Redeclare", "Shadow"):
+            row = f"mr-{name.lower()}"
+            open_method = self.repo.generate(self.symbol_spec(row, [self.move_at(self.MU, name)], stay_symbols=[local]))
+            self.assert_fail(open_method)
+            self.assertEqual(open_method.stdout, "outside-set: Local.Need\n")
+            self.assert_absent(row)
+            declared = self.repo.generate(self.symbol_spec(
+                f"{row}-stays", [self.move_at(self.MU, name)], stay_symbols=[local, self.at(self.MU, "Local.Need")],
+            ))
+            self.assert_ok(declared)
+
+    def test_a_dot_import_of_a_donor_package_is_a_dependency(self) -> None:
+        dot = self.move_at(self.MD, "Dot")
+        open_name = self.repo.generate(self.symbol_spec("md-open", [dot]))
+        self.assert_fail(open_name)
+        self.assertEqual(open_name.stdout, f"outside-set: {self.MB}.Required\n")
+        self.assert_absent("md-open")
+        self.assert_ok(self.repo.generate(self.symbol_spec(
+            "md-stays", [dot], stay_symbols=[self.at(self.MB, "Required")],
+        )))
+        self.assert_ok(self.repo.check("md-stays"))
+        moved = self.repo.generate(self.symbol_spec("md-moved", [dot, self.move_at(self.MB, "Required")]))
+        self.assert_ok(moved)
+        uses = {item["name"]: item["uses"] for item in self.repo.manifest("md-moved")["symbols"]}
+        self.assertEqual(uses["Dot"], [f"{self.MB}.Required"])
+        typed = self.repo.generate(self.symbol_spec(
+            "md-type", [self.move_at(self.MD, "DotType")], stay_symbols=[self.at(self.MB, "Box")],
+        ))
+        self.assert_fail(typed)
+        self.assertEqual(typed.stdout, f"outside-set: {self.MB}.Box.Required\n")
+
+    def test_an_import_in_a_comment_is_not_an_import(self) -> None:
+        completed = self.repo.generate(self.symbol_spec("mc-comment", [self.move_at(self.MC, "Print")]))
+        self.assert_ok(completed)
+        self.assertNotIn("outside-set", completed.stdout)
+        self.assertEqual(self.repo.manifest("mc-comment")["symbols"][0]["uses"], [])
+        self.assert_ok(self.repo.check("mc-comment"))
+
+    def test_receiver_type_parameters_and_elided_pointer_elements_are_not_symbols(self) -> None:
+        generic = self.repo.generate(self.symbol_spec(
+            "mg-generic", [self.move_at(self.MG, "Box"), self.move_at(self.MG, "Box.Pass")],
+        ))
+        self.assert_ok(generic)
+        self.assertNotIn("outside-set", generic.stdout)
+        literal = self.repo.generate(self.symbol_spec(
+            "mg-literal", [self.move_at(self.MG, "Lits")], stay_symbols=[self.at(self.MG, "R")],
+        ))
+        self.assert_ok(literal)
+        self.assertNotIn("outside-set", literal.stdout)
+        self.assert_ok(self.repo.check("mg-literal"))
+
+    def test_two_donor_assertions_with_one_identity_are_not_bound_to_one_entry(self) -> None:
+        move = self.move_at(self.MT, "Move")
+        given = [{
+            "function": "TestX",
+            "name": "same",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        completed = self.repo.generate(self.symbol_spec("mt-same", [move], assertions=given))
+        self.assert_fail(completed, f"ambiguous-assertion function=TestX assertion=same package={self.MT}")
+        self.assert_absent("mt-same")
+
     def test_an_external_test_keeps_the_staying_symbols_of_its_own_package(self) -> None:
         move = self.repo.symbol(self.XO, f"{self.XO}/xo.go", "Move", "engine/xo.go")
         bare = self.repo.generate(self.symbol_spec("own-bare", [move]))

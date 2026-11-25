@@ -347,6 +347,7 @@ def _account_tests(
         for item in spec.get("assertions") or []
     }
     specimens = set(spec.get("specimens") or [])
+    first_record = len(assertion_records)
     for test in tests:
         staying_names = outside_names | test.own
         kind = closure.classify_test(test, moved_names, staying_names)
@@ -419,6 +420,19 @@ def _account_tests(
             if package:
                 record["package"] = package
             assertion_records.append(record)
+    if package:
+        # An input entry names a function, an assertion and a package. Two
+        # donor assertions of one directory that share all three (the same
+        # test name in a package and in its external test package) would be
+        # one destination test run for both, so no entry can bind them apart.
+        files: dict[tuple[str, str], set[str]] = {}
+        for record in assertion_records[first_record:]:
+            files.setdefault((record["function"], record["name"]), set()).add(record["file"])
+        for (function, name), where in sorted(files.items()):
+            if len(where) > 1:
+                errors.append(
+                    f"ambiguous-assertion function={function} assertion={name} package={package}"
+                )
 
 
 def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:

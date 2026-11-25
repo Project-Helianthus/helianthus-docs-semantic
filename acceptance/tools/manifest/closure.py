@@ -68,11 +68,12 @@ class PackageFacts:
     tests: list[TestFunction]
 
 
-def blank_source(source: str, literal: str = " ") -> str:
+def blank_source(source: str, literal: str = " ", strings: bool = True) -> str:
     """Replace comments, strings and runes with spaces. Newlines stay.
 
     ``literal`` marks the first character of each string or rune, so a
     caller that needs to see where a literal stood can keep one token there.
+    With ``strings`` false only comments are blanked and every literal stays.
     """
     chars = list(source)
     index = 0
@@ -100,33 +101,38 @@ def blank_source(source: str, literal: str = " ") -> str:
             index += 2
             continue
         if character == "`":
-            chars[index] = literal
+            if strings:
+                chars[index] = literal
             index += 1
             while index < length and chars[index] != "`":
-                if chars[index] != "\n":
+                if strings and chars[index] != "\n":
                     chars[index] = " "
                 index += 1
             if index < length:
-                chars[index] = " "
+                if strings:
+                    chars[index] = " "
                 index += 1
             continue
         if character == '"' or character == "'":
             quote = character
-            chars[index] = literal
+            if strings:
+                chars[index] = literal
             index += 1
             while index < length and chars[index] != quote:
                 if chars[index] == "\\" and index + 1 < length:
-                    chars[index] = " "
+                    if strings:
+                        chars[index] = " "
                     index += 1
-                    if chars[index] != "\n":
+                    if strings and chars[index] != "\n":
                         chars[index] = " "
                     index += 1
                     continue
-                if chars[index] != "\n":
+                if strings and chars[index] != "\n":
                     chars[index] = " "
                 index += 1
             if index < length:
-                chars[index] = " "
+                if strings:
+                    chars[index] = " "
                 index += 1
             continue
         index += 1
@@ -705,6 +711,14 @@ class GoFile:
             cursor += 1
         if cursor >= last or not _is_name(self._word(cursor)):
             return None
+        if (
+            cursor + 2 < last
+            and self._word(cursor + 1) == "."
+            and _is_name(self._word(cursor + 2))
+            and (cursor + 3 >= last or self._word(cursor + 3) == "[")
+        ):
+            # A type of another package, spelled ``alias.Name``.
+            return f"{self._word(cursor)}.{self._word(cursor + 2)}"
         if cursor + 1 < last and self._word(cursor + 1) != "[":
             return None
         return self._word(cursor)
@@ -803,6 +817,15 @@ class GoFile:
             names += self._named(cursor)
             typed += self._typed(cursor)
             receiver = self._receiver_type(cursor + 1, closing)
+            # The names in the brackets of a generic receiver type are type
+            # parameters bound by the receiver, not package symbols.
+            for at in range(cursor + 1, closing):
+                if self.tokens[at][0] == "[":
+                    type_names += [
+                        first for first, _last in self._entries(at)
+                        if _is_name(self.tokens[first][0])
+                    ]
+                    break
             cursor = closing + 1
         if cursor >= count or not _is_name(self.tokens[cursor][0]):
             return max(cursor, index + 1)
@@ -989,6 +1012,12 @@ class GoFile:
                 return
         skip.add(first)
 
+    def _past_pointers(self, index: int) -> int:
+        """Index of the first ``*`` of the pointer stars that end just before ``index``."""
+        while index > 0 and self._word(index - 1) == "*":
+            index -= 1
+        return index
+
     def _literal(
         self,
         index: int,
@@ -1012,7 +1041,7 @@ class GoFile:
         if before == "}":
             opener = self.open.get(index - 1, -1)
             if opener > low and self._word(opener - 1) == "struct":
-                if self._word(opener - 2) == "]":
+                if self._word(self._past_pointers(opener - 1) - 1) == "]":
                     return "collection", True
                 return "struct", False
             return "other", False
@@ -1020,7 +1049,10 @@ class GoFile:
             opener = self.open.get(index - 1, -1)
             named = self._word(opener - 1) if opener > low else ""
             if named and _is_name(named):
-                return ("struct" if named in struct_types else "other"), False
+                is_struct = named in struct_types
+                if self._word(self._past_pointers(opener - 1) - 1) == "]":
+                    return "collection", is_struct
+                return ("struct" if is_struct else "other"), False
             return "other", False
         if before and _is_name(before):
             start = index - 1
@@ -1034,7 +1066,7 @@ class GoFile:
                 is_struct = qualified_struct(self._word(start), before) if qualified_struct else True
             else:
                 is_struct = before in struct_types
-            if start > low and self._word(start - 1) == "]":
+            if start > low and self._word(self._past_pointers(start) - 1) == "]":
                 return "collection", is_struct
             return ("struct" if is_struct else "other"), False
         return "other", False
@@ -1325,6 +1357,10 @@ class GoFile:
         declaration: Declaration,
         keys: set[str],
         window: tuple[int, int] | None = None,
+        aliases: dict[str, str] | None = None,
+        qualified: set[tuple[str, str]] | None = None,
+        dots: list[str] | None = None,
+        foreign_methods: dict[str, set[str]] | None = None,
     ) -> set[str]:
         """Method keys of ``keys`` that the declaration refers to.
 
@@ -1335,14 +1371,25 @@ class GoFile:
         value whose type is not spelled resolves to no type. A field is never a
         method key, so a field selector is not a reference. ``window`` limits
         the result to references at those source offsets.
+
+        A reference to a method of a type of another donor package, through a
+        type spelled ``alias.T`` (or ``T`` of a dot import) or the method
+        expression ``alias.T.Method``, is added to ``qualified`` as
+        ``(directory, T.Method)`` when ``foreign_methods`` lists it for that
+        directory.
         """
         low, high = declaration.first, declaration.last
+        foreign_methods = foreign_methods or {}
         # Each binding is visible from where it takes effect to the end of its
         # scope, and the innermost one that covers a reference gives its type.
         bindings: dict[str, list[tuple[int, int, str | None]]] = {}
 
         def bind(name: str, start: int, stop: int, kind: str | None) -> None:
             bindings.setdefault(name, []).append((start, stop, kind))
+
+        def kind_at(name: str, at: int) -> str | None:
+            covering = [item for item in bindings.get(name, ()) if item[0] <= at < item[1]]
+            return max(covering, key=lambda item: item[0])[2] if covering else None
 
         for name, kind in declaration.typed:
             bind(name, low, high, kind)
@@ -1372,12 +1419,38 @@ class GoFile:
                     else:
                         break
                 if chain:
-                    kind = None
-                    if len(chain) == 1:
-                        kind = self._initializer_type(index + 1, self._statement_end(index + 1, high))
+                    ordered = chain[::-1]
+                    stop_at = self._statement_end(index + 1, high)
+                    values = [
+                        (first, last) for first, last in self._split(index + 1, stop_at)
+                    ]
+                    kinds: list[str | None] = []
+                    for position, at in enumerate(ordered):
+                        kind = None
+                        if len(chain) == 1:
+                            kind = self._initializer_type(index + 1, stop_at)
+                        if (
+                            kind is None
+                            and len(values) == len(ordered)
+                            and values[position][1] - values[position][0] == 1
+                            and _is_name(self._word(values[position][0]))
+                        ):
+                            # ``x, ok := x, true`` binds a new ``x`` of the type of the old one.
+                            kind = kind_at(self._word(values[position][0]), index)
+                        kinds.append(kind)
                     start, stop = self._short_scope(index, chain, low, high, stack)
-                    for at in chain:
-                        bind(self.tokens[at][0], start, stop, kind)
+                    plain = self._word(chain[-1] - 1) not in ("if", "for", "switch", "case")
+                    scope_end = self._scope_end(stack, high)
+                    for at, kind in zip(ordered, kinds):
+                        name = self.tokens[at][0]
+                        # A name that is already bound in this very scope is
+                        # assigned by a redeclaring ``:=`` and keeps its type.
+                        if len(chain) > 1 and plain and any(
+                            item[1] == scope_end and item[0] <= index
+                            for item in bindings.get(name, ())
+                        ):
+                            continue
+                        bind(name, start, stop, kind)
             elif word == "var" and index > low:
                 specs: list[tuple[int, int]] = []
                 if self._word(index + 1) == "(":
@@ -1422,10 +1495,49 @@ class GoFile:
             kind = max(covering, key=lambda item: item[0])[2] if covering else word
             if kind is None:
                 continue
-            key = f"{kind}.{self._word(index + 2)}"
+            if (
+                not covering
+                and aliases
+                and word in aliases
+                and self._word(index + 3) == "."
+                and _is_name(self._word(index + 4))
+            ):
+                # The method expression ``alias.T.Method``.
+                kind = f"{word}.{self._word(index + 2)}"
+                method = self._word(index + 4)
+            else:
+                method = self._word(index + 2)
+            key = f"{kind}.{method}"
             if key in keys:
                 found.add(key)
+            elif qualified is not None:
+                if "." in kind:
+                    alias, _dot, type_name = kind.partition(".")
+                    directory = (aliases or {}).get(alias)
+                    if directory and f"{type_name}.{method}" in foreign_methods.get(directory, ()):
+                        qualified.add((directory, f"{type_name}.{method}"))
+                else:
+                    for directory in dots or ():
+                        if key in foreign_methods.get(directory, ()):
+                            qualified.add((directory, key))
         return found
+
+    def _split(self, start: int, stop: int) -> list[tuple[int, int]]:
+        """Token ranges of the comma separated parts of tokens ``start`` to ``stop``."""
+        parts: list[tuple[int, int]] = []
+        depth = 0
+        first = start
+        for cursor in range(start, stop):
+            word = self.tokens[cursor][0]
+            if word in _OPENERS:
+                depth += 1
+            elif word in _CLOSERS:
+                depth -= 1
+            elif word == "," and depth == 0:
+                parts.append((first, cursor))
+                first = cursor + 1
+        parts.append((first, stop))
+        return [part for part in parts if part[0] < part[1]]
 
 
 _IMPORT_LINE = re.compile(r'^\s*(?:import\s+)?([A-Za-z_][A-Za-z0-9_]*|\.|_)?\s*"([^"\n]+)"\s*(?://.*)?$')
@@ -1440,33 +1552,49 @@ def _module_path(repo: Path, revision: str) -> str:
     return match.group(1).strip('"') if match else ""
 
 
-def _import_aliases(
+def _import_bindings(
     text: str,
     resolve: "Callable[[str], str | None]",
     clause_of: "Callable[[str], str]",
-) -> dict[str, str]:
+) -> tuple[dict[str, str], list[str]]:
     """Import names of one file that stand for a donor directory.
 
     ``resolve`` maps an import path to the donor directory it names, or None.
-    An import without a name takes the package clause of that directory.
+    An import without a name takes the package clause of that directory. Only
+    the import declarations of the code count, never a comment. The second
+    result lists the donor directories a dot import makes available by their
+    bare names.
     """
     aliases: dict[str, str] = {}
-    for line in text.splitlines():
+    dots: list[str] = []
+    for line in blank_source(text, strings=False).splitlines():
         if _TOP_LEVEL.match(line) and not line.startswith("import"):
             break
         found = _IMPORT_LINE.match(line)
         if not found:
             continue
         local, path = found.group(1), found.group(2)
-        if local in (".", "_"):
+        if local == "_":
             continue
         directory = resolve(path)
         if directory is None:
             continue
+        if local == ".":
+            if directory not in dots:
+                dots.append(directory)
+            continue
         name = local or clause_of(directory)
         if name:
             aliases[name] = directory
-    return aliases
+    return aliases, dots
+
+
+def _import_aliases(
+    text: str,
+    resolve: "Callable[[str], str | None]",
+    clause_of: "Callable[[str], str]",
+) -> dict[str, str]:
+    return _import_bindings(text, resolve, clause_of)[0]
 
 
 def _directory_resolver(repo: Path, revision: str, module: str) -> "Callable[[str], str | None]":
@@ -1606,13 +1734,17 @@ def analyze_symbols(
     def aliases_of(text: str) -> dict[str, str]:
         return _import_aliases(text, resolve, clause_of)
 
+    def dots_of(text: str) -> list[str]:
+        return _import_bindings(text, resolve, clause_of)[1]
+
     # Any donor directory a moved file imports is read, so that a name it uses
     # there is found even when the input names no symbol of that directory.
     loaded = list(packages)
     for kind, item in entries:
         if kind != "move":
             continue
-        for directory in sorted(set(aliases_of(texts[item["package"].rstrip("/")][item["path"]]).values())):
+        source_text = texts[item["package"].rstrip("/")][item["path"]]
+        for directory in sorted({*aliases_of(source_text).values(), *dots_of(source_text)}):
             if directory not in parsed and clause_of(directory):
                 load(directory, clause_of(directory))
                 loaded.append(directory)
@@ -1688,13 +1820,37 @@ def analyze_symbols(
                     carried.add(f"{other}.{name}")
                 elif name not in info[other]["stay_names"]:
                     outside.add(f"{other}.{name}")
-            called = files[moved_keys[key]].method_uses(declaration, {item.key for item in methods})
+            dots = [other for other in dots_of(texts[directory][moved_keys[key]]) if other in info]
+            # A name a dot import makes available is a use of that directory.
+            for other in dots:
+                for name in files[moved_keys[key]].uses(
+                    declaration, info[other]["declared"], info[other]["struct_types"], foreign=foreign
+                ):
+                    if name in info[other]["moved_names"]:
+                        carried.add(f"{other}.{name}")
+                    elif name not in info[other]["stay_names"]:
+                        outside.add(f"{other}.{name}")
+            reached_methods: set[tuple[str, str]] = set()
+            called = files[moved_keys[key]].method_uses(
+                declaration, {item.key for item in methods},
+                aliases=aliases, qualified=reached_methods, dots=dots,
+                foreign_methods={other: info[other]["method_keys"] for other in info},
+            )
             called.discard(declaration.key)
             for method_key in called:
                 if method_key in moved_keys:
                     carried.add(method_key)
                 elif method_key not in stay_keys:
                     outside.add(method_key)
+            # A method of a type of another donor directory is accounted for
+            # there, whether or not its receiver type is declared staying.
+            for other, method_key in sorted(reached_methods):
+                if other == directory:
+                    continue
+                if method_key in info[other]["moved_keys"]:
+                    carried.add(f"{other}.{method_key}")
+                elif method_key not in info[other]["stay_keys"]:
+                    outside.add(f"{other}.{method_key}")
             facts.moved.append({
                 "package": directory,
                 "file": moved_keys[key],
