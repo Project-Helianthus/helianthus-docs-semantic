@@ -6,6 +6,22 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the
+  admitted zone, function and sensor facts, `resource.sensor`,
+  `thermal.dimension.function`, `thermal.dimension.sensor`, four qualifier
+  dimensions, `thermal.service.function`, `thermal.service.sensor`, two read
+  capabilities, and twenty-three operations with one capability and one effect
+  rule each. `thermal.mode.zone` gains `on` and keeps `comfort`. Five
+  quantities the table marks signed use direction `not_applicable` because no
+  supplies relation is named. The deadband stays 0 to 12.7. Three durations
+  stay non-negative. Empty bounds stay empty. The maximum humidity fact stays
+  out because the second vendor is unconfirmed. The sensor-to-zone relation is
+  not added. Occupied and unoccupied heating and cooling setpoints keep their
+  bytes. Eight changed events are catalog entries. New Matter 1.6.1 rows are
+  unknown with `matter.unmapped.v1`. The two new services are unsupported with
+  `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only
+  transformed row. The historical Matter 1.7 roster stays at 184 items. No
+  pack version is raised.
 - The energy-management pack stays `helianthus.pack.energy_management` 1.0.0
   and publishes the admitted tariff, price, incentive, grid and metering facts,
   `resource.tariff`, `energy.dimension.tariff`, twelve qualifier dimensions,

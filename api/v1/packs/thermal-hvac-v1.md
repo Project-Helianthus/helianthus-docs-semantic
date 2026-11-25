@@ -11,11 +11,13 @@ Every listed item expands to an exact versioned `DefinitionRef` under this PackR
 Kernel ValueKind is used exclusively: quantities use canonical DefinitionID
 units and kernel Decimal bounds; symbols carry declared semantic symbols.
 
-Every field declares exactly one fact dimension, and that dimension is a
-resource dimension: its value in a `FactKey` names the resource the fact is
-about, its subject (section 6.2 of the [graph contract](../graph.md)). The role
-of a fact is in its field identifier; no field has a qualifier dimension. A
-fact is published only on a resource of its subject kind.
+Every field declares exactly one fact dimension. A resource dimension names
+the resource the fact is about, its subject (section 6.2 of the
+[graph contract](../graph.md)). `thermal.dimension.function` is class-level:
+it names anchor class function and no resource kind. The qualifier dimensions
+`thermal.dimension.preset`, `thermal.dimension.time_program`,
+`thermal.dimension.program_entry` and `thermal.dimension.suggestion` qualify
+a fact and are not its subject.
 
 | Field | Kind | Subject | Unit | Bounds | Direction |
 |---|---|---|---|---|---|
@@ -147,8 +149,10 @@ The FactKey dimension contracts are `thermal.dimension.system`,
 `thermal.dimension.ventilation`, `thermal.dimension.heat_generator`,
 `thermal.dimension.thermal_store`, `thermal.dimension.terminal_unit`,
 `thermal.dimension.refrigerant_circuit`, `thermal.dimension.compressor`,
-`thermal.dimension.pump`, and `thermal.dimension.room`;
-each is typed text and names one resource. They preserve separate instances
+`thermal.dimension.pump`, `thermal.dimension.room`, and
+`thermal.dimension.sensor`; each of these is typed text and names one
+resource. `thermal.dimension.function` is typed text, names anchor class
+function, and names no resource. They preserve separate instances
 without a guessed canonical face.
 
 | Resource kind | Anchor class | Dimension | Service | Read capability |
@@ -156,6 +160,7 @@ without a guessed canonical face.
 | thermal system | function | `thermal.dimension.system` | `thermal.service.system` | `thermal.capability.read.system` |
 | zone | function | `thermal.dimension.zone` | `thermal.service.zone` | `thermal.capability.read.zone` |
 | room | function | `thermal.dimension.room` | `thermal.service.room` | `thermal.capability.read.room` |
+| sensor | equipment | `thermal.dimension.sensor` | `thermal.service.sensor` | `thermal.capability.read.sensor` |
 | thermal circuit | function | `thermal.dimension.circuit` | `thermal.service.circuit` | `thermal.capability.read.circuit` |
 | domestic hot water | function | `thermal.dimension.dhw` | `thermal.service.dhw` | `thermal.capability.read.dhw` |
 | ventilation system | function | `thermal.dimension.ventilation` | `thermal.service.ventilation` | `thermal.capability.read.ventilation` |
@@ -166,7 +171,7 @@ without a guessed canonical face.
 | compressor | component | `thermal.dimension.compressor` | `thermal.service.compressor` | `thermal.capability.read.compressor` |
 | pump | component | `thermal.dimension.pump` | `thermal.service.pump` | none |
 
-The pump service has a read descriptor and no read capability. Each service
+The pump service has a read descriptor and no read capability. `thermal.service.function` binds `thermal.dimension.function` and `thermal.capability.read.function` reads it. Each service
 binds the matching dimension. Operations require qualified
 current binding: `thermal.capability.set_temperature` on the zone service and
 `thermal.capability.set_mode` on the system service. Indoor and outdoor units
@@ -249,8 +254,10 @@ canonical name and with no confirmation question.
 `thermal.effect.set_temperature`; `thermal.operation.set_mode` takes
 `thermal.mode.system` with `thermal.effect.set_mode`. Both are admitted under
 graph enforcement: the setpoint is a fact of the zone, and the operation and
-its effect rule are in the control plane. A zone-mode operation is
-not published because the catalog cannot imply a native route. Both require
+its effect rule are in the control plane. `thermal.operation.set_zone_mode` takes `thermal.mode.zone` and
+`thermal.operation.set_zone_cooling_mode` takes `thermal.mode.zone_cooling`.
+Both are published on `thermal.service.zone` and their Matter rows stay
+unknown with `matter.unmapped.v1`. The temperature and mode operations require
 current generation, qualified active capability, exact route, and authority
 admission. Dispatch, ACK, readback, and result remain separate; applied needs
 current-generation confirming readback and indeterminate handoff forbids retry.
@@ -340,8 +347,9 @@ Read descriptors are `thermal.portal.read.system`, `thermal.portal.read.zone`,
 `thermal.portal.read.ventilation`, `thermal.portal.read.heat_generator`,
 `thermal.portal.read.thermal_store`, `thermal.portal.read.terminal_unit`,
 `thermal.portal.read.refrigerant_circuit`,
-`thermal.portal.read.compressor`, `thermal.portal.read.pump`, and
-`thermal.portal.read.room`. Operation descriptors are
+`thermal.portal.read.compressor`, `thermal.portal.read.pump`,
+`thermal.portal.read.room`, `thermal.portal.read.function`, and
+`thermal.portal.read.sensor`. Operation descriptors are
 `thermal.portal.operation.set_temperature` and `thermal.portal.operation.set_mode`.
 Portal consumes promoted definitions and admission; it cannot define truth,
 authority, lifecycle, or native routes.
@@ -384,9 +392,12 @@ contract, dangling reference, or mapping-promotion defect.
 The typed read descriptors consume every declared field exactly, and each
 reads only fields of its own service's subject: the system descriptor reads
 action, system mode, operation, fault, outdoor air temperature, system flow
-temperature, maintenance and each overrun status; the zone descriptor air
+temperature, maintenance, each overrun status, keypad lockout, display unit
+and schedule programming; the zone descriptor air
 temperature, humidity, the single zone setpoint, the occupied and unoccupied
-heating and cooling setpoints, and zone mode; the circuit
+heating and cooling setpoints, zone mode, and the other admitted zone facts;
+`thermal.portal.read.function` reads the function facts and
+`thermal.portal.read.sensor` reads the sensor facts; the circuit
 descriptor flow rate and circuit flow temperature; the hot-water descriptor
 hot-water temperature and setpoint; the ventilation descriptor demand level;
 and the descriptor of each
@@ -408,3 +419,202 @@ readback, and terminal outcome. Outcomes are `rejected`,
 `conflict`, and `indeterminate`. `applied` needs post-dispatch current-generation
 confirming readback; blind retry is forbidden after possible dispatch or
 indeterminate handoff.
+
+## Zone, function and sensor rows
+
+`resource.sensor` is equipment on the physical, energy and control planes.
+`thermal.dimension.sensor` names that kind. `thermal.dimension.function` names
+anchor class function and no resource kind, on the energy, control and
+diagnostic planes. Time programs apply to any function resource. The four
+qualifier dimensions are control members. A hold is the quick veto: its
+argument is `thermal.hold.state` and its parameters are `thermal.hold.duration`
+and `thermal.hold.setpoint`. A setpoint limit is not the validator bound.
+`thermal.configuration.display_unit` names `celsius` or `fahrenheit` and
+changes no value's unit.
+
+`thermal.mode.zone` gains `thermal.mode.zone.on` and comfort stays. Five
+quantities the reviewed table marks signed are direction `not_applicable`
+because no supplies relation is named: `thermal.limit.minimum_setpoint_deadband`,
+`thermal.limit.setpoint_step`, `thermal.calibration.temperature_offset`,
+`thermal.setpoint.change_amount` and `thermal.configuration.emergency_heat_delta`.
+The deadband stays 0 to 12.7. `thermal.hold.duration`,
+`thermal.program.entry_start` and `thermal.program.entry_end` stay
+non-negative. Empty bounds stay empty. `thermal.event.active_program_changed`
+is on `thermal.service.function` because its trigger is a function fact.
+`thermal.event.setpoint_changed` matches occupied heating only, and its
+payload is `thermal.setpoint.change_amount` then `thermal.setpoint.change_source`.
+Each admitted operation has one capability and one effect, and a declared
+parameter stays a parameter.
+
+Zone status facts are control members because `resource.zone` does not admit
+the diagnostic plane. `thermal.limit.humidity_maximum` is not a member: the
+second vendor is unconfirmed. `thermal.relation.sensor_zone` is not a member.
+A Matter octet handle is text: each octet is two lowercase hexadecimal digits,
+high nibble first, with no prefix and no separator. Empty octets are empty
+text. A null handle is omitted. A handle of at most 16 octets stays at most
+16 octets. Round-trip example octets encode as `00017f80ff0a`. An eeBUS
+TimeTable identifier stays a native unsigned integer (SPINE 1.3.0) and does
+not use that hexadecimal rule.
+
+New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`.
+`thermal.service.function` and `thermal.service.sensor` are unsupported with
+`matter.service_not_requested_item.v1`. `evse.ac.current` remains the only
+transformed row. The historical Matter 1.7 roster stays at 184 items. Names
+are admitted with the historical name equal to the canonical name. The pack
+version stays 1.0.0.
+
+- `resource.sensor`
+- `thermal.action.zone_state`
+- `thermal.calibration.temperature_offset`
+- `thermal.capability.read.function`
+- `thermal.capability.read.sensor`
+- `thermal.capability.set_active_preset`
+- `thermal.capability.set_active_program`
+- `thermal.capability.set_control_sequence`
+- `thermal.capability.set_display_unit`
+- `thermal.capability.set_emergency_heat_delta`
+- `thermal.capability.set_hold`
+- `thermal.capability.set_keypad_lockout`
+- `thermal.capability.set_maximum_cooling_setpoint`
+- `thermal.capability.set_maximum_heating_setpoint`
+- `thermal.capability.set_minimum_cooling_setpoint`
+- `thermal.capability.set_minimum_heating_setpoint`
+- `thermal.capability.set_occupied_cooling`
+- `thermal.capability.set_occupied_heating`
+- `thermal.capability.set_preset`
+- `thermal.capability.set_program_entry`
+- `thermal.capability.set_remote_sensing`
+- `thermal.capability.set_schedule_programming`
+- `thermal.capability.set_suggestion`
+- `thermal.capability.set_temperature_calibration`
+- `thermal.capability.set_unoccupied_cooling`
+- `thermal.capability.set_unoccupied_heating`
+- `thermal.capability.set_zone_cooling_mode`
+- `thermal.capability.set_zone_mode`
+- `thermal.configuration.control_sequence`
+- `thermal.configuration.display_unit`
+- `thermal.configuration.emergency_heat_delta`
+- `thermal.configuration.keypad_lockout`
+- `thermal.configuration.remote_sensing`
+- `thermal.configuration.schedule_programming`
+- `thermal.demand.cooling`
+- `thermal.demand.heating`
+- `thermal.dimension.function`
+- `thermal.dimension.preset`
+- `thermal.dimension.program_entry`
+- `thermal.dimension.sensor`
+- `thermal.dimension.suggestion`
+- `thermal.dimension.time_program`
+- `thermal.effect.set_active_preset`
+- `thermal.effect.set_active_program`
+- `thermal.effect.set_control_sequence`
+- `thermal.effect.set_display_unit`
+- `thermal.effect.set_emergency_heat_delta`
+- `thermal.effect.set_hold`
+- `thermal.effect.set_keypad_lockout`
+- `thermal.effect.set_maximum_cooling_setpoint`
+- `thermal.effect.set_maximum_heating_setpoint`
+- `thermal.effect.set_minimum_cooling_setpoint`
+- `thermal.effect.set_minimum_heating_setpoint`
+- `thermal.effect.set_occupied_cooling`
+- `thermal.effect.set_occupied_heating`
+- `thermal.effect.set_preset`
+- `thermal.effect.set_program_entry`
+- `thermal.effect.set_remote_sensing`
+- `thermal.effect.set_schedule_programming`
+- `thermal.effect.set_suggestion`
+- `thermal.effect.set_temperature_calibration`
+- `thermal.effect.set_unoccupied_cooling`
+- `thermal.effect.set_unoccupied_heating`
+- `thermal.effect.set_zone_cooling_mode`
+- `thermal.effect.set_zone_mode`
+- `thermal.event.active_preset_changed`
+- `thermal.event.active_program_changed`
+- `thermal.event.local_temperature_changed`
+- `thermal.event.occupancy_changed`
+- `thermal.event.running_mode_changed`
+- `thermal.event.running_state_changed`
+- `thermal.event.setpoint_changed`
+- `thermal.event.system_mode_changed`
+- `thermal.hold.duration`
+- `thermal.hold.expiry`
+- `thermal.hold.setpoint`
+- `thermal.hold.state`
+- `thermal.limit.absolute_maximum_cooling_setpoint`
+- `thermal.limit.absolute_maximum_heating_setpoint`
+- `thermal.limit.absolute_minimum_cooling_setpoint`
+- `thermal.limit.absolute_minimum_heating_setpoint`
+- `thermal.limit.maximum_cooling_setpoint`
+- `thermal.limit.maximum_heating_setpoint`
+- `thermal.limit.minimum_cooling_setpoint`
+- `thermal.limit.minimum_heating_setpoint`
+- `thermal.limit.minimum_setpoint_deadband`
+- `thermal.limit.setpoint_step`
+- `thermal.measurement.sensor_humidity`
+- `thermal.measurement.sensor_temperature`
+- `thermal.mode.zone_cooling`
+- `thermal.operation.set_active_preset`
+- `thermal.operation.set_active_program`
+- `thermal.operation.set_control_sequence`
+- `thermal.operation.set_display_unit`
+- `thermal.operation.set_emergency_heat_delta`
+- `thermal.operation.set_hold`
+- `thermal.operation.set_keypad_lockout`
+- `thermal.operation.set_maximum_cooling_setpoint`
+- `thermal.operation.set_maximum_heating_setpoint`
+- `thermal.operation.set_minimum_cooling_setpoint`
+- `thermal.operation.set_minimum_heating_setpoint`
+- `thermal.operation.set_occupied_cooling`
+- `thermal.operation.set_occupied_heating`
+- `thermal.operation.set_preset`
+- `thermal.operation.set_program_entry`
+- `thermal.operation.set_remote_sensing`
+- `thermal.operation.set_schedule_programming`
+- `thermal.operation.set_suggestion`
+- `thermal.operation.set_temperature_calibration`
+- `thermal.operation.set_unoccupied_cooling`
+- `thermal.operation.set_unoccupied_heating`
+- `thermal.operation.set_zone_cooling_mode`
+- `thermal.operation.set_zone_mode`
+- `thermal.portal.read.function`
+- `thermal.portal.read.sensor`
+- `thermal.preset.active_handle`
+- `thermal.preset.built_in`
+- `thermal.preset.cooling_setpoint`
+- `thermal.preset.heating_setpoint`
+- `thermal.preset.maximum_count`
+- `thermal.preset.name`
+- `thermal.preset.scenario`
+- `thermal.preset.supported_scenarios`
+- `thermal.program.active_handle`
+- `thermal.program.built_in`
+- `thermal.program.entry_cooling_setpoint`
+- `thermal.program.entry_days`
+- `thermal.program.entry_end`
+- `thermal.program.entry_heating_setpoint`
+- `thermal.program.entry_preset`
+- `thermal.program.entry_start`
+- `thermal.program.entry_state`
+- `thermal.program.entry_system_mode`
+- `thermal.program.maximum_count`
+- `thermal.program.maximum_entries`
+- `thermal.program.maximum_entries_per_day`
+- `thermal.program.name`
+- `thermal.program.preset`
+- `thermal.program.supported_types`
+- `thermal.program.system_mode`
+- `thermal.service.function`
+- `thermal.service.sensor`
+- `thermal.setpoint.change_amount`
+- `thermal.setpoint.change_source`
+- `thermal.setpoint.change_time`
+- `thermal.status.occupancy`
+- `thermal.status.window`
+- `thermal.status.zone_running_state`
+- `thermal.suggestion.active`
+- `thermal.suggestion.current`
+- `thermal.suggestion.effective_time`
+- `thermal.suggestion.expiration`
+- `thermal.suggestion.maximum_count`
+- `thermal.suggestion.not_following_reason`
+- `thermal.suggestion.preset`
