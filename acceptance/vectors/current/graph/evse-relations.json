@@ -1,0 +1,150 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "evse-relations",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestOperatorRecordAcceptanceConfiguredMeasuresGrantsNoControl: a synthetic charging driver declared with graph enforcement and the operator-record section accepted",
+  "publication": "graph",
+  "statement": "The production EVSE asset is declared without enforcement and holds no relation (see evse); the pin's relation path for the EVSE pack is the operator record: a configured meter measures the charging driver's EVSE, a qualified coherent instance held by the driver's asset.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "asset:ora-charging",
+      "driver": "driver-ora-charging",
+      "enforcement": "enforced"
+    },
+    {
+      "asset": "asset:ora-charging-meter",
+      "driver": "gateway-configuration",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:ora-charging",
+      "asset:ora-charging-meter"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:ora:connector-1",
+      "kind": "resource.connector",
+      "asset": "asset:ora-charging",
+      "state": "current",
+      "anchor": "component/native_slot/slot:connector-1/parent:resource:ora:evse-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical"
+      ]
+    },
+    {
+      "resource": "resource:ora:evse-1",
+      "kind": "resource.evse",
+      "asset": "asset:ora-charging",
+      "state": "current",
+      "anchor": "component/native_slot/slot:evse-1/parent:resource:ora:station-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ]
+    },
+    {
+      "resource": "resource:ora:station-1",
+      "kind": "resource.charging_station",
+      "asset": "asset:ora-charging",
+      "state": "current",
+      "anchor": "equipment/native_slot/slot:station-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical"
+      ]
+    },
+    {
+      "resource": "resource:ora:charging-meter",
+      "kind": "resource.meter",
+      "asset": "asset:ora-charging-meter",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:meter-1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "asset": "asset:ora-charging",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
+        "id": "evse.relation.evse_meter",
+        "version": "1.0.0"
+      },
+      "from": "resource:ora:evse-1",
+      "to": "resource:ora:charging-meter",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "configuration",
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "facts": [],
+  "findings": [
+    "anchor_parent_unresolved resource=asset:ora-charging/resource:ora:connector-1",
+    "anchor_parent_unresolved resource=asset:ora-charging/resource:ora:evse-1"
+  ],
+  "declared_relation_definitions": [
+    "evse.relation.asset_evse",
+    "evse.relation.connector_phase",
+    "evse.relation.connector_session",
+    "evse.relation.evse_connector",
+    "evse.relation.evse_meter"
+  ],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

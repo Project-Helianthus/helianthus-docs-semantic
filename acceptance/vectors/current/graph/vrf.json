@@ -1,0 +1,57 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "vrf",
+  "source": "cmd/gateway/semantic_family_graph.go",
+  "fixture": "no pinned fixture drives a publisher: the pin composes none",
+  "publication": "empty",
+  "statement": "The pin has no VRF family: no file, no declaration, no resource.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [],
+  "cut": {
+    "completeness": "complete",
+    "members": [],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [],
+  "relations": [],
+  "facts": [],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "site",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestInfrastructureGraphPublishesTheMeterRoleAsAConfiguredMeasuresInstance: the operator-record section accepted by the Portal configuration runtime",
+  "publication": "graph",
+  "statement": "The site is the configured installation root of the infrastructure asset: the configuration provider publishes the site-contains-grid-connection and the grid-connection-measures-meter instances into the asset that homes their starting ends.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "asset:igt-site",
+      "driver": "driver-igt-site",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:igt-site"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:igt:connection-1",
+      "kind": "resource.grid_connection",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "function/native_slot/slot:connection-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy",
+        "diagnostic"
+      ]
+    },
+    {
+      "resource": "resource:igt:meter-1",
+      "kind": "resource.meter",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "equipment/native_slot/slot:meter-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy",
+        "provenance"
+      ]
+    },
+    {
+      "resource": "resource:igt:site-1",
+      "kind": "resource.site",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "function/native_slot/slot:site-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy",
+        "diagnostic"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "asset": "asset:igt-site",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.grid_connection_meter",
+        "version": "1.0.0"
+      },
+      "from": "resource:igt:connection-1",
+      "to": "resource:igt:meter-1",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "configuration",
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.site_grid_connection",
+        "version": "1.0.0"
+      },
+      "from": "resource:igt:site-1",
+      "to": "resource:igt:connection-1",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "configuration",
+      "planes": [
+        "physical",
+        "energy",
+        "diagnostic"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.power.export_active",
+      "dimensions": [
+        "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.power.import_active",
+      "dimensions": [
+        "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.energy.export",
+      "dimensions": [
+        "infrastructure.dimension.meter=resource:igt:meter-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.energy.import",
+      "dimensions": [
+        "infrastructure.dimension.meter=resource:igt:meter-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [
+      "resource:igt:site-1"
+    ],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

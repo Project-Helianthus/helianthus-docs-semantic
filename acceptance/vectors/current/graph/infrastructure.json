@@ -1,0 +1,146 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "infrastructure",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestInfrastructureGraphPublishesTheMeterRoleAsAConfiguredMeasuresInstance: the site publisher's own batches, before the operator-record section is accepted",
+  "publication": "graph",
+  "statement": "The synthetic infrastructure publisher is the only graph-enforced publisher of the infrastructure pack at the pin: a site, its grid connection and one meter, with the gate's four facts.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "asset:igt-site",
+      "driver": "driver-igt-site",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:igt-site"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:igt:connection-1",
+      "kind": "resource.grid_connection",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "function/native_slot/slot:connection-1",
+      "origin": "native_observation",
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:igt:meter-1",
+      "kind": "resource.meter",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "equipment/native_slot/slot:meter-1",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy",
+        "provenance"
+      ]
+    },
+    {
+      "resource": "resource:igt:site-1",
+      "kind": "resource.site",
+      "asset": "asset:igt-site",
+      "state": "current",
+      "anchor": "function/native_slot/slot:site-1",
+      "origin": "native_observation",
+      "planes": []
+    }
+  ],
+  "relations": [],
+  "facts": [
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.power.export_active",
+      "dimensions": [
+        "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.power.import_active",
+      "dimensions": [
+        "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.energy.export",
+      "dimensions": [
+        "infrastructure.dimension.meter=resource:igt:meter-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:igt-site",
+      "fact": "infrastructure.energy.import",
+      "dimensions": [
+        "infrastructure.dimension.meter=resource:igt:meter-1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [
+      "resource:igt:site-1"
+    ],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

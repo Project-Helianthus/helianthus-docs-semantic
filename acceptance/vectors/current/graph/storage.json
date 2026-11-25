@@ -1,0 +1,158 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "storage",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestGrowattStorageGraphPublishesThePackAsAnAllocatedResource: the production storage runtime over the pin's scripted endpoint",
+  "publication": "graph",
+  "statement": "The configured battery storage asset publishes one battery pack as an allocated resource; the gate states no relation.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "asset:growatt-bms-a",
+      "driver": "growatt_storage",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:growatt-bms-a"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:3b7f00c82254b0771d67f790709b4967",
+      "kind": "resource.battery_pack",
+      "asset": "asset:growatt-bms-a",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:a04d409ee34d64cd7b30653d0b7a09bd",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "diagnostic",
+        "provenance"
+      ]
+    }
+  ],
+  "relations": [],
+  "facts": [
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.capacity.charge",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.capacity.discharge",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.pack.current",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.pack.voltage",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.state.soc",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.status.operating",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "diagnostic"
+      ]
+    },
+    {
+      "asset": "asset:growatt-bms-a",
+      "fact": "storage.temperature.pack",
+      "dimensions": [
+        "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+      ],
+      "candidates": 1,
+      "planes": [
+        "diagnostic"
+      ]
+    }
+  ],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "negative",
+  "class": "false join",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub",
+  "statement": "The pin refuses to join two native anchors that differ, and refuses a second home for one resource; the refused join leaves both snapshots byte-identical and the cut holds no same-unit finding.",
+  "scenarios": [
+    {
+      "case": "operator pairing over native evidence",
+      "fixture": "TestOperatorRecordAcceptanceRefusesAJoinOfDifferentNativeAnchors",
+      "outcomes": [
+        {
+          "case": "pairing of two different native anchors",
+          "attempt": "declare one operator pairing of resource:ora:direct-meter (slot meter-1) and resource:ora:relayed-meter (slot port-3)",
+          "answer": "record status refused:identity_drift",
+          "detail": [
+            "asset:ora-direct: the asset's snapshot bytes are unchanged",
+            "asset:ora-relayed: the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "false-join-pairing",
+        "assets": [
+          {
+            "asset": "asset:ora-direct",
+            "driver": "driver-ora-direct",
+            "enforcement": "enforced"
+          },
+          {
+            "asset": "asset:ora-relayed",
+            "driver": "driver-ora-relayed",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:ora-direct",
+            "asset:ora-relayed"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:ora:direct-meter",
+            "kind": "resource.meter",
+            "asset": "asset:ora-direct",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical"
+            ]
+          },
+          {
+            "resource": "resource:ora:relayed-meter",
+            "kind": "resource.meter",
+            "asset": "asset:ora-relayed",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:port-3",
+            "origin": "native_observation",
+            "planes": [
+              "physical"
+            ]
+          }
+        ],
+        "relations": [],
+        "facts": [],
+        "findings": []
+      }
+    },
+    {
+      "case": "two storage labels never join",
+      "fixture": "TestGrowattStorageGraphTwoLabelsAreTwoPacksAndNeverJoin",
+      "outcomes": [
+        {
+          "case": "second storage claims the first pack",
+          "attempt": "resolve the first storage's pack anchor for asset:growatt-bms-b",
+          "answer": "refused",
+          "error_identifier": "second_home",
+          "detail": [
+            "semgraph: resource already has a home asset",
+            "the refusal is the allocator's second-home error: yes"
+          ]
+        }
+      ],
+      "state": {
+        "name": "false-join-storage",
+        "assets": [
+          {
+            "asset": "asset:growatt-bms-a",
+            "driver": "growatt_storage",
+            "enforcement": "enforced"
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "driver": "growatt_storage",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:growatt-bms-a",
+            "asset:growatt-bms-b"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:3b7f00c82254b0771d67f790709b4967",
+            "kind": "resource.battery_pack",
+            "asset": "asset:growatt-bms-a",
+            "state": "current",
+            "anchor": "equipment/operator_slot/slot:a04d409ee34d64cd7b30653d0b7a09bd",
+            "origin": "operator",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:759a49a4a865b519c2cd9e7032d33a96",
+            "kind": "resource.battery_pack",
+            "asset": "asset:growatt-bms-b",
+            "state": "current",
+            "anchor": "equipment/operator_slot/slot:1269197dc2ddc4e13ca80ca1eed0b95c",
+            "origin": "operator",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic",
+              "provenance"
+            ]
+          }
+        ],
+        "relations": [],
+        "facts": [
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.capacity.charge",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.capacity.discharge",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.pack.current",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.pack.voltage",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.state.soc",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.status.operating",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "diagnostic"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-a",
+            "fact": "storage.temperature.pack",
+            "dimensions": [
+              "storage.dimension.pack=resource:3b7f00c82254b0771d67f790709b4967"
+            ],
+            "candidates": 1,
+            "planes": [
+              "diagnostic"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.capacity.charge",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.capacity.discharge",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.pack.current",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.pack.voltage",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.state.soc",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.status.operating",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "diagnostic"
+            ]
+          },
+          {
+            "asset": "asset:growatt-bms-b",
+            "fact": "storage.temperature.pack",
+            "dimensions": [
+              "storage.dimension.pack=resource:759a49a4a865b519c2cd9e7032d33a96"
+            ],
+            "candidates": 1,
+            "planes": [
+              "diagnostic"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    }
+  ]
+}

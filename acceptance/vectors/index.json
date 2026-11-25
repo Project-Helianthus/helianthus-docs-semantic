@@ -450,6 +450,182 @@
       "recorder": "recorders/goldens.py"
     },
     {
+      "path": "current/graph/can-storage.json",
+      "sha256": "22942c2f91a99034ee0432d0b0deb230529f953c97931acfb0b701a153ba775b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/eebus-inbound.json",
+      "sha256": "5e4a0b7fda8aa1ab210fd8d4eddf7a632d893fd698f91a26ad39830344c348e0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/evse-relations.json",
+      "sha256": "82b479981e9fef64389677a285f2b0857bcd756d0d7135e4f7113ab73a508174",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/evse.json",
+      "sha256": "a02f17a8a30acef1579651300cd48f1a8e4dfa6f309eec22d8043d40cf2f3356",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/gateway-topology.json",
+      "sha256": "c151aceb8366630c6602bf1463b04117c657558f25d8ab33f26aa74dca86b53b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/infrastructure.json",
+      "sha256": "0e841ae5edc77203fb30edff76c133c364f5c36d1729234f620c60379833d30c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/meter.json",
+      "sha256": "87e804afddf58f1641d41d9be01e90632fd0d45c0eca8e48160cdb96d905aef9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-duplicate-identity.json",
+      "sha256": "d14c734e685ed55c3f10f3544c38e23cdcb3933d0d64088b42d786ce27ce31c3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-false-join.json",
+      "sha256": "bbe3756b175df2906f7aeade553a240215100d98ad949feafae1cdb329cf53b3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-identity-drift.json",
+      "sha256": "d621d62ac4c2ea13c2d3a3114589c676bfefaf0608c9c230607d41d0bcf1c87a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-missing-membership.json",
+      "sha256": "cdac297d8014dfdc6f95de51b1b50c90ef78a97cb8aa564b59979ef76a227c52",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-stale-or-dangling-relation.json",
+      "sha256": "48be3a4295707cc271f940e2556816fcac68aef4f5e26d5fa1c7da83aae0160e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/negative-unauthorized-control.json",
+      "sha256": "b04e2b7dd464060c87f7a9fa11e467d42a38da384454fddf53bb4a3c998658e6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/paired.json",
+      "sha256": "09987ce0c3ca10742c58d5b9783149f78c1503e6f15dd5bc30fea3538b4e9027",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/pv-logger.json",
+      "sha256": "5da4eba9e2c7aa056bbf1c8217d1ca46dd5d59543356175b49dc9ee259d19d68",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/pv-relations.json",
+      "sha256": "074b1ee8da75d30fbbde499fb6ccd005754da5edcd1bce3a1b49c8c73b31fe78",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/pv-sunspec.json",
+      "sha256": "89e85d386cf23c610c2ce1ba789c740578adb804e79a8e175d1876e8d05a434b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/site.json",
+      "sha256": "20f1d70f9b056e22f6a93086e8746852d7f42b7bb3a2dd4264d146bb55d3a78a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/storage-relations.json",
+      "sha256": "894e765e17c7c94573d391e36a0bb52be68bb60d817dd62f4e55c491e798181b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/storage.json",
+      "sha256": "c849690eedae35f95a40773c7a16f8a01487d77165612bdda0885dbd2cbd3e7a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/thermal.json",
+      "sha256": "cfa45e9bd881ab9f0149396005ec168df6a13f3cd8b219df8651f5c338b94217",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
+      "path": "current/graph/vrf.json",
+      "sha256": "c256e62a7e1a4a6b47408c7f83cd4228e6651ebb9947ff9174fe7a2e2ce46d38",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-graph --test TestOracleGraph --output .tmp/oracle-record/gateway-graph"
+    },
+    {
       "path": "current/modbusreg/sunspec/ss02/sunspec-103-sf-minus11.native.json",
       "sha256": "38654b82dddd07a85f0c423ae63850e4b72d6402962b4d880ef0e37158220d12",
       "origin": "recorded-current",

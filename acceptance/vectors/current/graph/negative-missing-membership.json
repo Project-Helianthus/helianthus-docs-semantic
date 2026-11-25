@@ -1,0 +1,166 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "negative",
+  "class": "missing membership",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub",
+  "statement": "The pin refuses a graph member that the asset's kernel has no catalog entry for: a record in an asset declared without enforcement, and a relation definition the catalog does not list.",
+  "scenarios": [
+    {
+      "case": "a graph member in an asset declared without enforcement",
+      "fixture": "oraFixture variant: the declaration asks for no graph enforcement",
+      "outcomes": [
+        {
+          "case": "first batch",
+          "attempt": "publish a resource record in an asset whose kernel was built without the element catalog",
+          "answer": "refused",
+          "error_identifier": "membership_missing",
+          "detail": [
+            "membership_missing: graph member in a kernel without the element catalog"
+          ]
+        }
+      ],
+      "state": {
+        "name": "membership-ungraphed",
+        "assets": [
+          {
+            "asset": "asset:ungraphed-site",
+            "driver": "driver-ungraphed-site",
+            "enforcement": "not_enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "partial",
+          "members": [],
+          "excluded": [],
+          "not_included": [
+            {
+              "asset": "asset:ungraphed-site",
+              "reason": "publication_withheld"
+            }
+          ]
+        },
+        "resources": [],
+        "relations": [],
+        "facts": [],
+        "findings": []
+      }
+    },
+    {
+      "case": "a relation definition that is not a catalog member",
+      "fixture": "the infrastructure site publisher of TestInfrastructureGraphPublishesTheMeterRoleAsAConfiguredMeasuresInstance",
+      "outcomes": [
+        {
+          "case": "relation definition outside the catalog",
+          "attempt": "publish an instance of infrastructure.relation.unlisted from the site to the grid connection",
+          "answer": "refused",
+          "error_identifier": "membership_missing",
+          "detail": [
+            "membership_missing: relation definition is not a catalog member",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "membership-catalog",
+        "assets": [
+          {
+            "asset": "asset:igt-site",
+            "driver": "driver-igt-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:igt-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:igt:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "resource": "resource:igt:meter-1",
+            "kind": "resource.meter",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:igt:site-1",
+            "kind": "resource.site",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:site-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [],
+        "facts": [
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.export_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.import_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.export",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.import",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    }
+  ]
+}
