@@ -337,11 +337,13 @@ def _account_tests(
     spec: dict[str, Any],
     stays: list[dict[str, Any]],
     assertion_records: list[dict[str, Any]],
-    seen: set[tuple[str, str]],
+    seen: set[tuple[str, str, str]],
     errors: list[str],
+    package: str = "",
+    ambiguous: set[tuple[str, str]] | None = None,
 ) -> None:
     supplied = {
-        (item["function"], item["name"]): item
+        (item["function"], item["name"], str(item.get("package") or "").rstrip("/")): item
         for item in spec.get("assertions") or []
     }
     specimens = set(spec.get("specimens") or [])
@@ -385,16 +387,26 @@ def _account_tests(
                 "function": assertion.function,
             })
         for assertion in moved_only:
-            key = (assertion.function, assertion.name)
+            key = (assertion.function, assertion.name, package)
             seen.add(key)
             given = supplied.get(key)
+            if given is None and package and (assertion.function, assertion.name) in (ambiguous or set()):
+                errors.append(
+                    "ambiguous-assertion "
+                    f"function={assertion.function} assertion={assertion.name} package={package}"
+                )
+                continue
+            if given is None and package:
+                given = supplied.get((assertion.function, assertion.name, ""))
+                if given is not None:
+                    seen.add((assertion.function, assertion.name, ""))
             if given is None or not given.get("test") or not given.get("destination_path"):
                 errors.append(
                     "unaccounted-assertion "
                     f"function={assertion.function} assertion={assertion.name}"
                 )
                 continue
-            assertion_records.append({
+            record = {
                 "name": assertion.name,
                 "file": assertion.file,
                 "function": assertion.function,
@@ -402,7 +414,10 @@ def _account_tests(
                 "destination_repository": given["destination_repository"],
                 "destination_path": given["destination_path"],
                 "test": given["test"],
-            })
+            }
+            if package:
+                record["package"] = package
+            assertion_records.append(record)
 
 
 def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
@@ -425,7 +440,7 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
     stays: list[dict[str, Any]] = []
     assertion_records: list[dict[str, Any]] = []
     symbols: list[dict[str, Any]] = []
-    seen: set[tuple[str, str]] = set()
+    seen: set[tuple[str, str, str]] = set()
     if symbol_level:
         symbol_facts = closure.analyze_symbols(
             donor, spec["donor_sha"], spec["symbol_moves"], spec.get("stay_symbols") or []
@@ -445,12 +460,22 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
             }
             for item in symbol_facts.moved
         ]
+        claimed: dict[tuple[str, str], set[str]] = {}
+        for directory in sorted(symbol_facts.tests):
+            for test in symbol_facts.tests[directory]:
+                for assertion in test.assertions:
+                    if (assertion.uses & symbol_facts.moved_names[directory]) and not (
+                        assertion.uses & symbol_facts.outside_names[directory]
+                    ):
+                        claimed.setdefault((assertion.function, assertion.name), set()).add(directory)
+        ambiguous = {key for key, where in claimed.items() if len(where) > 1}
         for directory in sorted(symbol_facts.tests):
             _account_tests(
                 symbol_facts.tests[directory],
                 symbol_facts.moved_names[directory],
                 symbol_facts.outside_names[directory],
                 spec, stays, assertion_records, seen, errors,
+                package=directory, ambiguous=ambiguous,
             )
         for item in symbol_facts.stays:
             stays.append({
@@ -480,7 +505,7 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
         )
     if moved_paths:
         for item in spec.get("assertions") or []:
-            key = (item["function"], item["name"])
+            key = (item["function"], item["name"], str(item.get("package") or "").rstrip("/"))
             if key not in seen:
                 errors.append(f"unknown-assertion function={key[0]} assertion={key[1]}")
     if errors:
@@ -733,6 +758,7 @@ def _destinations(spec: dict[str, Any], accounted: dict[str, Any], patterns: lis
             "kind": "assertion",
             "name": assertion["name"],
             "function": assertion["function"],
+            **({"package": assertion["package"]} if "package" in assertion else {}),
             "repository": assertion["destination_repository"],
             "path": assertion["destination_path"],
             "test": assertion["test"],
@@ -989,6 +1015,9 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
                 errors.append(f"absent: {path}")
     if errors:
         return errors
+    records = list(manifest["destinations"]) + list(manifest["stays"])
+    if not manifest["symbols"] and any(item.get("kind") == "symbol" for item in records):
+        return ["symbol-set"]
     if not moved:
         return errors
     symbol_level = any("package" in item for item in manifest["symbols"])
@@ -1040,12 +1069,14 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
                 if entry.get("kind") == "assertion"
                 and entry.get("function") == item["function"]
                 and entry.get("name") == item["name"]
+                and entry.get("package", "") == item.get("package", "")
             ),
             None,
         )
         supplied.append({
             "function": item["function"],
             "name": item["name"],
+            "package": item.get("package", ""),
             "test": None if destination is None else destination.get("test"),
             "destination_path": None if destination is None else destination.get("path"),
             "destination_repository": None if destination is None else destination.get("repository"),
@@ -1075,10 +1106,12 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
     if sorted(recomputed["stays"], key=stays_key) != sorted(manifest["stays"], key=stays_key):
         errors.append("stays")
     recomputed_assertions = [
-        (item["function"], item["name"], item["helpers"]) for item in recomputed["assertions"]
+        (item.get("package", ""), item["function"], item["name"], item["helpers"])
+        for item in recomputed["assertions"]
     ]
     manifest_assertions = [
-        (item["function"], item["name"], item["helpers"]) for item in manifest["assertions"]
+        (item.get("package", ""), item["function"], item["name"], item["helpers"])
+        for item in manifest["assertions"]
     ]
     if sorted(recomputed_assertions) != sorted(manifest_assertions):
         errors.append("assertions")
@@ -1474,7 +1507,11 @@ def compare(manifest_path: Path, destination: Path) -> int:
             lines, did_run = _run_transferred(destination, entry, move)
             messages.extend(lines)
             if did_run:
-                executed.add((str(entry.get("function") or ""), str(entry.get("name") or "")))
+                executed.add((
+                    str(entry.get("package") or ""),
+                    str(entry.get("function") or ""),
+                    str(entry.get("name") or ""),
+                ))
             continue
         if entry.get("kind") != "case":
             continue
@@ -1485,12 +1522,16 @@ def compare(manifest_path: Path, destination: Path) -> int:
             continue
         messages.extend(_run_case(destination, entry, expectation, manifest))
     seen_destinations = {
-        (str(entry.get("function") or ""), str(entry.get("name") or ""))
+        (str(entry.get("package") or ""), str(entry.get("function") or ""), str(entry.get("name") or ""))
         for entry in manifest["destinations"]
         if entry.get("kind") == "assertion"
     }
     for assertion in declared:
-        key = (str(assertion.get("function") or ""), str(assertion.get("name") or ""))
+        key = (
+            str(assertion.get("package") or ""),
+            str(assertion.get("function") or ""),
+            str(assertion.get("name") or ""),
+        )
         if key in executed or key in seen_destinations:
             continue
         messages.append(
@@ -1941,6 +1982,7 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
     errors: list[str] = []
     for finding in findings:
         covered = False
+        partial = False
         for manifest in manifests:
             donor_paths: list[str] = []
             for entry in manifest["paths"]:
@@ -1949,12 +1991,21 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
             symbol_files = {item["file"] for item in manifest["symbols"]}
             if finding["path"] not in donor_paths and finding["path"] not in symbol_files:
                 continue
+            # A symbol-level record proves its symbols moved, not the whole file.
+            if finding["path"] in {
+                item["file"] for item in manifest["symbols"] if "package" in item
+            }:
+                partial = True
+                continue
             if not _covers_requested_donor(manifest, spec):
                 continue
             if _destination_receipts_cover(manifest):
                 covered = True
         if not covered:
-            errors.append(f"missing-receipt: {finding['path']}")
+            errors.append(
+                f"partial-move: {finding['path']}" if partial
+                else f"missing-receipt: {finding['path']}"
+            )
     covering = [manifest for manifest in manifests if _manifest_covers_classifier(manifest)]
     if covering and not any(
         _standalone_binds_classifier(receipt_entry, manifest)

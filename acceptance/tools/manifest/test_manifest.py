@@ -1069,6 +1069,174 @@ class ManifestCLITest(unittest.TestCase):
         )
         self.assert_absent("symbols-unaccounted")
 
+    PA = "closure/cross/pa"
+    PB = "closure/cross/pb"
+    SIG = "closure/cross/sig"
+    LOC = "closure/cross/loc"
+    DA = "closure/cross/da"
+    DB = "closure/cross/db"
+
+    def test_names_qualified_by_another_donor_package_are_closed(self) -> None:
+        move = self.repo.symbol(self.PA, f"{self.PA}/a.go", "Move", "engine/cross.go")
+        helper = self.repo.symbol(self.PB, f"{self.PB}/b.go", "Helper", "engine/cross.go")
+        other = {"package": self.PB, "path": f"{self.PB}/b.go", "symbol": "Other"}
+        undeclared = self.repo.generate(self.symbol_spec("cross-open", [move], stay_symbols=[other]))
+        self.assert_fail(undeclared)
+        self.assertEqual(undeclared.stdout, f"outside-set: {self.PB}.Helper\n")
+        self.assert_absent("cross-open")
+        self.assert_ok(self.repo.generate(self.symbol_spec("cross-moved", [move, helper])))
+        self.assert_ok(self.repo.check("cross-moved"))
+        staying = {"package": self.PB, "path": f"{self.PB}/b.go", "symbol": "Helper"}
+        self.assert_ok(self.repo.generate(self.symbol_spec("cross-stays", [move], stay_symbols=[staying, other])))
+        self.assert_ok(self.repo.check("cross-stays"))
+        stripped = json.loads(self.repo.manifest_path("cross-stays").read_text(encoding="utf-8"))
+        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "Helper"]
+        path = self.repo.root / "acceptance" / "manifests" / "cross-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("cross-stays", manifest=path), f"outside-set: {self.PB}.Helper")
+
+    def test_binding_names_are_not_uses_but_signature_types_are(self) -> None:
+        sig = f"{self.SIG}/sig.go"
+        move = self.repo.symbol(self.SIG, sig, "Move", "engine/sig.go")
+        opened = self.repo.generate(self.symbol_spec("sig-open", [move]))
+        self.assert_fail(opened)
+        self.assertEqual(opened.stdout, "outside-set: T\n")
+        self.assert_absent("sig-open")
+        both = [move, self.repo.symbol(self.SIG, sig, "T", "engine/sig.go")]
+        self.assert_ok(self.repo.generate(self.symbol_spec("sig-closed", both)))
+        uses = {item["name"]: item["uses"] for item in self.repo.manifest("sig-closed")["symbols"]}
+        self.assertEqual(uses, {"Move": ["T"], "T": []})
+        reader = [self.repo.symbol(self.SIG, sig, "Reader", "engine/sig.go")]
+        completed = self.repo.generate(self.symbol_spec("sig-reader", reader))
+        self.assert_ok(completed)
+        self.assertNotIn("outside-set", completed.stdout)
+
+    def test_a_local_name_does_not_keep_a_donor_assertion(self) -> None:
+        move = self.repo.symbol(self.LOC, f"{self.LOC}/loc.go", "Move", "engine/loc.go")
+        bare = self.repo.generate(self.symbol_spec("local-bare", [move]))
+        self.assert_fail(bare, "unaccounted-assertion function=TestLocal assertion=local-name")
+        self.assert_absent("local-bare")
+        given = [{
+            "function": "TestLocal",
+            "name": "local-name",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        self.assert_ok(self.repo.generate(self.symbol_spec("local-given", [move], assertions=given)))
+        manifest = self.repo.manifest("local-given")
+        self.assertEqual(
+            [(item["function"], item["name"], item["helpers"]) for item in manifest["assertions"]],
+            [("TestLocal", "local-name", ["Move"])],
+        )
+        self.assertEqual(
+            [(item["kind"], item["name"]) for item in manifest["stays"]],
+            [("assertion", "stay-value")],
+        )
+
+    def test_same_named_assertions_of_two_packages_stay_distinct(self) -> None:
+        moves = [
+            self.repo.symbol(self.DA, f"{self.DA}/da.go", "MoveA", "engine/dup.go"),
+            self.repo.symbol(self.DB, f"{self.DB}/db.go", "MoveB", "engine/dup.go"),
+        ]
+
+        def given(package: str, test: str) -> dict:
+            return {
+                "function": "TestBehaviour",
+                "name": "same",
+                "package": package,
+                "destination_repository": "ebusgo",
+                "destination_path": "dest/echo_test.go",
+                "test": test,
+            }
+
+        bare = dict(given(self.DA, "TestEcho"))
+        del bare["package"]
+        ambiguous = self.repo.generate(self.symbol_spec("dup-bare", moves, assertions=[bare]))
+        self.assert_fail(
+            ambiguous,
+            f"ambiguous-assertion function=TestBehaviour assertion=same package={self.DA}",
+            f"ambiguous-assertion function=TestBehaviour assertion=same package={self.DB}",
+        )
+        self.assert_absent("dup-bare")
+        spec = self.symbol_spec(
+            "dup-two", moves, assertions=[given(self.DA, "TestEcho"), given(self.DB, "TestHistory")],
+        )
+        self.assert_ok(self.repo.generate(spec))
+        manifest = self.repo.manifest("dup-two")
+        self.assertEqual(
+            [(item["package"], item["test"]) for item in manifest["destinations"] if item["kind"] == "assertion"],
+            [(self.DA, "TestEcho"), (self.DB, "TestHistory")],
+        )
+        self.assert_ok(self.repo.check("dup-two"))
+        compared = self.repo.compare("dup-two", self.repo.dest)
+        self.assert_ok(compared)
+        outcomes = [line for line in compared.stdout.splitlines() if line.startswith("outcome ")]
+        self.assertEqual(
+            sorted(line.split("test=")[1].split()[0] for line in outcomes), ["TestEcho", "TestHistory"],
+        )
+        absent = self.repo.private_dest()
+        echo = absent / "dest" / "echo_test.go"
+        echo.write_text(
+            echo.read_text(encoding="utf-8").replace(
+                "func TestHistory(t *testing.T) { report(t, false) }\n", "", 1,
+            ),
+            encoding="utf-8",
+        )
+        missing = self.repo.compare("dup-two", absent)
+        self.assert_fail(missing, "not-executed assertion=same function=TestBehaviour test=TestHistory")
+        self.assertNotIn("compare: ok", missing.stdout)
+
+    def test_check_rejects_a_symbol_manifest_without_its_symbols(self) -> None:
+        spec = self.symbol_spec("strip-symbols", self.alpha_moves(), assertions=self.clone_assertions())
+        self.assert_ok(self.repo.generate(spec))
+        self.assert_ok(self.repo.check("strip-symbols"))
+        stripped = json.loads(self.repo.manifest_path("strip-symbols").read_text(encoding="utf-8"))
+        stripped["symbols"] = []
+        path = self.repo.root / "acceptance" / "manifests" / "strip-symbols-empty.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("strip-symbols", manifest=path), "symbol-set")
+
+    def test_deletion_refuses_a_file_that_was_only_partly_moved(self) -> None:
+        self.assert_ok(self.repo.generate(
+            self.symbol_spec("part-move", self.alpha_moves(), assertions=self.clone_assertions())
+        ))
+        dest = self.repo.private_dest()
+        (dest / "engine").mkdir(exist_ok=True)
+        (dest / "engine" / "records.go").write_text("package engine\n", encoding="utf-8")
+        git(dest, "add", "-A")
+        git(dest, "commit", "-m", "records")
+        merged = git_out(dest, "rev-parse", "HEAD")
+        (dest / "REV.txt").write_text("integrated again\n", encoding="utf-8")
+        git(dest, "add", "-A")
+        git(dest, "commit", "-m", "integrated again")
+        integrated = git_out(dest, "rev-parse", "HEAD")
+        self.assert_ok(self.repo.receipt("part-move", self.repo.result("ebusgo", "row", merged), dest, "ebusgo"))
+        self.assert_ok(self.repo.receipt(
+            "part-move", self.repo.result("ebusgo", "whole-session", integrated), dest, "ebusgo",
+        ))
+        clone = self.repo.root.parent / "donor-partial"
+        git(self.repo.root.parent, "clone", str(self.repo.root), str(clone))
+        ledger = clone / "tools" / "boundary" / "ledger.tsv"
+        ledger.write_text(f"{self.ALPHA}/core.go\tmove\tsample\tGG13\n", encoding="utf-8")
+        git(clone, "add", "-A")
+        git(clone, "commit", "-m", "ledger names the partly moved file")
+        body = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": git_out(clone, "rev-parse", "HEAD"),
+            "manifests": [str(self.repo.manifest_path("part-move"))],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        snapshot = self._gg13_snapshot()
+        refused = self.repo.deletion(body, gateway=clone)
+        written = self._gg13_snapshot()
+        self._restore_gg13(snapshot)
+        self.assert_fail(refused, f"partial-move: {self.ALPHA}/core.go")
+        self.assertEqual(written, snapshot)
+
     def test_left_behind_test_and_historical_specimen(self) -> None:
         move = [self.repo.move("closure/left/moved.go", "engine/left.go")]
         self.assert_fail(

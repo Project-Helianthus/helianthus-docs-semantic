@@ -97,12 +97,12 @@ The input adds two lists:
 A symbol is a top-level function, type, var or const name, or a method written `Type.Method`.
 The closure counts these declared names and nothing else.
 A field name, a parameter, receiver or type-parameter name, a name bound inside the symbol (`:=`, `var`, `range`, a function literal parameter), a key of a struct literal, a method or field after a dot and a package name are not uses.
-A bound name stops counting only inside the scope that binds it.
+A bound name stops counting only inside the scope that binds it: a receiver, parameter or result name binds in the body, so a type of the same spelling in the signature is still a use.
 
 A moved symbol may use a moved symbol of its own package, or a symbol that `stay_symbols` declares.
 Any other declared name of that package it uses fails the move as one `outside-set: <name>` line, sorted and unique across the whole input.
 The methods of a moved type are its siblings: each one is moved or declared staying, otherwise `outside-set: <Type>.<Method>` names it.
-The closure looks at unqualified names of the symbol's own package; a name qualified by another package is not followed.
+A name written `alias.Name`, where the import is a donor package that the input names, is a use of `Name` in that package. It must be moved or declared staying there, otherwise `outside-set: <package>.<Name>` names it; the alias itself is not a use. A package that no entry of the input names is not read, so a name qualified by it is not followed.
 `generate` also fails, and writes nothing, for:
 
 | Line | Cause |
@@ -112,8 +112,11 @@ The closure looks at unqualified names of the symbol's own package; a name quali
 | `package-mismatch: <path>` | The file is not in the directory named by `package`, or files of one directory carry another package clause |
 | `duplicate-symbol: <path> <symbol>` | The same symbol is listed twice as moved, or twice as staying |
 | `moved-and-stays: <path> <symbol>` | The same symbol is both moved and staying |
+| `ambiguous-assertion function=<f> assertion=<a> package=<p>` | Two donor packages hold a moved-only assertion of that function and name, and the input names it without `package` |
 
 Donor tests are accounted as for a whole-file move, per donor package: a test that uses only moved symbols is `left-behind` unless it is a specimen, and a mixed test needs its moved-only assertions in `assertions` with a destination.
+A use in a test is a reference that resolves to a declaration of the package, so a local name spelled like a staying symbol does not make the test mixed.
+An `assertions` entry may carry `package` (the donor directory); it is required when two packages hold an assertion of the same function and name. The manifest then records `package` on that assertion and on its destination, and `compare` runs and tracks each separately.
 A moved test function is a moved symbol and is not accounted again.
 
 The manifest keeps the same keys and order.
@@ -126,10 +129,9 @@ Only these records differ:
 | `destinations` | A symbol is `kind` `symbol`, with `name`, `package`, `repository`, `path` and `destination_name`. `destination_name` is the donor name when nothing was renamed |
 | `paths` | The donor list holds each file that has a moved symbol, so a file that only gives part of itself is listed whole |
 
-`check` recomputes the closure from the donor, the moved symbols and the declared staying symbols of the manifest, and fails on a changed symbol set, a changed `uses`, a removed staying declaration (`outside-set`) or a symbol without exactly one destination (`missing-destination symbol=<package>:<name>`).
+`check` recomputes the closure from the donor, the moved symbols and the declared staying symbols of the manifest, and fails on a changed symbol set (including a manifest whose `symbols` were removed while symbol destinations or declared staying symbols remain: `symbol-set`), a changed `uses`, a removed staying declaration (`outside-set`) or a symbol without exactly one destination (`missing-destination symbol=<package>:<name>`).
 `compare` is unchanged: it executes the transferred assertions and the bound cases, and fails with `not-executed` when they did not run.
-`deletion` reads the donor list and does not know that a listed file was only partly moved.
-A deletion row therefore must not rely on a symbol-level manifest for a file that still holds staying symbols.
+`deletion` never counts a symbol-level record as covering a donor file: a ledger finding for such a file is answered `partial-move: <path>` and no list is written, unless a whole-file manifest covers it.
 
 ## Manifest
 
