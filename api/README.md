@@ -116,6 +116,16 @@ operation, breaker actuation, import/export control, sender, control route, or
 live authority. eBUS and Modbus are non-universal evidence only, eeBUS remains
 `unknown_pending_normative_source`, and Matter is not conformance.
 
+## Energy management pack v1
+
+[`helianthus.pack.energy_management/v1`](v1/packs/energy-management-v1.md) is the
+accepted energy-management pack at 1.0.0. It publishes the admitted subject
+facts, the class-level subject, qualifier dimensions, the subject service,
+operations with one capability and one effect rule each, and the read portal.
+Its [positive and negative vectors](v1/packs/energy-management-acceptance-vectors.json)
+are checked by `scripts/validate_energy_management_pack_v1.py`. Empty bounds stay
+empty. No element is marked sensitive or hidden.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -215,7 +225,7 @@ the element catalog and every kernel vector without it.
 ## Remaining contracts
 
 The accepted [immutable pack metadata v1](v1/pack-metadata-v1.md) exports exact
-units, dimensions, ownership and operation shapes from the five accepted packs
+units, dimensions, ownership and operation shapes from the six accepted packs
 for a future SemReg query API. It neither implements that API nor creates a
 Gateway semantic table.
 
@@ -349,11 +359,12 @@ Each in-place change made under the exception of the version rule before the
 | 2026-11-24 | The storage pack publishes the admitted pack, interface and system facts, two fault events, fifteen interface operations with their capabilities and effect rules, and `storage.relation.interface_supply` as the supplies sign reference of the signed power facts. `storage.operation.set_ac_power`, `storage.operation.set_dc_power` and `storage.operation.set_pcc_power` keep the power argument and the ordered parameters `storage.setpoint.active` and `storage.setpoint.duration`. An eeBUS scenario may omit validity duration, a supplied duration starts counting at receipt, and explicit zero deactivates the setpoint. Omitted duration and explicit zero are distinct and neither is a command execution deadline. `storage.capacity.charge`, `storage.capacity.discharge`, `storage.capacity.remaining` and `storage.capacity.full_charge` stay `unit.ampere_hour`. The two current limits stay `unit.ampere` on `storage.dimension.pack` with empty bounds, and the interlock field stays last. Two-vendor-only rows stay out. `storage.state.time_remaining` and `storage.state.time_to_full` stay out because their unit is empty. System facts stay on the physical plane. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`, and the sign relation is withheld. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The storage pack page, acceptance vectors and contract tables, the storage validator, the element catalog, pack metadata, the Matter 1.6.1 roster, the naming rows, and the catalog digest recorded by the graph vectors. The three storage mapping gates record the new relation as unstated. The low-voltage CAN gate emits pack `storage.state.cycle_count` and withholds the module-sourced count. |
 | 2026-11-25 | The EVSE pack publishes the admitted vehicle, session, limit, target and mode rows, the changed events `evse.event.fault` and `evse.event.rfid`, and eleven operations with one capability and one effect rule each. `resource.vehicle`, `evse.dimension.vehicle`, `evse.service.vehicle` and `evse.portal.read.vehicle` are added. `evse.operation.set_allocated_current` and its set case stay. No release case is added. The connector-to-vehicle relation is not added. Four entered or left events stay out because a fact stores no symbols. Three signed quantities use direction `not_applicable` until an EVSE supplies relation is admitted. `evse.vehicle.approximate_efficiency` has no unit. Empty bounds stay empty. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`, and `evse.service.vehicle` is unsupported with `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The EVSE pack page, acceptance vectors and validator. The element catalog, pack metadata, the Matter 1.6.1 roster, the naming rows, and the catalog digest recorded by the graph vectors. |
 | 2026-11-25 | The EVSE pack publishes the 225 admitted use-case, actor, and scenario facts on `evse.dimension.connector`. Text facts are on the physical plane. `evse.cevc.heartbeat_timeout` is `unit.second` on the diagnostic plane with an empty minimum and a maximum of 60 s. `evse.opev.heartbeat_timeout` and `evse.oscev.heartbeat_timeout` are `unit.second` on the diagnostic plane with an empty minimum and a maximum of 4 s. No operation is added. The earlier rows stay. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The EVSE pack page, acceptance vectors and validator. The element catalog from 773 to 998 entries. Pack metadata for the EVSE pack. 225 unknown fact rows on the Matter 1.6.1 roster. EVSE naming rows from 157 to 382. The catalog digest recorded by the graph vectors. |
+| 2026-11-25 | The energy-management pack `helianthus.pack.energy_management` 1.0.0 publishes the admitted subject facts, the class-level dimension `energy.dimension.subject`, five qualifier dimensions, `energy.service.subject`, one read capability, thirteen operations with one capability and one effect rule each, and the read portal of the admitted fields. Six entered or left events stay out of the catalog because a fact stores no symbols. Eleven signed quantities use direction `not_applicable` until a supplies relation is admitted. Empty bounds stay empty. No element is marked sensitive or hidden. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`, and `energy.service.subject` is unsupported with `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No other pack is added. | The energy-management pack page, acceptance vectors, validator and test. The element catalog, pack metadata, the open pack list, the Matter 1.6.1 roster, the naming rows, and the catalog digest recorded by the graph vectors. |
 
 ## Matter 1.6.1 target
 
 The [Matter 1.6.1 adoption projection contract](v1/targets/matter-1.6.1-v1.md)
-and [accounting ledger](v1/targets/matter-1.6.1-v1.json) derive the five-pack
+and [accounting ledger](v1/targets/matter-1.6.1-v1.json) derive the
 roster from the element catalog, including services and relation definitions,
 with one phase-qualified current projection and explicit irreversible loss. Source-model inspection is separate from execution qualification. This
 pre-1.0 target does not activate the pinned feed or replace the historical

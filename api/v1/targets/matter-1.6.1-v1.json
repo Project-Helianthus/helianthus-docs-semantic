@@ -8,6 +8,7 @@
   },
   "pins": {
     "packs": {
+      "energy_management": "1.0.0",
       "evse": "1.0.0",
       "infrastructure": "1.0.0",
       "pv": "1.0.0",
@@ -47,6 +48,5409 @@
     "physical_result"
   ],
   "rows": [
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.adjust_power",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.adjust_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.adjust_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.adjust_start_time",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.adjust_start_time"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.adjust_start_time",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.modify_series_slot",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.modify_series_slot"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.modify_series_slot",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.read.subject",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.read.subject"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.read.subject",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.schedule_sequence",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.schedule_sequence"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.schedule_sequence",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_consumption_failsafe",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_consumption_failsafe"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_consumption_failsafe",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_consumption_limit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_consumption_limit"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_consumption_limit",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_energy_balance",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_energy_balance"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_energy_balance",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_esa_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_esa_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_esa_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_esa_state",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_esa_state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_esa_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_low_power_sensitivity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_low_power_sensitivity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_production_failsafe",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_production_failsafe"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_production_failsafe",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_production_limit",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_production_limit"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_production_limit",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.capability.set_sequence_state",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.capability.set_sequence_state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "energy.capability.set_sequence_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_cause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_cause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_cause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_cause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_end_cause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_end_cause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_end_cause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_end_cause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_maximum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_maximum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_maximum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_maximum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_maximum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_maximum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_maximum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_maximum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_minimum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_minimum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_minimum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_minimum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.adjustment_minimum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.adjustment_minimum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.adjustment_minimum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.adjustment_minimum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.can_generate",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.can_generate"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.can_generate",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.can_generate",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.maximum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.maximum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.maximum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.maximum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.minimum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.minimum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.minimum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.minimum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.mode",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.mode",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.mode_supported",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.mode_supported"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.mode_supported",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.mode_supported",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.opt_out",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.opt_out"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.opt_out",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.opt_out",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.request_cause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.request_cause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.request_cause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.request_cause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.requested_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.requested_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.requested_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.requested_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.requested_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.requested_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.requested_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.requested_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.esa.type",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.esa.type"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.esa.type",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.esa.type",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.heartbeat.status",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.heartbeat.status"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.heartbeat.status",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.heartbeat.status",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.heartbeat.timeout",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.heartbeat.timeout"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.heartbeat.timeout",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.heartbeat.timeout",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.consumption_active",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.consumption_active"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.consumption_active",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.consumption_active",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.consumption_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.consumption_active_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.consumption_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.consumption_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.consumption_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.consumption_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.consumption_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.consumption_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.consumption_failsafe_duration_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.consumption_failsafe_duration_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.consumption_failsafe_duration_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.consumption_failsafe_duration_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.consumption_failsafe_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.consumption_failsafe_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.consumption_failsafe_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.consumption_failsafe_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.production_active",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.production_active"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.production_active",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.production_active",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.production_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.production_active_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.production_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.production_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.production_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.production_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.production_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.production_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.production_failsafe_duration_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.production_failsafe_duration_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.production_failsafe_duration_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.production_failsafe_duration_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.production_failsafe_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.production_failsafe_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.production_failsafe_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.production_failsafe_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.limit.state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.limit.state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.limit.state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.limit.state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.manager.state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.manager.state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.manager.state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.manager.state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.nameplate.consumption_contractual_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.nameplate.consumption_contractual_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.nameplate.consumption_contractual_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.nameplate.consumption_contractual_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.nameplate.consumption_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.nameplate.consumption_nominal_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.nameplate.consumption_nominal_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.nameplate.consumption_nominal_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.nameplate.production_contractual_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.nameplate.production_contractual_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.nameplate.production_contractual_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.nameplate.production_contractual_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.nameplate.production_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.nameplate.production_nominal_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.nameplate.production_nominal_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.nameplate.production_nominal_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.adjust_power",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.adjust_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.adjust_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.adjust_start_time",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.adjust_start_time"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.adjust_start_time",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.modify_series_slot",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.modify_series_slot"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.modify_series_slot",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.schedule_sequence",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.schedule_sequence"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.schedule_sequence",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_consumption_failsafe",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_consumption_failsafe"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_consumption_failsafe",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_consumption_limit",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_consumption_limit"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_consumption_limit",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_energy_balance",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_energy_balance"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_energy_balance",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_esa_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_esa_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_esa_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_esa_state",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_esa_state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_esa_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_low_power_sensitivity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_low_power_sensitivity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_production_failsafe",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_production_failsafe"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_production_failsafe",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_production_limit",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_production_limit"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_production_limit",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.operation.set_sequence_state",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.operation.set_sequence_state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "energy.operation.set_sequence_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.preference.balance_label",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.preference.balance_label"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.preference.balance_label",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.preference.balance_label",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.preference.balance_step",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.preference.balance_step"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.preference.balance_step",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.preference.balance_step",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.preference.current_balance",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.preference.current_balance"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.preference.current_balance",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.preference.current_balance",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.preference.low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.preference.low_power_sensitivity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.preference.low_power_sensitivity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.preference.low_power_sensitivity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.preference.priorities",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.preference.priorities"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.preference.priorities",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.preference.priorities",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.active_duration_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.active_duration_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.active_duration_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.active_duration_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.active_duration_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.active_duration_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.active_duration_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.active_duration_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.earliest_start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.earliest_start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.earliest_start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.earliest_start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.latest_end",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.latest_end"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.latest_end",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.latest_end",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.pausable",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.pausable"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.pausable",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.pausable",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.pause_duration_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.pause_duration_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.pause_duration_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.pause_duration_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.pause_duration_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.pause_duration_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.pause_duration_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.pause_duration_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.scheduled_start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.scheduled_start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.scheduled_start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.scheduled_start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.slot_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.slot_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.slot_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.slot_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.slot_power_expected",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.slot_power_expected"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.slot_power_expected",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.slot_power_expected",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.slot_power_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.slot_power_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.slot_power_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.slot_power_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.slot_power_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.slot_power_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.slot_power_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.slot_power_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.sequence.stoppable",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.sequence.stoppable"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.sequence.stoppable",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.sequence.stoppable",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.constraint_maximum_slots",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.constraint_maximum_slots"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.constraint_maximum_slots",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.constraint_maximum_slots",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.constraint_minimum_slot_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.constraint_minimum_slot_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.constraint_minimum_slot_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.constraint_minimum_slot_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.constraint_slot_value_step",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.constraint_slot_value_step"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.constraint_slot_value_step",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.constraint_slot_value_step",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.earliest_start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.earliest_start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.earliest_start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.earliest_start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.end",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.end"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.end",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.end",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.identifier",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.identifier"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.identifier",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.identifier",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.latest_end",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.latest_end"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.latest_end",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.latest_end",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.pausable",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.pausable"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.pausable",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.pausable",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_adjustment_maximum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_adjustment_maximum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_adjustment_maximum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_adjustment_maximum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_adjustment_maximum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_adjustment_maximum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_adjustment_maximum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_adjustment_maximum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_adjustment_minimum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_adjustment_minimum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_adjustment_minimum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_adjustment_minimum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_adjustment_minimum_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_adjustment_minimum_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_adjustment_minimum_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_adjustment_minimum_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_default_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_default_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_default_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_default_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_elapsed",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_elapsed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_elapsed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_elapsed",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_energy_nominal",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_energy_nominal"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_energy_nominal",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_energy_nominal",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_maximum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_maximum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_maximum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_maximum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_maximum_pause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_maximum_pause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_maximum_pause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_maximum_pause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_minimum_duration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_minimum_duration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_minimum_duration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_minimum_duration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_minimum_pause",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_minimum_pause"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_minimum_pause",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_minimum_pause",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_pausable",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_pausable"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_pausable",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_pausable",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_power_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_power_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_power_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_power_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_power_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_power_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_power_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_power_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_power_nominal",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_power_nominal"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_power_nominal",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_power_nominal",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_remaining",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_remaining"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_remaining",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_remaining",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.slot_state",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.slot_state"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.slot_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.slot_state",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.start",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.start"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.start",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.start",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.series.update_reason",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "energy.series.update_reason"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "energy.series.update_reason",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.energy_management",
+            "pack_version": "1.0.0",
+            "fact_id": "energy.series.update_reason",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.energy_management",
+                  "version": "1.0.0"
+                },
+                "id": "energy.dimension.subject",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.energy_management",
+          "version": "1.0.0"
+        },
+        "id": "energy.service.subject",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "energy.service.subject"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
     {
       "ref": {
         "pack": {
