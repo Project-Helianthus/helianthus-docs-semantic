@@ -741,6 +741,8 @@ structure they follow.
   upper-case hexadecimal digits, no separators) and `scheme.ieee.eui64` (issuer
   none; 16 upper-case hexadecimal digits, no separators), arm `public_registry`.
   [F4-110]
+- `unqualified` does not remove the northbound Matter payload. SS01 removes
+  that northbound effect. Southbound Matter input guards stay. [D26]
 - Matter clusters are a design input of SemReg. The 0.7 Matter output ships with
   development attestation using the SDK's test certificates, uncertified, and
   claims no certification. [items 3, 39, 51; F4-020]
