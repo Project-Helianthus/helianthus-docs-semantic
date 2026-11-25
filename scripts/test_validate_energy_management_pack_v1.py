@@ -8,10 +8,17 @@ Each rejection names the production comparison it trips:
 - operation id: the id leaves OPERATION_CONTRACTS
 - operation capability, arguments, effect_rule, parameters: that contract comparison
 - pack id and pack version: the catalog pack comparison
+- energy.price.current unit: the unit comparison; unit.kilowatt_hour is rejected
+- energy.price.forecast_price unit, dimension, qualifiers, symbols, direction,
+  bounds.minimum and bounds.maximum: that contract comparison
+- energy.tariff.unit_basis kind, unit, dimension and symbols: that contract comparison
+- energy.operation.write_incentive_slot capability, arguments, effect_rule and
+  parameters: that contract comparison
 """
 from __future__ import annotations
 
 import copy
+import json
 import importlib.util
 import sys
 from pathlib import Path
@@ -152,6 +159,126 @@ def positive_contracts(body):
     print("committed field contracts: PASS")
 
 
+def added_operation(body):
+    for item in body["catalog"]["definitions"]["operations"]:
+        if item["id"] == "energy.operation.write_incentive_slot":
+            return item
+    raise AssertionError("energy.operation.write_incentive_slot")
+
+
+def reject_added_identity(body, text):
+    price = "energy.price.current"
+    forecast = "energy.price.forecast_price"
+    basis = "energy.tariff.unit_basis"
+    slot = "energy.operation.write_incentive_slot"
+    # unit: production unit comparison. A per-kWh registry unit is rejected.
+    expect_reject(body, text, lambda item: field(item, price).update(unit="unit.kilowatt_hour"), f"{price} unit")
+    # unit: production unit comparison.
+    expect_reject(body, text, lambda item: field(item, forecast).update(unit="unit.joule"), f"{forecast} unit")
+    # dimension: production dimension comparison.
+    expect_reject(body, text, lambda item: field(item, forecast).update(dimension="energy.dimension.subject"), f"{forecast} dimension")
+    # qualifiers: production qualifier comparison.
+    expect_reject(body, text, lambda item: field(item, forecast).update(qualifiers=["energy.dimension.slot"]), f"{forecast} qualifiers")
+    # symbols: production symbol comparison.
+    expect_reject(body, text, lambda item: field(item, forecast).update(symbols=["energy.price.forecast_price.other"]), f"{forecast} symbols")
+    # direction: production direction comparison. The table says signed; the stored direction is not_applicable.
+    expect_reject(body, text, lambda item: field(item, forecast).update(direction="signed"), f"{forecast} direction")
+    # bounds.minimum: production minimum comparison.
+    expect_reject(
+        body, text,
+        lambda item: field(item, forecast)["bounds"].update(minimum={"coefficient": "1", "exponent10": 0}),
+        f"{forecast} bounds.minimum",
+    )
+    # bounds.maximum: production maximum comparison.
+    expect_reject(
+        body, text,
+        lambda item: field(item, forecast)["bounds"].update(maximum={"coefficient": "1", "exponent10": 0}),
+        f"{forecast} bounds.maximum",
+    )
+    # kind: production kind comparison.
+    expect_reject(body, text, lambda item: field(item, basis).update(kind="text"), f"{basis} kind")
+    # unit: production unit comparison.
+    expect_reject(body, text, lambda item: field(item, basis).update(unit="unit.one"), f"{basis} unit")
+    # dimension: production dimension comparison.
+    expect_reject(body, text, lambda item: field(item, basis).update(dimension="energy.dimension.subject"), f"{basis} dimension")
+    # symbols: production symbol comparison.
+    expect_reject(body, text, lambda item: field(item, basis).update(symbols=["energy.tariff.unit_basis.missing"]), f"{basis} symbols")
+    # capability: production capability comparison.
+    expect_reject(body, text, lambda item: added_operation(item).update(capability="energy.capability.read.tariff"), f"{slot} capability")
+    # arguments: production arguments comparison.
+    expect_reject(body, text, lambda item: added_operation(item).update(arguments=["energy.incentive.tier_kind"]), f"{slot} arguments")
+    # effect_rule: production effect_rule comparison.
+    expect_reject(body, text, lambda item: added_operation(item).update(effect_rule="energy.effect.extra"), f"{slot} effect_rule")
+    # parameters: production parameters comparison. Drops every stored parameter but one.
+    expect_reject(body, text, lambda item: added_operation(item).update(parameters=["energy.incentive.slot_start"]), f"{slot} parameters")
+
+
+def added_members(body):
+    import csv
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    folder = root / "acceptance" / "catalog-inputs" / "energy"
+
+    def rows(name):
+        with (folder / name).open(encoding="utf-8", newline="") as handle:
+            return list(csv.DictReader(handle, delimiter="\t"))
+
+    pe07 = {row["id"] for row in rows("pe07-fields.tsv")}
+    pe12 = rows("pe12-fields.tsv")
+    qq = [row for row in rows("qq12-fields.tsv") if row["id"].startswith("energy.")]
+    if set(validator.FIELD_CONTRACTS) != pe07 | {row["id"] for row in pe12} | {row["id"] for row in qq}:
+        raise AssertionError("field set")
+    for row in pe12 + qq:
+        contract = validator.FIELD_CONTRACTS[row["id"]]
+        expected = row["unit"] or None
+        if contract["unit"] != expected:
+            raise AssertionError(f"{row['id']} unit rewritten")
+        if row["direction"] == "signed" and contract["direction"] != "not_applicable":
+            raise AssertionError(f"{row['id']} direction")
+    operations = {row["operation"] for row in rows("pe12-operations.tsv")}
+    operations |= {row["operation"] for row in rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
+    if set(validator.OPERATION_CONTRACTS) - pe07_operation_ids() != operations:
+        raise AssertionError("operation set")
+    qualifiers = {row["id"] for row in rows("pe12-qualifier-dimensions.tsv")}
+    qualifiers |= {row["id"] for row in rows("qq12-qualifier-dimensions.tsv")}
+    if set(validator.QUALIFIER_CONTRACTS) - pe07_qualifier_ids() != qualifiers:
+        raise AssertionError("qualifier set")
+    catalog = json.loads((root / "api/v1/element-catalog-v1.json").read_text(encoding="utf-8"))
+    members = {entry["ref"]["id"] for entry in catalog["elements"]}
+    required = qualifiers | {row["id"] for row in pe12} | {row["id"] for row in qq}
+    required |= operations
+    required |= {row["capability"] for row in rows("pe12-operations.tsv")}
+    required |= {row["capability"] for row in rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
+    required |= {row["event"] for row in rows("pe12-events.tsv")}
+    required |= {"resource.tariff", "energy.dimension.tariff", "energy.service.tariff", "energy.capability.read.tariff", "energy.portal.read.tariff"}
+    if not required <= members or "relation.tariff_applies" in members:
+        raise AssertionError("catalog membership")
+    if body["catalog"]["pack"]["version"] != "1.0.0":
+        raise AssertionError("pack version")
+    if field(body, "energy.price.current")["unit"] != "unit.currency_per_joule":
+        raise AssertionError("price unit")
+    print("added member set: PASS")
+
+
+def pe07_operation_ids():
+    return {
+        "energy.operation.set_consumption_limit", "energy.operation.set_production_limit",
+        "energy.operation.set_consumption_failsafe", "energy.operation.set_production_failsafe",
+        "energy.operation.adjust_power", "energy.operation.set_esa_state",
+        "energy.operation.adjust_start_time", "energy.operation.modify_series_slot",
+        "energy.operation.set_esa_mode", "energy.operation.schedule_sequence",
+        "energy.operation.set_sequence_state", "energy.operation.set_energy_balance",
+        "energy.operation.set_low_power_sensitivity",
+    }
+
+
+def pe07_qualifier_ids():
+    return {
+        "energy.dimension.slot", "energy.dimension.series", "energy.dimension.adjustment_range",
+        "energy.dimension.sequence", "energy.dimension.balance",
+    }
+
+
 def main():
     body = document()
     text = page()
@@ -161,6 +288,8 @@ def main():
     reject_empty_and_extra(body, text)
     reject_operation_identity(body, text)
     reject_pack_identity(body, text)
+    added_members(body)
+    reject_added_identity(body, text)
     print("energy management pack tests: PASS")
 
 

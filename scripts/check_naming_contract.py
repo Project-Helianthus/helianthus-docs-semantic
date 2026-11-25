@@ -27,7 +27,7 @@ def validate(data):
     rows = data['rows']
     expected_counts = {
         'pv': 135, 'storage': 185, 'evse': 382, 'thermal': 172,
-        'infrastructure': 111, 'energy_management': 196,
+        'infrastructure': 111, 'energy_management': 472,
     }
     counts = Counter(r['source'].split('/')[3] for r in rows)
     if counts != expected_counts or any(r['kind'] not in ('definition_literal', 'go_identifier') for r in rows):
