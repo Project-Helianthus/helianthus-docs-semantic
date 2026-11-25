@@ -2,6 +2,7 @@ package ebusgateway
 
 import (
 	"encoding/hex"
+	"fmt"
 	"testing"
 	"time"
 
@@ -48,6 +49,41 @@ func oracleAdjudicated(event AdjudicatedPassiveEvent) map[string]any {
 	}
 }
 
+// oraclePassiveSubmission and oracleActiveSubmission describe an event the
+// recorder submits, with its frame boundaries and the fields the
+// fingerprint is matched on, so that the input alone fixes the operands.
+func oraclePassiveSubmission(event PassiveClassifiedEvent, base time.Time) map[string]any {
+	return map[string]any{
+		"channel": "passive", "kind": oracleKind(event.Kind), "frame_type": oracleFrameType(event.FrameType),
+		"has_request": event.HasRequest, "has_response": event.HasResponse,
+		"request": oracleFrame(event.Request, event.HasRequest), "response": oracleFrame(event.Response, event.HasResponse),
+		"discontinuity_reason": string(event.DiscontinuityReason), "observed_offset_ns": int64(event.ObservedAt.Sub(base)),
+	}
+}
+
+func oracleActiveSubmission(event protocol.BusEvent, offset time.Duration) map[string]any {
+	kind := fmt.Sprintf("kind_%d", event.Kind)
+	switch event.Kind {
+	case protocol.BusEventAttemptComplete:
+		kind = "attempt_complete"
+	case protocol.BusEventObserverFault:
+		kind = "observer_fault"
+	}
+	outcome := fmt.Sprintf("outcome_%d", event.Outcome)
+	switch event.Outcome {
+	case protocol.BusOutcomeSuccess:
+		outcome = "success"
+	case protocol.BusOutcomeObserverFault:
+		outcome = "observer_fault"
+	}
+	return map[string]any{
+		"channel": "active", "kind": kind, "frame_type": oracleFrameType(event.FrameType), "outcome": outcome,
+		"has_request": event.HasRequest, "has_response": event.HasResponse,
+		"request": oracleFrame(event.Request, event.HasRequest), "response": oracleFrame(event.Response, event.HasResponse),
+		"submitted_offset_ns": int64(offset),
+	}
+}
+
 func oracleDedupBudgets(t *testing.T) {
 	t.Helper()
 	deduplicator, err := NewActivePassiveDeduplicator(DefaultConfig())
@@ -79,19 +115,26 @@ func oracleDedupMatch(t *testing.T, name, stimulus string, passiveFirst bool) {
 	request, response := directTransactionPair()
 	setKnownLocalAddress(deduplicator, request.Source)
 	offset := 500 * time.Millisecond
+	var submissions []any
 	if passiveFirst {
-		deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base, request, response))
+		passive := passiveTransactionEvent(base, request, response)
+		active := activeAttemptEvent(request, response)
+		submissions = []any{oraclePassiveSubmission(passive, base), oracleActiveSubmission(active, offset)}
+		deduplicator.OnPassiveClassifiedEvent(passive)
 		deduplicator.nowFunc = func() time.Time { return base.Add(offset) }
-		if err := deduplicator.OnBusEvent(activeAttemptEvent(request, response)); err != nil {
+		if err := deduplicator.OnBusEvent(active); err != nil {
 			t.Fatal(err)
 		}
 	} else {
 		offset = 1500 * time.Millisecond
-		if err := deduplicator.OnBusEvent(activeAttemptEvent(request, response)); err != nil {
+		active := activeAttemptEvent(request, response)
+		passive := passiveTransactionEvent(base.Add(offset), request, response)
+		submissions = []any{oracleActiveSubmission(active, 0), oraclePassiveSubmission(passive, base)}
+		if err := deduplicator.OnBusEvent(active); err != nil {
 			t.Fatal(err)
 		}
 		deduplicator.nowFunc = func() time.Time { return base.Add(offset) }
-		deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base.Add(offset), request, response))
+		deduplicator.OnPassiveClassifiedEvent(passive)
 	}
 	event := requireAdjudicatedEvent(t, subscription, DedupDispositionMatchedActiveCopy)
 	oracleWrite(t, "deduplicator/"+name+".json", oracleCase{
@@ -100,6 +143,7 @@ func oracleDedupMatch(t *testing.T, name, stimulus string, passiveFirst bool) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"passive_first": passiveFirst, "local_address": "31"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "second_arrival_offset_ns": int64(offset)},
+			State:      map[string]any{"submissions": submissions},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"pending": len(deduplicator.pending), "active": len(deduplicator.active)}},
 	})
@@ -118,7 +162,8 @@ func oracleDedupSharedWatchKey(t *testing.T) {
 	deduplicator.nowFunc = func() time.Time { return base }
 	request := protocol.Frame{Source: 0x31, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x00, 0x03, 0x01, 0x1C, 0x00}}
 	response := protocol.Frame{Source: request.Target, Target: request.Source, Primary: request.Primary, Secondary: request.Secondary, Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00, 0x22}}
-	deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base, request, response))
+	passiveEvent := passiveTransactionEvent(base, request, response)
+	deduplicator.OnPassiveClassifiedEvent(passiveEvent)
 	assertNoAdjudicatedEvent(t, subscription, 25*time.Millisecond)
 	pending := len(deduplicator.pending)
 	deduplicator.nowFunc = func() time.Time {
@@ -132,6 +177,7 @@ func oracleDedupSharedWatchKey(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"watch_observer": "none"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "release_offset_ns": int64(100*time.Millisecond + deduplicator.budgets.PendingGraceTimeout + time.Millisecond)},
+			State:      map[string]any{"submissions": []any{oraclePassiveSubmission(passiveEvent, base)}},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"pending_before_release": pending}},
 	})
@@ -150,16 +196,19 @@ func oracleDedupDegraded(t *testing.T) {
 	deduplicator.nowFunc = func() time.Time { return base }
 	request, response := directTransactionPair()
 	setKnownLocalAddress(deduplicator, request.Source)
-	if err := deduplicator.OnBusEvent(activeAttemptEvent(request, response)); err != nil {
+	activeEvent := activeAttemptEvent(request, response)
+	faultEvent := protocol.BusEvent{Kind: protocol.BusEventObserverFault, Outcome: protocol.BusOutcomeObserverFault}
+	passiveEvent := passiveTransactionEvent(base.Add(200*time.Millisecond), request, response)
+	if err := deduplicator.OnBusEvent(activeEvent); err != nil {
 		t.Fatal(err)
 	}
 	assertNoAdjudicatedEvent(t, subscription, 25*time.Millisecond)
 	deduplicator.nowFunc = func() time.Time { return base.Add(100 * time.Millisecond) }
-	if err := deduplicator.OnBusEvent(protocol.BusEvent{Kind: protocol.BusEventObserverFault, Outcome: protocol.BusOutcomeObserverFault}); err != nil {
+	if err := deduplicator.OnBusEvent(faultEvent); err != nil {
 		t.Fatal(err)
 	}
 	deduplicator.nowFunc = func() time.Time { return base.Add(200 * time.Millisecond) }
-	deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base.Add(200*time.Millisecond), request, response))
+	deduplicator.OnPassiveClassifiedEvent(passiveEvent)
 	deduplicator.nowFunc = func() time.Time { return base.Add(deduplicator.budgets.PendingGraceTimeout + time.Second) }
 	deduplicator.publishAll(deduplicator.releaseExpiredPending(deduplicator.now()))
 	event := requireAdjudicatedEvent(t, subscription, DedupDispositionObservabilityOnly)
@@ -169,6 +218,9 @@ func oracleDedupDegraded(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"bus_events": "attempt_complete then observer_fault"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "observer_fault_offset_ns": int64(100 * time.Millisecond), "passive_offset_ns": int64(200 * time.Millisecond)},
+			State: map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{
+				oracleActiveSubmission(activeEvent, 0), oracleActiveSubmission(faultEvent, 100*time.Millisecond), oraclePassiveSubmission(passiveEvent, base),
+			}},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"active_fingerprints": len(deduplicator.active)}},
 	})
@@ -187,11 +239,13 @@ func oracleDedupDiscontinuity(t *testing.T) {
 	deduplicator.nowFunc = func() time.Time { return base }
 	request, response := directTransactionPair()
 	setKnownLocalAddress(deduplicator, request.Source)
-	deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base, request, response))
+	passiveEvent := passiveTransactionEvent(base, request, response)
+	deduplicator.OnPassiveClassifiedEvent(passiveEvent)
 	pendingBefore := len(deduplicator.pending)
 	resetsBefore := expvarIntValue(observeFirstDedupEpochResetTotal)
 	flushBefore := expvarMapInt64(observeFirstDedupPendingFlushTotal, "epoch_reset")
-	deduplicator.OnPassiveClassifiedEvent(PassiveClassifiedEvent{Kind: PassiveClassifiedEventDiscontinuity, ObservedAt: base.Add(100 * time.Millisecond), DiscontinuityReason: PassiveDiscontinuityTransportReset})
+	resetEvent := PassiveClassifiedEvent{Kind: PassiveClassifiedEventDiscontinuity, ObservedAt: base.Add(100 * time.Millisecond), DiscontinuityReason: PassiveDiscontinuityTransportReset}
+	deduplicator.OnPassiveClassifiedEvent(resetEvent)
 	event := requireAdjudicatedEvent(t, subscription, DedupDispositionDiscontinuity)
 	assertNoAdjudicatedEvent(t, subscription, 25*time.Millisecond)
 	oracleWrite(t, "deduplicator/discontinuity-flushes-pending.json", oracleCase{
@@ -200,6 +254,7 @@ func oracleDedupDiscontinuity(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"discontinuity_reason": string(PassiveDiscontinuityTransportReset)},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "discontinuity_offset_ns": int64(100 * time.Millisecond)},
+			State:      map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(passiveEvent, base), oraclePassiveSubmission(resetEvent, base)}},
 		},
 		Output: oracleOutput{
 			Decisions: []any{oracleAdjudicated(event)},
@@ -237,6 +292,7 @@ func oracleDedupOverflow(t *testing.T) {
 			Bytes:      hex.EncodeToString(master.Request.Data),
 			Qualifiers: map[string]any{"subscriber_capacity": 1, "frames": 2, "frame_type": "initiator_initiator"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "second_offset_ns": int64(10 * time.Millisecond)},
+			State:      map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(master, base), oraclePassiveSubmission(second, base)}},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"epoch_reset_total_delta": expvarIntValue(observeFirstDedupEpochResetTotal) - resetsBefore}},
 	})

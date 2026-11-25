@@ -632,3 +632,86 @@ def test_a_deduplicator_case_publishes_the_emitted_observation_with_its_timestam
     assert event["kind"] == document["output"]["decisions"][0]["event_kind"] == "transaction"
     assert event["observed_at"].endswith("Z") and event["observed_at"] != "0001-01-01T00:00:00Z"
     assert event["request"]["primary"] == "b5" and event["has_request"] and event["has_response"]
+
+
+@pytest.mark.parametrize("name", ["coalesce", "cache-within-max-age", "refresh-after-max-age"])
+def test_a_scheduler_get_case_reports_returned_values_apart_from_bus_writes(name):
+    document = bt01_case(f"engine/scheduler/{name}.json")
+    # The scheduler's Get only returns values from an injected fetch; it writes no symbol to a bus.
+    assert document["output"]["symbols_written"] == []
+    decision = document["output"]["decisions"][0]
+    assert len(decision["returned_values"]) == len(decision["errors"]) == 2
+    expected = {"coalesce": ["0102", "0102"], "cache-within-max-age": ["aa", "aa"], "refresh-after-max-age": ["01", "02"]}[name]
+    assert decision["returned_values"] == expected
+
+
+def test_the_shadow_eviction_case_publishes_the_activations_budgets_and_ordered_write_times():
+    document = bt01_case("engine/shadow-cache/evict-oldest.json")
+    state, qualifiers = document["input"]["state"], document["input"]["qualifiers"]
+    assert (state["capacity"], state["pinned_capacity"], state["write_confirm_pinned_cap"]) == (2, 2, 1)
+    activations = {item["source"]: item["keys"] for item in state["activations"]}
+    assert activations["poller"] == [qualifiers["pinned"]]
+    assert activations["tooling"] == state["catalog_keys"] == [qualifiers["pinned"], qualifiers["older"], qualifiers["newer"]]
+    writes = state["writes"]
+    assert [item["order"] for item in writes] == [1, 2, 3]
+    assert [item["role"] for item in writes] == ["pinned", "older", "newer"]
+    assert [item["observed_offset_ns"] for item in writes] == [0, 1000000000, 2000000000]
+    assert "".join(item["value"] for item in writes) == document["input"]["bytes"]
+    # Only the entry that no activation pins down for the poller and is oldest is evicted.
+    assert [document["output"]["cache"][role]["present"] for role in ("pinned", "older", "newer")] == [True, False, True]
+
+
+def test_the_b524_read_write_case_publishes_the_policy_operands_of_each_call():
+    document = bt01_case("engine/observe-first-family-policy/b524-read-write.json")
+    calls = document["input"]["state"]["calls"]
+    decisions = document["output"]["decisions"]
+    assert [call["order"] for call in calls] == [1, 2, 3, 4] and len(decisions) == len(calls)
+    assert [call["response_class"] for call in calls] == ["value_bearing", "header_only", "header_only", "header_only"]
+    assert [call["request"]["secondary"] for call in calls] == ["24"] * 4
+    assert [call["request"]["data"][2:4] for call in calls] == ["00", "01", "01", "01"]
+    assert calls[0]["flags"] == {"constructor": "DefaultObserveFirstFeatureFlags"}
+    # The runtime policy each write is made under comes from its input, not from the expected decision.
+    assert [call["flags"]["external_write_policy"] for call in calls[1:]] == ["invalidate_only", "record_only", "record_and_invalidate"]
+    assert [row["effective_external_write_policy"] for row in decisions[1:]] == [call["flags"]["external_write_policy"] for call in calls[1:]]
+    assert all(call["observation"]["state"] == "active" and call["observation"]["semantic_class"] == "state" for call in calls)
+
+
+@pytest.mark.parametrize("name,channels", [
+    ("passive-first-then-active", ["passive", "active"]),
+    ("active-first-then-delayed-passive", ["active", "passive"]),
+])
+def test_a_deduplicator_match_case_publishes_both_submitted_events_with_their_frame_boundaries(name, channels):
+    document = bt01_case(f"engine/deduplicator/{name}.json")
+    submissions = document["input"]["state"]["submissions"]
+    assert [item["channel"] for item in submissions] == channels
+    fingerprint = document["output"]["decisions"][0]["fingerprint"]
+    for item in submissions:
+        assert item["has_request"] and item["has_response"] and item["frame_type"] == "initiator_target"
+        assert (item["request"]["source"], item["request"]["target"], item["request"]["primary"], item["request"]["secondary"]) == ("31", "08", "b5", "09")
+        # The fingerprint is built from the header fields and data of both frames, which the input now carries.
+        request = item["request"]
+        assert fingerprint["request"].startswith(request["source"] + request["target"] + request["primary"] + request["secondary"])
+        assert request["data"] in fingerprint["request"] and item["response"]["data"] in fingerprint["response"]
+        assert (item["response"]["source"], item["response"]["target"]) == ("08", "31")
+    assert document["input"]["bytes"] == submissions[0]["request"]["data"] + submissions[0]["response"]["data"]
+    assert document["input"]["state"]["submissions"][0]["request"] == submissions[1]["request"]
+
+
+@pytest.mark.parametrize("name", ["passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression", "discontinuity-flushes-pending", "critical-subscriber-overflow"])
+def test_every_other_deduplicator_case_publishes_the_events_it_submitted(name):
+    submissions = bt01_case(f"engine/deduplicator/{name}.json")["input"]["state"]["submissions"]
+    assert submissions and all({"channel", "kind", "frame_type", "request"} <= set(item) for item in submissions)
+
+
+def test_the_in_order_lease_case_publishes_the_starting_state_and_the_timed_call_sequence():
+    document = bt01_case("localworkerhost/supervisor/lease-in-order.json")
+    state, clock = document["input"]["state"], document["input"]["clock"]
+    assert state["start"]["state"] == "ready" and state["start"]["ready_report"]["kind"] == 1
+    schedule = state["schedule"]
+    assert [step["call"] for step in schedule] == ["clock.Advance", "Observe", "Tick"] * 3
+    # Each renewal comes after 900 ms, well past the 100 ms configured interval and inside the 1 s lease.
+    advances = [step["advance_ns"] for step in schedule if step["call"] == "clock.Advance"]
+    assert advances == [900000000] * 3 and clock["lease_interval_ns"] == 100000000 and advances[0] < clock["lease_ttl_ns"]
+    reports = [step["report"] for step in schedule if step["call"] == "Observe"]
+    assert [report["sequence"] for report in reports] == [1, 2, 3] and all(report["kind"] == 2 and report["tx_active"] is False for report in reports)
+    assert [row["advance_ns"] for row in document["output"]["decisions"]] == advances

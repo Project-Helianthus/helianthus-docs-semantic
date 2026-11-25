@@ -6,6 +6,8 @@
   "input": {
     "bytes": "",
     "qualifiers": {
+      "fetch_returns": "call number n returns the single byte n",
+      "gets": 2,
       "key": "k",
       "max_age_ns": 10000000
     },
@@ -16,15 +18,16 @@
     "state": {}
   },
   "output": {
-    "symbols_written": [
-      "01",
-      "02"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
         "errors": [
           "",
           ""
+        ],
+        "returned_values": [
+          "01",
+          "02"
         ]
       }
     ],

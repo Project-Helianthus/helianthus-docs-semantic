@@ -108,14 +108,25 @@ func oracleLeases(t *testing.T) {
 	}
 	t.Run("lease-in-order", func(t *testing.T) {
 		f := aa27StartReady(t)
+		generation := f.sup.Status().Generation
+		start := map[string]any{
+			"state": "ready", "generation": oracleGeneration(generation), "layout": oracleLayout(aa27Layout),
+			"ready_report": oracleSubmittedReport(Report{Kind: ReportReady, Identity: aa27Self, Generation: generation, Descriptors: aa27Layout, State: WorkerPassive}),
+		}
 		steps := []any{}
+		schedule := []any{}
 		for sequence := uint64(1); sequence <= 3; sequence++ {
 			f.clock.Advance(900 * time.Millisecond)
 			leaseErr := lease(f, sequence)
 			tickErr := f.sup.Tick()
 			steps = append(steps, map[string]any{"sequence": sequence, "advance_ns": int64(900 * time.Millisecond), "lease_error": oracleErr(leaseErr), "tick_error": oracleErr(tickErr)})
+			schedule = append(schedule,
+				map[string]any{"call": "clock.Advance", "advance_ns": int64(900 * time.Millisecond)},
+				map[string]any{"call": "Observe", "report": oracleSubmittedReport(Report{Kind: ReportLease, Identity: aa27Self, Generation: generation, State: WorkerPassive, Sequence: sequence})},
+				map[string]any{"call": "Tick"})
 		}
-		record("in-order", "in order", map[string]any{"sequences": []any{1, 2, 3}}, steps, f)
+		recordState("in-order", "in order", map[string]any{"sequences": []any{1, 2, 3}, "advance_before_each_lease_ns": int64(900 * time.Millisecond)},
+			map[string]any{"start": start, "schedule": schedule}, steps, f)
 	})
 	for name, sequence := range map[string]uint64{"replayed": 0, "skipped": 2} {
 		t.Run("lease-"+name, func(t *testing.T) {

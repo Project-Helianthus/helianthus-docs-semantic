@@ -14,7 +14,56 @@
       "base": "1970-01-01T00:01:40Z"
     },
     "state": {
-      "capacity": 2
+      "activations": [
+        {
+          "keys": [
+            "b509:08:0200",
+            "b509:08:0201",
+            "b509:08:0202"
+          ],
+          "source": "tooling"
+        },
+        {
+          "keys": [
+            "b509:08:0200"
+          ],
+          "source": "poller"
+        }
+      ],
+      "capacity": 2,
+      "catalog_keys": [
+        "b509:08:0200",
+        "b509:08:0201",
+        "b509:08:0202"
+      ],
+      "pinned_capacity": 2,
+      "write_confirm_pinned_cap": 1,
+      "writes": [
+        {
+          "key": "b509:08:0200",
+          "observed_offset_ns": 0,
+          "order": 1,
+          "role": "pinned",
+          "source": "passive",
+          "value": "10"
+        },
+        {
+          "key": "b509:08:0201",
+          "observed_offset_ns": 1000000000,
+          "order": 2,
+          "role": "older",
+          "source": "passive",
+          "value": "11"
+        },
+        {
+          "key": "b509:08:0202",
+          "observed_offset_ns": 2000000000,
+          "order": 3,
+          "role": "newer",
+          "source": "passive",
+          "value": "12"
+        }
+      ]
     }
   },
   "output": {

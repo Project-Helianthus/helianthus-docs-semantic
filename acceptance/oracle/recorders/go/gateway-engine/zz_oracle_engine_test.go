@@ -67,13 +67,12 @@ func oracleSchedulerCoalesce(t *testing.T) {
 		Stimulus:  "TestSemanticReadScheduler_CoalescesConcurrentGets",
 		Input: oracleInput{
 			Bytes:      "0102",
-			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(time.Second)},
+			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(time.Second), "concurrent_gets": 2, "fetch_returns": "0102", "fetch_duration_ns": int64(25 * time.Millisecond)},
 			Clock:      map[string]any{"now": time.Unix(0, 0).UTC().Format(time.RFC3339Nano)},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(results[0]), hex.EncodeToString(results[1])},
-			Decisions:      []any{map[string]any{"errors": []any{oracleErr(errs[0]), oracleErr(errs[1])}}},
-			Counters:       map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
+			Decisions: []any{map[string]any{"returned_values": []any{hex.EncodeToString(results[0]), hex.EncodeToString(results[1])}, "errors": []any{oracleErr(errs[0]), oracleErr(errs[1])}}},
+			Counters:  map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
 		},
 	})
 }
@@ -96,14 +95,13 @@ func oracleSchedulerCache(t *testing.T) {
 		Stimulus:  "TestSemanticReadScheduler_UsesCacheWithinMaxAge",
 		Input: oracleInput{
 			Bytes:      "aa",
-			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(time.Second)},
+			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(time.Second), "gets": 2, "fetch_returns": "aa"},
 			Clock:      map[string]any{"now": now.UTC().Format(time.RFC3339Nano)},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(first), hex.EncodeToString(second)},
-			Decisions:      []any{map[string]any{"errors": []any{oracleErr(err1), oracleErr(err2)}}},
-			Cache:          map[string]any{"served_from_cache": atomic.LoadInt32(&calls) == 1},
-			Counters:       map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
+			Decisions: []any{map[string]any{"returned_values": []any{hex.EncodeToString(first), hex.EncodeToString(second)}, "errors": []any{oracleErr(err1), oracleErr(err2)}}},
+			Cache:     map[string]any{"served_from_cache": atomic.LoadInt32(&calls) == 1},
+			Counters:  map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
 		},
 	})
 }
@@ -126,13 +124,12 @@ func oracleSchedulerRefresh(t *testing.T) {
 		Source:    "semantic_read_scheduler.go",
 		Stimulus:  "TestSemanticReadScheduler_RefreshesAfterMaxAge",
 		Input: oracleInput{
-			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(10 * time.Millisecond)},
+			Qualifiers: map[string]any{"key": "k", "max_age_ns": int64(10 * time.Millisecond), "gets": 2, "fetch_returns": "call number n returns the single byte n"},
 			Clock:      map[string]any{"start": time.Unix(0, 0).UTC().Format(time.RFC3339Nano), "advance_ns": int64(25 * time.Millisecond)},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(first), hex.EncodeToString(second)},
-			Decisions:      []any{map[string]any{"errors": []any{oracleErr(err1), oracleErr(err2)}}},
-			Counters:       map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
+			Decisions: []any{map[string]any{"returned_values": []any{hex.EncodeToString(first), hex.EncodeToString(second)}, "errors": []any{oracleErr(err1), oracleErr(err2)}}},
+			Counters:  map[string]any{"fetch_calls": atomic.LoadInt32(&calls)},
 		},
 	})
 }
@@ -286,7 +283,19 @@ func oracleShadowEvict(t *testing.T) {
 			Bytes:      "101112",
 			Qualifiers: map[string]any{"pinned": pinned.Canonical(), "older": older.Canonical(), "newer": newer.Canonical()},
 			Clock:      map[string]any{"base": time.Unix(100, 0).UTC().Format(time.RFC3339Nano)},
-			State:      map[string]any{"capacity": 2},
+			State: map[string]any{
+				"capacity": 2, "pinned_capacity": 2, "write_confirm_pinned_cap": 1,
+				"catalog_keys": []any{pinned.Canonical(), older.Canonical(), newer.Canonical()},
+				"activations": []any{
+					map[string]any{"source": string(WatchActivationSourceTooling), "keys": []any{pinned.Canonical(), older.Canonical(), newer.Canonical()}},
+					map[string]any{"source": string(WatchActivationSourcePoller), "keys": []any{pinned.Canonical()}},
+				},
+				"writes": []any{
+					map[string]any{"order": 1, "role": "pinned", "key": pinned.Canonical(), "source": string(ShadowWriteSourcePassive), "value": "10", "observed_offset_ns": int64(0)},
+					map[string]any{"order": 2, "role": "older", "key": older.Canonical(), "source": string(ShadowWriteSourcePassive), "value": "11", "observed_offset_ns": int64(time.Second)},
+					map[string]any{"order": 3, "role": "newer", "key": newer.Canonical(), "source": string(ShadowWriteSourcePassive), "value": "12", "observed_offset_ns": int64(2 * time.Second)},
+				},
+			},
 		},
 		Output: oracleOutput{Cache: map[string]any{
 			"pinned": oracleEntry(cache, pinned),
@@ -1216,17 +1225,37 @@ func oracleRecordObserveFirst(t *testing.T) {
 		Output: oracleOutput{Decisions: []any{oracleFamilyPolicy(b516Policy)}},
 	})
 	readRequest := protocol.Frame{Source: 0x31, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x00, 0x03, 0x01, 0x1C, 0x00}}
-	readPolicy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, readRequest, DedupResponseValueBearing, testActiveStateObservation(NewB524WatchKey(0x15, 0x06, 0x03, 0x01, 0x001C)), DefaultObserveFirstFeatureFlags())
+	policyKey := NewB524WatchKey(0x15, 0x06, 0x03, 0x01, 0x001C)
+	observation := testActiveStateObservation(policyKey)
+	observationOperand := map[string]any{
+		"state": string(observation.State), "has_descriptor": observation.HasDescriptor, "key": policyKey.Canonical(),
+		"semantic_class": string(observation.Descriptor.SemanticClass), "correlation_policy": string(observation.Descriptor.CorrelationPolicy),
+		"direct_apply_policy": string(observation.Descriptor.DirectApplyPolicy),
+	}
+	readPolicy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, readRequest, DedupResponseValueBearing, observation, DefaultObserveFirstFeatureFlags())
 	writeRequest := protocol.Frame{Source: 0x10, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x01, 0x03, 0x01, 0x1C, 0x00}}
-	writes := make([]any, 0, 3)
+	calls := []any{map[string]any{
+		"order": 1, "scope": string(ObserveFirstTrafficScopePassive), "request": oracleFrame(readRequest, true), "response_class": string(DedupResponseValueBearing),
+		"observation": observationOperand, "flags": map[string]any{"constructor": "DefaultObserveFirstFeatureFlags"},
+	}}
+	decisions := []any{oracleFamilyPolicy(readPolicy)}
 	for _, policyValue := range []ObserveFirstExternalWritePolicy{ObserveFirstExternalWritePolicyInvalidateOnly, ObserveFirstExternalWritePolicyRecordOnly, ObserveFirstExternalWritePolicyRecordAndInvalidate} {
 		flags := NormalizeObserveFirstFeatureFlags(true, true, false, policyValue)
-		writes = append(writes, oracleFamilyPolicy(observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, writeRequest, DedupResponseHeaderOnly, testActiveStateObservation(NewB524WatchKey(0x15, 0x06, 0x03, 0x01, 0x001C)), flags)))
+		calls = append(calls, map[string]any{
+			"order": len(calls) + 1, "scope": string(ObserveFirstTrafficScopePassive), "request": oracleFrame(writeRequest, true), "response_class": string(DedupResponseHeaderOnly),
+			"observation": observationOperand,
+			"flags":       map[string]any{"constructor": "NormalizeObserveFirstFeatureFlags", "enabled": true, "state_direct": true, "config_direct": false, "external_write_policy": string(policyValue)},
+		})
+		decisions = append(decisions, oracleFamilyPolicy(observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, writeRequest, DedupResponseHeaderOnly, observation, flags)))
 	}
 	oracleWrite(t, "observe-first-family-policy/b524-read-write.json", oracleCase{
 		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstFamilyPolicy_B524ReadAndObservedWriteStaySeparated",
-		Input:  oracleInput{Bytes: hex.EncodeToString(append(append([]byte{}, readRequest.Data...), writeRequest.Data...))},
-		Output: oracleOutput{Decisions: append([]any{oracleFamilyPolicy(readPolicy)}, writes...)},
+		Input: oracleInput{
+			Bytes:      hex.EncodeToString(append(append([]byte{}, readRequest.Data...), writeRequest.Data...)),
+			Qualifiers: map[string]any{"read_request": oracleFrame(readRequest, true), "write_request": oracleFrame(writeRequest, true)},
+			State:      map[string]any{"calls": calls},
+		},
+		Output: oracleOutput{Decisions: decisions},
 	})
 }
 

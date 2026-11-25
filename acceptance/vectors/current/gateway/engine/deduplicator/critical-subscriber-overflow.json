@@ -14,7 +14,45 @@
       "base": "1970-01-01T00:00:00Z",
       "second_offset_ns": 10000000
     },
-    "state": {}
+    "state": {
+      "local_address": "31",
+      "submissions": [
+        {
+          "channel": "passive",
+          "discontinuity_reason": "",
+          "frame_type": "initiator_initiator",
+          "has_request": true,
+          "has_response": false,
+          "kind": "master_frame",
+          "observed_offset_ns": 0,
+          "request": {
+            "data": "03",
+            "primary": "01",
+            "secondary": "02",
+            "source": "10",
+            "target": "31"
+          },
+          "response": {}
+        },
+        {
+          "channel": "passive",
+          "discontinuity_reason": "",
+          "frame_type": "initiator_initiator",
+          "has_request": true,
+          "has_response": false,
+          "kind": "master_frame",
+          "observed_offset_ns": 10000000,
+          "request": {
+            "data": "03",
+            "primary": "01",
+            "secondary": "02",
+            "source": "10",
+            "target": "31"
+          },
+          "response": {}
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

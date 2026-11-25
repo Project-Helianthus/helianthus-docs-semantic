@@ -13,7 +13,56 @@
       "base": "1970-01-01T00:00:00Z",
       "second_arrival_offset_ns": 1500000000
     },
-    "state": {}
+    "state": {
+      "submissions": [
+        {
+          "channel": "active",
+          "frame_type": "initiator_target",
+          "has_request": true,
+          "has_response": true,
+          "kind": "attempt_complete",
+          "outcome": "success",
+          "request": {
+            "data": "01",
+            "primary": "b5",
+            "secondary": "09",
+            "source": "31",
+            "target": "08"
+          },
+          "response": {
+            "data": "1122",
+            "primary": "b5",
+            "secondary": "09",
+            "source": "08",
+            "target": "31"
+          },
+          "submitted_offset_ns": 0
+        },
+        {
+          "channel": "passive",
+          "discontinuity_reason": "",
+          "frame_type": "initiator_target",
+          "has_request": true,
+          "has_response": true,
+          "kind": "transaction",
+          "observed_offset_ns": 1500000000,
+          "request": {
+            "data": "01",
+            "primary": "b5",
+            "secondary": "09",
+            "source": "31",
+            "target": "08"
+          },
+          "response": {
+            "data": "1122",
+            "primary": "b5",
+            "secondary": "09",
+            "source": "08",
+            "target": "31"
+          }
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],
