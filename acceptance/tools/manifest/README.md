@@ -65,6 +65,72 @@ Failure lines are unique and sorted.
 A move whose `patterns` list is empty still runs each transferred assertion at its recorded destination test.
 When the manifest declares transferred assertions and none of them ran, `compare` fails with `not-executed move=<row>` and does not print `compare: ok`.
 
+## Symbol-level moves
+
+A whole-file move (`moves`) takes whole donor files from one directory and one package.
+A symbol-level move states the symbols instead.
+It may span donor packages, the rest of each donor file stays in the donor, and a symbol may be renamed at the destination.
+`moves` and `symbol_moves` are not given together; `generate` fails with `moves-and-symbol-moves`.
+A whole-file input behaves as before and writes the same bytes.
+
+The input adds two lists:
+
+```
+"symbol_moves": [
+  {
+    "package": "<donor directory>",
+    "path": "<donor file in that directory>",
+    "symbol": "<name, or Type.Method>",
+    "destination_repository": "<repository>",
+    "destination_path": "<destination file>",
+    "destination_symbol": "<name at the destination, optional>"
+  }
+],
+"stay_symbols": [
+  { "package": "<donor directory>", "path": "<donor file>", "symbol": "<name, or Type.Method>" }
+]
+```
+
+`package` is the donor directory.
+`destination_symbol` defaults to `symbol`, so a rename is the only case that sets it.
+
+A symbol is a top-level function, type, var or const name, or a method written `Type.Method`.
+The closure counts these declared names and nothing else.
+A field name, a parameter, receiver or type-parameter name, a name bound inside the symbol (`:=`, `var`, `range`, a function literal parameter), a key of a struct literal, a method or field after a dot and a package name are not uses.
+A bound name stops counting only inside the scope that binds it.
+
+A moved symbol may use a moved symbol of its own package, or a symbol that `stay_symbols` declares.
+Any other declared name of that package it uses fails the move as one `outside-set: <name>` line, sorted and unique across the whole input.
+The methods of a moved type are its siblings: each one is moved or declared staying, otherwise `outside-set: <Type>.<Method>` names it.
+The closure looks at unqualified names of the symbol's own package; a name qualified by another package is not followed.
+`generate` also fails, and writes nothing, for:
+
+| Line | Cause |
+| --- | --- |
+| `absent: <path>` | The file is not in the donor commit |
+| `absent-symbol: <path> <symbol>` | The file does not declare that symbol |
+| `package-mismatch: <path>` | The file is not in the directory named by `package`, or files of one directory carry another package clause |
+| `duplicate-symbol: <path> <symbol>` | The same symbol is listed twice as moved, or twice as staying |
+| `moved-and-stays: <path> <symbol>` | The same symbol is both moved and staying |
+
+Donor tests are accounted as for a whole-file move, per donor package: a test that uses only moved symbols is `left-behind` unless it is a specimen, and a mixed test needs its moved-only assertions in `assertions` with a destination.
+A moved test function is a moved symbol and is not accounted again.
+
+The manifest keeps the same keys and order.
+Only these records differ:
+
+| Key | Symbol-level record |
+| --- | --- |
+| `symbols` | `name`, `file`, `uses`, `package`. Sorted by package, file and name. A name may repeat in two packages |
+| `stays` | The declared staying symbols are `kind` `symbol`, with `name`, `file` and `package`, next to the test and specimen records |
+| `destinations` | A symbol is `kind` `symbol`, with `name`, `package`, `repository`, `path` and `destination_name`. `destination_name` is the donor name when nothing was renamed |
+| `paths` | The donor list holds each file that has a moved symbol, so a file that only gives part of itself is listed whole |
+
+`check` recomputes the closure from the donor, the moved symbols and the declared staying symbols of the manifest, and fails on a changed symbol set, a changed `uses`, a removed staying declaration (`outside-set`) or a symbol without exactly one destination (`missing-destination symbol=<package>:<name>`).
+`compare` is unchanged: it executes the transferred assertions and the bound cases, and fails with `not-executed` when they did not run.
+`deletion` reads the donor list and does not know that a listed file was only partly moved.
+A deletion row therefore must not rely on a symbol-level manifest for a file that still holds staying symbols.
+
 ## Manifest
 
 `<row>.json` keeps this key order:

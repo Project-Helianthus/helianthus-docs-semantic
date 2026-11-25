@@ -466,6 +466,26 @@ class Repo:
     def move(self, path: str, dest: str, repository: str = "ebusgo") -> dict:
         return {"path": path, "destination_repository": repository, "destination_path": dest}
 
+    def symbol(
+        self,
+        package: str,
+        path: str,
+        symbol: str,
+        dest: str,
+        renamed: str | None = None,
+        repository: str = "ebusgo",
+    ) -> dict:
+        item = {
+            "package": package,
+            "path": path,
+            "symbol": symbol,
+            "destination_repository": repository,
+            "destination_path": dest,
+        }
+        if renamed:
+            item["destination_symbol"] = renamed
+        return item
+
     def bound(self, row: str, assertion: str, test: str, selectors: dict | None = None) -> dict:
         item = {
             "row": row,
@@ -822,6 +842,232 @@ class ManifestCLITest(unittest.TestCase):
             "not-executed assertion=observed-symbol",
         )
         self.assertNotIn("compare: ok", missing.stdout)
+
+    ALPHA = "closure/symbols/alpha"
+    BETA = "closure/symbols/beta"
+
+    def alpha_moves(self) -> list[dict]:
+        core = f"{self.ALPHA}/core.go"
+        return [
+            self.repo.symbol(self.ALPHA, core, "Record", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "Store", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "Store.Put", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "Store.Get", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "cloneRecord", "engine/records.go", renamed="CloneRecord"),
+        ]
+
+    def beta_moves(self) -> list[dict]:
+        record = f"{self.BETA}/record.go"
+        return [
+            self.repo.symbol(self.BETA, record, "Record", "engine/mcp.go", renamed="MCPRecord"),
+            self.repo.symbol(self.BETA, record, "NewRecord", "engine/mcp.go", renamed="NewMCPRecord"),
+            self.repo.symbol(self.BETA, record, "Record.Label", "engine/mcp.go"),
+        ]
+
+    def symbol_spec(self, row: str, moves: list[dict], **kwargs: object) -> dict:
+        return self.repo.base(row, symbol_moves=moves, **kwargs)
+
+    def clone_assertions(self) -> list[dict]:
+        return [{
+            "function": "TestStoreBehaviour",
+            "name": "clone-name",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+
+    def test_symbol_moves_span_two_donor_packages(self) -> None:
+        moves = self.alpha_moves() + self.beta_moves()
+        spec = self.symbol_spec("symbols-two-packages", moves, assertions=self.clone_assertions())
+        first = self.repo.generate(spec)
+        second = self.repo.generate(spec)
+        self.assert_ok(first)
+        self.assertEqual(first.stdout, second.stdout)
+        manifest = self.repo.manifest("symbols-two-packages")
+        self.assertEqual(list(manifest), list(KEYS))
+        self.assertEqual(
+            [(item["package"], item["file"], item["name"]) for item in manifest["symbols"]],
+            [
+                (self.ALPHA, f"{self.ALPHA}/core.go", "Record"),
+                (self.ALPHA, f"{self.ALPHA}/core.go", "Store"),
+                (self.ALPHA, f"{self.ALPHA}/core.go", "Store.Get"),
+                (self.ALPHA, f"{self.ALPHA}/core.go", "Store.Put"),
+                (self.ALPHA, f"{self.ALPHA}/core.go", "cloneRecord"),
+                (self.BETA, f"{self.BETA}/record.go", "NewRecord"),
+                (self.BETA, f"{self.BETA}/record.go", "Record"),
+                (self.BETA, f"{self.BETA}/record.go", "Record.Label"),
+            ],
+        )
+        donor = next(item for item in manifest["paths"] if item["repository"] == "gateway")
+        dest = next(item for item in manifest["paths"] if item["repository"] == "ebusgo")
+        self.assertEqual(donor["paths"], [f"{self.ALPHA}/core.go", f"{self.BETA}/record.go"])
+        self.assertEqual(dest["paths"], ["engine/mcp.go", "engine/records.go"])
+        self.assertEqual([item["kind"] for item in manifest["stays"]], ["assertion"])
+        self.assert_ok(self.repo.check("symbols-two-packages"))
+        self.assert_ok(self.repo.compare("symbols-two-packages", self.repo.dest))
+
+    def test_declared_names_only_are_counted(self) -> None:
+        spec = self.symbol_spec("symbols-names", self.alpha_moves(), assertions=self.clone_assertions())
+        completed = self.repo.generate(spec)
+        self.assert_ok(completed)
+        self.assertNotIn("outside-set", completed.stdout)
+        uses = {item["name"]: item["uses"] for item in self.repo.manifest("symbols-names")["symbols"]}
+        self.assertEqual(
+            uses,
+            {
+                "Record": [],
+                "Store": ["Record"],
+                "Store.Get": ["Record", "Store"],
+                "Store.Put": ["Record", "Store", "cloneRecord"],
+                "cloneRecord": ["Record"],
+            },
+        )
+        whole = self.repo.base(
+            "symbols-whole-file",
+            moves=[self.repo.move(f"{self.ALPHA}/core.go", "engine/core.go")],
+        )
+        self.assert_fail(self.repo.generate(whole), "outside-set: ")
+        self.assert_absent("symbols-whole-file")
+
+    def test_a_sibling_that_stays_must_be_declared(self) -> None:
+        core = f"{self.ALPHA}/core.go"
+        moves = [
+            self.repo.symbol(self.ALPHA, core, "Record", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "describe", "engine/records.go"),
+        ]
+        undeclared = self.repo.generate(self.symbol_spec("symbols-undeclared", moves))
+        self.assert_fail(undeclared)
+        self.assertEqual(undeclared.stdout, "outside-set: kept\n")
+        self.assert_absent("symbols-undeclared")
+        stays = [{"package": self.ALPHA, "path": f"{self.ALPHA}/stay.go", "symbol": "kept"}]
+        declared = self.repo.generate(self.symbol_spec("symbols-declared", moves, stay_symbols=stays))
+        self.assert_ok(declared)
+        manifest = self.repo.manifest("symbols-declared")
+        self.assertEqual(
+            [item for item in manifest["stays"] if item["kind"] == "symbol"],
+            [{"kind": "symbol", "name": "kept", "file": f"{self.ALPHA}/stay.go", "package": self.ALPHA}],
+        )
+        self.assertEqual(
+            {item["name"]: item["uses"] for item in manifest["symbols"]},
+            {"Record": [], "describe": ["Record"]},
+        )
+        self.assert_ok(self.repo.check("symbols-declared"))
+        stripped = json.loads(self.repo.manifest_path("symbols-declared").read_text(encoding="utf-8"))
+        stripped["stays"] = []
+        path = self.repo.root / "acceptance" / "manifests" / "symbols-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("symbols-declared", manifest=path), "outside-set: kept")
+
+    def test_methods_of_a_moved_type_are_siblings(self) -> None:
+        core = f"{self.ALPHA}/core.go"
+        moves = [
+            self.repo.symbol(self.ALPHA, core, "Record", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "Store", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "Store.Put", "engine/records.go"),
+            self.repo.symbol(self.ALPHA, core, "cloneRecord", "engine/records.go"),
+        ]
+        self.assertEqual(
+            self.repo.generate(self.symbol_spec("symbols-methods", moves, assertions=self.clone_assertions())).stdout,
+            "outside-set: Store.Get\n",
+        )
+        stays = [{"package": self.ALPHA, "path": core, "symbol": "Store.Get"}]
+        self.assert_ok(self.repo.generate(self.symbol_spec("symbols-methods", moves, stay_symbols=stays, assertions=self.clone_assertions())))
+        self.assert_ok(self.repo.check("symbols-methods"))
+
+    def test_renamed_symbol_is_recorded_with_both_names(self) -> None:
+        moves = self.alpha_moves() + self.beta_moves()
+        self.assert_ok(self.repo.generate(self.symbol_spec("symbols-renames", moves, assertions=self.clone_assertions())))
+        destinations = {
+            (item["package"], item["name"]): item
+            for item in self.repo.manifest("symbols-renames")["destinations"]
+            if item["kind"] == "symbol"
+        }
+        self.assertEqual(destinations[(self.ALPHA, "cloneRecord")]["destination_name"], "CloneRecord")
+        self.assertEqual(destinations[(self.BETA, "Record")]["destination_name"], "MCPRecord")
+        self.assertEqual(destinations[(self.ALPHA, "Record")]["destination_name"], "Record")
+        self.assertEqual(destinations[(self.BETA, "Record")]["path"], "engine/mcp.go")
+        self.assertEqual(destinations[(self.ALPHA, "Record")]["path"], "engine/records.go")
+        self.assertEqual(destinations[(self.BETA, "Record")]["repository"], "ebusgo")
+        broken = json.loads(self.repo.manifest_path("symbols-renames").read_text(encoding="utf-8"))
+        broken["destinations"] = [
+            item for item in broken["destinations"]
+            if not (item["kind"] == "symbol" and item["name"] == "cloneRecord")
+        ]
+        path = self.repo.root / "acceptance" / "manifests" / "symbols-renames-broken.json"
+        path.write_text(json.dumps(broken), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("symbols-renames", manifest=path),
+            f"missing-destination symbol={self.ALPHA}:cloneRecord",
+        )
+
+    def test_symbol_move_input_is_checked_against_the_donor(self) -> None:
+        core = f"{self.ALPHA}/core.go"
+        missing = [self.repo.symbol(self.ALPHA, core, "nothing", "engine/x.go")]
+        self.assert_fail(
+            self.repo.generate(self.symbol_spec("symbols-missing", missing)),
+            f"absent-symbol: {core} nothing",
+        )
+        elsewhere = [self.repo.symbol(self.BETA, core, "Record", "engine/x.go")]
+        self.assert_fail(
+            self.repo.generate(self.symbol_spec("symbols-elsewhere", elsewhere)),
+            f"package-mismatch: {core}",
+        )
+        both = [self.repo.symbol(self.ALPHA, core, "Record", "engine/x.go")]
+        stays = [{"package": self.ALPHA, "path": core, "symbol": "Record"}]
+        self.assert_fail(
+            self.repo.generate(self.symbol_spec("symbols-both", both, stay_symbols=stays)),
+            f"moved-and-stays: {core} Record",
+        )
+        mixed = self.repo.base(
+            "symbols-mixed",
+            moves=[self.repo.move("closure/closed/moved.go", "engine/moved.go")],
+            symbol_moves=both,
+        )
+        self.assert_fail(self.repo.generate(mixed), "moves-and-symbol-moves")
+        for row in ("symbols-missing", "symbols-elsewhere", "symbols-both", "symbols-mixed"):
+            self.assert_absent(row)
+
+    def test_symbol_level_assertions_are_executed_by_compare(self) -> None:
+        spec = self.symbol_spec("symbols-compare", self.alpha_moves(), assertions=self.clone_assertions())
+        self.assert_ok(self.repo.generate(spec))
+        manifest = self.repo.manifest("symbols-compare")
+        self.assertEqual(
+            [(item["function"], item["name"], item["helpers"]) for item in manifest["assertions"]],
+            [("TestStoreBehaviour", "clone-name", ["cloneRecord"])],
+        )
+        self.assertEqual(
+            [(item["kind"], item["function"], item["name"]) for item in manifest["stays"]],
+            [("assertion", "TestStoreBehaviour", "kept-value")],
+        )
+        self.assert_ok(self.repo.check("symbols-compare"))
+        compared = self.repo.compare("symbols-compare", self.repo.dest)
+        self.assert_ok(compared)
+        self.assertTrue(
+            any(
+                "assertion=clone-name" in line and "test=TestEcho" in line and line.endswith("result=pass")
+                for line in compared.stdout.splitlines()
+            ),
+            detail(compared),
+        )
+        absent = self.repo.private_dest()
+        echo = absent / "dest" / "echo_test.go"
+        echo.write_text(
+            echo.read_text(encoding="utf-8").replace(
+                "func TestEcho(t *testing.T)    { report(t, false) }\n",
+                "",
+                1,
+            ),
+            encoding="utf-8",
+        )
+        missing = self.repo.compare("symbols-compare", absent)
+        self.assert_fail(missing, "not-executed move=symbols-compare", "not-executed assertion=clone-name")
+        self.assertNotIn("compare: ok", missing.stdout)
+        unaccounted = self.symbol_spec("symbols-unaccounted", self.alpha_moves())
+        self.assert_fail(
+            self.repo.generate(unaccounted),
+            "unaccounted-assertion function=TestStoreBehaviour assertion=clone-name",
+        )
+        self.assert_absent("symbols-unaccounted")
 
     def test_left_behind_test_and_historical_specimen(self) -> None:
         move = [self.repo.move("closure/left/moved.go", "engine/left.go")]
@@ -3095,6 +3341,102 @@ class ManifestCLITest(unittest.TestCase):
         self.assertNotIn("result=pass", compared.stdout)
         self.assertEqual(self.repo.manifest_path("absence-baseline").read_bytes(), before)
         self.assertEqual(edited_path.read_bytes(), planted_bytes)
+
+
+class DeclaredSymbolUsesTest(unittest.TestCase):
+    """Uses are counted for declared package-level names only."""
+
+    SOURCE = """package p
+
+type Name string
+
+type Zone struct {
+	Name  string `json:"name"`
+	Other Sibling
+	hook  func(sibling int) error
+}
+
+type Sibling struct{ ID int }
+
+type Reader interface {
+	Read(sibling int) Sibling
+	Embedded
+}
+
+type Embedded interface{}
+
+var sibling = 3
+var name = "x"
+
+const (
+	KeyA = "a"
+	KeyB = "b"
+)
+
+func helper(name string) int { return len(name) }
+
+func Generic[Sibling any](items []Sibling, fn func(name Sibling) Sibling) {}
+
+func (zone *Zone) Describe(id int) string {
+	err := helper("a")
+	for index, value := range []int{1} {
+		_ = index + value
+	}
+	if found, ok := table[KeyA]; ok {
+		_ = found
+	}
+	built := Zone{Name: "a", Other: Sibling{ID: 2}}
+	keyed := map[string]int{KeyB: 1}
+	apply := func(sibling int) int { return sibling }
+	switch kind := any(built).(type) {
+	case Zone:
+		_ = kind
+	}
+	_, _, _ = err, keyed, apply
+	return zone.Name + name
+}
+
+func Late() int {
+	value := sibling
+	return value
+}
+"""
+
+    def uses(self) -> dict[str, set[str]]:
+        sys.path.insert(0, str(TOOL))
+        try:
+            import closure
+        finally:
+            sys.path.pop(0)
+        source = closure.GoFile(self.SOURCE)
+        names = {item.name for item in source.declarations if item.kind != "method"}
+        structs = {item.name for item in source.declarations if item.struct}
+        return {
+            item.key: source.uses(item, names, structs) for item in source.declarations
+        }
+
+    def test_declarations_are_top_level_names_and_methods(self) -> None:
+        self.assertEqual(
+            sorted(self.uses()),
+            [
+                "Embedded", "Generic", "KeyA", "KeyB", "Late", "Name", "Reader",
+                "Sibling", "Zone", "Zone.Describe", "helper", "name", "sibling",
+            ],
+        )
+
+    def test_field_parameter_receiver_and_local_names_are_not_uses(self) -> None:
+        uses = self.uses()
+        self.assertEqual(uses["Zone"], {"Sibling"})
+        self.assertEqual(uses["Reader"], {"Sibling", "Embedded"})
+        self.assertEqual(uses["helper"], set())
+        self.assertEqual(uses["Generic"], set())
+        self.assertEqual(
+            uses["Zone.Describe"],
+            {"Zone", "Sibling", "KeyA", "KeyB", "helper", "name"},
+        )
+
+    def test_a_name_is_used_outside_the_scope_that_shadows_it(self) -> None:
+        self.assertEqual(self.uses()["Late"], {"sibling"})
 
 
 class CompareTimeoutPolicyTest(unittest.TestCase):
