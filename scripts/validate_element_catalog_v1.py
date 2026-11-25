@@ -9,8 +9,8 @@ CAT-1 to CAT-9 of graph contract section 10.4 in code. Every expected value is
 recomputed from the accepted inputs; nothing is taken from the catalog
 generator, which this module never imports:
 
-- ``catalog.definitions`` of the thermal, PV, EVSE, infrastructure and
-  energy-management acceptance vectors and the storage contract tables (CAT-1, CAT-2);
+- ``catalog.definitions`` of the thermal, PV, EVSE, infrastructure,
+  energy-management and equipment acceptance vectors and the storage contract tables (CAT-1, CAT-2);
 - ``api/v1/pack-metadata-v1.json`` (CAT-2);
 - sections 7.1, 8.1 and 10.2 of ``api/v1/graph.md`` for the core relation
   types, the planes and the kernel state types (CAT-1, CAT-4);
@@ -55,6 +55,7 @@ ACCEPTED_PACK_SOURCES = (
     "api/v1/packs/evse-acceptance-vectors.json",
     "api/v1/packs/infrastructure-acceptance-vectors.json",
     "api/v1/packs/energy-management-acceptance-vectors.json",
+    "api/v1/packs/equipment-acceptance-vectors.json",
 )
 STORAGE_SOURCE = "api/v1/packs/storage-bms-acceptance-vectors.json"
 

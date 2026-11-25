@@ -17632,6 +17632,678 @@
       "canonical_name": "unit.kilogram_per_cubic_metre",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.equipment",
+      "canonical_name": "helianthus.pack.equipment",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere",
+      "canonical_name": "unit.ampere",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ampere_hour",
+      "canonical_name": "unit.ampere_hour",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.hertz",
+      "canonical_name": "unit.hertz",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.one",
+      "canonical_name": "unit.one",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ratio",
+      "canonical_name": "unit.ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.second",
+      "canonical_name": "unit.second",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt",
+      "canonical_name": "unit.volt",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.capability.read.resource",
+      "canonical_name": "equipment.capability.read.resource",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.capability.read.unit",
+      "canonical_name": "equipment.capability.read.unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.capability.set_label",
+      "canonical_name": "equipment.capability.set_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.diagnosis.last_error_code",
+      "canonical_name": "equipment.diagnosis.last_error_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.diagnosis.operating_state",
+      "canonical_name": "equipment.diagnosis.operating_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.diagnosis.operating_time",
+      "canonical_name": "equipment.diagnosis.operating_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.diagnosis.vendor_state_code",
+      "canonical_name": "equipment.diagnosis.vendor_state_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.dimension.message",
+      "canonical_name": "equipment.dimension.message",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.dimension.resource",
+      "canonical_name": "equipment.dimension.resource",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.dimension.unit",
+      "canonical_name": "equipment.dimension.unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.effect.set_label",
+      "canonical_name": "equipment.effect.set_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.event.battery_charge_fault_change",
+      "canonical_name": "equipment.event.battery_charge_fault_change",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.event.battery_fault_change",
+      "canonical_name": "equipment.event.battery_fault_change",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.event.message_queued",
+      "canonical_name": "equipment.event.message_queued",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.event.reachable_changed",
+      "canonical_name": "equipment.event.reachable_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.event.wired_fault_change",
+      "canonical_name": "equipment.event.wired_fault_change",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.brand_name",
+      "canonical_name": "equipment.identification.brand_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.hardware_revision",
+      "canonical_name": "equipment.identification.hardware_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.hardware_version",
+      "canonical_name": "equipment.identification.hardware_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.manufacturing_date",
+      "canonical_name": "equipment.identification.manufacturing_date",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.part_number",
+      "canonical_name": "equipment.identification.part_number",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.power_source_kind",
+      "canonical_name": "equipment.identification.power_source_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.product_code",
+      "canonical_name": "equipment.identification.product_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.product_description",
+      "canonical_name": "equipment.identification.product_description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.product_label",
+      "canonical_name": "equipment.identification.product_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.product_name",
+      "canonical_name": "equipment.identification.product_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.product_url",
+      "canonical_name": "equipment.identification.product_url",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.serial_number",
+      "canonical_name": "equipment.identification.serial_number",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.software_revision",
+      "canonical_name": "equipment.identification.software_revision",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.software_version",
+      "canonical_name": "equipment.identification.software_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.vendor_code",
+      "canonical_name": "equipment.identification.vendor_code",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.identification.vendor_name",
+      "canonical_name": "equipment.identification.vendor_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.label.description",
+      "canonical_name": "equipment.label.description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.label.name",
+      "canonical_name": "equipment.label.name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.message.kind",
+      "canonical_name": "equipment.message.kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.message.text",
+      "canonical_name": "equipment.message.text",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.message.time",
+      "canonical_name": "equipment.message.time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.operation.set_label",
+      "canonical_name": "equipment.operation.set_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.portal.read.resource",
+      "canonical_name": "equipment.portal.read.resource",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.portal.read.unit",
+      "canonical_name": "equipment.portal.read.unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_ansi_designation",
+      "canonical_name": "equipment.power.battery_ansi_designation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_capacity",
+      "canonical_name": "equipment.power.battery_capacity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_charge_faults",
+      "canonical_name": "equipment.power.battery_charge_faults",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_charge_level",
+      "canonical_name": "equipment.power.battery_charge_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_charge_ratio",
+      "canonical_name": "equipment.power.battery_charge_ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_charge_state",
+      "canonical_name": "equipment.power.battery_charge_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_charging_current",
+      "canonical_name": "equipment.power.battery_charging_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_chemistry",
+      "canonical_name": "equipment.power.battery_chemistry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_common_designation",
+      "canonical_name": "equipment.power.battery_common_designation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_faults",
+      "canonical_name": "equipment.power.battery_faults",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_functional_while_charging",
+      "canonical_name": "equipment.power.battery_functional_while_charging",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_iec_designation",
+      "canonical_name": "equipment.power.battery_iec_designation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_present",
+      "canonical_name": "equipment.power.battery_present",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_quantity",
+      "canonical_name": "equipment.power.battery_quantity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_replaceability",
+      "canonical_name": "equipment.power.battery_replaceability",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_replacement_description",
+      "canonical_name": "equipment.power.battery_replacement_description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_replacement_needed",
+      "canonical_name": "equipment.power.battery_replacement_needed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_time_remaining",
+      "canonical_name": "equipment.power.battery_time_remaining",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_time_to_full",
+      "canonical_name": "equipment.power.battery_time_to_full",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.battery_voltage",
+      "canonical_name": "equipment.power.battery_voltage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.source_description",
+      "canonical_name": "equipment.power.source_description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.source_order",
+      "canonical_name": "equipment.power.source_order",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.source_status",
+      "canonical_name": "equipment.power.source_status",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_current",
+      "canonical_name": "equipment.power.wired_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_current_type",
+      "canonical_name": "equipment.power.wired_current_type",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_faults",
+      "canonical_name": "equipment.power.wired_faults",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_input_frequency",
+      "canonical_name": "equipment.power.wired_input_frequency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_input_voltage",
+      "canonical_name": "equipment.power.wired_input_voltage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_maximum_current",
+      "canonical_name": "equipment.power.wired_maximum_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_nominal_voltage",
+      "canonical_name": "equipment.power.wired_nominal_voltage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.power.wired_present",
+      "canonical_name": "equipment.power.wired_present",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.service.resource",
+      "canonical_name": "equipment.service.resource",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.service.unit",
+      "canonical_name": "equipment.service.unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.status.reachable",
+      "canonical_name": "equipment.status.reachable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.time.current",
+      "canonical_name": "equipment.time.current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/equipment/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "equipment.time.timezone",
+      "canonical_name": "equipment.time.timezone",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {
