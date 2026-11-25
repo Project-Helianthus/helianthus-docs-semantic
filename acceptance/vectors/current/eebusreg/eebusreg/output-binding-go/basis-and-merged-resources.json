@@ -1,0 +1,198 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (OutputBinding.Apply, ensureEntity, applyLoss)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingBasisAndMerge",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "bases": [
+        "index",
+        "name",
+        "address",
+        ""
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/basis",
+        "entity_address": "",
+        "entity_types": [
+          "CEM"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "index",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "index",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/basis",
+        "entity_address": "",
+        "entity_types": [
+          "CEM"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "name",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "name",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/basis",
+        "entity_address": "",
+        "entity_types": [
+          "CEM"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "address",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "address",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/empty-basis",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/second-family-same-resource",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [
+          "merged_resources"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

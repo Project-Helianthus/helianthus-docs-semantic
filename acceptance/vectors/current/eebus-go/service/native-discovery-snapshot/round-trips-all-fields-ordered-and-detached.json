@@ -1,0 +1,124 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (VisiblePairingCandidateDiscoverySnapshotUpdated, cloneAndSortPairingCandidateDiscoverySnapshot)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/native_discovery_snapshot_test.go TestNativeDiscoverySnapshotRoundTripsAllFieldsOrderedAndDetached",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "after_delivery": "the input candidate name, first address byte and first scoped address of candidate-a are mutated",
+      "snapshot": {
+        "candidates": [
+          {
+            "addresses_hex": [
+              "00000000000000000000ffffc0000229"
+            ],
+            "addresses_nil": false,
+            "brand": "brand-z",
+            "candidate_ref": "candidate-z",
+            "host": "z.invalid",
+            "identifier": "id-z",
+            "model": "model-z",
+            "name": "second",
+            "path": "/ship/z",
+            "port": 4712,
+            "register": true,
+            "scoped_addresses": [
+              "fe80::41%synthetic1"
+            ],
+            "scoped_addresses_nil": false,
+            "ski": "ski-z",
+            "type": "type-z",
+            "unscoped_link_local_observed": true
+          },
+          {
+            "addresses_hex": [
+              "20010db8000000000000000000000041"
+            ],
+            "addresses_nil": false,
+            "brand": "brand-a",
+            "candidate_ref": "candidate-a",
+            "host": "a.invalid",
+            "identifier": "id-a",
+            "model": "model-a",
+            "name": "first",
+            "path": "/ship/a",
+            "port": 4713,
+            "register": false,
+            "scoped_addresses": [
+              "2001:db8::41"
+            ],
+            "scoped_addresses_nil": false,
+            "ski": "ski-a",
+            "type": "type-a",
+            "unscoped_link_local_observed": false
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": true,
+        "observation_revision": 41
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [],
+    "cache": {},
+    "observations": [
+      {
+        "candidates": [
+          {
+            "addresses_hex": [
+              "20010db8000000000000000000000041"
+            ],
+            "addresses_nil": false,
+            "brand": "brand-a",
+            "candidate_ref": "candidate-a",
+            "host": "a.invalid",
+            "identifier": "id-a",
+            "model": "model-a",
+            "name": "first",
+            "path": "/ship/a",
+            "port": 4713,
+            "register": false,
+            "scoped_addresses": [
+              "2001:db8::41"
+            ],
+            "scoped_addresses_nil": false,
+            "ski": "ski-a",
+            "type": "type-a",
+            "unscoped_link_local_observed": false
+          },
+          {
+            "addresses_hex": [
+              "00000000000000000000ffffc0000229"
+            ],
+            "addresses_nil": false,
+            "brand": "brand-z",
+            "candidate_ref": "candidate-z",
+            "host": "z.invalid",
+            "identifier": "id-z",
+            "model": "model-z",
+            "name": "second",
+            "path": "/ship/z",
+            "port": 4712,
+            "register": true,
+            "scoped_addresses": [
+              "fe80::41%synthetic1"
+            ],
+            "scoped_addresses_nil": false,
+            "ski": "ski-z",
+            "type": "type-z",
+            "unscoped_link_local_observed": true
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": true,
+        "observation_revision": 41
+      }
+    ],
+    "counters": {}
+  }
+}

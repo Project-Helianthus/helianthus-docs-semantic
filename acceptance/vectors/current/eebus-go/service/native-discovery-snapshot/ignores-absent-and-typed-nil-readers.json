@@ -1,0 +1,34 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (VisiblePairingCandidateDiscoverySnapshotUpdated)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/native_discovery_snapshot_test.go TestNativeDiscoverySnapshotIgnoresAbsentAndTypedNilReaders",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "handlers": [
+        "none",
+        "typed nil native reader"
+      ],
+      "snapshot": {
+        "candidates": [],
+        "candidates_nil": true,
+        "new_entries": false,
+        "observation_revision": 1
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "panicked": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

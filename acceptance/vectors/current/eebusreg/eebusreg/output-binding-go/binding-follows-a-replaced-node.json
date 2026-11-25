@@ -1,0 +1,199 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (liveNodeLocked)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingFollowsReplacedNode",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sequence": [
+        "Apply on the first node",
+        "the runtime releases its node",
+        "Apply",
+        "a second node runs",
+        "Apply"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/north-on-first-node",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "first-node",
+        "entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          }
+        ]
+      },
+      {
+        "AdvertisementCount": 0,
+        "EntityAddresses": [
+          "cem"
+        ],
+        "call": "Apply/north-without-a-node",
+        "entity_address": "",
+        "entity_types": [],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [
+          "existing_node"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "EntityTypes": [
+          "CEM"
+        ],
+        "call": "EntityTypes/new-node-before-a-lens-result"
+      },
+      {
+        "address_equals_first_address": true,
+        "call": "Apply/north-on-second-node",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "nodes",
+        "first_entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          }
+        ],
+        "second_entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          }
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

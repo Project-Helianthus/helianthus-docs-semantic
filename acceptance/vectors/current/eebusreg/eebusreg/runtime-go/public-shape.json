@@ -1,0 +1,146 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (Runtime, Config, Remote, PairingPolicy, ErrRuntimeDisabled, ErrRuntimeShutdown)",
+  "source": "runtime.go",
+  "stimulus": "runtime_contract_test.go TestRuntimePublicLifecycleContractIsExact, TestRuntimeConfigurationUsesOnlyPlainTypes; runtime_configuration_contract_test.go TestRuntimeConfigurationPublicShapeIsExact",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "types": [
+        "Runtime",
+        "Config",
+        "Remote",
+        "PairingPolicy"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [],
+    "cache": {},
+    "observations": [
+      {
+        "kind": "interface",
+        "method_count": 6,
+        "methods": [
+          {
+            "name": "FeaturesDataGet",
+            "signature": "func(context.Context, eebusraw.ReadAuthorizationV1, eebusraw.FeatureDataGetRequestV1) (eebusraw.FeatureDataGetDataV1, *eebusraw.ErrorV1)"
+          },
+          {
+            "name": "FeaturesGet",
+            "signature": "func(context.Context, eebusraw.ReadAuthorizationV1, eebusraw.FeaturesGetRequestV1) (eebusraw.FeaturesGetDataV1, *eebusraw.ErrorV1)"
+          },
+          {
+            "name": "PairingState",
+            "signature": "func() ([]eebusruntime.PairingObservationV1, error)"
+          },
+          {
+            "name": "Shutdown",
+            "signature": "func() error"
+          },
+          {
+            "name": "Snapshot",
+            "signature": "func() (eebusruntime.SnapshotV1, error)"
+          },
+          {
+            "name": "Start",
+            "signature": "func(context.Context) error"
+          }
+        ],
+        "type": "Runtime"
+      },
+      {
+        "fields": [
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "Enabled",
+            "tag": "",
+            "type": "bool"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "StateRoot",
+            "tag": "",
+            "type": "string"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "Interface",
+            "tag": "",
+            "type": "string"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "ListenAddress",
+            "tag": "",
+            "type": "netip.AddrPort"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "DiscoveryEnabled",
+            "tag": "",
+            "type": "bool"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "Remotes",
+            "tag": "",
+            "type": "[]eebusruntime.Remote"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "PairingPolicy",
+            "tag": "",
+            "type": "eebusruntime.PairingPolicy"
+          },
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "MutationLabProfiles",
+            "tag": "",
+            "type": "[]eebusraw.MutationLabProfileV1"
+          }
+        ],
+        "type": "Config"
+      },
+      {
+        "fields": [
+          {
+            "anonymous": false,
+            "exported": true,
+            "name": "SKI",
+            "tag": "",
+            "type": "string"
+          }
+        ],
+        "type": "Remote"
+      },
+      {
+        "closed_value": "closed",
+        "kind": "string",
+        "name": "PairingPolicy",
+        "package_path_present": true,
+        "type": "PairingPolicy"
+      },
+      {
+        "error": "ErrRuntimeDisabled",
+        "text": "eebus runtime is disabled"
+      },
+      {
+        "error": "ErrRuntimeShutdown",
+        "text": "eebus runtime is shutdown"
+      }
+    ],
+    "counters": {}
+  }
+}

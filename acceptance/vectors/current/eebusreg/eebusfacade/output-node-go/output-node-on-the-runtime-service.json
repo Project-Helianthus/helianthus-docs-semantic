@@ -1,0 +1,147 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "internal/eebusfacade/output_node.go (OutputNode, OpenOutputNode, adoptOutputService, releaseOutputService, AddEntity, AddServerFeature, AddServerFeatures, letterEntityNumber)",
+  "source": "internal/eebusfacade/output_node.go",
+  "stimulus": "internal/eebusfacade/output_node_test.go TestOutputNodeCountsFollowTheService, TestOutputNodeUsesRuntimeService, TestOutputNodeFailedAttachLeavesNoFeature, TestOutputNodeAddsAllFeaturesOrNone, TestOutputNodeEntityAddressFollowsLetter",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "features": [
+        "measurement",
+        "electrical connection",
+        "device diagnosis",
+        "load control",
+        "unknown"
+      ],
+      "letters": [
+        "na",
+        "nb",
+        "a",
+        "b",
+        "c"
+      ],
+      "service": "newOutputNodeRuntime of the pin: a generated certificate, interface fixture-interface, port 4711; Setup only, nothing listens or announces"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "counts-follow-the-service",
+        "has_cem_entity": true,
+        "has_inverter_entity": false,
+        "ready": {
+          "advertisements": 1,
+          "device_type": "EnergyManagementSystem",
+          "services": 1
+        },
+        "setup_error": null,
+        "unready": {
+          "advertisements": 0,
+          "device_type": "",
+          "services": 0
+        }
+      },
+      {
+        "AddEntity_inverter_error": null,
+        "AddEntity_pv_string_error": null,
+        "AddServerFeature_error": null,
+        "EntityTypes": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "NestedUnder_nb_na": true,
+        "ObservedServerFeatures": [
+          "Measurement"
+        ],
+        "call": "uses-the-runtime-service",
+        "counts": {
+          "advertisements": 1,
+          "device_type": "EnergyManagementSystem",
+          "services": 1
+        },
+        "node_is_runtime_service": true,
+        "open_after_prepare_error": null,
+        "open_after_release_error": {
+          "text": "existing node is unavailable"
+        },
+        "open_before_prepare_error": {
+          "text": "existing node is unavailable"
+        },
+        "service_has_inverter": true,
+        "service_has_pv_string": true,
+        "setup_error": null
+      },
+      {
+        "AddEntity_error": null,
+        "call": "failed-attach-leaves-no-feature",
+        "failed_attach_error": {
+          "text": "existing node is unavailable"
+        },
+        "later_attach_error": null,
+        "listed_after_failed_attach": [],
+        "listed_after_later_attach": [
+          "measurement"
+        ],
+        "observed_after_failed_attach": [],
+        "observed_after_repeat": [
+          "Measurement"
+        ],
+        "repeat_attach_error": null,
+        "setup_error": null
+      },
+      {
+        "AddEntity_error": null,
+        "ServerFeatures": [
+          "electrical connection",
+          "load control",
+          "measurement"
+        ],
+        "accepted_batch_errors": [
+          null,
+          null
+        ],
+        "batch_on_missing_entity_error": {
+          "text": "existing node is unavailable"
+        },
+        "call": "adds-all-features-or-none",
+        "observed_after_rejected_batch": [],
+        "observed_after_unknown_batch": [],
+        "observed_count": 3,
+        "rejected_error": {
+          "text": "existing node is unavailable"
+        },
+        "rejected_feature": "electrical connection",
+        "setup_error": null,
+        "unknown_error": {
+          "text": "existing node is unavailable"
+        },
+        "unknown_feature": "unknown"
+      },
+      {
+        "apply_order_a_b": {
+          "a": "[2]",
+          "b": "[3]",
+          "c": "[3 4]",
+          "pv_string_error": null
+        },
+        "apply_order_b_a": {
+          "a": "[2]",
+          "b": "[3]",
+          "c": "[3 4]",
+          "pv_string_error": null
+        },
+        "call": "entity-address-follows-the-letter",
+        "orders_equal": true,
+        "overlong_letter_accepted": false,
+        "overlong_letter_number": 0
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

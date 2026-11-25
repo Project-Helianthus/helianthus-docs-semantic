@@ -9425,6 +9425,294 @@
       "recorder": "check.py --record-can-native current",
       "case": "nonlinux-project-unsupported",
       "platform": "nonlinux"
+    },
+    {
+      "path": "current/eebus-go/service/native-discovery-snapshot/ignores-absent-and-typed-nil-readers.json",
+      "sha256": "e148cbc21a1c22802d2dc5e828d6b56aff24ccb0b36abbe194b13853a6a4a1dc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/native-discovery-snapshot/preserves-absence-and-restart-revision.json",
+      "sha256": "0660d962b91100ddc2f5225735bbdf82e5459267c20315fd7c90ce1b4a9d6ac7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/native-discovery-snapshot/round-trips-all-fields-ordered-and-detached.json",
+      "sha256": "8d9930745154cb3205c3eb1f5624090ee0298169d3e0ed84ba50407ec3f05e7a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/native-discovery-snapshot/shutdown-clears-once-and-suppresses-later-updates.json",
+      "sha256": "b50082f101ce1d0b00fbb11b5ed9d0cc3878ec6dc173ca25c06036d6f8d9a63b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/lifecycle-start-shutdown.json",
+      "sha256": "9735455ef0e8e9320b565e05e06ebecbd293f5d8d001104987069c8d881ac1cf",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/listener-policy-start.json",
+      "sha256": "cc6f256995897b66209356358cab9581304979caba07885feee06c581bdfcf65",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/outgoing-attempt-bridge-setup.json",
+      "sha256": "16fd4bfec0108efaac9732f164fce1b67879ed23709987568d279dfd4a574e11",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/pairing-candidate-control.json",
+      "sha256": "4efeeb9b2629aa489bdba981c6c0796ac4aa65fc0dc9b7dd52415cee19a6b9ac",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/pairing-registration.json",
+      "sha256": "7fee423e4d50a5a8ef63f5c2b755dbad8bf594a9812bb0fcda413cef370f7f93",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/setup-device-address-and-failures.json",
+      "sha256": "cc997a271eed1547593847bc250b59c191f4e3455f4b55fad5f8e40b2d9fb610",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-go/trusted-remote-retry.json",
+      "sha256": "544c02104a585849b592c06d4dc11b764c69132f061219ebf0b0b872a5770441",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-hub-go/candidate-visibility-dispatch.json",
+      "sha256": "3844dee3ece8cf1981d2cf4218b97b593410d4c4d5e61e0b9cf678f21b4648fb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-hub-go/legacy-candidate-visibility.json",
+      "sha256": "d34db0c323d216446a871deb8bccd124d86588244686c70b68d1d24ab823f1fb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-hub-go/outgoing-attempt-callbacks-forwarded.json",
+      "sha256": "498df9a27aa5ed0ae26011563674b7a33755398c7de59f2ee4715e2bcf2f8ae8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/service/service-hub-go/reader-callbacks-forwarded.json",
+      "sha256": "d872ff971da6fe65eafb6408c9eb105b913edd002c5a154bcabb22b42a1bdf85",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package service --sources eebus-go-service --test TestOracleEEBusGoService --output .tmp/oracle-record/eebus-go-service"
+    },
+    {
+      "path": "current/eebus-go/api/configuration-go/new-configuration-and-accessors.json",
+      "sha256": "6c713f9cefab11a2c50df30aa42b839ebdf67457ff3928d8b3ac3d3ddb201889",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebus-go --package api --sources eebus-go-api --test TestOracleAPIConfiguration --output .tmp/oracle-record/eebus-go-api"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/address-identity-persistence-and-sync.json",
+      "sha256": "d10f396e609351a1143ddc1a38f2c70ae84fc43ba2a12ef07a19e28d8922ef29",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/announcement-losses.json",
+      "sha256": "0346dbbba26d604ab61c79c317b999cc208fa8ed6a3c3304ea489ccd087081df",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/basis-and-merged-resources.json",
+      "sha256": "cb063961ae6ee8ae25034304a47ad8e56db4e3ed4a88601a03e000888c76afd0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/binding-follows-a-replaced-node.json",
+      "sha256": "887dc4738386deaa4f405b52d053646e53406ea07cdebc4f185e0d7f69dc0314",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/construction-counts-and-nil-receiver.json",
+      "sha256": "8b9b60aa26a8a4c62925f7006dc216c4075da3ed6229d6c32025327a0c82f18e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/device-type-prohibition.json",
+      "sha256": "1c1d91e438a84978c9992f841fb978cc2a6fad4e3d2c3761940eb3ca2fd680b6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/resource-fields-admit-or-withhold.json",
+      "sha256": "87230b7d271bcf1f42ccfe3fca9e5dfb6a0826f010992e9a284f10b1ce5bd907",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/output-binding-go/server-features-from-elements-and-operations.json",
+      "sha256": "2c3a190af2b3105a513efedde49baf322a2ee1b6e94bcd020b81e4a0e5e71d70",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/backend-failure-and-terminal-capture.json",
+      "sha256": "a1d43c4de14ba771368d93e576ce2f1a8c74e52b6a1492bcf5b99f4168135b2a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/disabled-runtime-is-inert.json",
+      "sha256": "084f39714ab19ab99b543c19a2ed0b8bf18e2f741aab73925a3ed5a51d82c5b4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/enabled-config-accepted-without-io.json",
+      "sha256": "465ee2a00a07c3d49d394c598d0ba1fd4e6e0b69a4a0443962f7457da0adb060",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/enabled-config-rejections.json",
+      "sha256": "8dfa65206f4bbaa6ecddadde4a97d5b2f689bd4e9ebe1c9e8799b5ce3bbb3794",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/lifecycle-start-snapshot-shutdown.json",
+      "sha256": "f8d074248b7f2d0025ae791162f94dbc13a76f06877b305d27821726626648ff",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/public-shape.json",
+      "sha256": "7c5997961d6355102749d71d691ce944126777a1feed9384d920c6a153eba8dc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusreg/runtime-go/remotes-normalized-rejected-and-copied.json",
+      "sha256": "c52f95a704c606dd1f411171082369feebacb540896300dfdbe0bf5b45e5c95f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package . --sources eebusreg/root --test TestOracleEEBusRoot --output .tmp/oracle-record/eebusreg/root"
+    },
+    {
+      "path": "current/eebusreg/eebusfacade/facade-go/static-evidence-and-control-surface.json",
+      "sha256": "3c5f0c5dec7bcaf8a2b47407ba5b0fb969b7e8a7108149ad49216460ee81f141",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package internal/eebusfacade --sources eebusreg/facade --test TestOracleFacade --output .tmp/oracle-record/eebusreg/facade"
+    },
+    {
+      "path": "current/eebusreg/eebusfacade/output-node-go/output-node-on-the-runtime-service.json",
+      "sha256": "499da690bb31e0ace5112bdc24ff5e285677faf4b08d1b78cc4d586ff1bd36bb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package internal/eebusfacade --sources eebusreg/facade --test TestOracleFacade --output .tmp/oracle-record/eebusreg/facade"
+    },
+    {
+      "path": "current/eebusreg/eebusfacade/runtime-observation-reducer-go/replace-snapshot-and-merge.json",
+      "sha256": "a7c71874c70395d672ff62d377a2606463611bef4fc1c4d8fa234ac9100d8b1c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package internal/eebusfacade --sources eebusreg/facade --test TestOracleFacade --output .tmp/oracle-record/eebusreg/facade"
+    },
+    {
+      "path": "current/eebusreg/eebusfacade/runtime-snapshot-marshal-go/marshal-synthetic-graph-status-and-device.json",
+      "sha256": "c7fdaa1b69c5423948fe7496dad92e1fdb4b91dbbb8b82a8f93a35ae17d9eca7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package internal/eebusfacade --sources eebusreg/facade --test TestOracleFacade --output .tmp/oracle-record/eebusreg/facade"
+    },
+    {
+      "path": "current/eebusreg/eebusservicebridge/service-go/scoped-service-and-attempt-gate.json",
+      "sha256": "fbec02b83f0fd825c833aba9b476e020f2fb10fe8aa8c552877a0fb5323decc2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry eebusreg --package internal/eebusservicebridge --sources eebusreg/bridge --test TestOracleServiceBridge --output .tmp/oracle-record/eebusreg/bridge"
     }
   ]
 }

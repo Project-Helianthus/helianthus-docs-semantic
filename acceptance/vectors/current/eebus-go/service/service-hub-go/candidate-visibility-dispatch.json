@@ -1,0 +1,99 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (dispatchPairingCandidateVisibility, closePairingCandidateVisibilityAdmissions, emitTerminalPairingCandidateVisibility, drainPairingCandidateVisibility)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/pairing_candidate_visibility_dispatch_test.go (every test)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "flood_reports": 1024,
+      "labels": [
+        "first",
+        "during-shutdown",
+        "after-shutdown-return",
+        "shutdown",
+        "after",
+        "before",
+        "stale",
+        "latest",
+        "after-shutdown",
+        "outer",
+        "inner"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "shutdown-racing-an-in-flight-callback",
+        "callback_order": [
+          "first",
+          "\u003cempty\u003e"
+        ],
+        "max_concurrent_callbacks": 1,
+        "shutdown_returned_while_callback_in_flight": true,
+        "terminal_empty_after_hub_shutdown": true
+      },
+      {
+        "call": "callback-reenters-shutdown",
+        "callback_order": [
+          "shutdown",
+          "\u003cempty\u003e"
+        ],
+        "max_concurrent_callbacks": 1,
+        "report_returned": true,
+        "terminal_empty_after_hub_shutdown": true
+      },
+      {
+        "call": "terminal-empty-once-last",
+        "callback_order": [
+          "before",
+          "\u003cempty\u003e"
+        ],
+        "lifecycle": "stopped",
+        "max_concurrent_callbacks": 1,
+        "terminal_empty_after_hub_shutdown": true
+      },
+      {
+        "call": "flood-coalesces-latest-pending",
+        "callback_order": [
+          "first",
+          "latest",
+          "\u003cempty\u003e"
+        ],
+        "max_concurrent_callbacks": 1,
+        "pending_before_terminal": {
+          "labels": [
+            "latest"
+          ],
+          "normal": 1,
+          "total": 1
+        },
+        "pending_with_terminal": {
+          "labels": [
+            "latest",
+            "\u003cempty\u003e"
+          ],
+          "normal": 1,
+          "total": 2
+        },
+        "reports_while_first_callback_blocked": 1025,
+        "terminal_empty_after_hub_shutdown": true
+      },
+      {
+        "call": "reentrant-report-queues-without-nesting",
+        "callback_order": [
+          "outer",
+          "inner"
+        ],
+        "max_concurrent_callbacks": 1
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

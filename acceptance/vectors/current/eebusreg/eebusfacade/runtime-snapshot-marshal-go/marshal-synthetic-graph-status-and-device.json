@@ -1,0 +1,179 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "internal/eebusfacade/runtime_snapshot_marshal.go (marshalRuntimeSnapshot, marshalRuntimeSnapshotWithIdentity, marshalRuntimeDevice, runtimeOptionalString)",
+  "source": "internal/eebusfacade/runtime_snapshot_marshal.go",
+  "stimulus": "internal/eebusfacade/runtime_snapshot_marshal_test.go (every test)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "graph": "snapshotMarshalFixtureGraph of the pin: two remotes (40-character repeated-digit identities), one device with one entity of each kind",
+      "local_ski": "1111111111111111111111111111111111111111",
+      "remote_a": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "remote_b": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "time_zone_offset_seconds": 3600
+    },
+    "clock": {
+      "capture_time_utc": "2001-02-03T04:05:06Z"
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "bytes_utf8": "{\"meta\":{\"contract\":\"helianthus.eebus.runtime.raw-snapshot.v1\",\"runtime\":{\"kind\":\"peer\",\"masked\":\"[redacted]\",\"digest\":\"sha256:46681f99394daf9d03921f8860c299c3a0b68852a9e7727ca139cd8d1279ae29\"},\"local_ski\":\"1111111111111111111111111111111111111111\",\"mask_tier\":\"raw\",\"captured_at\":\"2001-02-03T04:05:06Z\",\"data_timestamp\":\"2001-02-03T04:05:06Z\"},\"status\":{\"state\":\"ready\"},\"pairing\":[{\"remote_ski\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"state\":\"paired\",\"since\":\"2001-02-03T04:04:06Z\"},{\"remote_ski\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"state\":\"unpaired\",\"since\":\"2001-02-03T04:04:06Z\"}],\"services\":[{\"ski\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"ship_id\":\"ship-a\",\"kind\":\"remote\",\"visible\":true,\"paired\":true,\"name\":\"Name A\",\"brand\":\"Brand A\",\"model\":\"Model A\"},{\"ski\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"kind\":\"remote\",\"visible\":false,\"paired\":false,\"identifier\":\"id-b\",\"type\":\"Type B\"}],\"sessions\":[{\"id\":\"session:ship-a:1\",\"remote_ski\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"state\":\"connected\",\"since\":\"2001-02-03T04:04:06Z\"}],\"devices\":[{\"ski\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"ship_id\":\"ship-a\",\"address\":\"d1\",\"type\":\"HeatPump\",\"description\":\"Device A\",\"metadata\":{\"label\":\"L\",\"network_feature_set\":\"simple\"},\"opaque\":[{\"path\":\"/devices/d1/destination_data\",\"source\":\"spine.detailed-discovery\",\"value\":{\"n\":1.5,\"s\":\"x\"}}]}],\"entities\":[{\"device_address\":\"d1\",\"entity_address\":\"[1]\",\"type\":\"HeatPumpAppliance\",\"description\":\"Entity A\"}],\"features\":[{\"device_address\":\"d1\",\"entity_address\":\"[1]\",\"feature_address\":\"[1]:2\",\"type\":\"Measurement\",\"role\":\"server\"}],\"use_cases\":[{\"context_address\":\"d1:[1]\",\"name\":\"useCaseA\",\"actor\":\"HeatPump\",\"resolved_role\":\"server\",\"scenarios\":[\"1\",\"2\"],\"version\":\"1.0.0\",\"availability\":true,\"document_subrevision\":\"release\"}],\"opaque\":[]}",
+        "call": "marshalRuntimeSnapshotWithIdentity/synthetic-graph",
+        "error": null,
+        "first_remote_identity_bytes_equal": true,
+        "first_remote_identity_error": null
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "no-visible-services",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "nothing visible",
+        "status_state": "degraded"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "error": null,
+        "graph": "visible only",
+        "status_state": "starting"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "error": null,
+        "graph": "connected",
+        "status_state": "ready"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "remote-disconnect",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "disconnected",
+        "status_state": "degraded"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "remote-disconnect",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "session degraded",
+        "status_state": "degraded"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "error": null,
+        "graph": "connected wins over disconnected",
+        "status_state": "ready"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "certificate-unavailable",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "certificate unavailable",
+        "status_state": "degraded"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "denied-trust",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "denied trust after certificate",
+        "status_state": "degraded"
+      },
+      {
+        "call": "marshalRuntimeSnapshotWithIdentity/status-derivation",
+        "degradation_reason": "denied-trust",
+        "degradation_since_equals_capture_time": true,
+        "error": null,
+        "graph": "certificate after denied trust",
+        "status_state": "degraded"
+      },
+      {
+        "blank_runtime_identity_error": {
+          "text": "raw id value is required"
+        },
+        "call": "marshalRuntimeSnapshot/identity",
+        "empty_graph_contains": {
+          "\"devices\":[]": true,
+          "\"entities\":[]": true,
+          "\"features\":[]": true,
+          "\"opaque\":[]": true,
+          "\"pairing\":[]": true,
+          "\"services\":[]": true,
+          "\"sessions\":[]": true,
+          "\"use_cases\":[]": true
+        },
+        "empty_graph_with_identity_error": null,
+        "empty_graph_without_identity_error": {
+          "text": "runtime graph is empty"
+        }
+      },
+      {
+        "address": "",
+        "call": "marshalRuntimeDevice/incomplete",
+        "device": "missing ski",
+        "entities_nil": true,
+        "features_nil": true,
+        "use_cases_nil": true
+      },
+      {
+        "address": "",
+        "call": "marshalRuntimeDevice/incomplete",
+        "device": "missing address",
+        "entities_nil": true,
+        "features_nil": true,
+        "use_cases_nil": true
+      },
+      {
+        "address": "",
+        "call": "marshalRuntimeDevice/incomplete",
+        "device": "missing type",
+        "entities_nil": true,
+        "features_nil": true,
+        "use_cases_nil": true
+      },
+      {
+        "call": "marshalRuntimeDevice/complete",
+        "description_after_source_change": "Device A",
+        "entity_count": 1,
+        "feature_count": 1,
+        "metadata_label_after_source_change": "L",
+        "opaque_number": 1.5,
+        "opaque_number_is_float64": true,
+        "payload": {
+          "ski": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "address": "d1",
+          "type": "HeatPump",
+          "description": "Device A",
+          "metadata": {
+            "label": "L",
+            "network_feature_set": "simple"
+          },
+          "opaque": [
+            {
+              "path": "/devices/d1/destination_data",
+              "source": "spine.detailed-discovery",
+              "value": {
+                "n": 1.5,
+                "s": "x"
+              }
+            }
+          ]
+        },
+        "runtimeOptionalString/empty_is_nil": true,
+        "runtimeOptionalString/x": "x",
+        "scenario_after_source_change": "1",
+        "ship_id_nil": true,
+        "use_case_count": 1
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

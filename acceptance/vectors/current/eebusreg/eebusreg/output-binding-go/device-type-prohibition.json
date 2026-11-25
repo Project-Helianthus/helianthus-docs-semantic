@@ -1,0 +1,319 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (prohibitedDeviceType, textForbidsDeviceType, sentenceForbidsDeviceType, indexWord)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingDeviceTypeProhibition",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "device_type_of_node": "EnergyManagementSystem"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/matching-prohibition",
+        "entity_address": "",
+        "entity_types": [
+          "CEM"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids device type EnergyManagementSystem"
+        },
+        "loss": [
+          "device_type_prohibition",
+          "EnergyManagementSystem"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/text-without-prohibition",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "south",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter describes device type EnergyManagementSystem"
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/text-naming-another-actor",
+        "entity_address": "b",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "EVSE"
+        ],
+        "lens_result": {
+          "actor": "EVSE",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "bay",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids device type EnergyManagementSystem"
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "device classification",
+          "operating state",
+          "total active power"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/text-forbidding-another-type",
+        "entity_address": "c",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "EVSE",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "roof",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids device type GridGuard"
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/exception-for-this-type",
+        "entity_address": "d",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "EVSE",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "exempt",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids every device type except EnergyManagementSystem"
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/prohibition-with-unrelated-exception",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "EVSE",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "kept",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids device type EnergyManagementSystem except GridGuard"
+        },
+        "loss": [
+          "device_type_prohibition",
+          "EnergyManagementSystem"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/not-admitted-prohibition",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "EVSE",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "Inverter",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": false,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "silent",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": "The actor Inverter forbids device type EnergyManagementSystem"
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

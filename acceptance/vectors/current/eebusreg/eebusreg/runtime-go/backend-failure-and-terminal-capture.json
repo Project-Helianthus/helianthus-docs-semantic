@@ -1,0 +1,107 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (runBackend, publishSnapshot, retainWorkerErrorLocked, facadeRuntimeBackend.Run, Close, TerminalSnapshot)",
+  "source": "runtime.go",
+  "stimulus": "runtime_lifecycle_test.go TestRuntimeRunErrorStopsLiveSuccessAndIsReturnedByShutdown, TestRuntimeInvalidPublicationBecomesWorkerError, TestFacadeRuntimeBackendRejectsMalformedInternalPayload, TestRuntimeShutdownClosesBackendBeforeJoiningCancellationIgnoringRun, TestFacadeRuntimeBackendCapturesCloseTerminalState",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "backend": "the pin's scripted runtime backend, malformed payload backend and close-publishing backend",
+      "config": {
+        "discovery_enabled": false,
+        "enabled": true,
+        "interface": "test-interface",
+        "listen_address": {
+          "address_bytes_hex": "00000000000000000000ffffc000020a",
+          "is_ipv4": true,
+          "is_ipv4_mapped_ipv6": false,
+          "is_multicast": false,
+          "is_unspecified": false,
+          "port": 4711,
+          "valid": true
+        },
+        "pairing_policy": "closed",
+        "remotes": [
+          "0000000000000000000000000000000000000001"
+        ],
+        "remotes_nil": false,
+        "state_root": "\u003cstate-root\u003e"
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "Shutdown_is_backend_failure": true,
+        "Snapshot_error": {
+          "text": "runtime backend Run: fixture backend Run failed"
+        },
+        "Snapshot_is_backend_failure": true,
+        "Start_is_backend_failure": true,
+        "backend_Close_calls": 1,
+        "call": "backend-Run-error"
+      },
+      {
+        "Shutdown_error_names_publication": true,
+        "Snapshot_error": {
+          "text": "publish runtime snapshot: contract must be \"helianthus.eebus.runtime.raw-snapshot.v1\""
+        },
+        "Snapshot_error_names_publication": true,
+        "backend_Close_calls": 1,
+        "call": "invalid-publication"
+      },
+      {
+        "call": "facadeRuntimeBackend/malformed-internal-payload",
+        "error": {
+          "text": "decode internal runtime snapshot: unexpected end of JSON input"
+        },
+        "error_names_decode": true,
+        "snapshots_published": 0
+      },
+      {
+        "Shutdown_calls": 16,
+        "Shutdown_failures": 0,
+        "backend_Close_calls": 1,
+        "call": "shutdown-closes-backend-before-joining-cancellation-ignoring-Run"
+      },
+      {
+        "Close_error": null,
+        "Run_error_is_context_canceled": true,
+        "call": "facadeRuntimeBackend/captures-close-terminal-state",
+        "terminal_snapshot": {
+          "data_hash": "sha256:3793c7668993887b27fbf5d51524d77cb7bbbd6430def25443661d09394435bd",
+          "device_count": 1,
+          "entity_count": 1,
+          "feature_count": 1,
+          "pairing": [
+            {
+              "remote_ski": "2222222222222222222222222222222222222222",
+              "state": "denied"
+            }
+          ],
+          "services": [
+            {
+              "paired": false,
+              "ski": "2222222222222222222222222222222222222222"
+            }
+          ],
+          "sessions": [
+            {
+              "id": "terminal-close-capture",
+              "state": "connected"
+            }
+          ],
+          "status_state": "ready",
+          "use_case_count": 1
+        },
+        "terminal_snapshot_captured": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

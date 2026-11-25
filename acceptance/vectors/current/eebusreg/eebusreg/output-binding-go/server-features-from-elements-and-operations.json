@@ -1,0 +1,430 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (bindFeatures, featuresForElement, featuresForOperation)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingServerFeatures",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "cases": [
+        "inverter with cited elements and a production limit",
+        "system export",
+        "amperes",
+        "visibility only",
+        "converted",
+        "charger allocated current",
+        "charger active power"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/inverter-with-cited-elements-and-limit",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": [
+            "inverter ac measurement",
+            "energy",
+            "temperature",
+            "operating state",
+            "apparent power",
+            "reactive power",
+            "line-to-line voltage",
+            "string dc"
+          ],
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "pv.operation.set_active_power_limit",
+              "own_capability": true,
+              "unit": "W"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "power factor",
+          "power production nominal max",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "node_features": [
+          "device diagnosis",
+          "electrical connection",
+          "load control",
+          "measurement"
+        ],
+        "parent_address": "",
+        "server_features": [
+          "device diagnosis",
+          "electrical connection",
+          "load control",
+          "measurement"
+        ]
+      },
+      {
+        "call": "Apply/inverter-operation",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "system export",
+              "own_capability": true,
+              "unit": "W"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "exportop",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "operation_case": "system export",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/inverter-operation",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "pv.operation.set_active_power_limit",
+              "own_capability": true,
+              "unit": "A"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "ampereunit",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "operation_case": "amperes",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/inverter-operation",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "pv.operation.set_active_power_limit",
+              "own_capability": false,
+              "unit": "W"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "visibleonly",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "operation_case": "visibility",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/inverter-operation",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": true,
+              "name": "pv.operation.set_active_power_limit",
+              "own_capability": true,
+              "unit": "W"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "convertedop",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "operation_case": "converted",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/charger-allocated-current",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "EVSE"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "evse.operation.set_allocated_current",
+              "own_capability": true,
+              "unit": "A"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "bay",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "device classification",
+          "operating state",
+          "total active power"
+        ],
+        "parent_address": "",
+        "server_features": [
+          "electrical connection",
+          "load control"
+        ]
+      },
+      {
+        "call": "Apply/charger-active-power",
+        "entity_address": "b",
+        "entity_types": [
+          "CEM",
+          "EVSE",
+          "EVSE"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "active power",
+              "own_capability": true,
+              "unit": "W"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "otherbay",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "device classification",
+          "operating state",
+          "total active power"
+        ],
+        "parent_address": "",
+        "server_features": []
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

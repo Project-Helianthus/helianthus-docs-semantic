@@ -1,0 +1,145 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (Service.Start, Service.Shutdown, lifecycle states)",
+  "source": "service/service.go",
+  "stimulus": "service/outgoing_attempt_bridge_test.go TestNewServiceLegacyPathRemainsSourceAndRuntimeCompatible, TestServiceLifecycleShutdownBeforeStartIsTerminal, TestOutgoingAttemptBridgeSetupRetryIsDeterministicAndLifecycleIsIdempotent",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "configuration": "vendor,brand,model,serial",
+      "port": 4729
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "legacy-path",
+        "gate_installs": 0,
+        "handler_connected_calls": 1,
+        "handler_connected_ski": "legacy-ski",
+        "handler_pairing_calls": 1,
+        "handler_pairing_detail_same": true,
+        "handler_service_is_sut": true,
+        "hub_shutdown_calls": 1,
+        "hub_start_calls": 1,
+        "lifecycle": "stopped",
+        "setup_error": null
+      },
+      {
+        "call": "shutdown-before-start-is-terminal",
+        "sequence": [
+          {
+            "call": "Setup",
+            "hub_shutdown_calls": 0,
+            "hub_start_calls": 0,
+            "lifecycle": "ready"
+          },
+          {
+            "call": "Shutdown",
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 0,
+            "lifecycle": "stopped"
+          },
+          {
+            "call": "Start",
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 0,
+            "lifecycle": "stopped"
+          },
+          {
+            "call": "Setup",
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 0,
+            "lifecycle": "stopped"
+          },
+          {
+            "call": "Start",
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 0,
+            "lifecycle": "stopped"
+          },
+          {
+            "call": "Shutdown",
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 0,
+            "lifecycle": "stopped"
+          }
+        ]
+      },
+      {
+        "call": "setup-retry-after-failure",
+        "sequence": [
+          {
+            "call": "Start+Shutdown-before-Setup",
+            "factory_calls": 0,
+            "failed_hub_shutdown_calls": 0,
+            "failed_hub_start_calls": 0,
+            "hub_published": false,
+            "hub_shutdown_calls": 0,
+            "hub_start_calls": 0,
+            "lifecycle": "uninitialized",
+            "local_device_published": false,
+            "local_service_published": false
+          },
+          {
+            "call": "Setup/first-install-fails",
+            "error": {
+              "text": "install outgoing attempt gate: first install fails"
+            },
+            "factory_calls": 1,
+            "failed_hub_shutdown_calls": 0,
+            "failed_hub_start_calls": 0,
+            "hub_published": false,
+            "hub_shutdown_calls": 0,
+            "hub_start_calls": 0,
+            "lifecycle": "uninitialized",
+            "local_device_published": false,
+            "local_service_published": false
+          },
+          {
+            "call": "Start,Start,Shutdown,Shutdown-after-failed-Setup",
+            "factory_calls": 1,
+            "failed_hub_shutdown_calls": 0,
+            "failed_hub_start_calls": 0,
+            "hub_published": false,
+            "hub_shutdown_calls": 0,
+            "hub_start_calls": 0,
+            "lifecycle": "uninitialized",
+            "local_device_published": false,
+            "local_service_published": false
+          },
+          {
+            "call": "Setup/retry",
+            "factory_calls": 2,
+            "failed_hub_shutdown_calls": 0,
+            "failed_hub_start_calls": 0,
+            "hub_published": true,
+            "hub_shutdown_calls": 0,
+            "hub_start_calls": 0,
+            "lifecycle": "ready",
+            "local_device_published": true,
+            "local_service_published": true
+          },
+          {
+            "call": "Start,Start,Shutdown,Shutdown",
+            "factory_calls": 2,
+            "failed_hub_shutdown_calls": 0,
+            "failed_hub_start_calls": 0,
+            "hub_published": true,
+            "hub_shutdown_calls": 1,
+            "hub_start_calls": 1,
+            "lifecycle": "stopped",
+            "local_device_published": true,
+            "local_service_published": true
+          }
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

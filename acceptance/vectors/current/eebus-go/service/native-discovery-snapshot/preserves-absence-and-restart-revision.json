@@ -1,0 +1,93 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (VisiblePairingCandidateDiscoverySnapshotUpdated)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/native_discovery_snapshot_test.go TestNativeDiscoverySnapshotPreservesAbsenceAndRestartRevision",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "after_restart": {
+        "candidates": [],
+        "candidates_nil": false,
+        "new_entries": false,
+        "observation_revision": 1
+      },
+      "before_restart": {
+        "candidates": [
+          {
+            "addresses_hex": [],
+            "addresses_nil": true,
+            "brand": "",
+            "candidate_ref": "candidate-before-restart",
+            "host": "",
+            "identifier": "",
+            "model": "",
+            "name": "",
+            "path": "",
+            "port": 0,
+            "register": false,
+            "scoped_addresses": [],
+            "scoped_addresses_nil": true,
+            "ski": "ski-before-restart",
+            "type": "",
+            "unscoped_link_local_observed": false
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": false,
+        "observation_revision": 99
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [],
+    "cache": {},
+    "observations": [
+      {
+        "delivered": [
+          {
+            "candidates": [
+              {
+                "addresses_hex": [],
+                "addresses_nil": true,
+                "brand": "",
+                "candidate_ref": "candidate-before-restart",
+                "host": "",
+                "identifier": "",
+                "model": "",
+                "name": "",
+                "path": "",
+                "port": 0,
+                "register": false,
+                "scoped_addresses": [],
+                "scoped_addresses_nil": true,
+                "ski": "ski-before-restart",
+                "type": "",
+                "unscoped_link_local_observed": false
+              }
+            ],
+            "candidates_nil": false,
+            "new_entries": false,
+            "observation_revision": 99
+          }
+        ],
+        "reader": "before-restart"
+      },
+      {
+        "delivered": [
+          {
+            "candidates": [],
+            "candidates_nil": false,
+            "new_entries": false,
+            "observation_revision": 1
+          }
+        ],
+        "reader": "after-restart"
+      }
+    ],
+    "counters": {}
+  }
+}

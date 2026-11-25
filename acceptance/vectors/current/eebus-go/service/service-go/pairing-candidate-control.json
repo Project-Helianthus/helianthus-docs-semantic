@@ -1,0 +1,201 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (QueuePairingCandidate, SelectPairingCandidate, ConnectPairingCandidate, ConnectPairingCandidateWithPIN)",
+  "source": "service/service.go",
+  "stimulus": "service/pairing_candidate_red_test.go (every forwarding, failure and terminal-lifecycle test)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "candidate_ref": "shipc_observation-generation-17",
+      "expected_ski": "b1b7197b064084e4cfef2365105d8d36ff185e5b",
+      "reservation_first_bytes": [
+        "0x5a",
+        "0x7b",
+        "0x4c",
+        "0x32",
+        "0x66"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "QueuePairingCandidate",
+        "error": null,
+        "hub_calls": [
+          {
+            "candidate_ref": "shipc_observation-generation-17",
+            "expected_ski": "b1b7197b064084e4cfef2365105d8d36ff185e5b"
+          }
+        ]
+      },
+      {
+        "call": "QueuePairingCandidate/hub-error",
+        "error": {
+          "text": "candidate rejected"
+        },
+        "error_is_hub_error": true,
+        "hub_calls": [
+          {
+            "candidate_ref": "shipc_observation-generation-17",
+            "expected_ski": "b1b7197b064084e4cfef2365105d8d36ff185e5b"
+          }
+        ]
+      },
+      {
+        "call": "QueuePairingCandidate/hub-without-capability",
+        "error": {
+          "text": "connections hub does not support pairing candidate queue"
+        }
+      },
+      {
+        "call": "QueuePairingCandidate/terminal-lifecycle",
+        "error": {
+          "text": "pairing candidate queue is unavailable after service shutdown"
+        },
+        "error_is_terminal": true,
+        "hub_calls": [],
+        "lifecycle": "stopping"
+      },
+      {
+        "call": "QueuePairingCandidate/terminal-lifecycle",
+        "error": {
+          "text": "pairing candidate queue is unavailable after service shutdown"
+        },
+        "error_is_terminal": true,
+        "hub_calls": [],
+        "lifecycle": "stopped"
+      },
+      {
+        "call": "QueuePairingCandidate/terminal-lifecycle",
+        "error": {
+          "text": "pairing candidate queue is unavailable after service shutdown"
+        },
+        "error_is_terminal": true,
+        "hub_calls": [],
+        "lifecycle": "terminal"
+      },
+      {
+        "call": "QueuePairingCandidate/shutdown-in-progress",
+        "error": {
+          "text": "pairing candidate queue is unavailable after service shutdown"
+        },
+        "error_is_terminal": true,
+        "hub_calls": [],
+        "lifecycle_observed": "stopping"
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate",
+        "connect_calls_match_reservation": [
+          true
+        ],
+        "connect_error": null,
+        "reservation_matches": true,
+        "select_calls": [
+          {
+            "candidate_ref": "shipc_observation-generation-17",
+            "expected_ski": "b1b7197b064084e4cfef2365105d8d36ff185e5b"
+          }
+        ],
+        "select_error": null
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/hub-errors",
+        "connect_error_is_hub_error": true,
+        "select_error_is_hub_error": true
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/hub-without-capability",
+        "connect_error": {
+          "text": "connections hub does not support split pairing candidate control"
+        },
+        "select_error": {
+          "text": "connections hub does not support split pairing candidate control"
+        }
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/terminal-lifecycle",
+        "connect_calls": 0,
+        "connect_error_is_terminal": true,
+        "lifecycle": "stopping",
+        "select_calls": 0,
+        "select_error_is_terminal": true
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/terminal-lifecycle",
+        "connect_calls": 0,
+        "connect_error_is_terminal": true,
+        "lifecycle": "stopped",
+        "select_calls": 0,
+        "select_error_is_terminal": true
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/terminal-lifecycle",
+        "connect_calls": 0,
+        "connect_error_is_terminal": true,
+        "lifecycle": "terminal",
+        "select_calls": 0,
+        "select_error_is_terminal": true
+      },
+      {
+        "call": "SelectPairingCandidate+ConnectPairingCandidate/shutdown-in-progress",
+        "connect_calls": 0,
+        "connect_error_is_terminal": true,
+        "select_calls": 0,
+        "select_error_is_terminal": true
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN",
+        "error": null,
+        "hub_connects": 1,
+        "provider_consumed_calls": 0,
+        "provider_is_supplied_provider": true,
+        "reservation_matches": true
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_connects": 0,
+        "lifecycle": "stopping"
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_connects": 0,
+        "lifecycle": "stopped"
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_connects": 0,
+        "lifecycle": "terminal"
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/hub-without-capability",
+        "error": {
+          "text": "connections hub does not support PIN pairing candidate control"
+        }
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/typed-nil-hub",
+        "error": {
+          "text": "connections hub is not ready"
+        }
+      },
+      {
+        "call": "ConnectPairingCandidateWithPIN/typed-nil-provider",
+        "error": {
+          "text": "SHIP PIN provider invalid"
+        },
+        "error_is_provider_invalid": true,
+        "hub_connects": 0
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

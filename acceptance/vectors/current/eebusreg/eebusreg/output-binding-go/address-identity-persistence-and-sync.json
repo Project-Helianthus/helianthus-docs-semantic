@@ -1,0 +1,288 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (allocate, freshAddress, letterToken, noteAddress, persist, renderAddresses, loadAddresses)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingAddressIdentity, TestOutputBindingAddressSync",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "conflicting_stored_file": "east a / east b",
+      "directory": "an empty sandbox directory per scenario",
+      "resources": [
+        "north",
+        "south",
+        "east"
+      ],
+      "stored_file_names": [
+        "entity-addresses",
+        "entity-addresses.new"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/north",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/south",
+        "entity_address": "b",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "south",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "EntityAddresses": [
+          "cem",
+          "a",
+          "b"
+        ],
+        "call": "stored-address-file",
+        "file": {
+          "text": "north a\nsouth b\n"
+        }
+      },
+      {
+        "address_after": "a",
+        "call": "noteAddress/replacement-of-a-stored-address",
+        "error": {
+          "text": "stored address replacement is rejected"
+        },
+        "is_errStoredAddressReplacement": true
+      },
+      {
+        "call": "restart/Apply/north",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "restart/EntityAddress-before-Apply-of-south",
+        "south": ""
+      },
+      {
+        "call": "restart/Apply/east",
+        "entity_address": "c",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "east",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "stored-address-file-after-restart",
+        "file": {
+          "text": "east c\nnorth a\nsouth b\n"
+        }
+      },
+      {
+        "call": "NewOutputBinding/conflicting-stored-addresses",
+        "error": {
+          "text": "stored address replacement is rejected"
+        },
+        "is_errStoredAddressReplacement": true
+      },
+      {
+        "address_file_renamed": false,
+        "address_retained_in_memory": false,
+        "call": "noteAddress/failed-sync",
+        "error": {
+          "text": "entity address store is unavailable"
+        },
+        "is_errAddressStore": true,
+        "temporary_file_left_behind": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

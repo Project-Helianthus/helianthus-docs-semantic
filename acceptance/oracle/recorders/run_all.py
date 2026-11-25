@@ -61,6 +61,14 @@ QV04 = (
 
 QV07 = (("cmd/gateway", "gateway-vaillant-typed", "TestOracleVaillantTyped", "current/gateway/cmd-gateway/vaillant-typed"),)
 
+QV06 = (
+    ("service", "eebus-go-service", "TestOracleEEBusGoService", "current/eebus-go/service", "eebus-go"),
+    ("api", "eebus-go-api", "TestOracleAPIConfiguration", "current/eebus-go/api", "eebus-go"),
+    (".", "eebusreg/root", "TestOracleEEBusRoot", "current/eebusreg/eebusreg", "eebusreg"),
+    ("internal/eebusfacade", "eebusreg/facade", "TestOracleFacade", "current/eebusreg/eebusfacade", "eebusreg"),
+    ("internal/eebusservicebridge", "eebusreg/bridge", "TestOracleServiceBridge", "current/eebusreg/eebusservicebridge", "eebusreg"),
+)
+
 # Cases whose record carries an identifier the eBUS bus transmits (radio device model, firmware and hardware identifier; adapter
 # hardware identity) keep only their digest in the index.
 QV07_DIGEST_ONLY = ("radio/", "adapter-hardware/")
@@ -107,6 +115,11 @@ def record_qv07(vectors, work):
     return entries
 
 
+def record_qv06(vectors, work):
+    """The BT04 recorders: the eebus-go service and api packages and the eebusreg runtime, output binding, facade and service bridge."""
+    return record_go_cases(QV06, vectors, work, runnable=True)
+
+
 def record_qv08(vectors, work):
     """The three XX02 recorders: the Matter projection and model, the feed contract and the library host."""
     return record_go_cases(QV08, vectors, work)
@@ -151,6 +164,7 @@ def record(reference, vectors, oracle, sessions):
             entries.extend(record_qv08(vectors, work))
             entries.extend(record_qv04(vectors, work))
             entries.extend(record_qv07(vectors, work))
+            entries.extend(record_qv06(vectors, work))
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")

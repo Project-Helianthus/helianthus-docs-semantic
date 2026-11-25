@@ -1,0 +1,202 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (New, newRuntime and the disabled runtime)",
+  "source": "runtime.go",
+  "stimulus": "runtime_contract_test.go TestRuntimeDisabledDefaultRemainsInert; runtime_configuration_contract_test.go TestRuntimeConfigurationDisabledModeIsStrictlyInert; runtime_lifecycle_test.go TestRuntimeDisabledNeverAcquiresBackend",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "config": {
+        "discovery_enabled": false,
+        "enabled": false,
+        "interface": "",
+        "listen_address": {
+          "port": 0,
+          "valid": false
+        },
+        "pairing_policy": "",
+        "remotes": [],
+        "remotes_nil": true,
+        "state_root": "empty"
+      },
+      "environment": "HOME and the XDG directories point at an empty sandbox",
+      "mixed_configs": [
+        "state root",
+        "interface",
+        "listen address",
+        "discovery",
+        "remotes",
+        "pairing policy"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "newRuntime/zero-config",
+        "error": null,
+        "runtime_returned": true
+      },
+      {
+        "call": "Start",
+        "error": null
+      },
+      {
+        "call": "Snapshot",
+        "error": {
+          "text": "eebus runtime is disabled"
+        },
+        "is_ErrRuntimeDisabled": true
+      },
+      {
+        "call": "PairingState",
+        "error": {
+          "text": "eebus runtime is disabled"
+        },
+        "is_ErrRuntimeDisabled": true
+      },
+      {
+        "call": "Shutdown",
+        "error": null
+      },
+      {
+        "call": "Shutdown/repeated",
+        "error": null
+      },
+      {
+        "call": "Start/after-terminal-shutdown",
+        "error": {
+          "text": "eebus runtime is shutdown"
+        },
+        "is_ErrRuntimeShutdown": true
+      },
+      {
+        "call": "New/zero-config",
+        "error": null,
+        "runtime_returned": true
+      },
+      {
+        "call": "Start",
+        "error": null
+      },
+      {
+        "call": "Snapshot",
+        "error": {
+          "text": "eebus runtime is disabled"
+        },
+        "is_ErrRuntimeDisabled": true
+      },
+      {
+        "call": "PairingState",
+        "error": {
+          "text": "eebus runtime is disabled"
+        },
+        "is_ErrRuntimeDisabled": true
+      },
+      {
+        "call": "Shutdown",
+        "error": null
+      },
+      {
+        "call": "Shutdown/repeated",
+        "error": null
+      },
+      {
+        "call": "Start/after-terminal-shutdown",
+        "error": {
+          "text": "eebus runtime is shutdown"
+        },
+        "is_ErrRuntimeShutdown": true
+      },
+      {
+        "backend_acquisitions": 0,
+        "call": "filesystem",
+        "entries_created_in_sandbox": 0
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "state root",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "interface",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "listen address",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "discovery",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "remotes",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      },
+      {
+        "New_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "disabled-with-field-set",
+        "field_set": "pairing policy",
+        "newRuntime_error": {
+          "text": "disabled runtime configuration must be empty"
+        },
+        "newRuntime_runtime_returned": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

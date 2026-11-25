@@ -1,0 +1,416 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (OutputBinding.Apply, admitted, publishedFamily, stringParentAdmitted, ensureEntity)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingResourceFields",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "base_pv_string": {
+        "actor": "",
+        "basis": "",
+        "contains_cited": true,
+        "device_actor": "",
+        "elements": null,
+        "family": "pv string",
+        "input_dimension": false,
+        "lens_admitted": true,
+        "missing_elements": null,
+        "operations": [],
+        "overlapping": false,
+        "parent_resource_id": "north",
+        "resource_id": "east",
+        "runtime_enabled": true,
+        "use_case": "",
+        "use_case_text": ""
+      },
+      "mutations": [
+        "family",
+        "lens admitted",
+        "runtime enabled",
+        "input dimension",
+        "parent",
+        "contains cited"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/inverter-north",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-baseline",
+        "entity_address": "b",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "east",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "string dc current",
+          "string dc energy",
+          "string dc power",
+          "string dc voltage"
+        ],
+        "node_address_of_north": "a",
+        "node_parent_of_east": "a",
+        "parent_address": "a",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "heating",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "heat",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "family",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": false,
+          "lens_admitted": false,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "west",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "lens admitted",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "south",
+          "runtime_enabled": false,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "runtime enabled",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": true,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "flat",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "input dimension",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": true,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "orphan",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "parent",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/pv-string-mutated",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "pv string",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "north",
+          "resource_id": "loose",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "mutated_field": "contains cited",
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/battery",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "battery",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "pack",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/charger",
+        "entity_address": "c",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "PV String",
+          "EVSE"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "bay",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "device classification",
+          "operating state",
+          "total active power"
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "node-after-all",
+        "node_entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          },
+          {
+            "address": "b",
+            "kind": "PV String",
+            "parent": "a"
+          },
+          {
+            "address": "c",
+            "kind": "EVSE",
+            "parent": ""
+          }
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

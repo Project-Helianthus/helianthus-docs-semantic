@@ -1,0 +1,180 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "internal/eebusfacade/facade.go (StaticEvidence, ExpectedControlSurface, serviceReaderCallbackSignatures, serviceReaderShapeMatches)",
+  "source": "internal/eebusfacade/facade.go",
+  "stimulus": "internal/eebusfacade/facade_test.go TestStaticEvidencePinsEEBusGoAPI, TestStaticEvidenceReturnsIndependentSlices, TestExpectedControlSurfaceIsStableAndSorted, TestRuntimeAndMutationMethodsAreExcludedFromApprovedReaders, TestServiceReaderShapeMatchesExpectedCallbacks",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "calls": [
+        "StaticEvidence",
+        "ExpectedControlSurface",
+        "serviceReaderCallbackSignatures",
+        "serviceReaderShapeMatches"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "StaticEvidence/independent-slices",
+        "excluded_methods_aliased": false,
+        "required_service_readers_aliased": false
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "call": "StaticEvidence",
+        "evidence": {
+          "Module": {
+            "Path": "github.com/Project-Helianthus/helianthus-eebus-go",
+            "Version": "v0.7.1-helianthus.21",
+            "ReplacePath": "",
+            "ReplaceVersion": ""
+          },
+          "Boundary": {
+            "InternalOnly": true,
+            "PublicTypesHidden": true,
+            "RuntimeSideEffects": false,
+            "GatewayImports": false,
+            "PersistentTrustState": false
+          },
+          "API": {
+            "ImportPath": "github.com/Project-Helianthus/helianthus-eebus-go/api",
+            "RequiredServiceReaders": [
+              "Configuration",
+              "IsAutoAcceptEnabled",
+              "PairingDetailForSki",
+              "RemoteServiceForSKI"
+            ],
+            "RequiredReaderCallbacks": [
+              "RemoteSKIConnected",
+              "RemoteSKIDisconnected",
+              "ServicePairingDetailUpdate",
+              "ServiceShipIDUpdate",
+              "VisibleRemoteServicesUpdated"
+            ],
+            "RequiredConfigurationReaders": [
+              "DeviceBrand",
+              "DeviceModel",
+              "DeviceSerialNumber",
+              "Identifier",
+              "Interfaces",
+              "MdnsServiceName",
+              "Port",
+              "VendorCode"
+            ],
+            "ExcludedRuntimeOrMutators": [
+              "AddUseCase",
+              "CancelPairingWithSKI",
+              "DisconnectSKI",
+              "RegisterRemoteSKI",
+              "SetAutoAccept",
+              "SetLogging",
+              "SetPairingRegistration",
+              "Setup",
+              "Shutdown",
+              "Start",
+              "UnregisterRemoteSKI"
+            ],
+            "ServiceReaderShapeBound": true,
+            "ConfigurationConstructorBound": true
+          }
+        }
+      },
+      {
+        "call": "ExpectedControlSurface",
+        "surface": {
+          "ImportPath": "github.com/Project-Helianthus/helianthus-eebus-go/api",
+          "RequiredServiceReaders": [
+            "Configuration",
+            "IsAutoAcceptEnabled",
+            "PairingDetailForSki",
+            "RemoteServiceForSKI"
+          ],
+          "RequiredReaderCallbacks": [
+            "RemoteSKIConnected",
+            "RemoteSKIDisconnected",
+            "ServicePairingDetailUpdate",
+            "ServiceShipIDUpdate",
+            "VisibleRemoteServicesUpdated"
+          ],
+          "RequiredConfigurationReaders": [
+            "DeviceBrand",
+            "DeviceModel",
+            "DeviceSerialNumber",
+            "Identifier",
+            "Interfaces",
+            "MdnsServiceName",
+            "Port",
+            "VendorCode"
+          ],
+          "ExcludedRuntimeOrMutators": [
+            "AddUseCase",
+            "CancelPairingWithSKI",
+            "DisconnectSKI",
+            "RegisterRemoteSKI",
+            "SetAutoAccept",
+            "SetLogging",
+            "SetPairingRegistration",
+            "Setup",
+            "Shutdown",
+            "Start",
+            "UnregisterRemoteSKI"
+          ],
+          "ServiceReaderShapeBound": true,
+          "ConfigurationConstructorBound": true
+        }
+      },
+      {
+        "call": "serviceReaderCallbackSignatures",
+        "signatures": [
+          {
+            "inputs": [
+              "github.com/Project-Helianthus/helianthus-eebus-go/api.ServiceInterface",
+              "string"
+            ],
+            "name": "RemoteSKIConnected"
+          },
+          {
+            "inputs": [
+              "github.com/Project-Helianthus/helianthus-eebus-go/api.ServiceInterface",
+              "string"
+            ],
+            "name": "RemoteSKIDisconnected"
+          },
+          {
+            "inputs": [
+              "string",
+              "*github.com/Project-Helianthus/helianthus-ship-go/api.ConnectionStateDetail"
+            ],
+            "name": "ServicePairingDetailUpdate"
+          },
+          {
+            "inputs": [
+              "string",
+              "string"
+            ],
+            "name": "ServiceShipIDUpdate"
+          },
+          {
+            "inputs": [
+              "github.com/Project-Helianthus/helianthus-eebus-go/api.ServiceInterface",
+              "[]github.com/Project-Helianthus/helianthus-ship-go/api.RemoteService"
+            ],
+            "name": "VisibleRemoteServicesUpdated"
+          }
+        ]
+      },
+      {
+        "call": "serviceReaderShapeMatches",
+        "result": true
+      }
+    ],
+    "counters": {}
+  }
+}

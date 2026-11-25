@@ -1,0 +1,212 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (announcementLoss, consumptionApplied, MonitoringLoss, recordGaps)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBindingAnnouncement",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "cases": [
+        "overlapping",
+        "ev device actor",
+        "missing elements",
+        "charger consumption limit"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Apply/overlapping",
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "pv.operation.set_active_power_limit",
+              "own_capability": true,
+              "unit": "W"
+            }
+          ],
+          "overlapping": true,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "Limitation of Power Production",
+          "use_case_text": ""
+        },
+        "loss": [
+          "conflict"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/ev-device-actor",
+        "entity_address": "",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "EV",
+          "elements": null,
+          "family": "ev",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "car",
+          "runtime_enabled": true,
+          "use_case": "Overload protection",
+          "use_case_text": ""
+        },
+        "loss": [
+          "EV"
+        ],
+        "monitoring_loss": [],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "Apply/missing-elements",
+        "entity_address": "b",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": [
+            "energy",
+            "temperature",
+            "operating state"
+          ],
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": [
+            "energy",
+            "temperature"
+          ],
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "south",
+          "runtime_enabled": true,
+          "use_case": "Monitoring of Inverter",
+          "use_case_text": ""
+        },
+        "loss": [
+          "energy",
+          "temperature"
+        ],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "parent_address": "",
+        "server_features": [
+          "device diagnosis"
+        ]
+      },
+      {
+        "call": "Apply/charger-consumption-limit-not-applied",
+        "entity_address": "c",
+        "entity_types": [
+          "CEM",
+          "Inverter",
+          "Inverter",
+          "EVSE"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "charger",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [
+            {
+              "converted": false,
+              "name": "evse.operation.set_allocated_current",
+              "own_capability": true,
+              "unit": "A"
+            }
+          ],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "bay",
+          "runtime_enabled": true,
+          "use_case": "Limitation of Power Consumption",
+          "use_case_text": ""
+        },
+        "loss": [
+          "consumption_limit_not_applied"
+        ],
+        "monitoring_loss": [
+          "consumption_limit_not_applied",
+          "device classification",
+          "missing operation: active power consumption limit",
+          "not called: evse.operation.set_allocated_current",
+          "operating state",
+          "total active power"
+        ],
+        "parent_address": "",
+        "server_features": [
+          "electrical connection",
+          "load control"
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

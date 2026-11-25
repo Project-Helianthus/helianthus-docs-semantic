@@ -1,0 +1,191 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (VisiblePairingCandidatesUpdated, cloneAndSortPairingCandidateRefs, pairingCandidateRefLess)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/pairing_candidate_visibility_red_test.go (every test of the legacy callback)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "candidates_in_input_order": [
+        {
+          "brand": "",
+          "candidate_ref": "candidate-b",
+          "identifier": "",
+          "model": "",
+          "name": "zeta",
+          "ski": "ski-z",
+          "type": ""
+        },
+        {
+          "brand": "",
+          "candidate_ref": "candidate-b",
+          "identifier": "",
+          "model": "",
+          "name": "mutated-input",
+          "ski": "ski-a",
+          "type": ""
+        },
+        {
+          "brand": "",
+          "candidate_ref": "candidate-a",
+          "identifier": "identifier-b",
+          "model": "",
+          "name": "zeta",
+          "ski": "ski-z",
+          "type": ""
+        },
+        {
+          "brand": "brand-b",
+          "candidate_ref": "candidate-a",
+          "identifier": "identifier-a",
+          "model": "",
+          "name": "zeta",
+          "ski": "ski-z",
+          "type": ""
+        },
+        {
+          "brand": "brand-a",
+          "candidate_ref": "candidate-a",
+          "identifier": "identifier-a",
+          "model": "",
+          "name": "zeta",
+          "ski": "ski-z",
+          "type": "type-b"
+        },
+        {
+          "brand": "",
+          "candidate_ref": "candidate-a",
+          "identifier": "",
+          "model": "",
+          "name": "alpha",
+          "ski": "ski-z",
+          "type": ""
+        }
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "VisiblePairingCandidatesUpdated/ordering-and-cloning",
+        "forwarded": [
+          {
+            "brand": "",
+            "candidate_ref": "candidate-b",
+            "identifier": "",
+            "model": "",
+            "name": "alpha",
+            "ski": "ski-a",
+            "type": ""
+          },
+          {
+            "brand": "",
+            "candidate_ref": "candidate-a",
+            "identifier": "",
+            "model": "",
+            "name": "alpha",
+            "ski": "ski-z",
+            "type": ""
+          },
+          {
+            "brand": "brand-a",
+            "candidate_ref": "candidate-a",
+            "identifier": "identifier-a",
+            "model": "",
+            "name": "zeta",
+            "ski": "ski-z",
+            "type": "type-b"
+          },
+          {
+            "brand": "brand-b",
+            "candidate_ref": "candidate-a",
+            "identifier": "identifier-a",
+            "model": "",
+            "name": "zeta",
+            "ski": "ski-z",
+            "type": ""
+          },
+          {
+            "brand": "",
+            "candidate_ref": "candidate-a",
+            "identifier": "identifier-b",
+            "model": "",
+            "name": "zeta",
+            "ski": "ski-z",
+            "type": ""
+          },
+          {
+            "brand": "",
+            "candidate_ref": "candidate-b",
+            "identifier": "",
+            "model": "",
+            "name": "zeta",
+            "ski": "ski-z",
+            "type": ""
+          }
+        ],
+        "input_aliases_reader": false,
+        "reader_aliases_input": false
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/absent-unsupported-typed-nil-readers",
+        "panicked": false
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/empty-clears",
+        "candidates_after": []
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "ready"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "starting"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "running"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "stopping"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "stopped"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/lifecycle",
+        "forwarded": 1,
+        "lifecycle": "terminal"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/concurrent-reports",
+        "callbacks_sent": 32,
+        "delivered_between_one_and_sent": true,
+        "every_delivery_complete": true,
+        "final_label": "latest"
+      },
+      {
+        "call": "VisiblePairingCandidatesUpdated/reentrant-report",
+        "delivery_order": [
+          "outer",
+          "inner"
+        ],
+        "snapshots_alias": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}
