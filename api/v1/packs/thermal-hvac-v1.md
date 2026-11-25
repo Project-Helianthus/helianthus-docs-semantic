@@ -149,8 +149,10 @@ The FactKey dimension contracts are `thermal.dimension.system`,
 `thermal.dimension.ventilation`, `thermal.dimension.heat_generator`,
 `thermal.dimension.thermal_store`, `thermal.dimension.terminal_unit`,
 `thermal.dimension.refrigerant_circuit`, `thermal.dimension.compressor`,
-`thermal.dimension.pump`, `thermal.dimension.room`, and
-`thermal.dimension.sensor`; each of these is typed text and names one
+`thermal.dimension.pump`, `thermal.dimension.room`,
+`thermal.dimension.sensor`, `thermal.dimension.valve`,
+`thermal.dimension.solar_circuit`, `thermal.dimension.solar_collector`,
+`thermal.dimension.detector`, and `thermal.dimension.water_tank`; each of these is typed text and names one
 resource. `thermal.dimension.function` is typed text, names anchor class
 function, and names no resource. They preserve separate instances
 without a guessed canonical face.
@@ -170,8 +172,13 @@ without a guessed canonical face.
 | refrigerant circuit | function | `thermal.dimension.refrigerant_circuit` | `thermal.service.refrigerant_circuit` | `thermal.capability.read.refrigerant_circuit` |
 | compressor | component | `thermal.dimension.compressor` | `thermal.service.compressor` | `thermal.capability.read.compressor` |
 | pump | component | `thermal.dimension.pump` | `thermal.service.pump` | none |
+| valve | component | `thermal.dimension.valve` | `thermal.service.valve` | none |
+| solar thermal circuit | function | `thermal.dimension.solar_circuit` | `thermal.service.solar_circuit` | none |
+| solar collector | equipment | `thermal.dimension.solar_collector` | `thermal.service.solar_collector` | none |
+| detector | equipment | `thermal.dimension.detector` | `thermal.service.detector` | none |
+| water tank | component | `thermal.dimension.water_tank` | `thermal.service.water_tank` | none |
 
-The pump service has a read descriptor and no read capability. `thermal.service.function` binds `thermal.dimension.function` and `thermal.capability.read.function` reads it. Each service
+The pump service has a read descriptor and no read capability. `resource.pump`, `thermal.dimension.pump` and `thermal.service.pump` keep physical, hydraulic and diagnostic and also carry energy and control. `thermal.measurement.pump_speed` stays hydraulic and diagnostic. The valve, solar-circuit, solar-collector, detector and water-tank services have a read descriptor and no read capability. `thermal.service.function` binds `thermal.dimension.function` and `thermal.capability.read.function` reads it. Each service
 binds the matching dimension. Operations require qualified
 current binding: `thermal.capability.set_temperature` on the zone service and
 `thermal.capability.set_mode` on the system service. Indoor and outdoor units
@@ -618,3 +625,165 @@ version stays 1.0.0.
 - `thermal.suggestion.maximum_count`
 - `thermal.suggestion.not_following_reason`
 - `thermal.suggestion.preset`
+
+## Hydraulic, circuit and store rows
+
+`resource.valve` is a component. `resource.solar_thermal_circuit` is a function. `resource.solar_collector` and `resource.detector` are equipment. `resource.water_tank` is a component. `thermal.dimension.replacement_product` qualifies `thermal.water_tank.replacement_product_identifier` and is `unit.one` on the physical plane. Empty bounds stay empty. Two-vendor-only rows stay out: `thermal.status.legionella_protection`, `thermal.configuration.legionella_days`, `thermal.configuration.legionella_time`, `thermal.setpoint.store_charge_temperature`, `thermal.configuration.store_charge_hysteresis`, `thermal.configuration.dew_point_offset`, `thermal.measurement.pump_start_count`, `thermal.valve.role`, `thermal.status.frost_protection`. These relations are not added: `thermal.relation.valve_member`, `thermal.relation.pump_member`, `thermal.relation.solar_circuit_collector`, `thermal.relation.solar_supply`, `thermal.relation.detector_member`, `thermal.relation.water_tank_member`. These events stay out: `thermal.event.dhw_boost_started`, `thermal.event.dhw_boost_ended`, `thermal.event.pump_supply_voltage_low`, `thermal.event.pump_supply_voltage_high`, `thermal.event.pump_power_missing_phase`, `thermal.event.pump_system_pressure_low`, `thermal.event.pump_system_pressure_high`, `thermal.event.pump_dry_running`, `thermal.event.pump_motor_temperature_high`, `thermal.event.pump_motor_fatal_failure`, `thermal.event.pump_electronic_temperature_high`, `thermal.event.pump_pump_blocked`, `thermal.event.pump_sensor_failure`, `thermal.event.pump_electronic_non_fatal_failure`, `thermal.event.pump_electronic_fatal_failure`, `thermal.event.pump_general_fault`, `thermal.event.pump_leakage`, `thermal.event.pump_air_detection`, `thermal.event.pump_turbine_operation`. `thermal.relation.zone_room`, `thermal.relation.circuit_room` and `thermal.operation.set_zone_mode` stay.
+
+- `resource.valve`
+- `resource.solar_thermal_circuit`
+- `resource.solar_collector`
+- `resource.detector`
+- `resource.water_tank`
+- `thermal.dimension.replacement_product`
+- `thermal.dimension.valve`
+- `thermal.dimension.solar_circuit`
+- `thermal.dimension.solar_collector`
+- `thermal.dimension.detector`
+- `thermal.dimension.water_tank`
+- `thermal.service.valve`
+- `thermal.service.solar_circuit`
+- `thermal.service.solar_collector`
+- `thermal.service.detector`
+- `thermal.service.water_tank`
+- `thermal.mode.dhw`
+- `thermal.mode.dhw_supported`
+- `thermal.dhw.heater_types`
+- `thermal.dhw.heat_demand`
+- `thermal.dhw.estimated_heat_required`
+- `thermal.dhw.charge_ratio`
+- `thermal.dhw.boost_state`
+- `thermal.dhw.boost_duration`
+- `thermal.dhw.boost_one_shot`
+- `thermal.dhw.boost_emergency`
+- `thermal.dhw.boost_temporary_setpoint`
+- `thermal.dhw.boost_target_ratio`
+- `thermal.dhw.boost_target_reheat_ratio`
+- `thermal.measurement.dhw_flow_rate`
+- `thermal.measurement.dhw_circuit_flow_temperature`
+- `thermal.measurement.dhw_circuit_return_temperature`
+- `thermal.nameplate.store_volume`
+- `thermal.measurement.store_top_temperature`
+- `thermal.measurement.store_bottom_temperature`
+- `thermal.status.pump_running`
+- `thermal.status.pump`
+- `thermal.status.pump_alarms`
+- `thermal.mode.pump_operation`
+- `thermal.mode.pump_effective_operation`
+- `thermal.mode.pump_control`
+- `thermal.mode.pump_effective_control`
+- `thermal.measurement.pump_capacity`
+- `thermal.setpoint.pump_level`
+- `thermal.measurement.pump_running_time`
+- `thermal.measurement.pump_power`
+- `thermal.energy.pump_consumed`
+- `thermal.measurement.pump_flow_rate`
+- `thermal.measurement.pump_pressure`
+- `thermal.measurement.pump_medium_temperature`
+- `thermal.nameplate.pump_maximum_pressure`
+- `thermal.nameplate.pump_maximum_speed`
+- `thermal.nameplate.pump_maximum_flow`
+- `thermal.nameplate.pump_minimum_constant_pressure`
+- `thermal.nameplate.pump_maximum_constant_pressure`
+- `thermal.nameplate.pump_minimum_compensated_pressure`
+- `thermal.nameplate.pump_maximum_compensated_pressure`
+- `thermal.nameplate.pump_minimum_constant_speed`
+- `thermal.nameplate.pump_maximum_constant_speed`
+- `thermal.nameplate.pump_minimum_constant_flow`
+- `thermal.nameplate.pump_maximum_constant_flow`
+- `thermal.nameplate.pump_minimum_constant_temperature`
+- `thermal.nameplate.pump_maximum_constant_temperature`
+- `thermal.status.valve_state`
+- `thermal.setpoint.valve_target_state`
+- `thermal.measurement.valve_level`
+- `thermal.setpoint.valve_target_level`
+- `thermal.configuration.valve_default_open_level`
+- `thermal.configuration.valve_level_step`
+- `thermal.valve.open_duration`
+- `thermal.configuration.valve_default_open_duration`
+- `thermal.valve.auto_close_time`
+- `thermal.valve.remaining_duration`
+- `thermal.status.valve_faults`
+- `thermal.measurement.valve_flow_rate`
+- `thermal.measurement.system_water_pressure`
+- `thermal.measurement.circuit_water_pressure`
+- `thermal.measurement.heat_generator_flow_rate`
+- `thermal.measurement.circuit_return_temperature`
+- `thermal.measurement.dew_point`
+- `thermal.measurement.circuit_humidity`
+- `thermal.measurement.collector_temperature`
+- `thermal.measurement.solar_flow_temperature`
+- `thermal.measurement.solar_return_temperature`
+- `thermal.measurement.solar_power`
+- `thermal.status.leak`
+- `thermal.status.freeze`
+- `thermal.detector.sensitivity_level`
+- `thermal.detector.supported_sensitivity_levels`
+- `thermal.detector.default_sensitivity_level`
+- `thermal.detector.alarms_active`
+- `thermal.detector.alarms_suppressed`
+- `thermal.detector.alarms_enabled`
+- `thermal.detector.alarms_supported`
+- `thermal.detector.sensor_fault`
+- `thermal.water_tank.condition`
+- `thermal.water_tank.degradation_direction`
+- `thermal.water_tank.change_indication`
+- `thermal.water_tank.in_place`
+- `thermal.water_tank.last_changed`
+- `thermal.water_tank.replacement_product_identifier`
+- `thermal.capability.set_dhw_mode`
+- `thermal.operation.set_dhw_mode`
+- `thermal.effect.set_dhw_mode`
+- `thermal.capability.set_dhw_temperature`
+- `thermal.operation.set_dhw_temperature`
+- `thermal.effect.set_dhw_temperature`
+- `thermal.capability.set_dhw_boost`
+- `thermal.operation.set_dhw_boost`
+- `thermal.effect.set_dhw_boost`
+- `thermal.capability.set_pump_running`
+- `thermal.operation.set_pump_running`
+- `thermal.effect.set_pump_running`
+- `thermal.capability.set_pump_operation_mode`
+- `thermal.operation.set_pump_operation_mode`
+- `thermal.effect.set_pump_operation_mode`
+- `thermal.capability.set_pump_control_mode`
+- `thermal.operation.set_pump_control_mode`
+- `thermal.effect.set_pump_control_mode`
+- `thermal.capability.set_pump_level`
+- `thermal.operation.set_pump_level`
+- `thermal.effect.set_pump_level`
+- `thermal.capability.set_valve_state`
+- `thermal.operation.set_valve_state`
+- `thermal.effect.set_valve_state`
+- `thermal.capability.set_valve_level`
+- `thermal.operation.set_valve_level`
+- `thermal.effect.set_valve_level`
+- `thermal.capability.set_valve_default_open_duration`
+- `thermal.operation.set_valve_default_open_duration`
+- `thermal.effect.set_valve_default_open_duration`
+- `thermal.capability.set_valve_default_open_level`
+- `thermal.operation.set_valve_default_open_level`
+- `thermal.effect.set_valve_default_open_level`
+- `thermal.capability.suppress_detector_alarm`
+- `thermal.operation.suppress_detector_alarm`
+- `thermal.effect.suppress_detector_alarm`
+- `thermal.capability.enable_detector_alarm`
+- `thermal.operation.enable_detector_alarm`
+- `thermal.effect.enable_detector_alarm`
+- `thermal.capability.set_detector_sensitivity`
+- `thermal.operation.set_detector_sensitivity`
+- `thermal.effect.set_detector_sensitivity`
+- `thermal.capability.reset_water_tank`
+- `thermal.operation.reset_water_tank`
+- `thermal.effect.reset_water_tank`
+- `thermal.event.valve_state_changed`
+- `thermal.event.valve_fault`
+- `thermal.event.leak_changed`
+- `thermal.event.freeze_changed`
+- `thermal.event.detector_alarms_changed`
+- `thermal.event.detector_sensor_fault`
+- `thermal.portal.read.valve`
+- `thermal.portal.read.solar_circuit`
+- `thermal.portal.read.solar_collector`
+- `thermal.portal.read.detector`
+- `thermal.portal.read.water_tank`

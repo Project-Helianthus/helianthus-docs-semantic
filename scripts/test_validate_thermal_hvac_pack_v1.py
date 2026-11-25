@@ -27,10 +27,11 @@ SI_UNITS = {
     "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
     "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule",
 }
-# The nine units of the thermal pack after the accepted placement.
+# The ten units of the thermal pack after the admitted hydraulic rows.
 PACK_UNITS = {
     "unit.kelvin", "unit.ratio", "unit.cubic_metre_per_second", "unit.pascal",
     "unit.reciprocal_second", "unit.watt", "unit.joule", "unit.one", "unit.second",
+    "unit.cubic_metre",
 }
 SYSTEM = "thermal.dimension.system"
 ZONE = "thermal.dimension.zone"
@@ -45,7 +46,7 @@ COMPRESSOR = "thermal.dimension.compressor"
 ROOM = "thermal.dimension.room"
 FUNCTION = "thermal.dimension.function"
 SENSOR = "thermal.dimension.sensor"
-RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM, FUNCTION, SENSOR}
+RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM, FUNCTION, SENSOR, "thermal.dimension.valve", "thermal.dimension.solar_circuit", "thermal.dimension.solar_collector", "thermal.dimension.detector", "thermal.dimension.water_tank"}
 # Temperature bounds of the placement, in kelvin: -100 to 200 and -50 to 150 degrees Celsius plus 273.15.
 AIR = (Fraction(-100), Fraction(200))
 SETPOINT = (Fraction(-50), Fraction(150))
@@ -189,6 +190,91 @@ FIELD_TABLE = {
     "thermal.suggestion.maximum_count": (ZONE, 'unit.one', (Fraction(5, 1), None)),
     "thermal.suggestion.not_following_reason": (ZONE, None, None),
     "thermal.suggestion.preset": (ZONE, None, None),
+    "thermal.mode.dhw": ("thermal.dimension.dhw", None, None),
+    "thermal.mode.dhw_supported": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.heater_types": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.heat_demand": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.estimated_heat_required": ("thermal.dimension.dhw", 'unit.joule', (Fraction(0), None)),
+    "thermal.dhw.charge_ratio": ("thermal.dimension.dhw", 'unit.ratio', (None, Fraction(1))),
+    "thermal.dhw.boost_state": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.boost_duration": ("thermal.dimension.dhw", 'unit.second', (Fraction(1), None)),
+    "thermal.dhw.boost_one_shot": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.boost_emergency": ("thermal.dimension.dhw", None, None),
+    "thermal.dhw.boost_temporary_setpoint": ("thermal.dimension.dhw", 'unit.kelvin', None),
+    "thermal.dhw.boost_target_ratio": ("thermal.dimension.dhw", 'unit.ratio', (None, Fraction(1))),
+    "thermal.dhw.boost_target_reheat_ratio": ("thermal.dimension.dhw", 'unit.ratio', None),
+    "thermal.measurement.dhw_flow_rate": ("thermal.dimension.dhw", 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.dhw_circuit_flow_temperature": ("thermal.dimension.dhw", 'unit.kelvin', None),
+    "thermal.measurement.dhw_circuit_return_temperature": ("thermal.dimension.dhw", 'unit.kelvin', None),
+    "thermal.nameplate.store_volume": ("thermal.dimension.thermal_store", 'unit.cubic_metre', None),
+    "thermal.measurement.store_top_temperature": ("thermal.dimension.thermal_store", 'unit.kelvin', None),
+    "thermal.measurement.store_bottom_temperature": ("thermal.dimension.thermal_store", 'unit.kelvin', None),
+    "thermal.status.pump_running": ("thermal.dimension.pump", None, None),
+    "thermal.status.pump": ("thermal.dimension.pump", None, None),
+    "thermal.status.pump_alarms": ("thermal.dimension.pump", None, None),
+    "thermal.mode.pump_operation": ("thermal.dimension.pump", None, None),
+    "thermal.mode.pump_effective_operation": ("thermal.dimension.pump", None, None),
+    "thermal.mode.pump_control": ("thermal.dimension.pump", None, None),
+    "thermal.mode.pump_effective_control": ("thermal.dimension.pump", None, None),
+    "thermal.measurement.pump_capacity": ("thermal.dimension.pump", 'unit.ratio', None),
+    "thermal.setpoint.pump_level": ("thermal.dimension.pump", 'unit.ratio', None),
+    "thermal.measurement.pump_running_time": ("thermal.dimension.pump", 'unit.second', None),
+    "thermal.measurement.pump_power": ("thermal.dimension.pump", 'unit.watt', None),
+    "thermal.energy.pump_consumed": ("thermal.dimension.pump", 'unit.joule', None),
+    "thermal.measurement.pump_flow_rate": ("thermal.dimension.pump", 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.pump_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.measurement.pump_medium_temperature": ("thermal.dimension.pump", 'unit.kelvin', None),
+    "thermal.nameplate.pump_maximum_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.nameplate.pump_maximum_speed": ("thermal.dimension.pump", 'unit.reciprocal_second', None),
+    "thermal.nameplate.pump_maximum_flow": ("thermal.dimension.pump", 'unit.cubic_metre_per_second', None),
+    "thermal.nameplate.pump_minimum_constant_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.nameplate.pump_maximum_constant_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.nameplate.pump_minimum_compensated_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.nameplate.pump_maximum_compensated_pressure": ("thermal.dimension.pump", 'unit.pascal', None),
+    "thermal.nameplate.pump_minimum_constant_speed": ("thermal.dimension.pump", 'unit.reciprocal_second', None),
+    "thermal.nameplate.pump_maximum_constant_speed": ("thermal.dimension.pump", 'unit.reciprocal_second', None),
+    "thermal.nameplate.pump_minimum_constant_flow": ("thermal.dimension.pump", 'unit.cubic_metre_per_second', None),
+    "thermal.nameplate.pump_maximum_constant_flow": ("thermal.dimension.pump", 'unit.cubic_metre_per_second', None),
+    "thermal.nameplate.pump_minimum_constant_temperature": ("thermal.dimension.pump", 'unit.kelvin', None),
+    "thermal.nameplate.pump_maximum_constant_temperature": ("thermal.dimension.pump", 'unit.kelvin', None),
+    "thermal.status.valve_state": ("thermal.dimension.valve", None, None),
+    "thermal.setpoint.valve_target_state": ("thermal.dimension.valve", None, None),
+    "thermal.measurement.valve_level": ("thermal.dimension.valve", 'unit.ratio', (None, Fraction(1))),
+    "thermal.setpoint.valve_target_level": ("thermal.dimension.valve", 'unit.ratio', (None, Fraction(1))),
+    "thermal.configuration.valve_default_open_level": ("thermal.dimension.valve", 'unit.ratio', (Fraction(1, 100), Fraction(1))),
+    "thermal.configuration.valve_level_step": ("thermal.dimension.valve", 'unit.ratio', None),
+    "thermal.valve.open_duration": ("thermal.dimension.valve", 'unit.second', (Fraction(1), None)),
+    "thermal.configuration.valve_default_open_duration": ("thermal.dimension.valve", 'unit.second', (Fraction(1), None)),
+    "thermal.valve.auto_close_time": ("thermal.dimension.valve", None, None),
+    "thermal.valve.remaining_duration": ("thermal.dimension.valve", 'unit.second', None),
+    "thermal.status.valve_faults": ("thermal.dimension.valve", None, None),
+    "thermal.measurement.valve_flow_rate": ("thermal.dimension.valve", 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.system_water_pressure": ("thermal.dimension.system", 'unit.pascal', None),
+    "thermal.measurement.circuit_water_pressure": ("thermal.dimension.circuit", 'unit.pascal', None),
+    "thermal.measurement.heat_generator_flow_rate": ("thermal.dimension.heat_generator", 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.circuit_return_temperature": ("thermal.dimension.circuit", 'unit.kelvin', None),
+    "thermal.measurement.dew_point": ("thermal.dimension.circuit", 'unit.kelvin', None),
+    "thermal.measurement.circuit_humidity": ("thermal.dimension.circuit", 'unit.ratio', None),
+    "thermal.measurement.collector_temperature": ("thermal.dimension.solar_collector", 'unit.kelvin', None),
+    "thermal.measurement.solar_flow_temperature": ("thermal.dimension.solar_circuit", 'unit.kelvin', None),
+    "thermal.measurement.solar_return_temperature": ("thermal.dimension.solar_circuit", 'unit.kelvin', None),
+    "thermal.measurement.solar_power": ("thermal.dimension.solar_circuit", 'unit.watt', None),
+    "thermal.status.leak": ("thermal.dimension.detector", None, None),
+    "thermal.status.freeze": ("thermal.dimension.detector", None, None),
+    "thermal.detector.sensitivity_level": ("thermal.dimension.detector", 'unit.one', None),
+    "thermal.detector.supported_sensitivity_levels": ("thermal.dimension.detector", 'unit.one', None),
+    "thermal.detector.default_sensitivity_level": ("thermal.dimension.detector", 'unit.one', None),
+    "thermal.detector.alarms_active": ("thermal.dimension.detector", None, None),
+    "thermal.detector.alarms_suppressed": ("thermal.dimension.detector", None, None),
+    "thermal.detector.alarms_enabled": ("thermal.dimension.detector", None, None),
+    "thermal.detector.alarms_supported": ("thermal.dimension.detector", None, None),
+    "thermal.detector.sensor_fault": ("thermal.dimension.detector", None, None),
+    "thermal.water_tank.condition": ("thermal.dimension.water_tank", 'unit.ratio', (None, Fraction(1))),
+    "thermal.water_tank.degradation_direction": ("thermal.dimension.water_tank", None, None),
+    "thermal.water_tank.change_indication": ("thermal.dimension.water_tank", None, None),
+    "thermal.water_tank.in_place": ("thermal.dimension.water_tank", None, None),
+    "thermal.water_tank.last_changed": ("thermal.dimension.water_tank", None, None),
+    "thermal.water_tank.replacement_product_identifier": ("thermal.dimension.water_tank", None, None),
 }
 # Overrun identity: field id, system dimension, and the four status symbols.
 # Symbol lists stay in canonical sorted order, the same rule as thermal.mode.system.
@@ -348,14 +434,27 @@ def check_removed() -> None:
     print("removed_identifiers_absent: PASS")
 
 
+def absent_side_decimal(present: dict | None, side: str) -> dict:
+    """Canonical decimal that stays strictly ordered against the present side."""
+    if present is None:
+        return {"coefficient": "9", "exponent10": 0}
+    step = -1 if side == "minimum" else 1
+    coefficient = int(present["coefficient"]) + step
+    if coefficient == 0 or str(coefficient).endswith("0"):
+        coefficient += step
+    exponent = 0 if coefficient == 0 else present["exponent10"]
+    return {"coefficient": str(coefficient), "exponent10": exponent}
+
+
 def reject_one_sided(document, index, bounds):
     """Shift the present side and insert the absent side."""
     count = 0
     for side, expected in (("minimum", bounds[0]), ("maximum", bounds[1])):
         if expected is None:
             inserted = copy.deepcopy(document)
-            definitions(inserted)["fields"][index].setdefault("bounds", {})[side] = {
-                "coefficient": "9", "exponent10": 0}
+            field_bounds = definitions(inserted)["fields"][index].setdefault("bounds", {})
+            other = "maximum" if side == "minimum" else "minimum"
+            field_bounds[side] = absent_side_decimal(field_bounds.get(other), side)
             reject(inserted, "field bounds differ")
             count += 1
             continue
@@ -630,13 +729,26 @@ def assert_hydraulic_quantities(fields: dict) -> None:
             raise AssertionError(f"{identifier} is not the hydraulic quantity")
 
 
-def assert_pump_has_no_actuation(services: dict, capabilities: set, document: dict) -> None:
+ADMITTED_PUMP_ACTUATION = {
+    "thermal.capability.set_pump_control_mode",
+    "thermal.capability.set_pump_level",
+    "thermal.capability.set_pump_operation_mode",
+    "thermal.capability.set_pump_running",
+    "thermal.operation.set_pump_control_mode",
+    "thermal.operation.set_pump_level",
+    "thermal.operation.set_pump_operation_mode",
+    "thermal.operation.set_pump_running",
+}
+
+
+def assert_admitted_pump_actuation(services: dict, capabilities: set, document: dict) -> None:
     service = services[PUMP_SERVICE]
     if service.get("fact_key_dimension") != PUMP:
         raise AssertionError("pump service is not keyed on the pump dimension")
     operations = {item["id"] for item in definitions(document)["operations"]}
-    if any("pump" in item for item in capabilities | operations):
-        raise AssertionError("pump gained a capability or an operation")
+    actuation = {item for item in capabilities | operations if "pump" in item}
+    if actuation != ADMITTED_PUMP_ACTUATION or "thermal.capability.read.pump" in capabilities:
+        raise AssertionError("pump actuation is not the admitted set")
     text = validator.DOCUMENT.read_text(encoding="utf-8")
     if "pump speed is not compressor speed" not in text:
         raise AssertionError("thermal page does not separate pump speed from compressor speed")
@@ -664,7 +776,7 @@ def check_pump_and_valve(document: dict) -> None:
         raise AssertionError(f"hydraulic members absent: {missing}")
     assert_kept_compressor_and_kick(fields)
     assert_hydraulic_quantities(fields)
-    assert_pump_has_no_actuation(services, capabilities, document)
+    assert_admitted_pump_actuation(services, capabilities, document)
     print("pump_and_valve: PASS")
 
 
@@ -1321,6 +1433,295 @@ def pe04_mutants(document: dict) -> int:
 
 
 
+
+PE05_FIELDS = ('thermal.mode.dhw', 'thermal.mode.dhw_supported', 'thermal.dhw.heater_types', 'thermal.dhw.heat_demand', 'thermal.dhw.estimated_heat_required', 'thermal.dhw.charge_ratio', 'thermal.dhw.boost_state', 'thermal.dhw.boost_duration', 'thermal.dhw.boost_one_shot', 'thermal.dhw.boost_emergency', 'thermal.dhw.boost_temporary_setpoint', 'thermal.dhw.boost_target_ratio', 'thermal.dhw.boost_target_reheat_ratio', 'thermal.measurement.dhw_flow_rate', 'thermal.measurement.dhw_circuit_flow_temperature', 'thermal.measurement.dhw_circuit_return_temperature', 'thermal.nameplate.store_volume', 'thermal.measurement.store_top_temperature', 'thermal.measurement.store_bottom_temperature', 'thermal.status.pump_running', 'thermal.status.pump', 'thermal.status.pump_alarms', 'thermal.mode.pump_operation', 'thermal.mode.pump_effective_operation', 'thermal.mode.pump_control', 'thermal.mode.pump_effective_control', 'thermal.measurement.pump_capacity', 'thermal.setpoint.pump_level', 'thermal.measurement.pump_running_time', 'thermal.measurement.pump_power', 'thermal.energy.pump_consumed', 'thermal.measurement.pump_flow_rate', 'thermal.measurement.pump_pressure', 'thermal.measurement.pump_medium_temperature', 'thermal.nameplate.pump_maximum_pressure', 'thermal.nameplate.pump_maximum_speed', 'thermal.nameplate.pump_maximum_flow', 'thermal.nameplate.pump_minimum_constant_pressure', 'thermal.nameplate.pump_maximum_constant_pressure', 'thermal.nameplate.pump_minimum_compensated_pressure', 'thermal.nameplate.pump_maximum_compensated_pressure', 'thermal.nameplate.pump_minimum_constant_speed', 'thermal.nameplate.pump_maximum_constant_speed', 'thermal.nameplate.pump_minimum_constant_flow', 'thermal.nameplate.pump_maximum_constant_flow', 'thermal.nameplate.pump_minimum_constant_temperature', 'thermal.nameplate.pump_maximum_constant_temperature', 'thermal.status.valve_state', 'thermal.setpoint.valve_target_state', 'thermal.measurement.valve_level', 'thermal.setpoint.valve_target_level', 'thermal.configuration.valve_default_open_level', 'thermal.configuration.valve_level_step', 'thermal.valve.open_duration', 'thermal.configuration.valve_default_open_duration', 'thermal.valve.auto_close_time', 'thermal.valve.remaining_duration', 'thermal.status.valve_faults', 'thermal.measurement.valve_flow_rate', 'thermal.measurement.system_water_pressure', 'thermal.measurement.circuit_water_pressure', 'thermal.measurement.heat_generator_flow_rate', 'thermal.measurement.circuit_return_temperature', 'thermal.measurement.dew_point', 'thermal.measurement.circuit_humidity', 'thermal.measurement.collector_temperature', 'thermal.measurement.solar_flow_temperature', 'thermal.measurement.solar_return_temperature', 'thermal.measurement.solar_power', 'thermal.status.leak', 'thermal.status.freeze', 'thermal.detector.sensitivity_level', 'thermal.detector.supported_sensitivity_levels', 'thermal.detector.default_sensitivity_level', 'thermal.detector.alarms_active', 'thermal.detector.alarms_suppressed', 'thermal.detector.alarms_enabled', 'thermal.detector.alarms_supported', 'thermal.detector.sensor_fault', 'thermal.water_tank.condition', 'thermal.water_tank.degradation_direction', 'thermal.water_tank.change_indication', 'thermal.water_tank.in_place', 'thermal.water_tank.last_changed', 'thermal.water_tank.replacement_product_identifier')
+PE05_SYMBOLS = {'thermal.mode.dhw': ('auto', 'eco', 'manual', 'off', 'on', 'timed', 'vacation'), 'thermal.mode.dhw_supported': ('auto', 'eco', 'manual', 'off', 'on', 'timed', 'vacation'), 'thermal.dhw.heater_types': ('boiler', 'heat_pump', 'immersion_element_1', 'immersion_element_2', 'other'), 'thermal.dhw.heat_demand': ('boiler', 'heat_pump', 'immersion_element_1', 'immersion_element_2', 'other'), 'thermal.dhw.boost_state': ('active', 'inactive'), 'thermal.status.pump_running': ('off', 'on'), 'thermal.status.pump': ('device_fault', 'local_override', 'remote_flow', 'remote_pressure', 'remote_temperature', 'running', 'speed_high', 'speed_low', 'supply_fault'), 'thermal.status.pump_alarms': ('air_detection', 'dry_running', 'electronic_fatal_failure', 'electronic_non_fatal_failure', 'electronic_temperature_high', 'general_fault', 'leakage', 'motor_fatal_failure', 'motor_temperature_high', 'power_missing_phase', 'pump_blocked', 'sensor_failure', 'supply_voltage_high', 'supply_voltage_low', 'system_pressure_high', 'system_pressure_low', 'turbine_operation'), 'thermal.mode.pump_operation': ('local', 'maximum', 'minimum', 'normal'), 'thermal.mode.pump_effective_operation': ('local', 'maximum', 'minimum', 'normal'), 'thermal.mode.pump_control': ('automatic', 'constant_flow', 'constant_pressure', 'constant_speed', 'constant_temperature', 'proportional_pressure'), 'thermal.mode.pump_effective_control': ('automatic', 'constant_flow', 'constant_pressure', 'constant_speed', 'constant_temperature', 'proportional_pressure'), 'thermal.status.valve_state': ('closed', 'open', 'transitioning'), 'thermal.setpoint.valve_target_state': ('closed', 'open'), 'thermal.status.valve_faults': ('blocked', 'current_exceeded', 'general_fault', 'leaking', 'not_connected', 'short_circuit'), 'thermal.status.leak': ('clear', 'detected'), 'thermal.status.freeze': ('clear', 'detected'), 'thermal.detector.alarms_active': ('audible', 'visual'), 'thermal.detector.alarms_suppressed': ('audible', 'visual'), 'thermal.detector.alarms_enabled': ('audible', 'visual'), 'thermal.detector.alarms_supported': ('audible', 'visual'), 'thermal.detector.sensor_fault': ('general_fault',), 'thermal.water_tank.degradation_direction': ('down', 'up'), 'thermal.water_tank.change_indication': ('critical', 'ok', 'warning')}
+PE05_QUALIFIERS = {'thermal.water_tank.replacement_product_identifier': ('thermal.dimension.replacement_product',)}
+PE05_OPERATIONS = {'thermal.operation.set_dhw_mode': ('thermal.capability.set_dhw_mode', 'thermal.mode.dhw', 'thermal.effect.set_dhw_mode', ()), 'thermal.operation.set_dhw_temperature': ('thermal.capability.set_dhw_temperature', 'thermal.setpoint.dhw_temperature_setpoint', 'thermal.effect.set_dhw_temperature', ()), 'thermal.operation.set_dhw_boost': ('thermal.capability.set_dhw_boost', 'thermal.dhw.boost_state', 'thermal.effect.set_dhw_boost', ('thermal.dhw.boost_duration', 'thermal.dhw.boost_one_shot', 'thermal.dhw.boost_emergency', 'thermal.dhw.boost_temporary_setpoint', 'thermal.dhw.boost_target_ratio', 'thermal.dhw.boost_target_reheat_ratio')), 'thermal.operation.set_pump_running': ('thermal.capability.set_pump_running', 'thermal.status.pump_running', 'thermal.effect.set_pump_running', ()), 'thermal.operation.set_pump_operation_mode': ('thermal.capability.set_pump_operation_mode', 'thermal.mode.pump_operation', 'thermal.effect.set_pump_operation_mode', ()), 'thermal.operation.set_pump_control_mode': ('thermal.capability.set_pump_control_mode', 'thermal.mode.pump_control', 'thermal.effect.set_pump_control_mode', ()), 'thermal.operation.set_pump_level': ('thermal.capability.set_pump_level', 'thermal.setpoint.pump_level', 'thermal.effect.set_pump_level', ()), 'thermal.operation.set_valve_state': ('thermal.capability.set_valve_state', 'thermal.setpoint.valve_target_state', 'thermal.effect.set_valve_state', ('thermal.valve.open_duration', 'thermal.setpoint.valve_target_level')), 'thermal.operation.set_valve_level': ('thermal.capability.set_valve_level', 'thermal.setpoint.valve_target_level', 'thermal.effect.set_valve_level', ()), 'thermal.operation.set_valve_default_open_duration': ('thermal.capability.set_valve_default_open_duration', 'thermal.configuration.valve_default_open_duration', 'thermal.effect.set_valve_default_open_duration', ()), 'thermal.operation.set_valve_default_open_level': ('thermal.capability.set_valve_default_open_level', 'thermal.configuration.valve_default_open_level', 'thermal.effect.set_valve_default_open_level', ()), 'thermal.operation.suppress_detector_alarm': ('thermal.capability.suppress_detector_alarm', 'thermal.detector.alarms_suppressed', 'thermal.effect.suppress_detector_alarm', ()), 'thermal.operation.enable_detector_alarm': ('thermal.capability.enable_detector_alarm', 'thermal.detector.alarms_enabled', 'thermal.effect.enable_detector_alarm', ()), 'thermal.operation.set_detector_sensitivity': ('thermal.capability.set_detector_sensitivity', 'thermal.detector.sensitivity_level', 'thermal.effect.set_detector_sensitivity', ()), 'thermal.operation.reset_water_tank': ('thermal.capability.reset_water_tank', 'thermal.water_tank.change_indication', 'thermal.effect.reset_water_tank', ())}
+PE05_EVENTS = {'thermal.event.valve_state_changed': ('thermal.service.valve', 'thermal.status.valve_state', ('thermal.measurement.valve_level',)), 'thermal.event.valve_fault': ('thermal.service.valve', 'thermal.status.valve_faults', ()), 'thermal.event.leak_changed': ('thermal.service.detector', 'thermal.status.leak', ()), 'thermal.event.freeze_changed': ('thermal.service.detector', 'thermal.status.freeze', ()), 'thermal.event.detector_alarms_changed': ('thermal.service.detector', 'thermal.detector.alarms_active', ('thermal.detector.alarms_suppressed',)), 'thermal.event.detector_sensor_fault': ('thermal.service.detector', 'thermal.detector.sensor_fault', ())}
+PE05_EXCLUDED = ('thermal.status.legionella_protection', 'thermal.configuration.legionella_days', 'thermal.configuration.legionella_time', 'thermal.setpoint.store_charge_temperature', 'thermal.configuration.store_charge_hysteresis', 'thermal.configuration.dew_point_offset', 'thermal.measurement.pump_start_count', 'thermal.valve.role', 'thermal.status.frost_protection')
+PE05_RELATIONS = ('thermal.relation.valve_member', 'thermal.relation.pump_member', 'thermal.relation.solar_circuit_collector', 'thermal.relation.solar_supply', 'thermal.relation.detector_member', 'thermal.relation.water_tank_member')
+PE05_WITHHELD_EVENTS = ('thermal.event.dhw_boost_started', 'thermal.event.dhw_boost_ended', 'thermal.event.pump_supply_voltage_low', 'thermal.event.pump_supply_voltage_high', 'thermal.event.pump_power_missing_phase', 'thermal.event.pump_system_pressure_low', 'thermal.event.pump_system_pressure_high', 'thermal.event.pump_dry_running', 'thermal.event.pump_motor_temperature_high', 'thermal.event.pump_motor_fatal_failure', 'thermal.event.pump_electronic_temperature_high', 'thermal.event.pump_pump_blocked', 'thermal.event.pump_sensor_failure', 'thermal.event.pump_electronic_non_fatal_failure', 'thermal.event.pump_electronic_fatal_failure', 'thermal.event.pump_general_fault', 'thermal.event.pump_leakage', 'thermal.event.pump_air_detection', 'thermal.event.pump_turbine_operation')
+PE05_DIMENSIONS = ('thermal.dimension.valve', 'thermal.dimension.solar_circuit', 'thermal.dimension.solar_collector', 'thermal.dimension.detector', 'thermal.dimension.water_tank')
+PE05_SERVICES = ('thermal.service.valve', 'thermal.service.solar_circuit', 'thermal.service.solar_collector', 'thermal.service.detector', 'thermal.service.water_tank')
+PE05_PORTALS = (
+    "thermal.portal.read.valve", "thermal.portal.read.solar_circuit", "thermal.portal.read.solar_collector",
+    "thermal.portal.read.detector", "thermal.portal.read.water_tank",
+)
+
+
+def check_pe05_withheld(fields: dict, relations: set, events: set, operations: dict) -> None:
+    present = [ident for ident in PE05_EXCLUDED if ident in fields]
+    if present:
+        raise AssertionError(f"two-vendor fields admitted: {present}")
+    present = [ident for ident in PE05_RELATIONS if ident in relations]
+    if present:
+        raise AssertionError(f"relations admitted: {present}")
+    present = [ident for ident in PE05_WITHHELD_EVENTS if ident in events]
+    if present:
+        raise AssertionError(f"withheld events admitted: {present}")
+    for ident in ("thermal.relation.zone_room", "thermal.relation.circuit_room"):
+        if ident not in relations:
+            raise AssertionError(f"room containment left the pack: {ident}")
+    if "thermal.operation.set_zone_mode" not in operations:
+        raise AssertionError("zone mode operation left the pack")
+
+
+def check_pe05_fields(fields: dict) -> None:
+    missing = [ident for ident in PE05_FIELDS if ident not in fields]
+    if missing:
+        raise AssertionError(f"admitted fields absent: {missing}")
+    for ident, tokens in PE05_SYMBOLS.items():
+        if fields[ident].get("symbols") != [f"{ident}.{token}" for token in tokens]:
+            raise AssertionError(f"{ident} symbols differ")
+    for ident, quals in PE05_QUALIFIERS.items():
+        if tuple(fields[ident].get("qualifiers", ())) != quals:
+            raise AssertionError(f"{ident} qualifiers differ")
+
+
+def check_pe05_operations(operations: dict) -> None:
+    for ident, (cap, arg, effect, params) in PE05_OPERATIONS.items():
+        item = operations[ident]
+        observed = (item["capability"], item["arguments"], item["effect_rule"], tuple(item.get("parameters", ())))
+        if observed != (cap, [arg], effect, params):
+            raise AssertionError(f"{ident} operation identity differs")
+
+
+def check_pe05_events(document: dict) -> None:
+    event_items = {item["id"]: item for item in definitions(document)["events"]}
+    for ident, (service, trigger, payload) in PE05_EVENTS.items():
+        item = event_items[ident]
+        if (item["service"], item["trigger"], tuple(item["payload"])) != (service, trigger, payload):
+            raise AssertionError(f"{ident} event identity differs")
+    qualifiers = {item["id"]: item for item in definitions(document)["qualifier_dimensions"]}
+    replacement = qualifiers["thermal.dimension.replacement_product"]
+    if (replacement.get("value_kind"), replacement.get("unit")) != ("quantity", "unit.one"):
+        raise AssertionError("replacement product qualifier differs")
+
+
+def check_pe05(document: dict) -> None:
+    """Admitted hydraulic rows are present and the withheld rows are absent.
+
+    Subject, unit and each present or absent bound of every admitted field are
+    compared by check_field_table. field_axis_mutants varies those three for
+    every field, including these.
+    """
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    relations = {item["id"] for item in definitions(document)["relations"]}
+    events = {item["id"] for item in definitions(document)["events"]}
+    operations = {item["id"]: item for item in definitions(document)["operations"]}
+    check_pe05_withheld(fields, relations, events, operations)
+    check_pe05_fields(fields)
+    check_pe05_operations(operations)
+    check_pe05_events(document)
+    print("pe05_identity: PASS")
+
+
+def pe05_field_mutants(document: dict) -> int:
+    count = 0
+    for ident in PE05_FIELDS:
+        index = field_index(document, ident)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        if definitions(document)["fields"][index]["kind"] in {"symbol", "symbols", "quantity"}:
+            continue
+        extra = copy.deepcopy(document)
+        definitions(extra)["fields"][index]["unit"] = "unit.kelvin"
+        reject(extra, "non-quantity field has quantity-only data")
+        count += 1
+    return count
+
+
+def pe05_symbol_mutants(document: dict) -> int:
+    count = 0
+    for ident, tokens in PE05_SYMBOLS.items():
+        index = field_index(document, ident)
+        for token in tokens:
+            renamed = copy.deepcopy(document)
+            symbols = definitions(renamed)["fields"][index]["symbols"]
+            symbols[symbols.index(f"{ident}.{token}")] = f"{ident}.paused"
+            reject(renamed, "field has invalid semantic symbols")
+            count += 1
+    return count
+
+
+def pe05_qualifier_mutants(document: dict) -> int:
+    count = 0
+    for ident in PE05_QUALIFIERS:
+        index = field_index(document, ident)
+        cleared = copy.deepcopy(document)
+        definitions(cleared)["fields"][index].pop("qualifiers")
+        reject(cleared, "field qualifiers differ")
+        added = copy.deepcopy(document)
+        definitions(added)["fields"][index]["qualifiers"].append("thermal.dimension.suggestion")
+        reject(added, "field qualifiers differ")
+        count += 2
+    return count
+
+
+def pe05_operation_index(document: dict, ident: str) -> int:
+    return next(i for i, item in enumerate(definitions(document)["operations"]) if item["id"] == ident)
+
+
+def pe05_operation_mutants(document: dict) -> int:
+    count = 0
+    ids = list(PE05_OPERATIONS)
+    for ident in ids:
+        index = pe05_operation_index(document, ident)
+        other = ids[0] if ident != ids[0] else ids[1]
+        other_cap, other_arg, other_effect, _params = PE05_OPERATIONS[other]
+        renamed = copy.deepcopy(document)
+        item = definitions(renamed)["operations"][index]
+        item["id"] += "_other"
+        item["ref"]["id"] += "_other"
+        reject(renamed, "operation catalog")
+        changed = copy.deepcopy(document)
+        definitions(changed)["operations"][index]["capability"] = other_cap
+        reject(changed, "operation capability differs")
+        argued = copy.deepcopy(document)
+        definitions(argued)["operations"][index]["arguments"] = [other_arg]
+        definitions(argued)["operations"][index]["argument_constraints"] = [other_arg]
+        reject(argued, "operation argument differs")
+        effected = copy.deepcopy(document)
+        definitions(effected)["operations"][index]["effect_rule"] = other_effect
+        reject(effected, "operation effect differs")
+        count += 4
+        capability_id = PE05_OPERATIONS[ident][0]
+        moved = copy.deepcopy(document)
+        capability = next(item for item in definitions(moved)["capabilities"] if item["id"] == capability_id)
+        capability["service"] = "thermal.service.zone"
+        reject(moved, "operation capability differs")
+        count += 1
+    return count
+
+
+def pe05_parameter_mutants(document: dict) -> int:
+    count = 0
+    for ident, (_cap, _arg, _effect, params) in PE05_OPERATIONS.items():
+        index = pe05_operation_index(document, ident)
+        extra = copy.deepcopy(document)
+        item = definitions(extra)["operations"][index]
+        item["parameters"] = list(params) + ["thermal.hold.expiry"]
+        reject(extra, "operation parameters differ")
+        count += 1
+        for parameter in params:
+            replaced = copy.deepcopy(document)
+            current = list(definitions(replaced)["operations"][index]["parameters"])
+            current[current.index(parameter)] = "thermal.hold.expiry"
+            definitions(replaced)["operations"][index]["parameters"] = current
+            reject(replaced, "operation parameters differ")
+            count += 1
+    return count
+
+
+def pe05_event_mutants(document: dict) -> int:
+    count = 0
+    for ident, (service, trigger, payload) in PE05_EVENTS.items():
+        index = next(i for i, item in enumerate(definitions(document)["events"]) if item["id"] == ident)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["events"][index]
+        reject(removed, "event catalog")
+        moved = copy.deepcopy(document)
+        definitions(moved)["events"][index]["service"] = (
+            "thermal.service.system" if service != "thermal.service.system" else "thermal.service.zone")
+        reject(moved, "event service differs")
+        trig = copy.deepcopy(document)
+        definitions(trig)["events"][index]["trigger"] = (
+            "thermal.mode.zone" if trigger != "thermal.mode.zone" else "thermal.mode.system")
+        reject(trig, "event trigger differs")
+        pay = copy.deepcopy(document)
+        definitions(pay)["events"][index]["payload"] = list(payload) + ["thermal.mode.zone"]
+        reject(pay, "event payload differs")
+        entered = copy.deepcopy(document)
+        definitions(entered)["events"][index]["condition"] = "entered"
+        reject(entered, "event payload differs")
+        derived = copy.deepcopy(document)
+        definitions(derived)["events"][index]["origin"] = "derived"
+        reject(derived, "event payload differs")
+        count += 6
+    return count
+
+
+def pe05_rename(document: dict, group: str, ident: str) -> dict:
+    mutated = copy.deepcopy(document)
+    for item in definitions(mutated)[group]:
+        if item["id"] == ident:
+            item["id"] += "_other"
+            item["ref"]["id"] += "_other"
+            return mutated
+    raise AssertionError(ident)
+
+
+def pe05_group_mutants(document: dict) -> int:
+    count = 0
+    cases = [("thermal.dimension.replacement_product", "qualifier_dimensions", "qualifier catalog")]
+    cases += [(ident, "fact_dimensions", "fact-key dimension contracts") for ident in PE05_DIMENSIONS]
+    cases += [(ident, "services", "service catalog") for ident in PE05_SERVICES]
+    for cap, _arg, effect, _params in PE05_OPERATIONS.values():
+        cases.append((cap, "capabilities", "capability catalog"))
+        cases.append((effect, "effect_rules", "effect catalog"))
+    cases += [(ident, "portal_contributions", "Portal catalog") for ident in PE05_PORTALS]
+    for ident, group, message in cases:
+        reject(pe05_rename(document, group, ident), message)
+        count += 1
+    qualifiers = definitions(document)["qualifier_dimensions"]
+    index = next(i for i, item in enumerate(qualifiers) if item["id"] == "thermal.dimension.replacement_product")
+    changed = copy.deepcopy(document)
+    definitions(changed)["qualifier_dimensions"][index]["value_kind"] = "text"
+    reject(changed, "qualifier dimension differs")
+    cleared = copy.deepcopy(document)
+    definitions(cleared)["qualifier_dimensions"][index].pop("unit")
+    reject(cleared, "qualifier dimension differs")
+    count += 2
+    for portal_id in PE05_PORTALS:
+        dropped = copy.deepcopy(document)
+        portal = next(item for item in definitions(dropped)["portal_contributions"] if item["id"] == portal_id)
+        portal["fields"].pop()
+        reject(dropped, "read descriptor field coverage")
+        count += 1
+    return count
+
+
+def pe05_mutants(document: dict) -> int:
+    """Identity fields and the production mutation each case catches.
+
+    field id: removing the field is rejected as a field catalog mismatch.
+    non-quantity unit: inserting unit.kelvin on a boolean, text or time field
+    is rejected as quantity-only data.
+    each symbol token: replacing that token is rejected as invalid semantic symbols.
+    qualifier list: removing it or appending one is rejected as field qualifiers differ.
+    operation id: renaming it is rejected as an operation catalog mismatch.
+    capability, argument and effect: replacing each is rejected as operation
+    capability differs, operation argument differs, or operation effect differs.
+    capability service: moving it to thermal.service.zone is rejected as
+    operation capability differs.
+    each parameter, and one added parameter: replacing or adding it is rejected
+    as operation parameters differ.
+    event id: removing it is rejected as an event catalog mismatch.
+    event service, trigger and payload: replacing each is rejected as event
+    service differs, event trigger differs, or event payload differs.
+    event condition and origin: replacing each is rejected as event payload differs.
+    qualifier-dimension id: renaming it is rejected as a qualifier catalog mismatch.
+    qualifier value kind and unit: replacing each is rejected as qualifier dimension differs.
+    each new fact-dimension id: renaming it is rejected as fact-key dimension contracts.
+    each new service id: renaming it is rejected as a service catalog mismatch.
+    each new capability id: renaming it is rejected as a capability catalog mismatch.
+    each new effect id: renaming it is rejected as an effect catalog mismatch.
+    each new portal id: renaming it is rejected as a Portal catalog mismatch.
+    one field of each new read portal: removing it is rejected as read descriptor
+    field coverage.
+    Subject, unit and each present or absent bound of every new field are varied
+    by field_axis_mutants.
+    """
+    return (
+        pe05_field_mutants(document) + pe05_symbol_mutants(document) + pe05_qualifier_mutants(document)
+        + pe05_operation_mutants(document) + pe05_parameter_mutants(document) + pe05_event_mutants(document)
+        + pe05_group_mutants(document)
+    )
+
+
 def main() -> None:
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -1347,6 +1748,8 @@ def main() -> None:
     check_pe04(document)
     print(f"room_mutants: {room_mutants(document)} REJECTED")
     print(f"pe04_mutants: {pe04_mutants(document)} REJECTED")
+    check_pe05(document)
+    print(f"pe05_mutants: {pe05_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":
