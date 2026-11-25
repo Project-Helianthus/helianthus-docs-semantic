@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "cancel/hung-close-quarantines-within-budget",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17CancelledStartWithHungCloseQuarantinesWithinBudget",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"20ms"},
+"rig_variant": {},
+"script": ["Start with a context that the factory cancels; Close waits for its context; cleanup budget 20 ms","Start again"]
+}
+}

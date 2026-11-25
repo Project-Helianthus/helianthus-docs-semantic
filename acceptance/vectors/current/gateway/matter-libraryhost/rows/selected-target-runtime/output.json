@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "rows/selected-target-runtime",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17EveryRowAndIdentityMustPassBeforeLaunch/selected-target-runtime",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":"matter library host unavailable: evidence_selection_mismatch","unavailable_reason":"evidence_selection_mismatch","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"evidence_selection_mismatch","class":"","epoch":0,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":1,"qualifies":1,"class_calls":0,"news":0,"closes":0,"tokens":1}},{"step":"released","owned_work":0,"resources":0}]
+}
+}

@@ -1,0 +1,13 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/agreement-manifest-kernel",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03TargetAgreement/manifest kernel",
+"output": {
+"report_validate": {"error":"invalid_contract: projection kernel version","error_id":"invalid_contract"},
+"canonical": null,
+"error": "matter projection input is not eligible",
+"error_id": "invalid_value"
+}
+}

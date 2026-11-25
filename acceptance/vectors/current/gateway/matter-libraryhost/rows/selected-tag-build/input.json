@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "rows/selected-tag-build",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17EveryRowAndIdentityMustPassBeforeLaunch/selected-tag-build",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"default"},
+"rig_variant": {"row_variant":"selected-tag-build","description":"its selection tag is other"},
+"script": ["Start with the qualifier returning the five passing rows, changed as the variant says"]
+}
+}

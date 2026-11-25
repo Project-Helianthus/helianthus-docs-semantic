@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "cancel/during-construction",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17CancelDuringConstructionIsNotPublishedAsRunning",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":"matter library host unavailable: start_cancelled","unavailable_reason":"start_cancelled","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"start_cancelled","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":1}}]
+}
+}

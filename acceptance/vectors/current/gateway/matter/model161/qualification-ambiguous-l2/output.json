@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/qualification-ambiguous-l2",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03QualificationAndPrecision/ambiguous l2",
+"output": {
+"result_is_zero": true,
+"error": "precondition_failed: matter projection ambiguous current",
+"error_id": "precondition_failed"
+}
+}

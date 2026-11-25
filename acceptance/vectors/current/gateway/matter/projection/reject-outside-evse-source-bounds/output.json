@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/reject-outside-evse-source-bounds",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestProjectRejectsWrongDimensionUnitBoundsConflictAndAmbiguity/outside EVSE source bounds",
+"output": {
+"result_is_zero": true,
+"error": "bounds_exceeded: evse quantity bounds",
+"error_id": "bounds_exceeded"
+}
+}

@@ -45,11 +45,18 @@ BT01 = (
 )
 
 
-def record_bt01(vectors, work):
-    """Run the three BT01 recorders at the gateway pin and write their case files; return the index entries."""
+QV08 = (
+    ("matter", "gateway-matter", "TestOracleMatter", "current/gateway/matter"),
+    ("matter/feedv1", "gateway-feedv1", "TestOracleFeedV1", "current/gateway/matter-feedv1"),
+    ("matter/libraryhost", "gateway-libraryhost", "TestOracleLibraryHost", "current/gateway/matter-libraryhost"),
+)
+
+
+def record_go_cases(specs, vectors, work):
+    """Run harness-only Go recorders at the gateway pin, write their case files and return the index entries."""
     vectors, work = Path(vectors), Path(work)
     entries = []
-    for package, sources, test, directory in BT01:
+    for package, sources, test, directory in specs:
         out = work / sources
         gorun.run("current", "gateway", package, sources, test, out)
         for produced in sorted(p for p in out.rglob("*.json")):
@@ -58,6 +65,16 @@ def record_bt01(vectors, work):
             entries.append({"path": relative, "origin": "recorded-current", "reference": "current", "role": "expected-output",
                             "recorder": f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"})
     return entries
+
+
+def record_bt01(vectors, work):
+    """The three BT01 recorders: multiplexer, local worker supervisor and the six engines."""
+    return record_go_cases(BT01, vectors, work)
+
+
+def record_qv08(vectors, work):
+    """The three XX02 recorders: the Matter projection and model, the feed contract and the library host."""
+    return record_go_cases(QV08, vectors, work)
 
 
 def record(reference, vectors, oracle, sessions):
@@ -96,6 +113,7 @@ def record(reference, vectors, oracle, sessions):
                     common.write(vectors / relative, produced.read_bytes())
                     emit(relative, f"recorders/gorun.py --entry {entry_id} --sources {sources} --test {test}", "recorded-current", case_of(produced.name), "native")
             entries.extend(record_bt01(vectors, work))
+            entries.extend(record_qv08(vectors, work))
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")

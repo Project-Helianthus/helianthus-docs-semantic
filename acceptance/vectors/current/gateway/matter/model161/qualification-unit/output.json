@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/qualification-unit",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03QualificationAndPrecision/unit",
+"output": {
+"result_is_zero": true,
+"error": "invalid_value: evse quantity unit",
+"error_id": "invalid_value"
+}
+}

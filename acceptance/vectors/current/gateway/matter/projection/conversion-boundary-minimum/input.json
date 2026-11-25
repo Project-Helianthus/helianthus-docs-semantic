@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/conversion-boundary-minimum",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEVSEActiveCurrentUsesPinnedNumericTargetAndExactConversion",
+"input": {
+"call": "amperesToMilliampere",
+"value": {"kind":"quantity","quantity":{"number":{"coefficient":"-4611686018427387904","exponent10":-3},"unit":"unit.ampere"}}
+}
+}

@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/conversion-above-maximum",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEVSECurrentFailsClosedOnWrongUnitOrPrecision",
+"output": {
+"milliamperes": "",
+"error": "precondition_failed: matter projection current range",
+"error_id": "precondition_failed"
+}
+}

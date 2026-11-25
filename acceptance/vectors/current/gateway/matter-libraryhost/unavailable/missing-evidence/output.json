@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "unavailable/missing-evidence",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17MissingPortsAndSelectionStayUnavailable/evidence",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":"matter library host unavailable: selection_incomplete","unavailable_reason":"selection_incomplete","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"selection_incomplete","class":"","epoch":0,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":0,"qualifies":0,"class_calls":0,"news":0,"closes":0,"tokens":0}}]
+}
+}

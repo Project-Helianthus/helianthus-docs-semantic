@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "factory/partial-construction-closed-and-drained",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17PartialConstructionIsClosedAndDrained",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":"matter library host unavailable: factory_failed","unavailable_reason":"factory_failed","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"factory_failed","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":1}},{"step":"Start after the factory recovered","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":2,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":4,"qualifies":2,"class_calls":2,"news":2,"closes":1,"tokens":2}},{"step":"Stop","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":2,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":4,"qualifies":2,"class_calls":2,"news":2,"closes":2,"tokens":2}}]
+}
+}

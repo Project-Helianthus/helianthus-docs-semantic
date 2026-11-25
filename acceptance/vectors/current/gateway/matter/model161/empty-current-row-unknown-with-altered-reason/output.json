@@ -1,0 +1,13 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/empty-current-row-unknown-with-altered-reason",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03EmptyProjectionCurrentRowMustBeLedgerRow/unknown with altered reason",
+"output": {
+"report_validate": {"error":null,"error_id":null},
+"canonical": null,
+"error": "matter projection input is not eligible",
+"error_id": "invalid_value"
+}
+}

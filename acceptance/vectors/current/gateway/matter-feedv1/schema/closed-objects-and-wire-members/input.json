@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "schema/closed-objects-and-wire-members",
+"component": "matter/feedv1/contract.go",
+"source": "matter/feedv1/schema_test.go",
+"stimulus": "TestSchemaKeepsPublicObjectsClosedAndMatchesWireMembers",
+"input": {
+"schema_file": {"path":"docs/schemas/matter-binding-feed-v1.schema.json","length":15766,"sha256":"62147a7a59d3565f006614a0ef515761b53450a9a480fd25f15969ea3cb9fb30"},
+"definitions_inspected": ["cursor","target","fence","resource","operationClaim","operation","snapshot","snapshotResponse","changesResponse","intent","execution"],
+"intent_members_probed": ["principal","route","native_route","endpoint"]
+}
+}

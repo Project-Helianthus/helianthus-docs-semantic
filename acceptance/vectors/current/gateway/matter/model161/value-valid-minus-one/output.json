@@ -1,0 +1,13 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/value-valid-minus-one",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03CanonicalValueAndReportAgreement/valid value -1",
+"output": {
+"report_validate": {"error":null,"error_id":null},
+"canonical": {"length":59015,"sha256":"5d8fefeb158ae61a90791bc753ba71c86c75c00c131b30c7a4c3a9f5a96387f0"},
+"error": null,
+"error_id": null
+}
+}

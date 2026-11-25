@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/conversion-wrong-unit",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEVSECurrentFailsClosedOnWrongUnitOrPrecision",
+"input": {
+"call": "amperesToMilliampere",
+"value": {"kind":"quantity","quantity":{"number":{"coefficient":"1","exponent10":0},"unit":"unit.volt"}}
+}
+}

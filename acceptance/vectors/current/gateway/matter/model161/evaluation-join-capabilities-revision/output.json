@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/evaluation-join-capabilities-revision",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03EvaluationJoins/capabilities revision",
+"output": {
+"result_is_zero": true,
+"error": "revision_conflict: matter projection evaluation",
+"error_id": "revision_conflict"
+}
+}

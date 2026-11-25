@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/ledger-is-deterministic",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestLedgerIsDeterministicAndDoesNotExposeOperations",
+"input": {
+"calls": ["Ledger()","Ledger()"]
+}
+}

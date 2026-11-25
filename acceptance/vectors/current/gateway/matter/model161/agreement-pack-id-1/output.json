@@ -1,0 +1,13 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/agreement-pack-id-1",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03TargetAgreement/pack id 1",
+"output": {
+"report_validate": {"error":"noncanonical_order: pack versions","error_id":"noncanonical_order"},
+"canonical": null,
+"error": "matter projection input is not eligible",
+"error_id": "invalid_value"
+}
+}

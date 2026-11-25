@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/source-join-origin-source",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03SourceJoins/origin source",
+"output": {
+"result_is_zero": true,
+"error": "dangling_reference: observed candidate path",
+"error_id": "dangling_reference"
+}
+}

@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/eligibility-unavailable-mapped-key",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEvaluationEligibilityFailsClosedForStaleAndUnavailable",
+"output": {
+"error": "precondition_failed: matter projection freshness or availability",
+"error_id": "precondition_failed"
+}
+}

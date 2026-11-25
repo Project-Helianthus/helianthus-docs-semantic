@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/reject-wrong-phase-dimension",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestProjectRejectsWrongDimensionUnitBoundsConflictAndAmbiguity/wrong phase dimension",
+"output": {
+"result_is_zero": true,
+"error": "invalid_value: evse dimension",
+"error_id": "invalid_value"
+}
+}

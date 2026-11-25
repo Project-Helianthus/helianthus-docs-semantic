@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "token/reused-after-stop",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17ReusedTokenIsRefused",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":0}},{"step":"Stop","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":0}},{"step":"Start again","outcome":{"error":"matter library host unavailable: lifecycle_token_reused","unavailable_reason":"lifecycle_token_reused","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"lifecycle_token_reused","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":0}}]
+}
+}

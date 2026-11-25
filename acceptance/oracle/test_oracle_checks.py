@@ -780,3 +780,121 @@ def test_the_restart_case_publishes_each_stale_operation_with_the_generation_it_
     assert [item["call"] for item in operations[11:14]] == ["PublishPlan", "PublishPlan", "Enqueue"]
     assert operations[11] == {**operations[12], "order": 12} and differing(operations[11], ("worker", "stream", "registration")) == []
     assert [row["name"] for row in document["output"]["decisions"][0]["stale"]] == ["old worker", "old stream", "old registration", "old worker", "old stream", "old token"]
+
+
+MATTER_DIRECTORIES = {
+    "projection.go": "current/gateway/matter/projection",
+    "model161.go": "current/gateway/matter/model161",
+    "feedv1": "current/gateway/matter-feedv1",
+    "libraryhost": "current/gateway/matter-libraryhost",
+}
+MATTER_GOLDEN = "cmd/gateway/testdata/characterization/consumers/matter_feed.json"
+VECTORS = HERE.parent / "vectors"
+
+
+def matter_cases(directory):
+    root = VECTORS / directory
+    return sorted(path for path in root.glob("*/*") if path.is_dir()) if directory.endswith(("matter-feedv1", "matter-libraryhost")) else sorted(path for path in root.glob("*") if path.is_dir())
+
+
+def case_stimuli(directory):
+    return {json.loads((case / "input.json").read_text(encoding="utf-8"))["stimulus"].split("/")[0].split(" ")[0] for case in matter_cases(directory)}
+
+
+def test_every_matter_case_has_an_input_file_and_an_output_file_that_name_the_same_case():
+    seen = 0
+    for directory in MATTER_DIRECTORIES.values():
+        for case in matter_cases(directory):
+            documents = {name: json.loads((case / name).read_text(encoding="utf-8")) for name in ("input.json", "output.json")}
+            assert {path.name for path in case.iterdir()} == {"input.json", "output.json"}, case
+            assert documents["input.json"]["format"] == "helianthus-oracle-qv08-input/1" and "input" in documents["input.json"]
+            assert documents["output.json"]["format"] == "helianthus-oracle-qv08-output/1" and "output" in documents["output.json"]
+            for key in ("case", "component", "source", "stimulus"):
+                assert documents["input.json"][key] == documents["output.json"][key], (case, key)
+            assert documents["input.json"]["case"].endswith(case.name)
+            seen += 1
+    assert seen > 0
+
+
+def test_the_matter_cases_are_indexed_as_recorded_outputs_of_the_current_reference():
+    entries = {entry["path"]: entry for entry in check.load_index()}
+    for directory in MATTER_DIRECTORIES.values():
+        for case in matter_cases(directory):
+            for name in ("input.json", "output.json"):
+                entry = entries[(case / name).relative_to(VECTORS).as_posix()]
+                assert (entry["origin"], entry["reference"], entry["role"]) == ("recorded-current", "current", "expected-output")
+                assert "--entry gateway" in entry["recorder"] and "--sources gateway-" in entry["recorder"]
+
+
+# The tests of the pin that have offline inputs; each is the stimulus of at least one case.
+PROJECTION_TESTS = {
+    "TestManifestAndLedgerCoverPinnedMetadataExactlyOnce", "TestLedgerIsDeterministicAndDoesNotExposeOperations",
+    "TestEVSEActiveCurrentUsesPinnedNumericTargetAndExactConversion", "TestEVSECurrentFailsClosedOnWrongUnitOrPrecision",
+    "TestEvaluationEligibilityFailsClosedForStaleAndUnavailable", "TestCanonicalJSONIsDeterministicForEquivalentResult",
+    "TestProjectEVSECurrentEndToEndAndContractPin", "TestProjectRejectsEvaluationCorrespondenceDrift",
+    "TestProjectRejectsIneligibleQualityAndEvaluation", "TestProjectRejectsWrongDimensionUnitBoundsConflictAndAmbiguity",
+    "TestProjectEligibilityReadsOnlyMappedKeysWithSeveralContributors", "TestMappedKeyNamesPackVersionAndFact",
+}
+MODEL161_TESTS = {
+    "TestAA03TargetAndFullLedger", "TestAA03TargetAgreement", "TestAA03CanonicalValueAndReportAgreement", "TestAA03EvaluationJoins",
+    "TestAA03SourceJoins", "TestAA03QualificationAndPrecision", "TestAA03EmptyAndPhaseControls", "TestAA03ReportAccountingAndCurrentMetadata",
+    "TestAA03CurrentRowSourceDimensions", "TestAA03EmptyProjectionCurrentRowMustBeLedgerRow",
+}
+FEEDV1_TESTS = {
+    "TestStandaloneConsumerLifecycleAndAdmission", "TestInputDetachmentAndStrictRejectionHaveNoInvoke", "TestConcurrentCaptureKeepsOneCursor",
+    "TestStandaloneClientUsesOnlyPublicWireContract", "TestStandaloneClientReturnsTypedResyncForForeignAheadAndExpiredCursors",
+    "TestSchemaKeepsPublicObjectsClosedAndMatchesWireMembers", "TestSchemaCorpusMatchesFeedWireValues", "TestSchemaEmbeddedPortalGeneration",
+}
+
+
+def test_every_offline_test_of_the_matter_packages_is_the_stimulus_of_a_case():
+    assert PROJECTION_TESTS <= {name for name in case_stimuli(MATTER_DIRECTORIES["projection.go"])}
+    assert MODEL161_TESTS <= case_stimuli(MATTER_DIRECTORIES["model161.go"])
+    assert FEEDV1_TESTS <= case_stimuli(MATTER_DIRECTORIES["feedv1"])
+    libraryhost = case_stimuli(MATTER_DIRECTORIES["libraryhost"])
+    assert len(libraryhost) == 33 and all(name.startswith("TestAA17") for name in libraryhost)
+    roster = {"TestAA03RosterPin", "TestAA03RosterPinRejectsDrift"}
+    assert not roster & case_stimuli(MATTER_DIRECTORIES["model161.go"])
+
+
+def golden_reference_errors(reference, goldens):
+    """The reference of a case to the item 5 golden: the entry that lists it, its path and its sha256 must be that entry's."""
+    listed = {item["path"]: item for item in goldens["files"]}
+    errors = []
+    if reference.get("index_entry") != "current/gateway-goldens.json":
+        errors.append("index_entry")
+    entry = listed.get(reference.get("path"))
+    if entry is None:
+        errors.append("path")
+    elif entry["sha256"] != reference.get("sha256"):
+        errors.append("sha256")
+    return errors
+
+
+def feed_golden_references():
+    for case in matter_cases(MATTER_DIRECTORIES["feedv1"]):
+        output = json.loads((case / "output.json").read_text(encoding="utf-8"))["output"]
+        if "golden" in output:
+            yield case, output["golden"]
+
+
+def test_a_feed_case_that_names_the_matter_feed_golden_cites_its_entry_and_does_not_copy_it():
+    goldens = json.loads((VECTORS / "current" / "gateway-goldens.json").read_text(encoding="utf-8"))
+    assert MATTER_GOLDEN in {item["path"] for item in goldens["files"]}
+    cited = list(feed_golden_references())
+    assert cited
+    for case, reference in cited:
+        assert reference["path"] == MATTER_GOLDEN
+        assert golden_reference_errors(reference, goldens) == [], case
+    assert not [path for path in VECTORS.rglob("*") if path.name == "matter_feed.json"]
+
+
+@pytest.mark.parametrize("field,value,expected", [
+    ("index_entry", "current/other.json", "index_entry"),
+    ("path", "cmd/gateway/testdata/characterization/consumers/other.json", "path"),
+    ("sha256", "0" * 64, "sha256"),
+])
+def test_a_golden_reference_with_another_entry_path_or_digest_is_refused(field, value, expected):
+    goldens = json.loads((VECTORS / "current" / "gateway-goldens.json").read_text(encoding="utf-8"))
+    case, reference = next(feed_golden_references())
+    assert golden_reference_errors({**reference, field: value}, goldens) == [expected]

@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "close/hang-bounded-and-not-reinvoked",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17CloseFailureAndHangStayQuarantined/hang-is-bounded-and-not-reinvoked",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"default"},
+"rig_variant": {},
+"script": ["Close blocks until released","Start","Stop with a budget cancelled once Close was called","release Close","Stop"]
+}
+}

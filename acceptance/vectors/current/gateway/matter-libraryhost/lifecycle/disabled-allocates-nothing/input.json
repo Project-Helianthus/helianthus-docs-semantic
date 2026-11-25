@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "lifecycle/disabled-allocates-nothing",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17ZeroConfigAndDisabledAllocateNothing",
+"input": {
+"configuration": {"zero_config_enabled":false,"enabled":false,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture"},
+"rig_variant": {},
+"script": ["Config{} has Enabled false","disabled host: Start, Restart, Stop","positive control with Enabled true: Start, Stop"]
+}
+}

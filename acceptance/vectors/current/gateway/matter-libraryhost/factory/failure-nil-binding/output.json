@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "factory/failure-nil-binding",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17FactoryFailureDrainsItsTasks/nil-binding",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":"matter library host unavailable: factory_failed","unavailable_reason":"factory_failed","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"factory_failed","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":1}},{"step":"factory task","joined":true,"owned_by_the_factory":{"error":null}},{"step":"late task on the old session","outcome":{"error":"matter library callback is stale","unavailable_reason":null,"is_unavailable":false,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":true,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"task_ran":false}]
+}
+}

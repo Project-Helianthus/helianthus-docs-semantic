@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "stop/retry-accepts-non-comparable-contexts",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17StopRetryAcceptsNonComparableContexts",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"default"},
+"rig_variant": {},
+"script": ["Close waits for its context on the first call and succeeds after","Start","Stop with a context type holding a slice, cancelled once Close received it","Stop with another such context"]
+}
+}

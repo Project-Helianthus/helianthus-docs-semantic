@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "lifecycle/disabled-allocates-nothing",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17ZeroConfigAndDisabledAllocateNothing",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":null},"status":{"state":"disabled","reason":"","class":"","epoch":0,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":0,"qualifies":0,"class_calls":0,"news":0,"closes":0,"tokens":0}},{"step":"Restart","outcome":{"error":null},"status":{"state":"disabled","reason":"","class":"","epoch":0,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":0,"qualifies":0,"class_calls":0,"news":0,"closes":0,"tokens":0}},{"step":"Stop","outcome":{"error":null},"status":{"state":"disabled","reason":"","class":"","epoch":0,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":0,"qualifies":0,"class_calls":0,"news":0,"closes":0,"tokens":0}},{"step":"positive control Start (Enabled true)","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":1}},{"step":"positive control Stop","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":1}}]
+}
+}

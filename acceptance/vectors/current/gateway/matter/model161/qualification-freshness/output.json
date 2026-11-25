@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/qualification-freshness",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03QualificationAndPrecision/freshness",
+"output": {
+"result_is_zero": true,
+"error": "precondition_failed: matter projection current qualification",
+"error_id": "precondition_failed"
+}
+}

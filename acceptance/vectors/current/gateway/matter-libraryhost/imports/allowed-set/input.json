@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "imports/allowed-set",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17PackageImportsNoSDKTransportOrVendorDecoding",
+"input": {
+"configuration": {"source_file":"matter/libraryhost/host.go","controls":["net/http","example.invalid/go-fabric","example.invalid/vendor/decoder"]},
+"rig_variant": {},
+"script": ["parse the imports of host.go","parse one synthetic source per control import path"]
+}
+}
