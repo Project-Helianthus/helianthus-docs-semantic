@@ -946,3 +946,49 @@ def test_the_hung_close_recorders_take_the_close_count_after_close_was_entered()
     for case in ("cancel/hung-close-quarantines-within-budget", "cancel/partial-construction-hung-close"):
         step = matter_case_document(LIBRARYHOST, case, "output.json")["output"]["observations"][0]
         assert step["step"] == "Start" and step["counts"]["closes"] == 1
+
+
+def bt01_entries():
+    import run_all
+
+    entries = check.load_index()
+    groups = {}
+    for package, sources, test, directory in run_all.BT01:
+        groups[directory] = (package, sources, test, [e for e in entries if e["path"].startswith(directory + "/")])
+    return groups
+
+
+def test_every_bt01_index_command_parses_and_reaches_the_recording_step(monkeypatch):
+    sys.path.insert(0, str(HERE / "recorders"))
+    import gorun
+
+    calls = []
+    monkeypatch.setattr(gorun, "run", lambda *args: calls.append(args))
+    for directory, (package, sources, test, entries) in bt01_entries().items():
+        assert entries, directory
+        for entry in entries:
+            words = entry["recorder"].split()
+            assert words[0] == "recorders/gorun.py"
+            monkeypatch.setattr(sys, "argv", words)
+            gorun.main()
+            reference, entry_id, run_package, run_sources, run_test, output = calls[-1]
+            assert (reference, entry_id, run_package, run_sources, run_test) == (entry["reference"], "gateway", package, sources, test), entry["path"]
+            assert output == f".tmp/oracle-record/{sources}", entry["path"]
+
+
+def test_the_bt01_index_commands_are_the_ones_run_all_emits():
+    import run_all
+
+    for package, sources, test, directory in run_all.BT01:
+        expected = run_all.recorder_command(package, sources, test)
+        for entry in bt01_entries()[directory][3]:
+            assert entry["recorder"] == expected, entry["path"]
+
+
+def test_the_bt01_manifest_tally_has_the_send_path_case_in_the_adaptermux_group():
+    groups = bt01_entries()
+    counts = {directory: len(item[3]) for directory, item in groups.items()}
+    assert counts == {"current/gateway/adaptermux": 207, "current/gateway/localworkerhost": 97, "current/gateway/engine": 77}
+    assert sum(counts.values()) == 381
+    adaptermux = {entry["path"] for entry in groups["current/gateway/adaptermux"][3]}
+    assert "current/gateway/adaptermux/send-path/write-normalization.json" in adaptermux
