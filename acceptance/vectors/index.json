@@ -9385,6 +9385,46 @@
       "reference": "current",
       "role": "expected-output",
       "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/transport/can-receive/nonlinux-bms-unsupported/expected.json",
+      "sha256": "f11e279306ab218884a9dfa6ed17429bb62d01bd6ec8673f94141bae80aec0a8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "check.py --record-can-native current",
+      "case": "nonlinux-bms-unsupported",
+      "platform": "nonlinux"
+    },
+    {
+      "path": "current/transport/can-receive/nonlinux-bms-unsupported/input.json",
+      "sha256": "dcb6b8c6d6c06cf80e184c95fcd017af3eb1a710cd05aefc41eb39e94defc862",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "check.py --record-can-native current",
+      "case": "nonlinux-bms-unsupported",
+      "platform": "nonlinux"
+    },
+    {
+      "path": "current/transport/can-receive/nonlinux-project-unsupported/expected.json",
+      "sha256": "1053bb8e9f8c392ba12f8a60c2bc72ad4db7a2277472c3c3c6657c329a9a4fe9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "check.py --record-can-native current",
+      "case": "nonlinux-project-unsupported",
+      "platform": "nonlinux"
+    },
+    {
+      "path": "current/transport/can-receive/nonlinux-project-unsupported/input.json",
+      "sha256": "7e913d1d87152745dfe1a95086408810b97c955dcb7ecabf6500ac2abb87e55d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "check.py --record-can-native current",
+      "case": "nonlinux-project-unsupported",
+      "platform": "nonlinux"
     }
   ]
 }

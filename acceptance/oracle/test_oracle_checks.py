@@ -992,3 +992,168 @@ def test_the_bt01_manifest_tally_has_the_send_path_case_in_the_adaptermux_group(
     assert sum(counts.values()) == 381
     adaptermux = {entry["path"] for entry in groups["current/gateway/adaptermux"][3]}
     assert "current/gateway/adaptermux/send-path/write-normalization.json" in adaptermux
+
+
+# CAN receive cases: the comparison of a collected actual tree with the frozen expectations of its platform partition.
+import copy  # noqa: E402
+import hashlib  # noqa: E402
+
+import can_receive  # noqa: E402
+
+
+def can_world(tmp_path, monkeypatch):
+    """A scratch vectors tree with the six frozen cases, the entries that index them and a receipt builder for each platform."""
+    vectors = tmp_path / "vectors"
+    entries = []
+    for platform, cases in can_receive.PARTITIONS.items():
+        for case in cases:
+            for name in can_receive.FILES:
+                path = f"{can_receive.CASES_DIRECTORY}/{case}/{name}"
+                data = json.dumps({"case": case, "file": name, "result": [1, 2]}, indent=2).encode() + b"\n"
+                (vectors / path).parent.mkdir(parents=True, exist_ok=True)
+                (vectors / path).write_bytes(data)
+                entries.append({"path": path, "sha256": hashlib.sha256(data).hexdigest(), "origin": "recorded-current", "reference": "current", "role": "expected-output",
+                                "recorder": "check.py --record-can-native current", "case": case, "platform": platform})
+    monkeypatch.setattr(check, "VECTORS", vectors)
+    pin = next(item for item in check.references()["current"]["entries"] if item["id"] == "gateway")["commit"]
+
+    def tree(platform, root=None):
+        root = root or tmp_path / f"actual-{platform}"
+        for case in can_receive.PARTITIONS[platform]:
+            for name in can_receive.FILES:
+                target = root / "cases" / case / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((vectors / can_receive.CASES_DIRECTORY / case / name).read_bytes())
+        linux = platform == "linux"
+        receipt = {
+            "format": can_receive.RECEIPT_FORMAT, "reference": "current", "platform": platform,
+            "native": {"goos": "linux" if linux else "darwin", "goarch": "arm64", "hostos": "linux" if linux else "darwin", "hostarch": "arm64"},
+            "cases": sorted(can_receive.PARTITIONS[platform]), "statuses": {"compile": 0, "run": 0}, "gateway_pin": pin,
+            "selected_pinned_files": sorted(Path(path).name for path in can_receive.SOURCES[platform]),
+            "pinned_sources": [{"path": path, "sha256": "0" * 64} for path in can_receive.SOURCES[platform]],
+            "executable_sha256": "1" * 64, "recorder_sha256": can_receive.recorder_digest(), "index_sha256": can_receive.index_digest(entries),
+        }
+        (root / "receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
+        return root, receipt
+
+    return vectors, entries, tree
+
+
+def rewrite_receipt(root, change):
+    document = json.loads((root / "receipt.json").read_text(encoding="utf-8"))
+    change(document)
+    (root / "receipt.json").write_text(json.dumps(document), encoding="utf-8")
+
+
+@pytest.mark.parametrize("platform", ["linux", "nonlinux"])
+def test_a_matching_tree_passes(tmp_path, monkeypatch, platform):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree(platform)
+    assert check.verify_can_tree(platform, root, entries) == []
+
+
+def test_an_absent_tree_fails(tmp_path, monkeypatch):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    assert any("absent" in error for error in check.verify_can_tree("linux", tmp_path / "nothing", entries))
+
+
+def test_a_tree_without_receipt_fails(tmp_path, monkeypatch):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree("linux")
+    (root / "receipt.json").rename(tmp_path / "moved.json")
+    assert any("receipt.json is absent" in error for error in check.verify_can_tree("linux", root, entries))
+
+
+@pytest.mark.parametrize("platform", ["linux", "nonlinux"])
+def test_a_changed_case_fails(tmp_path, monkeypatch, platform):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree(platform)
+    case = can_receive.PARTITIONS[platform][0]
+    target = root / "cases" / case / "expected.json"
+    target.write_bytes(target.read_bytes().replace(b"2", b"3"))
+    assert any(f"case {case}/expected.json differs" in error for error in check.verify_can_tree(platform, root, entries))
+
+
+def test_a_missing_case_and_an_extra_case_and_an_extra_file_fail(tmp_path, monkeypatch):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree("linux")
+    shutil.move(str(root / "cases" / "linux-bms-receive"), str(tmp_path / "moved-case"))
+    (root / "cases" / "nonlinux-bms-unsupported").mkdir()
+    (root / "cases" / "linux-bms-identity-mismatch" / "extra.json").write_text("{}", encoding="utf-8")
+    (root / "stray.json").write_text("{}", encoding="utf-8")
+    errors = check.verify_can_tree("linux", root, entries)
+    assert any("missing case linux-bms-receive" in error for error in errors)
+    assert any("extra case nonlinux-bms-unsupported" in error for error in errors)
+    assert any("linux-bms-identity-mismatch holds" in error for error in errors)
+    assert any("not cases and receipt.json" in error for error in errors)
+
+
+def test_a_swapped_platform_fails_in_both_directions(tmp_path, monkeypatch):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    linux, _receipt = tree("linux")
+    nonlinux, _receipt = tree("nonlinux")
+    assert any("receipt platform is 'linux'" in error for error in check.verify_can_tree("nonlinux", linux, entries))
+    assert any("receipt platform is 'nonlinux'" in error for error in check.verify_can_tree("linux", nonlinux, entries))
+    assert any("missing case" in error for error in check.verify_can_tree("linux", nonlinux, entries))
+
+
+# Each receipt member is varied alone; the comment names the production mutation that the case catches.
+RECEIPT_MUTATIONS = {
+    "format": lambda d: d.update(format="other/1"),  # a receipt of another recorder revision is accepted
+    "reference": lambda d: d.update(reference="released"),  # a receipt of another reference is accepted
+    "platform": lambda d: d.update(platform="nonlinux"),  # the platform of a tree is not read from its receipt
+    "goos is not linux on the linux tree": lambda d: d["native"].update(goos="darwin"),  # a non-Linux host stands in for the Linux partition
+    "cross target": lambda d: d["native"].update(goarch="amd64"),  # a cross-compiled target is accepted as native
+    "cases": lambda d: d.update(cases=d["cases"][:-1]),  # a receipt that lists fewer cases is accepted
+    "compile status": lambda d: d["statuses"].update(compile=1),  # a failed compile is accepted
+    "run status": lambda d: d["statuses"].update(run=1),  # a failed run is accepted
+    "gateway pin": lambda d: d.update(gateway_pin="0" * 40),  # a receipt of an older pin is accepted
+    "selected files": lambda d: d.update(selected_pinned_files=["growatt_bms_can_socketcan_unsupported.go"]),  # another branch of the opener is accepted
+    "pinned sources": lambda d: d.update(pinned_sources=d["pinned_sources"][:1]),  # a receipt that omits a pinned source is accepted
+    "recorder digest": lambda d: d.update(recorder_sha256="2" * 64),  # a receipt of another recorder revision is accepted
+    "index digest": lambda d: d.update(index_sha256="3" * 64),  # a receipt of another index revision is accepted
+    "executable digest": lambda d: d.update(executable_sha256=""),  # a receipt with no executable digest is accepted
+}
+
+
+@pytest.mark.parametrize("name", sorted(RECEIPT_MUTATIONS))
+def test_every_receipt_member_is_checked(tmp_path, monkeypatch, name):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree("linux")
+    rewrite_receipt(root, RECEIPT_MUTATIONS[name])
+    assert check.verify_can_tree("linux", root, entries)
+
+
+INDEX_MUTATIONS = {
+    "origin": lambda e: e.update(origin="synthetic"),
+    "reference": lambda e: e.update(reference="released"),
+    "role": lambda e: e.update(role="input"),
+    "case": lambda e: e.update(case="other"),
+    "platform": lambda e: e.update(platform="nonlinux" if e["platform"] == "linux" else "linux"),
+    "sha256": lambda e: e.update(sha256="4" * 64),
+}
+
+
+@pytest.mark.parametrize("name", sorted(INDEX_MUTATIONS))
+def test_every_index_member_of_a_case_is_checked(tmp_path, monkeypatch, name):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    assert check.can_index_errors(entries) == []
+    changed = copy.deepcopy(entries)
+    INDEX_MUTATIONS[name](changed[0])
+    assert check.can_index_errors(changed)
+
+
+def test_a_missing_or_extra_index_entry_fails(tmp_path, monkeypatch):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    assert any("not in index.json" in error for error in check.can_index_errors(entries[1:]))
+    extra = entries + [dict(entries[0], path=f"{can_receive.CASES_DIRECTORY}/seventh/input.json")]
+    assert any("outside the six cases" in error for error in check.can_index_errors(extra))
+
+
+def test_the_index_digest_follows_every_entry_member(tmp_path, monkeypatch):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    base = can_receive.index_digest(entries)
+    for name, mutate in INDEX_MUTATIONS.items():
+        changed = copy.deepcopy(entries)
+        mutate(changed[0])
+        assert can_receive.index_digest(changed) != base, name
