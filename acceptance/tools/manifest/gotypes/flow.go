@@ -459,6 +459,9 @@ func (f *flow) exec(node ast.Stmt, s state) state {
 					return f.dead(s)
 				}
 			}
+			if f.a.terminates(call) {
+				return f.dead(s)
+			}
 		}
 		return s
 	case *ast.GoStmt:
@@ -560,6 +563,31 @@ func (f *flow) exec(node ast.Stmt, s state) state {
 		return out
 	}
 	return s
+}
+
+// terminates reports a call that does not return: a test that is failed or
+// skipped stops at once, as does os.Exit and runtime.Goexit.
+func (a *analyzer) terminates(call *ast.CallExpr) bool {
+	selector, ok := unparen(call.Fun).(*ast.SelectorExpr)
+	if !ok {
+		return false
+	}
+	fn, ok := a.info.Uses[selector.Sel].(*types.Func)
+	if !ok || fn.Pkg() == nil {
+		return false
+	}
+	switch fn.Pkg().Path() {
+	case "testing":
+		switch fn.Name() {
+		case "Fatal", "Fatalf", "FailNow", "Skip", "Skipf", "SkipNow":
+			return true
+		}
+	case "os":
+		return fn.Name() == "Exit"
+	case "runtime":
+		return fn.Name() == "Goexit"
+	}
+	return false
 }
 
 // clauses runs the case clauses of a switch. For a type switch, refs are the

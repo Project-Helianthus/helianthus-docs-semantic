@@ -4469,6 +4469,129 @@ class ManifestCLITest(unittest.TestCase):
         same = self.repo.generate(self.symbol_spec("conflict-same", moves, assertions=[first, dict(first)]))
         self.assert_ok(same)
 
+    UE = "closure/cross/ue"
+    AR = "closure/cross/ar"
+    TM = "closure/cross/tm"
+    TT = "closure/cross/tt"
+    XI = "closure/cross/xi"
+    SA = "closure/cross/sa"
+    SB = "closure/cross/sb"
+    FB = "closure/cross/fb"
+
+    def test_a_method_reached_through_an_unavailable_package_is_not_left_out(self) -> None:
+        move = self.move_at(self.UE, "Move")
+        keep = self.at(self.UE, "T")
+        bare = self.repo.generate(self.symbol_spec("ue-open", [move], stay_symbols=[keep]))
+        self.assert_fail(bare)
+        self.assertEqual(bare.stdout, "outside-set: T.M\n")
+        self.assert_absent("ue-open")
+        declared = self.repo.generate(
+            self.symbol_spec("ue-kept", [move], stay_symbols=[keep, self.at(self.UE, "T.M")])
+        )
+        self.assert_ok(declared)
+        self.assert_ok(self.repo.check("ue-kept"))
+        stripped = json.loads(self.repo.manifest_path("ue-kept").read_text(encoding="utf-8"))
+        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "T.M"]
+        path = self.repo.root / "acceptance" / "manifests" / "ue-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("ue-kept", manifest=path), "outside-set: T.M")
+
+    def test_a_method_written_on_an_alias_is_a_sibling_of_the_moved_type(self) -> None:
+        move = self.move_at(self.AR, "T")
+        bare = self.repo.generate(self.symbol_spec("alias-open", [move]))
+        self.assert_fail(bare)
+        self.assertEqual(bare.stdout, "outside-set: T.M\n")
+        self.assert_absent("alias-open")
+        declared = self.repo.generate(
+            self.symbol_spec("alias-kept", [move], stay_symbols=[self.at(self.AR, "T.M")])
+        )
+        self.assert_ok(declared)
+        self.assert_ok(self.repo.check("alias-kept"))
+        both = self.repo.generate(self.symbol_spec(
+            "alias-moved", [move, self.move_at(self.AR, "T.M"), self.move_at(self.AR, "Alias")],
+        ))
+        self.assert_ok(both)
+        self.assert_ok(self.repo.check("alias-moved"))
+
+    def test_a_donor_test_that_reaches_a_moved_method_through_a_bridge_is_accounted(self) -> None:
+        moves = [self.move_at(self.TM, "Recv"), self.move_at(self.TM, "Recv.M")]
+        self.assert_ok(self.repo.generate(self.symbol_spec("bridge", moves)))
+        manifest = self.repo.manifest("bridge")
+        self.assertIn(("test", "TestBridged"), [(item["kind"], item["name"]) for item in manifest["stays"]])
+        self.assert_ok(self.repo.check("bridge"))
+        stripped = json.loads(self.repo.manifest_path("bridge").read_text(encoding="utf-8"))
+        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "TestBridged"]
+        path = self.repo.root / "acceptance" / "manifests" / "bridge-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("bridge", manifest=path), "stays")
+
+    def test_an_external_test_package_symbol_keeps_its_package_in_the_closure(self) -> None:
+        external = self.repo.symbol(self.XI, f"{self.XI}/xi_test.go", "F", "engine/m.go")
+        bare = self.repo.generate(self.symbol_spec("xi-bare", [external]))
+        self.assert_fail(bare)
+        self.assertEqual(bare.stdout, "left-behind: TestExternal\n")
+        self.assert_absent("xi-bare")
+        kept = self.repo.generate(self.symbol_spec("xi-kept", [external], specimens=["TestExternal"]))
+        self.assert_ok(kept)
+        self.assert_ok(self.repo.check("xi-kept"))
+        # The package F is another symbol: moving it leaves the external test alone.
+        internal = self.move_at(self.XI, "F")
+        self.assert_ok(self.repo.generate(self.symbol_spec("xi-base", [internal])))
+        self.assertEqual(self.repo.manifest("xi-base")["stays"], [])
+        self.assert_ok(self.repo.check("xi-base"))
+
+    def test_a_test_that_stops_at_a_fatal_branch_gives_a_later_check_no_value_from_it(self) -> None:
+        move = self.move_at(self.FB, "Moved")
+        keep = [self.at(self.FB, "Stay")]
+        bare = self.repo.generate(self.symbol_spec("fatal-bare", [move], stay_symbols=keep))
+        self.assert_fail(bare, "unaccounted-assertion function=TestFatalBranch assertion=moved-result")
+        self.assert_absent("fatal-bare")
+        done = self.repo.generate(self.symbol_spec(
+            "fatal-given", [move], stay_symbols=keep, assertions=self.given("TestFatalBranch", "moved-result"),
+        ))
+        self.assert_ok(done)
+        self.assertEqual([item["name"] for item in self.repo.manifest("fatal-given")["assertions"]], ["moved-result"])
+        self.assert_ok(self.repo.check("fatal-given"))
+
+    def test_a_specimen_exempts_only_the_test_it_names(self) -> None:
+        moves = [self.move_at(self.SA, "Moved"), self.move_at(self.SB, "Moved")]
+        sa_test = {"name": "TestF", "file": f"{self.SA}/sa_test.go"}
+        sb_test = {"name": "TestF", "file": f"{self.SB}/sb_test.go"}
+        bare = self.repo.generate(self.symbol_spec("spec-bare", moves, specimens=["TestF"]))
+        self.assert_fail(bare)
+        self.assertEqual(bare.stdout, "ambiguous-specimen: TestF\n")
+        self.assert_absent("spec-bare")
+        one = self.repo.generate(self.symbol_spec("spec-one", moves, specimens=[sa_test]))
+        self.assert_fail(one)
+        self.assertEqual(one.stdout, "left-behind: TestF\n")
+        self.assert_absent("spec-one")
+        both = self.repo.generate(self.symbol_spec("spec-both", moves, specimens=[sa_test, sb_test]))
+        self.assert_ok(both)
+        self.assertEqual(
+            sorted((item["file"], item["name"]) for item in self.repo.manifest("spec-both")["stays"] if item["kind"] == "specimen"),
+            [(sa_test["file"], "TestF"), (sb_test["file"], "TestF")],
+        )
+        self.assert_ok(self.repo.check("spec-both"))
+        stripped = json.loads(self.repo.manifest_path("spec-both").read_text(encoding="utf-8"))
+        stripped["stays"] = [
+            item for item in stripped["stays"]
+            if not (item["kind"] == "specimen" and item["file"] == sb_test["file"])
+        ]
+        path = self.repo.root / "acceptance" / "manifests" / "spec-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("spec-both", manifest=path), "left-behind: TestF")
+
+    def test_a_rename_that_check_would_read_as_no_name_is_refused_before_anything_is_written(self) -> None:
+        core = f"{self.ALPHA}/core.go"
+        for label, name in (("blank", " "), ("tab", "\t")):
+            row = f"rename-{label}"
+            move = self.repo.symbol(self.ALPHA, core, "Record", "engine/records.go", renamed=name)
+            self.assert_fail(
+                self.repo.generate(self.symbol_spec(row, [move])),
+                f"invalid-destination-symbol symbol={self.ALPHA}:Record",
+            )
+            self.assert_absent(row)
+
 
 class DeclaredSymbolUsesTest(unittest.TestCase):
     """Uses are counted for declared package-level names only."""

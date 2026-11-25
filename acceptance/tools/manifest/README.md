@@ -92,7 +92,8 @@ The input adds two lists:
 ```
 
 `package` is the donor directory.
-`destination_symbol` defaults to `symbol`, so a rename is the only case that sets it.
+`destination_symbol` defaults to `symbol`, so a rename is the only case that sets it. A rename that is only white space fails with `invalid-destination-symbol`, since `check` reads it as no name.
+`specimens` names a donor test as a bare test name, or as `{ "name": "<test>", "file": "<donor test file>" }` (the flag form takes the bare name). A bare name stands for the one test of that name; when two donor tests carry it (two packages, or a package and its external test package) the input fails with `ambiguous-specimen: <name>` and one entry per test, with its file, is required. `check` reads the recorded `file` of each specimen, so a specimen never stands for a second test of the same name.
 
 A symbol is a top-level function, type, var or const name, or a method written `Type.Method`.
 Which symbol an identifier refers to, and which package it belongs to, comes from Go's own name resolution and not from a reading of the syntax: `closure.py` runs the helper program in `gotypes/` (`resolve.go` and `flow.go`, standard library only, started as `go run`), which type-checks the donor at the commit with `go/types` and prints JSON, and `closure.py` classifies what the helper reports.
@@ -100,11 +101,12 @@ The helper reports, for every package-level declaration of the donor directories
 A field label, a parameter, a receiver, a local binding, a type parameter, a label and a package name are never symbols.
 A method call or method expression is a use of `Type.Method` whatever the receiver value is (a parameter, a local, a composite literal or a call result), and a promoted method is a use of the method of the type that declares it; a method of an interface is a use of the interface type.
 A constant specification written without a type and an initializer repeats the preceding one and uses what that one uses.
-The donor is checked as the platform linux/amd64 without cgo, with the build constraints of that platform applied to each file. The standard library is read from the toolchain's source. A package that is neither in the donor module nor in the standard library is replaced by an empty package of its name, so a donor symbol that can only be reached through a value of such a package is not seen; the diagnostics that follow from that are not reported, and no other type error is ignored: a package whose imports all resolve and that still does not type-check fails with a `type-error: <directory>: <message>` line, and a Go file that does not parse with a `parse-error:` line.
+The donor is checked as the platform linux/amd64 without cgo, with the build constraints of that platform applied to each file. The standard library is read from the toolchain's source. A package that is neither in the donor module nor in the standard library is replaced by an empty package of its name, so a donor method that is called on a value of such a package cannot be resolved; for that selector, every method of that name on a donor type that the package imports (directly or not) is counted as used, so none is left out and `outside-set` names each one that is neither moved nor declared staying. The diagnostics that follow from the empty package are not reported, and no other type error is ignored: a package whose imports all resolve and that still does not type-check fails with a `type-error: <directory>: <message>` line, and a Go file that does not parse with a `parse-error:` line.
 The Go toolchain is required for a symbol-level `generate` and `check`. When `go` is not found or the helper fails, the tool fails with a `go-resolver:` line and writes nothing; it does not read the Go source in another way. The whole-file input does not use the helper and its closure is unchanged.
 
 A moved symbol may use a moved symbol, or a symbol that `stay_symbols` declares.
 Any other declared symbol it uses fails the move as one `outside-set: <name>` line, sorted and unique across the whole input. A symbol of the package is written `<name>` or `<Type>.<Method>`, a symbol of another donor directory is written `<directory>.<name>` (the module root is `.`), whether or not any entry of the input names that directory. A moved symbol of another directory is recorded in `uses` as `<directory>.<name>`.
+A symbol declared in an external test package `package p_test` is a symbol of that package, apart from a symbol of the same name in the directory's package, and the tests that use it are accounted against it (both cannot be listed in one input: `duplicate-symbol`).
 The methods of a moved type are its siblings: each one is moved or declared staying, otherwise `outside-set: <Type>.<Method>` names it.
 `generate` also fails, and writes nothing, for:
 
@@ -117,16 +119,19 @@ The methods of a moved type are its siblings: each one is moved or declared stay
 | `moved-and-stays: <path> <symbol>` | The same symbol is both moved and staying |
 | `ambiguous-assertion function=<f> assertion=<a> package=<p>` | Two donor packages hold a moved-only assertion of that function and name and the input names it without `package`, or one donor directory holds two (a package and its external test package) so that no entry can bind them apart |
 | `conflicting-assertion function=<f> assertion=<a>` | The input gives one donor assertion (function, name and package) two entries with different destinations; no entry order is right, so nothing is written |
+| `invalid-destination-symbol symbol=<package>:<symbol>` | A `destination_symbol` that is only white space |
+| `ambiguous-specimen: <name>` | A specimen given as a bare name that two donor tests carry |
+| `invalid-specimen: <entry>` | A specimen that is neither a test name nor an entry with a name (and, optionally, a file) |
 | `missing-destination symbol=<package>:<symbol>` | A symbol move names no destination repository or no destination path; `check` rejects such a move, so `generate` refuses it first |
 | `go-resolver: <reason>` | The Go toolchain is missing or the helper failed |
 | `type-error: <directory>: <message>` | A donor package whose imports all resolve does not type-check |
 | `parse-error: <message>` | A Go file of a checked donor package does not parse |
 
 Donor tests are accounted as for a whole-file move, per donor package: a test that uses only moved symbols is `left-behind` unless it is a specimen, and a mixed test needs its moved-only assertions in `assertions` with a destination.
-What a test uses is what the helper reports for it: the declared symbols its body names, and for each of its checks (the `if` statements of the body that call `Error`, `Errorf`, `Fatal`, `Fatalf`, `Fail` or `FailNow`) the symbols the check names and the symbols of the statements that give the locals it reads their values, where those statements can reach the check. The reach is read from the control flow of the test: an assignment on a branch that returns before the check, or that a later assignment replaces, does not change what the check exercises. A declared type of a variable is not a value it was given, so `var r T` brings in nothing.
+What a test uses is what the helper reports for it: the declared symbols its body names, and for each of its checks (the `if` statements of the body that call `Error`, `Errorf`, `Fatal`, `Fatalf`, `Fail` or `FailNow`) the symbols the check names and the symbols of the statements that give the locals it reads their values, where those statements can reach the check. The reach is read from the control flow of the test: an assignment on a branch that returns or ends the test before the check (`panic`, `t.Fatal`, `t.Fatalf`, `t.FailNow`, `t.Skip`, `t.Skipf`, `t.SkipNow`, `os.Exit`, `runtime.Goexit`), or that a later assignment replaces, does not change what the check exercises. A declared type of a variable is not a value it was given, so `var r T` brings in nothing.
 A test that reaches a donor symbol through a helper that its package declares in a test file uses that symbol, even when the import is in another file than the test, and the helper itself is a symbol that stays, so a test of that kind is mixed and is accounted (`stays` or `assertions`).
 Every donor symbol that is not moved stays: one the input declares, one of a donor directory the input does not name, and one a test package declares for itself, so a test with a moved and a staying check is mixed whether or not the staying symbol is named in the input.
-Tests are read for the directories the input names (the package, its internal test files and its external test package `package p_test`) and for every other donor directory with a test file that imports a directory of the move; `package` on an assertion is the directory of the test file.
+Tests are read for the directories the input names (the package, its internal test files and its external test package `package p_test`) and for every other donor directory with a test file or package files that import a directory of the move directly or through other donor packages (a value of a moved type can only come through such a chain, so a test that calls its method need not import the package); `package` on an assertion is the directory of the test file.
 An `assertions` entry may carry `package` (the donor directory); it is required when two packages hold an assertion of the same function and name. The manifest then records `package` on that assertion and on its destination, and `compare` runs and tracks each separately.
 A moved test function is a moved symbol and is not accounted again.
 
@@ -135,7 +140,7 @@ Only these records differ:
 
 | Key | Symbol-level record |
 | --- | --- |
-| `symbols` | `name`, `file`, `uses`, `package`. Sorted by package, file and name. A name may repeat in two packages |
+| `symbols` | `name`, `file`, `uses`, `package`. Sorted by package, file and name. A name may repeat in two packages. |
 | `stays` | The declared staying symbols are `kind` `symbol`, with `name`, `file` and `package`, next to the test and specimen records |
 | `destinations` | A symbol is `kind` `symbol`, with `name`, `package`, `repository`, `path` and `destination_name`. `destination_name` is the donor name when nothing was renamed |
 | `paths` | The donor list holds each file that has a moved symbol, so a file that only gives part of itself is listed whole |

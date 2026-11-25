@@ -330,6 +330,28 @@ def _write_lists(directory: Path, row: str, entries: list[dict[str, Any]]) -> No
         path.write_bytes(payload)
 
 
+def _specimen_entries(spec: dict[str, Any]) -> list[tuple[str, str | None]]:
+    """A specimen is a test name, or a test name with the donor file that holds it."""
+    entries: list[tuple[str, str | None]] = []
+    for item in spec.get("specimens") or []:
+        if isinstance(item, dict):
+            entries.append((str(item.get("name")), str(item["file"]) if item.get("file") else None))
+        else:
+            entries.append((str(item), None))
+    return entries
+
+
+def _specimen_errors(spec: dict[str, Any]) -> list[str]:
+    errors = []
+    for item in spec.get("specimens") or []:
+        if isinstance(item, dict):
+            if not _text_present(item.get("name")) or not (item.get("file") is None or _text_present(item.get("file"))):
+                errors.append(f"invalid-specimen: {json.dumps(item, sort_keys=True)}")
+        elif not _text_present(item):
+            errors.append(f"invalid-specimen: {json.dumps(item)}")
+    return sorted(set(errors))
+
+
 def _account_tests(
     tests: list[Any],
     moved_names: set[str],
@@ -341,19 +363,24 @@ def _account_tests(
     errors: list[str],
     package: str = "",
     ambiguous: set[tuple[str, str]] | None = None,
+    hits: dict[tuple[str, str | None], set[str]] | None = None,
 ) -> None:
     supplied = {
         (item["function"], item["name"], str(item.get("package") or "").rstrip("/")): item
         for item in spec.get("assertions") or []
     }
-    specimens = set(spec.get("specimens") or [])
+    specimens = _specimen_entries(spec)
     first_record = len(assertion_records)
     for test in tests:
         staying_names = outside_names | test.own
         kind = closure.classify_test(test, moved_names, staying_names)
         if kind == "unrelated":
             continue
-        if test.name in specimens:
+        kept = [entry for entry in specimens if entry[0] == test.name and entry[1] in (None, test.file)]
+        if kept:
+            for entry in kept:
+                if hits is not None:
+                    hits.setdefault(entry, set()).add(test.file)
             stays.append({
                 "kind": "specimen",
                 "name": test.name,
@@ -440,6 +467,9 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
     symbol_level = bool(spec.get("symbol_moves"))
     if symbol_level and spec.get("moves"):
         return {}, ["moves-and-symbol-moves"]
+    invalid = _specimen_errors(spec)
+    if invalid:
+        return {}, invalid
     if symbol_level:
         # A symbol move that names no destination repository or path is not a
         # move `check` can accept, so no manifest or list is written for it.
@@ -447,6 +477,12 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
             f"missing-destination symbol={item.get('package')}:{item.get('symbol')}"
             for item in spec["symbol_moves"]
             if not all(_text_present(item.get(key)) for key in ("destination_repository", "destination_path"))
+        ]
+        # A rename that `check` would read as no name at all is refused here.
+        incomplete += [
+            f"invalid-destination-symbol symbol={item.get('package')}:{item.get('symbol')}"
+            for item in spec["symbol_moves"]
+            if item.get("destination_symbol") and not _text_present(item.get("destination_symbol"))
         ]
         if incomplete:
             return {}, sorted(set(incomplete))
@@ -475,6 +511,7 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
     assertion_records: list[dict[str, Any]] = []
     symbols: list[dict[str, Any]] = []
     seen: set[tuple[str, str, str]] = set()
+    hits: dict[tuple[str, str | None], set[str]] = {}
     if symbol_level:
         symbol_facts = closure.analyze_symbols(
             donor, spec["donor_sha"], spec["symbol_moves"], spec.get("stay_symbols") or []
@@ -509,7 +546,7 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
                 symbol_facts.moved_names[directory],
                 symbol_facts.outside_names[directory],
                 spec, stays, assertion_records, seen, errors,
-                package=directory, ambiguous=ambiguous,
+                package=directory, ambiguous=ambiguous, hits=hits,
             )
         for item in symbol_facts.stays:
             stays.append({
@@ -535,8 +572,13 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
             })
         _account_tests(
             facts.tests, set(facts.moved_decls), set(facts.outside_decls),
-            spec, stays, assertion_records, seen, errors,
+            spec, stays, assertion_records, seen, errors, hits=hits,
         )
+    for (name, file), where in sorted(hits.items(), key=lambda entry: (entry[0][0], entry[0][1] or "")):
+        # A bare name is the test of that name; it must not stand for a second
+        # test of the same name in another file or package.
+        if file is None and len(where) > 1:
+            errors.append(f"ambiguous-specimen: {name}")
     if moved_paths:
         for item in spec.get("assertions") or []:
             key = (item["function"], item["name"], str(item.get("package") or "").rstrip("/"))
@@ -1114,7 +1156,8 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
         if expected_symbols != set(facts.moved_decls):
             errors.append("symbol-set")
     specimens = [
-        item["name"] for item in manifest["stays"] if item.get("kind") == "specimen"
+        {"name": item["name"], "file": item.get("file")}
+        for item in manifest["stays"] if item.get("kind") == "specimen"
     ]
     supplied = []
     for item in manifest["assertions"]:

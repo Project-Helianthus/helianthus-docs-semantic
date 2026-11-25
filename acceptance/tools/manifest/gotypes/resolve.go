@@ -398,9 +398,10 @@ func (l *loader) check(path string, files []*ast.File, info *types.Info, imp *do
 
 func newInfo() *types.Info {
 	return &types.Info{
-		Defs:      map[*ast.Ident]types.Object{},
-		Uses:      map[*ast.Ident]types.Object{},
-		Implicits: map[ast.Node]types.Object{},
+		Defs:       map[*ast.Ident]types.Object{},
+		Uses:       map[*ast.Ident]types.Object{},
+		Implicits:  map[ast.Node]types.Object{},
+		Selections: map[*ast.SelectorExpr]*types.Selection{},
 	}
 }
 
@@ -467,6 +468,30 @@ func (l *loader) external(dir string) *result {
 	return owner
 }
 
+// reachesNamed reports whether the package files of dir import, directly or
+// through other donor packages, a donor directory the move names.
+func (l *loader) reachesNamed(dir string, named map[string]bool, visited map[string]bool) bool {
+	if named[dir] {
+		return true
+	}
+	if visited[dir] {
+		return false
+	}
+	visited[dir] = true
+	group := l.dirs[dir]
+	if group == nil {
+		return false
+	}
+	for _, file := range group.base {
+		for _, path := range file.imports {
+			if target, ok := l.donorDir(path); ok && l.reachesNamed(target, named, visited) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func (l *loader) run() output {
 	out := output{Errors: []string{}, Packages: []outPackage{}}
 	named := map[string]bool{}
@@ -479,20 +504,29 @@ func (l *loader) run() output {
 			selected = append(selected, dir)
 			continue
 		}
-		// A directory whose test files import a package of the move holds
-		// tests of it, whichever of its files owns the import.
-		for _, file := range append(append([]*sourceFile{}, group.internal...), group.external...) {
-			found := false
+		// A directory whose tests can reach a package of the move holds tests
+		// of it: a test file imports it, or imports a package that imports it,
+		// or the directory's own package does. A value of a type of the move
+		// can only come through such a chain of imports, so a test that calls
+		// a method of it need not import the package itself.
+		tests := append(append([]*sourceFile{}, group.internal...), group.external...)
+		if len(tests) == 0 {
+			continue
+		}
+		reached := l.reachesNamed(dir, named, map[string]bool{})
+		for _, file := range tests {
+			if reached {
+				break
+			}
 			for _, path := range file.imports {
-				if target, ok := l.donorDir(path); ok && named[target] {
-					found = true
+				if target, ok := l.donorDir(path); ok && l.reachesNamed(target, named, map[string]bool{}) {
+					reached = true
 					break
 				}
 			}
-			if found {
-				selected = append(selected, dir)
-				break
-			}
+		}
+		if reached {
+			selected = append(selected, dir)
 		}
 	}
 	sort.Strings(selected)
@@ -521,7 +555,7 @@ func (l *loader) run() output {
 					out.Errors = append(out.Errors, "type-error: "+label+": "+text)
 				}
 			}
-			analyzer := &analyzer{l: l, info: res.info, pkg: res.pkg}
+			analyzer := &analyzer{l: l, info: res.info, pkg: res.pkg, unresolved: res.unresolved}
 			out.Packages = append(out.Packages, analyzer.report(dir, res, xtest))
 		}
 	}
@@ -533,6 +567,11 @@ type analyzer struct {
 	l    *loader
 	info *types.Info
 	pkg  *types.Package
+	// unresolved is set when the package imports something that is neither
+	// the standard library nor a donor package, so the type of a value that
+	// comes from it is unknown.
+	unresolved bool
+	reachable  []*types.Package
 }
 
 func unparen(expr ast.Expr) ast.Expr {
@@ -630,13 +669,71 @@ func (a *analyzer) direct(node ast.Node, into refset) {
 		return
 	}
 	ast.Inspect(node, func(item ast.Node) bool {
-		if id, ok := item.(*ast.Ident); ok {
-			if found, ok := a.ref(a.info.Uses[id]); ok {
+		switch found := item.(type) {
+		case *ast.Ident:
+			if found, ok := a.ref(a.info.Uses[found]); ok {
 				into.add(found)
 			}
+		case *ast.SelectorExpr:
+			a.opaque(found, into)
 		}
 		return true
 	})
+}
+
+// opaque adds, for a selector whose operand has no type because it comes from
+// a package that is not available, every method of that name that a donor
+// type of the package's imports declares. The call may reach any of them, so
+// none may be left out of the closure.
+func (a *analyzer) opaque(sel *ast.SelectorExpr, into refset) {
+	if !a.unresolved || a.info.Uses[sel.Sel] != nil || a.info.Selections[sel] != nil {
+		return
+	}
+	if id, ok := unparen(sel.X).(*ast.Ident); ok {
+		if _, qualified := a.info.Uses[id].(*types.PkgName); qualified {
+			return
+		}
+	}
+	if a.reachable == nil {
+		seen := map[*types.Package]bool{}
+		var walk func(pkg *types.Package)
+		walk = func(pkg *types.Package) {
+			if pkg == nil || seen[pkg] {
+				return
+			}
+			seen[pkg] = true
+			if _, ok := a.l.pathDir[pkg.Path()]; ok {
+				a.reachable = append(a.reachable, pkg)
+			}
+			for _, imported := range pkg.Imports() {
+				walk(imported)
+			}
+		}
+		walk(a.pkg)
+		if a.reachable == nil {
+			a.reachable = []*types.Package{}
+		}
+	}
+	for _, pkg := range a.reachable {
+		scope := pkg.Scope()
+		for _, name := range scope.Names() {
+			owner, ok := scope.Lookup(name).(*types.TypeName)
+			if !ok || owner.IsAlias() || types.IsInterface(owner.Type()) {
+				continue
+			}
+			named, ok := owner.Type().(*types.Named)
+			if !ok {
+				continue
+			}
+			for index := 0; index < named.NumMethods(); index++ {
+				if method := named.Method(index); method.Name() == sel.Sel.Name {
+					if found, ok := a.at(pkg, owner.Name()+"."+method.Name()); ok {
+						into.add(found)
+					}
+				}
+			}
+		}
+	}
 }
 
 func (a *analyzer) calls(node ast.Node, into refset) {
@@ -692,6 +789,24 @@ func receiverName(expr ast.Expr) string {
 	}
 }
 
+// receiverOf names the type a method belongs to as the type checker resolves
+// it, so a method written on an alias of a type is a method of that type, as
+// a reference to it is read.
+func (a *analyzer) receiverOf(decl *ast.FuncDecl) string {
+	if fn, ok := a.info.Defs[decl.Name].(*types.Func); ok {
+		if signature, ok := fn.Type().(*types.Signature); ok && signature.Recv() != nil {
+			recvType := types.Unalias(signature.Recv().Type())
+			if pointer, ok := recvType.(*types.Pointer); ok {
+				recvType = types.Unalias(pointer.Elem())
+			}
+			if named, ok := recvType.(*types.Named); ok {
+				return named.Origin().Obj().Name()
+			}
+		}
+	}
+	return receiverName(decl.Recv.List[0].Type)
+}
+
 func (a *analyzer) report(dir string, res *result, xtest bool) outPackage {
 	pkg := outPackage{Dir: dir, Name: res.pkg.Name(), XTest: xtest, Decls: []outDecl{}, Tests: []outTest{}}
 	for _, file := range res.files {
@@ -708,7 +823,7 @@ func (a *analyzer) report(dir string, res *result, xtest bool) outPackage {
 				record := outDecl{Key: item.Name.Name, Name: item.Name.Name, Kind: "func", File: name, Test: isTest}
 				if item.Recv != nil && len(item.Recv.List) == 1 {
 					record.Kind = "method"
-					record.Receiver = receiverName(item.Recv.List[0].Type)
+					record.Receiver = a.receiverOf(item)
 					record.Key = record.Receiver + "." + item.Name.Name
 				}
 				record.Uses = uses.list()

@@ -661,18 +661,20 @@ def analyze_symbols(
         (item["dir"], bool(item["xtest"])): item for item in resolved["packages"]
     }
     label = lambda item: item["dir"] + ("#xtest" if item["xtest"] else "")
-    lookup: dict[str, dict[tuple[str, str], dict]] = {}
+    # A declaration belongs to the package its file is in: the package of a
+    # directory or its external test package. The two may declare one name.
+    lookup: dict[str, dict[tuple[str, str], tuple[dict, str]]] = {}
     methods: dict[str, list[dict]] = {}
     for directory in packages:
         lookup[directory] = {}
-        methods[directory] = []
         for item in (records.get((directory, False)), records.get((directory, True))):
             if item is None:
                 continue
+            methods[label(item)] = []
             for declaration in item["decls"]:
-                lookup[directory].setdefault((declaration["file"], declaration["key"]), declaration)
-                if declaration["kind"] == "method" and not item["xtest"]:
-                    methods[directory].append(declaration)
+                lookup[directory].setdefault((declaration["file"], declaration["key"]), (declaration, label(item)))
+                if declaration["kind"] == "method":
+                    methods[label(item)].append(declaration)
     moved_keys: dict[str, dict[str, str]] = {directory: {} for directory in packages}
     stay_keys: dict[str, dict[str, str]] = {directory: {} for directory in packages}
     for kind, item in entries:
@@ -690,25 +692,31 @@ def analyze_symbols(
                 facts.errors.append(f"moved-and-stays: {moved_keys[directory][key]} {key}")
     if facts.errors:
         return facts
+
+    def identity(directory: str, key: str, path: str) -> tuple[str, str]:
+        return (lookup[directory][(path, key)][1], key)
+
     moved_refs = {
-        (directory, key) for directory in packages for key in moved_keys[directory]
+        identity(directory, key, path)
+        for directory in packages for key, path in moved_keys[directory].items()
     }
     stay_refs = {
-        (directory, key) for directory in packages for key in stay_keys[directory]
+        identity(directory, key, path)
+        for directory in packages for key, path in stay_keys[directory].items()
     }
     outside: set[str] = set()
     for directory in packages:
         for key in sorted(moved_keys[directory]):
-            declaration = lookup[directory][(moved_keys[directory][key], key)]
+            declaration, here = lookup[directory][(moved_keys[directory][key], key)]
             used = _refs(declaration["uses"])
             # A function, type or value may name itself.
-            used.discard((directory, key))
+            used.discard((here, key))
             carried = set()
             for reference in used:
                 if reference in moved_refs:
-                    carried.add(_spelled(reference, directory))
+                    carried.add(_spelled(reference, here))
                 elif reference not in stay_refs:
-                    outside.add(_spelled(reference, directory))
+                    outside.add(_spelled(reference, here))
             facts.moved.append({
                 "package": directory,
                 "file": moved_keys[directory][key],
@@ -716,13 +724,13 @@ def analyze_symbols(
                 "uses": sorted(carried),
             })
             if declaration["kind"] == "type":
-                for method in methods[directory]:
+                for method in methods.get(here, []):
                     if (
                         method["receiver"] == declaration["name"]
-                        and method["key"] not in moved_keys[directory]
-                        and method["key"] not in stay_keys[directory]
+                        and (here, method["key"]) not in moved_refs
+                        and (here, method["key"]) not in stay_refs
                     ):
-                        outside.add(method["key"])
+                        outside.add(_spelled((here, method["key"]), directory))
         for key in sorted(stay_keys[directory]):
             facts.stays.append({"package": directory, "file": stay_keys[directory][key], "name": key})
     facts.outside_uses = sorted(outside)
