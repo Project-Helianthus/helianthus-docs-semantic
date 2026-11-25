@@ -33581,6 +33581,45 @@
           "id": "helianthus.pack.evse",
           "version": "1.0.0"
         },
+        "id": "evse.relation.connector_vehicle",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "hosts"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "evse.relation.connector_vehicle"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "evse.relation.connector_vehicle",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.evse",
+          "version": "1.0.0"
+        },
         "id": "evse.relation.evse_connector",
         "version": "1.0.0"
       },
@@ -39700,6 +39739,49 @@
           "id": "helianthus.pack.infrastructure",
           "version": "1.0.0"
         },
+        "id": "infrastructure.relation.load_meter",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "measures"
+      },
+      "disposition": "withheld",
+      "reason": "matter.power_topology_endpoint_unallocated.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.load_meter"
+          ],
+          "description": "the association needs allocated endpoints on the power topology construct; this target allocates none, so no association is emitted and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "target_construct": {
+        "cluster_id": 156,
+        "equivalence": "Hypothesis"
+      },
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.load_meter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
         "id": "infrastructure.relation.site_grid_connection",
         "version": "1.0.0"
       },
@@ -39724,6 +39806,45 @@
         "requested": {
           "kind": "relation",
           "item_id": "infrastructure.relation.site_grid_connection",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.infrastructure",
+          "version": "1.0.0"
+        },
+        "id": "infrastructure.relation.site_load",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "infrastructure.relation.site_load"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "infrastructure.relation.site_load",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -69282,6 +69403,123 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.relation.detector_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.detector_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.detector_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.relation.fan_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.fan_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.fan_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.relation.filter_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.filter_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.filter_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.relation.fluid_supply",
         "version": "1.0.0"
       },
@@ -69361,6 +69599,45 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.relation.pump_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.pump_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.pump_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.relation.refrigerant_circuit_member",
         "version": "1.0.0"
       },
@@ -69400,6 +69677,45 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.relation.solar_circuit_collector",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.solar_circuit_collector"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.solar_circuit_collector",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.relation.system_member",
         "version": "1.0.0"
       },
@@ -69424,6 +69740,84 @@
         "requested": {
           "kind": "relation",
           "item_id": "thermal.relation.system_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.relation.valve_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.valve_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.valve_member",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.relation.water_tank_member",
+        "version": "1.0.0"
+      },
+      "kind": "relation",
+      "relation": {
+        "core_type": "contains"
+      },
+      "disposition": "unknown",
+      "reason": "matter.relation_construct_not_adopted.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.relation.water_tank_member"
+          ],
+          "description": "the target construct for this relation type is outside the adopted model identities; no association is emitted and no endpoint composition is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "relation",
+          "item_id": "thermal.relation.water_tank_member",
           "item_version": "1.0.0"
         },
         "revision_binding": {

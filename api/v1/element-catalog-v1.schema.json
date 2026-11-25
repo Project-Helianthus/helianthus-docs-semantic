@@ -1519,8 +1519,7 @@
         "id",
         "question",
         "planes",
-        "root_kinds",
-        "max_depth"
+        "root_kinds"
       ],
       "additionalProperties": false,
       "properties": {
@@ -1555,8 +1554,7 @@
         },
         "max_depth": {
           "type": "integer",
-          "minimum": 1,
-          "maximum": 32
+          "minimum": 1
         }
       }
     },

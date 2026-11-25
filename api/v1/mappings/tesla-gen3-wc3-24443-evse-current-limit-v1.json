@@ -47,6 +47,7 @@
   "unstated_relations": [
     {"definition": "evse.relation.connector_phase", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.phase"},
     {"definition": "evse.relation.connector_session", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.charging_session"},
+    {"definition": "evse.relation.connector_vehicle", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.vehicle"},
     {"definition": "evse.relation.evse_meter", "outcome": "unknown_not_absent", "unpublished_endpoint": "resource.meter"}
   ],
   "lifecycle": {

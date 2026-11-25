@@ -370,6 +370,20 @@ RELATION_TABLE = {
     "thermal.relation.circuit_room": ([CIRCUIT], [ROOM], "one_to_many"),
     "thermal.relation.circuit_zone": ([CIRCUIT], [ZONE], "one_to_many"),
     "thermal.relation.zone_room": ([ZONE], [ROOM], "one_to_many"),
+    "thermal.relation.pump_member": (
+        [CIRCUIT, DHW, GENERATOR, "thermal.dimension.solar_circuit"], ["thermal.dimension.pump"], "one_to_many"),
+    "thermal.relation.valve_member": (
+        [CIRCUIT, ZONE, DHW, GENERATOR, TERMINAL], ["thermal.dimension.valve"], "one_to_many"),
+    "thermal.relation.solar_circuit_collector": (
+        ["thermal.dimension.solar_circuit"], ["thermal.dimension.solar_collector"], "one_to_many"),
+    "thermal.relation.detector_member": (
+        [SYSTEM, "thermal.dimension.pump", ZONE], ["thermal.dimension.detector"], "one_to_many"),
+    "thermal.relation.water_tank_member": (
+        [VENTILATION, TERMINAL, GENERATOR], ["thermal.dimension.water_tank"], "one_to_many"),
+    "thermal.relation.fan_member": (
+        [TERMINAL, VENTILATION, GENERATOR], ["thermal.dimension.fan"], "one_to_many"),
+    "thermal.relation.filter_member": (
+        [VENTILATION, TERMINAL], ["thermal.dimension.air_filter"], "one_to_many"),
 }
 # Identifiers the placement removes; none may remain in the pack vectors, the page or the validator.
 REMOVED = (
@@ -564,7 +578,15 @@ def field_axis_mutants(document: dict) -> int:
 
 
 def relation_axis_mutants(document: dict) -> int:
-    """Vary the identifier, each endpoint list and the cardinality of every relation definition."""
+    """Vary every field of every relation definition.
+
+    id and ref id: renaming both is rejected as a relation catalog mismatch.
+    from and to: replacing each endpoint list is rejected as endpoints or cardinality differ.
+    cardinality: one_to_one is rejected as endpoints or cardinality differ.
+    a dangling to dimension is rejected as a dangling dimension.
+    order: 0 is rejected as noncanonical order.
+    ref version, ref pack id and ref pack version: each is rejected as a missing exact DefinitionRef.
+    """
     count = 0
     relations = document["catalog"]["definitions"]["relations"]
     for index, item in enumerate(relations):
@@ -584,7 +606,18 @@ def relation_axis_mutants(document: dict) -> int:
         renamed["catalog"]["definitions"]["relations"][index]["id"] += "_other"
         renamed["catalog"]["definitions"]["relations"][index]["ref"]["id"] += "_other"
         reject(renamed, "relation catalog")
-        count += 2
+        unordered = copy.deepcopy(document)
+        unordered["catalog"]["definitions"]["relations"][index]["order"] = 0
+        reject(unordered, "relations noncanonical order")
+        for path in (("version",), ("pack", "id"), ("pack", "version")):
+            retargeted = copy.deepcopy(document)
+            target = retargeted["catalog"]["definitions"]["relations"][index]["ref"]
+            for segment in path[:-1]:
+                target = target[segment]
+            target[path[-1]] = "helianthus.pack.other" if path[-1] == "id" else "9.9.9"
+            reject(retargeted, "relations missing exact DefinitionRef")
+            count += 1
+        count += 3
     return count
 
 
@@ -1496,7 +1529,8 @@ PE05_QUALIFIERS = {'thermal.water_tank.replacement_product_identifier': ('therma
 PE05_OPERATIONS = {'thermal.operation.set_dhw_mode': ('thermal.capability.set_dhw_mode', 'thermal.mode.dhw', 'thermal.effect.set_dhw_mode', ()), 'thermal.operation.set_dhw_temperature': ('thermal.capability.set_dhw_temperature', 'thermal.setpoint.dhw_temperature_setpoint', 'thermal.effect.set_dhw_temperature', ()), 'thermal.operation.set_dhw_boost': ('thermal.capability.set_dhw_boost', 'thermal.dhw.boost_state', 'thermal.effect.set_dhw_boost', ('thermal.dhw.boost_duration', 'thermal.dhw.boost_one_shot', 'thermal.dhw.boost_emergency', 'thermal.dhw.boost_temporary_setpoint', 'thermal.dhw.boost_target_ratio', 'thermal.dhw.boost_target_reheat_ratio')), 'thermal.operation.set_pump_running': ('thermal.capability.set_pump_running', 'thermal.status.pump_running', 'thermal.effect.set_pump_running', ()), 'thermal.operation.set_pump_operation_mode': ('thermal.capability.set_pump_operation_mode', 'thermal.mode.pump_operation', 'thermal.effect.set_pump_operation_mode', ()), 'thermal.operation.set_pump_control_mode': ('thermal.capability.set_pump_control_mode', 'thermal.mode.pump_control', 'thermal.effect.set_pump_control_mode', ()), 'thermal.operation.set_pump_level': ('thermal.capability.set_pump_level', 'thermal.setpoint.pump_level', 'thermal.effect.set_pump_level', ()), 'thermal.operation.set_valve_state': ('thermal.capability.set_valve_state', 'thermal.setpoint.valve_target_state', 'thermal.effect.set_valve_state', ('thermal.valve.open_duration', 'thermal.setpoint.valve_target_level')), 'thermal.operation.set_valve_level': ('thermal.capability.set_valve_level', 'thermal.setpoint.valve_target_level', 'thermal.effect.set_valve_level', ()), 'thermal.operation.set_valve_default_open_duration': ('thermal.capability.set_valve_default_open_duration', 'thermal.configuration.valve_default_open_duration', 'thermal.effect.set_valve_default_open_duration', ()), 'thermal.operation.set_valve_default_open_level': ('thermal.capability.set_valve_default_open_level', 'thermal.configuration.valve_default_open_level', 'thermal.effect.set_valve_default_open_level', ()), 'thermal.operation.suppress_detector_alarm': ('thermal.capability.suppress_detector_alarm', 'thermal.detector.alarms_suppressed', 'thermal.effect.suppress_detector_alarm', ()), 'thermal.operation.enable_detector_alarm': ('thermal.capability.enable_detector_alarm', 'thermal.detector.alarms_enabled', 'thermal.effect.enable_detector_alarm', ()), 'thermal.operation.set_detector_sensitivity': ('thermal.capability.set_detector_sensitivity', 'thermal.detector.sensitivity_level', 'thermal.effect.set_detector_sensitivity', ()), 'thermal.operation.reset_water_tank': ('thermal.capability.reset_water_tank', 'thermal.water_tank.change_indication', 'thermal.effect.reset_water_tank', ())}
 PE05_EVENTS = {'thermal.event.valve_state_changed': ('thermal.service.valve', 'thermal.status.valve_state', ('thermal.measurement.valve_level',)), 'thermal.event.valve_fault': ('thermal.service.valve', 'thermal.status.valve_faults', ()), 'thermal.event.leak_changed': ('thermal.service.detector', 'thermal.status.leak', ()), 'thermal.event.freeze_changed': ('thermal.service.detector', 'thermal.status.freeze', ()), 'thermal.event.detector_alarms_changed': ('thermal.service.detector', 'thermal.detector.alarms_active', ('thermal.detector.alarms_suppressed',)), 'thermal.event.detector_sensor_fault': ('thermal.service.detector', 'thermal.detector.sensor_fault', ())}
 PE05_EXCLUDED = ('thermal.status.legionella_protection', 'thermal.configuration.legionella_days', 'thermal.configuration.legionella_time', 'thermal.setpoint.store_charge_temperature', 'thermal.configuration.store_charge_hysteresis', 'thermal.configuration.dew_point_offset', 'thermal.measurement.pump_start_count', 'thermal.valve.role', 'thermal.status.frost_protection')
-PE05_RELATIONS = ('thermal.relation.valve_member', 'thermal.relation.pump_member', 'thermal.relation.solar_circuit_collector', 'thermal.relation.solar_supply', 'thermal.relation.detector_member', 'thermal.relation.water_tank_member')
+PE05_ADMITTED_RELATIONS = ('thermal.relation.valve_member', 'thermal.relation.pump_member', 'thermal.relation.solar_circuit_collector', 'thermal.relation.detector_member', 'thermal.relation.water_tank_member')
+PE05_WITHHELD_RELATIONS = ('thermal.relation.solar_supply',)
 PE05_WITHHELD_EVENTS = ('thermal.event.dhw_boost_started', 'thermal.event.dhw_boost_ended', 'thermal.event.pump_supply_voltage_low', 'thermal.event.pump_supply_voltage_high', 'thermal.event.pump_power_missing_phase', 'thermal.event.pump_system_pressure_low', 'thermal.event.pump_system_pressure_high', 'thermal.event.pump_dry_running', 'thermal.event.pump_motor_temperature_high', 'thermal.event.pump_motor_fatal_failure', 'thermal.event.pump_electronic_temperature_high', 'thermal.event.pump_pump_blocked', 'thermal.event.pump_sensor_failure', 'thermal.event.pump_electronic_non_fatal_failure', 'thermal.event.pump_electronic_fatal_failure', 'thermal.event.pump_general_fault', 'thermal.event.pump_leakage', 'thermal.event.pump_air_detection', 'thermal.event.pump_turbine_operation')
 PE05_DIMENSIONS = ('thermal.dimension.valve', 'thermal.dimension.solar_circuit', 'thermal.dimension.solar_collector', 'thermal.dimension.detector', 'thermal.dimension.water_tank')
 PE05_SERVICES = ('thermal.service.valve', 'thermal.service.solar_circuit', 'thermal.service.solar_collector', 'thermal.service.detector', 'thermal.service.water_tank')
@@ -1510,9 +1544,12 @@ def check_pe05_withheld(fields: dict, relations: set, events: set, operations: d
     present = [ident for ident in PE05_EXCLUDED if ident in fields]
     if present:
         raise AssertionError(f"two-vendor fields admitted: {present}")
-    present = [ident for ident in PE05_RELATIONS if ident in relations]
+    present = [ident for ident in PE05_WITHHELD_RELATIONS if ident in relations]
     if present:
         raise AssertionError(f"relations admitted: {present}")
+    missing = [ident for ident in PE05_ADMITTED_RELATIONS if ident not in relations]
+    if missing:
+        raise AssertionError(f"admitted relations absent: {missing}")
     present = [ident for ident in PE05_WITHHELD_EVENTS if ident in events]
     if present:
         raise AssertionError(f"withheld events admitted: {present}")
@@ -1813,9 +1850,9 @@ def check_qu11_withheld(fields: dict, operations: dict, qualifier_ids: set, rela
     present = [ident for ident in QU11_EXCLUDED if ident in admitted]
     if present:
         raise AssertionError(f"withheld ids admitted: {present}")
-    present = [ident for ident in QU11_RELATIONS if ident in relations]
-    if present:
-        raise AssertionError(f"relations admitted: {present}")
+    missing = [ident for ident in QU11_RELATIONS if ident not in relations]
+    if missing:
+        raise AssertionError(f"admitted relations absent: {missing}")
 
 
 def check_qu11_operations(document: dict, operations: dict) -> None:

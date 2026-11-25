@@ -361,7 +361,8 @@ RELATIONS = {"evse.relation.asset_evse": ("evse.dimension.asset", "evse.dimensio
              "evse.relation.evse_connector": ("evse.dimension.evse", "evse.dimension.connector", "one_to_many"),
              "evse.relation.connector_phase": ("evse.dimension.connector", "evse.dimension.phase", "one_to_many"),
              "evse.relation.connector_session": ("evse.dimension.connector", "evse.dimension.session", "one_to_many_over_time"),
-             "evse.relation.evse_meter": ("evse.dimension.evse", "evse.dimension.meter", "one_to_many")}
+             "evse.relation.evse_meter": ("evse.dimension.evse", "evse.dimension.meter", "one_to_many"),
+             "evse.relation.connector_vehicle": ("evse.dimension.connector", "evse.dimension.vehicle", "one_to_one")}
 DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
                      "effect_rules", "portal_contributions", "qualifier_dimensions", "events"}
 CAPS = {"evse.capability.read.evse": ("evse.service.evse", ()),

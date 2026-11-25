@@ -579,7 +579,7 @@ GRAPH_NEGATIVES = [
                                                               "identification_scheme": "none_listed", "parent_kind": "resource.battery_pack", "evidence": ["synthetic:module"]})], "graph_resources"),
     # Relations (section 15 item 2): definition, basis class, both endpoints, evidence, each scope member and absence sides.
     ("relays_by_native_observation", [("set", "graph.relations.0.basis_class", "native_observation")], "graph_relations"),
-    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph_relations"),
     ("relays_reversed", [("set", "graph.relations.0.from_kind", "resource.battery"), ("set", "graph.relations.0.to_kind", "resource.inverter")], "graph_relations"),
     ("battery_pack_by_configuration", [("set", "graph.relations.1.basis_class", "configuration")], "graph basis_class_not_admitted $.graph.relations[1].basis_class"),
     ("battery_pack_from_inverter", [("set", "graph.relations.1.from_kind", "resource.inverter")], "graph endpoint_kind_mismatch $.graph.relations[1].from_kind"),

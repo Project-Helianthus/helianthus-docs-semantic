@@ -353,7 +353,8 @@
         {"id":"evse.relation.evse_connector","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.evse_connector","version":"1.0.0"},"from":"evse.dimension.evse","to":"evse.dimension.connector","cardinality":"one_to_many","order":20},
         {"id":"evse.relation.connector_phase","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.connector_phase","version":"1.0.0"},"from":"evse.dimension.connector","to":"evse.dimension.phase","cardinality":"one_to_many","order":30},
         {"id":"evse.relation.connector_session","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.connector_session","version":"1.0.0"},"from":"evse.dimension.connector","to":"evse.dimension.session","cardinality":"one_to_many_over_time","order":40},
-        {"id":"evse.relation.evse_meter","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.evse_meter","version":"1.0.0"},"from":"evse.dimension.evse","to":"evse.dimension.meter","cardinality":"one_to_many","order":50}
+        {"id":"evse.relation.evse_meter","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.evse_meter","version":"1.0.0"},"from":"evse.dimension.evse","to":"evse.dimension.meter","cardinality":"one_to_many","order":50},
+        {"id":"evse.relation.connector_vehicle","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.relation.connector_vehicle","version":"1.0.0"},"from":"evse.dimension.connector","to":"evse.dimension.vehicle","cardinality":"one_to_one","order":60}
       ],
       "capabilities":[
         {"id":"evse.capability.read.evse","ref":{"pack":{"id":"helianthus.pack.evse","version":"1.0.0"},"id":"evse.capability.read.evse","version":"1.0.0"},"service":"evse.service.evse","activation":"qualified_current_binding","order":10},

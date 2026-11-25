@@ -316,6 +316,7 @@ def main():
     case(document, "loss_omitted", "projection-loss coverage", lambda c: c["loss_dispositions"].remove("aggregation"))
     print("focused_mutations: 36 REJECTED")
     check_accuracy_facts(document)
+    check_added_relations(document)
 
 
 def check_accuracy_facts(document):
@@ -377,9 +378,45 @@ PRIOR_FIELDS = frozenset({
 })
 EXCLUDED_IDS = (
     "infrastructure.energy.reactive_quadrant", "infrastructure.dimension.quadrant",
-    "infrastructure.relation.site_load", "infrastructure.relation.load_meter",
     "infrastructure.capability.read.load",
 )
+
+
+def check_added_relations(document):
+    """site_load and load_meter fields, and the production mutation each one catches.
+
+    id and ref id: renaming both is rejected as a relations catalog mismatch.
+    from, to and cardinality: each replacement is rejected as a relation association.
+    ref pack id, ref pack version and ref version: each is rejected as a missing exact DefinitionRef.
+    order: 0 is rejected as noncanonical order.
+    """
+    expected = {
+        "infrastructure.relation.site_load": (
+            "infrastructure.dimension.site", "infrastructure.dimension.load", "one_to_many", 60),
+        "infrastructure.relation.load_meter": (
+            "infrastructure.dimension.meter", "infrastructure.dimension.load", "one_to_many", 70),
+    }
+    relations = document["catalog"]["definitions"]["relations"]
+    for ident, (source, target, cardinality, order) in expected.items():
+        item = next(row for row in relations if row["id"] == ident)
+        if (item["from"], item["to"], item["cardinality"], item["order"]) != (source, target, cardinality, order):
+            raise AssertionError(ident)
+        index = relations.index(item)
+
+        def rename(catalog, index=index):
+            row = catalog["definitions"]["relations"][index]
+            row["id"] += "_other"
+            row["ref"]["id"] += "_other"
+
+        case(document, ident + "_id", "relations catalog", rename)
+        case(document, ident + "_from", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("from", "infrastructure.dimension.feeder"))
+        case(document, ident + "_to", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("to", "infrastructure.dimension.feeder"))
+        case(document, ident + "_cardinality", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("cardinality", "one_to_one"))
+        case(document, ident + "_pack_id", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"]["pack"].__setitem__("id", "helianthus.pack.thermal"))
+        case(document, ident + "_pack_version", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"]["pack"].__setitem__("version", "9.9.9"))
+        case(document, ident + "_version", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"].__setitem__("version", "9.9.9"))
+        case(document, ident + "_order", "noncanonical order", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("order", 0))
+    print("added_relations: PASS")
 
 
 def reject_admitted_field(document, ident, index, kind, unit, minimum, other_dimension, has_qualifiers):

@@ -101,7 +101,9 @@
   "unstated_relations": [
     {"definition": "infrastructure.relation.circuit_phase", "from_kind": "resource.electrical_circuit", "to_kind": "resource.phase", "outcome": "unknown_not_absent", "withheld_by": "native_contract:phase_assignment_not_stated"},
     {"definition": "infrastructure.relation.feeder_circuit", "from_kind": "resource.feeder", "to_kind": "resource.electrical_circuit", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_feeder_or_circuit_declared_by_this_gate"},
-    {"definition": "infrastructure.relation.grid_connection_feeder", "from_kind": "resource.grid_connection", "to_kind": "resource.feeder", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_feeder_or_circuit_declared_by_this_gate"}
+    {"definition": "infrastructure.relation.grid_connection_feeder", "from_kind": "resource.grid_connection", "to_kind": "resource.feeder", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_feeder_or_circuit_declared_by_this_gate"},
+    {"definition": "infrastructure.relation.load_meter", "from_kind": "resource.meter", "to_kind": "resource.load", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_load_declared_by_this_gate"},
+    {"definition": "infrastructure.relation.site_load", "from_kind": "resource.site", "to_kind": "resource.load", "outcome": "unknown_not_absent", "withheld_by": "configuration:no_load_declared_by_this_gate"}
   ],
   "lifecycle": {
     "required_observation_evidence": ["observation_id", "observation_revision", "receipt_wall", "receipt_monotonic", "clock_epoch", "source_epoch", "driver_generation", "connection_generation", "selection", "role", "reads"],

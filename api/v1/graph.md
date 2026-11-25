@@ -518,10 +518,22 @@ optionally over time), the medium for `supplies`, the basis classes it admits,
 and its plane membership.
 
 - A definition whose two endpoint kinds are both reached through the
-  dimensions of one pack is owned by that pack. This covers the 21 accepted
+  dimensions of one pack is owned by that pack. This covers the pack-owned
   definitions.
 - A definition that connects kinds of different packs, or uses
-  `resource.equipment`, is owned by the core catalog. A pack never owns a
+  `resource.equipment`, is owned by the core catalog. `relation.site_system`
+  groups a site with a charging station, generic equipment, a PV system, a
+  storage system or a thermal system. `relation.electrical_supply` supplies
+  the electrical medium from an electrical circuit, a feeder or a grid
+  connection to a battery, a charging station, a heat generator, an inverter,
+  a storage interface or a terminal unit. `relation.storage_coupling` supplies
+  the electrical medium from an inverter to a battery or a storage interface.
+  Its nominal direction is inverter to battery or storage interface, charging
+  positive. `relation.meter_measures` measures from a meter to a battery, a
+  charging station, an electrical circuit, a heat generator, an inverter, a PV
+  system, a site, a storage system or a terminal unit. `relation.energy_control`
+  is the control by generic equipment of a connector, an electrical circuit,
+  an EVSE, an inverter, a PV system or a storage interface. A pack never owns a
   relation that crosses packs, so the `cross_pack_relation` negative of
   [pack metadata](pack-metadata-v1.md) stays valid.
 
@@ -636,12 +648,14 @@ absence statement exists, the relation is unknown, never "none".
 
 These are the six views docs-semantic#67 names. Reconciliation:
 
-- **Electrical** is the energy plane restricted to the electrical medium; a
-  lens expresses it.
-- **Refrigerant** is part of the hydraulic plane with medium `refrigerant`;
-  refrigerant resource kinds still need admission.
-- **Communication** (data paths of loggers, controllers and hubs) is the
-  `relays` part of the provenance plane.
+- **Electrical** is the energy plane restricted to electrical-medium `supplies`
+  plus `contains` and `measures`, navigable as `lens.electrical`.
+- **Refrigerant** is part of the hydraulic plane with medium `refrigerant`.
+  `resource.refrigerant_circuit` is admitted. Other refrigerant equipment
+  kinds are not.
+- **Communication** (data paths of loggers, controllers and hubs) is
+  `lens.communication` over `relation.relays`. Gateways and adapters stay
+  generic equipment, not kinds.
 - **Spatial** is not a plane. Rooms and areas have no seventh plane. A room
   is `resource.room` (section 10.8), distinct from `resource.zone`.
 
@@ -691,8 +705,10 @@ navigation no lens over the existing planes can express.
 
 A lens is a catalog object with: a `DefinitionID`; a one-sentence question;
 one through six planes; one or more root kinds that admit at least one of its
-planes; an optional subset of the relation definitions of those planes; and a
-maximum traversal depth from 1 through 32. A lens creates no identity, fact,
+planes; an optional subset of the relation definitions of those planes; and an
+optional `max_depth`, an integer of at least 1 when present. The field states
+no maximum of its own. When `max_depth` is omitted, traversal uses the bound
+in section 27. A lens creates no identity, fact,
 relation or membership; it selects from the graph. Increment 1 defines the
 shape and seeds no lens; lens retrieval is LRS-1 to LRS-6 (section 28) and
 the seeds are section 29.
@@ -1124,14 +1140,13 @@ disposition, as today.
 
 **A heating controller with two zones and one mixed circuit.** Resources: the
 controller (`equipment`), the thermal system (`function`), two zones and one
-thermal circuit (`function`, slots under the thermal system). Relations, under
-definitions that the thermal pack still has to add through the admission rule:
-the thermal system groups the zones and the circuit; the circuit supplies a
-heat-transfer fluid to both zones; the controller controls the thermal system.
-When the controller is replaced, it gets a new identifier and the new
-controller's `controls` instance is published; the zones and the circuit keep
-theirs. In the seed this example is not yet expressible: the circuit kind is
-`unknown` and no thermal relation definition exists.
+thermal circuit (`function`, slots under the thermal system). Relations:
+`thermal.relation.system_member` groups the zones and the circuit under the
+thermal system; `thermal.relation.fluid_supply` supplies a heat-transfer fluid
+from the circuit toward the zones; `relation.thermal_control` is the
+controller's control of the thermal system. When the controller is replaced,
+it gets a new identifier and the new controller's `controls` instance is
+published; the zones and the circuit keep theirs.
 
 **A logger with three inverters and one battery behind an inverter.**
 Resources: the logger (`resource.equipment`), three inverters (`equipment`),
@@ -1146,13 +1161,13 @@ battery token, the two battery resources share no key and are not flagged,
 unless the operator declares the pair with one shared operator slot.
 
 **An air-conditioning system with one outdoor and three indoor units.**
-Resources: one outdoor and three indoor units (`resource.equipment` until
-specific kinds are admitted). A unit address is a destination coordinate and
-never an anchor. Whether an indoor unit and a zone are one resource or two, and
-whether the unit-to-zone relation is observable or configured, are questions
-for the native owner under section 15; until they are answered, no such
-relation exists in the graph. A refrigerant circuit enters the hydraulic plane
-with medium `refrigerant` once its kind is admitted.
+Resources: one outdoor and three indoor units (`resource.equipment`). A unit
+address is a destination coordinate and never an anchor. Whether an indoor
+unit and a zone are one resource or two, and whether the unit-to-zone relation
+is observable or configured, are questions for the native owner under section
+15; until they are answered, no such relation exists in the graph.
+`resource.refrigerant_circuit` is admitted and enters the hydraulic plane with
+medium `refrigerant`. Indoor and outdoor units stay `resource.equipment`.
 
 ## 17. Amended kernel rules
 
@@ -1359,11 +1374,9 @@ Left out of increment 1, with reasons:
   lens, the read target, Portal descriptors and native typed surfaces: sections
   23 to 36 define them (CUT, ENT, TRV, LRS, SUM, API, PTL, TGT, CID, NTV), and
   they needed this identity first;
-- specific equipment kinds (controller, communication gateway, outdoor and
-  indoor unit, refrigerant circuit, heat generator, pump, valve, cylinder):
-  each needs the admission rule and native evidence;
-- thermal relation definitions and the thermal subject re-keying: pack
-  decisions that need the project owner's placement answers;
+- specific equipment kinds still left out (controller, communication gateway,
+  outdoor unit, indoor unit, cylinder): each needs the admission rule and
+  native evidence;
 - a spatial plane: no public basis;
 - atomic and derived changes across assets: the registry-entry direction's
   benefits, not taken for 0.7.
@@ -1412,8 +1425,7 @@ Out of part 2, unchanged from sections 1 to 22:
 
 - no fact is derived from facts of two assets (section 11.4);
 - publication stays per asset; nothing here needs publication above the asset;
-- no thermal quantity is placed on a resource and no thermal relation is
-  defined; lenses work with whatever the catalog holds as `member`;
+- lenses work with whatever the catalog holds as `member`;
 - no write path: every operation still goes through the admission chain of the
   kernel, and nothing in a read result is an authority (section 13).
 
@@ -1613,29 +1625,42 @@ members, `same_unit` pair, partial cut, mixed sign references), each expecting
 
 ## 29. Lens seeds
 
-Four lenses are seeded in the element catalog, owned by docs-semantic, each on
-the admission arm `owner_decision` with docs-semantic#67 as evidence (a lens
-holds no data of its own, as a plane). Their relation definitions are left
-unnamed, so each follows every member relation definition of its planes and
-grows with the catalog without an edit.
+Ten lenses are seeded in the element catalog. A lens record names no admission
+of its own. `lens.installation_hierarchy`, `lens.energy_flow`,
+`lens.equipment_composition` and `lens.provenance` leave relation definitions
+unnamed, so each follows every member relation definition of its planes, and
+each keeps its published `max_depth`. The six lenses added with the core and
+pack relations omit `max_depth`. `lens.electrical` and `lens.communication`
+name the relation definitions they follow.
 
 | Lens | Question | Planes | Root kinds | Depth |
 |---|---|---|---|---|
 | `lens.installation_hierarchy` | What is installed here, what is part of what, and what is grouped or controlled together? | physical, control | site, PV system, storage system, thermal system, charging station, generic equipment | 16 |
 | `lens.energy_flow` | Where does electrical energy flow and where is it measured? | energy | site, grid connection, PV system, storage system, charging station | 16 |
-| `lens.equipment_composition` | What is this piece of equipment made of, and how healthy are its parts? | physical, diagnostic | inverter, battery, battery pack, charging station, meter, generic equipment | 8 |
-| `lens.provenance` | Through which equipment does this information arrive? | provenance | the six equipment kinds | 8 |
+| `lens.equipment_composition` | What is this piece of equipment made of, and how healthy are its parts? | physical, diagnostic | inverter, battery, battery pack, charging station, meter, generic equipment, heat generator, terminal unit, thermal store | 8 |
+| `lens.provenance` | Through which equipment does this information arrive? | provenance | battery, battery pack, charging station, generic equipment, inverter, meter, heat generator, terminal unit, thermal store | 8 |
+| `lens.hydraulic` | How do heat-transfer fluids, including refrigerant, circulate? | hydraulic | thermal system, heat generator, refrigerant circuit | omitted |
+| `lens.thermal` | How does heat move through the hydraulic, control, energy and diagnostic views of one installation? | energy, hydraulic, control, diagnostic | thermal system, heat generator, zone | omitted |
+| `lens.electrical` | Which supplies of the electrical medium, and which contains and measures definitions, carry the energy plane? | energy | site, grid connection, PV system, storage system, charging station | omitted |
+| `lens.control_hierarchy` | Who regulates or commands what, from the controlling equipment down? | control | generic equipment, thermal system, PV system | omitted |
+| `lens.diagnostic` | Where are faults, alarms and health reported and localized? | physical, diagnostic | site, thermal system, storage system, charging station, heat generator, inverter | omitted |
+| `lens.communication` | Which equipment relays the data of which equipment? | provenance | generic equipment | omitted |
 
 Notes:
 
-- Each root kind admits at least one plane of its lens in the seed (LNS-1);
-  the catalog validator checks it again.
-- "Electrical" is `lens.energy_flow` read with medium `electrical`; no separate
-  lens is seeded.
-- A hierarchy rooted at a controller needs a `controls` relation definition,
-  which the seed does not hold. It enters with the thermal relations, under
-  the admission rule; the lens then follows it without an edit.
-- No hydraulic lens is seeded: the hydraulic plane is empty in the seed.
+- Each root kind admits at least one plane of its lens (LNS-1); the catalog
+  validator checks it again. No root was left out.
+- `lens.electrical` names the energy-plane relation definitions whose core type
+  is `contains`, `measures`, or `supplies` with medium `electrical`, including
+  `storage.relation.interface_supply`.
+- `lens.hydraulic` is seeded. `lens.control_hierarchy` follows
+  `relation.thermal_control` and `relation.energy_control` because those
+  definitions are members of the control plane and the lens names no relation
+  subset. `lens.communication` names `relation.relays`.
+- The four lenses that omit the relations key keep their depths.
+  `lens.energy_flow` names `resource.storage_system` because that kind admits
+  energy. `lens.equipment_composition` names the thermal kinds. Provenance
+  roots are the endpoints of `relation.relays`.
 - Partitions that consumers show (by domain, by room) are lens content or
   presentation, never a catalog membership.
 
@@ -1836,8 +1861,7 @@ a stored path; or membership decided by a target.
 Left out, with reasons: a subscription or change feed over cuts (a consumer
 polls and compares cut identifiers in 0.7); lens-level rollups declared in the
 catalog (`SumMembers` is a function, not a catalog element, until a consumer
-needs a declared rollup); a controller-rooted and a hydraulic lens (they need
-relation definitions that do not exist yet); the composition of an eeBUS
-output (its binding contract is a separate issue).
+needs a declared rollup); the composition of an eeBUS output (its binding
+contract is a separate issue).
 
 Validation commands: as in section 22.

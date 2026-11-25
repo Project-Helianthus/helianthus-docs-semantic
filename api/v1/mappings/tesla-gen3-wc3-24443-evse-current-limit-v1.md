@@ -82,9 +82,9 @@ invalid, reused, or ambiguous identifiers fail closed.
 
 The station-to-EVSE and EVSE-to-connector relations are stated with basis
 class `configuration`, scoped to this profile and its version, and with no
-absence statement (REL-3, REL-8). The connector-to-phase, connector-to-session
-and EVSE-to-meter relations are listed in `unstated_relations` as
-unknown, not absent: the gate publishes no phase, session or meter, and it
+absence statement (REL-3, REL-8). The connector-to-phase, connector-to-session,
+connector-to-vehicle and EVSE-to-meter relations are listed in `unstated_relations` as
+unknown, not absent: the gate publishes no phase, session, vehicle or meter, and it
 never claims that a meter is missing. Native connector topology stays unsupported.
 
 Under EN-1 each field rule names its subject kind and measurement point. The

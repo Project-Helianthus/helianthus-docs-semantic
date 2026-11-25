@@ -1006,6 +1006,35 @@ class ReadMutationTest(unittest.TestCase):
         self.assert_rule_rejects(validator.check_reads, mutated(change), "recomputed read is accepted")
 
 
+class DepthCapTest(unittest.TestCase):
+    """Request depth and lens max_depth, and the production mutation each one catches.
+
+    no lens, depth 32: accepted. no lens, depth 33: bounds_exceeded.
+    max_depth omitted, depth 32: accepted. omitted, depth 33: bounds_exceeded.
+    max_depth 16, depth 16: accepted. max_depth 16, depth 17: bounds_exceeded.
+    max_depth 33, depth 33: bounds_exceeded, because a request still stops at 32.
+    max_depth 33 with the depth omitted: bounds_exceeded, because the default is the stored cap.
+    """
+
+    def test_depth_cap_follows_section_27_when_max_depth_is_omitted(self):
+        cases = (
+            (None, 32, None, 32),
+            (None, 33, "bounds_exceeded", 32),
+            ({}, 32, None, 32),
+            ({}, 33, "bounds_exceeded", 32),
+            ({"max_depth": 16}, 16, None, 16),
+            ({"max_depth": 16}, 17, "bounds_exceeded", 16),
+            ({"max_depth": 33}, 33, "bounds_exceeded", 33),
+        )
+        for lens, depth, error, cap in cases:
+            with self.subTest(lens=lens, depth=depth):
+                self.assertEqual(validator.depth_cap(lens), cap)
+                self.assertEqual(validator.bounds_error({"depth": depth}, lens), error)
+        self.assertEqual(validator.bounds_error({}, {"max_depth": 33}), "bounds_exceeded")
+        self.assertIsNone(validator.bounds_error({}, {"max_depth": 16}))
+        self.assertIsNone(validator.bounds_error({}, None))
+
+
 class SubjectCaseTest(unittest.TestCase):
     """subject_check fields and the production mutation each one catches.
 

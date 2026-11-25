@@ -170,6 +170,8 @@ here.
 | `infrastructure.relation.circuit_phase` | `resource.electrical_circuit` | `resource.phase` | `native_contract:phase_assignment_not_stated` |
 | `infrastructure.relation.feeder_circuit` | `resource.feeder` | `resource.electrical_circuit` | `configuration:no_feeder_or_circuit_declared_by_this_gate` |
 | `infrastructure.relation.grid_connection_feeder` | `resource.grid_connection` | `resource.feeder` | `configuration:no_feeder_or_circuit_declared_by_this_gate` |
+| `infrastructure.relation.load_meter` | `resource.meter` | `resource.load` | `configuration:no_load_declared_by_this_gate` |
+| `infrastructure.relation.site_load` | `resource.site` | `resource.load` | `configuration:no_load_declared_by_this_gate` |
 
 ## Subjects and measurement points
 
