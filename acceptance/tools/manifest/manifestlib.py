@@ -1145,14 +1145,17 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
         )
     if sorted(recomputed["stays"], key=stays_key) != sorted(manifest["stays"], key=stays_key):
         errors.append("stays")
-    recomputed_assertions = [
-        (item.get("package", ""), item["function"], item["name"], item["file"], item["helpers"])
-        for item in recomputed["assertions"]
-    ]
-    manifest_assertions = [
-        (item.get("package", ""), item["function"], item["name"], item.get("file", ""), item["helpers"])
-        for item in manifest["assertions"]
-    ]
+    def assertion_key(item: dict[str, Any]) -> tuple[Any, ...]:
+        # The destination identity of an assertion is part of its record: the
+        # destination entry that compare runs must agree with it.
+        return (
+            item.get("package", ""), item["function"], item["name"], item.get("file", ""),
+            item["helpers"], item.get("destination_repository"), item.get("destination_path"),
+            item.get("test"),
+        )
+
+    recomputed_assertions = [assertion_key(item) for item in recomputed["assertions"]]
+    manifest_assertions = [assertion_key(item) for item in manifest["assertions"]]
     if sorted(recomputed_assertions) != sorted(manifest_assertions):
         errors.append("assertions")
     if symbol_level and recomputed["symbols"] != manifest["symbols"]:

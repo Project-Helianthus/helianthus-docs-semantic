@@ -506,6 +506,14 @@ def _tests(
         dot_dirs = dots_of(text) if dots_of else []
 
         def reach(declaration: Declaration, window: tuple[int, int] | None) -> set[str]:
+            """Donor names the declaration uses in the window and in the statements that give its locals their values."""
+            found = reach_in(declaration, window)
+            if window is not None:
+                for origin in source.origins(declaration, window):
+                    found |= reach_in(declaration, origin)
+            return found
+
+        def reach_in(declaration: Declaration, window: tuple[int, int] | None) -> set[str]:
             """Donor names the declaration uses, qualified ones spelled ``directory.Name``."""
             reached: set[tuple[str, str]] = set()
             found = source.uses(
@@ -1067,8 +1075,16 @@ class GoFile:
             opener = self.open.get(index - 1, -1)
             named = self._word(opener - 1) if opener > low else ""
             if named and _is_name(named):
-                is_struct = named in struct_types
-                if self._word(self._past_pointers(opener - 1) - 1) == "]":
+                start = opener - 1
+                if opener - 3 >= low and self._word(opener - 2) == "." and _is_name(self._word(opener - 3)):
+                    # A generic type of another package, spelled ``alias.Name[...]``.
+                    start = opener - 3
+                    is_struct = (
+                        qualified_struct(self._word(start), named) if qualified_struct else True
+                    )
+                else:
+                    is_struct = named in struct_types
+                if self._word(self._past_pointers(start) - 1) == "]":
                     return "collection", is_struct
                 return ("struct" if is_struct else "other"), False
             return "other", False
@@ -1089,8 +1105,29 @@ class GoFile:
             return ("struct" if is_struct else "other"), False
         return "other", False
 
-    def _scope_end(self, stack: list[tuple[int, str, bool]], limit: int) -> int:
-        return self._end_of(stack[-1][0]) + 1 if stack else limit
+    def _scope_end(self, stack: list[tuple[int, str, bool]], limit: int, at: int | None = None) -> int:
+        """End of the scope a binding made at token ``at`` is visible in.
+
+        A binding in the body of a ``case`` or ``default`` clause ends with
+        that clause, not with the select or switch that holds it.
+        """
+        if not stack:
+            return limit
+        opener = stack[-1][0]
+        if at is not None:
+            depth = 0
+            clause = False
+            for cursor in range(opener + 1, at):
+                word = self.tokens[cursor][0]
+                if word in _OPENERS:
+                    depth += 1
+                elif word in _CLOSERS:
+                    depth -= 1
+                elif depth == 0 and word in ("case", "default"):
+                    clause = True
+            if clause:
+                return self._clause_end(at, limit, stack)
+        return self._end_of(opener) + 1
 
     def _header(self, index: int, limit: int) -> tuple[int, int]:
         """Body brace and first top-level semicolon of a header from ``index`` on.
@@ -1180,7 +1217,7 @@ class GoFile:
             while cursor < high and self._word(cursor) != ":":
                 cursor += 1
             return cursor, self._clause_end(cursor + 1, high, stack)
-        return self._statement_end(chain[-1], high), self._scope_end(stack, high)
+        return self._statement_end(chain[-1], high), self._scope_end(stack, high, index)
 
     def _local_declaration(
         self, index: int, limit: int, stack: list[tuple[int, str, bool]], skip: set[int], add,
@@ -1188,7 +1225,7 @@ class GoFile:
         struct_types: set[str] | None = None,
     ) -> None:
         kind = self._word(index)
-        end = self._scope_end(stack, limit)
+        end = self._scope_end(stack, limit, index)
         names: list[tuple[list[int], int]] = []
         if self._word(index + 1) == "(":
             closing = self._end_of(index + 1)
@@ -1361,6 +1398,68 @@ class GoFile:
             qualified.update((aliases[alias], name) for alias, name, at in quals if visible(alias, at))
         return {word for word, at in seen if visible(word, at)}
 
+    def _plain_assignment(self, index: int) -> bool:
+        """True when the ``=`` token at ``index`` is an assignment, not part of ``==``, ``<=`` and the like."""
+        start = self.tokens[index][1]
+        before = self.blanked[start - 1] if start > 0 else ""
+        after = self.blanked[start + 1] if start + 1 < len(self.blanked) else ""
+        return before not in "=!<>:+-*/%&|^" and after != "="
+
+    def origins(self, declaration: Declaration, window: tuple[int, int]) -> list[tuple[int, int]]:
+        """Source ranges of the statements that give the locals read in ``window`` their values.
+
+        A local that the window reads is followed to the nearest earlier
+        ``:=`` or ``=`` that assigns it, and the locals that statement reads
+        are followed the same way. An assertion that checks ``got`` after
+        ``got := Moved()`` therefore uses what that statement uses.
+        """
+        low, high = declaration.first, declaration.last
+        definitions: list[tuple[set[str], int, int]] = []
+        for index in range(low, high):
+            word = self.tokens[index][0]
+            if word != ":=" and not (word == "=" and self._plain_assignment(index)):
+                continue
+            chain: list[int] = []
+            at = index - 1
+            while at >= low and _is_name(self.tokens[at][0]):
+                chain.append(at)
+                if at - 1 >= low and self._word(at - 1) == ",":
+                    at -= 2
+                else:
+                    break
+            stop = self._statement_end(index + 1, high)
+            if chain and stop > index + 1:
+                definitions.append(({self.tokens[at][0] for at in chain}, index, stop))
+
+        def read(first: int, last: int) -> set[str]:
+            return {
+                self.tokens[at][0]
+                for at in range(first, last)
+                if _is_name(self.tokens[at][0]) and self._word(at - 1) != "."
+            }
+
+        pending = [
+            (name, window[0])
+            for name in read(
+                next((at for at in range(low, high) if self.tokens[at][1] >= window[0]), high),
+                next((at for at in range(low, high) if self.tokens[at][1] >= window[1]), high),
+            )
+        ]
+        windows: list[tuple[int, int]] = []
+        done: set[int] = set()
+        while pending:
+            name, limit = pending.pop()
+            earlier = [item for item in definitions if name in item[0] and self.tokens[item[1]][1] < limit]
+            if not earlier:
+                continue
+            names, equals, stop = max(earlier, key=lambda item: item[1])
+            if equals in done:
+                continue
+            done.add(equals)
+            windows.append((self.tokens[equals + 1][1], self.tokens[stop - 1][2]))
+            pending += [(item, self.tokens[equals][1]) for item in read(equals + 1, stop)]
+        return windows
+
     def _initializer_type(self, start: int, stop: int) -> str | None:
         """Type name of an initializer that is a struct literal ``T{...}`` or ``&T{...}``."""
         cursor = start
@@ -1458,7 +1557,7 @@ class GoFile:
                         kinds.append(kind)
                     start, stop = self._short_scope(index, chain, low, high, stack)
                     plain = self._word(chain[-1] - 1) not in ("if", "for", "switch", "case")
-                    scope_end = self._scope_end(stack, high)
+                    scope_end = self._scope_end(stack, high, index)
                     for at, kind in zip(ordered, kinds):
                         name = self.tokens[at][0]
                         # A name that is already bound in this very scope is
@@ -1492,13 +1591,59 @@ class GoFile:
                         kind = self._initializer_type(after + 1, stop) if len(chain) == 1 else None
                     else:
                         kind = self._type_name(after, stop)
-                    scope_end = self._scope_end(stack, high)
+                    scope_end = self._scope_end(stack, high, index)
                     for name_at in chain:
                         bind(self.tokens[name_at][0], stop, scope_end, kind)
             index += 1
         found: set[str] = set()
+
+        def record(kind: str, method: str) -> None:
+            key = f"{kind}.{method}"
+            if key in keys:
+                found.add(key)
+            elif qualified is not None:
+                if "." in kind:
+                    alias, _dot, type_name = kind.partition(".")
+                    directory = (aliases or {}).get(alias)
+                    if directory and f"{type_name}.{method}" in foreign_methods.get(directory, ()):
+                        qualified.add((directory, f"{type_name}.{method}"))
+                else:
+                    for directory in dots or ():
+                        if key in foreign_methods.get(directory, ()):
+                            qualified.add((directory, key))
+
         for index in range(low, high):
             word = self.tokens[index][0]
+            if word == "." and index > low and self._word(index - 1) == ")" and _is_name(self._word(index + 1)):
+                # The method expression ``(*T).Method`` or ``(*alias.T).Method``.
+                opener = self.open.get(index - 1, -1)
+                before = self._word(opener - 1) if opener > low else ""
+                if opener < low or (before and (_is_name(before) or before in _CLOSERS)):
+                    continue
+                inner = opener + 1
+                if self._word(inner) == "*":
+                    inner += 1
+                if not _is_name(self._word(inner)):
+                    continue
+                if inner + 1 == index - 1:
+                    spelled = self._word(inner)
+                    head = inner
+                elif (
+                    inner + 3 == index - 1
+                    and self._word(inner + 1) == "."
+                    and _is_name(self._word(inner + 2))
+                    and self._word(inner) in (aliases or {})
+                ):
+                    spelled = f"{self._word(inner)}.{self._word(inner + 2)}"
+                    head = inner
+                else:
+                    continue
+                if window is not None and not window[0] <= self.tokens[head][1] < window[1]:
+                    continue
+                if any(item[0] <= head < item[1] for item in bindings.get(self._word(head), ())):
+                    continue
+                record(spelled, self._word(index + 1))
+                continue
             if (
                 not _is_name(word)
                 or (index > low and self._word(index - 1) == ".")
@@ -1525,19 +1670,7 @@ class GoFile:
                 method = self._word(index + 4)
             else:
                 method = self._word(index + 2)
-            key = f"{kind}.{method}"
-            if key in keys:
-                found.add(key)
-            elif qualified is not None:
-                if "." in kind:
-                    alias, _dot, type_name = kind.partition(".")
-                    directory = (aliases or {}).get(alias)
-                    if directory and f"{type_name}.{method}" in foreign_methods.get(directory, ()):
-                        qualified.add((directory, f"{type_name}.{method}"))
-                else:
-                    for directory in dots or ():
-                        if key in foreign_methods.get(directory, ()):
-                            qualified.add((directory, key))
+            record(kind, method)
         return found
 
     def _split(self, start: int, stop: int) -> list[tuple[int, int]]:
@@ -1558,8 +1691,9 @@ class GoFile:
         return [part for part in parts if part[0] < part[1]]
 
 
-_IMPORT_SPEC_NAME = re.compile(r'(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?"([^"\n]+)"')
-_IMPORT_SINGLE = re.compile(r'\bimport\s+(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?"([^"\n]+)"')
+# An import path is an interpreted ("...") or a raw (`...`) string literal.
+_IMPORT_SPEC_NAME = re.compile(r'(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?(?:"([^"\n]+)"|`([^`\n]+)`)')
+_IMPORT_SINGLE = re.compile(r'\bimport\s+(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?(?:"([^"\n]+)"|`([^`\n]+)`)')
 _TOP_LEVEL = re.compile(r"^(?:func|type|var|const)\b")
 
 
@@ -1596,9 +1730,12 @@ def _import_bindings(
     declared = "\n".join(head)
     specs: list[tuple[str, str]] = []
     for group in _IMPORT_GROUP.finditer(declared):
-        specs += [(found.group(1) or "", found.group(2)) for found in _IMPORT_SPEC_NAME.finditer(group.group(1))]
+        specs += [
+            (found.group(1) or "", found.group(2) or found.group(3))
+            for found in _IMPORT_SPEC_NAME.finditer(group.group(1))
+        ]
     specs += [
-        (found.group(1) or "", found.group(2))
+        (found.group(1) or "", found.group(2) or found.group(3))
         for found in _IMPORT_SINGLE.finditer(_IMPORT_GROUP.sub(" ", declared))
     ]
     for local, path in specs:

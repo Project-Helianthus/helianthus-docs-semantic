@@ -4121,6 +4121,109 @@ class ManifestCLITest(unittest.TestCase):
         self.assertEqual(self.repo.manifest_path("absence-baseline").read_bytes(), before)
         self.assertEqual(edited_path.read_bytes(), planted_bytes)
 
+    IB = "closure/cross/ib"
+    IK = "closure/cross/ik"
+    CLAUSE = "closure/cross/clause"
+    PM = "closure/cross/pm"
+    GQ = "closure/cross/gq"
+    GR = "closure/cross/gr"
+    FLOW = "closure/cross/flow"
+
+    def test_a_raw_string_import_path_is_the_same_dependency(self) -> None:
+        for package, label in ((self.IB, "raw-single"), (self.IK, "raw-group")):
+            move = self.move_at(package, "Move")
+            bare = self.repo.generate(self.symbol_spec(f"imp-{label}-bare", [move]))
+            self.assert_fail(bare)
+            self.assertEqual(bare.stdout, f"outside-set: {self.IC}.Count\n", label)
+            self.assert_absent(f"imp-{label}-bare")
+            both = self.repo.generate(
+                self.symbol_spec(f"imp-{label}", [move, self.move_at(self.IC, "Count")])
+            )
+            self.assert_ok(both)
+            self.assertEqual(
+                {item["name"]: item["uses"] for item in self.repo.manifest(f"imp-{label}")["symbols"]},
+                {"Move": [f"{self.IC}.Count"], "Count": []},
+                label,
+            )
+            self.assert_ok(self.repo.check(f"imp-{label}"))
+
+    def test_a_binding_of_one_select_clause_does_not_hide_the_sibling_clause(self) -> None:
+        for name in ("Pick", "PickVar"):
+            bare = self.repo.generate(self.symbol_spec(f"clause-{name}", [self.move_at(self.CLAUSE, name)]))
+            self.assert_fail(bare)
+            self.assertEqual(bare.stdout, "outside-set: Key\n", name)
+            self.assert_absent(f"clause-{name}")
+            declared = self.repo.generate(self.symbol_spec(
+                f"clause-{name}-kept", [self.move_at(self.CLAUSE, name)],
+                stay_symbols=[self.at(self.CLAUSE, "Key")],
+            ))
+            self.assert_ok(declared)
+            self.assert_ok(self.repo.check(f"clause-{name}-kept"))
+
+    def test_a_pointer_receiver_method_expression_is_a_dependency(self) -> None:
+        move = self.move_at(self.PM, "Move")
+        keep = self.at(self.PM, "T")
+        open_method = self.repo.generate(self.symbol_spec("pm-open", [move], stay_symbols=[keep]))
+        self.assert_fail(open_method)
+        self.assertEqual(open_method.stdout, "outside-set: T.Method\n")
+        self.assert_absent("pm-open")
+        declared = self.repo.generate(
+            self.symbol_spec("pm-kept", [move], stay_symbols=[keep, self.at(self.PM, "T.Method")])
+        )
+        self.assert_ok(declared)
+        self.assert_ok(self.repo.check("pm-kept"))
+
+    def test_a_field_key_of_a_qualified_generic_literal_is_not_a_use(self) -> None:
+        move = self.move_at(self.GQ, "Move")
+        closed = self.repo.generate(
+            self.symbol_spec("gq-kept", [move], stay_symbols=[self.at(self.GR, "Record")])
+        )
+        self.assert_ok(closed)
+        self.assert_ok(self.repo.check("gq-kept"))
+
+    def test_an_assertion_of_a_value_assigned_from_a_moved_call_needs_a_destination(self) -> None:
+        move = self.move_at(self.FLOW, "Moved")
+        keep = [self.at(self.FLOW, "Host")]
+        bare = self.repo.generate(self.symbol_spec("flow-bare", [move], stay_symbols=keep))
+        self.assert_fail(
+            bare,
+            "unaccounted-assertion function=TestFlowAssigned assertion=assigned",
+            "unaccounted-assertion function=TestFlowDeclared assertion=declared",
+        )
+        self.assertNotIn("assertion=host", bare.stdout)
+        self.assertNotIn("TestFlowHost", bare.stdout)
+        self.assert_absent("flow-bare")
+        given = [
+            {
+                "function": function,
+                "name": name,
+                "destination_repository": "ebusgo",
+                "destination_path": "dest/echo_test.go",
+                "test": "TestEcho",
+            }
+            for function, name in (("TestFlowAssigned", "assigned"), ("TestFlowDeclared", "declared"))
+        ]
+        self.assert_ok(self.repo.generate(self.symbol_spec("flow-given", [move], stay_symbols=keep, assertions=given)))
+        manifest = self.repo.manifest("flow-given")
+        self.assertEqual(
+            sorted((item["function"], item["name"]) for item in manifest["assertions"]),
+            [("TestFlowAssigned", "assigned"), ("TestFlowDeclared", "declared")],
+        )
+        self.assert_ok(self.repo.check("flow-given"))
+
+    def test_check_refuses_a_destination_entry_that_disagrees_with_the_assertion_record(self) -> None:
+        spec = self.symbol_spec("agree-two", self.alpha_moves() + self.beta_moves(), assertions=self.clone_assertions())
+        self.assert_ok(self.repo.generate(spec))
+        self.assert_ok(self.repo.check("agree-two"))
+        original = json.loads(self.repo.manifest_path("agree-two").read_text(encoding="utf-8"))
+        path = self.repo.root / "acceptance" / "manifests" / "agree-two-mutated.json"
+        for change in ({"test": "TestOther"}, {"path": "dest/unlisted_test.go"}, {"repository": "other"}):
+            mutated = json.loads(json.dumps(original))
+            entry = next(item for item in mutated["destinations"] if item["kind"] == "assertion")
+            entry.update(change)
+            path.write_text(json.dumps(mutated), encoding="utf-8")
+            self.assert_fail(self.repo.check("agree-two", manifest=path), "assertions")
+
 
 class DeclaredSymbolUsesTest(unittest.TestCase):
     """Uses are counted for declared package-level names only."""
