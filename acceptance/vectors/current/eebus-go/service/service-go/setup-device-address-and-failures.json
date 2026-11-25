@@ -1,0 +1,101 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (Service.Setup, NewService)",
+  "source": "service/service.go",
+  "stimulus": "service/service_test.go Test_Setup, Test_Setup_IANA, Test_Setup_Error_DeviceName; service/listener_policy_test.go TestLegacySetupChecksMissingFactoryBeforeConfiguration",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "certificate": "generated per run by the pin's certificate helper; only its presence is an input",
+      "configurations": [
+        "vendor,brand,model,serial",
+        "12345,brand,model,serial",
+        "100-char vendor, brand, 100-char model, 102-char serial"
+      ],
+      "heartbeat_timeout_ns": 4000000000,
+      "port": 4729
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Setup/without-certificate",
+        "configuration": "vendor-not-numeric",
+        "error": {
+          "text": "missing certificate"
+        },
+        "factory_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "auto_accept": false,
+        "call": "Setup/with-certificate",
+        "configuration": "vendor-not-numeric",
+        "configuration_identifier": "brand-model-serial",
+        "error": null,
+        "factory_calls": 1,
+        "hub_published": true,
+        "lifecycle": "ready",
+        "local_service_device_type": "EnergyManagementSystem",
+        "local_service_ship_id": "brand-model-serial",
+        "local_service_ski_length": 40,
+        "spine_device_address": "d:_n:vendor_model-serial",
+        "spine_entity_count": 2
+      },
+      {
+        "call": "Setup/without-certificate",
+        "configuration": "vendor-numeric-iana",
+        "error": {
+          "text": "missing certificate"
+        },
+        "factory_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "auto_accept": false,
+        "call": "Setup/with-certificate",
+        "configuration": "vendor-numeric-iana",
+        "configuration_identifier": "brand-model-serial",
+        "error": null,
+        "factory_calls": 1,
+        "hub_published": true,
+        "lifecycle": "ready",
+        "local_service_device_type": "EnergyManagementSystem",
+        "local_service_ship_id": "brand-model-serial",
+        "local_service_ski_length": 40,
+        "spine_device_address": "d:_i:12345_model-serial",
+        "spine_entity_count": 2
+      },
+      {
+        "call": "Setup/without-certificate",
+        "configuration": "device-address-longer-than-256",
+        "error": {
+          "text": "missing certificate"
+        },
+        "factory_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/with-certificate",
+        "configuration": "device-address-longer-than-256",
+        "error": {
+          "text": "generated device address may not be longer than 256 characters: d:_n:1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890_modelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodelmodel-serialserialserialserialserialserialserialserialserialserialserialserialserialserialserialserialserial"
+        },
+        "factory_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/missing-factory",
+        "error": {
+          "text": "missing connections hub factory"
+        }
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

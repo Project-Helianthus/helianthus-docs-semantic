@@ -1,0 +1,168 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (normalizeRuntimeRemote, cloneRuntimeConfig, Start backend configuration)",
+  "source": "runtime.go",
+  "stimulus": "runtime_configuration_contract_test.go TestRuntimeConfigurationRemotesNormalizeRejectAndRemainDefensivelyCopied",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "base_config": {
+        "discovery_enabled": true,
+        "enabled": true,
+        "interface": "test-interface",
+        "listen_address": {
+          "address_bytes_hex": "00000000000000000000ffffc000020a",
+          "is_ipv4": true,
+          "is_ipv4_mapped_ipv6": false,
+          "is_multicast": false,
+          "is_unspecified": false,
+          "port": 4711,
+          "valid": true
+        },
+        "pairing_policy": "closed",
+        "remotes": [],
+        "remotes_nil": true,
+        "state_root": "absolute"
+      },
+      "invalid_remotes": [
+        "missing SKI",
+        "short SKI",
+        "non hexadecimal SKI",
+        "normalized duplicate"
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "New_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "reject",
+        "newRuntime_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "newRuntime_runtime_returned": false,
+        "remotes": "missing SKI"
+      },
+      {
+        "New_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "reject",
+        "newRuntime_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "newRuntime_runtime_returned": false,
+        "remotes": "short SKI"
+      },
+      {
+        "New_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "reject",
+        "newRuntime_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "newRuntime_runtime_returned": false,
+        "remotes": "non hexadecimal SKI"
+      },
+      {
+        "New_error": {
+          "text": "runtime remote 1 duplicates remote SKI"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "call": "reject",
+        "newRuntime_error": {
+          "text": "runtime remote 1 duplicates remote SKI"
+        },
+        "newRuntime_runtime_returned": false,
+        "remotes": "normalized duplicate"
+      },
+      {
+        "Shutdown_error": null,
+        "acquisitions_after_construction": 0,
+        "call": "normalize-and-copy",
+        "first_Start_error_is_fixture_failure": true,
+        "first_backend_config": {
+          "discovery_enabled": true,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "input_remotes": [
+          " AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ",
+          "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+        ],
+        "second_Start_error": null,
+        "second_backend_config": {
+          "discovery_enabled": true,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        }
+      },
+      {
+        "Shutdown_error": null,
+        "Start_error": null,
+        "backend_discovery_enabled": false,
+        "backend_remote_count": 0,
+        "call": "empty-remotes",
+        "discovery_enabled": false,
+        "newRuntime_error": null
+      },
+      {
+        "Shutdown_error": null,
+        "Start_error": null,
+        "backend_discovery_enabled": true,
+        "backend_remote_count": 0,
+        "call": "empty-remotes",
+        "discovery_enabled": true,
+        "newRuntime_error": null
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

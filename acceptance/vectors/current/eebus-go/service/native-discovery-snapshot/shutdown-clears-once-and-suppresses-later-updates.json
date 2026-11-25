@@ -1,0 +1,112 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (VisiblePairingCandidateDiscoverySnapshotUpdated, emitTerminalPairingCandidateVisibility)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/native_discovery_snapshot_test.go TestNativeDiscoverySnapshotShutdownClearsOnceAndSuppressesLaterUpdates",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sequence": [
+        "snapshot revision 7",
+        "Shutdown",
+        "snapshot revision 8",
+        "Shutdown"
+      ],
+      "snapshot_7": {
+        "candidates": [
+          {
+            "addresses_hex": [],
+            "addresses_nil": true,
+            "brand": "",
+            "candidate_ref": "candidate-before-shutdown",
+            "host": "",
+            "identifier": "",
+            "model": "",
+            "name": "",
+            "path": "",
+            "port": 0,
+            "register": false,
+            "scoped_addresses": [],
+            "scoped_addresses_nil": true,
+            "ski": "ski-before-shutdown",
+            "type": "",
+            "unscoped_link_local_observed": false
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": true,
+        "observation_revision": 7
+      },
+      "snapshot_8": {
+        "candidates": [
+          {
+            "addresses_hex": [],
+            "addresses_nil": true,
+            "brand": "",
+            "candidate_ref": "candidate-after-shutdown",
+            "host": "",
+            "identifier": "",
+            "model": "",
+            "name": "",
+            "path": "",
+            "port": 0,
+            "register": false,
+            "scoped_addresses": [],
+            "scoped_addresses_nil": true,
+            "ski": "ski-after-shutdown",
+            "type": "",
+            "unscoped_link_local_observed": false
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": false,
+        "observation_revision": 8
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "lifecycle": "stopped"
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "candidates": [
+          {
+            "addresses_hex": [],
+            "addresses_nil": true,
+            "brand": "",
+            "candidate_ref": "candidate-before-shutdown",
+            "host": "",
+            "identifier": "",
+            "model": "",
+            "name": "",
+            "path": "",
+            "port": 0,
+            "register": false,
+            "scoped_addresses": [],
+            "scoped_addresses_nil": true,
+            "ski": "ski-before-shutdown",
+            "type": "",
+            "unscoped_link_local_observed": false
+          }
+        ],
+        "candidates_nil": false,
+        "new_entries": true,
+        "observation_revision": 7
+      },
+      {
+        "candidates": [],
+        "candidates_nil": false,
+        "new_entries": false,
+        "observation_revision": 7
+      }
+    ],
+    "counters": {}
+  }
+}

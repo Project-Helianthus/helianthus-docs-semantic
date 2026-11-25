@@ -1,0 +1,82 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (Service.SetPairingRegistration, Service.AllowWaitingForTrust, Setup registration)",
+  "source": "service/service.go",
+  "stimulus": "service/service_test.go Test_DefaultPairingRegistrationExposesPendingWithoutAutomaticTrust, Test_ManualPairingAvailabilityBeforeSetupIsApplied, Test_ManualPairingAvailabilityAdvertisesWithoutAutoAccept, Test_ManualPairingRegistrationErrorIsReturned, Test_SetupRejectsHubWithoutPairingRegistration, Test_ManualPairingChangeDuringSetupIsNotLost",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "configuration": "vendor,brand,model,serial",
+      "port": 4729
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "allow_waiting_for_trust": true,
+        "auto_accept": false,
+        "call": "Setup/default-registration",
+        "error": null,
+        "hub_values": [
+          true
+        ]
+      },
+      {
+        "call": "SetPairingRegistration-before-Setup/true",
+        "hub_values": [
+          true
+        ],
+        "registration_error": null,
+        "setup_error": null
+      },
+      {
+        "auto_accept": false,
+        "call": "SetPairingRegistration/advertises-without-auto-accept",
+        "errors": [
+          null,
+          null
+        ],
+        "hub_values": [
+          true,
+          false
+        ],
+        "hub_values_after_first": [
+          true
+        ]
+      },
+      {
+        "call": "SetPairingRegistration/hub-error",
+        "error": {
+          "text": "announce failed"
+        },
+        "error_is_hub_error": true,
+        "hub_values": [
+          true
+        ]
+      },
+      {
+        "call": "Setup/hub-without-registration-capability",
+        "error": {
+          "text": "connections hub does not support pairing registration"
+        },
+        "hub_published": false,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "SetPairingRegistration/change-during-Setup",
+        "hub_values": [
+          true,
+          false
+        ],
+        "setup_error": null,
+        "update_error": null
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (NewServiceWithOutgoingAttemptBridge, NewServiceWithOptions, Setup bridge checks)",
+  "source": "service/service.go",
+  "stimulus": "service/outgoing_attempt_bridge_test.go TestOutgoingAttemptBridgeSetupRejectsNilAndTypedNilDependencies, TestOutgoingAttemptBridgeSetupRejectsUninstallableHubsTransactionally, TestOutgoingAttemptBridgeSetupInstallsExactGateBeforePublication, TestOutgoingAttemptBridgeDefaultFactoryPublishesProductionHub, TestOutgoingAttemptBridgeSetupFailureDoesNotPublishLocalCandidates",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "configuration": "vendor,brand,model,serial",
+      "oversized": "model x50, serial x20"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Setup/bridge-dependencies",
+        "dependencies": "nil gate",
+        "error": {
+          "text": "missing outgoing attempt gate"
+        },
+        "factory_calls": 0,
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/bridge-dependencies",
+        "dependencies": "typed nil gate",
+        "error": {
+          "text": "missing outgoing attempt gate"
+        },
+        "factory_calls": 0,
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/bridge-dependencies",
+        "dependencies": "nil sink",
+        "error": {
+          "text": "missing outgoing attempt sink"
+        },
+        "factory_calls": 0,
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/bridge-dependencies",
+        "dependencies": "typed nil sink",
+        "error": {
+          "text": "missing outgoing attempt sink"
+        },
+        "factory_calls": 0,
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized"
+      },
+      {
+        "call": "Setup/bridge-hub",
+        "error": {
+          "text": "connections hub factory returned nil"
+        },
+        "factory_calls": 1,
+        "hub": "nil hub",
+        "hub_published": false,
+        "lifecycle": "uninitialized",
+        "local_device_published": false,
+        "local_service_published": false
+      },
+      {
+        "call": "Setup/bridge-hub",
+        "error": {
+          "text": "connections hub factory returned nil"
+        },
+        "factory_calls": 1,
+        "hub": "typed nil hub",
+        "hub_published": false,
+        "lifecycle": "uninitialized",
+        "local_device_published": false,
+        "local_service_published": false
+      },
+      {
+        "call": "Setup/bridge-hub",
+        "error": {
+          "text": "connections hub does not support outgoing attempt gate installation"
+        },
+        "factory_calls": 1,
+        "hub": "missing gate setter",
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized",
+        "local_device_published": false,
+        "local_service_published": false
+      },
+      {
+        "call": "Setup/bridge-hub",
+        "error": {
+          "text": "install outgoing attempt gate: gate installation failed"
+        },
+        "factory_calls": 1,
+        "hub": "gate setter failure",
+        "hub_published": false,
+        "hub_shutdown_calls": 0,
+        "hub_start_calls": 0,
+        "lifecycle": "uninitialized",
+        "local_device_published": false,
+        "local_service_published": false
+      },
+      {
+        "call": "Setup/installs-exact-gate-before-publication",
+        "error": null,
+        "gate_installs": 1,
+        "gate_is_configured_gate": true,
+        "hub_published": true,
+        "hub_reader_is_service": true,
+        "hub_start_calls": 0,
+        "published_when_gate_installed": false
+      },
+      {
+        "call": "Setup/bridge-default-factory",
+        "error": null,
+        "hub_type": "*hub.Hub",
+        "lifecycle": "ready"
+      },
+      {
+        "call": "Setup/bridge-oversized-device-address",
+        "error_prefix": "generated device address may not be longer than 256 characters",
+        "factory_calls": 0,
+        "hub_published": false,
+        "local_device_published": false,
+        "local_service_published": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

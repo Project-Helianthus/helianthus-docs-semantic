@@ -281,6 +281,64 @@ model, firmware and hardware identifier of a radio device or the hardware identi
 index entry of each has `digest_only` and the sha256 of the pin's output, and `check.py --replay current` rebuilds the file from
 the pin and compares its digest.
 
+## eeBUS service, API and consumer case files
+
+The case files of `current/eebus-go/service/`, `current/eebus-go/api/`, `current/eebusreg/eebusreg/`,
+`current/eebusreg/eebusfacade/` and `current/eebusreg/eebusservicebridge/` have the format `helianthus-oracle-qv06-case/1`, with the
+members of the Modbus case format: `component` (the donor file under test and the functions it holds), `source` (the donor
+file), `stimulus` (the pin's test or tests that supply the input), `input` (`bytes`, `qualifiers`, `clock`, `state`) and `output`
+(`symbols_written`, `decisions`, `cache`, `observations`, `counters`). Each step of a sequence is one record of
+`output.decisions` or `output.observations` with the call, the error text or the error identity the call returned, and what
+the code left published or forwarded. The recorders are the harness-only `zz_oracle_*_test.go` files under
+`recorders/go/eebus-go-service/`, `recorders/go/eebus-go-api/` and `recorders/go/eebusreg/{root,facade,bridge}/`; `record.sh`
+copies each into the package directory of a scratch unpack of its pin and runs `TestOracleEEBusGoService`,
+`TestOracleAPIConfiguration`, `TestOracleEEBusRoot`, `TestOracleFacade` and `TestOracleServiceBridge` there. They use the helper
+types and fixtures of the pin's own test files, which compile in the same package, and edit none of the pin's files. A step
+that depends on a certificate generated at run time, a port chosen by the host or a temporary directory records only the
+facts that do not (a boolean, a length, an error identity, an error text with the directory replaced by `<sandbox>`); an
+address is written as bytes and a port, never as a dotted quad.
+
+The files are named after the donor file they record, under a group directory with the suffix `-go`:
+
+| Pin | Donor file | Group | Stimulus |
+| --- | --- | --- | --- |
+| `eebus-go` | `service/service.go` | `service/service-go/` | `service_test.go`, `outgoing_attempt_bridge_test.go`, `listener_policy_test.go`, `pairing_candidate_red_test.go`, `trusted_remote_retry_red_test.go` |
+| `eebus-go` | `service/service_hub.go` | `service/service-hub-go/` | `service_test.go`, `outgoing_attempt_bridge_test.go`, `pairing_candidate_visibility_red_test.go`, `pairing_candidate_visibility_dispatch_test.go` |
+| `eebus-go` | `service/native_discovery_snapshot_test.go` | `service/native-discovery-snapshot/` | the four tests of that file, driven through `service_hub.go` |
+| `eebus-go` | `api/configuration.go` | `api/configuration-go/` | `configuration_test.go` |
+| `eebusreg` | `runtime.go` | `eebusreg/runtime-go/` | `runtime_contract_test.go`, `runtime_configuration_contract_test.go`, `runtime_lifecycle_test.go` |
+| `eebusreg` | `output_binding.go` | `eebusreg/output-binding-go/` | `output_binding_test.go` |
+| `eebusreg` | `internal/eebusfacade/facade.go` | `eebusfacade/facade-go/` | `facade_test.go` |
+| `eebusreg` | `internal/eebusfacade/runtime_snapshot_marshal.go` | `eebusfacade/runtime-snapshot-marshal-go/` | `runtime_snapshot_marshal_test.go` |
+| `eebusreg` | `internal/eebusfacade/runtime_observation_reducer.go` | `eebusfacade/runtime-observation-reducer-go/` | `runtime_observation_reducer_test.go` |
+| `eebusreg` | `internal/eebusfacade/output_node.go` | `eebusfacade/output-node-go/` | `output_node_test.go` |
+| `eebusreg` | `internal/eebusservicebridge/service.go` | `eebusservicebridge/service-go/` | `service_test.go`, `issue58_predial_gate_red_test.go` |
+
+The `eebusreg` pin builds against the module version `v0.7.1-helianthus.21` of the eebus-go module, and that version has the
+same `service/` and `api/` trees as the eebus-go pin, so the service bridge and the output node run the pinned eebus-go service
+code. `service/service.go` also holds two tests that bind a loopback port (the listener policy cases): their records hold the
+outcome (started, reachable, rebindable after shutdown, the address-in-use identity of a held port) and never the port.
+
+Evidence gaps.
+
+- `session/` and `discovery/` do not exist at the eebus-go pin: its tree has `api/`, `service/` and the packages of the
+  eebus-go library, so there is no session or discovery vector and none is invented. The four sessions of
+  `current/sessions/eebus/` stay the whole-session evidence.
+- The tests of the `api/` package at the pin are one file, `configuration_test.go`. `api/api.go`, `features.go`,
+  `featuresclient.go`, `featuresserver.go` and `usecases.go` declare interfaces and a few plain types, `errors.go` declares
+  error values and `types.go` declares one string type; no test of the package drives any of them and no other test of the
+  pin names them as an input, so they have no record. The interface method sets that `service/` implements are exercised only
+  through the service records.
+- The facade holds many more source files than the four that have a record. The files with a record are the ones whose pin tests
+  need only the pin's own fixtures and no filesystem capability, certificate store, operator-admin session or SHIP/SPINE
+  connection: `facade.go`, `runtime_snapshot_marshal.go`, `runtime_observation_reducer.go` and `output_node.go`. The remaining
+  files (the first-trust, raw feature, raw mutation, remote subscription, operator admin, protected identity and runtime SHIP
+  handler files) have tests in the pin that do run offline, and no record in this set; they are listed in the report as the
+  facade files that still have no vector, and none is invented for them.
+- Some facade tests of the pin (the `TestMSP05P*` protected-identity tests and `TestAcquireRuntime*`) read a filesystem
+  capability of the host and fail with `filesystem_capability_unavailable` when the scratch directory lacks ACL inspection; their
+  outcome depends on the host, so no record depends on them.
+
 ## Whole sessions
 
 `replay_session.py --reference current --session <session.json> --output <output.json>` starts the frozen old production

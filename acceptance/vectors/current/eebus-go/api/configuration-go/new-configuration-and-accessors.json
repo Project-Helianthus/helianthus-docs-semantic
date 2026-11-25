@@ -1,0 +1,240 @@
+{
+  "component": "api/configuration.go (NewConfiguration and the Configuration accessors and setters)",
+  "format": "helianthus-oracle-qv06-case/1",
+  "input": {
+    "bytes": "",
+    "clock": {},
+    "qualifiers": {
+      "certificate": "generated per run by the pin's certificate helper; only the length of its chain is an output",
+      "heartbeat_timeout_ns": 4000000000,
+      "port": 4567
+    },
+    "state": {}
+  },
+  "output": {
+    "cache": {},
+    "counters": {},
+    "decisions": [
+      {
+        "case": "empty vendor and zero port",
+        "configuration_returned": false,
+        "error": {
+          "text": "vendorCode is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 0,
+          "serial": "serial",
+          "vendor_code": ""
+        }
+      },
+      {
+        "case": "empty vendor",
+        "configuration_returned": false,
+        "error": {
+          "text": "vendorCode is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": ""
+        }
+      },
+      {
+        "case": "empty brand",
+        "configuration_returned": false,
+        "error": {
+          "text": "brand is required"
+        },
+        "input": {
+          "brand": "",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": "vendor"
+        }
+      },
+      {
+        "case": "empty model",
+        "configuration_returned": false,
+        "error": {
+          "text": "model is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": "vendor"
+        }
+      },
+      {
+        "case": "empty serial",
+        "configuration_returned": false,
+        "error": {
+          "text": "serialNumber is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 4567,
+          "serial": "",
+          "vendor_code": "vendor"
+        }
+      },
+      {
+        "case": "empty device type",
+        "configuration_returned": false,
+        "error": {
+          "text": "deviceType is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": "vendor"
+        }
+      },
+      {
+        "case": "empty entity types",
+        "configuration_returned": false,
+        "error": {
+          "text": "entityTypes is required"
+        },
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 0,
+          "model": "model",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": "vendor"
+        }
+      },
+      {
+        "case": "all required fields",
+        "configuration_returned": true,
+        "error": null,
+        "input": {
+          "brand": "brand",
+          "device_type": "EnergyManagementSystem",
+          "entity_type_count": 1,
+          "model": "model",
+          "port": 4567,
+          "serial": "serial",
+          "vendor_code": "vendor"
+        }
+      }
+    ],
+    "observations": [
+      {
+        "call": "MdnsProviderSelection/default",
+        "result": "0"
+      },
+      {
+        "call": "MdnsProviderSelection/after-SetMdnsProviderSelection(AvahiOnly)",
+        "result": "1"
+      },
+      {
+        "call": "Interfaces/default-is-nil",
+        "result": true
+      },
+      {
+        "call": "Interfaces/after-SetInterfaces(lo,eth0)",
+        "result": [
+          "lo",
+          "eth0"
+        ]
+      },
+      {
+        "call": "generateIdentifier",
+        "result": "brand-model-serial"
+      },
+      {
+        "call": "Identifier/default",
+        "result": "brand-model-serial"
+      },
+      {
+        "call": "MdnsServiceName/default",
+        "result": "brand-model-serial"
+      },
+      {
+        "call": "Identifier/after-SetAlternateIdentifier(alternate)",
+        "result": "alternate"
+      },
+      {
+        "call": "MdnsServiceName/after-SetAlternateIdentifier-only",
+        "result": "brand-model-serial"
+      },
+      {
+        "call": "MdnsServiceName/after-SetAlternateMdnsServiceName(alternate)",
+        "result": "alternate"
+      },
+      {
+        "call": "Port",
+        "result": 4567
+      },
+      {
+        "call": "HeartbeatTimeout_ns",
+        "result": 4000000000
+      },
+      {
+        "call": "VendorCode",
+        "result": "vendor"
+      },
+      {
+        "call": "DeviceBrand",
+        "result": "brand"
+      },
+      {
+        "call": "DeviceModel",
+        "result": "model"
+      },
+      {
+        "call": "DeviceSerialNumber",
+        "result": "serial"
+      },
+      {
+        "call": "DeviceType",
+        "result": "EnergyManagementSystem"
+      },
+      {
+        "call": "EntityTypes",
+        "result": [
+          "CEM"
+        ]
+      },
+      {
+        "call": "FeatureSet",
+        "result": "smart"
+      },
+      {
+        "call": "Certificate/chain-length-before-SetCertificate",
+        "result": 1
+      },
+      {
+        "call": "Certificate/chain-length-after-SetCertificate(empty)",
+        "result": 0
+      }
+    ],
+    "symbols_written": []
+  },
+  "source": "api/configuration.go",
+  "stimulus": "api/configuration_test.go ConfigurationSuite.Test_Configuration"
+}

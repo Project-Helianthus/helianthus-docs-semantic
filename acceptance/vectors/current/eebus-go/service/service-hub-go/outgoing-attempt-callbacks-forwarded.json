@@ -1,0 +1,91 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (OutgoingAttemptConnectionClosed, OutgoingAttemptHandshakeStateUpdate)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/outgoing_attempt_bridge_test.go TestOutgoingAttemptBridgeProductionHubReaderRouteForwardsExactCallbacks",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "calls": [
+        {
+          "call": "OutgoingAttemptConnectionClosed",
+          "complete": false,
+          "metadata": {
+            "attempt_id": "attempt-73\u0000opaque",
+            "control_epoch": "18446744073709551574",
+            "scope": "remote-scope/value"
+          },
+          "remote_ski": "remote-ski\u0000exact"
+        },
+        {
+          "call": "OutgoingAttemptConnectionClosed",
+          "complete": true,
+          "metadata": {
+            "attempt_id": "attempt-74/distinct",
+            "control_epoch": "0",
+            "scope": "second-scope\u0000opaque"
+          },
+          "remote_ski": "second-remote-ski"
+        },
+        {
+          "call": "OutgoingAttemptHandshakeStateUpdate",
+          "metadata": {
+            "attempt_id": "attempt-73\u0000opaque",
+            "control_epoch": "18446744073709551574",
+            "scope": "remote-scope/value"
+          },
+          "remote_ski": "remote-ski\u0000exact",
+          "state": "SmeStateError"
+        }
+      ]
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "legacy-handler-notified",
+        "connected": 0,
+        "disconnected": 0,
+        "pairing": 0
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "call": "OutgoingAttemptConnectionClosed",
+        "complete": false,
+        "metadata": {
+          "attempt_id": "attempt-73\u0000opaque",
+          "control_epoch": "18446744073709551574",
+          "scope": "remote-scope/value"
+        },
+        "remote_ski": "remote-ski\u0000exact"
+      },
+      {
+        "call": "OutgoingAttemptConnectionClosed",
+        "complete": true,
+        "metadata": {
+          "attempt_id": "attempt-74/distinct",
+          "control_epoch": "0",
+          "scope": "second-scope\u0000opaque"
+        },
+        "remote_ski": "second-remote-ski"
+      },
+      {
+        "call": "OutgoingAttemptHandshakeStateUpdate",
+        "metadata": {
+          "attempt_id": "attempt-73\u0000opaque",
+          "control_epoch": "18446744073709551574",
+          "scope": "remote-scope/value"
+        },
+        "remote_ski": "remote-ski\u0000exact",
+        "state": "39",
+        "state_value": 39
+      }
+    ],
+    "counters": {}
+  }
+}

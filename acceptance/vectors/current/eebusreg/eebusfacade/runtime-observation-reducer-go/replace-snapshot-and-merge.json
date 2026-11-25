@@ -1,0 +1,488 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "internal/eebusfacade/runtime_observation_reducer.go (newRuntimeObservationReducer, Replace, Snapshot, mergeRuntimeDeviceCollections, exactRuntimeDeviceCollection)",
+  "source": "internal/eebusfacade/runtime_observation_reducer.go",
+  "stimulus": "internal/eebusfacade/runtime_observation_reducer_test.go TestRuntimeObservationReducerNormalizesObservation, TestRuntimeObservationReducerRejectsInvalidObservations, TestRuntimeObservationReducerPinsRuntimeAndLocalIdentity, TestRuntimeObservationReducerSnapshotIsDetached, TestRuntimeObservationReducerMergesDeviceCollections",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "local_ski": "1111111111111111111111111111111111111111",
+      "remote_digits": [
+        "a",
+        "b"
+      ]
+    },
+    "clock": {
+      "since_utc": "2001-02-03T04:05:06Z"
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "Replace+Snapshot/normalizes-observation",
+        "error": null,
+        "snapshot": [
+          {
+            "RuntimeID": "runtime:1111111111111111111111111111111111111111",
+            "LocalSKI": "1111111111111111111111111111111111111111",
+            "RemoteSKI": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "SessionID": "session:a:1",
+            "SessionState": "connected",
+            "PairingState": "paired",
+            "Visible": false,
+            "Paired": false,
+            "Since": "2001-02-03T04:05:06Z",
+            "ServiceIDs": [
+              "service:a",
+              "service:b"
+            ],
+            "Devices": [
+              {
+                "ID": "device:a",
+                "SKI": "ski",
+                "SHIPID": "ship",
+                "Address": "d1",
+                "Type": "HeatPump",
+                "Description": null,
+                "Metadata": {
+                  "label": "L"
+                },
+                "Opaque": null,
+                "Entities": [
+                  {
+                    "ID": "entity:a",
+                    "DeviceAddress": "d1",
+                    "EntityAddress": "[1]",
+                    "ParentEntityAddress": "",
+                    "Type": "Appliance",
+                    "Description": null,
+                    "Features": []
+                  },
+                  {
+                    "ID": "entity:b",
+                    "DeviceAddress": "",
+                    "EntityAddress": "",
+                    "ParentEntityAddress": "",
+                    "Type": "",
+                    "Description": null,
+                    "Features": [
+                      {
+                        "ID": "feature:a",
+                        "DeviceAddress": "",
+                        "EntityAddress": "",
+                        "FeatureAddress": "",
+                        "Type": "",
+                        "Role": "client",
+                        "Description": null
+                      },
+                      {
+                        "ID": "feature:b",
+                        "DeviceAddress": "",
+                        "EntityAddress": "",
+                        "FeatureAddress": "",
+                        "Type": "",
+                        "Role": "server",
+                        "Description": null
+                      }
+                    ]
+                  }
+                ],
+                "UseCaseIDs": [
+                  "usecase:a",
+                  "usecase:b"
+                ],
+                "UseCases": [
+                  {
+                    "ID": "usecase:a",
+                    "ContextAddress": "c",
+                    "DeviceAddress": "",
+                    "EntityAddress": "",
+                    "FeatureAddress": "",
+                    "Name": "A",
+                    "Actor": "actor",
+                    "ResolvedRole": null,
+                    "Scenarios": null,
+                    "Version": null,
+                    "Availability": null,
+                    "DocumentSubrevision": null
+                  },
+                  {
+                    "ID": "usecase:b",
+                    "ContextAddress": "",
+                    "DeviceAddress": "",
+                    "EntityAddress": "",
+                    "FeatureAddress": "",
+                    "Name": "B",
+                    "Actor": "",
+                    "ResolvedRole": null,
+                    "Scenarios": [
+                      "1",
+                      "2"
+                    ],
+                    "Version": null,
+                    "Availability": null,
+                    "DocumentSubrevision": null
+                  }
+                ],
+                "Absences": null
+              },
+              {
+                "ID": "device:b",
+                "SKI": "",
+                "SHIPID": "",
+                "Address": "d2",
+                "Type": "Generic",
+                "Description": null,
+                "Metadata": null,
+                "Opaque": null,
+                "Entities": [],
+                "UseCaseIDs": null,
+                "UseCases": [],
+                "Absences": null
+              }
+            ],
+            "ShipID": "ship-a",
+            "ServiceName": "Name",
+            "ServiceIdentifier": "id",
+            "ServiceBrand": "Brand",
+            "ServiceType": "Type",
+            "ServiceModel": "Model",
+            "SessionIndex": 0,
+            "TrustDegradation": "denied-trust"
+          }
+        ]
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime graph identities are required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "runtime id",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime graph identities are required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "local ski",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime graph identities are required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "remote ski",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime graph SKIs must contain 40 hexadecimal characters"
+        },
+        "last_known_good_retained": true,
+        "mutation": "local ski format",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime graph SKIs must contain 40 hexadecimal characters"
+        },
+        "last_known_good_retained": true,
+        "mutation": "remote ski format",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime session state is unsupported"
+        },
+        "last_known_good_retained": true,
+        "mutation": "session state",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime session identity and state must be observed together"
+        },
+        "last_known_good_retained": true,
+        "mutation": "session without id",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime session identity and state must be observed together"
+        },
+        "last_known_good_retained": true,
+        "mutation": "id without session",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime pairing state is unsupported"
+        },
+        "last_known_good_retained": true,
+        "mutation": "pairing state",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime trust degradation is unsupported"
+        },
+        "last_known_good_retained": true,
+        "mutation": "trust degradation",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime observation timestamp is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "zero since",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime service identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "blank service id",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime device identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "device id",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime use case identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "blank use case id",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime use-case identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "use case identity",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime entity identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "entity identity",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime opaque observation is not JSON"
+        },
+        "last_known_good_retained": true,
+        "mutation": "opaque value",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime feature identity is required"
+        },
+        "last_known_good_retained": true,
+        "mutation": "feature identity",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/rejects-invalid-observation",
+        "error": {
+          "text": "runtime feature identity has conflicting roles"
+        },
+        "last_known_good_retained": true,
+        "mutation": "conflicting feature roles",
+        "seed_error": null,
+        "snapshot_size": 1
+      },
+      {
+        "call": "Replace/pins-runtime-and-local-identity",
+        "changed_local_error": {
+          "text": "runtime observation changed the persisted local identity"
+        },
+        "changed_runtime_error": {
+          "text": "runtime observation changed the stable runtime identity"
+        },
+        "same_identities_error": null,
+        "seed_error": null,
+        "snapshot_remote_order": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ]
+      },
+      {
+        "call": "Snapshot/is-detached",
+        "description": "D",
+        "entity_description": "E",
+        "feature_description": "F",
+        "metadata_label": "L",
+        "opaque_value": "v",
+        "replace_error": null,
+        "scenario": "1",
+        "service_id": "service:a",
+        "use_case_id": "usecase:a",
+        "use_case_version": "1"
+      },
+      {
+        "call": "mergeRuntimeDeviceCollections",
+        "exact_device_count": 2,
+        "exact_error": null,
+        "exact_first_device_opaque_count": 4,
+        "merge_error": null,
+        "merged": [
+          {
+            "ID": "device:a",
+            "SKI": "",
+            "SHIPID": "",
+            "Address": "",
+            "Type": "New",
+            "Description": null,
+            "Metadata": {
+              "left": "1",
+              "shared": "right"
+            },
+            "Opaque": [
+              {
+                "path": "/p",
+                "source": "s",
+                "value": "v"
+              },
+              {
+                "path": "/p",
+                "source": "s",
+                "value": "w"
+              },
+              {
+                "path": "/p",
+                "source": "t",
+                "value": "v"
+              },
+              {
+                "path": "/q",
+                "source": "s",
+                "value": "v"
+              }
+            ],
+            "Entities": [
+              {
+                "ID": "entity:a",
+                "DeviceAddress": "",
+                "EntityAddress": "",
+                "ParentEntityAddress": "",
+                "Type": "New",
+                "Description": null,
+                "Features": [
+                  {
+                    "ID": "feature:a",
+                    "DeviceAddress": "",
+                    "EntityAddress": "",
+                    "FeatureAddress": "",
+                    "Type": "Measurement",
+                    "Role": "server",
+                    "Description": null
+                  }
+                ]
+              }
+            ],
+            "UseCaseIDs": [
+              "usecase:a",
+              "usecase:b"
+            ],
+            "UseCases": [
+              {
+                "ID": "usecase:a",
+                "ContextAddress": "",
+                "DeviceAddress": "",
+                "EntityAddress": "",
+                "FeatureAddress": "",
+                "Name": "A",
+                "Actor": "",
+                "ResolvedRole": null,
+                "Scenarios": [
+                  "1",
+                  "2"
+                ],
+                "Version": null,
+                "Availability": null,
+                "DocumentSubrevision": null
+              }
+            ],
+            "Absences": null
+          },
+          {
+            "ID": "device:b",
+            "SKI": "",
+            "SHIPID": "",
+            "Address": "",
+            "Type": "",
+            "Description": null,
+            "Metadata": null,
+            "Opaque": null,
+            "Entities": [],
+            "UseCaseIDs": [],
+            "UseCases": [],
+            "Absences": null
+          }
+        ],
+        "merged_opaque_order": [
+          "/p|s|\"v\"",
+          "/p|s|\"w\"",
+          "/p|t|\"v\"",
+          "/q|s|\"v\""
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

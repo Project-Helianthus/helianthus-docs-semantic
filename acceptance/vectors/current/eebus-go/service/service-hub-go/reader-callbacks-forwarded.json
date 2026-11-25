@@ -1,0 +1,68 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service_hub.go (RemoteSKIConnected, RemoteSKIDisconnected, SetupRemoteDevice, VisibleRemoteServicesUpdated, ServiceShipIDUpdate, ServicePairingDetailUpdate, AllowWaitingForTrust)",
+  "source": "service/service_hub.go",
+  "stimulus": "service/service_test.go Test_EEBUSHandler, Test_ConnectionsHub (SetupRemoteDevice)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "pairing_possible_after": false,
+      "pairing_possible_before": true,
+      "pairing_state": "ConnectionStateReceivedPairingRequest",
+      "ship_id": "shipid",
+      "ski": "test"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "SetupRemoteDevice",
+        "local_device_expectations_met": true,
+        "returned_reader_is_nil": true
+      },
+      {
+        "call": "AllowWaitingForTrust/pairing-possible",
+        "result": true
+      },
+      {
+        "call": "AllowWaitingForTrust/pairing-closed",
+        "result": false
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "call": "VisibleRemoteServicesUpdated",
+        "service_present": true,
+        "skis": [
+          "test"
+        ]
+      },
+      {
+        "call": "RemoteSKIConnected",
+        "service_present": true,
+        "ski": "test"
+      },
+      {
+        "call": "RemoteSKIDisconnected",
+        "service_present": true,
+        "ski": "test"
+      },
+      {
+        "call": "ServiceShipIDUpdate",
+        "ship_id": "shipid",
+        "ski": "test"
+      },
+      {
+        "call": "ServicePairingDetailUpdate",
+        "detail_present": true,
+        "ski": "test",
+        "state": 3
+      }
+    ],
+    "counters": {}
+  }
+}

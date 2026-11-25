@@ -1,0 +1,210 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (runtimeImplementation.Start, Shutdown, Snapshot, PairingState, publishSnapshot, freezeTerminalSnapshotLocked)",
+  "source": "runtime.go",
+  "stimulus": "runtime_lifecycle_test.go TestRuntimeConcurrentLifecycleAcquiresOnceCancelsJoinsAndClosesOnce, TestRuntimeConcurrentStartWaiterCanCancelIndependently, TestRuntimeShutdownBeforeStartIsTerminalWithoutAcquisition, TestRuntimeStartPretrustDenialDoesNotLaunchOrLatchStarted, TestRuntimeSnapshotAndPairingResultsAreDeeplyDetached",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "backend": "the pin's scripted runtime backend and its synthetic snapshots (session-before-reconnect, session-after-reconnect, detached-session)",
+      "concurrency": {
+        "Shutdown_calls": 32,
+        "Start_calls": 32,
+        "pre_start_Shutdown_calls": 16
+      },
+      "config": {
+        "discovery_enabled": false,
+        "enabled": true,
+        "interface": "test-interface",
+        "listen_address": {
+          "address_bytes_hex": "00000000000000000000ffffc000020a",
+          "is_ipv4": true,
+          "is_ipv4_mapped_ipv6": false,
+          "is_multicast": false,
+          "is_unspecified": false,
+          "port": 4711,
+          "valid": true
+        },
+        "pairing_policy": "closed",
+        "remotes": [
+          "0000000000000000000000000000000000000001"
+        ],
+        "remotes_nil": false,
+        "state_root": "\u003cstate-root\u003e"
+      }
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "Start_after_Shutdown_error": {
+          "text": "eebus runtime is shutdown"
+        },
+        "Start_with_canceled_context_error": {
+          "text": "context canceled"
+        },
+        "acquisitions_after_canceled_Start": 0,
+        "backend_Close_calls": 1,
+        "backend_Run_calls": 1,
+        "backend_acquisitions": 1,
+        "backend_received_validated_config": true,
+        "call": "concurrent-start-and-shutdown",
+        "concurrent_Shutdown_calls": 32,
+        "concurrent_Shutdown_failures": 0,
+        "concurrent_Start_calls": 32,
+        "concurrent_Start_failures": 0,
+        "is_ErrRuntimeShutdown": true,
+        "is_context_canceled": true,
+        "snapshot_after_first_publication": {
+          "data_hash": "sha256:bd964b536b1c1c24f7a95a5fcb7d201881649a9903d9f8e0c1c34c50f86ab56d",
+          "device_count": 1,
+          "entity_count": 1,
+          "feature_count": 1,
+          "pairing": [
+            {
+              "remote_ski": "2222222222222222222222222222222222222222",
+              "state": "paired"
+            }
+          ],
+          "services": [
+            {
+              "paired": true,
+              "ski": "2222222222222222222222222222222222222222"
+            }
+          ],
+          "sessions": [
+            {
+              "id": "session-before-reconnect",
+              "state": "connected"
+            }
+          ],
+          "status_state": "ready",
+          "use_case_count": 1
+        },
+        "snapshot_after_reconnect": {
+          "data_hash": "sha256:222de2046e4053873da30c17f69a9dde1cfc999534ac568c2e6fb57876868653",
+          "device_count": 1,
+          "entity_count": 1,
+          "feature_count": 1,
+          "pairing": [
+            {
+              "remote_ski": "2222222222222222222222222222222222222222",
+              "state": "paired"
+            }
+          ],
+          "services": [
+            {
+              "paired": true,
+              "ski": "2222222222222222222222222222222222222222"
+            }
+          ],
+          "sessions": [
+            {
+              "id": "session-after-reconnect",
+              "state": "connected"
+            }
+          ],
+          "status_state": "ready",
+          "use_case_count": 1
+        },
+        "snapshot_hash_intact_after_source_mutation": true,
+        "terminal_snapshot": {
+          "data_hash": "sha256:8d2c1dfac82182553a979370497418e2b90c81c4a80447d0d351d630b9ef414a",
+          "device_count": 1,
+          "entity_count": 1,
+          "feature_count": 1,
+          "pairing": [
+            {
+              "remote_ski": "2222222222222222222222222222222222222222",
+              "state": "denied"
+            }
+          ],
+          "services": [
+            {
+              "paired": false,
+              "ski": "2222222222222222222222222222222222222222"
+            }
+          ],
+          "sessions": [
+            {
+              "id": "session-after-reconnect",
+              "state": "connected"
+            }
+          ],
+          "status_state": "shutdown",
+          "use_case_count": 1
+        },
+        "terminal_snapshot_error": null
+      },
+      {
+        "Shutdown_error": null,
+        "call": "concurrent-start-waiter-cancels-independently",
+        "first_Start_error": null,
+        "first_Start_returned_before_acquisition_completed": false,
+        "waiter_error": {
+          "text": "context canceled"
+        },
+        "waiter_is_context_canceled": true
+      },
+      {
+        "Shutdown_calls": 16,
+        "Shutdown_failures": 0,
+        "Start_after_Shutdown_error": {
+          "text": "eebus runtime is shutdown"
+        },
+        "backend_acquisitions": 0,
+        "call": "shutdown-before-start-is-terminal",
+        "is_ErrRuntimeShutdown": true
+      },
+      {
+        "Shutdown_error": null,
+        "backend_Run_calls_after_denial": 0,
+        "backend_acquisitions": 2,
+        "call": "pretrust-denial-does-not-launch-or-latch-started",
+        "first_Start_is_denial": true,
+        "second_Start_error": null
+      },
+      {
+        "call": "snapshot-and-pairing-results-are-detached",
+        "computed_hash_equals_stored_hash": true,
+        "feature_count_after_caller_cleared_features": 1,
+        "hash_after_caller_mutation": "sha256:51315eeac2f563c9aeead0b91c703b825f1606dd129d2dbbf34f34ba85461534",
+        "hash_before_caller_mutation": "sha256:51315eeac2f563c9aeead0b91c703b825f1606dd129d2dbbf34f34ba85461534",
+        "pairing_opaque_retained": true,
+        "pairing_state_count": 1,
+        "snapshot": {
+          "data_hash": "sha256:51315eeac2f563c9aeead0b91c703b825f1606dd129d2dbbf34f34ba85461534",
+          "device_count": 1,
+          "entity_count": 1,
+          "feature_count": 1,
+          "pairing": [
+            {
+              "remote_ski": "2222222222222222222222222222222222222222",
+              "state": "paired"
+            }
+          ],
+          "services": [
+            {
+              "paired": true,
+              "ski": "2222222222222222222222222222222222222222"
+            }
+          ],
+          "sessions": [
+            {
+              "id": "detached-session",
+              "state": "connected"
+            }
+          ],
+          "status_state": "ready",
+          "use_case_count": 1
+        }
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

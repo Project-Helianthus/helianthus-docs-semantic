@@ -1,0 +1,47 @@
+{
+  "component": "internal/eebusservicebridge/service.go (NewServiceWithOptions, Service.StartWithPolicy, Service.Shutdown, Service.ListenerTerminal)",
+  "format": "helianthus-oracle-qv06-case/1",
+  "input": {
+    "bytes": "",
+    "clock": {},
+    "qualifiers": {
+      "brand": "Helianthus",
+      "device_type": "EnergyManagementSystem",
+      "discovery_enabled": false,
+      "endpoint": "a loopback IPv4 endpoint with a free port chosen by the host; the port is not part of any output",
+      "entity_types": [
+        "CEM"
+      ],
+      "heartbeat_timeout_ns": 1000000000,
+      "model": "eebusreg",
+      "monitor_wait_ms": 110,
+      "vendor_code": "Project-Helianthus"
+    },
+    "state": {}
+  },
+  "output": {
+    "cache": {},
+    "counters": {},
+    "decisions": [
+      {
+        "listener_terminal_error_emitted": false,
+        "monitor_terminated_when_shutdown_returned": true,
+        "rebind_error": null,
+        "scenario": "scoped-service-shutdown-joins-monitor",
+        "service_constructed": true,
+        "setup_error": null,
+        "start_with_policy_error": null
+      },
+      {
+        "listener_terminal_channel_present": true,
+        "scenario": "options-install-attempt-gate-alongside-listener-policy",
+        "service_constructed": true,
+        "setup_error": null
+      }
+    ],
+    "observations": [],
+    "symbols_written": []
+  },
+  "source": "internal/eebusservicebridge/service.go",
+  "stimulus": "internal/eebusservicebridge/service_test.go TestScopedServiceShutdownJoinsMonitorWithoutFalseTerminal (first iteration); internal/eebusservicebridge/issue58_predial_gate_red_test.go TestIssue58ServiceOptionsInstallAttemptGateAlongsideListenerPolicy"
+}

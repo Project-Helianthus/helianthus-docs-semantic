@@ -1,0 +1,194 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "output_binding.go (NewOutputBinding, AdvertisementCount, ServiceCount, DeviceType, EntityTypes, EntityAddresses, nil receiver)",
+  "source": "output_binding.go",
+  "stimulus": "output_binding_test.go TestOutputBinding, TestOutputBindingObservesNodeCounts, TestOutputBindingRequiresExistingNode, TestOutputBindingNilReceiver",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "node": "the pin's scripted node (one advertisement, one service, device type EnergyManagementSystem), and a node reporting 4, 2 and ProbeNode"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "AdvertisementCount": 1,
+        "DeviceType": "EnergyManagementSystem",
+        "EntityAddresses": [
+          "cem"
+        ],
+        "EntityTypes": [
+          "CEM"
+        ],
+        "ServiceCount": 1,
+        "call": "NewOutputBinding/before-any-lens-result",
+        "node_AdvertisementCount": 1,
+        "node_DeviceType": "EnergyManagementSystem",
+        "node_ServiceCount": 1,
+        "node_entities_added": []
+      },
+      {
+        "call": "Apply/inverter",
+        "counts_after": {
+          "advertisements": 1,
+          "device_type": "EnergyManagementSystem",
+          "services": 1
+        },
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": null,
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "node_entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          }
+        ],
+        "parent_address": "",
+        "server_features": []
+      },
+      {
+        "call": "counts-and-device-type-come-from-the-node",
+        "counts_before": {
+          "AdvertisementCount": 4,
+          "DeviceType": "ProbeNode",
+          "ServiceCount": 2
+        },
+        "entity_address": "a",
+        "entity_types": [
+          "CEM",
+          "Inverter"
+        ],
+        "lens_result": {
+          "actor": "",
+          "basis": "",
+          "contains_cited": false,
+          "device_actor": "",
+          "elements": [
+            "temperature"
+          ],
+          "family": "inverter",
+          "input_dimension": false,
+          "lens_admitted": true,
+          "missing_elements": null,
+          "operations": [],
+          "overlapping": false,
+          "parent_resource_id": "",
+          "resource_id": "north",
+          "runtime_enabled": true,
+          "use_case": "",
+          "use_case_text": ""
+        },
+        "loss": [],
+        "monitoring_loss": [
+          "active power production limit",
+          "apparent power",
+          "brand name",
+          "device classification",
+          "device code",
+          "device name",
+          "energy",
+          "failsafe duration minimum",
+          "failsafe production active power limit",
+          "hardware revision",
+          "heartbeat",
+          "inverter grid code",
+          "line-to-line voltage",
+          "operating state",
+          "power factor",
+          "power production nominal max",
+          "reactive power",
+          "serial number",
+          "software revision",
+          "state information",
+          "vendor name"
+        ],
+        "node_entities_added": [
+          {
+            "address": "a",
+            "kind": "Inverter",
+            "parent": ""
+          }
+        ],
+        "node_features": [
+          "measurement"
+        ],
+        "parent_address": "",
+        "server_features": [
+          "measurement"
+        ]
+      },
+      {
+        "absent_node_error": {
+          "text": "existing node is unavailable"
+        },
+        "absent_node_is_errExistingNode": true,
+        "call": "NewOutputBinding/requires-existing-node",
+        "without_runtime_node_error": null,
+        "without_runtime_node_is_errExistingNode": false
+      },
+      {
+        "Apply_loss": [
+          "existing_node"
+        ],
+        "EntityAddress": "",
+        "EntityAddresses": [
+          "cem"
+        ],
+        "MonitoringLoss_is_nil": true,
+        "ParentAddress": "",
+        "call": "nil-receiver"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

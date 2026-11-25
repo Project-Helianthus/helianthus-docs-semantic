@@ -1,0 +1,896 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "runtime.go (New, newRuntime, normalizeRuntimeConfig, validateRuntimeListenAddress, normalizeRuntimeRemote)",
+  "source": "runtime.go",
+  "stimulus": "runtime_configuration_contract_test.go TestRuntimeConfigurationEnabledValidationIsPureAndExact; runtime_contract_test.go TestRuntimeEnabledNewValidatesWithoutIO",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "base_config_A": {
+        "discovery_enabled": false,
+        "enabled": true,
+        "interface": "test-interface",
+        "listen_address": {
+          "address_bytes_hex": "00000000000000000000ffffc000020a",
+          "is_ipv4": true,
+          "is_ipv4_mapped_ipv6": false,
+          "is_multicast": false,
+          "is_unspecified": false,
+          "port": 4711,
+          "valid": true
+        },
+        "pairing_policy": "closed",
+        "remotes": [],
+        "remotes_nil": true,
+        "state_root": "absolute"
+      },
+      "base_config_B": {
+        "discovery_enabled": false,
+        "enabled": true,
+        "interface": "test-interface",
+        "listen_address": {
+          "address_bytes_hex": "00000000000000000000ffffc000020a",
+          "is_ipv4": true,
+          "is_ipv4_mapped_ipv6": false,
+          "is_multicast": false,
+          "is_unspecified": false,
+          "port": 4711,
+          "valid": true
+        },
+        "pairing_policy": "closed",
+        "remotes": [
+          "0000000000000000000000000000000000000001"
+        ],
+        "remotes_nil": false,
+        "state_root": "absolute"
+      },
+      "state_root_note": "a fresh path under an empty sandbox; the sandbox path is replaced by \u003csandbox\u003e in error texts"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "New_error": {
+          "text": "runtime state root is required"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "empty"
+        },
+        "mutation": "missing state root",
+        "newRuntime_error": {
+          "text": "runtime state root is required"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime state root must be absolute"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "relative/state"
+        },
+        "mutation": "relative state root",
+        "newRuntime_error": {
+          "text": "runtime state root must be absolute"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime state root must not be the filesystem root"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "filesystem-root"
+        },
+        "mutation": "filesystem root",
+        "newRuntime_error": {
+          "text": "runtime state root must not be the filesystem root"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "missing interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "  ",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "whitespace interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "*",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "star interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "\u003cipv4-all-zero-wildcard\u003e",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv4 wildcard interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "::",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv6 wildcard interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "[::]",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "bracketed ipv6 wildcard interface",
+        "newRuntime_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be valid"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "port": 0,
+            "valid": false
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "zero endpoint",
+        "newRuntime_error": {
+          "text": "runtime listen address must be valid"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be valid"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "port": 4711,
+            "valid": false
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "invalid address",
+        "newRuntime_error": {
+          "text": "runtime listen address must be valid"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address port must be non-zero"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 0,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "zero port",
+        "newRuntime_error": {
+          "text": "runtime listen address port must be non-zero"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffff00000000",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": true,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "unspecified ipv4",
+        "newRuntime_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000000000000000",
+            "is_ipv4": false,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": true,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "unspecified ipv6",
+        "newRuntime_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffe0000001",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": true,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv4 multicast",
+        "newRuntime_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "ff020000000000000000000000000001",
+            "is_ipv4": false,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": true,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv6 multicast",
+        "newRuntime_error": {
+          "text": "runtime listen address must be specified unicast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must not be wildcard or broadcast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffff00010203",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv4 zero network",
+        "newRuntime_error": {
+          "text": "runtime listen address must not be wildcard or broadcast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must not be wildcard or broadcast"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffffffffff",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "limited broadcast",
+        "newRuntime_error": {
+          "text": "runtime listen address must not be wildcard or broadcast"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must not be IPv4-mapped IPv6"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": false,
+            "is_ipv4_mapped_ipv6": true,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "ipv4 mapped ipv6",
+        "newRuntime_error": {
+          "text": "runtime listen address must not be IPv4-mapped IPv6"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "missing pairing policy",
+        "newRuntime_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "open",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "open pairing policy",
+        "newRuntime_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "New_runtime_returned": false,
+        "backend_acquisitions": 0,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": " closed ",
+          "remotes": [],
+          "remotes_nil": true,
+          "state_root": "absolute"
+        },
+        "mutation": "noncanonical closed policy",
+        "newRuntime_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "newRuntime_runtime_returned": false,
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime state root is required"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "0000000000000000000000000000000000000001"
+          ],
+          "remotes_nil": false,
+          "state_root": "empty"
+        },
+        "mutation": "fixture B: missing state root",
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime interface must be explicit"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "0000000000000000000000000000000000000001"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "mutation": "fixture B: missing interface",
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime listen address must be valid"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "port": 0,
+            "valid": false
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "0000000000000000000000000000000000000001"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "mutation": "fixture B: missing listen address",
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime pairing policy must be closed"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "",
+          "remotes": [
+            "0000000000000000000000000000000000000001"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "mutation": "fixture B: missing pairing policy",
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime remote 0: remote SKI must contain 40 hexadecimal characters"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            ""
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "mutation": "fixture B: missing remote ski",
+        "state_root_touched": false
+      },
+      {
+        "New_error": {
+          "text": "runtime remote 1 duplicates remote SKI"
+        },
+        "New_runtime_returned": false,
+        "config": {
+          "discovery_enabled": false,
+          "enabled": true,
+          "interface": "test-interface",
+          "listen_address": {
+            "address_bytes_hex": "00000000000000000000ffffc000020a",
+            "is_ipv4": true,
+            "is_ipv4_mapped_ipv6": false,
+            "is_multicast": false,
+            "is_unspecified": false,
+            "port": 4711,
+            "valid": true
+          },
+          "pairing_policy": "closed",
+          "remotes": [
+            "0000000000000000000000000000000000000001",
+            "0000000000000000000000000000000000000001"
+          ],
+          "remotes_nil": false,
+          "state_root": "absolute"
+        },
+        "mutation": "fixture B: duplicate remote",
+        "state_root_touched": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

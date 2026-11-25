@@ -1,0 +1,80 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (Service.RetryTrustedRemote)",
+  "source": "service/service.go",
+  "stimulus": "service/trusted_remote_retry_red_test.go (every forwarding, failure and terminal-lifecycle test)",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "expected_ski": "0123456789abcdef0123456789abcdef01234567"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "RetryTrustedRemote",
+        "error": null,
+        "hub_calls": [
+          "0123456789abcdef0123456789abcdef01234567"
+        ]
+      },
+      {
+        "call": "RetryTrustedRemote/hub-error",
+        "error_is_hub_error": true,
+        "hub_calls": [
+          "0123456789abcdef0123456789abcdef01234567"
+        ]
+      },
+      {
+        "call": "RetryTrustedRemote/fails-closed",
+        "error": {
+          "text": "connections hub is not ready"
+        },
+        "hub": "missing hub"
+      },
+      {
+        "call": "RetryTrustedRemote/fails-closed",
+        "error": {
+          "text": "connections hub does not support trusted remote retry"
+        },
+        "hub": "unsupported hub"
+      },
+      {
+        "call": "RetryTrustedRemote/fails-closed",
+        "error": {
+          "text": "connections hub is not ready"
+        },
+        "hub": "typed nil retry hub"
+      },
+      {
+        "call": "RetryTrustedRemote/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_calls": null,
+        "lifecycle": "stopping"
+      },
+      {
+        "call": "RetryTrustedRemote/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_calls": null,
+        "lifecycle": "stopped"
+      },
+      {
+        "call": "RetryTrustedRemote/terminal-lifecycle",
+        "error_is_terminal": true,
+        "hub_calls": null,
+        "lifecycle": "terminal"
+      },
+      {
+        "call": "RetryTrustedRemote/shutdown-in-progress",
+        "error_is_terminal": true,
+        "hub_calls": null
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

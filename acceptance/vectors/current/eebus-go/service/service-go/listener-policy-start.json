@@ -1,0 +1,116 @@
+{
+  "format": "helianthus-oracle-qv06-case/1",
+  "component": "service/service.go (Service.StartWithPolicy, ListenerPolicy, Setup with a listener policy)",
+  "source": "service/service.go",
+  "stimulus": "service/listener_policy_test.go TestScopedStartObservesAsynchronousHubTerminalState, TestScopedStartRacingShutdownReturnsTerminalAndCleansOnce, TestScopedStartBindsExactLoopbackAndReleasesIdempotently (IPv4 endpoint), TestScopedBindFailurePropagatesAndTerminalizesRetries, TestDiscoveryPolicyIsIndependentFromPairingAndListenerStartup, TestScopedSetupRejectsPortMismatchWithoutReconstructingPolicy",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "endpoint": "a loopback IPv4 endpoint with a free port chosen by the host; the port is not part of any output",
+      "missing_interface": "helianthus-listener-policy-missing-interface"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "call": "StartWithPolicy/asynchronous-hub-terminal-state",
+        "first_error": null,
+        "hub_shutdown_calls": 1,
+        "lifecycle_after_second": "terminal",
+        "lifecycle_after_shutdown": "terminal",
+        "second_error": {
+          "text": "SHIP listener lifecycle is terminal"
+        },
+        "second_error_is_hub_error": true
+      },
+      {
+        "call": "StartWithPolicy/racing-Shutdown",
+        "error": {
+          "text": "listener policy service lifecycle is terminal"
+        },
+        "error_mentions_terminal": true,
+        "hub_shutdown_calls": 1,
+        "lifecycle": "stopped"
+      },
+      {
+        "call": "StartWithPolicy/production-hub-loopback",
+        "dial_error": null,
+        "discovery_enabled": false,
+        "lifecycle_after_shutdown": "stopped",
+        "rebind_after_shutdown_error": null,
+        "setup_error": null,
+        "start_error": null
+      },
+      {
+        "call": "StartWithPolicy/bind-failure-terminalizes-retries",
+        "lifecycle_after_shutdown": "terminal",
+        "retry_error_mentions_terminal": true,
+        "setup_error": null,
+        "start_error_is_address_in_use": true
+      },
+      {
+        "call": "StartWithPolicy/discovery-policy",
+        "dial_error": null,
+        "discovery_enabled": false,
+        "lifecycle_after_shutdown": "stopped",
+        "pairing_possible": false,
+        "rebind_after_shutdown_error": null,
+        "registration_error": null,
+        "setup_error": null,
+        "start_error_is_nil": true,
+        "start_error_names_interface": false
+      },
+      {
+        "call": "StartWithPolicy/discovery-policy",
+        "dial_error": null,
+        "discovery_enabled": false,
+        "lifecycle_after_shutdown": "stopped",
+        "pairing_possible": true,
+        "rebind_after_shutdown_error": null,
+        "registration_error": null,
+        "setup_error": null,
+        "start_error_is_nil": true,
+        "start_error_names_interface": false
+      },
+      {
+        "call": "StartWithPolicy/discovery-policy",
+        "discovery_enabled": true,
+        "lifecycle_after_shutdown": "terminal",
+        "pairing_possible": false,
+        "rebind_after_shutdown_error": null,
+        "registration_error": null,
+        "retry_error_mentions_terminal": true,
+        "setup_error": null,
+        "start_error_is_nil": false,
+        "start_error_names_interface": true
+      },
+      {
+        "call": "StartWithPolicy/discovery-policy",
+        "discovery_enabled": true,
+        "lifecycle_after_shutdown": "terminal",
+        "pairing_possible": true,
+        "rebind_after_shutdown_error": null,
+        "registration_error": null,
+        "retry_error_mentions_terminal": true,
+        "setup_error": null,
+        "start_error_is_nil": false,
+        "start_error_names_interface": true
+      },
+      {
+        "call": "Setup/listener-policy-port-mismatch",
+        "error_is_nil": false,
+        "error_mentions_port": true,
+        "hub_published": false,
+        "lifecycle": "uninitialized",
+        "local_device_published": false,
+        "local_service_published": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}
