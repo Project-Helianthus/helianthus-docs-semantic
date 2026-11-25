@@ -978,12 +978,40 @@
         "effect_rule": {
           "$ref": "#/$defs/elementRef"
         },
+        "release": {
+          "$ref": "#/$defs/operationRelease"
+        },
         "parameters": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
           "items": {
             "$ref": "#/$defs/elementRef"
+          }
+        }
+      }
+    },
+    "operationRelease": {
+      "type": "object",
+      "required": [
+        "argument"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "argument": {
+          "type": "object",
+          "required": [
+            "value_kind",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "value_kind": {
+              "const": "boolean"
+            },
+            "value": {
+              "const": false
+            }
           }
         }
       }

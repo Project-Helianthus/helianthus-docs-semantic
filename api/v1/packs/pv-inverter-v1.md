@@ -105,9 +105,18 @@ narrowed, or re-encoded under the same version.
 Read capabilities require a qualified current binding. The only operations are
 `pv.operation.set_active_power_limit` and `pv.operation.set_export_limit`.
 The three yields are periods. The ratio is not the watt limit.
-`pv.operation.set_active_power_limit` still takes `pv.limit.active_power`.
-No release case is added. A verification level recorded beside an element
-blocks nothing. No element is marked sensitive or hidden.
+The numeric set case of `pv.operation.set_active_power_limit` still takes
+`pv.limit.active_power` in watts. Its catalog `release` case takes only
+boolean `false` to clear that limit on `pv.dimension.inverter`, under
+`pv.capability.set_active_power_limit` and `pv.effect.set_active_power_limit`
+on the same single setting-owner route. The
+[driver contract](../driver-contract.md#11-element-structure-for-the-matter-and-eebus-union)
+defines the closed case: `true` or a request mixing the release and numeric
+set arguments is rejected. There is no numeric fallback. Readback of whether
+the limit is enabled remains Unknown.
+
+A verification level recorded beside an element blocks nothing. No element
+is marked sensitive or hidden.
 Each requires its exact field, capability, qualified active binding, current
 generation, exact native route, and authority admission. An exact qualified
 native owner may expose one of these routes; lack of such a route publishes no

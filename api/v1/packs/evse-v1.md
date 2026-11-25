@@ -73,9 +73,18 @@ evse.portal.operation.set_allocated_current
 `evse.capability.read.vehicle` and `evse.portal.read.vehicle`. Qualifier
 dimensions `evse.dimension.target_schedule` and `evse.dimension.target` are
 quantity indexes in `unit.one`. Each admitted operation has one capability and
-one effect rule. `evse.operation.set_allocated_current` and its set case stay.
-No release case is added. `evse.relation.connector_vehicle` hosts the connector
-and the vehicle, one to one.
+one effect rule. `evse.relation.connector_vehicle` hosts the connector and the
+vehicle, one to one.
+
+The numeric set case of `evse.operation.set_allocated_current` still takes
+`evse.limit.allocated_current` in amperes. Its catalog `release` case takes
+only boolean `false` to clear that limit on `evse.dimension.connector`, under
+`evse.capability.set_allocated_current` and `evse.effect.set_allocated_current`
+on the same single setting-owner route. The
+[driver contract](../driver-contract.md#11-element-structure-for-the-matter-and-eebus-union)
+defines the closed case: `true` or a request mixing the release and numeric
+set arguments is rejected. There is no numeric fallback. Readback of whether
+the limit is enabled remains Unknown.
 
 A watt value becomes ampere by the watt-to-ampere rule. RR05 is the row that
 converts it: measured voltage when SemReg has one, else the specification
