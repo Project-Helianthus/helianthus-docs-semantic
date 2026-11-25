@@ -1,0 +1,328 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway semantic cache",
+  "source": [
+    "cmd/gateway/semantic_cache.go"
+  ],
+  "stimulus": "synthetic cache snapshot, following cmd/gateway/semantic_cache_test.go TestSemanticCacheStoreSave_SortsZonesAndAllowedModes",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "cache_path": "semantic-cache.json"
+    },
+    "clock": {
+      "store_now": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "snapshot": {
+        "Boiler": null,
+        "DHW": null,
+        "PersistedAt": "0001-01-01T00:00:00Z",
+        "Zones": [
+          {
+            "Config": {
+              "AllowedModes": [
+                "heat",
+                "off"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-10",
+            "Name": "Zone 10",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "off",
+                "heat"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-2",
+            "Name": "Zone 2",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "heat",
+                "auto"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-1",
+            "Name": "Zone 1",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": null,
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "other",
+            "Name": "Other",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "error": "<nil>",
+        "step": "save"
+      },
+      {
+        "ok": true,
+        "step": "load"
+      }
+    ],
+    "graphql": {},
+    "mcp": {},
+    "cache": {
+      "loaded_snapshot": {
+        "Boiler": null,
+        "DHW": null,
+        "PersistedAt": "2030-04-10T08:00:00Z",
+        "Zones": [
+          {
+            "Config": {
+              "AllowedModes": null,
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "other",
+            "Name": "Other",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "auto",
+                "heat"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-1",
+            "Name": "Zone 1",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "heat",
+                "off"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-2",
+            "Name": "Zone 2",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "heat",
+                "off"
+              ],
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": null
+            },
+            "ID": "zone-10",
+            "Name": "Zone 10",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": null,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          }
+        ]
+      },
+      "saved_bytes": "{\n  \"schema_version\": 3,\n  \"metadata\": {\n    \"persisted_at\": \"2030-04-10T08:00:00Z\"\n  },\n  \"zones\": [\n    {\n      \"id\": \"other\",\n      \"name\": \"Other\",\n      \"state\": {},\n      \"config\": {}\n    },\n    {\n      \"id\": \"zone-1\",\n      \"name\": \"Zone 1\",\n      \"state\": {},\n      \"config\": {\n        \"allowed_modes\": [\n          \"auto\",\n          \"heat\"\n        ]\n      }\n    },\n    {\n      \"id\": \"zone-2\",\n      \"name\": \"Zone 2\",\n      \"state\": {},\n      \"config\": {\n        \"allowed_modes\": [\n          \"heat\",\n          \"off\"\n        ]\n      }\n    },\n    {\n      \"id\": \"zone-10\",\n      \"name\": \"Zone 10\",\n      \"state\": {},\n      \"config\": {\n        \"allowed_modes\": [\n          \"heat\",\n          \"off\"\n        ]\n      }\n    }\n  ]\n}\n"
+    },
+    "observations": [
+      "semantic_cache_write path=\"semantic-cache.json\" schema_version=3 zones=4 dhw=false",
+      "semantic_cache_hit path=\"semantic-cache.json\" schema_version=3 zones=4 dhw=false"
+    ]
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go"
+  ],
+  "stimulus": "synthetic native controller capabilities over publishRegulatorCapability, read through the pin's GraphQL root and MCP runtime status tools after each step",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "capabilities": [
+        {
+          "name": "present",
+          "native_value": 2
+        },
+        {
+          "name": "none",
+          "native_value": 1
+        },
+        {
+          "name": "unrecognised",
+          "native_value": 99
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "mapped": [
+          {
+            "graphql": {
+              "vaillant_regulator_capability": {
+                "data": "PRESENT",
+                "query": "{ vaillant_regulator_capability }"
+              }
+            },
+            "mcp": {
+              "ebus_v1_runtime_status_get": {
+                "data": {
+                  "adapter_status": {
+                    "firmware_version": "",
+                    "status": "unknown",
+                    "updates_available": false
+                  },
+                  "daemon_status": {
+                    "firmware_version": "",
+                    "initiator_address": "auto",
+                    "status": "running",
+                    "updates_available": false
+                  },
+                  "vaillant_regulator_capability": "PRESENT"
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "fdf93ac835702394f9861c916011f46634989e2349f17625761a8f9d4709d653"
+                }
+              },
+              "ebus_v1_semantic_snapshot_get": {
+                "data": {
+                  "completed_planes": [
+                    "runtime_status"
+                  ],
+                  "planes": {
+                    "runtime_status": {
+                      "adapter_status": {
+                        "firmware_version": "",
+                        "status": "unknown",
+                        "updates_available": false
+                      },
+                      "daemon_status": {
+                        "firmware_version": "",
+                        "initiator_address": "auto",
+                        "status": "running",
+                        "updates_available": false
+                      },
+                      "vaillant_regulator_capability": "PRESENT"
+                    }
+                  }
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "622f692ec8ac44b55c296039f9d5b958c7116613009640e9afa8fbb91837bda0"
+                }
+              }
+            },
+            "native": "present",
+            "published": "PRESENT"
+          },
+          {
+            "graphql": {
+              "vaillant_regulator_capability": {
+                "data": "NONE",
+                "query": "{ vaillant_regulator_capability }"
+              }
+            },
+            "mcp": {
+              "ebus_v1_runtime_status_get": {
+                "data": {
+                  "adapter_status": {
+                    "firmware_version": "",
+                    "status": "unknown",
+                    "updates_available": false
+                  },
+                  "daemon_status": {
+                    "firmware_version": "",
+                    "initiator_address": "auto",
+                    "status": "running",
+                    "updates_available": false
+                  },
+                  "vaillant_regulator_capability": "NONE"
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "0a53193249bb71143cc46159efcdcfa100fe2462e2fc9b5cfc60c000b4e4115e"
+                }
+              },
+              "ebus_v1_semantic_snapshot_get": {
+                "data": {
+                  "completed_planes": [
+                    "runtime_status"
+                  ],
+                  "planes": {
+                    "runtime_status": {
+                      "adapter_status": {
+                        "firmware_version": "",
+                        "status": "unknown",
+                        "updates_available": false
+                      },
+                      "daemon_status": {
+                        "firmware_version": "",
+                        "initiator_address": "auto",
+                        "status": "running",
+                        "updates_available": false
+                      },
+                      "vaillant_regulator_capability": "NONE"
+                    }
+                  }
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "d638a94fe1a11615ddaa725a558f18e4f8f12be1a38d16e88025e45745bca01a"
+                }
+              }
+            },
+            "native": "none",
+            "published": "NONE"
+          },
+          {
+            "graphql": {
+              "vaillant_regulator_capability": {
+                "data": "UNKNOWN",
+                "query": "{ vaillant_regulator_capability }"
+              }
+            },
+            "mcp": {
+              "ebus_v1_runtime_status_get": {
+                "data": {
+                  "adapter_status": {
+                    "firmware_version": "",
+                    "status": "unknown",
+                    "updates_available": false
+                  },
+                  "daemon_status": {
+                    "firmware_version": "",
+                    "initiator_address": "auto",
+                    "status": "running",
+                    "updates_available": false
+                  },
+                  "vaillant_regulator_capability": "UNKNOWN"
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "8268315a1de2aebe4b355314428e73540d5638d215aef215f18ba67c40f2a294"
+                }
+              },
+              "ebus_v1_semantic_snapshot_get": {
+                "data": {
+                  "completed_planes": [
+                    "runtime_status"
+                  ],
+                  "planes": {
+                    "runtime_status": {
+                      "adapter_status": {
+                        "firmware_version": "",
+                        "status": "unknown",
+                        "updates_available": false
+                      },
+                      "daemon_status": {
+                        "firmware_version": "",
+                        "initiator_address": "auto",
+                        "status": "running",
+                        "updates_available": false
+                      },
+                      "vaillant_regulator_capability": "UNKNOWN"
+                    }
+                  }
+                },
+                "error": null,
+                "meta": {
+                  "consistency": {
+                    "mode": "LIVE"
+                  },
+                  "contract": {
+                    "major": 1,
+                    "minor": 0,
+                    "name": "helianthus-ebus-mcp"
+                  },
+                  "data_hash": "2a2e1dd645740e9b77706f8f6539289c31cf63e6b849d0d6cddb890fd2fa3ab3"
+                }
+              }
+            },
+            "native": "unrecognised",
+            "published": "UNKNOWN"
+          }
+        ],
+        "step": "publish_regulator_capability"
+      }
+    ],
+    "graphql": {
+      "vaillant_regulator_capability": {
+        "data": "UNKNOWN",
+        "query": "{ vaillant_regulator_capability }"
+      }
+    },
+    "mcp": {
+      "adapter": {},
+      "tools": {
+        "ebus_v1_runtime_status_get": {
+          "data": {
+            "adapter_status": {
+              "firmware_version": "",
+              "status": "unknown",
+              "updates_available": false
+            },
+            "daemon_status": {
+              "firmware_version": "",
+              "initiator_address": "auto",
+              "status": "running",
+              "updates_available": false
+            },
+            "vaillant_regulator_capability": "UNKNOWN"
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "8268315a1de2aebe4b355314428e73540d5638d215aef215f18ba67c40f2a294"
+          }
+        },
+        "ebus_v1_semantic_snapshot_get": {
+          "data": {
+            "completed_planes": [
+              "runtime_status"
+            ],
+            "planes": {
+              "runtime_status": {
+                "adapter_status": {
+                  "firmware_version": "",
+                  "status": "unknown",
+                  "updates_available": false
+                },
+                "daemon_status": {
+                  "firmware_version": "",
+                  "initiator_address": "auto",
+                  "status": "running",
+                  "updates_available": false
+                },
+                "vaillant_regulator_capability": "UNKNOWN"
+              }
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "2a2e1dd645740e9b77706f8f6539289c31cf63e6b849d0d6cddb890fd2fa3ab3"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

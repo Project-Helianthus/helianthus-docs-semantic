@@ -1,0 +1,506 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/semantic_vaillant_circuits.go"
+  ],
+  "stimulus": "synthetic native system snapshots and FM5 modes over deriveCircuitManagingDevice",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {},
+    "state": {
+      "pairings": [
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": null,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": null,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": null,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": null,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 0,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 0,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 0,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 0,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 2,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 2,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 2,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 2,
+          "system_scheme": null
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": null,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": null,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": null,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": null,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 0,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 0,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 0,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 0,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 2,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 2,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 2,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 2,
+          "system_scheme": 0
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": null,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": null,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": null,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": null,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 0,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 0,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 0,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 0,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "",
+          "module_configuration_vr71": 2,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "module_configuration_vr71": 2,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "GPIO_ONLY",
+          "module_configuration_vr71": 2,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "ABSENT",
+          "module_configuration_vr71": 2,
+          "system_scheme": 1
+        },
+        {
+          "fm5_mode": "INTERPRETED",
+          "system_snapshot": null
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": true,
+        "managing_device": {
+          "Address": 38,
+          "DeviceID": "VR_71",
+          "Role": "FUNCTION_MODULE"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      },
+      {
+        "managed_by_function_module": false,
+        "managing_device": {
+          "Address": null,
+          "DeviceID": null,
+          "Role": "UNKNOWN"
+        }
+      }
+    ],
+    "graphql": {},
+    "mcp": {},
+    "cache": {},
+    "observations": []
+  }
+}

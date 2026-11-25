@@ -60,6 +60,7 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/modbus/modbus/` | case files of the Modbus library's pacing code: `scheduler/` (limit validation, admission, fair order, retry, coalesced dependents, cursor removal and churn, exact deadline release), `backoff/` (the reconnect backoff) and `rtu-session/` (the RTU exchange owner) | recorded-current |
 | `current/gateway/modbusadapter/` | case files of the gateway's read-only session: method set and admission, deadline classification, pacing completion, a cancelled pacing wait and the per-transaction timeout | recorded-current |
 | `current/gateway/cmd-gateway/tesla-observe/` | case files of the passive serial opener of the build that is not Linux: the stub returns no source and the error sentence "receive-only serial observation requires Linux" | recorded-current |
+| `current/gateway/cmd-gateway/vaillant-typed/` | case files of the typed outputs of the Vaillant publication owner and of the semantic cache: `zone/`, `dhw/`, `circuits/`, `boiler/`, `system/`, `fm5/`, `solar/`, `energy/`, `schedules/` and `cache/` are committed; `radio/` and `adapter-hardware/` carry bus-transmitted identifiers and are digest-only | recorded-current |
 | `current/gateway/matter/` | case directories of the Matter target projection: `projection/` (`projection.go`: the requested-item and disposition table, the exact milliampere conversion, eligibility, the end to end projection, rejections, several contributors and the mapped key) and `model161/` (`model161.go`: the 1.6.1 projection and its canonical output checks); each case is a directory with `input.json` and `output.json` | recorded-current |
 | `current/gateway/matter-feedv1/` | case directories of the binding feed: `server/` (lifecycle and admission, detachment and strict rejection, concurrent capture), `client/` (public wire contract, typed resync), `schema/` (closed objects and wire members), `corpus/` (valid and invalid wire values against the published schema) and `embedded-generation/` | recorded-current |
 | `current/gateway/matter-libraryhost/` | case directories of the library host lifecycle: `lifecycle/`, `unavailable/`, `rows/`, `port-failure/`, `factory/`, `stamp/`, `restart/`, `token/`, `start/`, `stop/`, `close/`, `cancel/`, `generation/`, `project/` and `imports/` | recorded-current |
@@ -73,8 +74,8 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 
 A recorded vector carries the input it was recorded from and every output the code produced. A specification vector cites
 document, version and clause or register and never the text. A vector that carries an identifier the eBUS bus transmits is
-not committed; its recorder is, and its index entry keeps the frozen digest (`digest_only`). No such vector exists in this
-revision.
+not committed; its recorder is, and its index entry keeps the frozen digest (`digest_only`). The `radio/` and
+`adapter-hardware/` cases of `current/gateway/cmd-gateway/vaillant-typed/` are such vectors.
 
 ## Engine, adaptermux and local worker case files
 
@@ -198,6 +199,45 @@ is staged, and no revision of this repository holds bytes with that digest; they
 functions that no test of the three packages drives (the client `Invoke`, the server's method and not-found refusals, the
 `Digest` function) have no case. `TestAA17PackageImportsNoSDKTransportOrVendorDecoding` reads the pin's `host.go`; its record
 holds the imports it reports.
+
+## Vaillant typed-output case files
+
+The case files of `current/gateway/cmd-gateway/vaillant-typed/` have the format `helianthus-oracle-qv07-case/1`: `component`,
+`source` (the donor files under test), `stimulus` (the pin's test that supplies the input, or a statement that the case is a
+synthetic native view over a named mapping function), `input` (`bytes`, `qualifiers`, `clock`, `state`) and `output`
+(`decisions`, `graphql`, `mcp`, `cache`, `observations`). The recorder is the harness-only
+`recorders/go/gateway-vaillant-typed/zz_oracle_vaillant_typed_*_test.go`; `record.sh` copies it into a scratch unpack of the
+gateway pin and runs `TestOracleVaillantTyped` there. It calls the pin's own publication owner
+(`vaillant_semantic_publication_views.go`, `vaillant_semantic_publication.go`, `vaillant_semantic_publication_fm5.go`,
+`vaillant_semantic_publication_schedules.go`, `vaillant_semantic_publication_cache.go`), the field mappings of
+`semantic_provider.go` and `semantic_cache.go` Load and Save, and edits none of them.
+
+- `input.state` holds the native view (zone, hot-water, circuit, system and FM5 views, boiler and radio snapshots, native
+  schedule programs, the native adapter hardware value, the cache snapshot or the cache file bytes) as the pin's own
+  structures marshal it; `input.clock` holds the clock the case sets: the provider's energy clock and the cache store's clock
+  (`2030-04-10T08:00:00Z`, the date the pin's own tests use). `input.qualifiers.source` says whether the view reaches the owner
+  as a live or a cache publication, and in a sequence lists one source per step.
+- `output.decisions` has one record per step with what the pin returns: whether a publication happened, and what remained
+  published after it.
+- `output.graphql` has, for each root field of the plane, the query that selects every field of its type (in name order) and the
+  `data` and `errors` of the executed result against the pin's query schema over the published provider. `output.mcp.adapter`
+  is the value of the pin's MCP semantic provider adapter for the plane and `output.mcp.tools` the `data`, `error` and the
+  `contract`, `consistency` and `data_hash` members of `meta` of the MCP tool output of the plane, called through the pin's MCP
+  server; its `data_timestamp` is the wall clock of the call and is not recorded.
+- `output.cache` has, for a cache case, the bytes the pin's `Save` wrote at the case's clock (`saved_bytes`), what `Load`
+  returned (`loaded_snapshot`), the native hydration value (`hydration`) and, in the seed case, the GraphQL and MCP records of a
+  fresh provider after the pin's `preloadSemanticCache`; `output.observations` has the log lines the store wrote. The cache path
+  is the relative name `semantic-cache.json` in an empty scratch directory, so no host path enters a record.
+
+`circuits/circuit-managing-device-derivation` and `schedules/schedule-write-mappings` record pure mappings that publish nothing: the
+first the managing device derived for every pairing of the system scheme, the function module configuration and the FM5 mode
+(`output.decisions`), the second the MCP slots of a time-program request as native slots (`output.decisions`) and the native write
+results as their MCP form (`output.mcp.write_results`).
+
+`current/gateway/cmd-gateway/vaillant-typed/radio/` and `.../adapter-hardware/` hold the cases whose record carries the device
+model, firmware and hardware identifier of a radio device or the hardware identity of the adapter. They are not committed: the
+index entry of each has `digest_only` and the sha256 of the pin's output, and `check.py --replay current` rebuilds the file from
+the pin and compares its digest.
 
 ## Whole sessions
 

@@ -9100,6 +9100,291 @@
       "reference": "current",
       "role": "expected-output",
       "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/adapter-hardware/adapter-hardware-info-checksum-without-bootloader.json",
+      "sha256": "d12dcde689311478dd80c30b73b5dc39be4b6cf4ae5854a522023046c70fcf2f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed",
+      "digest_only": true
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/adapter-hardware/adapter-hardware-info-full-identity.json",
+      "sha256": "986dc6c3c37e106f3caa3bebdbfe8d50230f69161ea8ddd7737cbd12ced30e29",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed",
+      "digest_only": true
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/adapter-hardware/adapter-hardware-info-without-identity.json",
+      "sha256": "10fa30e9e925ec18bf77576c38770376a171ce1322fdb115d25577d7e9b19980",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed",
+      "digest_only": true
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/boiler/boiler-flow-temperature-withdrawal.json",
+      "sha256": "367e8ea0476ef9ff490cbcde3e9ebb77663eb6d8a273c324724b5736a6dfb61d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/boiler/boiler-missing-snapshot-withdraws-published.json",
+      "sha256": "d7216e6e39b2aca11dc114aee51082170f6611796ac45994e0fcc4eb55d98bd3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/boiler/boiler-status-all-fields.json",
+      "sha256": "c9b03c26191103c79f18aacb3a6ae3250becb3add7168c0be7b1fa1627ce7c79",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/cache/cache-load-discards-rejects-and-withholds.json",
+      "sha256": "fc4ba310c790778e70d8ae903fa5191cc636983e24951d978e9017f508a9f92f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/cache/cache-persist-published-planes-with-zone-overlay.json",
+      "sha256": "fa16ce0797f7cf2d373e6f54796759661160f69a4ddd2d72bb4610b9dd6637f0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/cache/cache-save-load-seed-at-pin-clock.json",
+      "sha256": "425e81d655e2d5e4740975af0add5e4a9d7965bf739fc826e9b1bbbd1eaf5c53",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/cache/cache-save-sorts-zones-and-allowed-modes.json",
+      "sha256": "54e8575876614cdd134c204f904e19b15cfc4cbbabcb0709987f65269abc4973",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/circuits/circuit-managing-device-derivation.json",
+      "sha256": "497fe40d0012758431fcef300457bc9e464189c27ce170e91900352b73c37361",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/circuits/circuits-function-module-managed.json",
+      "sha256": "2c61fb55edb5f69bc81a943488a0df4e809f6cf3b000e9610097ba42b052ca8d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/circuits/circuits-unmanaged-unknown-raw-values.json",
+      "sha256": "233ba918cde63713040e2989b324ddee984a6d0c7e3f11898e6d653b8a324fad",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/dhw/dhw-all-fields-holiday.json",
+      "sha256": "3f351bfa3f6a4ea6d89ebf516c55c2637b8a2e7dd9c15a13316e55b15a1eac67",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/dhw/dhw-live-then-expired-withdrawal.json",
+      "sha256": "2c0c659c829ba00274d5310cfb3394670c8b657079bf0f33c4bf866c5eee4a9c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/energy/energy-acquisition-every-query.json",
+      "sha256": "652e43e208d3032e10d523f9915372cc0b3ecc5a5199109f1a2cdcd068c500b1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/energy/energy-owner-lifetime-and-window-keys.json",
+      "sha256": "7aba82dc7fa07888f9e80191d71a82ef2625db6bab106e796d3a37f779d8b516",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-absent-without-solar-and-cylinders.json",
+      "sha256": "e618767a71d2a488a5d82390a4d181e35265f0ffb843588bf187b7e6a7b4fa99",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-gpio-only-structural-withdrawal.json",
+      "sha256": "7fad488539e6145743f78b5e8a28d816b0f4fd2d8a37667e8d18c45808f03cc1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-interpreted-published-from-cache-source.json",
+      "sha256": "6a3d577582fba75e10f823d976b7c421f79b3f4fcf3b07c2b9e4163b735f9f7f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-interpreted-with-solar-and-cylinders.json",
+      "sha256": "d3421ce2a52a6250bce3fef9abd206dd254ec947294c25d4e778694835e7909f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-verdict-outside-native-set-keeps-previous.json",
+      "sha256": "822e4faefb675406b523237c4693f41893b38e0c2409de11b42c223c415c697b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/radio/radio-devices-empty-cache-keeps-published.json",
+      "sha256": "c44261f694cb4b9e37383699dc57621741c49f50bd2ac71f0275900b5b22ff74",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed",
+      "digest_only": true
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/radio/radio-devices-identifiers-live.json",
+      "sha256": "ac1a3bd59eb6cb91e8e7627cb0ccd0a6db53753deb9b0c10e6f1f70c6d6ec10a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed",
+      "digest_only": true
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/schedules/schedule-write-mappings.json",
+      "sha256": "92c5e61029aaa371bc0a41eb2c66b14f419759eaccbb7b0811688ceaece9141f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/schedules/schedules-day-replacement-by-zone-and-hc.json",
+      "sha256": "6835a50b07a066dc2701bede4e60911199f7061bf38c57f0e09d488270067b84",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/schedules/schedules-programs-every-field.json",
+      "sha256": "bd1142f9a99fffe4f91bfe9177b8cdc21a12e365467472137fe374a844fa2ef5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/schedules/schedules-startup-placeholder-and-nil-programs.json",
+      "sha256": "540bfdf31733bc742e02c1d02703aa388b48b16324194f45cb68cfbebce74b50",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/solar/startup-plane-defaults-empty.json",
+      "sha256": "919305a520920e43b69da84ed2e6e6d2674984229115e4c278d318aecb350e31",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/system/regulator-capability-mapping.json",
+      "sha256": "e90fbe41c6d67904e1c6042a17187c15db5dc0e5b7f16ff55fe922be8c7a5e97",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/system/system-view-all-fields-with-bound.json",
+      "sha256": "97a83a0bf8cd14fa8f36bac0a7662e5147cdc65deac5ddbfd7813ca1c5c5b892",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/system/system-view-without-snapshot-withdraws.json",
+      "sha256": "ab787154ac01384bd75350b043c444c15fdf847eb00f739b5bc3fe305c33710b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/zone/zone-views-empty-cache-keeps-published.json",
+      "sha256": "1b13d94216d772556ebd47d2887766ad0046aeb5fee1bf333d2517e4aa932597",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/zone/zone-views-quick-veto-holiday-and-defaults.json",
+      "sha256": "bf3b4d315ea421ea11d9cbc6f7cc897057c739ff88194e3abed77ab934d3fb6d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/vaillant-typed/zone/zone-views-radio-fallback.json",
+      "sha256": "ce3262d4a6cb57ba347c4698e46030f650b465ea4d15ff169ef474b21a1e5375",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
     }
   ]
 }

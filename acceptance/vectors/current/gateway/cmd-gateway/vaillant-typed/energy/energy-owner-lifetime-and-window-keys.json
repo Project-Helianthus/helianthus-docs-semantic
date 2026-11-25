@@ -1,0 +1,792 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic energy values over the owner's lifetime and window keys, following the provider-value key test of cmd/gateway/vaillant_semantic_publication_views_test.go",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "provider_clock": "2030-04-10T08:00:00Z"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "applied": [
+        {
+          "channel": "gas",
+          "kind": "lifetime",
+          "kwh": 321,
+          "usage": "hot_water"
+        },
+        {
+          "channel": "electricity",
+          "kind": "window",
+          "kwh": 45,
+          "label": "current",
+          "period": "month",
+          "ref": "2030-03-20T08:00:00Z",
+          "usage": "climate"
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "step": "energy_reference_time",
+        "value": "2030-04-10T08:00:00Z"
+      },
+      {
+        "accepted": true,
+        "step": "apply_lifetime_gas_hot_water"
+      },
+      {
+        "accepted": true,
+        "step": "apply_window_electricity_climate_month_current"
+      }
+    ],
+    "graphql": {
+      "energy_totals": {
+        "data": {
+          "electric": {
+            "climate": {
+              "monthly": [
+                45,
+                0
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 0,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": null,
+                "freshness_state": "never_seen",
+                "last_observed_utc": null,
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": [],
+              "yearly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [],
+              "monthly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": null,
+                "freshness_state": "never_seen",
+                "last_observed_utc": null,
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": [],
+              "yearly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            }
+          },
+          "gas": {
+            "climate": {
+              "monthly": [],
+              "monthly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": null,
+                "freshness_state": "never_seen",
+                "last_observed_utc": null,
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": [],
+              "yearly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [],
+              "monthly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": 0,
+                "freshness_state": "fresh",
+                "last_observed_utc": "2030-04-10T08:00:00Z",
+                "provenance": "register",
+                "stale": false
+              },
+              "yearly": [
+                0,
+                321
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 0,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                },
+                {
+                  "age_seconds": 0,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                }
+              ]
+            }
+          },
+          "solar": {
+            "climate": {
+              "monthly": [],
+              "monthly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": null,
+                "freshness_state": "never_seen",
+                "last_observed_utc": null,
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": [],
+              "yearly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [],
+              "monthly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "age_seconds": null,
+                "freshness_state": "never_seen",
+                "last_observed_utc": null,
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": [],
+              "yearly_meta": [
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "age_seconds": null,
+                  "freshness_state": "never_seen",
+                  "last_observed_utc": null,
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            }
+          }
+        },
+        "query": "{ energy_totals { electric { climate { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } dhw { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } } gas { climate { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } dhw { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } } solar { climate { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } dhw { monthly monthly_meta { age_seconds freshness_state last_observed_utc provenance stale } today today_meta { age_seconds freshness_state last_observed_utc provenance stale } yearly yearly_meta { age_seconds freshness_state last_observed_utc provenance stale } } } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "energy_totals": {
+          "electric": {
+            "climate": {
+              "monthly": [
+                45,
+                0
+              ],
+              "monthly_meta": [
+                {
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "never_seen",
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": null,
+              "yearly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "never_seen",
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": null,
+              "yearly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            }
+          },
+          "gas": {
+            "climate": {
+              "monthly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "never_seen",
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": null,
+              "yearly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "fresh",
+                "last_observed_utc": "2030-04-10T08:00:00Z",
+                "provenance": "register",
+                "stale": false
+              },
+              "yearly": [
+                0,
+                321
+              ],
+              "yearly_meta": [
+                {
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                }
+              ]
+            }
+          },
+          "solar": {
+            "climate": {
+              "monthly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "never_seen",
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": null,
+              "yearly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            },
+            "dhw": {
+              "monthly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ],
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "never_seen",
+                "provenance": "none",
+                "stale": false
+              },
+              "yearly": null,
+              "yearly_meta": [
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                }
+              ]
+            }
+          }
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_energy_totals_get": {
+          "data": {
+            "electric": {
+              "climate": {
+                "monthly": [
+                  45,
+                  0
+                ],
+                "monthly_meta": [
+                  {
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "2030-04-10T08:00:00Z",
+                    "provenance": "register",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearly": null,
+                "yearly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearly": null,
+                "yearly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              }
+            },
+            "gas": {
+              "climate": {
+                "monthly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearly": null,
+                "yearly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "2030-04-10T08:00:00Z",
+                  "provenance": "register",
+                  "stale": false
+                },
+                "yearly": [
+                  0,
+                  321
+                ],
+                "yearly_meta": [
+                  {
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "2030-04-10T08:00:00Z",
+                    "provenance": "register",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "2030-04-10T08:00:00Z",
+                    "provenance": "register",
+                    "stale": false
+                  }
+                ]
+              }
+            },
+            "solar": {
+              "climate": {
+                "monthly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearly": null,
+                "yearly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ],
+                "today": 0,
+                "today_meta": {
+                  "freshness_state": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearly": null,
+                "yearly_meta": [
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshness_state": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              }
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "d372728de3a180ff4476af86b02ef2ed07e89cbcffddcae8e322d553507f55b9"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

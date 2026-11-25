@@ -1,0 +1,234 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_fm5.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic native FM5 view over publishFM5View",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "fm5_view": {
+        "cylinders": {
+          "0": {
+            "ChargeHysteresis": null,
+            "ChargeOffset": null,
+            "Instance": 0,
+            "MaxSetpointC": 70,
+            "TemperatureC": 48.5
+          },
+          "1": {
+            "ChargeHysteresis": null,
+            "ChargeOffset": null,
+            "Instance": 1,
+            "MaxSetpointC": 60,
+            "TemperatureC": null
+          },
+          "2": {
+            "ChargeHysteresis": 5,
+            "ChargeOffset": 8,
+            "Instance": 2,
+            "MaxSetpointC": 75,
+            "TemperatureC": 55
+          }
+        },
+        "solar": {
+          "CollectorTemperatureC": 68.5,
+          "CurrentYield": 3.75,
+          "FunctionMode": false,
+          "PumpActive": true,
+          "PumpHours": 2200,
+          "ReturnTemperatureC": 41.25,
+          "SolarEnabled": true
+        },
+        "verdict": {
+          "DegradedReason": "",
+          "EvidenceRevision": "synthetic-rev-1",
+          "Mode": "INTERPRETED"
+        }
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "gpio_only": false,
+        "step": "publish_fm5_live"
+      }
+    ],
+    "graphql": {
+      "cylinders": {
+        "data": [
+          {
+            "charge_hysteresis_c": null,
+            "charge_offset_c": null,
+            "index": 0,
+            "max_setpoint_c": 70,
+            "temperature_c": 48.5
+          },
+          {
+            "charge_hysteresis_c": 5,
+            "charge_offset_c": 8,
+            "index": 2,
+            "max_setpoint_c": 75,
+            "temperature_c": 55
+          }
+        ],
+        "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
+      },
+      "fm5_interpretation": {
+        "data": {
+          "degraded_reason": null,
+          "evidence_revision": "synthetic-rev-1",
+          "mode": "INTERPRETED"
+        },
+        "query": "{ fm5_interpretation { degraded_reason evidence_revision mode } }"
+      },
+      "fm5_semantic_mode": {
+        "data": "INTERPRETED",
+        "query": "{ fm5_semantic_mode }"
+      },
+      "solar": {
+        "data": {
+          "collector_temperature_c": 68.5,
+          "current_yield": 3.75,
+          "function_mode": false,
+          "pump_active": true,
+          "pump_hours": 2200,
+          "return_temperature_c": 41.25,
+          "solar_enabled": true
+        },
+        "query": "{ solar { collector_temperature_c current_yield function_mode pump_active pump_hours return_temperature_c solar_enabled } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "cylinders": [
+          {
+            "index": 0,
+            "max_setpoint_c": 70,
+            "temperature_c": 48.5
+          },
+          {
+            "charge_hysteresis_c": 5,
+            "charge_offset_c": 8,
+            "index": 2,
+            "max_setpoint_c": 75,
+            "temperature_c": 55
+          }
+        ],
+        "fm5_interpretation": {
+          "degraded_reason": null,
+          "evidence_revision": "synthetic-rev-1",
+          "mode": "INTERPRETED"
+        },
+        "fm5_mode": "INTERPRETED",
+        "solar": {
+          "collector_temperature_c": 68.5,
+          "current_yield": 3.75,
+          "function_mode": false,
+          "pump_active": true,
+          "pump_hours": 2200,
+          "return_temperature_c": 41.25,
+          "solar_enabled": true
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_cylinders_get": {
+          "data": [
+            {
+              "index": 0,
+              "max_setpoint_c": 70,
+              "temperature_c": 48.5
+            },
+            {
+              "charge_hysteresis_c": 5,
+              "charge_offset_c": 8,
+              "index": 2,
+              "max_setpoint_c": 75,
+              "temperature_c": 55
+            }
+          ],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "05f62975800084a72fc8ac4153ca70064068900065454d4aa6f7919220de6451"
+          }
+        },
+        "ebus_v1_semantic_fm5_interpretation_get": {
+          "data": {
+            "degraded_reason": null,
+            "evidence_revision": "synthetic-rev-1",
+            "mode": "INTERPRETED"
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "fc6976ebaae27822c4d6028ece29fbaf6d037b9d8f4491fc3b417c60295e793b"
+          }
+        },
+        "ebus_v1_semantic_fm5_mode_get": {
+          "data": "INTERPRETED",
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "ac78da26b20b6b4a1d4878b0211d502e1cd6f75a9c513cfad6db6014d8327e3c"
+          }
+        },
+        "ebus_v1_semantic_solar_get": {
+          "data": {
+            "collector_temperature_c": 68.5,
+            "current_yield": 3.75,
+            "function_mode": false,
+            "pump_active": true,
+            "pump_hours": 2200,
+            "return_temperature_c": 41.25,
+            "solar_enabled": true
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "95f4f1ef5e7e6dfaa4e260831ed793447ac05fe000b82013b849c10780cc45d7"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

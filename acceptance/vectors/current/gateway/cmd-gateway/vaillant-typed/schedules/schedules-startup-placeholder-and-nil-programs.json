@@ -1,0 +1,128 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/vaillant_semantic_publication_schedules.go"
+  ],
+  "stimulus": "publishStartupSchedulePlaceholder and publishSchedulePrograms with no programs",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {}
+  },
+  "output": {
+    "decisions": [
+      {
+        "graphql": {
+          "schedules": {
+            "data": null,
+            "query": "{ schedules { programs { config { has_temperature max_slots max_temp_c min_duration min_temp_c temp_slots time_resolution } days { slots { end_hour end_minute start_hour start_minute temperature_c temperature_raw } weekday } hc slots_used zone } } }"
+          }
+        },
+        "mcp": {
+          "adapter": {
+            "schedules": null
+          },
+          "tools": {
+            "ebus_v1_semantic_schedules_get": {
+              "data": null,
+              "error": null,
+              "meta": {
+                "consistency": {
+                  "mode": "LIVE"
+                },
+                "contract": {
+                  "major": 1,
+                  "minor": 0,
+                  "name": "helianthus-ebus-mcp"
+                },
+                "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+              }
+            }
+          }
+        },
+        "step": "capture_before_startup_schedule_placeholder"
+      },
+      {
+        "graphql": {
+          "schedules": {
+            "data": {
+              "programs": []
+            },
+            "query": "{ schedules { programs { config { has_temperature max_slots max_temp_c min_duration min_temp_c temp_slots time_resolution } days { slots { end_hour end_minute start_hour start_minute temperature_c temperature_raw } weekday } hc slots_used zone } } }"
+          }
+        },
+        "mcp": {
+          "adapter": {
+            "schedules": {
+              "programs": null
+            }
+          },
+          "tools": {
+            "ebus_v1_semantic_schedules_get": {
+              "data": {
+                "programs": null
+              },
+              "error": null,
+              "meta": {
+                "consistency": {
+                  "mode": "LIVE"
+                },
+                "contract": {
+                  "major": 1,
+                  "minor": 0,
+                  "name": "helianthus-ebus-mcp"
+                },
+                "data_hash": "f5e8cb5d49545d31588a5c28e59b759d6f764007b181a4e9c14a5a464ca13ef3"
+              }
+            }
+          }
+        },
+        "step": "publish_startup_schedule_placeholder"
+      },
+      {
+        "step": "publish_schedule_programs_nil"
+      }
+    ],
+    "graphql": {
+      "schedules": {
+        "data": {
+          "programs": []
+        },
+        "query": "{ schedules { programs { config { has_temperature max_slots max_temp_c min_duration min_temp_c temp_slots time_resolution } days { slots { end_hour end_minute start_hour start_minute temperature_c temperature_raw } weekday } hc slots_used zone } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "schedules": {
+          "programs": null
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_schedules_get": {
+          "data": {
+            "programs": null
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "f5e8cb5d49545d31588a5c28e59b759d6f764007b181a4e9c14a5a464ca13ef3"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

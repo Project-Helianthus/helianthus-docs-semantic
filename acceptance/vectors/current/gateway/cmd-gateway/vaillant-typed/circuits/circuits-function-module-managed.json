@@ -1,0 +1,285 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic native circuit views over publishCircuitsView, following cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantPublicationOwnerPublishesCircuitAndDhwViews",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sources": [
+        "live",
+        "live",
+        "cache"
+      ]
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "circuits_views": [
+        {
+          "circuits": [
+            {
+              "Active": true,
+              "CalcFlowTempC": null,
+              "CircuitStateLiveAt": "0001-01-01T00:00:00Z",
+              "CircuitStateRaw": null,
+              "CircuitTypeRaw": 1,
+              "Controller": 0,
+              "CoolingEnabledRaw": null,
+              "DewPointC": null,
+              "FlowSetpointC": null,
+              "FlowTempMaxC": null,
+              "FlowTempMinC": null,
+              "FlowTemperatureC": null,
+              "HeatingCurve": null,
+              "HumidityPct": null,
+              "Instance": 0,
+              "MixerPositionPct": null,
+              "PumpHoursRaw": null,
+              "PumpStartsRaw": null,
+              "PumpStatusLiveAt": "0001-01-01T00:00:00Z",
+              "PumpStatusRaw": null,
+              "RoomTempControlRaw": null,
+              "SpecialFunctionMode": null,
+              "SummerLimitC": null
+            },
+            {
+              "Active": true,
+              "CalcFlowTempC": 34,
+              "CircuitStateLiveAt": "0001-01-01T00:00:00Z",
+              "CircuitStateRaw": 2,
+              "CircuitTypeRaw": 2,
+              "Controller": 0,
+              "CoolingEnabledRaw": 1,
+              "DewPointC": 11.5,
+              "FlowSetpointC": 35,
+              "FlowTempMaxC": 60,
+              "FlowTempMinC": 20,
+              "FlowTemperatureC": 33.5,
+              "HeatingCurve": 1.2,
+              "HumidityPct": 51,
+              "Instance": 1,
+              "MixerPositionPct": 40,
+              "PumpHoursRaw": 1200,
+              "PumpStartsRaw": 87,
+              "PumpStatusLiveAt": "0001-01-01T00:00:00Z",
+              "PumpStatusRaw": 1,
+              "RoomTempControlRaw": 1,
+              "SpecialFunctionMode": 3,
+              "SummerLimitC": 18
+            },
+            null
+          ],
+          "managed_by_function_module": true
+        },
+        {
+          "circuits": null,
+          "managed_by_function_module": false
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": false,
+        "step": "publish_circuits_empty_live"
+      },
+      {
+        "published": true,
+        "step": "publish_circuits_live"
+      },
+      {
+        "circuits_published": 2,
+        "published": false,
+        "step": "publish_circuits_empty_cache"
+      }
+    ],
+    "graphql": {
+      "circuits": {
+        "data": [
+          {
+            "circuit_type": "heating",
+            "config": {
+              "circuit_cooling_enabled": null,
+              "circuit_flow_temperature_setpoint_minimum": null,
+              "circuit_heating_curve_factor": null,
+              "circuit_room_temperature_influence_mode": null,
+              "circuit_special_function_mode": null,
+              "heating_circuit_flow_temperature_setpoint_maximum": null,
+              "heating_circuit_outdoor_temperature_limit_maximum": null
+            },
+            "has_mixer": false,
+            "index": 0,
+            "managing_device": {
+              "address": 38,
+              "device_id": "VR_71",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {
+              "calc_flow_temp_c": null,
+              "circuit_dew_point_temperature": null,
+              "circuit_flow_temperature": null,
+              "circuit_flow_temperature_setpoint": null,
+              "circuit_mixer_position": null,
+              "circuit_pump_operating_time_total": null,
+              "circuit_pump_start_count_total": null,
+              "circuit_pump_unknown_8": null,
+              "circuit_room_humidity": null,
+              "circuit_state": null
+            }
+          },
+          {
+            "circuit_type": "fixed_value",
+            "config": {
+              "circuit_cooling_enabled": true,
+              "circuit_flow_temperature_setpoint_minimum": 20,
+              "circuit_heating_curve_factor": 1.2,
+              "circuit_room_temperature_influence_mode": "modulating",
+              "circuit_special_function_mode": 3,
+              "heating_circuit_flow_temperature_setpoint_maximum": 60,
+              "heating_circuit_outdoor_temperature_limit_maximum": 18
+            },
+            "has_mixer": true,
+            "index": 1,
+            "managing_device": {
+              "address": 38,
+              "device_id": "VR_71",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {
+              "calc_flow_temp_c": 34,
+              "circuit_dew_point_temperature": 11.5,
+              "circuit_flow_temperature": 33.5,
+              "circuit_flow_temperature_setpoint": 35,
+              "circuit_mixer_position": 40,
+              "circuit_pump_operating_time_total": 1200,
+              "circuit_pump_start_count_total": 87,
+              "circuit_pump_unknown_8": true,
+              "circuit_room_humidity": 51,
+              "circuit_state": "cooling"
+            }
+          }
+        ],
+        "query": "{ circuits { circuit_type config { circuit_cooling_enabled circuit_flow_temperature_setpoint_minimum circuit_heating_curve_factor circuit_room_temperature_influence_mode circuit_special_function_mode heating_circuit_flow_temperature_setpoint_maximum heating_circuit_outdoor_temperature_limit_maximum } has_mixer index managing_device { address device_id role } state { calc_flow_temp_c circuit_dew_point_temperature circuit_flow_temperature circuit_flow_temperature_setpoint circuit_mixer_position circuit_pump_operating_time_total circuit_pump_start_count_total circuit_pump_unknown_8 circuit_room_humidity circuit_state } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "circuits": [
+          {
+            "circuit_type": "heating",
+            "config": {},
+            "has_mixer": false,
+            "index": 0,
+            "managing_device": {
+              "address": 38,
+              "device_id": "VR_71",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {}
+          },
+          {
+            "circuit_type": "fixed_value",
+            "config": {
+              "circuit_cooling_enabled": true,
+              "circuit_flow_temperature_setpoint_minimum": 20,
+              "circuit_heating_curve_factor": 1.2,
+              "circuit_room_temperature_influence_mode": "modulating",
+              "circuit_special_function_mode": 3,
+              "heating_circuit_flow_temperature_setpoint_maximum": 60,
+              "heating_circuit_outdoor_temperature_limit_maximum": 18
+            },
+            "has_mixer": true,
+            "index": 1,
+            "managing_device": {
+              "address": 38,
+              "device_id": "VR_71",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {
+              "calc_flow_temp_c": 34,
+              "circuit_dew_point_temperature": 11.5,
+              "circuit_flow_temperature": 33.5,
+              "circuit_flow_temperature_setpoint": 35,
+              "circuit_mixer_position": 40,
+              "circuit_pump_operating_time_total": 1200,
+              "circuit_pump_start_count_total": 87,
+              "circuit_pump_unknown_8": true,
+              "circuit_room_humidity": 51,
+              "circuit_state": "cooling"
+            }
+          }
+        ]
+      },
+      "tools": {
+        "ebus_v1_semantic_circuits_get": {
+          "data": [
+            {
+              "circuit_type": "heating",
+              "config": {},
+              "has_mixer": false,
+              "index": 0,
+              "managing_device": {
+                "address": 38,
+                "device_id": "VR_71",
+                "role": "FUNCTION_MODULE"
+              },
+              "state": {}
+            },
+            {
+              "circuit_type": "fixed_value",
+              "config": {
+                "circuit_cooling_enabled": true,
+                "circuit_flow_temperature_setpoint_minimum": 20,
+                "circuit_heating_curve_factor": 1.2,
+                "circuit_room_temperature_influence_mode": "modulating",
+                "circuit_special_function_mode": 3,
+                "heating_circuit_flow_temperature_setpoint_maximum": 60,
+                "heating_circuit_outdoor_temperature_limit_maximum": 18
+              },
+              "has_mixer": true,
+              "index": 1,
+              "managing_device": {
+                "address": 38,
+                "device_id": "VR_71",
+                "role": "FUNCTION_MODULE"
+              },
+              "state": {
+                "calc_flow_temp_c": 34,
+                "circuit_dew_point_temperature": 11.5,
+                "circuit_flow_temperature": 33.5,
+                "circuit_flow_temperature_setpoint": 35,
+                "circuit_mixer_position": 40,
+                "circuit_pump_operating_time_total": 1200,
+                "circuit_pump_start_count_total": 87,
+                "circuit_pump_unknown_8": true,
+                "circuit_room_humidity": 51,
+                "circuit_state": "cooling"
+              }
+            }
+          ],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "7cba417d9ac6d530f304b1227e2ef14afa99cc5f9da53aada5358dcb0c67a036"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

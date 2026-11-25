@@ -1,0 +1,101 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication.go"
+  ],
+  "stimulus": "publishStartupPlaneDefaults on an empty provider",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {}
+  },
+  "output": {
+    "decisions": [
+      {
+        "step": "publish_startup_plane_defaults"
+      }
+    ],
+    "graphql": {
+      "circuits": {
+        "data": [],
+        "query": "{ circuits { circuit_type config { circuit_cooling_enabled circuit_flow_temperature_setpoint_minimum circuit_heating_curve_factor circuit_room_temperature_influence_mode circuit_special_function_mode heating_circuit_flow_temperature_setpoint_maximum heating_circuit_outdoor_temperature_limit_maximum } has_mixer index managing_device { address device_id role } state { calc_flow_temp_c circuit_dew_point_temperature circuit_flow_temperature circuit_flow_temperature_setpoint circuit_mixer_position circuit_pump_operating_time_total circuit_pump_start_count_total circuit_pump_unknown_8 circuit_room_humidity circuit_state } } }"
+      },
+      "cylinders": {
+        "data": [],
+        "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
+      },
+      "solar": {
+        "data": {
+          "collector_temperature_c": null,
+          "current_yield": null,
+          "function_mode": null,
+          "pump_active": null,
+          "pump_hours": null,
+          "return_temperature_c": null,
+          "solar_enabled": null
+        },
+        "query": "{ solar { collector_temperature_c current_yield function_mode pump_active pump_hours return_temperature_c solar_enabled } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "circuits": [],
+        "cylinders": [],
+        "solar": {}
+      },
+      "tools": {
+        "ebus_v1_semantic_circuits_get": {
+          "data": [],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        },
+        "ebus_v1_semantic_cylinders_get": {
+          "data": [],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        },
+        "ebus_v1_semantic_solar_get": {
+          "data": {},
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

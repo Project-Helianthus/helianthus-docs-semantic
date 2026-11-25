@@ -1,0 +1,113 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go"
+  ],
+  "stimulus": "synthetic native system views over publishSystemView, following cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantPublicationOwnerPublishesSystemView",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sources": [
+        "live",
+        "cache"
+      ]
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "system_views": [
+        {
+          "dhw_bivalence_bound": {
+            "MaxC": 20,
+            "MinC": -10,
+            "NarrowedOnly": false,
+            "Profile": "synthetic",
+            "Reason": "",
+            "Source": "profile"
+          },
+          "snapshot": {
+            "AdaptiveHeatingCurve": null,
+            "AlternativePoint": null,
+            "Controller": 0,
+            "DhwBivalencePoint": null,
+            "HcEmergencyTemperature": null,
+            "HeatingCircuitBivalencePoint": null,
+            "HwcCylinderTemperatureBottom": null,
+            "HwcCylinderTemperatureTop": null,
+            "HwcMaxFlowTempDesired": null,
+            "InstallerMenuCode": null,
+            "InstallerName": null,
+            "InstallerPhone": null,
+            "MaintenanceDate": null,
+            "MaintenanceDue": null,
+            "MaxRoomHumidity": null,
+            "ModuleConfigurationVR71": null,
+            "OutdoorTemperature": 7.5,
+            "OutdoorTemperatureAvg24h": null,
+            "SystemFlowTemperature": null,
+            "SystemFlowTemperatureLiveAt": "0001-01-01T00:00:00Z",
+            "SystemOff": null,
+            "SystemScheme": 3,
+            "SystemWaterPressure": null
+          }
+        },
+        {
+          "dhw_bivalence_bound": {
+            "MaxC": 0,
+            "MinC": 0,
+            "NarrowedOnly": false,
+            "Profile": "",
+            "Reason": "",
+            "Source": ""
+          },
+          "snapshot": null
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_system_live"
+      },
+      {
+        "published": false,
+        "status_published": false,
+        "step": "publish_system_without_snapshot_cache"
+      }
+    ],
+    "graphql": {
+      "system": {
+        "data": null,
+        "query": "{ system { config { adaptive_heating_curve_enabled dhw_flow_temperature_setpoint_maximum dhw_outdoor_bivalence_temperature_limit dhw_outdoor_bivalence_temperature_limit_bound { max_c min_c narrowed_only profile reason source } heating_flow_temperature_setpoint_maximum_at_heat_pump_fault heating_outdoor_alternative_temperature_limit heating_outdoor_bivalence_temperature_limit installer_access_code installer_name installer_phone_number maintenance_date room_humidity_limit_maximum } gateway_brand gateway_vendor properties { functional_module_configuration_code hydraulic_scheme_code } state { dhw_cylinder_bottom_temperature dhw_cylinder_top_temperature flow_temperature maintenance_active outdoor_temperature outdoor_temperature_daily_average system_off water_pressure } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "system": null
+      },
+      "tools": {
+        "ebus_v1_semantic_system_get": {
+          "data": null,
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

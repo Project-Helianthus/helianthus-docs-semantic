@@ -59,6 +59,13 @@ QV04 = (
 )
 
 
+QV07 = (("cmd/gateway", "gateway-vaillant-typed", "TestOracleVaillantTyped", "current/gateway/cmd-gateway/vaillant-typed"),)
+
+# Cases whose record carries an identifier the eBUS bus transmits (radio device model, firmware and hardware identifier; adapter
+# hardware identity) keep only their digest in the index.
+QV07_DIGEST_ONLY = ("radio/", "adapter-hardware/")
+
+
 def recorder_command(package, sources, test, entry_id="gateway"):
     """The recorder command stored in an index entry; run from the repository root as python3 acceptance/oracle/<command>."""
     return (f"recorders/gorun.py --reference current --entry {entry_id} --package {package} --sources {sources} --test {test}"
@@ -89,6 +96,15 @@ def record_bt01(vectors, work):
 def record_qv04(vectors, work):
     """The BT02 recorders: the pacing code, the read-only session and the passive opener of the non-Linux build."""
     return record_go_cases(QV04, vectors, work, runnable=True)
+
+
+def record_qv07(vectors, work):
+    """The EE01 recorder: typed GraphQL and MCP outputs of the Vaillant publication owner and the semantic cache."""
+    entries = record_go_cases(QV07, vectors, work, runnable=True)
+    for entry in entries:
+        if entry["path"].split("vaillant-typed/", 1)[1].startswith(QV07_DIGEST_ONLY):
+            entry["digest_only"] = True
+    return entries
 
 
 def record_qv08(vectors, work):
@@ -134,6 +150,7 @@ def record(reference, vectors, oracle, sessions):
             entries.extend(record_bt01(vectors, work))
             entries.extend(record_qv08(vectors, work))
             entries.extend(record_qv04(vectors, work))
+            entries.extend(record_qv07(vectors, work))
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")

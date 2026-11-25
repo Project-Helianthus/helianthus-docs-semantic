@@ -1,0 +1,252 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_schedules.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "cmd/gateway/vaillant_semantic_publication_schedules_test.go TestVaillantPublicationOwnerMapsNativeSchedulePrograms",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "programs": [
+        {
+          "Config": {
+            "HasTemperature": true,
+            "MaxSlots": 3,
+            "MaxTempC": 29,
+            "MinDuration": 20,
+            "MinTempC": 11,
+            "TempSlots": 4,
+            "TimeResolution": 10
+          },
+          "Days": [
+            {
+              "Slots": [
+                {
+                  "EndHour": 21,
+                  "EndMinute": 45,
+                  "StartHour": 5,
+                  "StartMinute": 30,
+                  "TemperatureC": 21.5,
+                  "TemperatureRaw": 215
+                }
+              ],
+              "Weekday": "Monday"
+            },
+            {
+              "Slots": null,
+              "Weekday": "Tuesday"
+            }
+          ],
+          "HC": "heating",
+          "SlotsUsed": [
+            1,
+            2,
+            0,
+            0,
+            0,
+            0,
+            3
+          ],
+          "Zone": 2
+        },
+        {
+          "Config": null,
+          "Days": null,
+          "HC": "dhw",
+          "SlotsUsed": null,
+          "Zone": 255
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "step": "publish_schedule_programs"
+      }
+    ],
+    "graphql": {
+      "schedules": {
+        "data": {
+          "programs": [
+            {
+              "config": {
+                "has_temperature": true,
+                "max_slots": 3,
+                "max_temp_c": 29,
+                "min_duration": 20,
+                "min_temp_c": 11,
+                "temp_slots": 4,
+                "time_resolution": 10
+              },
+              "days": [
+                {
+                  "slots": [
+                    {
+                      "end_hour": 21,
+                      "end_minute": 45,
+                      "start_hour": 5,
+                      "start_minute": 30,
+                      "temperature_c": 21.5,
+                      "temperature_raw": 215
+                    }
+                  ],
+                  "weekday": "Monday"
+                },
+                {
+                  "slots": [],
+                  "weekday": "Tuesday"
+                }
+              ],
+              "hc": "heating",
+              "slots_used": [
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+                3
+              ],
+              "zone": 2
+            },
+            {
+              "config": null,
+              "days": [],
+              "hc": "dhw",
+              "slots_used": [],
+              "zone": 255
+            }
+          ]
+        },
+        "query": "{ schedules { programs { config { has_temperature max_slots max_temp_c min_duration min_temp_c temp_slots time_resolution } days { slots { end_hour end_minute start_hour start_minute temperature_c temperature_raw } weekday } hc slots_used zone } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "schedules": {
+          "programs": [
+            {
+              "config": {
+                "has_temperature": true,
+                "max_slots": 3,
+                "max_temp_c": 29,
+                "min_duration": 20,
+                "min_temp_c": 11,
+                "temp_slots": 4,
+                "time_resolution": 10
+              },
+              "days": [
+                {
+                  "slots": [
+                    {
+                      "end_hour": 21,
+                      "end_minute": 45,
+                      "start_hour": 5,
+                      "start_minute": 30,
+                      "temperature_c": 21.5,
+                      "temperature_raw": 215
+                    }
+                  ],
+                  "weekday": "Monday"
+                },
+                {
+                  "slots": null,
+                  "weekday": "Tuesday"
+                }
+              ],
+              "hc": "heating",
+              "slots_used": [
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+                3
+              ],
+              "zone": 2
+            },
+            {
+              "hc": "dhw",
+              "zone": 255
+            }
+          ]
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_schedules_get": {
+          "data": {
+            "programs": [
+              {
+                "config": {
+                  "has_temperature": true,
+                  "max_slots": 3,
+                  "max_temp_c": 29,
+                  "min_duration": 20,
+                  "min_temp_c": 11,
+                  "temp_slots": 4,
+                  "time_resolution": 10
+                },
+                "days": [
+                  {
+                    "slots": [
+                      {
+                        "end_hour": 21,
+                        "end_minute": 45,
+                        "start_hour": 5,
+                        "start_minute": 30,
+                        "temperature_c": 21.5,
+                        "temperature_raw": 215
+                      }
+                    ],
+                    "weekday": "Monday"
+                  },
+                  {
+                    "slots": null,
+                    "weekday": "Tuesday"
+                  }
+                ],
+                "hc": "heating",
+                "slots_used": [
+                  1,
+                  2,
+                  0,
+                  0,
+                  0,
+                  0,
+                  3
+                ],
+                "zone": 2
+              },
+              {
+                "hc": "dhw",
+                "zone": 255
+              }
+            ]
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "46e8a93948b42632e1e707e9636c831785ec8fb674d042fb140bae5887197eb5"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

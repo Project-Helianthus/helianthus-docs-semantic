@@ -1,0 +1,146 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_fm5.go"
+  ],
+  "stimulus": "synthetic native FM5 view over publishFM5View",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "fm5_view": {
+        "cylinders": null,
+        "solar": null,
+        "verdict": {
+          "DegradedReason": "",
+          "EvidenceRevision": "synthetic-rev-3",
+          "Mode": "ABSENT"
+        }
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "gpio_only": false,
+        "step": "publish_fm5_live"
+      }
+    ],
+    "graphql": {
+      "cylinders": {
+        "data": [],
+        "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
+      },
+      "fm5_interpretation": {
+        "data": {
+          "degraded_reason": null,
+          "evidence_revision": "synthetic-rev-3",
+          "mode": "ABSENT"
+        },
+        "query": "{ fm5_interpretation { degraded_reason evidence_revision mode } }"
+      },
+      "fm5_semantic_mode": {
+        "data": "ABSENT",
+        "query": "{ fm5_semantic_mode }"
+      },
+      "solar": {
+        "data": {
+          "collector_temperature_c": null,
+          "current_yield": null,
+          "function_mode": null,
+          "pump_active": null,
+          "pump_hours": null,
+          "return_temperature_c": null,
+          "solar_enabled": null
+        },
+        "query": "{ solar { collector_temperature_c current_yield function_mode pump_active pump_hours return_temperature_c solar_enabled } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "cylinders": [],
+        "fm5_interpretation": {
+          "degraded_reason": null,
+          "evidence_revision": "synthetic-rev-3",
+          "mode": "ABSENT"
+        },
+        "fm5_mode": "ABSENT",
+        "solar": {}
+      },
+      "tools": {
+        "ebus_v1_semantic_cylinders_get": {
+          "data": [],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        },
+        "ebus_v1_semantic_fm5_interpretation_get": {
+          "data": {
+            "degraded_reason": null,
+            "evidence_revision": "synthetic-rev-3",
+            "mode": "ABSENT"
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "a397405c830b9da8b9b135e6a8b9dfc9265420876887d2c07fe4c372dd32fef6"
+          }
+        },
+        "ebus_v1_semantic_fm5_mode_get": {
+          "data": "ABSENT",
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "e2a4f41ffa7e493ece58261e73f22a981fc5b3cf036689f0540c090869e6ff35"
+          }
+        },
+        "ebus_v1_semantic_solar_get": {
+          "data": {},
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

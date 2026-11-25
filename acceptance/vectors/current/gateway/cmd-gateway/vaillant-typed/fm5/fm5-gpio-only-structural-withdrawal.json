@@ -1,0 +1,177 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_fm5.go"
+  ],
+  "stimulus": "synthetic native FM5 view over publishFM5View",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "fm5_view": {
+        "cylinders": {
+          "0": {
+            "ChargeHysteresis": null,
+            "ChargeOffset": null,
+            "Instance": 0,
+            "MaxSetpointC": 70,
+            "TemperatureC": 48.5
+          },
+          "1": {
+            "ChargeHysteresis": null,
+            "ChargeOffset": null,
+            "Instance": 1,
+            "MaxSetpointC": 60,
+            "TemperatureC": null
+          },
+          "2": {
+            "ChargeHysteresis": 5,
+            "ChargeOffset": 8,
+            "Instance": 2,
+            "MaxSetpointC": 75,
+            "TemperatureC": 55
+          }
+        },
+        "solar": {
+          "CollectorTemperatureC": 68.5,
+          "CurrentYield": 3.75,
+          "FunctionMode": false,
+          "PumpActive": true,
+          "PumpHours": 2200,
+          "ReturnTemperatureC": 41.25,
+          "SolarEnabled": true
+        },
+        "verdict": {
+          "DegradedReason": "CONFIGURATION_NOT_INTERPRETABLE",
+          "EvidenceRevision": "synthetic-rev-2",
+          "Mode": "GPIO_ONLY"
+        }
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "gpio_only": true,
+        "step": "publish_fm5_live",
+        "structural_withdrawal": true
+      }
+    ],
+    "graphql": {
+      "cylinders": {
+        "data": [],
+        "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
+      },
+      "fm5_interpretation": {
+        "data": {
+          "degraded_reason": "CONFIGURATION_NOT_INTERPRETABLE",
+          "evidence_revision": "synthetic-rev-2",
+          "mode": "GPIO_ONLY"
+        },
+        "query": "{ fm5_interpretation { degraded_reason evidence_revision mode } }"
+      },
+      "fm5_semantic_mode": {
+        "data": "GPIO_ONLY",
+        "query": "{ fm5_semantic_mode }"
+      },
+      "solar": {
+        "data": {
+          "collector_temperature_c": null,
+          "current_yield": null,
+          "function_mode": null,
+          "pump_active": null,
+          "pump_hours": null,
+          "return_temperature_c": null,
+          "solar_enabled": null
+        },
+        "query": "{ solar { collector_temperature_c current_yield function_mode pump_active pump_hours return_temperature_c solar_enabled } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "cylinders": [],
+        "fm5_interpretation": {
+          "degraded_reason": "CONFIGURATION_NOT_INTERPRETABLE",
+          "evidence_revision": "synthetic-rev-2",
+          "mode": "GPIO_ONLY"
+        },
+        "fm5_mode": "GPIO_ONLY",
+        "solar": {}
+      },
+      "tools": {
+        "ebus_v1_semantic_cylinders_get": {
+          "data": [],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        },
+        "ebus_v1_semantic_fm5_interpretation_get": {
+          "data": {
+            "degraded_reason": "CONFIGURATION_NOT_INTERPRETABLE",
+            "evidence_revision": "synthetic-rev-2",
+            "mode": "GPIO_ONLY"
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "dd9af1bc5892ef8b7771a960e238285d00bd2605c9bf441f3bcf2579cfb9cb7d"
+          }
+        },
+        "ebus_v1_semantic_fm5_mode_get": {
+          "data": "GPIO_ONLY",
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "2c3c1be7fa0ffdb3ca2a6696217a4ae456b14b1a2891e405e151954345955c30"
+          }
+        },
+        "ebus_v1_semantic_solar_get": {
+          "data": {},
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

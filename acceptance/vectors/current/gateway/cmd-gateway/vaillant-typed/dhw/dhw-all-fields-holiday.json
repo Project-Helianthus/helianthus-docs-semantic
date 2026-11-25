@@ -1,0 +1,111 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic native hot water view over dhwStatusFromSnapshot",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "dhw_view": {
+        "expired": false,
+        "snapshot": {
+          "ConfigurationDHWOperationMode": "",
+          "CurrentTempC": 52.25,
+          "FieldFreshness": null,
+          "HolidayEndDate": "2030-12-27",
+          "HolidayStartDate": "2030-12-20",
+          "OperatingMode": "manual",
+          "Preset": "holiday",
+          "StateSpecialFunction": "load",
+          "TargetTempC": 55
+        }
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_dhw_live"
+      }
+    ],
+    "graphql": {
+      "dhw": {
+        "data": {
+          "config": {
+            "dhw_holiday_end_date": "2030-12-27",
+            "dhw_holiday_start_date": "2030-12-20",
+            "dhw_operating_mode": "manual",
+            "dhw_temperature_setpoint": 55,
+            "operation_mode_changeable": null,
+            "preset": "holiday"
+          },
+          "state": {
+            "dhw_special_function_mode": "load",
+            "dhw_temperature": 52.25,
+            "heating_demand_pct": null,
+            "overrun_active": null
+          }
+        },
+        "query": "{ dhw { config { dhw_holiday_end_date dhw_holiday_start_date dhw_operating_mode dhw_temperature_setpoint operation_mode_changeable preset } state { dhw_special_function_mode dhw_temperature heating_demand_pct overrun_active } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "dhw": {
+          "config": {
+            "dhw_holiday_end_date": "2030-12-27",
+            "dhw_holiday_start_date": "2030-12-20",
+            "dhw_operating_mode": "manual",
+            "dhw_temperature_setpoint": 55,
+            "preset": "holiday"
+          },
+          "state": {
+            "dhw_special_function_mode": "load",
+            "dhw_temperature": 52.25
+          }
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_dhw_get": {
+          "data": {
+            "config": {
+              "dhw_holiday_end_date": "2030-12-27",
+              "dhw_holiday_start_date": "2030-12-20",
+              "dhw_operating_mode": "manual",
+              "dhw_temperature_setpoint": 55,
+              "preset": "holiday"
+            },
+            "state": {
+              "dhw_special_function_mode": "load",
+              "dhw_temperature": 52.25
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "663cec7e78e9b098c45daf7a7112e805a4406780bacb097271583de7f278b529"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

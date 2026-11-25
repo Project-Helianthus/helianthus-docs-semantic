@@ -1,0 +1,165 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go"
+  ],
+  "stimulus": "synthetic native zone views over publishZoneViews",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sources": [
+        "live",
+        "cache",
+        "cache",
+        "live"
+      ]
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "steps": [
+        {
+          "source": "live",
+          "zone_views": [
+            {
+              "inferred_room_mapping_raw": null,
+              "instance": 0,
+              "radio_room_humidity_pct": null,
+              "radio_room_temp_c": null,
+              "snapshot": {
+                "AllowedModes": null,
+                "ConfigurationAssociatedCircuitRaw": null,
+                "ConfigurationCircuitTypeRaw": null,
+                "ConfigurationHeatingOperationMode": "",
+                "ConfigurationRoomTemperatureZoneMappingRaw": null,
+                "CurrentTempC": 19,
+                "FieldFreshness": null,
+                "HolidayEndDate": "",
+                "HolidayEndTime": "",
+                "HolidaySetpointC": null,
+                "HolidayStartDate": "",
+                "HolidayStartTime": "",
+                "HumidityPct": null,
+                "HvacAction": "",
+                "Instance": 0,
+                "Name": "Kept",
+                "OperatingMode": "",
+                "Present": true,
+                "Preset": "",
+                "QuickVetoDurationH": null,
+                "QuickVetoEndDate": "",
+                "QuickVetoEndTime": "",
+                "QuickVetoTempC": null,
+                "StateSpecialFunction": "",
+                "StateValveStatusRaw": null,
+                "TargetTempC": null
+              }
+            }
+          ]
+        },
+        {
+          "source": "cache",
+          "zone_views": []
+        },
+        {
+          "source": "cache",
+          "zone_views": [
+            {
+              "inferred_room_mapping_raw": null,
+              "instance": 1,
+              "radio_room_humidity_pct": null,
+              "radio_room_temp_c": null,
+              "snapshot": {
+                "AllowedModes": null,
+                "ConfigurationAssociatedCircuitRaw": null,
+                "ConfigurationCircuitTypeRaw": null,
+                "ConfigurationHeatingOperationMode": "",
+                "ConfigurationRoomTemperatureZoneMappingRaw": null,
+                "CurrentTempC": null,
+                "FieldFreshness": null,
+                "HolidayEndDate": "",
+                "HolidayEndTime": "",
+                "HolidaySetpointC": null,
+                "HolidayStartDate": "",
+                "HolidayStartTime": "",
+                "HumidityPct": null,
+                "HvacAction": "",
+                "Instance": 1,
+                "Name": "Cached",
+                "OperatingMode": "",
+                "Present": true,
+                "Preset": "",
+                "QuickVetoDurationH": null,
+                "QuickVetoEndDate": "",
+                "QuickVetoEndTime": "",
+                "QuickVetoTempC": null,
+                "StateSpecialFunction": "",
+                "StateValveStatusRaw": null,
+                "TargetTempC": null
+              }
+            }
+          ]
+        },
+        {
+          "source": "live",
+          "zone_views": []
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_zone_views_live"
+      },
+      {
+        "published": false,
+        "step": "publish_empty_zone_views_cache",
+        "zones_published": 1
+      },
+      {
+        "published": true,
+        "step": "publish_zone_views_cache_replacement",
+        "zones_published": 1
+      },
+      {
+        "published": true,
+        "step": "publish_empty_zone_views_live",
+        "zones_published": 0
+      }
+    ],
+    "graphql": {
+      "zones": {
+        "data": [],
+        "query": "{ zones { config { allowed_modes associated_circuit circuit_type operating_mode operation_mode_changeable preset quick_veto quick_veto_expiry room_temperature_zone_mapping source_label target_temp_c zone_holiday_end_clock_time zone_holiday_end_date zone_holiday_start_clock_time zone_holiday_start_date zone_quick_veto_time zone_room_temperature_setpoint_at_holiday zone_room_temperature_setpoint_at_quick_veto } id name state { heating_demand_pct hvac_action zone_room_humidity zone_room_temperature zone_special_function_mode zone_valve_position } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "zones": []
+      },
+      "tools": {
+        "ebus_v1_semantic_zones_get": {
+          "data": [],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

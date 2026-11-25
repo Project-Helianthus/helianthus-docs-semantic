@@ -1,0 +1,245 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic native boiler snapshot over boilerStatusFromSnapshot",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "boiler_snapshot": {
+        "CentralHeatingHours": 4321.5,
+        "CentralHeatingPumpActive": true,
+        "CentralHeatingStarts": 12345,
+        "CirculationPumpActive": true,
+        "DeactivationsIFC": 3,
+        "DeactivationsTemplimiter": 1,
+        "DhwDemandActive": false,
+        "DhwHours": 987.25,
+        "DhwOperatingMode": 2,
+        "DhwStarts": 6789,
+        "DhwStatusRaw": 1,
+        "DhwTargetTemperatureC": 50,
+        "DhwTempDesiredC": 50,
+        "DhwTemperatureC": 48,
+        "DhwWaterFlowLpm": 7.25,
+        "DiverterValvePositionPct": 100,
+        "ExternalPumpActive": false,
+        "FanHours": 4800,
+        "FanSpeedRpm": 3120,
+        "FlameActive": true,
+        "FlowTempDesiredC": 55,
+        "FlowTemperatureC": 54.5,
+        "FlowsetHcMaxC": 75,
+        "FlowsetHwcMaxC": 80,
+        "GasValveActive": true,
+        "HeatingStatusRaw": 4,
+        "HeatingSwitchActive": true,
+        "HoursTillService": 2400,
+        "InstallerMenuCode": 17,
+        "IonisationVoltageUa": 5.5,
+        "ModulationPct": 35,
+        "PartloadHcKW": 12,
+        "PartloadHwcKW": 24,
+        "PhoneNumber": "0123",
+        "PrimaryCircuitFlowLpm": 12.5,
+        "PumpHours": 5000,
+        "ReturnTemperatureC": 41,
+        "StateNumber": 8,
+        "StorageLoadPumpPct": 65,
+        "TargetFanSpeedRpm": 3200,
+        "WaterPressureBar": 1.6
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_boiler_live"
+      }
+    ],
+    "graphql": {
+      "boiler_status": {
+        "data": {
+          "config": {
+            "central_heating_pump_mode": 17,
+            "dhw_operating_mode": "AUTO",
+            "dhw_partial_load_power": 24,
+            "heating_partial_load_power": 12,
+            "installer_phone_number": "0123",
+            "maximum_dhw_flow_temperature_setpoint": 80,
+            "maximum_heating_flow_temperature_setpoint": 75,
+            "service_time_remaining": 2400
+          },
+          "diagnostics": {
+            "central_heating_operating_time": 4321.5,
+            "central_heating_start_count": 12345,
+            "dhw_operating_time": 987.25,
+            "dhw_start_count": 6789,
+            "dhw_status_raw": 1,
+            "fan_operating_time": 4800,
+            "fire_control_deactivation_count": 3,
+            "heating_status_raw": 4,
+            "pump_operating_time": 5000,
+            "temperature_limiter_deactivation_count": 1
+          },
+          "state": {
+            "boiler_state_code": 8,
+            "central_heating_pump_active": true,
+            "circulation_pump_active": true,
+            "dhw_demand_active": false,
+            "dhw_target_temperature_c": 50,
+            "dhw_temperature_c": 48,
+            "dhw_temperature_setpoint": 50,
+            "dhw_water_flow_rate": 7.25,
+            "diverter_valve_position": 100,
+            "external_pump_active": false,
+            "fan_speed": 3120,
+            "fan_speed_setpoint": 3200,
+            "flame_active": true,
+            "flame_ionization_current": 5.5,
+            "flow_temperature": 54.5,
+            "flow_temperature_setpoint": 55,
+            "gas_valve_active": true,
+            "heating_switch_active": true,
+            "modulation_setpoint": 35,
+            "primary_circuit_flow_rate": 12.5,
+            "return_temperature_c": 41,
+            "storage_loading_pump_level": 65,
+            "water_pressure": 1.6
+          }
+        },
+        "query": "{ boiler_status { config { central_heating_pump_mode dhw_operating_mode dhw_partial_load_power heating_partial_load_power installer_phone_number maximum_dhw_flow_temperature_setpoint maximum_heating_flow_temperature_setpoint service_time_remaining } diagnostics { central_heating_operating_time central_heating_start_count dhw_operating_time dhw_start_count dhw_status_raw fan_operating_time fire_control_deactivation_count heating_status_raw pump_operating_time temperature_limiter_deactivation_count } state { boiler_state_code central_heating_pump_active circulation_pump_active dhw_demand_active dhw_target_temperature_c dhw_temperature_c dhw_temperature_setpoint dhw_water_flow_rate diverter_valve_position external_pump_active fan_speed fan_speed_setpoint flame_active flame_ionization_current flow_temperature flow_temperature_setpoint gas_valve_active heating_switch_active modulation_setpoint primary_circuit_flow_rate return_temperature_c storage_loading_pump_level water_pressure } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "boiler_status": {
+          "config": {
+            "central_heating_pump_mode": 17,
+            "dhw_operating_mode": "AUTO",
+            "dhw_partial_load_power": 24,
+            "heating_partial_load_power": 12,
+            "installer_phone_number": "0123",
+            "maximum_dhw_flow_temperature_setpoint": 80,
+            "maximum_heating_flow_temperature_setpoint": 75,
+            "service_time_remaining": 2400
+          },
+          "diagnostics": {
+            "central_heating_operating_time": 4321.5,
+            "central_heating_start_count": 12345,
+            "dhw_operating_time": 987.25,
+            "dhw_start_count": 6789,
+            "dhw_status_raw": 1,
+            "fan_operating_time": 4800,
+            "fire_control_deactivation_count": 3,
+            "heating_status_raw": 4,
+            "pump_operating_time": 5000,
+            "temperature_limiter_deactivation_count": 1
+          },
+          "state": {
+            "boiler_state_code": 8,
+            "central_heating_pump_active": true,
+            "circulation_pump_active": true,
+            "dhw_demand_active": false,
+            "dhw_target_temperature_c": 50,
+            "dhw_temperature_c": 48,
+            "dhw_temperature_setpoint": 50,
+            "dhw_water_flow_rate": 7.25,
+            "diverter_valve_position": 100,
+            "external_pump_active": false,
+            "fan_speed": 3120,
+            "fan_speed_setpoint": 3200,
+            "flame_active": true,
+            "flame_ionization_current": 5.5,
+            "flow_temperature": 54.5,
+            "flow_temperature_setpoint": 55,
+            "gas_valve_active": true,
+            "heating_switch_active": true,
+            "modulation_setpoint": 35,
+            "primary_circuit_flow_rate": 12.5,
+            "return_temperature_c": 41,
+            "storage_loading_pump_level": 65,
+            "water_pressure": 1.6
+          }
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_boiler_status_get": {
+          "data": {
+            "config": {
+              "central_heating_pump_mode": 17,
+              "dhw_operating_mode": "AUTO",
+              "dhw_partial_load_power": 24,
+              "heating_partial_load_power": 12,
+              "installer_phone_number": "0123",
+              "maximum_dhw_flow_temperature_setpoint": 80,
+              "maximum_heating_flow_temperature_setpoint": 75,
+              "service_time_remaining": 2400
+            },
+            "diagnostics": {
+              "central_heating_operating_time": 4321.5,
+              "central_heating_start_count": 12345,
+              "dhw_operating_time": 987.25,
+              "dhw_start_count": 6789,
+              "dhw_status_raw": 1,
+              "fan_operating_time": 4800,
+              "fire_control_deactivation_count": 3,
+              "heating_status_raw": 4,
+              "pump_operating_time": 5000,
+              "temperature_limiter_deactivation_count": 1
+            },
+            "state": {
+              "boiler_state_code": 8,
+              "central_heating_pump_active": true,
+              "circulation_pump_active": true,
+              "dhw_demand_active": false,
+              "dhw_target_temperature_c": 50,
+              "dhw_temperature_c": 48,
+              "dhw_temperature_setpoint": 50,
+              "dhw_water_flow_rate": 7.25,
+              "diverter_valve_position": 100,
+              "external_pump_active": false,
+              "fan_speed": 3120,
+              "fan_speed_setpoint": 3200,
+              "flame_active": true,
+              "flame_ionization_current": 5.5,
+              "flow_temperature": 54.5,
+              "flow_temperature_setpoint": 55,
+              "gas_valve_active": true,
+              "heating_switch_active": true,
+              "modulation_setpoint": 35,
+              "primary_circuit_flow_rate": 12.5,
+              "return_temperature_c": 41,
+              "storage_loading_pump_level": 65,
+              "water_pressure": 1.6
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "29a54d9cfe114ba084e2f1cc9b15e22f29c09dd4e22258ae61874f381bb59c48"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

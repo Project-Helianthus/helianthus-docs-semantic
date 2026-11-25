@@ -1,0 +1,168 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_schedules.go"
+  ],
+  "stimulus": "synthetic MCP slots and native write results over timeProgramSlotsFromMCP and mcpTimeProgramWriteResult",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {},
+    "state": {
+      "slot_requests": [
+        null,
+        [],
+        [
+          {
+            "end_hour": 8,
+            "end_minute": 0,
+            "start_hour": 6,
+            "start_minute": 15,
+            "temperature_c": 21.5
+          },
+          {
+            "end_hour": 24,
+            "end_minute": 0,
+            "start_hour": 17,
+            "start_minute": 30
+          }
+        ]
+      ],
+      "write_results": [
+        {
+          "error": null,
+          "name": "nil_result_nil_error",
+          "native_result": null
+        },
+        {
+          "error": "synthetic write failure",
+          "name": "nil_result_with_error",
+          "native_result": null
+        },
+        {
+          "error": null,
+          "name": "success_without_slot_results",
+          "native_result": {
+            "Error": "",
+            "SlotResults": null,
+            "Success": true
+          }
+        },
+        {
+          "error": "synthetic write failure",
+          "name": "slot_results_with_rejection",
+          "native_result": {
+            "Error": "slot rejected",
+            "SlotResults": [
+              {
+                "Accepted": true,
+                "ErrorCode": 0,
+                "ErrorDesc": "",
+                "SlotIndex": 0
+              },
+              {
+                "Accepted": false,
+                "ErrorCode": 3,
+                "ErrorDesc": "synthetic description",
+                "SlotIndex": 1
+              }
+            ],
+            "Success": false
+          }
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "mcp_slots": null,
+        "native_slots": null
+      },
+      {
+        "mcp_slots": [],
+        "native_slots": []
+      },
+      {
+        "mcp_slots": [
+          {
+            "end_hour": 8,
+            "end_minute": 0,
+            "start_hour": 6,
+            "start_minute": 15,
+            "temperature_c": 21.5
+          },
+          {
+            "end_hour": 24,
+            "end_minute": 0,
+            "start_hour": 17,
+            "start_minute": 30
+          }
+        ],
+        "native_slots": [
+          {
+            "EndHour": 8,
+            "EndMinute": 0,
+            "StartHour": 6,
+            "StartMinute": 15,
+            "TemperatureC": 21.5
+          },
+          {
+            "EndHour": 24,
+            "EndMinute": 0,
+            "StartHour": 17,
+            "StartMinute": 30,
+            "TemperatureC": null
+          }
+        ]
+      }
+    ],
+    "graphql": {},
+    "mcp": {
+      "write_results": [
+        {
+          "error": null,
+          "mcp_result": null,
+          "name": "nil_result_nil_error"
+        },
+        {
+          "error": "synthetic write failure",
+          "mcp_result": null,
+          "name": "nil_result_with_error"
+        },
+        {
+          "error": null,
+          "mcp_result": {
+            "slot_results": null,
+            "success": true
+          },
+          "name": "success_without_slot_results"
+        },
+        {
+          "error": "synthetic write failure",
+          "mcp_result": {
+            "error": "slot rejected",
+            "slot_results": [
+              {
+                "accepted": true,
+                "error_code": 0,
+                "slot_index": 0
+              },
+              {
+                "accepted": false,
+                "error_code": 3,
+                "error_description": "synthetic description",
+                "slot_index": 1
+              }
+            ],
+            "success": false
+          },
+          "name": "slot_results_with_rejection"
+        }
+      ]
+    },
+    "cache": {},
+    "observations": []
+  }
+}
