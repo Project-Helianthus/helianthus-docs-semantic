@@ -57,6 +57,9 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/gateway/adaptermux/` | case files of the multiplexer: `transition/` (every fixture and input of the state transition table), `arbitration/` (bid selection at the SYN boundary), `send-symbols/` (escape pairs of the gateway write path), `v8classifier/` (classifier modes, event sequences and admin events), `pacer/` (output cadence, echo samples, grace and deadlines) and `ptytest/` (the pseudo-terminal pair and the serial multiplexer open, absent device and reopen) | recorded-current |
 | `current/gateway/localworkerhost/` | case files of the local worker supervisor: argv plan, child environment, child and configuration validation, report encoding and the lifecycle; `supervisor/` holds report fences, leases, restart, failed launch, stop escalation, unexpected exit, duplicate child and allocator mismatch | recorded-current |
 | `current/gateway/engine/` | case files of the six engines (`scheduler/`, `shadow-cache/`, `passive-tap/`, `deduplicator/`, `reconstructor/` with the F19c helpers) and of the closure that moves with them (`watch-catalog/`, `observe-first-flags/`, `observe-first-family-policy/`) | recorded-current |
+| `current/modbus/modbus/` | case files of the Modbus library's pacing code: `scheduler/` (limit validation, admission, fair order, retry, coalesced dependents, cursor removal and churn, exact deadline release), `backoff/` (the reconnect backoff) and `rtu-session/` (the RTU exchange owner) | recorded-current |
+| `current/gateway/modbusadapter/` | case files of the gateway's read-only session: method set and admission, deadline classification, pacing completion, a cancelled pacing wait and the per-transaction timeout | recorded-current |
+| `current/gateway/cmd-gateway/tesla-observe/` | case files of the passive serial opener of the build that is not Linux: the stub returns no source and the error sentence "receive-only serial observation requires Linux" | recorded-current |
 | `current/gateway/matter/` | case directories of the Matter target projection: `projection/` (`projection.go`: the requested-item and disposition table, the exact milliampere conversion, eligibility, the end to end projection, rejections, several contributors and the mapped key) and `model161/` (`model161.go`: the 1.6.1 projection and its canonical output checks); each case is a directory with `input.json` and `output.json` | recorded-current |
 | `current/gateway/matter-feedv1/` | case directories of the binding feed: `server/` (lifecycle and admission, detachment and strict rejection, concurrent capture), `client/` (public wire contract, typed resync), `schema/` (closed objects and wire members), `corpus/` (valid and invalid wire values against the published schema) and `embedded-generation/` | recorded-current |
 | `current/gateway/matter-libraryhost/` | case directories of the library host lifecycle: `lifecycle/`, `unavailable/`, `rows/`, `port-failure/`, `factory/`, `stamp/`, `restart/`, `token/`, `start/`, `stop/`, `close/`, `cancel/`, `generation/`, `project/` and `imports/` | recorded-current |
@@ -97,6 +100,53 @@ no test file: only `SemanticReadExecutionStats` is recorded, through the schedul
 pending-probe SYN scan-timeout path has no caller in the pin's tests. The Linux-only pseudo-terminal files
 (`ptytest_linux.go`, `serial_exclusive_linux_test.go`) are not executed on a Darwin host, and the one pin test that is skipped
 at the pin (`TestPassiveBusTap_WrappedResetAndDecodeFaultsStillSurface`) is not recorded.
+
+## Modbus pacing, read-only session and passive-open case files
+
+The case files of `current/modbus/modbus/`, `current/gateway/modbusadapter/` and `current/gateway/cmd-gateway/tesla-observe/`
+have the format `helianthus-oracle-qv04-case/1`, with the members of the BT01 case format: `component`, `source` (the donor file
+under test), `stimulus` (the pin's test that supplies the input, or a statement that the pin has none), `input` (`bytes`,
+`qualifiers`, `clock`, `state`) and `output` (`symbols_written`, `decisions`, `cache`, `observations`, `counters`). The recorders
+are the harness-only `zz_oracle_*_test.go` files under `recorders/go/modbus/`, `recorders/go/gateway-modbusadapter/` and
+`recorders/go/gateway-tesla-observe/`; `record.sh` copies them into a scratch unpack of the pin, runs `TestOracleModbus`,
+`TestOracleModbusAdapterReadOnlySession` and `TestOracleTeslaObserve` there and writes the case files.
+
+The pacing code (`tcp_scheduler.go`, `rtu_session.go`) is recorded at the `modbus` entry of `references.json`; that tree has no
+`session/` directory and none is recorded. The read-only session is recorded at the gateway pin, which resolves the Modbus library to its own
+pseudo-version (see `bom/current-gateway.json`); that revision is not the pacing pin.
+
+- `scheduler/` and `backoff/` come from `tcp_scheduler_test.go`, `scheduler_cursor_churn_test.go` and
+  `scheduler_exact_deadline_release_test.go`. A scheduler case has its `limits` in `input.qualifiers` and its operations as
+  `input.state.script`, executed in order against one scheduler; `output.decisions` has one record per operation, in the same
+  order, with its error (`text`, and for a protocol error `kind`, `field`, `offset`), the dispatched request where there is one
+  and `state`, the vector `[queued requests, in-flight requests, active admission keys, coalesced dependents, order
+  metadata size]` after the operation. The operations are `enqueue`, `admit_weighted` (weighted admission, as the exact-deadline
+  test drives it), `dispatch` (with the scheduler offset `now`), `complete`, `complete_last_dispatch`, `retry`, `cancel_queued`,
+  `attach_dependent`, `detach_dependent`, `set_key_accounting` (sets one key's queued and dependent counters, as the
+  arithmetic test does), `new_scheduler`, `schedule_coalesced` (with its intents), `coalesced_group`,
+  `require_coalesced_dispatch`, `retry_coalesced`, `finish_coalesced`, `group_fail_transport`, `group_cancel`, `group_states`,
+  `key_queued` and `internals` (the sizes of the scheduler's tables). The scheduler has no clock; every dispatch carries its
+  offset. The endpoint of a coalescing intent is an opaque identity that the scheduler only compares; the cases use a synthetic
+  host name for it. A backoff case records its configuration and jitter sequence and the delay or error of every call; the
+  backoff has no clock either.
+- `rtu-session/` comes from `rtu_session_test.go`. The input records the timing (`baud`, framing, the configured and derived
+  intervals), the scripted reads of the stream (`state.scripted_reads`: byte, receipt offset and error) and the steps (the
+  request ADU, the unit and the response policy). The output has the frames the stream received (`symbols_written`, with the
+  written count and error), the scripted reads the session consumed (`observations`), one decision per step with the
+  retained response ADUs or the error, and the write count. Context timeouts of the session use the wall clock; only values
+  that the scripted stream fixes are recorded, so a stream that has no script left has no recorded offset or read count.
+- `gateway/modbusadapter/` comes from `readonly_session_test.go`. The pacing and timeout tests measure wall time; the case
+  records the test's own range or bound check as a boolean beside the bound it uses, never the measured time.
+- `tesla-observe/` holds the non-Linux records: the opener of `tesla_observe_flow_other.go` called directly with three
+  synthetic paths, taken from the command's port table, and reached through the preparation run (exit code 1 and the
+  sentence on the error stream). The pin has no test of this file, so the stimuli are the opener's own argument. Each record
+  has `source_is_nil`: no source is returned.
+
+Evidence gap. The Linux opener `tesla_observe_flow_linux.go` and its pin test file need a Linux kernel and a pseudo terminal
+under `/dev/pts`; the recording host here is not Linux and has no Linux machine, so no record of the Linux opener is
+published. The recorder `recorders/go/gateway-tesla-observe/zz_oracle_tesla_observe_linux_test.go` (build tag `linux`) is
+written against the pin's test helpers and compiles for linux/amd64, but it has not been executed and no vector is derived from
+it. The `!linux` records are produced by a replay on a host that is not Linux; a replay on Linux compiles the other file.
 
 ## Matter projection, feed and library-host case files
 

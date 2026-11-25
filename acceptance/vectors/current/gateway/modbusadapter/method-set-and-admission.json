@@ -1,0 +1,96 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbusadapter-readonly-session",
+  "source": "internal/modbusadapter/readonly_session.go",
+  "stimulus": "TestH10ReadOnlySessionMethodSetAndAdmission",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "adapter": "an adapter holding a recording endpoint, no pacing configured, connection generation zero"
+    },
+    "clock": {},
+    "state": {
+      "steps": [
+        {
+          "function": 4,
+          "offset": 0,
+          "quantity": 1,
+          "step": "read_holding",
+          "unit": 1
+        },
+        {
+          "function": 3,
+          "offset": 0,
+          "quantity": 124,
+          "step": "read_holding",
+          "unit": 1
+        },
+        {
+          "read_device_id_code": 4,
+          "step": "read_device_identification",
+          "unit": 1
+        },
+        {
+          "step": "close"
+        },
+        {
+          "function": 3,
+          "offset": 0,
+          "quantity": 1,
+          "step": "read_holding_after_close",
+          "unit": 1
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "text": "read-only session admits FC03 only"
+        },
+        "function": 4,
+        "quantity": 1,
+        "step": "read_holding"
+      },
+      {
+        "error": {
+          "text": "read-only session admits FC03 only"
+        },
+        "function": 3,
+        "quantity": 124,
+        "step": "read_holding"
+      },
+      {
+        "error": {
+          "text": "read-only identification code refused"
+        },
+        "step": "read_device_identification"
+      },
+      {
+        "error": null,
+        "step": "close"
+      },
+      {
+        "error": {
+          "text": "read-only session closed"
+        },
+        "step": "read_holding_after_close"
+      }
+    ],
+    "cache": {
+      "exported_methods": [
+        "Close",
+        "ReadDeviceIdentification",
+        "ReadHolding"
+      ]
+    },
+    "observations": [],
+    "counters": {
+      "endpoint_close_calls": 0,
+      "endpoint_enqueue_calls_at_end": 0,
+      "endpoint_enqueue_calls_before_close": 0
+    }
+  }
+}

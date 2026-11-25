@@ -1,0 +1,83 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-reconnect-backoff",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestReconnectBackoffIsBoundedInjectedAndResetsOnlyOnValidResponse",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "config": {
+        "ceiling_ns": 350000000,
+        "floor_ns": 100000000,
+        "jitter_algorithm_id": "sequence",
+        "jitter_evidence": "schedule:test-sequence",
+        "jitter_sequence_ns": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "jitter_version": "v1",
+        "max_attempts": 4
+      }
+    },
+    "clock": {
+      "note": "the backoff has no clock; delays are returned and the caller passes its own offsets",
+      "unit": "nanoseconds"
+    },
+    "state": {
+      "steps": [
+        "next_delay",
+        "connected",
+        "next_delay",
+        "next_delay",
+        "valid_correlated_response",
+        "next_delay"
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "delay_ns": 100000010,
+        "error": null,
+        "step": "next_delay"
+      },
+      {
+        "step": "connected"
+      },
+      {
+        "delay_ns": 200000020,
+        "error": null,
+        "step": "next_delay"
+      },
+      {
+        "delay_ns": 350000000,
+        "error": null,
+        "step": "next_delay"
+      },
+      {
+        "step": "valid_correlated_response"
+      },
+      {
+        "delay_ns": 100000040,
+        "error": null,
+        "step": "next_delay"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "emitted_jitter_ns": [
+        10,
+        20,
+        0,
+        40
+      ],
+      "jitter_algorithm_id": "sequence",
+      "jitter_evidence": "schedule:test-sequence",
+      "jitter_version": "v1"
+    }
+  }
+}

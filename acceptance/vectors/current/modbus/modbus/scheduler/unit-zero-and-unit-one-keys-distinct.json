@@ -1,0 +1,131 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerKeepsTCPUnitZeroAndUnitOneAdmissionKeysDistinct",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 3,
+        "max_coalesced_dependents_per_key": 4,
+        "max_in_flight_requests": 4,
+        "max_queued_per_authorization_scope": 8,
+        "max_queued_per_key": 4,
+        "max_retry_attempts": 2,
+        "protected_slots_per_key": 2,
+        "shared_burst_slots": 2,
+        "total_queued": 8
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 1,
+          "scope": "site",
+          "unit": 0
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 2,
+          "scope": "site",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          3
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 1,
+          "scope": "site",
+          "unit": 0
+        },
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          3
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 2,
+          "scope": "site",
+          "unit": 1
+        },
+        "state": [
+          0,
+          2,
+          2,
+          0,
+          3
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        0,
+        2,
+        2,
+        0,
+        3
+      ]
+    }
+  }
+}

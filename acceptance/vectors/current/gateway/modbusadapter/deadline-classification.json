@@ -1,0 +1,30 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbusadapter-readonly-session",
+  "source": "internal/modbusadapter/readonly_session.go",
+  "stimulus": "TestH10SessionDeadlineClassification",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "error": "i/o timeout",
+      "error_kind": "the operating system's deadline-exceeded sentinel"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "text": "context deadline exceeded\ni/o timeout"
+        },
+        "is_context_deadline_exceeded": true,
+        "is_os_deadline_exceeded": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

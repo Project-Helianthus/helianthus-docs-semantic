@@ -1,0 +1,55 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbusadapter-readonly-session",
+  "source": "internal/modbusadapter/readonly_session.go",
+  "stimulus": "TestH10ReadHoldingCanceledPacingWaitKeepsCompletion",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "attempts": 3,
+      "caller_deadline_ns": 10000000,
+      "function": 3,
+      "offset": 0,
+      "pacing_gap_ns": 1000000000,
+      "quantity": 1,
+      "unit": 1
+    },
+    "clock": {
+      "note": "the adapter's previous completion time is the moment the case starts, so each attempt waits out its own caller deadline inside the pacing gap",
+      "unit": "wall clock"
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "attempt": 0,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "is_deadline_exceeded": true
+      },
+      {
+        "attempt": 1,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "is_deadline_exceeded": true
+      },
+      {
+        "attempt": 2,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "is_deadline_exceeded": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "completion_time_unchanged": true,
+      "endpoint_enqueue_calls": 0
+    }
+  }
+}

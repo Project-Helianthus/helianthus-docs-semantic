@@ -1,0 +1,5453 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerPrunesHistoricalScopeAndUnitMetadata",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 1,
+        "max_coalesced_dependents_per_key": 1,
+        "max_in_flight_requests": 1,
+        "max_queued_per_authorization_scope": 2,
+        "max_queued_per_key": 2,
+        "max_retry_attempts": 1,
+        "protected_slots_per_key": 1,
+        "shared_burst_slots": 1,
+        "total_queued": 2
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 1,
+          "scope": "b",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 2,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 2
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 3,
+          "scope": "d",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 3
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 4,
+          "scope": "e",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 4
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 5,
+          "scope": "f",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 5
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 6,
+          "scope": "g",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 6
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 7,
+          "scope": "h",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 7
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 8,
+          "scope": "i",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 8
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 9,
+          "scope": "j",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 9
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 10,
+          "scope": "k",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 10
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 11,
+          "scope": "l",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 11
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 12,
+          "scope": "m",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 12
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 13,
+          "scope": "n",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 13
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 14,
+          "scope": "o",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 14
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 15,
+          "scope": "p",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 15
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 16,
+          "scope": "q",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 16
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 17,
+          "scope": "r",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 17
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 18,
+          "scope": "s",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 18
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 19,
+          "scope": "t",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 19
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 20,
+          "scope": "u",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 20
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 21,
+          "scope": "v",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 21
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 22,
+          "scope": "w",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 22
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 23,
+          "scope": "x",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 23
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 24,
+          "scope": "y",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 24
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 25,
+          "scope": "z",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 25
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 26,
+          "scope": "{",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 26
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 27,
+          "scope": "|",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 27
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 28,
+          "scope": "}",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 28
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 29,
+          "scope": "~",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 29
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 30,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 30
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 31,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 31
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 32,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 32
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 33,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 33
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 34,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 34
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 35,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 35
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 36,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 36
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 37,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 37
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 38,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 38
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 39,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 39
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 40,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 40
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 41,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 41
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 42,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 42
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 43,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 43
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 44,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 44
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 45,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 45
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 46,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 46
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 47,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 47
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 48,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 48
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 49,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 49
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 50,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 50
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 51,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 51
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 52,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 52
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 53,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 53
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 54,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 54
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 55,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 55
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 56,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 56
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 57,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 57
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 58,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 58
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 59,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 59
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 60,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 60
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 61,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 61
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 62,
+          "scope": "",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 62
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 63,
+          "scope": " ",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 63
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 64,
+          "scope": "¡",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 64
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 65,
+          "scope": "¢",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 65
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 66,
+          "scope": "£",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 66
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 67,
+          "scope": "¤",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 67
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 68,
+          "scope": "¥",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 68
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 69,
+          "scope": "¦",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 69
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 70,
+          "scope": "§",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 70
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 71,
+          "scope": "¨",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 71
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 72,
+          "scope": "©",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 72
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 73,
+          "scope": "ª",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 73
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 74,
+          "scope": "«",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 74
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 75,
+          "scope": "¬",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 75
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 76,
+          "scope": "­",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 76
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 77,
+          "scope": "®",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 77
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 78,
+          "scope": "¯",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 78
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 79,
+          "scope": "°",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 79
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 80,
+          "scope": "±",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 80
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 81,
+          "scope": "²",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 81
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 82,
+          "scope": "³",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 82
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 83,
+          "scope": "´",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 83
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 84,
+          "scope": "µ",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 84
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 85,
+          "scope": "¶",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 85
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 86,
+          "scope": "·",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 86
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 87,
+          "scope": "¸",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 87
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 88,
+          "scope": "¹",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 88
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 89,
+          "scope": "º",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 89
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 90,
+          "scope": "»",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 90
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 91,
+          "scope": "¼",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 91
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 92,
+          "scope": "½",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 92
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 93,
+          "scope": "¾",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 93
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 94,
+          "scope": "¿",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 94
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 95,
+          "scope": "À",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 95
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 96,
+          "scope": "Á",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 96
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 97,
+          "scope": "Â",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 97
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 98,
+          "scope": "Ã",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 98
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 99,
+          "scope": "Ä",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 99
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 100,
+          "scope": "Å",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 100
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 1,
+          "scope": "b",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 2,
+          "scope": "c",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 3,
+          "scope": "d",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 4,
+          "scope": "e",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 5,
+          "scope": "f",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 6,
+          "scope": "g",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 7,
+          "scope": "h",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 8,
+          "scope": "i",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 9,
+          "scope": "j",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 10,
+          "scope": "k",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 11,
+          "scope": "l",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 12,
+          "scope": "m",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 13,
+          "scope": "n",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 14,
+          "scope": "o",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 15,
+          "scope": "p",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 16,
+          "scope": "q",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 17,
+          "scope": "r",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 18,
+          "scope": "s",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 19,
+          "scope": "t",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 20,
+          "scope": "u",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 21,
+          "scope": "v",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 22,
+          "scope": "w",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 23,
+          "scope": "x",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 24,
+          "scope": "y",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 25,
+          "scope": "z",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 26,
+          "scope": "{",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 27,
+          "scope": "|",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 28,
+          "scope": "}",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 29,
+          "scope": "~",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 30,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 31,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 32,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 33,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 34,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 35,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 36,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 37,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 38,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 39,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 40,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 41,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 42,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 43,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 44,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 45,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 46,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 47,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 48,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 49,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 50,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 51,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 52,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 53,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 54,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 55,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 56,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 57,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 58,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 59,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 60,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 61,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 62,
+          "scope": "",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 63,
+          "scope": " ",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 64,
+          "scope": "¡",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 65,
+          "scope": "¢",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 66,
+          "scope": "£",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 67,
+          "scope": "¤",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 68,
+          "scope": "¥",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 69,
+          "scope": "¦",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 70,
+          "scope": "§",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 71,
+          "scope": "¨",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 72,
+          "scope": "©",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 73,
+          "scope": "ª",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 74,
+          "scope": "«",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 75,
+          "scope": "¬",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 76,
+          "scope": "­",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 77,
+          "scope": "®",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 78,
+          "scope": "¯",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 79,
+          "scope": "°",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 80,
+          "scope": "±",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 81,
+          "scope": "²",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 82,
+          "scope": "³",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 83,
+          "scope": "´",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 84,
+          "scope": "µ",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 85,
+          "scope": "¶",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 86,
+          "scope": "·",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 87,
+          "scope": "¸",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 88,
+          "scope": "¹",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 89,
+          "scope": "º",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 90,
+          "scope": "»",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 91,
+          "scope": "¼",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 92,
+          "scope": "½",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 93,
+          "scope": "¾",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 94,
+          "scope": "¿",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 95,
+          "scope": "À",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 96,
+          "scope": "Á",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 97,
+          "scope": "Â",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 98,
+          "scope": "Ã",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 99,
+          "scope": "Ä",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 100,
+          "scope": "Å",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

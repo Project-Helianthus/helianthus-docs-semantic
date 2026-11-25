@@ -1,0 +1,94 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-rtu-session",
+  "source": "rtu_session.go",
+  "stimulus": "TestRTUSessionRetriesOnlyProvenZeroByteReplaySafeWrite",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "stream": {
+        "script": "empty",
+        "write_results": [
+          {
+            "error": "io: read/write on closed pipe",
+            "written": 0
+          },
+          {
+            "error": null,
+            "written": "full"
+          }
+        ]
+      },
+      "timing": {
+        "baud": 115200,
+        "character_time_ns": 95487,
+        "configured_max_quiescence_ns": 100000000,
+        "configured_max_response_latency_ns": 20000000,
+        "data_bits": 8,
+        "inter_character_ns": 750000,
+        "inter_frame_ns": 1750000,
+        "max_quiescence_ns": 100000000,
+        "max_response_latency_ns": 20000000,
+        "parity": "even",
+        "stop_bits": 1
+      }
+    },
+    "clock": {
+      "note": "byte receipt offsets are scripted by the stream; context timeouts use the wall clock",
+      "unit": "stream offset"
+    },
+    "state": {
+      "scripted_reads": [],
+      "steps": [
+        {
+          "enabled": true,
+          "max_response_frames": 0,
+          "step": "open"
+        },
+        {
+          "policy_max_attempts": 2,
+          "policy_replay_safe": true,
+          "request_adu": "10668c5a",
+          "request_adu_error": null,
+          "step": "exchange_two_attempts_replay_safe",
+          "unit": 16
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [
+      {
+        "error": {
+          "text": "io: read/write on closed pipe"
+        },
+        "frame": "10668c5a",
+        "written": 0
+      },
+      {
+        "error": null,
+        "frame": "10668c5a",
+        "written": 4
+      }
+    ],
+    "decisions": [
+      {
+        "error": null,
+        "session_returned": true,
+        "step": "open"
+      },
+      {
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "responses": [],
+        "step": "exchange_two_attempts_replay_safe"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "stream_write_calls": 2
+    }
+  }
+}

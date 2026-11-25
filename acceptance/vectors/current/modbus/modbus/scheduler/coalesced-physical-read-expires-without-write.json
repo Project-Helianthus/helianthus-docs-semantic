@@ -1,0 +1,144 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestCoalescedPhysicalReadExpiresWithoutTransportWrite",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 3,
+        "max_coalesced_dependents_per_key": 4,
+        "max_in_flight_requests": 4,
+        "max_queued_per_authorization_scope": 8,
+        "max_queued_per_key": 4,
+        "max_retry_attempts": 2,
+        "protected_slots_per_key": 2,
+        "shared_burst_slots": 2,
+        "total_queued": 8
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 10,
+          "endpoint": "tcp://scheduler-endpoint.invalid:502",
+          "function": "read_holding_registers",
+          "intent_scope": "site-a",
+          "intent_unit": 1,
+          "intents": [
+            {
+              "deadline_identity": 18446744073709551615,
+              "logical_view_id": 11,
+              "offset": 10,
+              "quantity": 4,
+              "unit_after_build": 0
+            },
+            {
+              "deadline_identity": 18446744073709551615,
+              "logical_view_id": 12,
+              "offset": 11,
+              "quantity": 4,
+              "unit_after_build": 0
+            }
+          ],
+          "op": "schedule_coalesced",
+          "poll_generation": 11,
+          "request_id": 100,
+          "scope": "site-a",
+          "transport": "tcp",
+          "transport_generation": 7,
+          "unit": 1
+        },
+        {
+          "now": 10,
+          "op": "dispatch"
+        },
+        {
+          "op": "group_states",
+          "request_id": 100
+        },
+        {
+          "op": "coalesced_group",
+          "request_id": 100
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "group_returned": true,
+        "op": "schedule_coalesced",
+        "state": [
+          1,
+          0,
+          1,
+          2,
+          2
+        ]
+      },
+      {
+        "dispatched": false,
+        "op": "dispatch",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "op": "group_states",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "states": {
+          "11": "failed",
+          "12": "failed"
+        }
+      },
+      {
+        "found": false,
+        "op": "coalesced_group",
+        "same_group": false,
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

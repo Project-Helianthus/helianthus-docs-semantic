@@ -8524,6 +8524,582 @@
       "reference": "current",
       "role": "expected-output",
       "recorder": "recorders/gorun.py --entry gateway --package matter --sources gateway-matter --test TestOracleMatter"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/tesla-observe/nonlinux-stub-absolute-path.json",
+      "sha256": "4408e90e434274797b247149405296ab2d23e4036a4a59dbad50853567fdedc7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-tesla-observe --test TestOracleTeslaObserve --output .tmp/oracle-record/gateway-tesla-observe"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/tesla-observe/nonlinux-stub-command-ports.json",
+      "sha256": "276dbcb6a35e7dfc414bbce7fa36b6d859b1ce06550551029329f02a23ba875b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-tesla-observe --test TestOracleTeslaObserve --output .tmp/oracle-record/gateway-tesla-observe"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/tesla-observe/nonlinux-stub-empty-path.json",
+      "sha256": "648a28ea964632b137dbaca5edd4cbfc74a80219e767a8b680e9376abc898989",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-tesla-observe --test TestOracleTeslaObserve --output .tmp/oracle-record/gateway-tesla-observe"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/tesla-observe/nonlinux-stub-prepare-run.json",
+      "sha256": "42bf1ff9cfc50d42fa20668d8b2d5fe19bd8b7cfda757c7201e2238a2bda31f8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-tesla-observe --test TestOracleTeslaObserve --output .tmp/oracle-record/gateway-tesla-observe"
+    },
+    {
+      "path": "current/gateway/cmd-gateway/tesla-observe/nonlinux-stub-relative-path.json",
+      "sha256": "634fd8c53170e34788c5978707a13a3fd6581c8ae50ec2caaa4049074326263d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-tesla-observe --test TestOracleTeslaObserve --output .tmp/oracle-record/gateway-tesla-observe"
+    },
+    {
+      "path": "current/gateway/modbusadapter/canceled-pacing-wait-keeps-completion.json",
+      "sha256": "0d23cf24361a35155dd0f88c98e901de1129b98a9948298b9e2350cd0010ef4a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package internal/modbusadapter --sources gateway-modbusadapter --test TestOracleModbusAdapterReadOnlySession --output .tmp/oracle-record/gateway-modbusadapter"
+    },
+    {
+      "path": "current/gateway/modbusadapter/deadline-classification.json",
+      "sha256": "586d3f6d55cef1d4b6468b9a897d6300baefb5bb53d677f7484994dd31215bab",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package internal/modbusadapter --sources gateway-modbusadapter --test TestOracleModbusAdapterReadOnlySession --output .tmp/oracle-record/gateway-modbusadapter"
+    },
+    {
+      "path": "current/gateway/modbusadapter/method-set-and-admission.json",
+      "sha256": "b7b59eb2f685d02c697b8fe4e135934639901c16f7079d309fe3e4649e730966",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package internal/modbusadapter --sources gateway-modbusadapter --test TestOracleModbusAdapterReadOnlySession --output .tmp/oracle-record/gateway-modbusadapter"
+    },
+    {
+      "path": "current/gateway/modbusadapter/pacing-completes-after-late-responses.json",
+      "sha256": "e134d3853b8d44b4a19e9aae26a6433cd12b2a407c8375bda9d822b22e89e5c7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package internal/modbusadapter --sources gateway-modbusadapter --test TestOracleModbusAdapterReadOnlySession --output .tmp/oracle-record/gateway-modbusadapter"
+    },
+    {
+      "path": "current/gateway/modbusadapter/session-timeout-inside-caller-deadline.json",
+      "sha256": "f3b909732839aee48ffb850b19071e9977391f424b90acb83faf5b8f09fdc855",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package internal/modbusadapter --sources gateway-modbusadapter --test TestOracleModbusAdapterReadOnlySession --output .tmp/oracle-record/gateway-modbusadapter"
+    },
+    {
+      "path": "current/modbus/modbus/backoff/bounded-injected-resets-only-on-valid-response.json",
+      "sha256": "4655a288975d380637ef14e12a08481797736c1ec8b79da69ff3b8503fd8ebd5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/backoff/delay-past-absolute-deadline-refused.json",
+      "sha256": "a1e2ccde90fea2c85ea7bac4b8f0b5da3f293cecbb9af542d2bd9997dcbbd50e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/backoff/state-lock-not-held-across-jitter.json",
+      "sha256": "316d329ead6029a75b7e2802d61aeae16c4d05077ec244286d074a6681985197",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/backoff/wait-is-cancellation-aware.json",
+      "sha256": "4baf2916e84ace7ab346135a14bb70c84c8b1a48dfe195b4bac58da084cc06ad",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/partial-write-quarantines-successor.json",
+      "sha256": "1fb0a974b5b818cc2c98e9f6379569cb41fd4971ca8539e586de1aec3fe52453",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/recovery-requires-monotonic-quiet-proof.json",
+      "sha256": "e8ffd85e9b44fb101892cec74de58bcc43d9e86661f729adc24ea16ff5a26ab9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/recovery-requires-quiet-proof-after-response-horizon.json",
+      "sha256": "7bf19f1f758efc454970fe9743c9e8cbb8397399871ce361ec388d02c3b9e916",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/recovery-waits-response-horizon-before-quiet-proof.json",
+      "sha256": "0c0c00003bddc5ea9e59501e4129ebf1a1c129152ee427ab46cdd40235ead795",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/rejects-disabled-and-local-failures-without-write.json",
+      "sha256": "094afb2148b3eb56287848e3bc270d8cecc0e0c2678da1cd44dd6f80ac28abde",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/response-frame-overflow-quarantines.json",
+      "sha256": "0cf6d778cbc4a4cb990ecda80df60bb6f175de03fcf9d8d3b0ae24325e0d252d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/retains-multiple-opaque-frames-until-response-bound.json",
+      "sha256": "711a3a2bf4066c894cd7a71c2e4aa3eddd65d048bb00cd27812f1e5dafa7c36f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/retries-only-proven-zero-byte-replay-safe-write.json",
+      "sha256": "98ddadbc77442efe151bbfb8be3599f1cbbb32be6c75265cd7f8e44b43b6254d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/serializes-concurrent-exchanges.json",
+      "sha256": "2b372abe5986bb23938322d98c40639649446687b49298496fecd5f8593363aa",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/rtu-session/single-flight-and-recover.json",
+      "sha256": "b93db3bb2958e030d1f45697255649cdfa1ad03d65bb5b0f69bafeba7ebd2f77",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/admission-arithmetic-fails-closed.json",
+      "sha256": "74eee85b4031d3c4b0cac7af75371d59eabde21894e34b3c674daec3aad6a634",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/capacity-kept-for-inactive-keys.json",
+      "sha256": "05da95d60cd753070bda6a34279790cb2b6a4e681b950a873b0efac9a0b525ee",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-dependents-bypass-protected-capacity.json",
+      "sha256": "dfaf345b5ff06354d54260c50c6d75dcef007e52909146c59daf917e227cf069",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-dependents-consume-total-and-scope.json",
+      "sha256": "b31c3760f97e8440ddfe4d746cae2a2df0002e3e4146561f4dbe95358991dea2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-final-cancellation-releases-token.json",
+      "sha256": "11933fa59720be38515ab654da37aae6941b48a0c2ab648b4d5668de98a31350",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-physical-read-dispatch-lifecycle.json",
+      "sha256": "1b2e8fb0e3dc766a579cca2fec525bdfe1f9b365865445c8e637253c5bd82eda",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-physical-read-expires-without-write.json",
+      "sha256": "8e4c8be847de787fb1080bbd2267a80ea8048bfcf58f2828cafad94a893138b0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/coalesced-requires-explicit-finite-deadline.json",
+      "sha256": "c978a5eb387eee8ff07a686175e8659dde268ac1529f5c602b17b547edbd3f17",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-scope-after-cursor-cancellation.json",
+      "sha256": "df10072145887cc5db9fc55dcc5544089ae8c35093e2f96a932d3e2cca93a554",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-scope-at-cursor-cancellation.json",
+      "sha256": "19186440b775375e1156e279e6eec4df6194689d6516100ef5da39f0be4bc6c8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-scope-before-cursor-completion.json",
+      "sha256": "360921267a147b2129017e6ebdbaa5e373a360de864b434ea488aad313dbde15",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-unit-after-cursor-cancellation.json",
+      "sha256": "3d79dc88f93435c6babbb5a565947fc62ddab8b1c9949a06ad9c8d4f22d45feb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-unit-at-cursor-cancellation.json",
+      "sha256": "ab2ec4ffe86a3f38aa153d6ba4334a78ca64a2a02cde5d9794364a01e4035354",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-churn-unit-before-cursor-completion.json",
+      "sha256": "924f801d2bbb4f67a9995c01081940d8cd9107c62b6ff28cf1a02076b4cc5263",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-removal-last-scope-at-cursor-readded.json",
+      "sha256": "710d767af0429205944127798541a768ef2f9a6ed581f654da6ca90d3523bf70",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-removal-last-unit-at-cursor-readded.json",
+      "sha256": "7464243e6d0c4357522684bdee9fe9c8beb9b777f8430bf0153713e15a0aa666",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-removal-unit-after-cursor.json",
+      "sha256": "98e846bcfd0592fd8c82ebd5b10cd9f6baaf10027c7cc8d86f49f4f507403499",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-removal-unit-at-cursor.json",
+      "sha256": "4dd87d2ed6d9182a41e510c0a832b943db9a8c7ee128d5613d132db5c4958c9b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/cursor-removal-unit-before-cursor.json",
+      "sha256": "fd614857af44263aa89592ebba1d4131cc3afb7ed51de88207db9c2074dedb50",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-scope-and-unit-at-deadline.json",
+      "sha256": "c6c779f88007c3232938576c52901792e1a293693aa083d031f3f305b25f4d54",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-scope-and-unit-before-deadline.json",
+      "sha256": "f4456b14b6822647225ea319ab287caacd8a6ba40a9483885889057d08a156cc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-scope-only-at-deadline.json",
+      "sha256": "d459f6bc761e66a1dba4755414fe60ff5f1a821e09262cd26bd5057c290b88c7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-scope-only-before-deadline.json",
+      "sha256": "fab7725aa4c2f26c41477713e1b1ed17a75305ba5a0c2e342f4ceb205842f0c0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-unit-only-at-deadline.json",
+      "sha256": "56b79a4ff98a05943427d2ac496e8b83a00b908e64afa2509c90f1010b04f202",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/deadline-equality-unit-only-before-deadline.json",
+      "sha256": "3b2bcfe14ee0b011c59ff78fd7ec73a208cc7795455c1c0d7c617f41f351cf83",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/expiry-cancellation-retry-at-tail.json",
+      "sha256": "dc096a6a7ea72cf05815e0b62bb47c3a0947958cb47ba63dcd2fd5753c4102b6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/historical-scope-and-unit-metadata-pruned.json",
+      "sha256": "d85fb98807f2b6b919bae42fdd30e5ff8c8ef76ecfc9d64ac4a163603068bbae",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/in-flight-bound.json",
+      "sha256": "896972ebe21664cb50cac84288725ccadad8316d268d15be9b64944f6b238815",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/key-active-until-queue-inflight-and-dependents-empty.json",
+      "sha256": "8fe6cd5fb5555383e28f9c724e584689d1c565f4c3f3aeb5c6f9f6df683bb573",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-dependent-below-protected.json",
+      "sha256": "8322197d22c237e2a7fb87778b1835e8eaca0fa9a0a634b3f395f7c44ff48e2b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-in-flight-zero.json",
+      "sha256": "1d8e1300d3f91ac5c7435fdee24e719c3b1ce9fe29f8f70d43e9ffcb619ed9b9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-multiplication-overflow.json",
+      "sha256": "f27eecfe7a4283b79689a4263c5378175e2a6ae98c15a0201fa74e84052393a2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-negative.json",
+      "sha256": "28ae10db48cc3a6556089fba5bfbf07a38af7eae72fd9b1bb3a82b90bf7452a0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-per-key-above-total.json",
+      "sha256": "09d9f60e2edd36af319e39e9bc246fe0a9f72b46eff9e6f0b9161a9f05646e61",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-per-key-below-protected.json",
+      "sha256": "ea26b9b66d25ba4d213b9a13574000d691c719bb83c00a287efc45e970230094",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-protected-capacity-absent.json",
+      "sha256": "0a326ca6cb3fd3822b45df20a0066e2ccdd1ec87160b85210aa7e36e96a99260",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-retry-attempts-zero.json",
+      "sha256": "7ff767551955467ea1c0fee87061d334f0fc9ba1444104a60e06b6379725ab88",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-scope-below-protected.json",
+      "sha256": "f0a8025b2605b54b7b6fdcf0c9dedb1b279aed9fba1a722e058523ead81168eb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-scope-cannot-protect-all-keys.json",
+      "sha256": "9fbb898438ecd914caab261c6e76b9deee8aea4c0c9d1ac8d14de91e96ab2293",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-valid.json",
+      "sha256": "db1aee9d8583361d17075d3d3a718218ffa0a534e0c3319233d3e5c6a7573ea2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/limits-zero.json",
+      "sha256": "8a7b91ae32a6214224101976c00e3414324170a6d4b09b24d9b32e39cdd489da",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/protected-deficit-for-active-keys.json",
+      "sha256": "8e460dc1ea973ca976dcd23ea756816a371ae1a9a6eb7b1c8d4344692c47a6e8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/retry-admission-failure-releases-in-flight-slot.json",
+      "sha256": "d928f265041aebc9d5c93aa97ba4384578b0718c198510a71abe884792ce6ed0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/retry-limit-fails-and-releases-request.json",
+      "sha256": "0928f85ead0fefd793f891c6d5223c380b9c166d22aad1cbf2b46735e1147563",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/scope-removal-keeps-next-peer.json",
+      "sha256": "0e71968b1c5f4182abe5f82d9e0a9f565d69834fea8f97788b06ac60e9a4cb4d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/scope-then-unit-round-robin-fifo.json",
+      "sha256": "70b8cfe107f1bdd2b5337a6332b70d4f045bdcff4e75f33012de4ade20a7f9c0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/unit-removal-keeps-next-peer.json",
+      "sha256": "76c5eb1cec46a77882e6a6944e52961305f2911720a2a800c8abb327a3b73f6b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
+    },
+    {
+      "path": "current/modbus/modbus/scheduler/unit-zero-and-unit-one-keys-distinct.json",
+      "sha256": "ec32fdc08a2a9b498a21e461650e00e2150cebf1f15f494268344cbb5d647999",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry modbus --package . --sources modbus --test TestOracleModbus --output .tmp/oracle-record/modbus"
     }
   ]
 }

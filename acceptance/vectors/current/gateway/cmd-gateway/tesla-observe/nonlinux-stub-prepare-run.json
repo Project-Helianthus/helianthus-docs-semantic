@@ -1,0 +1,31 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "tesla-observe-serial-opener-non-linux",
+  "source": "cmd/gateway/tesla_observe_flow_other.go",
+  "stimulus": "none at the pin; the preparation run reaches the opener through the command's own port table",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "args": [
+        "-prepare",
+        "-serial-path",
+        "synthetic-serial-port"
+      ],
+      "function": "runTeslaObserve"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "exit_code": 1,
+        "stderr": "tesla-observe: prepare failed: receive-only serial observation requires Linux\n"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

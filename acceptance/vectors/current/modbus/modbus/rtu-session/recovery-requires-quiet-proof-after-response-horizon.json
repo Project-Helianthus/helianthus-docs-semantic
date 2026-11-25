@@ -1,0 +1,122 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-rtu-session",
+  "source": "rtu_session.go",
+  "stimulus": "TestRTUSessionRecoveryRequiresQuietProofAfterResponseHorizon",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "stream": {
+        "script": "two gaps",
+        "write_result": {
+          "error": "unexpected EOF",
+          "written": 1
+        }
+      },
+      "timing": {
+        "baud": 115200,
+        "character_time_ns": 95487,
+        "configured_max_quiescence_ns": 100000000,
+        "configured_max_response_latency_ns": 20000000,
+        "data_bits": 8,
+        "inter_character_ns": 750000,
+        "inter_frame_ns": 1750000,
+        "max_quiescence_ns": 100000000,
+        "max_response_latency_ns": 20000000,
+        "parity": "even",
+        "stop_bits": 1
+      }
+    },
+    "clock": {
+      "note": "byte receipt offsets are scripted by the stream; context timeouts use the wall clock",
+      "unit": "stream offset"
+    },
+    "state": {
+      "scripted_reads": [
+        {
+          "byte": 0,
+          "error": "context deadline exceeded",
+          "offset_ns": 20000000
+        },
+        {
+          "byte": 0,
+          "error": "context deadline exceeded",
+          "offset_ns": 21750001
+        }
+      ],
+      "steps": [
+        {
+          "enabled": true,
+          "max_response_frames": 0,
+          "step": "open"
+        },
+        {
+          "policy_max_attempts": 1,
+          "policy_replay_safe": false,
+          "request_adu": "1065cc5b",
+          "request_adu_error": null,
+          "step": "exchange_partial_write",
+          "unit": 16
+        },
+        {
+          "step": "recover"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [
+      {
+        "error": {
+          "text": "unexpected EOF"
+        },
+        "frame": "1065cc5b",
+        "written": 1
+      }
+    ],
+    "decisions": [
+      {
+        "error": null,
+        "session_returned": true,
+        "step": "open"
+      },
+      {
+        "error": {
+          "text": "unexpected EOF"
+        },
+        "responses": [],
+        "step": "exchange_partial_write"
+      },
+      {
+        "error": null,
+        "step": "recover"
+      },
+      {
+        "at_least_response_latency_plus_inter_frame": true,
+        "offset_ns": 21750001,
+        "step": "offset_after_recovery"
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "byte": 0,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "offset_ns": 20000000
+      },
+      {
+        "byte": 0,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "offset_ns": 21750001
+      }
+    ],
+    "counters": {
+      "final_stream_offset_ns": 21750001,
+      "stream_write_calls": 1
+    }
+  }
+}

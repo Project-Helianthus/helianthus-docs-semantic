@@ -1,0 +1,515 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerDeadlineEqualityReleasesQueuedWeight/scope-only/at-deadline",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 2,
+        "max_coalesced_dependents_per_key": 1,
+        "max_in_flight_requests": 2,
+        "max_queued_per_authorization_scope": 3,
+        "max_queued_per_key": 2,
+        "max_retry_attempts": 1,
+        "protected_slots_per_key": 1,
+        "shared_burst_slots": 1,
+        "total_queued": 3
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 10,
+          "op": "admit_weighted",
+          "request_id": 1,
+          "scope": "alpha",
+          "unit": 1,
+          "weight": 2
+        },
+        {
+          "deadline_offset": 20,
+          "op": "admit_weighted",
+          "request_id": 2,
+          "scope": "beta",
+          "unit": 1,
+          "weight": 1
+        },
+        {
+          "op": "key_queued",
+          "scope": "alpha",
+          "unit": 1
+        },
+        {
+          "op": "key_queued",
+          "scope": "beta",
+          "unit": 1
+        },
+        {
+          "op": "internals"
+        },
+        {
+          "deadline_offset": 20,
+          "op": "enqueue",
+          "request_id": 3,
+          "scope": "beta",
+          "unit": 1
+        },
+        {
+          "now": 10,
+          "op": "dispatch"
+        },
+        {
+          "op": "key_queued",
+          "scope": "alpha",
+          "unit": 1
+        },
+        {
+          "op": "internals"
+        },
+        {
+          "op": "complete",
+          "request_id": 1
+        },
+        {
+          "op": "key_queued",
+          "scope": "alpha",
+          "unit": 1
+        },
+        {
+          "op": "internals"
+        },
+        {
+          "deadline_offset": 20,
+          "op": "admit_weighted",
+          "request_id": 1,
+          "scope": "gamma",
+          "unit": 3,
+          "weight": 2
+        },
+        {
+          "op": "key_queued",
+          "scope": "gamma",
+          "unit": 3
+        },
+        {
+          "op": "internals"
+        },
+        {
+          "deadline_offset": 20,
+          "op": "admit_weighted",
+          "request_id": 3,
+          "scope": "beta",
+          "unit": 1,
+          "weight": 2
+        },
+        {
+          "deadline_offset": 20,
+          "op": "enqueue",
+          "request_id": 3,
+          "scope": "beta",
+          "unit": 1
+        },
+        {
+          "op": "complete",
+          "request_id": 2
+        },
+        {
+          "now": 10,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete_last_dispatch"
+        },
+        {
+          "now": 10,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete_last_dispatch"
+        },
+        {
+          "now": 10,
+          "op": "dispatch"
+        },
+        {
+          "op": "internals"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "op": "admit_weighted",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "admit_weighted",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "live": true,
+        "op": "key_queued",
+        "queued": 2,
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "live": true,
+        "op": "key_queued",
+        "queued": 1,
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "coalesced": 0,
+        "entries": 2,
+        "in_flight": 0,
+        "keys": 2,
+        "op": "internals",
+        "scope_cursor": 0,
+        "scope_order": 2,
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ],
+        "unit_cursor": 0,
+        "unit_order": 2
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "queued_capacity",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: queued_capacity"
+        },
+        "op": "enqueue",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 20,
+          "request_id": 2,
+          "scope": "beta",
+          "unit": 1
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "live": false,
+        "op": "key_queued",
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "coalesced": 0,
+        "entries": 1,
+        "in_flight": 1,
+        "keys": 1,
+        "op": "internals",
+        "scope_cursor": 0,
+        "scope_order": 1,
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ],
+        "unit_cursor": 1,
+        "unit_order": 1
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "request_state",
+          "kind": "invalid_request",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_request: request_state"
+        },
+        "op": "complete",
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "live": false,
+        "op": "key_queued",
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "coalesced": 0,
+        "entries": 1,
+        "in_flight": 1,
+        "keys": 1,
+        "op": "internals",
+        "scope_cursor": 0,
+        "scope_order": 1,
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ],
+        "unit_cursor": 1,
+        "unit_order": 1
+      },
+      {
+        "error": null,
+        "op": "admit_weighted",
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "live": true,
+        "op": "key_queued",
+        "queued": 2,
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "coalesced": 0,
+        "entries": 2,
+        "in_flight": 1,
+        "keys": 2,
+        "op": "internals",
+        "scope_cursor": 0,
+        "scope_order": 2,
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ],
+        "unit_cursor": 1,
+        "unit_order": 2
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "queued_capacity",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: queued_capacity"
+        },
+        "op": "admit_weighted",
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          2,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 20,
+          "request_id": 3,
+          "scope": "beta",
+          "unit": 1
+        },
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete_last_dispatch",
+        "request_id": 3,
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 20,
+          "request_id": 1,
+          "scope": "gamma",
+          "unit": 3
+        },
+        "state": [
+          0,
+          1,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete_last_dispatch",
+        "request_id": 1,
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "dispatched": false,
+        "op": "dispatch",
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "coalesced": 0,
+        "entries": 0,
+        "in_flight": 0,
+        "keys": 0,
+        "op": "internals",
+        "scope_cursor": 0,
+        "scope_order": 0,
+        "state": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "unit_cursor": 0,
+        "unit_order": 0
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}
