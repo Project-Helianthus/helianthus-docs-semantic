@@ -262,6 +262,7 @@ CONDITIONAL_PROBES = {
     "#/$defs/dimensionAttributes/if": PROBES["qualifier dimension with a resource kind"][0],
     "#/$defs/factAttributes/allOf/0/if": PROBES["signed without sign reference"][0],
     "#/$defs/factAttributes/allOf/1/if": PROBES["symbol fact with a direction"][0],
+    "#/$defs/factAttributes/allOf/2/if": [(at(SIGNED, "attributes", "symbols"), ["synthetic.symbol.entered"])],
     "#/$defs/element/allOf/0/if": PROBES["member without planes"][0],
     "#/$defs/element/allOf/1/if": PROBES["unsupported with planes"][0],
     "#/$defs/element/allOf/2/if": PROBES["unknown without tracking"][0],

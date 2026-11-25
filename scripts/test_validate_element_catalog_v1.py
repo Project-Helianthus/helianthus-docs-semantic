@@ -7,6 +7,7 @@ tested through ``check_rules`` so that a rejection proves the rule code, not
 the schema; ``validate`` must reject every mutation as well.
 """
 import contextlib
+import json
 import copy
 import io
 import sys
@@ -185,7 +186,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1656 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1812 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -290,12 +291,37 @@ class CommittedCatalog(unittest.TestCase):
         self.assertEqual([item["id"] for item in schemes], ["scheme.ieee.eui48", "scheme.ieee.eui64"])
         self.assertTrue(all(item["admission"]["arm"] == "public_registry" for item in schemes))
 
+
+    def test_qu11_generator_and_ventilation(self):
+        power = entry_of(CATALOG, "thermal.measurement.electrical_power")
+        self.assertEqual(power["attributes"]["direction"], "not_applicable")
+        self.assertNotIn("sign_reference", power["attributes"])
+        self.assertEqual(power["attributes"]["aggregation"], "member")
+        event = entry_of(CATALOG, "thermal.event.maintenance_due")
+        self.assertEqual(event["attributes"]["condition"], "entered")
+        self.assertEqual(event["attributes"]["origin"], "derived")
+        self.assertEqual(event["attributes"]["symbols"], ["thermal.status.maintenance.due"])
+        self.assertEqual(event["planes"], ["diagnostic"])
+        maintenance = entry_of(CATALOG, "thermal.status.maintenance")
+        self.assertEqual(maintenance["attributes"]["symbols"], [
+            "thermal.status.maintenance.clear", "thermal.status.maintenance.due"])
+        self.assertEqual(entry_of(CATALOG, "resource.fan")["planes"], ["physical", "control"])
+        self.assertEqual(entry_of(CATALOG, "resource.air_filter")["planes"], ["physical", "control", "diagnostic"])
+        self.assertEqual(entry_of(CATALOG, "thermal.dimension.period")["attributes"]["symbols"], ["day", "month", "year"])
+        consumed = entry_of(CATALOG, "thermal.energy.electrical_consumed")["attributes"]["qualifiers"]
+        self.assertEqual([item["id"] for item in consumed], [
+            "thermal.dimension.period", "thermal.dimension.period_offset"])
+        self.assertNotIn("qualifiers", entry_of(CATALOG, "thermal.measurement.louver_position")["attributes"])
+        encoded = json.dumps(CATALOG)
+        self.assertNotIn("flexibleStartForWhiteGoods", encoded)
+        self.assertNotIn("monitoringAndControlOfSmartGridReadyConditions", encoded)
+
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 1581)
+        self.assertEqual(len(kinds), 1735)
         self.assertEqual(kinds.count("relation"), 30)
-        self.assertEqual(kinds.count("presentation"), 51)
-        self.assertEqual(kinds.count("dimension"), 78)
+        self.assertEqual(kinds.count("presentation"), 53)
+        self.assertEqual(kinds.count("dimension"), 84)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_room_planes_and_containment(self):
@@ -339,6 +365,21 @@ class Mutations(unittest.TestCase):
         self.assertTrue(matching, f"no {error} {rule} finding among {[str(item) for item in findings]}")
         self.assertTrue(validator.validate(catalog, INPUTS, SCHEMA), "validate accepted the mutation")
         return findings
+
+
+    def test_qu11_event_symbol_and_planes(self):
+        self.rejects(
+            lambda c: entry_of(c, "thermal.status.maintenance")["attributes"].pop("symbols"),
+            "invalid_value", "CAT-2", "thermal.event.maintenance_due", "subset of the trigger symbols")
+        self.rejects(
+            lambda c: entry_of(c, "thermal.event.maintenance_due")["attributes"].__setitem__("condition", "changed"),
+            "invalid_value", "CAT-2", "thermal.event.maintenance_due", "changed event carries symbols")
+        self.rejects(
+            lambda c: entry_of(c, "thermal.event.maintenance_due").__setitem__("planes", ["control"]),
+            "membership_missing", "CAT-4", "thermal.event.maintenance_due", "PLN-5")
+        self.rejects(
+            lambda c: entry_of(c, "thermal.energy.electrical_consumed")["attributes"].pop("qualifiers"),
+            "invalid_value", "CAT-2", "thermal.energy.electrical_consumed", "qualifiers")
 
     def test_missing_repository_path_is_rejected(self):
         self.rejects(

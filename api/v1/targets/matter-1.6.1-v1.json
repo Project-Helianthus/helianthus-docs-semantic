@@ -49792,6 +49792,377 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.air.level",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.level"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.level",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.level",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.mass_concentration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.mass_concentration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.mass_concentration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.mass_concentration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.measurement_medium",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.measurement_medium"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.measurement_medium",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.measurement_medium",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.radon_concentration",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.radon_concentration"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.radon_concentration",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.radon_concentration",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.statistic_window",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.statistic_window"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.statistic_window",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.statistic_window",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.uncertainty",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.uncertainty"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.uncertainty",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.uncertainty",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.air.volume_fraction",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.air.volume_fraction"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.air.volume_fraction",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.air.volume_fraction",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.calibration.temperature_offset",
         "version": "1.0.0"
       },
@@ -50349,6 +50720,42 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.capability.reset_filter",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.reset_filter"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.reset_filter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.capability.reset_water_tank",
         "version": "1.0.0"
       },
@@ -50442,6 +50849,114 @@
         "requested": {
           "kind": "capability",
           "item_id": "thermal.capability.set_active_program",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_circuit_fixed_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_circuit_fixed_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_circuit_fixed_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_circuit_flow_temperature_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_circuit_flow_temperature_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_circuit_flow_temperature_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_circuit_flow_temperature_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_circuit_flow_temperature_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_circuit_flow_temperature_minimum",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -50709,6 +51224,294 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.capability.set_fan_airflow_direction",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_airflow_direction"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_airflow_direction",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_fan_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_fan_rock",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_rock"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_rock",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_fan_speed",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_speed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_speed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_fan_step",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_step"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_step",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_fan_wind",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_fan_wind"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_fan_wind",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_filter_last_changed",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_filter_last_changed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_filter_last_changed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_heat_generator_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_heat_generator_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_heat_generator_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.capability.set_hold",
         "version": "1.0.0"
       },
@@ -50766,6 +51569,42 @@
         "requested": {
           "kind": "capability",
           "item_id": "thermal.capability.set_keypad_lockout",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_louver_position",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_louver_position"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_louver_position",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -51018,6 +51857,366 @@
         "requested": {
           "kind": "capability",
           "item_id": "thermal.capability.set_occupied_heating",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_hvac_system_off",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_hvac_system_off"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_hvac_system_off",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_one_day_at_home",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_one_day_at_home"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_one_day_at_home",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_one_day_away",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_one_day_away"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_one_day_away",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_one_time_dhw",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_one_time_dhw"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_one_time_dhw",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_one_time_ventilation",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_one_time_ventilation"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_one_time_ventilation",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_party",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_party"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_party",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_sg_ready_condition_1",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_sg_ready_condition_1"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_sg_ready_condition_1",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_sg_ready_condition_3",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_sg_ready_condition_3"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_sg_ready_condition_3",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_sg_ready_condition_4",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_sg_ready_condition_4"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_sg_ready_condition_4",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_overrun_valve_kick",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_overrun_valve_kick"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_overrun_valve_kick",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -51429,6 +52628,150 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.capability.set_terminal_unit_cooling",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_terminal_unit_cooling"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_terminal_unit_cooling",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_terminal_unit_heating",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_terminal_unit_heating"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_terminal_unit_heating",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_terminal_unit_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_terminal_unit_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_terminal_unit_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_terminal_unit_power",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_terminal_unit_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_terminal_unit_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.capability.set_unoccupied_cooling",
         "version": "1.0.0"
       },
@@ -51645,6 +52988,78 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.capability.set_ventilation_level",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_ventilation_level"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_ventilation_level",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.capability.set_ventilation_mode",
+        "version": "1.0.0"
+      },
+      "kind": "capability",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.capability.set_ventilation_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "capability",
+          "item_id": "thermal.capability.set_ventilation_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.capability.set_zone_cooling_mode",
         "version": "1.0.0"
       },
@@ -51745,6 +53160,112 @@
           "revisions": "exact_input_revisions"
         },
         "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.configuration.ac_type",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.configuration.ac_type"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.configuration.ac_type",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.configuration.ac_type",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.configuration.compressor_type",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.configuration.compressor_type"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.configuration.compressor_type",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.configuration.compressor_type",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
       }
     },
     {
@@ -51952,6 +53473,59 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.system",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.configuration.refrigerant_type",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.configuration.refrigerant_type"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.configuration.refrigerant_type",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.configuration.refrigerant_type",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
                 "version": "1.0.0"
               }
             }
@@ -53396,6 +54970,59 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.energy.electrical_consumed",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.energy.electrical_consumed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.energy.electrical_consumed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.energy.electrical_consumed",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.heat_generator",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.energy.heat_output",
         "version": "1.0.0"
       },
@@ -53489,6 +55116,1119 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.pump",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.energy.solar_yield",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.energy.solar_yield"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.energy.solar_yield",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.energy.solar_yield",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.solar_circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.airflow_direction",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.airflow_direction"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.airflow_direction",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.airflow_direction",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.mode",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.mode",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.mode_sequence",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.mode_sequence"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.mode_sequence",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.mode_sequence",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.rock_setting",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.rock_setting"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.rock_setting",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.rock_setting",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.rock_support",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.rock_support"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.rock_support",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.rock_support",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.speed_ratio",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.speed_ratio"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.speed_ratio",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.speed_ratio",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.speed_setting",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.speed_setting"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.speed_setting",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.speed_setting",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.speed_step",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.speed_step"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.speed_step",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.speed_step",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.speed_step_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.speed_step_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.speed_step_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.speed_step_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.speed_step_setting",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.speed_step_setting"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.speed_step_setting",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.speed_step_setting",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.wind_setting",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.wind_setting"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.wind_setting",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.wind_setting",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.fan.wind_support",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.fan.wind_support"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.fan.wind_support",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.fan.wind_support",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.fan",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.change_indication",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.change_indication"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.change_indication",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.change_indication",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.condition",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.condition"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.condition",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.condition",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.degradation_direction",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.degradation_direction"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.degradation_direction",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.degradation_direction",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.in_place",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.in_place"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.in_place",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.in_place",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.kind",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.kind"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.kind",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.kind",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.last_changed",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.last_changed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.last_changed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.last_changed",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.replacement_product_identifier",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.replacement_product_identifier"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.replacement_product_identifier",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.replacement_product_identifier",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.filter.replacement_product_kind",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.filter.replacement_product_kind"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.filter.replacement_product_kind",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.filter.replacement_product_kind",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.air_filter",
                 "version": "1.0.0"
               }
             }
@@ -53926,6 +56666,112 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.limit.circuit_flow_temperature_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.limit.circuit_flow_temperature_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.limit.circuit_flow_temperature_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.limit.circuit_flow_temperature_maximum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.limit.circuit_flow_temperature_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.limit.circuit_flow_temperature_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.limit.circuit_flow_temperature_minimum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.limit.circuit_flow_temperature_minimum",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.limit.maximum_cooling_setpoint",
         "version": "1.0.0"
       },
@@ -54244,6 +57090,59 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.measurement.air_quality",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.air_quality"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.air_quality",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.air_quality",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.measurement.air_temperature",
         "version": "1.0.0"
       },
@@ -54496,6 +57395,59 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.coil_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.coil_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.coil_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.coil_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
                 "version": "1.0.0"
               }
             }
@@ -54880,6 +57832,218 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.measurement.electrical_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.electrical_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.electrical_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.electrical_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.heat_generator",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.exhaust_air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.exhaust_air_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.exhaust_air_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.exhaust_air_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.extract_air_flow",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.extract_air_flow"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.extract_air_flow",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.extract_air_flow",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.extract_air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.extract_air_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.extract_air_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.extract_air_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.measurement.flow_rate",
         "version": "1.0.0"
       },
@@ -55145,6 +58309,59 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.measurement.louver_position",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.louver_position"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.louver_position",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.louver_position",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.measurement.outdoor_air_temperature",
         "version": "1.0.0"
       },
@@ -55185,6 +58402,112 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.system",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.outdoor_air_temperature_average",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.outdoor_air_temperature_average"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.outdoor_air_temperature_average",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.outdoor_air_temperature_average",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.system",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.outdoor_intake_air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.outdoor_intake_air_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.outdoor_intake_air_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.outdoor_intake_air_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
                 "version": "1.0.0"
               }
             }
@@ -56205,6 +59528,112 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.measurement.supply_air_flow",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.supply_air_flow"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.supply_air_flow",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.supply_air_flow",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.supply_air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.supply_air_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.supply_air_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.supply_air_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.measurement.system_flow_temperature",
         "version": "1.0.0"
       },
@@ -56298,6 +59727,112 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.system",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.terminal_unit_air_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.terminal_unit_air_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.terminal_unit_air_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.terminal_unit_air_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.measurement.terminal_unit_humidity",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.measurement.terminal_unit_humidity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.measurement.terminal_unit_humidity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.measurement.terminal_unit_humidity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
                 "version": "1.0.0"
               }
             }
@@ -57000,6 +60535,59 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.mode.ventilation",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.mode.ventilation"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.mode.ventilation",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.mode.ventilation",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.ventilation",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.mode.zone",
         "version": "1.0.0"
       },
@@ -57093,6 +60681,59 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.nameplate.cooling_capacity",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.nameplate.cooling_capacity"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.nameplate.cooling_capacity",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.nameplate.cooling_capacity",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
                 "version": "1.0.0"
               }
             }
@@ -57884,6 +61525,42 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.operation.reset_filter",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.reset_filter"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.reset_filter",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.operation.reset_water_tank",
         "version": "1.0.0"
       },
@@ -57977,6 +61654,114 @@
         "requested": {
           "kind": "operation",
           "item_id": "thermal.operation.set_active_program",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_circuit_fixed_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_circuit_fixed_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_circuit_fixed_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_circuit_flow_temperature_maximum",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_circuit_flow_temperature_maximum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_circuit_flow_temperature_maximum",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_circuit_flow_temperature_minimum",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_circuit_flow_temperature_minimum"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_circuit_flow_temperature_minimum",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -58244,6 +62029,294 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.operation.set_fan_airflow_direction",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_airflow_direction"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_airflow_direction",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_fan_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_fan_rock",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_rock"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_rock",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_fan_speed",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_speed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_speed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_fan_step",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_step"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_step",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_fan_wind",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_fan_wind"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_fan_wind",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_filter_last_changed",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_filter_last_changed"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_filter_last_changed",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_heat_generator_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_heat_generator_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_heat_generator_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.operation.set_hold",
         "version": "1.0.0"
       },
@@ -58301,6 +62374,42 @@
         "requested": {
           "kind": "operation",
           "item_id": "thermal.operation.set_keypad_lockout",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_louver_position",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_louver_position"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_louver_position",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -58553,6 +62662,366 @@
         "requested": {
           "kind": "operation",
           "item_id": "thermal.operation.set_occupied_heating",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_hvac_system_off",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_hvac_system_off"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_hvac_system_off",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_one_day_at_home",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_one_day_at_home"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_one_day_at_home",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_one_day_away",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_one_day_away"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_one_day_away",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_one_time_dhw",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_one_time_dhw"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_one_time_dhw",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_one_time_ventilation",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_one_time_ventilation"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_one_time_ventilation",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_party",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_party"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_party",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_sg_ready_condition_1",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_sg_ready_condition_1"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_sg_ready_condition_1",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_sg_ready_condition_3",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_sg_ready_condition_3"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_sg_ready_condition_3",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_sg_ready_condition_4",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_sg_ready_condition_4"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_sg_ready_condition_4",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_overrun_valve_kick",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_overrun_valve_kick"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_overrun_valve_kick",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -58964,6 +63433,150 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.operation.set_terminal_unit_cooling",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_terminal_unit_cooling"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_terminal_unit_cooling",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_terminal_unit_heating",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_terminal_unit_heating"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_terminal_unit_heating",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_terminal_unit_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_terminal_unit_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_terminal_unit_mode",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_terminal_unit_power",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_terminal_unit_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_terminal_unit_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.operation.set_unoccupied_cooling",
         "version": "1.0.0"
       },
@@ -59165,6 +63778,78 @@
         "requested": {
           "kind": "operation",
           "item_id": "thermal.operation.set_valve_state",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_ventilation_level",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_ventilation_level"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_ventilation_level",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.operation.set_ventilation_mode",
+        "version": "1.0.0"
+      },
+      "kind": "operation",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.operation.set_ventilation_mode"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "operation",
+          "item_id": "thermal.operation.set_ventilation_mode",
           "item_version": "1.0.0"
         },
         "revision_binding": {
@@ -62612,6 +67297,38 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.service.air_filter",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.air_filter"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.service.circuit",
         "version": "1.0.0"
       },
@@ -62719,6 +67436,38 @@
           "kind": "identity",
           "source_items": [
             "thermal.service.dhw"
+          ],
+          "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": null,
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": []
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.service.fan",
+        "version": "1.0.0"
+      },
+      "kind": "service",
+      "disposition": "unsupported",
+      "reason": "matter.service_not_requested_item.v1",
+      "loss": [
+        {
+          "kind": "identity",
+          "source_items": [
+            "thermal.service.fan"
           ],
           "description": "a service is not a kernel-v1 requested item; its subject has no allocated endpoint in this target and no endpoint correspondence is inferred",
           "reversible": false
@@ -63379,6 +68128,112 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.setpoint.circuit_fixed_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.setpoint.circuit_fixed_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.setpoint.circuit_fixed_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.setpoint.circuit_fixed_flow_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.circuit_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.setpoint.circuit_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.setpoint.circuit_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.setpoint.circuit_flow_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.circuit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.setpoint.dhw_temperature_setpoint",
         "version": "1.0.0"
       },
@@ -63419,6 +68274,59 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.dhw",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.heat_generator_flow_temperature",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.setpoint.heat_generator_flow_temperature"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.setpoint.heat_generator_flow_temperature",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.setpoint.heat_generator_flow_temperature",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.heat_generator",
                 "version": "1.0.0"
               }
             }
@@ -63631,6 +68539,112 @@
                   "version": "1.0.0"
                 },
                 "id": "thermal.dimension.zone",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.terminal_unit_cooling",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.setpoint.terminal_unit_cooling"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.setpoint.terminal_unit_cooling",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.setpoint.terminal_unit_cooling",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.setpoint.terminal_unit_heating",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.setpoint.terminal_unit_heating"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.setpoint.terminal_unit_heating",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.setpoint.terminal_unit_heating",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
                 "version": "1.0.0"
               }
             }
@@ -64439,6 +69453,59 @@
           "id": "helianthus.pack.thermal",
           "version": "1.0.0"
         },
+        "id": "thermal.status.terminal_unit_errors",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.status.terminal_unit_errors"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.status.terminal_unit_errors",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.status.terminal_unit_errors",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
         "id": "thermal.status.terminal_unit_fault",
         "version": "1.0.0"
       },
@@ -64524,6 +69591,59 @@
             "pack_id": "helianthus.pack.thermal",
             "pack_version": "1.0.0",
             "fact_id": "thermal.status.terminal_unit_operation",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.thermal",
+                  "version": "1.0.0"
+                },
+                "id": "thermal.dimension.terminal_unit",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.thermal",
+          "version": "1.0.0"
+        },
+        "id": "thermal.status.terminal_unit_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "matter.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "thermal.status.terminal_unit_power"
+          ],
+          "description": "no target lookup, inferred fallback, authority, intent, route, or operation is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "thermal.status.terminal_unit_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.thermal",
+            "pack_version": "1.0.0",
+            "fact_id": "thermal.status.terminal_unit_power",
             "dimensions": {
               "mode": "exact_runtime_fact_key",
               "definition": {

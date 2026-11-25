@@ -30818,6 +30818,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "unit.becquerel_per_cubic_metre",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "unit.cubic_metre",
           "version": "1.0.0"
         },
@@ -30843,6 +30851,14 @@
             "version": "1.0.0"
           },
           "id": "unit.kelvin",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilogram_per_cubic_metre",
           "version": "1.0.0"
         },
         {
@@ -30909,6 +30925,62 @@
             "version": "1.0.0"
           },
           "id": "thermal.action.zone_state",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.level",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.mass_concentration",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.measurement_medium",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.radon_concentration",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.statistic_window",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.uncertainty",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.air.volume_fraction",
           "version": "1.0.0"
         },
         {
@@ -31036,6 +31108,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.capability.reset_filter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.capability.reset_water_tank",
           "version": "1.0.0"
         },
@@ -31053,6 +31133,30 @@
             "version": "1.0.0"
           },
           "id": "thermal.capability.set_active_program",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_circuit_fixed_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_circuit_flow_temperature_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_circuit_flow_temperature_minimum",
           "version": "1.0.0"
         },
         {
@@ -31116,6 +31220,70 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.capability.set_fan_airflow_direction",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_fan_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_fan_rock",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_fan_speed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_fan_step",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_fan_wind",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_filter_last_changed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_heat_generator_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.capability.set_hold",
           "version": "1.0.0"
         },
@@ -31125,6 +31293,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.capability.set_keypad_lockout",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_louver_position",
           "version": "1.0.0"
         },
         {
@@ -31181,6 +31357,86 @@
             "version": "1.0.0"
           },
           "id": "thermal.capability.set_occupied_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_hvac_system_off",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_one_day_at_home",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_one_day_away",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_one_time_dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_one_time_ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_party",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_sg_ready_condition_1",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_sg_ready_condition_3",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_sg_ready_condition_4",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_overrun_valve_kick",
           "version": "1.0.0"
         },
         {
@@ -31276,6 +31532,38 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.capability.set_terminal_unit_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_terminal_unit_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_terminal_unit_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_terminal_unit_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.capability.set_unoccupied_cooling",
           "version": "1.0.0"
         },
@@ -31324,6 +31612,22 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.capability.set_ventilation_level",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.capability.set_ventilation_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.capability.set_zone_cooling_mode",
           "version": "1.0.0"
         },
@@ -31341,6 +31645,22 @@
             "version": "1.0.0"
           },
           "id": "thermal.capability.suppress_detector_alarm",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.configuration.ac_type",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.configuration.compressor_type",
           "version": "1.0.0"
         },
         {
@@ -31373,6 +31693,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.configuration.keypad_lockout",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.configuration.refrigerant_type",
           "version": "1.0.0"
         },
         {
@@ -31604,6 +31932,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.effect.reset_filter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.effect.reset_water_tank",
           "version": "1.0.0"
         },
@@ -31621,6 +31957,30 @@
             "version": "1.0.0"
           },
           "id": "thermal.effect.set_active_program",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_circuit_fixed_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_circuit_flow_temperature_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_circuit_flow_temperature_minimum",
           "version": "1.0.0"
         },
         {
@@ -31684,6 +32044,70 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.effect.set_fan_airflow_direction",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_fan_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_fan_rock",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_fan_speed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_fan_step",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_fan_wind",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_filter_last_changed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_heat_generator_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.effect.set_hold",
           "version": "1.0.0"
         },
@@ -31693,6 +32117,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.effect.set_keypad_lockout",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_louver_position",
           "version": "1.0.0"
         },
         {
@@ -31749,6 +32181,86 @@
             "version": "1.0.0"
           },
           "id": "thermal.effect.set_occupied_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_hvac_system_off",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_one_day_at_home",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_one_day_away",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_one_time_dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_one_time_ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_party",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_sg_ready_condition_1",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_sg_ready_condition_3",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_sg_ready_condition_4",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_overrun_valve_kick",
           "version": "1.0.0"
         },
         {
@@ -31844,6 +32356,38 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.effect.set_terminal_unit_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_terminal_unit_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_terminal_unit_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_terminal_unit_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.effect.set_unoccupied_cooling",
           "version": "1.0.0"
         },
@@ -31892,6 +32436,22 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.effect.set_ventilation_level",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.effect.set_ventilation_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.effect.set_zone_cooling_mode",
           "version": "1.0.0"
         },
@@ -31916,6 +32476,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.energy.electrical_consumed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.energy.heat_output",
           "version": "1.0.0"
         },
@@ -31925,6 +32493,174 @@
             "version": "1.0.0"
           },
           "id": "thermal.energy.pump_consumed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.energy.solar_yield",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.airflow_direction",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.mode_sequence",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.rock_setting",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.rock_support",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.speed_ratio",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.speed_setting",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.speed_step",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.speed_step_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.speed_step_setting",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.wind_setting",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.fan.wind_support",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.change_indication",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.condition",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.degradation_direction",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.in_place",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.kind",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.last_changed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.replacement_product_identifier",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.filter.replacement_product_kind",
           "version": "1.0.0"
         },
         {
@@ -31996,6 +32732,22 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.limit.circuit_flow_temperature_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.limit.circuit_flow_temperature_minimum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.limit.maximum_cooling_setpoint",
           "version": "1.0.0"
         },
@@ -32044,6 +32796,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.measurement.air_quality",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.measurement.air_temperature",
           "version": "1.0.0"
         },
@@ -32077,6 +32837,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.measurement.circuit_water_pressure",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.coil_temperature",
           "version": "1.0.0"
         },
         {
@@ -32140,6 +32908,38 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.measurement.electrical_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.exhaust_air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.extract_air_flow",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.extract_air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.measurement.flow_rate",
           "version": "1.0.0"
         },
@@ -32180,7 +32980,31 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.measurement.louver_position",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.measurement.outdoor_air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.outdoor_air_temperature_average",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.outdoor_intake_air_temperature",
           "version": "1.0.0"
         },
         {
@@ -32340,6 +33164,22 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.measurement.supply_air_flow",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.supply_air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.measurement.system_flow_temperature",
           "version": "1.0.0"
         },
@@ -32349,6 +33189,22 @@
             "version": "1.0.0"
           },
           "id": "thermal.measurement.system_water_pressure",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.terminal_unit_air_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.measurement.terminal_unit_humidity",
           "version": "1.0.0"
         },
         {
@@ -32460,6 +33316,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.mode.ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.mode.zone",
           "version": "1.0.0"
         },
@@ -32469,6 +33333,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.mode.zone_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.nameplate.cooling_capacity",
           "version": "1.0.0"
         },
         {
@@ -32596,6 +33468,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.operation.reset_filter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.operation.reset_water_tank",
           "version": "1.0.0"
         },
@@ -32613,6 +33493,30 @@
             "version": "1.0.0"
           },
           "id": "thermal.operation.set_active_program",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_circuit_fixed_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_circuit_flow_temperature_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_circuit_flow_temperature_minimum",
           "version": "1.0.0"
         },
         {
@@ -32676,6 +33580,70 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.operation.set_fan_airflow_direction",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_fan_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_fan_rock",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_fan_speed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_fan_step",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_fan_wind",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_filter_last_changed",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_heat_generator_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.operation.set_hold",
           "version": "1.0.0"
         },
@@ -32685,6 +33653,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.operation.set_keypad_lockout",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_louver_position",
           "version": "1.0.0"
         },
         {
@@ -32741,6 +33717,86 @@
             "version": "1.0.0"
           },
           "id": "thermal.operation.set_occupied_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_hvac_system_off",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_one_day_at_home",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_one_day_away",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_one_time_dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_one_time_ventilation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_party",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_sg_ready_condition_1",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_sg_ready_condition_3",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_sg_ready_condition_4",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_overrun_valve_kick",
           "version": "1.0.0"
         },
         {
@@ -32836,6 +33892,38 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.operation.set_terminal_unit_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_terminal_unit_heating",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_terminal_unit_mode",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_terminal_unit_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.operation.set_unoccupied_cooling",
           "version": "1.0.0"
         },
@@ -32877,6 +33965,22 @@
             "version": "1.0.0"
           },
           "id": "thermal.operation.set_valve_state",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_ventilation_level",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.operation.set_ventilation_mode",
           "version": "1.0.0"
         },
         {
@@ -33428,6 +34532,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.service.air_filter",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.service.circuit",
           "version": "1.0.0"
         },
@@ -33453,6 +34565,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.service.dhw",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.service.fan",
           "version": "1.0.0"
         },
         {
@@ -33604,7 +34724,31 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.setpoint.circuit_fixed_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.circuit_flow_temperature",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.setpoint.dhw_temperature_setpoint",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.heat_generator_flow_temperature",
           "version": "1.0.0"
         },
         {
@@ -33637,6 +34781,22 @@
             "version": "1.0.0"
           },
           "id": "thermal.setpoint.temperature_setpoint",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.terminal_unit_cooling",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.setpoint.terminal_unit_heating",
           "version": "1.0.0"
         },
         {
@@ -33764,6 +34924,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "thermal.status.terminal_unit_errors",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "thermal.status.terminal_unit_fault",
           "version": "1.0.0"
         },
@@ -33773,6 +34941,14 @@
             "version": "1.0.0"
           },
           "id": "thermal.status.terminal_unit_operation",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "thermal.status.terminal_unit_power",
           "version": "1.0.0"
         },
         {
@@ -33940,6 +35116,14 @@
             "id": "helianthus.pack.thermal",
             "version": "1.0.0"
           },
+          "id": "unit.becquerel_per_cubic_metre",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
           "id": "unit.cubic_metre",
           "version": "1.0.0"
         },
@@ -33965,6 +35149,14 @@
             "version": "1.0.0"
           },
           "id": "unit.kelvin",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          },
+          "id": "unit.kilogram_per_cubic_metre",
           "version": "1.0.0"
         },
         {
@@ -34061,6 +35253,174 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.air.level",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.mass_concentration",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kilogram_per_cubic_metre",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.measurement_medium",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.radon_concentration",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.becquerel_per_cubic_metre",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.statistic_window",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.uncertainty",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.air.volume_fraction",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.calibration.temperature_offset",
             "version": "1.0.0"
           },
@@ -34078,6 +35438,44 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.configuration.ac_type",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.configuration.compressor_type",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -34161,6 +35559,25 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.configuration.refrigerant_type",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -34788,6 +36205,32 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.energy.electrical_consumed",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.heat_generator",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.energy.heat_output",
             "version": "1.0.0"
           },
@@ -34831,6 +36274,454 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.pump",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.energy.solar_yield",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.joule",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.solar_circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.airflow_direction",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.mode",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.mode_sequence",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.rock_setting",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.rock_support",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_ratio",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_setting",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_step",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_step_maximum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_step_setting",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.one",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.wind_setting",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.wind_support",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.change_indication",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.condition",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.degradation_direction",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.in_place",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.kind",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.last_changed",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.replacement_product_identifier",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.replacement_product_kind",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
             "version": "1.0.0"
           }
         },
@@ -35034,6 +36925,58 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.limit.circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.limit.circuit_flow_temperature_minimum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.limit.maximum_cooling_setpoint",
             "version": "1.0.0"
           },
@@ -35190,6 +37133,25 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.measurement.air_quality",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.measurement.air_temperature",
             "version": "1.0.0"
           },
@@ -35311,6 +37273,32 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.coil_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -35502,6 +37490,110 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.measurement.electrical_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.heat_generator",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.exhaust_air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.extract_air_flow",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.cubic_metre_per_second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.extract_air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.measurement.flow_rate",
             "version": "1.0.0"
           },
@@ -35632,6 +37724,25 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.measurement.louver_position",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.measurement.outdoor_air_temperature",
             "version": "1.0.0"
           },
@@ -35649,6 +37760,58 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.outdoor_air_temperature_average",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.outdoor_intake_air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
             "version": "1.0.0"
           }
         },
@@ -36152,6 +38315,58 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.measurement.supply_air_flow",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.cubic_metre_per_second",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.supply_air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.measurement.system_flow_temperature",
             "version": "1.0.0"
           },
@@ -36195,6 +38410,58 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.terminal_unit_air_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.terminal_unit_humidity",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -36486,6 +38753,25 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.mode.ventilation",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.mode.zone",
             "version": "1.0.0"
           },
@@ -36515,6 +38801,32 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.nameplate.cooling_capacity",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -38063,6 +40375,58 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.setpoint.circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.circuit_flow_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.setpoint.dhw_temperature_setpoint",
             "version": "1.0.0"
           },
@@ -38080,6 +40444,32 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.dhw",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.heat_generator_flow_temperature",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.heat_generator",
             "version": "1.0.0"
           }
         },
@@ -38184,6 +40574,58 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.terminal_unit_cooling",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.terminal_unit_heating",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "unit.kelvin",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -38499,6 +40941,25 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.status.terminal_unit_errors",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.status.terminal_unit_fault",
             "version": "1.0.0"
           },
@@ -38519,6 +40980,25 @@
               "version": "1.0.0"
             },
             "id": "thermal.status.terminal_unit_operation",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.status.terminal_unit_power",
             "version": "1.0.0"
           },
           "canonical_unit": null,
@@ -38954,6 +41434,24 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.service.air_filter",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.service.circuit",
             "version": "1.0.0"
           },
@@ -39017,6 +41515,24 @@
               "version": "1.0.0"
             },
             "id": "thermal.dimension.dhw",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.dimension.fan",
             "version": "1.0.0"
           }
         },
@@ -39550,6 +42066,24 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.capability.reset_filter",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.capability.reset_water_tank",
             "version": "1.0.0"
           },
@@ -39595,6 +42129,60 @@
               "version": "1.0.0"
             },
             "id": "thermal.service.function",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_flow_temperature_minimum",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
             "version": "1.0.0"
           }
         },
@@ -39730,6 +42318,150 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.capability.set_fan_airflow_direction",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_rock",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_speed",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_step",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_wind",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_filter_last_changed",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.air_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_heat_generator_flow_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.heat_generator",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.capability.set_hold",
             "version": "1.0.0"
           },
@@ -39757,6 +42489,24 @@
               "version": "1.0.0"
             },
             "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_louver_position",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
             "version": "1.0.0"
           }
         },
@@ -39883,6 +42633,186 @@
               "version": "1.0.0"
             },
             "id": "thermal.service.zone",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_hvac_system_off",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_day_at_home",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_day_away",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_time_dhw",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_time_ventilation",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_party",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_1",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_3",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_4",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_valve_kick",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
             "version": "1.0.0"
           }
         },
@@ -40090,6 +43020,78 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.capability.set_terminal_unit_cooling",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_heating",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_power",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.capability.set_unoccupied_cooling",
             "version": "1.0.0"
           },
@@ -40189,6 +43191,42 @@
               "version": "1.0.0"
             },
             "id": "thermal.service.valve",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_ventilation_level",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_ventilation_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
             "version": "1.0.0"
           }
         },
@@ -40386,6 +43424,48 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.operation.reset_filter",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.reset_filter",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.air_filter",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.change_indication",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.reset_filter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.operation.reset_water_tank",
             "version": "1.0.0"
           },
@@ -40503,6 +43583,132 @@
               "version": "1.0.0"
             },
             "id": "thermal.effect.set_active_program",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_circuit_fixed_flow_temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.limit.circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_circuit_flow_temperature_maximum",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_circuit_flow_temperature_minimum",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_circuit_flow_temperature_minimum",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.circuit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.limit.circuit_flow_temperature_minimum",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_circuit_flow_temperature_minimum",
             "version": "1.0.0"
           }
         },
@@ -40856,6 +44062,342 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.operation.set_fan_airflow_direction",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_airflow_direction",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.airflow_direction",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_airflow_direction",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_fan_mode",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.mode",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_mode",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_fan_rock",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_rock",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.rock_setting",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_rock",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_fan_speed",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_speed",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_setting",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_speed",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_fan_step",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_step",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.speed_step_setting",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_step",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_fan_wind",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_fan_wind",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.fan",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.fan.wind_setting",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_fan_wind",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_filter_last_changed",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_filter_last_changed",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.air_filter",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.filter.last_changed",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_filter_last_changed",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_heat_generator_flow_temperature",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_heat_generator_flow_temperature",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.heat_generator",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.heat_generator_flow_temperature",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_heat_generator_flow_temperature",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.operation.set_hold",
             "version": "1.0.0"
           },
@@ -40949,6 +44491,48 @@
               "version": "1.0.0"
             },
             "id": "thermal.effect.set_keypad_lockout",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_louver_position",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_louver_position",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.measurement.louver_position",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_louver_position",
             "version": "1.0.0"
           }
         },
@@ -41243,6 +44827,426 @@
               "version": "1.0.0"
             },
             "id": "thermal.effect.set_occupied_heating",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_hvac_system_off",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_hvac_system_off",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.hvac_system_off",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_hvac_system_off",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_one_day_at_home",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_day_at_home",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.one_day_at_home",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_one_day_at_home",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_one_day_away",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_day_away",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.one_day_away",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_one_day_away",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_one_time_dhw",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_time_dhw",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.one_time_dhw",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_one_time_dhw",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_one_time_ventilation",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_one_time_ventilation",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.one_time_ventilation",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_one_time_ventilation",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_party",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_party",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.party",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_party",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_sg_ready_condition_1",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_1",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.sg_ready_condition_1",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_sg_ready_condition_1",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_sg_ready_condition_3",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_3",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.sg_ready_condition_3",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_sg_ready_condition_3",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_sg_ready_condition_4",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_sg_ready_condition_4",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.sg_ready_condition_4",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_sg_ready_condition_4",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_overrun_valve_kick",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_overrun_valve_kick",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.system",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.overrun.valve_kick",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_overrun_valve_kick",
             "version": "1.0.0"
           }
         },
@@ -41824,6 +45828,174 @@
               "id": "helianthus.pack.thermal",
               "version": "1.0.0"
             },
+            "id": "thermal.operation.set_terminal_unit_cooling",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_cooling",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.terminal_unit_cooling",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_terminal_unit_cooling",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_terminal_unit_heating",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_heating",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.setpoint.terminal_unit_heating",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_terminal_unit_heating",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_terminal_unit_mode",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.mode.terminal_unit",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_terminal_unit_mode",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_terminal_unit_power",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_terminal_unit_power",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.terminal_unit",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.status.terminal_unit_power",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_terminal_unit_power",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
             "id": "thermal.operation.set_unoccupied_cooling",
             "version": "1.0.0"
           },
@@ -42087,6 +46259,90 @@
               "version": "1.0.0"
             }
           ]
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_ventilation_level",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_ventilation_level",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.demand.level",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_ventilation_level",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.operation.set_ventilation_mode",
+            "version": "1.0.0"
+          },
+          "capability": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.capability.set_ventilation_mode",
+            "version": "1.0.0"
+          },
+          "service": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.service.ventilation",
+            "version": "1.0.0"
+          },
+          "argument": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.mode.ventilation",
+            "version": "1.0.0"
+          },
+          "effect": {
+            "pack": {
+              "id": "helianthus.pack.thermal",
+              "version": "1.0.0"
+            },
+            "id": "thermal.effect.set_ventilation_mode",
+            "version": "1.0.0"
+          }
         },
         {
           "ref": {
