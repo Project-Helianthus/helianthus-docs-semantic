@@ -2,6 +2,7 @@ package localworkerhost
 
 import (
 	"context"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"testing"
@@ -76,7 +77,7 @@ func oracleObserveFences(t *testing.T) {
 				Input: oracleInput{
 					Qualifiers: map[string]any{"mutation": tc.name, "kind": "ready"},
 					Clock:      map[string]any{"now": time.Unix(1000, 0).UTC().Format(time.RFC3339Nano)},
-					State:      map[string]any{"generation": oracleGeneration(gen), "layout": oracleLayout(aa27Layout)},
+					State:      map[string]any{"generation": oracleGeneration(gen), "layout": oracleLayout(aa27Layout), "report": oracleSubmittedReport(report)},
 				},
 				Output: oracleOutput{Decisions: []any{map[string]any{
 					"observe_error": oracleErr(observeErr), "matches_expected": errors.Is(observeErr, tc.want), "status": oracleStatusOf(status),
@@ -378,5 +379,20 @@ func oracleAllocatorMismatch(t *testing.T) {
 				Output: oracleOutput{Decisions: []any{map[string]any{"start_error": oracleErr(err), "is_descriptor": errors.Is(err, ErrDescriptor), "launches": len(f.launcher.specs), "slot_claimed": liveChild.Load(), "resources": oracleClosed(f)}}},
 			})
 		})
+	}
+}
+
+// oracleSubmittedReport records the report exactly as handed to Observe, after the mutation of the case.
+func oracleSubmittedReport(report Report) map[string]any {
+	return map[string]any{
+		"kind":        int(report.Kind),
+		"state":       int(report.State),
+		"tx_active":   report.TXActive,
+		"sequence":    report.Sequence,
+		"abi":         report.Identity.ABI,
+		"build":       hex.EncodeToString(report.Identity.Build[:]),
+		"executable":  hex.EncodeToString(report.Identity.Executable[:]),
+		"generation":  oracleGeneration(report.Generation),
+		"descriptors": oracleLayout(report.Descriptors),
 	}
 }

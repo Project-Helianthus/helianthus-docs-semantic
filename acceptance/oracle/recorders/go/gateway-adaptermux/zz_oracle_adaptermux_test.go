@@ -412,6 +412,9 @@ func oracleRecordSerialRoundTrip(t *testing.T) {
 	}{{"poller", openSerialForTest}, {"retry", openRetrySerialForTest}}
 	received := make([]any, 0, len(ports))
 	sent := make([]any, 0, len(ports))
+	peerReads := make([]any, 0, len(ports))
+	receivedSymbols := map[string]any{}
+	sentFrames := map[string]any{}
 	for _, port := range ports {
 		port := port
 		t.Run("receive-"+port.name, func(t *testing.T) {
@@ -429,6 +432,7 @@ func oracleRecordSerialRoundTrip(t *testing.T) {
 					got = append(got, symbol)
 				}
 			}
+			receivedSymbols[port.name] = len(got)
 			received = append(received, map[string]any{"port": port.name, "symbols": hex.EncodeToString(got), "matches_stimulus": string(got) == string(want)})
 		})
 		t.Run("send-"+port.name, func(t *testing.T) {
@@ -439,6 +443,8 @@ func oracleRecordSerialRoundTrip(t *testing.T) {
 				t.Fatalf("write: %v", err)
 			}
 			got := pair.ReadPeer(t, len(sendWire), serialTestGuard)
+			peerReads = append(peerReads, hex.EncodeToString(got))
+			sentFrames[port.name] = len(got) / len(transport.EncodeENH(transport.ENHReqSend, 0))
 			sent = append(sent, map[string]any{"port": port.name, "peer_read": hex.EncodeToString(got), "matches_stimulus": string(got) == string(sendWire)})
 		})
 	}
@@ -458,9 +464,9 @@ func oracleRecordSerialRoundTrip(t *testing.T) {
 			State: map[string]any{"serial_setup": "openSerialConn (poller) and the retry port fixture of the pin; raw 8N1, no flow control"},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(sendWire)},
+			SymbolsWritten: peerReads,
 			Decisions:      []any{map[string]any{"receive": received, "send": sent}},
-			Counters:       map[string]any{"receive_symbols": len(want), "send_frames": len(payload)},
+			Counters:       map[string]any{"receive_symbols": receivedSymbols, "send_frames": sentFrames},
 		},
 	})
 }

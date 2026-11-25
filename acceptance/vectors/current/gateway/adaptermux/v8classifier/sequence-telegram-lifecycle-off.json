@@ -13,6 +13,28 @@
       "at": "1970-01-01T00:00:00Z"
     },
     "state": {
+      "events": [
+        {
+          "escaped": false,
+          "event": "started",
+          "value": "71"
+        },
+        {
+          "escaped": false,
+          "event": "byte",
+          "value": "10"
+        },
+        {
+          "escaped": false,
+          "event": "reset",
+          "value": "00"
+        },
+        {
+          "escaped": false,
+          "event": "started",
+          "value": "10"
+        }
+      ],
       "fsm": "idle"
     }
   },

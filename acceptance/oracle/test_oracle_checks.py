@@ -334,12 +334,13 @@ def test_a_classifier_case_lists_the_symbols_it_forwards():
 def test_the_serial_round_trip_runs_the_configured_serial_path_on_both_ports():
     document = bt01_case("adaptermux/ptytest/pair-roundtrip.json")
     assert "TestSerialConn_ENSFramingPassesThrough" in document["stimulus"]
-    assert len(document["input"]["bytes"]) == 256 * 2 * 2 and document["output"]["counters"]["receive_symbols"] == 256
+    assert len(document["input"]["bytes"]) == 256 * 2 * 2 and document["output"]["counters"]["receive_symbols"] == {"poller": 256, "retry": 256}
     decision = document["output"]["decisions"][0]
     assert [row["port"] for row in decision["receive"]] == [row["port"] for row in decision["send"]] == ["poller", "retry"]
     assert all(row["matches_stimulus"] for row in decision["receive"] + decision["send"])
     assert all(row["symbols"] == bytes(range(256)).hex() for row in decision["receive"])
-    assert all(row["peer_read"] == document["output"]["symbols_written"][0] for row in decision["send"])
+    assert [row["peer_read"] for row in decision["send"]] == document["output"]["symbols_written"]
+    assert all(row["peer_read"] == document["input"]["qualifiers"]["send_wire"] for row in decision["send"])
 
 
 def test_a_local_worker_validation_case_publishes_the_operands_it_was_given():
@@ -373,3 +374,54 @@ def test_a_reconstructor_transaction_publishes_its_timing_markers_and_ack_correl
         for event in json.loads(path.read_text(encoding="utf-8"))["output"]["observations"]:
             if "kind" in event:
                 assert {"timing", "ack_correlation"} <= set(event), path.name
+
+
+def test_the_pinned_budget_case_publishes_the_activations_that_exceed_the_budget():
+    state = bt01_case("engine/shadow-cache/pinned-budget-reject.json")["input"]["state"]
+    assert state["activation_source"] == "poller"
+    assert state["activated_keys"] == state["catalog_keys"] == ["b509:08:0200", "b509:08:0201", "b509:08:0202"]
+    assert len(state["activated_keys"]) > state["write_confirm_pinned_cap"]
+
+
+FENCE_MUTATIONS = {
+    "build": lambda report: report["build"] != report["executable"],
+    "abi": lambda report: report["abi"] != 1,
+    "future-worker": lambda report: report["generation"]["worker"] > 1,
+    "descriptor-size": lambda report: [d["size"] for d in report["descriptors"]] == [152, 8192],
+    "descriptor-missing": lambda report: len(report["descriptors"]) == 1,
+    "state-not-passive": lambda report: report["state"] == 2,
+    "tx-active": lambda report: report["tx_active"] is True,
+    "ready-sequence": lambda report: report["sequence"] == 1,
+    "unknown-kind": lambda report: report["kind"] == 9,
+}
+
+
+@pytest.mark.parametrize("name", sorted(FENCE_MUTATIONS))
+def test_a_report_fence_case_publishes_the_report_that_was_submitted(name):
+    case = bt01_case(f"localworkerhost/supervisor/observe-fence-{name}.json")
+    report = case["input"]["state"]["report"]
+    assert set(report) >= {"kind", "state", "tx_active", "sequence", "abi", "build", "executable", "generation", "descriptors"}
+    assert FENCE_MUTATIONS[name](report), (name, report)
+    assert case["input"]["state"]["layout"] != report["descriptors"] or name != "descriptor-size"
+
+
+def test_a_classifier_sequence_case_publishes_the_event_stream_it_replays():
+    case = bt01_case("adaptermux/v8classifier/sequence-telegram-lifecycle-enforce.json")
+    events = case["input"]["state"]["events"]
+    assert events == [
+        {"event": "started", "value": "71", "escaped": False}, {"event": "byte", "value": "10", "escaped": False},
+        {"event": "reset", "value": "00", "escaped": False}, {"event": "started", "value": "10", "escaped": False}]
+    assert [(step["event"], step["value"], step["escaped"]) for step in case["output"]["decisions"]] == [
+        (event["event"], event["value"], event["escaped"]) for event in events]
+    for path in sorted((BT01 / "adaptermux" / "v8classifier").glob("sequence-*.json")):
+        replayed = json.loads(path.read_text(encoding="utf-8"))
+        assert replayed["input"]["state"]["events"], path.name
+
+
+def test_the_serial_round_trip_writes_what_each_peer_read():
+    case = bt01_case("adaptermux/ptytest/pair-roundtrip.json")
+    sent = case["output"]["decisions"][0]["send"]
+    assert [item["port"] for item in sent] == ["poller", "retry"]
+    assert case["output"]["symbols_written"] == [item["peer_read"] for item in sent]
+    assert case["output"]["counters"] == {
+        "receive_symbols": {"poller": 256, "retry": 256}, "send_frames": {"poller": 7, "retry": 7}}

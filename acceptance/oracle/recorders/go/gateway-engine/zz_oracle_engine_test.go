@@ -227,7 +227,12 @@ func oracleShadowBudget(t *testing.T) {
 			Bytes:      "01",
 			Qualifiers: map[string]any{"canonical": keys[0].Canonical(), "source": string(ShadowWriteSourcePassive)},
 			Clock:      map[string]any{"now": time.Unix(100, 0).UTC().Format(time.RFC3339Nano)},
-			State:      map[string]any{"capacity": 8, "pinned_capacity": 3, "write_confirm_pinned_cap": 1},
+			State: map[string]any{
+				"capacity": 8, "pinned_capacity": 3, "write_confirm_pinned_cap": 1,
+				"catalog_keys":      []any{keys[0].Canonical(), keys[1].Canonical(), keys[2].Canonical()},
+				"activation_source": string(WatchActivationSourcePoller),
+				"activated_keys":    []any{keys[0].Canonical(), keys[1].Canonical(), keys[2].Canonical()},
+			},
 		},
 		Output: oracleOutput{
 			Decisions: []any{oracleWriteResult(result)},

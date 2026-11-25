@@ -22,6 +22,7 @@
   },
   "output": {
     "symbols_written": [
+      "c48ac48dc491c493c483c484c5bf",
       "c48ac48dc491c493c483c484c5bf"
     ],
     "decisions": [
@@ -55,8 +56,14 @@
     "cache": {},
     "observations": [],
     "counters": {
-      "receive_symbols": 256,
-      "send_frames": 7
+      "receive_symbols": {
+        "poller": 256,
+        "retry": 256
+      },
+      "send_frames": {
+        "poller": 7,
+        "retry": 7
+      }
     }
   }
 }

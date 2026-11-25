@@ -232,9 +232,11 @@ func oracleRecordClassifierSequences(t *testing.T) {
 		for _, sequence := range sequences {
 			classifier := v8classifier.New(mode)
 			trace := make([]any, 0, len(sequence.steps))
+			replayed := make([]any, 0, len(sequence.steps))
 			symbols := make([]any, 0, len(sequence.steps))
 			bytes := make([]string, 0, len(sequence.steps))
 			for _, step := range sequence.steps {
+				replayed = append(replayed, map[string]any{"event": step.kind, "value": fmt.Sprintf("%02x", step.value), "escaped": step.escaped})
 				drop := classifier.Observe(oracleStreamEvent(step), at)
 				trace = append(trace, map[string]any{
 					"event": step.kind, "value": fmt.Sprintf("%02x", step.value), "escaped": step.escaped,
@@ -273,7 +275,7 @@ func oracleRecordClassifierSequences(t *testing.T) {
 					Bytes:      strings.Join(bytes, ""),
 					Qualifiers: map[string]any{"mode": mode.String(), "sequence": sequence.name},
 					Clock:      map[string]any{"at": at.Format(time.RFC3339Nano)},
-					State:      map[string]any{"fsm": "idle"},
+					State:      map[string]any{"fsm": "idle", "events": replayed},
 				},
 				Output: oracleOutput{SymbolsWritten: symbols, Decisions: trace, Observations: recorded, Counters: counters},
 			})
