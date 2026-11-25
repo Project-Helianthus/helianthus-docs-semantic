@@ -29,6 +29,12 @@
     "observations": [
       {
         "abandon_reason": "",
+        "ack_correlation": {
+          "byte": "00",
+          "complete_request": false,
+          "correlator": "",
+          "position": ""
+        },
         "discontinuity_reason": "",
         "error": "",
         "frame_type": "broadcast",
@@ -45,7 +51,14 @@
           "source": "10",
           "target": "fe"
         },
-        "response": {}
+        "response": {},
+        "timing": {
+          "request_end": "1970-01-01T00:00:00.09Z",
+          "request_start": "1970-01-01T00:00:00.01Z",
+          "response_end": "",
+          "response_start": "",
+          "terminal": "1970-01-01T00:00:00.09Z"
+        }
       }
     ],
     "counters": {

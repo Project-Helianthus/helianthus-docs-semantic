@@ -1172,7 +1172,27 @@ func oracleClassified(event PassiveClassifiedEvent) map[string]any {
 		"offending_symbol":      hex.EncodeToString([]byte{event.OffendingSymbol}),
 		"offending_was_escaped": event.OffendingWasEscaped,
 		"observed_at":           event.ObservedAt.UTC().Format(time.RFC3339Nano),
-		"error":                 oracleErr(event.Err),
+		"timing":                oracleTiming(event.Timing),
+		"ack_correlation": map[string]any{
+			"byte": hex.EncodeToString([]byte{event.ACKCorrelation.Byte}), "position": string(event.ACKCorrelation.Position),
+			"complete_request": event.ACKCorrelation.CompleteRequest, "correlator": string(event.ACKCorrelation.Correlator),
+		},
+		"error": oracleErr(event.Err),
+	}
+}
+
+// oracleTiming lists the five timing markers of an event; a marker the
+// reconstructor did not set is the empty string.
+func oracleTiming(timing PassiveTimingMarkers) map[string]any {
+	marker := func(at time.Time) string {
+		if at.IsZero() {
+			return ""
+		}
+		return at.UTC().Format(time.RFC3339Nano)
+	}
+	return map[string]any{
+		"request_start": marker(timing.RequestStart), "request_end": marker(timing.RequestEnd),
+		"response_start": marker(timing.ResponseStart), "response_end": marker(timing.ResponseEnd), "terminal": marker(timing.Terminal),
 	}
 }
 

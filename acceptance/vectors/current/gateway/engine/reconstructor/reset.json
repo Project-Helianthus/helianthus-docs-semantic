@@ -34,6 +34,12 @@
     "observations": [
       {
         "abandon_reason": "transport_reset",
+        "ack_correlation": {
+          "byte": "00",
+          "complete_request": true,
+          "correlator": "M2A",
+          "position": "request_ack"
+        },
         "discontinuity_reason": "",
         "error": "",
         "frame_type": "initiator_target",
@@ -50,10 +56,23 @@
           "source": "10",
           "target": "08"
         },
-        "response": {}
+        "response": {},
+        "timing": {
+          "request_end": "1970-01-01T00:00:00.07Z",
+          "request_start": "1970-01-01T00:00:00.01Z",
+          "response_end": "",
+          "response_start": "",
+          "terminal": "1970-01-01T00:00:00.1Z"
+        }
       },
       {
         "abandon_reason": "",
+        "ack_correlation": {
+          "byte": "00",
+          "complete_request": false,
+          "correlator": "",
+          "position": ""
+        },
         "discontinuity_reason": "transport_reset",
         "error": "",
         "frame_type": "unknown",
@@ -64,7 +83,14 @@
         "offending_symbol": "00",
         "offending_was_escaped": false,
         "request": {},
-        "response": {}
+        "response": {},
+        "timing": {
+          "request_end": "",
+          "request_start": "",
+          "response_end": "",
+          "response_start": "",
+          "terminal": ""
+        }
       }
     ],
     "counters": {

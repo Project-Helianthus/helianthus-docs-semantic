@@ -296,3 +296,80 @@ def test_an_arbitration_error_is_not_a_written_symbol():
     for path in sorted((BT01 / "adaptermux" / "transition").glob("*.json")):
         written = json.loads(path.read_text(encoding="utf-8"))["output"]["symbols_written"]
         assert all(set(symbol) <= set("0123456789abcdef") for symbol in written), path.name
+
+
+GATEWAY_SOURCE_FIXTURES = {"gateway_awaiting_echo", "gateway_grace", "gateway_transaction", "start_async_gateway"}
+
+
+def test_a_started_transition_publishes_the_source_byte_it_was_fed():
+    paths = sorted((BT01 / "adaptermux" / "transition").glob("*--started_selected_source.json"))
+    assert len(paths) == 13
+    for path in paths:
+        fixture = path.name.split("--")[0]
+        expected = "7f" if fixture in GATEWAY_SOURCE_FIXTURES else "31"
+        assert json.loads(path.read_text(encoding="utf-8"))["input"]["bytes"] == expected, path.name
+    assert bt01_case("adaptermux/transition/idle--started_other_source.json")["input"]["bytes"] == "10"
+
+
+def test_the_send_path_record_lists_the_symbols_the_upstream_received():
+    document = bt01_case("adaptermux/send-path/write-normalization.json")
+    assert document["output"]["symbols_written"] == ["a900", "a901", "aa", "a9", "a900", "a9", "a9", "aa"]
+    assert document["input"]["bytes"] == "a9aaaaa9a9a9a9aa"
+    first = document["output"]["decisions"][0]["sends"]
+    assert [(step["session"], step["data"], step["structural"], step["upstream_writes"]) for step in first] == [
+        (0, "a9", False, "a900"), (0, "aa", False, "a901"), (0, "aa", True, "aa"), (7, "a9", False, "a9")]
+    assert [row["scenario"] for row in document["output"]["decisions"]] == [
+        "enh-logical-both-ways", "ens-logical-both-ways", "raw-receive-side", "send-side-not-raw-symbol"]
+
+
+def test_a_classifier_case_lists_the_symbols_it_forwards():
+    for mode in ("off", "shadow", "enforce"):
+        document = bt01_case(f"adaptermux/v8classifier/observe-idle-{mode}.json")
+        drops = document["output"]["decisions"][0]["drop"]
+        fed = [document["input"]["bytes"][index:index + 2] for index in range(0, len(document["input"]["bytes"]), 2)]
+        assert document["output"]["symbols_written"] == [symbol for symbol, drop in zip(fed, drops) if not drop], mode
+        assert document["output"]["symbols_written"], mode
+
+
+def test_the_serial_round_trip_runs_the_configured_serial_path_on_both_ports():
+    document = bt01_case("adaptermux/ptytest/pair-roundtrip.json")
+    assert "TestSerialConn_ENSFramingPassesThrough" in document["stimulus"]
+    assert len(document["input"]["bytes"]) == 256 * 2 * 2 and document["output"]["counters"]["receive_symbols"] == 256
+    decision = document["output"]["decisions"][0]
+    assert [row["port"] for row in decision["receive"]] == [row["port"] for row in decision["send"]] == ["poller", "retry"]
+    assert all(row["matches_stimulus"] for row in decision["receive"] + decision["send"])
+    assert all(row["symbols"] == bytes(range(256)).hex() for row in decision["receive"])
+    assert all(row["peer_read"] == document["output"]["symbols_written"][0] for row in decision["send"])
+
+
+def test_a_local_worker_validation_case_publishes_the_operands_it_was_given():
+    gogc = bt01_case("localworkerhost/validate-inherited-gogc.json")["input"]["state"]
+    assert gogc["runtime_gc"] == "off" and gogc["environment"] == {"GOGC": "50", "GOMEMLIMIT": "64MiB"}
+    assert bt01_case("localworkerhost/validate-inherited-gomemlimit.json")["input"]["state"]["environment"]["GOMEMLIMIT"] == "2GiB"
+    positive = bt01_case("localworkerhost/validate-positive.json")["input"]["state"]
+    assert positive["environment"] == {"GOGC": "off", "GOMEMLIMIT": "64MiB"} and positive["self"]["build_hex"] == positive["plan_build_hex"]
+    assert [item["fd"] for item in bt01_case("localworkerhost/validate-control-fd.json")["input"]["state"]["observed"]] == [5, 4]
+    assert len(bt01_case("localworkerhost/validate-missing-descriptor.json")["input"]["state"]["observed"]) == 1
+    assert bt01_case("localworkerhost/validate-plan-build.json")["input"]["state"]["plan_build_hex"] != positive["self"]["build_hex"]
+
+
+def test_an_argv_case_publishes_the_vector_the_parser_received():
+    for name in ("flag-alone", "trailing-gateway-flag", "missing-field", "wrong-selector", "reordered-fields", "empty-gc"):
+        state = bt01_case(f"localworkerhost/argv-{name}.json")["input"]["state"]
+        assert len(state["args"]) == state["argc"], name
+    assert bt01_case("localworkerhost/argv-flag-alone.json")["input"]["state"]["args"] == ["--internal-ebus-local-worker"]
+    assert bt01_case("localworkerhost/argv-trailing-gateway-flag.json")["input"]["state"]["args"][-1] == "-matter-library-enabled"
+    assert "gc=" in bt01_case("localworkerhost/argv-empty-gc.json")["input"]["state"]["args"]
+
+
+def test_a_reconstructor_transaction_publishes_its_timing_markers_and_ack_correlation():
+    direct = bt01_case("engine/reconstructor/direct.json")["output"]["observations"]
+    assert len(direct) == 1
+    assert direct[0]["timing"] == {
+        "request_start": "1970-01-01T00:00:00.01Z", "request_end": "1970-01-01T00:00:00.07Z",
+        "response_start": "1970-01-01T00:00:00.09Z", "response_end": "1970-01-01T00:00:00.12Z", "terminal": "1970-01-01T00:00:00.14Z"}
+    assert direct[0]["ack_correlation"] == {"byte": "00", "position": "request_ack", "complete_request": True, "correlator": "M2A"}
+    for path in sorted((BT01 / "engine" / "reconstructor").glob("*.json")):
+        for event in json.loads(path.read_text(encoding="utf-8"))["output"]["observations"]:
+            if "kind" in event:
+                assert {"timing", "ack_correlation"} <= set(event), path.name

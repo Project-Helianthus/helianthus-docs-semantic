@@ -3,8 +3,11 @@
 package adaptermux
 
 import (
+	"context"
 	"encoding/hex"
 	"fmt"
+	"io"
+	"log"
 	"strings"
 	"testing"
 	"time"
@@ -19,6 +22,7 @@ import (
 func TestOracleAdapterMuxUnits(t *testing.T) {
 	oracleRecordArbitration(t)
 	oracleRecordSendSymbols(t)
+	oracleRecordSendPath(t)
 	oracleRecordClassifierSequences(t)
 	oracleRecordPacer(t)
 }
@@ -115,6 +119,74 @@ func oracleRecordSendSymbols(t *testing.T) {
 		Stimulus:  "TestRawContinuity_GatewaySendSymbols",
 		Input:     oracleInput{Bytes: "00..ff", Qualifiers: map[string]any{"structural": "false and true for every data byte"}},
 		Output:    oracleOutput{Decisions: rows, Counters: map[string]any{"rows": len(rows)}},
+	})
+}
+
+// oracleRecordSendPath drives the production send path (doSendNormalized) with
+// the fixture of the pin's write-normalization test and records the symbols the
+// upstream received, for the gateway session and for an external session.
+func oracleRecordSendPath(t *testing.T) {
+	t.Helper()
+	type send struct {
+		session    uint64
+		data       byte
+		structural bool
+	}
+	scenarios := []struct {
+		name         string
+		protocol     string
+		readsLogical bool
+		sends        []send
+	}{
+		{"enh-logical-both-ways", "enh", true, []send{{gatewaySessionID, 0xA9, false}, {gatewaySessionID, 0xAA, false}, {gatewaySessionID, 0xAA, true}, {7, 0xA9, false}}},
+		{"ens-logical-both-ways", "ens", true, []send{{gatewaySessionID, 0xA9, false}}},
+		{"raw-receive-side", "enh", false, []send{{gatewaySessionID, 0xA9, false}}},
+		{"send-side-not-raw-symbol", "plain", true, []send{{gatewaySessionID, 0xA9, false}, {gatewaySessionID, 0xAA, false}}},
+	}
+	rows := make([]any, 0, len(scenarios))
+	written := make([]any, 0, 8)
+	fed := make([]byte, 0, 8)
+	for _, scenario := range scenarios {
+		mux := New(Config{Protocol: scenario.protocol, Logger: log.New(io.Discard, "", 0)})
+		ctx, cancel := context.WithCancel(context.Background())
+		mux.ctx, mux.cancel = ctx, cancel
+		up := &writeRecorderUpstream{unescaped: scenario.readsLogical}
+		mux.upstream = up
+		activeLogical := mux.activeReadsAreLogical()
+		sends := make([]any, 0, len(scenario.sends))
+		for _, step := range scenario.sends {
+			mux.arb.forceRelease()
+			mux.arb.confirmOwnership(step.session, 0x10)
+			up.mu.Lock()
+			up.writes = nil
+			up.mu.Unlock()
+			err := mux.doSendNormalized(step.session, step.data, step.structural)
+			up.mu.Lock()
+			got := hex.EncodeToString(up.writes)
+			up.mu.Unlock()
+			sends = append(sends, map[string]any{
+				"session": step.session, "data": fmt.Sprintf("%02x", step.data), "structural": step.structural,
+				"upstream_writes": got, "error": oracleErrText(err),
+			})
+			written = append(written, got)
+			fed = append(fed, step.data)
+		}
+		cancel()
+		rows = append(rows, map[string]any{
+			"scenario": scenario.name, "protocol": scenario.protocol, "upstream_reads_logical": scenario.readsLogical,
+			"active_reads_are_logical": activeLogical, "sends": sends,
+		})
+	}
+	oracleWrite(t, "send-path/write-normalization.json", oracleCase{
+		Component: "adaptermux",
+		Source:    "internal/adaptermux/raw_symbols.go",
+		Stimulus:  "TestRawContinuity_WriteNormalizationIsIndependentOfReceiveFlag",
+		Input: oracleInput{
+			Bytes:      hex.EncodeToString(fed),
+			Qualifiers: map[string]any{"scenarios": len(scenarios), "gateway_session": gatewaySessionID, "external_session": 7, "owner_initiator": "10"},
+			State:      map[string]any{"upstream": "write recorder without a raw view; ownership confirmed for the sending session before each send"},
+		},
+		Output: oracleOutput{SymbolsWritten: written, Decisions: rows, Counters: map[string]any{"scenarios": len(scenarios), "sends": len(written)}},
 	})
 }
 

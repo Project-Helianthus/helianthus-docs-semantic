@@ -82,7 +82,7 @@ copies them into a scratch unpack of the gateway pin, runs `TestOracleAdapterMux
 A reconstructor case records the symbols as the pin's feeder passes them (`qualifiers.fed_symbols`, with the feeder, the escape
 flags and the tap events that follow the stream), the symbol spacing and start (`clock`), the configured watchdog and the
 local-address snapshotter (`state`). A local-worker report case records the encoded report bytes or the exact bytes given to the
-decoder (`bytes`). In an adaptermux transition case `symbols_written` lists only the payloads of adapter writes; the other
+decoder (`bytes`). A transition case records in `input.bytes` the byte its input hands to the handler, including the source byte of a STARTED event. A `send-path/` case drives the mux send path and lists the symbols the upstream received. A `ptytest/pair-roundtrip.json` case runs the pin's serial-path fixtures on both serial ports. A local-worker validation case records the plan, the child identity, the observed descriptors and the environment it was given (`input.state`), and an argv case records the vector given to the parser (`input.state.args`). A reconstructor observation records its five timing markers and its ACK correlation. In an adaptermux transition case `symbols_written` lists only the payloads of adapter writes; the other
 effects are in `decisions` with their class and in `observations`. In a classifier case `symbols_written` lists the symbols
 that the classifier does not drop.
 

@@ -47,7 +47,7 @@ func oracleRecordValidate(t *testing.T) {
 		Component: "localworkerhost",
 		Source:    "internal/localworkerhost/supervisor.go",
 		Stimulus:  "TestAA27ValidateChildVariesEveryIdentityDescriptorAndPolicyField/positive",
-		Input:     oracleInput{Qualifiers: map[string]any{"mutation": "none"}, State: oraclePlanState(aa27ValidPlan())},
+		Input:     oracleInput{Qualifiers: map[string]any{"mutation": "none"}, State: oracleValidateState(aa27ValidPlan(), aa27Self, aa27ValidObserved(), validEnv)},
 		Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(positive)}}},
 	})
 	cases := []struct {
@@ -101,16 +101,17 @@ func oracleRecordValidate(t *testing.T) {
 			Component: "localworkerhost",
 			Source:    "internal/localworkerhost/supervisor.go",
 			Stimulus:  "TestAA27ValidateChildVariesEveryIdentityDescriptorAndPolicyField/" + tc.name,
-			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, State: oraclePlanState(plan)},
+			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, State: oracleValidateState(plan, self, observed, env)},
 			Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(err)}}},
 		})
 	}
-	short := ValidateChild(aa27ValidPlan(), aa27Self, aa27ValidObserved()[:1], aa27Env(validEnv))
+	shortObserved := aa27ValidObserved()[:1]
+	short := ValidateChild(aa27ValidPlan(), aa27Self, shortObserved, aa27Env(validEnv))
 	oracleWrite(t, "validate-missing-descriptor.json", oracleCase{
 		Component: "localworkerhost",
 		Source:    "internal/localworkerhost/supervisor.go",
 		Stimulus:  "TestAA27ValidateChildVariesEveryIdentityDescriptorAndPolicyField/missing-descriptor",
-		Input:     oracleInput{Qualifiers: map[string]any{"mutation": "drop-observed-mapping"}, State: oraclePlanState(aa27ValidPlan())},
+		Input:     oracleInput{Qualifiers: map[string]any{"mutation": "drop-observed-mapping"}, State: oracleValidateState(aa27ValidPlan(), aa27Self, shortObserved, validEnv)},
 		Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(short)}}},
 	})
 }
@@ -157,7 +158,7 @@ func oracleRecordArgv(t *testing.T) {
 		Component: "localworkerhost",
 		Source:    "internal/localworkerhost/supervisor.go",
 		Stimulus:  "TestAA27ParseChildArgvAcceptsOnlyTheExactPlan/positive",
-		Input:     oracleInput{Qualifiers: map[string]any{"executable": "/opt/gateway/bin/gateway"}, State: oraclePlanState(plan)},
+		Input:     oracleInput{Qualifiers: map[string]any{"executable": "/opt/gateway/bin/gateway"}, State: withArgs(oraclePlanState(plan), argv[1:])},
 		Output: oracleOutput{Decisions: []any{map[string]any{
 			"error":             oracleErr(err),
 			"argv":              oracleStrings(argv),
@@ -201,7 +202,7 @@ func oracleRecordArgv(t *testing.T) {
 			Component: "localworkerhost",
 			Source:    "internal/localworkerhost/supervisor.go",
 			Stimulus:  "TestAA27ParseChildArgvAcceptsOnlyTheExactPlan/" + tc.name,
-			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, State: map[string]any{"argc": len(tc.args)}},
+			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, State: withArgs(map[string]any{"argc": len(tc.args)}, tc.args)},
 			Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(parseErr)}}},
 		})
 	}
@@ -324,6 +325,35 @@ func oracleRecordLifecycle(t *testing.T) {
 			Counters: map[string]any{"state_after_stop": string(status.State), "closed": closed},
 		},
 	})
+}
+
+// oracleValidateState lists every operand ValidateChild receives: the parsed
+// plan, the child's own identity, the observed inherited descriptors and the
+// environment the child reads its runtime policy from.
+func oracleValidateState(plan ChildPlan, self Identity, observed []Observed, env map[string]string) map[string]any {
+	state := oraclePlanState(plan)
+	state["plan_build_hex"] = hex.EncodeToString(plan.Identity.Build[:])
+	state["plan_executable_hex"] = hex.EncodeToString(plan.Identity.Executable[:])
+	state["self"] = map[string]any{
+		"abi": self.ABI, "build_hex": hex.EncodeToString(self.Build[:]), "executable_hex": hex.EncodeToString(self.Executable[:]),
+	}
+	descriptors := make([]any, 0, len(observed))
+	for _, item := range observed {
+		descriptors = append(descriptors, map[string]any{"fd": item.FD, "kind": item.Kind, "size": item.Size})
+	}
+	state["observed"] = descriptors
+	variables := make(map[string]any, len(env))
+	for key, value := range env {
+		variables[key] = value
+	}
+	state["environment"] = variables
+	return state
+}
+
+// withArgs adds the argument vector given to ParseChildArgv.
+func withArgs(state map[string]any, args []string) map[string]any {
+	state["args"] = oracleStrings(args)
+	return state
 }
 
 func oraclePlanState(plan ChildPlan) map[string]any {

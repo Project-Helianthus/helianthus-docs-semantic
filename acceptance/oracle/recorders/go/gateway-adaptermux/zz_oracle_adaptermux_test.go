@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net"
 	"os"
 	"path/filepath"
 	"strings"
@@ -38,6 +39,7 @@ func oracleRecordTransitions(t *testing.T) {
 		fixture.build(h)
 		h.discardEffects()
 		before := h.state()
+		fed := oracleTransitionBytes(row.input, h.source)
 		apply(h)
 		after := h.state()
 		effects := append([]string(nil), h.effects()...)
@@ -48,7 +50,7 @@ func oracleRecordTransitions(t *testing.T) {
 			Source:    "internal/adaptermux/mux.go",
 			Stimulus:  "TestMuxTransitionCharacterization/" + row.fixture + "/" + row.input,
 			Input: oracleInput{
-				Bytes:      oracleTransitionBytes(row.input),
+				Bytes:      fed,
 				Qualifiers: map[string]any{"fixture": row.fixture, "input": row.input, "upstream": oracleUpstream(fixture.mode)},
 				Clock:      map[string]any{"timers": "held", "deadline": "fires only when the input is start_deadline"},
 				State:      oracleTransitionState(before),
@@ -100,8 +102,13 @@ func oracleUpstream(mode transitionUpstreamMode) string {
 	}
 }
 
-func oracleTransitionBytes(input string) string {
+// oracleTransitionBytes is the byte the input hands to the handler: the source
+// byte of a STARTED event is the one the fixture selected (h.source), which the
+// pin's harness feeds as is.
+func oracleTransitionBytes(input string, selected byte) string {
 	switch input {
+	case "started_selected_source":
+		return hex.EncodeToString([]byte{selected})
 	case "wire_syn", "stream_wire_syn":
 		return "aa"
 	case "received_symbol":
@@ -142,8 +149,11 @@ func oracleRecordClassifier(t *testing.T) {
 	for _, mode := range []v8classifier.Mode{v8classifier.ModeOff, v8classifier.ModeShadow, v8classifier.ModeEnforce} {
 		classifier := v8classifier.New(mode)
 		drops := make([]bool, 0, 4)
+		forwarded := make([]any, 0, 4)
 		for _, value := range []byte{0x00, 0x10, 0x31, 0x52} {
-			drops = append(drops, classifier.Observe(transport.StreamEvent{Kind: transport.StreamEventByte, Byte: value}, now))
+			drop := classifier.Observe(transport.StreamEvent{Kind: transport.StreamEventByte, Byte: value}, now)
+			drops = append(drops, drop)
+			forwarded = append(forwarded, oracleForwarded(fmt.Sprintf("%02x", value), drop)...)
 		}
 		oracleWrite(t, "v8classifier/observe-idle-"+mode.String()+".json", oracleCase{
 			Component: "v8classifier",
@@ -156,8 +166,9 @@ func oracleRecordClassifier(t *testing.T) {
 				State:      map[string]any{"fsm": "idle"},
 			},
 			Output: oracleOutput{
-				Decisions: []any{map[string]any{"drop": drops}},
-				Counters:  oracleClassifierCounters(classifier),
+				SymbolsWritten: forwarded,
+				Decisions:      []any{map[string]any{"drop": drops}},
+				Counters:       oracleClassifierCounters(classifier),
 			},
 		})
 	}
@@ -219,27 +230,7 @@ func oracleClassifierCounters(classifier *v8classifier.Classifier) map[string]an
 
 func oracleRecordPty(t *testing.T) {
 	t.Helper()
-	pair := ptytest.Open(t)
-	payload := []byte{0x31, 0x15, 0x07, 0x04, 0x00}
-	device, err := os.OpenFile(pair.DevicePath, os.O_RDWR, 0)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer device.Close()
-	pair.WritePeer(t, payload)
-	buf := make([]byte, len(payload))
-	_ = device.SetReadDeadline(time.Now().Add(2 * time.Second))
-	n, err := device.Read(buf)
-	if err != nil {
-		t.Fatal(err)
-	}
-	oracleWrite(t, "ptytest/pair-roundtrip.json", oracleCase{
-		Component: "ptytest",
-		Source:    "internal/adaptermux/ptytest/ptytest.go",
-		Stimulus:  "ptytest.Open/WritePeer",
-		Input:     oracleInput{Bytes: hex.EncodeToString(payload), Qualifiers: map[string]any{"device": "synthetic-pty"}, Clock: map[string]any{}, State: map[string]any{}},
-		Output:    oracleOutput{SymbolsWritten: []any{hex.EncodeToString(buf[:n])}, Decisions: []any{map[string]any{"read_matches_write": n == len(payload) && string(buf) == string(payload)}}},
-	})
+	oracleRecordSerialRoundTrip(t)
 
 	for _, test := range []struct {
 		protocol string
@@ -270,7 +261,7 @@ func oracleRecordPty(t *testing.T) {
 	}
 
 	absent := newSerialTestMux("ens", filepath.Join(t.TempDir(), "absent"), nil)
-	err = absent.Start(context.Background())
+	err := absent.Start(context.Background())
 	_ = absent.Close()
 	oracleWrite(t, "ptytest/mux-absent-device.json", oracleCase{
 		Component: "ptytest",
@@ -394,4 +385,82 @@ func oracleWrite(t *testing.T, name string, document oracleCase) {
 	if err := os.WriteFile(path, append(encoded, '\n'), 0o644); err != nil {
 		t.Fatal(err)
 	}
+}
+
+// oracleRecordSerialRoundTrip runs the pin's two serial-path fixtures on a
+// pseudo-terminal pair through the configured serial connection (the poller
+// port and the retry port): every symbol value crosses the receive path inside
+// ENS RECEIVED frames, and a payload of control characters crosses the send path
+// as ENS SEND frames.
+func oracleRecordSerialRoundTrip(t *testing.T) {
+	t.Helper()
+	var want, receiveWire []byte
+	for symbol := 0; symbol <= 0xff; symbol++ {
+		want = append(want, byte(symbol))
+		frame := transport.EncodeENH(transport.ENHResReceived, byte(symbol))
+		receiveWire = append(receiveWire, frame[:]...)
+	}
+	payload := []byte{0x0a, 0x0d, 0x11, 0x13, 0x03, 0x04, 0x7f}
+	var sendWire []byte
+	for _, b := range payload {
+		frame := transport.EncodeENH(transport.ENHReqSend, b)
+		sendWire = append(sendWire, frame[:]...)
+	}
+	ports := []struct {
+		name string
+		open func(*testing.T, string, string) net.Conn
+	}{{"poller", openSerialForTest}, {"retry", openRetrySerialForTest}}
+	received := make([]any, 0, len(ports))
+	sent := make([]any, 0, len(ports))
+	for _, port := range ports {
+		port := port
+		t.Run("receive-"+port.name, func(t *testing.T) {
+			pair := ptytest.Open(t)
+			conn := port.open(t, pair.DevicePath, "ens")
+			tr := transport.NewENSTransport(conn, serialTestGuard, serialTestGuard)
+			pair.WritePeer(t, receiveWire)
+			got := make([]byte, 0, len(want))
+			for len(got) < len(want) {
+				_, symbol, hasSymbol, err := tr.ReadEventWithRawSymbol()
+				if err != nil {
+					t.Fatalf("after %d symbols: %v", len(got), err)
+				}
+				if hasSymbol {
+					got = append(got, symbol)
+				}
+			}
+			received = append(received, map[string]any{"port": port.name, "symbols": hex.EncodeToString(got), "matches_stimulus": string(got) == string(want)})
+		})
+		t.Run("send-"+port.name, func(t *testing.T) {
+			pair := ptytest.Open(t)
+			conn := port.open(t, pair.DevicePath, "ens")
+			tr := transport.NewENSTransport(conn, serialTestGuard, serialTestGuard)
+			if _, err := tr.Write(payload); err != nil {
+				t.Fatalf("write: %v", err)
+			}
+			got := pair.ReadPeer(t, len(sendWire), serialTestGuard)
+			sent = append(sent, map[string]any{"port": port.name, "peer_read": hex.EncodeToString(got), "matches_stimulus": string(got) == string(sendWire)})
+		})
+	}
+	oracleWrite(t, "ptytest/pair-roundtrip.json", oracleCase{
+		Component: "ptytest",
+		Source:    "internal/adaptermux/serial.go",
+		Stimulus:  "TestSerialConn_ENSFramingPassesThrough and TestSerialConn_WritePassesThroughUnchanged",
+		Input: oracleInput{
+			Bytes: hex.EncodeToString(receiveWire),
+			Qualifiers: map[string]any{
+				"protocol": "ens", "device": "synthetic-pty", "ports": "poller, retry",
+				"receive":   "every symbol 00..ff, each in one ENS RECEIVED frame written at the peer, read through the raw view",
+				"send":      "payload " + hex.EncodeToString(payload) + " written through the ENS transport; peer reads the ENS SEND frames",
+				"send_wire": hex.EncodeToString(sendWire),
+			},
+			Clock: map[string]any{"io_guard": serialTestGuard.String()},
+			State: map[string]any{"serial_setup": "openSerialConn (poller) and the retry port fixture of the pin; raw 8N1, no flow control"},
+		},
+		Output: oracleOutput{
+			SymbolsWritten: []any{hex.EncodeToString(sendWire)},
+			Decisions:      []any{map[string]any{"receive": received, "send": sent}},
+			Counters:       map[string]any{"receive_symbols": len(want), "send_frames": len(payload)},
+		},
+	})
 }

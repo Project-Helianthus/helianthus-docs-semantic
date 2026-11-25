@@ -31,6 +31,12 @@
     "observations": [
       {
         "abandon_reason": "corrupted_request",
+        "ack_correlation": {
+          "byte": "00",
+          "complete_request": false,
+          "correlator": "",
+          "position": ""
+        },
         "discontinuity_reason": "",
         "error": "ebus: payload does not match expected schema",
         "frame_type": "unknown",
@@ -41,7 +47,14 @@
         "offending_symbol": "ff",
         "offending_was_escaped": false,
         "request": {},
-        "response": {}
+        "response": {},
+        "timing": {
+          "request_end": "",
+          "request_start": "1970-01-01T00:00:00.01Z",
+          "response_end": "",
+          "response_start": "",
+          "terminal": "1970-01-01T00:00:00.07Z"
+        }
       }
     ],
     "counters": {
