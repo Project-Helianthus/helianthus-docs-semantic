@@ -1,0 +1,61 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "ZoneConfig.quickVetoSetpoint",
+    "normalized": "zone_config.quick_veto_setpoint",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/64"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/22",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/quickVetoSetpoint",
+      "value": 18.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/quick_veto_setpoint_c",
+      "value": 18.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x03 section, RR=0x0008 quick_veto_temperature (f32, degC)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x03 RR=0x0008",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "0000b041"
+    },
+    "native": {
+      "number": "22",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "295.15",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "22 + 273.15"
+    }
+  }
+}

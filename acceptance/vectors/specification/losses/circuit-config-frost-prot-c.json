@@ -1,0 +1,61 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "CircuitConfig.frostProtC",
+    "normalized": "circuit_config.frost_prot_c",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/31"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/6",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/frostProtC",
+      "value": 37.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/frost_prot_c",
+      "value": 37.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x02 section, RR=0x001D frost_protection_threshold (f32, degC)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x02 RR=0x001D",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "0000a040"
+    },
+    "native": {
+      "number": "5",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "278.15",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "5 + 273.15"
+    }
+  }
+}

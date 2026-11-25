@@ -1,0 +1,61 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "ZoneState.currentHumidityPct",
+    "normalized": "zone_state.current_humidity_pct",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/65"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/0",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/state/currentHumidityPct",
+      "value": 12.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/state/current_humidity_pct",
+      "value": 12.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x03 section, RR=0x0028 current_room_humidity (f32, %)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (percent as a value of a quantity of dimension one)",
+      "use": "percent to ratio: 1 % = 0.01"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x03 RR=0x0028",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00004a42"
+    },
+    "native": {
+      "number": "50.5",
+      "unit": "%"
+    }
+  },
+  "expected": {
+    "quantity": "ratio",
+    "value": {
+      "number": "0.505",
+      "unit": "1",
+      "unit_id": "unit.ratio",
+      "derivation": "50.5 * 0.01"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "DhwState.specialFunction",
+    "normalized": "dhw_state.special_function",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/48"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/4",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/state/specialFunction",
+      "value": "synthetic-SpecialFunction"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/state/special_function",
+      "value": "synthetic-SpecialFunction"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x01 section, RR=0x000D hwc_special_function_mode (u8, enum)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Enum Reference, sfmode",
+      "use": "enumeration value to name"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x01 RR=0x000D",
+    "wire": {
+      "type": "u8",
+      "byte_order": "little-endian",
+      "hex": "06"
+    },
+    "native": {
+      "raw": 6
+    }
+  },
+  "expected": {
+    "quantity": "enumeration (no unit)",
+    "value": {
+      "ebusd_name": "load",
+      "raw": 6,
+      "dhw_usage": "load"
+    }
+  }
+}

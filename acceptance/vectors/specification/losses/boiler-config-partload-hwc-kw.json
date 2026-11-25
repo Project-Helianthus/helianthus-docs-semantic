@@ -1,0 +1,63 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerConfig.partloadHwcKW",
+    "normalized": "boiler_config.partload_hwc_kw",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/5"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/11",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/partloadHwcKW",
+      "value": 136.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/partload_hwc_kw",
+      "value": 136.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Medium tier, register 0x0804 (UCH, whole-number kW); Write Path table, accepted range 0..40 kW",
+      "use": "register to hot-water part-load power"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 7 (prefix kilo)",
+      "use": "kilowatt to watt: 1 kW = 1000 W"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x0804",
+    "wire": {
+      "type": "UCH",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "28",
+      "unit": "kW"
+    },
+    "stated_range": {
+      "min": "0",
+      "max": "40",
+      "unit": "kW"
+    }
+  },
+  "expected": {
+    "quantity": "power",
+    "value": {
+      "number": "28000",
+      "unit": "W",
+      "unit_id": "unit.watt",
+      "derivation": "28 * 1000"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

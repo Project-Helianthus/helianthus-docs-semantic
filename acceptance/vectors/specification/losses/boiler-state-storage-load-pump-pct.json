@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.storageLoadPumpPct",
+    "normalized": "boiler_state.storage_load_pump_pct",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/25"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/40",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/storageLoadPumpPct",
+      "value": 125.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/storage_load_pump_pct",
+      "value": 125.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Medium tier, register 0x9E00 (percent0, percent)",
+      "use": "register to storage load pump percent"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (percent as a value of a quantity of dimension one)",
+      "use": "percent to ratio: 1 % = 0.01"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x9E00",
+    "wire": {
+      "type": "percent0",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "80",
+      "unit": "%"
+    }
+  },
+  "expected": {
+    "quantity": "ratio",
+    "value": {
+      "number": "0.8",
+      "unit": "1",
+      "unit_id": "unit.ratio",
+      "derivation": "80 * 0.01"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

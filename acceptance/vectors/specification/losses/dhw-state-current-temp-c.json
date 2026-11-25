@@ -1,0 +1,66 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "DhwState.currentTempC",
+    "normalized": "dhw_state.current_temp_c",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/47"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/0",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/state/currentTempC",
+      "value": 21.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/state/current_temp_c",
+      "value": 21.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x01 section, RR=0x0005 current_dhw_temperature (f32, degC); constraint 0..99",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x01 RR=0x0005",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00004242"
+    },
+    "native": {
+      "number": "48.5",
+      "unit": "degC"
+    },
+    "stated_range": {
+      "min": "0",
+      "max": "99",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "321.65",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "48.5 + 273.15"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerDiagnostics.fanHours",
+    "normalized": "boiler_diagnostics.fan_hours",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/13"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/14",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/fanHours",
+      "value": 146.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/fan_hours",
+      "value": 146.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Slow tier, register 0x1B00 (Hoursum2, hours)",
+      "use": "register to operating hours"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 8 (hour)",
+      "use": "hour to second: 1 h = 3600 s"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x1B00",
+    "wire": {
+      "type": "Hoursum2",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "2048",
+      "unit": "h"
+    }
+  },
+  "expected": {
+    "quantity": "duration",
+    "value": {
+      "number": "7372800",
+      "unit": "s",
+      "unit_id": "unit.second",
+      "derivation": "2048 * 3600"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

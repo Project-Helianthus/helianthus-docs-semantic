@@ -1,0 +1,56 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "SystemConfig.installerPhone",
+    "normalized": "system_config.installer_phone",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/53"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/14",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/installerPhone",
+      "value": "synthetic-InstallerPhone"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/installer_phone",
+      "value": "synthetic-InstallerPhone"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x00 section, RR=0x006F installer_phone_1 (string, text); CString, maxLength 6",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x00 section, RR=0x0070 installer_phone_2 (string, text); CString, maxLength 6",
+      "use": "register to value"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x00 RR=0x006F and RR=0x0070",
+    "wire": {
+      "type": "string",
+      "hex": null,
+      "layout": "terminator not stated by the cited documents"
+    },
+    "native": {
+      "phone_1": "012345",
+      "phone_2": "678901"
+    }
+  },
+  "expected": {
+    "quantity": "text (no unit)",
+    "value": {
+      "phone_1": "012345",
+      "phone_2": "678901"
+    }
+  },
+  "gaps": [
+    "the cited documents state two registers of at most six characters each and no rule for combining them into one string"
+  ]
+}

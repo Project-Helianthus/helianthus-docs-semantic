@@ -1,0 +1,53 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "DhwConfig.holidayEndDate",
+    "normalized": "dhw_config.holiday_end_date",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/43"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/0",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/config/holidayEndDate",
+      "value": "synthetic-HolidayEndDate"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/config/holiday_end_date",
+      "value": "synthetic-HolidayEndDate"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x01 section, RR=0x000A hwc_holiday_end_date (date, date)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 protocol, docs-ebus protocols/vaillant/ebus-vaillant-B524.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "2.6 Wire type encoding, date (BCD-encoded DD MM YY, year = 2000 + YY)",
+      "use": "date decoding"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x01 RR=0x000A",
+    "wire": {
+      "type": "date",
+      "encoding": "BCD DD MM YY",
+      "hex": "150626"
+    },
+    "native": {
+      "text": "15.06.26"
+    }
+  },
+  "expected": {
+    "quantity": "calendar date (not an SI quantity)",
+    "value": {
+      "year": 2026,
+      "month": 6,
+      "day": 15
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerConfig.installerMenuCode",
+    "normalized": "boiler_config.installer_menu_code",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/3"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/8",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/installerMenuCode",
+      "value": 227
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/installer_menu_code",
+      "value": 227
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Slow-config tier, register 0x4904 (UCH)",
+      "use": "register to count"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (quantities of dimension one)",
+      "use": "a count carries the unit one"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x4904",
+    "wire": {
+      "type": "UCH",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "17",
+      "unit": "1"
+    },
+    "stated_range": {
+      "min": "0",
+      "max": "255",
+      "unit": "1"
+    }
+  },
+  "expected": {
+    "quantity": "count",
+    "value": {
+      "number": "17",
+      "unit": "1",
+      "unit_id": "unit.one"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

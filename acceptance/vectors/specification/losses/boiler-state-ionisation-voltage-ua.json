@@ -1,0 +1,59 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.ionisationVoltageUa",
+    "normalized": "boiler_state.ionisation_voltage_ua",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/21"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/30",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/ionisationVoltageUa",
+      "value": 123.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/ionisation_voltage_ua",
+      "value": 123.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Medium tier, register 0xA400 (SIN / 10, uA)",
+      "use": "register to ionisation measurement; the document names it ionisation voltage with unit uA"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 7 (prefix micro)",
+      "use": "microampere to ampere: 1 uA = 0.000001 A"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0xA400",
+    "wire": {
+      "type": "SIN",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "3.5",
+      "unit": "uA"
+    }
+  },
+  "expected": {
+    "quantity": "electric current (unit as stated by the document)",
+    "value": {
+      "number": "0.0000035",
+      "unit": "A",
+      "unit_id": "unit.ampere",
+      "derivation": "3.5 / 1000000"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given",
+    "the document names the quantity ionisation voltage and gives the unit uA; the quantity kind is not reconciled here"
+  ]
+}

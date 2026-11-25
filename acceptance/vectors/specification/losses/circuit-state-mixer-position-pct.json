@@ -1,0 +1,61 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "CircuitState.mixerPositionPct",
+    "normalized": "circuit_state.mixer_position_pct",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/39"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/11",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/mixerPositionPct",
+      "value": 25.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/mixer_position_pct",
+      "value": 25.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "GG=0x02 section, RR=0x0021 mixer_position_percentage (f32, %)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (percent as a value of a quantity of dimension one)",
+      "use": "percent to ratio: 1 % = 0.01"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x02 RR=0x0021",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00007042"
+    },
+    "native": {
+      "number": "60",
+      "unit": "%"
+    }
+  },
+  "expected": {
+    "quantity": "ratio",
+    "value": {
+      "number": "0.6",
+      "unit": "1",
+      "unit_id": "unit.ratio",
+      "derivation": "60 * 0.01"
+    }
+  }
+}

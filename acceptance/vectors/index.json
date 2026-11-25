@@ -1138,6 +1138,550 @@
       "case": "vaillant-dhw-0005"
     },
     {
+      "path": "specification/losses/boiler-config-flowset-hc-max-c.json",
+      "sha256": "97a466bd3d2f0f5a87fe117e921413c6a5e52fcf4e9094247476859843beab39",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-flowset-hwc-max-c.json",
+      "sha256": "e51e92712df8fc8a0879193704d14e6112685e67bd6480d19e6c3027651be05f",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-hours-till-service.json",
+      "sha256": "56a163e6dec61e62574f9f07432bafb394ecc84481655ea8f7e140121b479dc2",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-installer-menu-code.json",
+      "sha256": "df293d48b830ee62c528db5da45e7ddc2645c2b0c686de7e33595e5d22d2376b",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-partload-hc-kw.json",
+      "sha256": "a2d4b0072afcbab7664d1d7dedecc39e4b9481506193105e2b272dd874b95ba0",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-partload-hwc-kw.json",
+      "sha256": "fbd6fc66bc1dafcfd2793e00eaad3d79d38fa05acd5890bf451ac8bf0f6a705b",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-config-phone-number.json",
+      "sha256": "a18d8f612627b47da4b3e1c6438b7407c99e10d1cc5ef7721740c3d5e3b21009",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-central-heating-hours.json",
+      "sha256": "6d5f6fe0157c43a7456832b965b0c2c5f44717249865984593117fe1a344f05f",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-central-heating-starts.json",
+      "sha256": "6621558d31e89fe7ed6897716d2ef2a496348db1c6da4da4b1bef35ac7766dbc",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-deactivations-ifc.json",
+      "sha256": "7a2b6aeed11d72067d4ab8c857b2aa9bb114926a5598b6c25a3bcdb6e92c38e1",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-deactivations-templimiter.json",
+      "sha256": "41f8af307b74a3495ea04be4161677b12493f92c20cca84dab862356171b44c9",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-dhw-hours.json",
+      "sha256": "9fe7da43ad5fd40c866b73b294f9ccee861d7a43ce5dc5d22a4fca9289bd0654",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-dhw-starts.json",
+      "sha256": "13b0c00fc17fce5408523b1dc52b06925ab3f0bb8c58259648d44361837cd611",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-fan-hours.json",
+      "sha256": "cc6bd62eec4544cda7053777a598d977346dbe2a83617bce33d79848c663ca47",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-diagnostics-pump-hours.json",
+      "sha256": "93ddd49e7534f9eb99fd94f2966404704251ee6ec7b7bd4f4bf947272d41ef44",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-dhw-temp-desired-c.json",
+      "sha256": "f258d582f02cae36be058bcb59cc6e97388fe36b6161c33357b96dba6c1c47bd",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-dhw-water-flow-lpm.json",
+      "sha256": "262a82a5a2540ee19cd46eee38479d395363d3efe07b4655502c4adea9ac8d5c",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-diverter-valve-position-pct.json",
+      "sha256": "796a2e8f784ad39d4276ac2710d658682fdbe78066e20c15e0b43ce38f800a3b",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-fan-speed-rpm.json",
+      "sha256": "d6de457f39af6e67f94fbab26acc86b83e9ca4c9c976e324b8664890e68bad7b",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-flow-temp-desired-c.json",
+      "sha256": "46f4fd1e35668d85fd5a95a246e486685ba2519db385e6dcacfca8570c7e1c5d",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-flow-temperature-c.json",
+      "sha256": "5d069073ebc949c61ba799d3fde460768c2600ad736d0c50b9574be0381e7acb",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-ionisation-voltage-ua.json",
+      "sha256": "0392be5c70fb9c069176b59882761666559122961f314d7249ca5cd7954863a0",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-modulation-pct.json",
+      "sha256": "971e278a6d138a025fc0aa594e284ebed879e3531c7123b56ee8469a10aec39d",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-primary-circuit-flow-lpm.json",
+      "sha256": "7d32aa8420018581600c0ca6442a825a6bd81c2ee809d3d9066e7d24a9ca31e9",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-state-number.json",
+      "sha256": "c8696f259e34f10856b54f6b6786ec390152f9994b043ff41eaf246fb00273f6",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-storage-load-pump-pct.json",
+      "sha256": "231a76414b8f8d688e0b357b72a0dd7f5c410fcd217e20c695a28351898bace8",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-target-fan-speed-rpm.json",
+      "sha256": "2b2485a88640c20c5db4bccc43e0b0474e8069b690678fdab2f0a51b7dd1a6a3",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/boiler-state-water-pressure-bar.json",
+      "sha256": "ff7e8f55f8e1f389d33299b16ab7cb5e5771cffb265c8a1f91428e47f66846d4",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-cooling-enabled.json",
+      "sha256": "80ab45bf8a17491ee9ab9f9fa16a3dbc93bb5f8eb3f934d6891ef088014c8c39",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-flow-temp-max-c.json",
+      "sha256": "71fa7aeb8bec8b4add77abe5cca45dfd0fbb6476e0c7bd37d6d7387eeca8f66b",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-flow-temp-min-c.json",
+      "sha256": "c1e9e5ef73f48a67f3658da03536ba9dc30b1165b7b152a8dfbb9f7f1346f230",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-frost-prot-c.json",
+      "sha256": "e71b8e530a94fdb978365acbf506b587adebe4c24bd4a89025cd40d320ff4cc6",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-heating-curve.json",
+      "sha256": "187b98070d987b04dc6e92ad48ded9e9d81f95e9092bd01c0c6f28a19da344f5",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-room-temp-control.json",
+      "sha256": "fcf62f9dbe9500967f5005d5eb481a3dda00a4795cc6fce208e210f2a21776eb",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-config-summer-limit-c.json",
+      "sha256": "0dac49537a53b107216f8c3512360f491ff38ad5e525376909e7328691f8e7db",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-dew-point.json",
+      "sha256": "6bd3e611b6e6708b669e693f71d481e8d5256168ad52e760c848dd1d1b5c858e",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-flow-setpoint-c.json",
+      "sha256": "64a94c9032da28351372279fa2d14f00d02e97d3e57f29d48201d0812f20cba3",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-flow-temperature-c.json",
+      "sha256": "eb78c9d3bd570820908d09f43f4c16a343e3f77a35fb31d5c88b04905ddbe843",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-humidity.json",
+      "sha256": "b1eae3e9244b8c4413854db07e79ae33901872ddf78ecc445ba5bece003e53a9",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-mixer-position-pct.json",
+      "sha256": "9ca990d149dfc68cfe701c3359f0bdc1765752cc4b57a55ed15c9f0c06b31618",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-pump-active.json",
+      "sha256": "1c02b046bf2600a272459c0612e9cdae62caf0c043d38b05c2fc8e3f9ce715f2",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-pump-hours.json",
+      "sha256": "47ff522424479cc6f3bc24af8f1de4ad05f3c7926754c82f1832c613672e4bcd",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/circuit-state-pump-starts.json",
+      "sha256": "8697a1e8ed4ff1d5b4af99ddc938fcc76ddca204be6c6e0bec90b2d2a5a8587d",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-config-holiday-end-date.json",
+      "sha256": "fa46479e4c868d3308be2838c965395f560eac34d6d18919d398df48178232e5",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-config-holiday-start-date.json",
+      "sha256": "0d4cadc3c8d3d8ee0500f310f5f37043915644269aceec23d82489e023c7c3fb",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-config-operating-mode.json",
+      "sha256": "280319dc1e9bac5396dad483fc779daa11aee6e3ff1e03b6e80bb68aa84bb730",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-config-target-temp-c.json",
+      "sha256": "d294e7b529621251a7a0672fd2fe8534b37b757b4ea6b03b1dbf877c28a31d06",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-state-current-temp-c.json",
+      "sha256": "32724cfea7a7946a37c2d4462b578b2ff276d2ed52364b49f617aa167c521f07",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/dhw-state-special-function.json",
+      "sha256": "de7aa6663eeaab692709c02080e22e38d08cadab168de8e50ea43e9e7dee93c3",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-config-alternative-point.json",
+      "sha256": "f091098e565a8b14ff6ba4ba4f2993c2c7b0aab0939b77f76d19735b1005b874",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-config-dhw-bivalence-point.json",
+      "sha256": "ce63a91a989128242a1c26d4d98b6d6cb8aae5f581263219fd89b39bf45470c8",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-config-hc-emergency-temperature.json",
+      "sha256": "0b614f1ef167257b2676a15930ab8bef31af99ffd36599c3fa3c40076fcd64a2",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-config-hwc-max-flow-temp-desired.json",
+      "sha256": "2f2062832786dfec64842af20a24c288c3be3b3f7817b829fb6420471746b11a",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-config-installer-phone.json",
+      "sha256": "608feff0e6dfc0311006d021e3adc65e0f4c18742d68ee240bfc49a1bd9c7e0d",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-state-hwc-cylinder-temperature-bottom.json",
+      "sha256": "a404ca1f79c8a6371b06dccda82e40935de16b1315320b8a75aaa8817e6ec9d6",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-state-hwc-cylinder-temperature-top.json",
+      "sha256": "954adab6257c4fcb1323e7299da1e3d2d1f92f5f4291622370d1018b6b7b1a00",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-state-maintenance-due.json",
+      "sha256": "0442320ce5da9a8fa10119677ddc93cae28d534db2c90ac2bc6be3e665e54270",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/system-state-outdoor-temperature-avg24h.json",
+      "sha256": "2c5d576459c0a08fe6200dfd5da3ae6d1d531ce9bc56cbba204b078bbeee2349",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-holiday-end-date.json",
+      "sha256": "5f7002e7f34a28c08c6344594f8d403b3129389896ca8a53c47305e76ccd3073",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-holiday-end-time.json",
+      "sha256": "97fe162811fe59c24fd4d53a5f6bf491cc6437070921dc408d9c49ca3fd9e1a3",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-holiday-setpoint.json",
+      "sha256": "f7a4f88a5a42519baa8890647dd00e8a37e7d92e0031dbff081cf011b1d978dc",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-holiday-start-date.json",
+      "sha256": "0bb40d628945f26be2d757d5df70e598f1efbc85851dc3c5ad4d423aef22ce93",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-holiday-start-time.json",
+      "sha256": "5f8b00109ddb16966334754c51cb78bae771c7155d9a90d57de81abcb109f714",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-quick-veto-duration.json",
+      "sha256": "2aad76c25bed14d50cf35ca4a92f7c677af2d668cae09f861365366fb9b00648",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-config-quick-veto-setpoint.json",
+      "sha256": "9a30caf4afa8245a1e49f689cec7f85441fa9e848696178cefe5a565a9fe1f63",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-state-current-humidity-pct.json",
+      "sha256": "f7ef4f84cbe60c2777796b0303221b9c7b2a48d8d4ef7d6313b9e0b5413095bc",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-state-current-temp-c.json",
+      "sha256": "b952ce94a1002d55b82a02e0c28152e8337d8dd068b3066b33bd3d54fbc3feb0",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
+      "path": "specification/losses/zone-state-special-function.json",
+      "sha256": "d5cb822218711c060c0415469c1052284058635ab9ed8ebce9dd9eae66f932ef",
+      "origin": "specification",
+      "reference": "pre-port",
+      "role": "input",
+      "recorder": "hand-authored"
+    },
+    {
       "path": "current/gateway/adaptermux/arbitration/selection-ownerfalse-idlefalse.json",
       "sha256": "d7f7b97e370e3b4fe343bae4e6da5ae7ca08fa0a16f07502e511a991ab3f7dcf",
       "origin": "recorded-current",

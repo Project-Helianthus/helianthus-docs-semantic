@@ -1,0 +1,57 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerDiagnostics.dhwStarts",
+    "normalized": "boiler_diagnostics.dhw_starts",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/12"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/9",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/dhwStarts",
+      "value": 234
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/dhw_starts",
+      "value": 234
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
+      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "clause": "Slow tier, register 0x2300 (UIN)",
+      "use": "register to count"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (quantities of dimension one)",
+      "use": "a count carries the unit one"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x2300",
+    "wire": {
+      "type": "UIN",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "900",
+      "unit": "1"
+    }
+  },
+  "expected": {
+    "quantity": "count",
+    "value": {
+      "number": "900",
+      "unit": "1",
+      "unit_id": "unit.one"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

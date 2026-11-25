@@ -75,6 +75,7 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `pre-port/losses.json` | pre-port GraphQL fields the current introspection does not publish (a derived comparison), each with the pre-port vector that shows a value | recorded-pre-port |
 | `spec/` | independent protocol bytes for generic Modbus writes | specification |
 | `specification/` | SI and specification expectations of the SS02 cases, kept apart from the recorded vectors | specification |
+| `specification/losses/` | one hand-authored file per `pre-port/losses.json` entry that the public documents give a value for, named from the entry's snake-case form: the synthetic native input (selector, wire bytes where the cited documents state the layout, native number), the result in SI units, the cited document, version and clause or register, and the recorded pre-port value pointers beside it; `zone_state.valve_position_pct` has no file because the public register map states a boolean there; role `input`, reference `pre-port` | specification |
 
 A recorded vector carries the input it was recorded from and every output the code produced. A specification vector cites
 document, version and clause or register and never the text. A vector that carries an identifier the eBUS bus transmits is
