@@ -17,7 +17,9 @@ Each rejection names the production comparison it trips:
 """
 from __future__ import annotations
 
+import ast
 import copy
+import csv
 import json
 import importlib.util
 import sys
@@ -213,19 +215,50 @@ def reject_added_identity(body, text):
     expect_reject(body, text, lambda item: added_operation(item).update(parameters=["energy.incentive.slot_start"]), f"{slot} parameters")
 
 
+# Decision points the readability gate counts for C901. Boolean operators are not included.
+DECISION_NODES = {"Assert", "AsyncFor", "ExceptHandler", "For", "If", "Match", "While", "With"}
+
+
+def decision_points(function):
+    measured = 1
+    for node in ast.walk(function):
+        name = type(node).__name__
+        if name in DECISION_NODES:
+            measured += 1
+        elif name == "Try":
+            measured += len(node.handlers) + bool(node.orelse) + bool(node.finalbody)
+    return measured
+
+
+def catalog_input_rows(name):
+    folder = ROOT / "acceptance" / "catalog-inputs" / "energy"
+    with (folder / name).open(encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle, delimiter="\t"))
+
+
+def check_added_members_complexity():
+    """``added_members`` stays within the readability complexity limit.
+
+    The member comparisons stay in ``added_members``: the field set, stored
+    units, signed directions, operation set, qualifier set, catalog membership,
+    pack version, and the currency-per-joule price unit.
+    """
+    source = Path(__file__).read_text(encoding="utf-8")
+    function = next(node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef) and node.name == "added_members")
+    measured = decision_points(function)
+    if measured > 10:
+        raise AssertionError(f"added_members complexity {measured} exceeds 10")
+    print("added_members_complexity: PASS")
+
+
+def test_added_members_complexity():
+    check_added_members_complexity()
+
+
 def added_members(body):
-    import csv
-    from pathlib import Path
-    root = Path(__file__).resolve().parents[1]
-    folder = root / "acceptance" / "catalog-inputs" / "energy"
-
-    def rows(name):
-        with (folder / name).open(encoding="utf-8", newline="") as handle:
-            return list(csv.DictReader(handle, delimiter="\t"))
-
-    pe07 = {row["id"] for row in rows("pe07-fields.tsv")}
-    pe12 = rows("pe12-fields.tsv")
-    qq = [row for row in rows("qq12-fields.tsv") if row["id"].startswith("energy.")]
+    pe07 = {row["id"] for row in catalog_input_rows("pe07-fields.tsv")}
+    pe12 = catalog_input_rows("pe12-fields.tsv")
+    qq = [row for row in catalog_input_rows("qq12-fields.tsv") if row["id"].startswith("energy.")]
     if set(validator.FIELD_CONTRACTS) != pe07 | {row["id"] for row in pe12} | {row["id"] for row in qq}:
         raise AssertionError("field set")
     for row in pe12 + qq:
@@ -235,21 +268,21 @@ def added_members(body):
             raise AssertionError(f"{row['id']} unit rewritten")
         if row["direction"] == "signed" and contract["direction"] != "not_applicable":
             raise AssertionError(f"{row['id']} direction")
-    operations = {row["operation"] for row in rows("pe12-operations.tsv")}
-    operations |= {row["operation"] for row in rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
+    operations = {row["operation"] for row in catalog_input_rows("pe12-operations.tsv")}
+    operations |= {row["operation"] for row in catalog_input_rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
     if set(validator.OPERATION_CONTRACTS) - pe07_operation_ids() != operations:
         raise AssertionError("operation set")
-    qualifiers = {row["id"] for row in rows("pe12-qualifier-dimensions.tsv")}
-    qualifiers |= {row["id"] for row in rows("qq12-qualifier-dimensions.tsv")}
+    qualifiers = {row["id"] for row in catalog_input_rows("pe12-qualifier-dimensions.tsv")}
+    qualifiers |= {row["id"] for row in catalog_input_rows("qq12-qualifier-dimensions.tsv")}
     if set(validator.QUALIFIER_CONTRACTS) - pe07_qualifier_ids() != qualifiers:
         raise AssertionError("qualifier set")
-    catalog = json.loads((root / "api/v1/element-catalog-v1.json").read_text(encoding="utf-8"))
+    catalog = json.loads((ROOT / "api/v1/element-catalog-v1.json").read_text(encoding="utf-8"))
     members = {entry["ref"]["id"] for entry in catalog["elements"]}
     required = qualifiers | {row["id"] for row in pe12} | {row["id"] for row in qq}
     required |= operations
-    required |= {row["capability"] for row in rows("pe12-operations.tsv")}
-    required |= {row["capability"] for row in rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
-    required |= {row["event"] for row in rows("pe12-events.tsv")}
+    required |= {row["capability"] for row in catalog_input_rows("pe12-operations.tsv")}
+    required |= {row["capability"] for row in catalog_input_rows("qq12-operations.tsv") if row["operation"].startswith("energy.")}
+    required |= {row["event"] for row in catalog_input_rows("pe12-events.tsv")}
     required |= {"resource.tariff", "energy.dimension.tariff", "energy.service.tariff", "energy.capability.read.tariff", "energy.portal.read.tariff"}
     if not required <= members or "relation.tariff_applies" in members:
         raise AssertionError("catalog membership")
@@ -288,6 +321,7 @@ def main():
     reject_empty_and_extra(body, text)
     reject_operation_identity(body, text)
     reject_pack_identity(body, text)
+    check_added_members_complexity()
     added_members(body)
     reject_added_identity(body, text)
     print("energy management pack tests: PASS")
