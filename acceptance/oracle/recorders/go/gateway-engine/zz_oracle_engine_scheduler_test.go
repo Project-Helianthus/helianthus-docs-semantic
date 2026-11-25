@@ -150,9 +150,8 @@ func oracleSchedulerShadowHit(t *testing.T) {
 			Clock:      map[string]any{"now": now.UTC().Format(time.RFC3339Nano)},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(value)},
 			Decisions: []any{map[string]any{
-				"error": oracleErr(err), "served_from_shadow": stats.ServedFromShadow, "served_from_passive_shadow": stats.ServedFromPassiveShadow,
+				"returned_value": hex.EncodeToString(value), "error": oracleErr(err), "served_from_shadow": stats.ServedFromShadow, "served_from_passive_shadow": stats.ServedFromPassiveShadow,
 				"active_fetch_attempted": stats.ActiveFetchAttempted, "active_fetch_succeeded": stats.ActiveFetchSucceeded, "active_fetch_duration_ns": int64(stats.ActiveFetchDuration),
 			}},
 			Counters: map[string]any{"fetch_calls": atomic.LoadInt32(&fetchCalls)},

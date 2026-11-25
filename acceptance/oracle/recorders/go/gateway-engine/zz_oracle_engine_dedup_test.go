@@ -44,6 +44,7 @@ func oracleAdjudicated(event AdjudicatedPassiveEvent) map[string]any {
 		"family_policy":        oracleFamilyPolicy(event.FamilyPolicy),
 		"event_kind":           oracleKind(event.Event.Kind),
 		"discontinuity_reason": string(event.Event.DiscontinuityReason),
+		"event":                oracleClassified(event.Event),
 	}
 }
 

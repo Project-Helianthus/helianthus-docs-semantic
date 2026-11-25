@@ -52,7 +52,15 @@ func oracleB509Descriptors(t *testing.T) {
 		{"key-mismatch-refused", WatchDescriptor{Key: NewB509WatchKey(0x08, 0x0201), SemanticClass: WatchSemanticClassState, CorrelationPolicy: WatchCorrelationPolicyRequestResponse, DirectApplyPolicy: WatchDirectApplyPolicyStateDefault}},
 	}
 	rows := make([]any, 0, len(cases))
+	operands := make([]any, 0, len(cases))
 	for _, tc := range cases {
+		operands = append(operands, map[string]any{
+			"name": tc.name, "observation_state": string(WatchObservationStateActive), "has_descriptor": true,
+			"descriptor": map[string]any{
+				"key": oracleKeyCanonical(tc.descriptor.Key), "semantic_class": string(tc.descriptor.SemanticClass),
+				"correlation_policy": string(tc.descriptor.CorrelationPolicy), "direct_apply_policy": string(tc.descriptor.DirectApplyPolicy),
+			},
+		})
 		policy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, request, DedupResponseValueBearing,
 			WatchObservation{State: WatchObservationStateActive, Descriptor: tc.descriptor, HasDescriptor: true},
 			NormalizeObserveFirstFeatureFlags(true, true, true, ObserveFirstExternalWritePolicyRecordOnly))
@@ -63,7 +71,7 @@ func oracleB509Descriptors(t *testing.T) {
 	}
 	oracleWrite(t, "observe-first-family-policy/b509-descriptor-admission.json", oracleCase{
 		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstFamilyPolicy_B509DirectApplyRequiresMatchingActiveStateDescriptor",
-		Input:  oracleInput{Bytes: hex.EncodeToString(request.Data), Qualifiers: map[string]any{"request_key": oracleKeyCanonical(key), "flags": "enabled state_direct config_direct record_only"}},
+		Input:  oracleInput{Bytes: hex.EncodeToString(request.Data), Qualifiers: map[string]any{"request_key": oracleKeyCanonical(key), "flags": "enabled state_direct config_direct record_only", "scope": string(ObserveFirstTrafficScopePassive), "response_class": "value-bearing", "descriptors": operands}},
 		Output: oracleOutput{Decisions: rows},
 	})
 }

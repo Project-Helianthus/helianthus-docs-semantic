@@ -8,9 +8,14 @@
     "qualifiers": {
       "address_class": "loopback-direct",
       "network": "tcp",
+      "observations_exclude": [
+        "read_timeout"
+      ],
       "protocol": "enh"
     },
     "clock": {
+      "absence_threshold_ns": 1000000000,
+      "read_timeout_ns": 50000000,
       "reconnect_delay_ns": 5000000
     },
     "state": {}

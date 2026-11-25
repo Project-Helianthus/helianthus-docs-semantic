@@ -11,10 +11,22 @@
     },
     "clock": {
       "base": "1970-01-01T00:00:00Z",
-      "passive_offset_ns": 100000000
+      "passive_offset_ns": 100000000,
+      "release_offset_ns": 1351000000
     },
     "state": {
-      "observation_state": "active"
+      "observation_state": "active",
+      "watch_observer": {
+        "canonical": "b524:15:06:03:01:001c",
+        "descriptor": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "state_default",
+          "key": "b524:15:06:03:01:001c",
+          "semantic_class": "state"
+        },
+        "has_descriptor": true,
+        "state": "active"
+      }
     }
   },
   "output": {

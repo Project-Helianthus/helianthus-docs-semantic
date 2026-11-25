@@ -4,7 +4,7 @@
   "source": "internal/adaptermux/v8classifier/classifier.go",
   "stimulus": "TestFSM_StateAborted_ContinuationCountsFaults/off",
   "input": {
-    "bytes": "10b516ff0000000000",
+    "bytes": "10b516ff000102030455",
     "qualifiers": {
       "mode": "off",
       "sequence": "protocol-fault-cascade"
@@ -47,22 +47,32 @@
         {
           "escaped": false,
           "event": "byte",
+          "value": "01"
+        },
+        {
+          "escaped": false,
+          "event": "byte",
+          "value": "02"
+        },
+        {
+          "escaped": false,
+          "event": "byte",
+          "value": "03"
+        },
+        {
+          "escaped": false,
+          "event": "byte",
+          "value": "04"
+        },
+        {
+          "escaped": false,
+          "event": "reset",
           "value": "00"
         },
         {
           "escaped": false,
           "event": "byte",
-          "value": "00"
-        },
-        {
-          "escaped": false,
-          "event": "byte",
-          "value": "00"
-        },
-        {
-          "escaped": false,
-          "event": "byte",
-          "value": "00"
+          "value": "55"
         }
       ],
       "fsm": "idle"
@@ -75,10 +85,11 @@
       "16",
       "ff",
       "00",
-      "00",
-      "00",
-      "00",
-      "00"
+      "01",
+      "02",
+      "03",
+      "04",
+      "55"
     ],
     "decisions": [
       {
@@ -135,12 +146,36 @@
         "event": "byte",
         "fsm_state": "IDLE",
         "passive": false,
-        "value": "00"
+        "value": "01"
       },
       {
         "drop": false,
         "escaped": false,
         "event": "byte",
+        "fsm_state": "IDLE",
+        "passive": false,
+        "value": "02"
+      },
+      {
+        "drop": false,
+        "escaped": false,
+        "event": "byte",
+        "fsm_state": "IDLE",
+        "passive": false,
+        "value": "03"
+      },
+      {
+        "drop": false,
+        "escaped": false,
+        "event": "byte",
+        "fsm_state": "IDLE",
+        "passive": false,
+        "value": "04"
+      },
+      {
+        "drop": false,
+        "escaped": false,
+        "event": "reset",
         "fsm_state": "IDLE",
         "passive": false,
         "value": "00"
@@ -151,15 +186,7 @@
         "event": "byte",
         "fsm_state": "IDLE",
         "passive": false,
-        "value": "00"
-      },
-      {
-        "drop": false,
-        "escaped": false,
-        "event": "byte",
-        "fsm_state": "IDLE",
-        "passive": false,
-        "value": "00"
+        "value": "55"
       }
     ],
     "cache": {},

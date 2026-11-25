@@ -542,3 +542,93 @@ def test_b524_state_default_input_carries_the_request_and_observation_of_each_de
     assert operands["catalog-miss"]["observation"]["has_descriptor"] is False
     assert operands["write"]["request"]["secondary"] == "24" and operands["write"]["request"]["source"] == "10"
     assert document["input"]["bytes"] == "".join(item["request"]["data"] for item in operands.values())
+
+
+def test_b509_descriptor_cases_publish_the_descriptor_each_decision_was_made_for():
+    document = bt01_case("engine/observe-first-family-policy/b509-descriptor-admission.json")
+    operands = {item["name"]: item for item in document["input"]["qualifiers"]["descriptors"]}
+    assert list(operands) == [row["name"] for row in document["output"]["decisions"]]
+    request_key = document["input"]["qualifiers"]["request_key"]
+    # The matching and the mismatched key differ only in the published descriptor key.
+    assert operands["state-default-admitted"]["descriptor"]["key"] == request_key
+    assert operands["key-mismatch-refused"]["descriptor"]["key"] != request_key
+    assert operands["class-policy-mismatch-refused"]["descriptor"]["semantic_class"] == "config"
+    assert operands["never-refused"]["descriptor"]["direct_apply_policy"] == "never"
+    assert operands["unknown-policy-refused"]["descriptor"]["direct_apply_policy"] == "unknown"
+
+
+def test_the_runtime_observer_case_publishes_its_descriptor_and_release_time():
+    document = bt01_case("engine/deduplicator/b524-runtime-observer-fallback.json")
+    observer = document["input"]["state"]["watch_observer"]
+    assert (observer["state"], observer["has_descriptor"]) == ("active", True)
+    assert observer["descriptor"]["semantic_class"] == "state" and observer["descriptor"]["direct_apply_policy"] == "state_default"
+    assert observer["descriptor"]["key"] == observer["canonical"] == document["input"]["qualifiers"]["canonical"]
+    assert document["input"]["clock"]["release_offset_ns"] > document["input"]["clock"]["passive_offset_ns"]
+
+
+@pytest.mark.parametrize("name", ["allocator", "launcher", "clock", "wrong-abi", "zero-build", "layout-order", "lease-ttl", "kill-grace", "empty-gc"])
+def test_a_new_config_case_publishes_the_configuration_it_submitted(name):
+    document = bt01_case(f"localworkerhost/new-config-{name}.json")
+    config = document["input"]["state"]["config"]
+    assert document["input"]["qualifiers"]["mutation"] == name
+    expected = {
+        "allocator": ("has_allocator", False), "launcher": ("has_launcher", False), "clock": ("has_clock", False),
+        "wrong-abi": ("self", None), "zero-build": ("self", None), "layout-order": ("descriptors", [{"role": 2, "size": 4096}, {"role": 1, "size": 152}]),
+        "lease-ttl": ("lease_ttl_ns", config["lease_interval_ns"]), "kill-grace": ("kill_grace_ns", 0), "empty-gc": ("runtime_gc", ""),
+    }[name]
+    if name == "wrong-abi":
+        assert config["self"]["abi"] != 1
+    elif name == "zero-build":
+        assert config["self"]["build_hex"] == "00" * 32
+    else:
+        assert config[expected[0]] == expected[1]
+
+
+@pytest.mark.parametrize("mode", ["off", "shadow", "enforce"])
+def test_the_classifier_fault_cascade_feeds_the_pinned_continuation_and_recovery(mode):
+    document = bt01_case(f"adaptermux/v8classifier/sequence-protocol-fault-cascade-{mode}.json")
+    # Header, the NN fault byte, the five continuation bytes 00..04, then a reset and a plain byte.
+    assert document["input"]["bytes"] == "10b516ff" + "0001020304" + "55"
+    events = [step["event"] for step in document["input"]["state"]["events"]]
+    assert events[-2:] == ["reset", "byte"]
+    states = [step["fsm_state"] for step in document["output"]["decisions"]]
+    if mode != "off":
+        assert states[-3:] == ["ABORTED", "IDLE", "IDLE"]
+        assert document["output"]["counters"]["fsm_protocol_fault_total"] == 6
+
+
+def test_arbitration_rows_name_the_request_that_won_apart_from_its_session_and_initiator():
+    document = bt01_case("adaptermux/arbitration/selection-ownerfalse-idletrue.json")
+    rows = document["output"]["decisions"]
+    # Two queued bids that look equal (same session and initiator) are told apart by request identity.
+    equal_looking = [row for row in rows if row.startswith("ext=[s1:10,s1:10] gw=false mask=3 ")]
+    assert equal_looking and all("win_id=" in row and "pend_ext_id=[" in row for row in rows)
+    winners = {row.split("win_id=")[1].split(" ")[0] for row in rows if row.startswith("ext=[s1:10,s1:10] ")}
+    assert {"x0", "x1"} <= winners
+    # A selection of the second equal-looking bid is a different row from selecting the first.
+    second = [row for row in rows if row.startswith("ext=[s1:10,s1:10] gw=false mask=2 ")]
+    assert second and "win_id=x1" in second[0] and "pend_ext_id=[x0]" in second[0]
+
+
+def test_the_reconnect_case_leaves_out_the_timing_dependent_read_timeouts_and_says_so():
+    document = bt01_case("engine/passive-tap/reconnect.json")
+    assert document["input"]["qualifiers"]["observations_exclude"] == ["read_timeout"]
+    assert document["input"]["clock"]["read_timeout_ns"] < document["input"]["clock"]["absence_threshold_ns"]
+    assert "read_timeout" not in [event["kind"] for event in document["output"]["observations"]]
+
+
+def test_a_scheduler_cache_hit_returns_a_value_and_writes_no_symbol():
+    document = bt01_case("engine/scheduler/watch-read-served-from-passive-shadow.json")
+    assert document["output"]["symbols_written"] == []
+    decision = document["output"]["decisions"][0]
+    assert decision["returned_value"] == "ab" and decision["served_from_passive_shadow"] is True
+    assert document["output"]["counters"]["fetch_calls"] == 0
+
+
+@pytest.mark.parametrize("name", ["passive-first-then-active", "active-first-then-delayed-passive", "passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression"])
+def test_a_deduplicator_case_publishes_the_emitted_observation_with_its_timestamp(name):
+    document = bt01_case(f"engine/deduplicator/{name}.json")
+    event = document["output"]["decisions"][0]["event"]
+    assert event["kind"] == document["output"]["decisions"][0]["event_kind"] == "transaction"
+    assert event["observed_at"].endswith("Z") and event["observed_at"] != "0001-01-01T00:00:00Z"
+    assert event["request"]["primary"] == "b5" and event["has_request"] and event["has_response"]

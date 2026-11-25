@@ -21,6 +21,33 @@
         "discontinuity_reason": "transport_reset",
         "disposition": "discontinuity",
         "epoch": 2,
+        "event": {
+          "abandon_reason": "",
+          "ack_correlation": {
+            "byte": "00",
+            "complete_request": false,
+            "correlator": "",
+            "position": ""
+          },
+          "discontinuity_reason": "transport_reset",
+          "error": "context canceled",
+          "frame_type": "unknown",
+          "has_request": false,
+          "has_response": false,
+          "kind": "discontinuity",
+          "observed_at": "1970-01-01T00:00:00.1Z",
+          "offending_symbol": "00",
+          "offending_was_escaped": false,
+          "request": {},
+          "response": {},
+          "timing": {
+            "request_end": "",
+            "request_start": "",
+            "response_end": "",
+            "response_start": "",
+            "terminal": ""
+          }
+        },
         "event_kind": "discontinuity",
         "family_policy": {
           "correlation_policy": "",

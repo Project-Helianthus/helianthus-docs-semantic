@@ -143,7 +143,7 @@ func oracleRecordNewConfig(t *testing.T) {
 			Component: "localworkerhost",
 			Source:    "internal/localworkerhost/supervisor.go",
 			Stimulus:  "TestAA27NewRejectsInvalidConfiguration/" + tc.name,
-			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, Clock: map[string]any{"now": time.Unix(1000, 0).UTC().Format(time.RFC3339Nano)}},
+			Input:     oracleInput{Qualifiers: map[string]any{"mutation": tc.name}, Clock: map[string]any{"now": time.Unix(1000, 0).UTC().Format(time.RFC3339Nano)}, State: map[string]any{"config": oracleConfigState(cfg)}},
 			Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(err), "is_config": errors.Is(err, ErrConfig)}}},
 		})
 	}
@@ -354,6 +354,30 @@ func oracleValidateState(plan ChildPlan, self Identity, observed []Observed, env
 func withArgs(state map[string]any, args []string) map[string]any {
 	state["args"] = oracleStrings(args)
 	return state
+}
+
+// oracleConfigState lists every value of the Config handed to New, after the
+// case's mutation; the allocator, launcher and clock are named by presence.
+func oracleConfigState(cfg Config) map[string]any {
+	return map[string]any{
+		"self": map[string]any{
+			"abi": cfg.Self.ABI, "build_hex": hex.EncodeToString(cfg.Self.Build[:]), "executable_hex": hex.EncodeToString(cfg.Self.Executable[:]),
+		},
+		"executable":        cfg.Executable,
+		"process_args":      oracleStrings(cfg.ProcessArgs),
+		"base_env":          oracleStrings(cfg.BaseEnv),
+		"descriptors":       oracleLayout(cfg.Descriptors),
+		"runtime_gc":        cfg.Runtime.GC,
+		"runtime_memory":    cfg.Runtime.MemoryLimit,
+		"lease_interval_ns": int64(cfg.LeaseInterval),
+		"lease_ttl_ns":      int64(cfg.LeaseTTL),
+		"ready_timeout_ns":  int64(cfg.ReadyTimeout),
+		"stop_grace_ns":     int64(cfg.StopGrace),
+		"kill_grace_ns":     int64(cfg.KillGrace),
+		"has_allocator":     cfg.Allocator != nil,
+		"has_launcher":      cfg.Launcher != nil,
+		"has_clock":         cfg.Clock != nil,
+	}
 }
 
 func oraclePlanState(plan ChildPlan) map[string]any {

@@ -66,20 +66,26 @@ func oracleRecordArbitration(t *testing.T) {
 						a := &arbitrator{pendingGateway: gw, pendingExternal: append([]*startRequest(nil), refs...), hasOwner: hasOwner}
 						winner, losers := a.selectBidsAtSYN(busIdle, bids)
 						pending := make([]string, 0, len(a.pendingExternal))
+						pendingID := make([]string, 0, len(a.pendingExternal))
 						for _, r := range a.pendingExternal {
 							pending = append(pending, oracleBid(r))
+							pendingID = append(pendingID, oracleBidID(r, refs, gw))
 						}
 						loserNames := make([]string, 0, len(losers))
+						loserID := make([]string, 0, len(losers))
 						for _, r := range losers {
 							loserNames = append(loserNames, oracleBid(r))
+							loserID = append(loserID, oracleBidID(r, refs, gw))
 						}
 						external := make([]string, 0, len(refs))
 						for _, r := range refs {
 							external = append(external, oracleBid(r))
 						}
-						rows = append(rows, fmt.Sprintf("ext=[%s] gw=%t mask=%d | win=%s lose=[%s] pend_gw=%t pend_ext=[%s] deferred_gw=%t",
+						rows = append(rows, fmt.Sprintf("ext=[%s] gw=%t mask=%d | win=%s lose=[%s] pend_gw=%t pend_ext=[%s] deferred_gw=%t | win_id=%s lose_id=[%s] pend_gw_id=%s pend_ext_id=[%s] deferred_gw_id=%s",
 							strings.Join(external, ","), gw != nil, mask, oracleBid(winner), strings.Join(loserNames, ","),
-							a.pendingGateway != nil, strings.Join(pending, ","), a.deferredGatewayLoser != nil))
+							a.pendingGateway != nil, strings.Join(pending, ","), a.deferredGatewayLoser != nil,
+							oracleBidID(winner, refs, gw), strings.Join(loserID, ","), oracleBidID(a.pendingGateway, refs, gw),
+							strings.Join(pendingID, ","), oracleBidID(a.deferredGatewayLoser, refs, gw)))
 					}
 				}
 			}
@@ -89,19 +95,39 @@ func oracleRecordArbitration(t *testing.T) {
 			Source:    "internal/adaptermux/arbitration.go",
 			Stimulus:  "TestArbitrationDecisionExhaustive",
 			Input: oracleInput{
-				Qualifiers: map[string]any{"has_owner": hasOwner, "bus_idle": busIdle, "initiators": "10 01 11", "sessions": "1 2", "gateway_initiator": "11", "max_external": 2},
-				State:      map[string]any{"snapshot_mask": "-1 selects every pending bid; otherwise a bit per external bid then the gateway bid"},
+				Qualifiers: map[string]any{"has_owner": hasOwner, "bus_idle": busIdle, "initiators": "10 01 11", "sessions": "1 2", "gateway_initiator": "11", "max_external": 2,
+					"request_identity": "x<n> is the n-th external request of the row in queue order starting at 0, gw is the gateway request; *_id fields name requests by that identity"},
+				State: map[string]any{"snapshot_mask": "-1 selects every pending bid; otherwise a bit per external bid then the gateway bid"},
 			},
 			Output: oracleOutput{Decisions: rows, Counters: map[string]any{"rows": len(rows)}},
 		})
 	}
 }
 
+// oracleBid names a bid by its session and initiator.
 func oracleBid(r *startRequest) string {
 	if r == nil {
 		return "none"
 	}
 	return fmt.Sprintf("s%d:%02x", r.sessionID, r.initiator)
+}
+
+// oracleBidID names a bid by the identity of its request object: "x<n>" is the
+// n-th external request of the row (queue order, zero based) and "gw" the
+// gateway request, so equal-looking bids stay distinguishable.
+func oracleBidID(r *startRequest, refs []*startRequest, gw *startRequest) string {
+	if r == nil {
+		return "none"
+	}
+	if r == gw {
+		return "gw"
+	}
+	for i, x := range refs {
+		if x == r {
+			return fmt.Sprintf("x%d", i)
+		}
+	}
+	return "unknown"
 }
 
 func oracleRecordSendSymbols(t *testing.T) {
@@ -228,7 +254,7 @@ func oracleRecordClassifierSequences(t *testing.T) {
 		steps    []oracleStep
 	}{
 		{"telegram-lifecycle", "TestFSM_MultipleTelegrams_StateLifecycle", []oracleStep{{"started", 0x71, false}, {"byte", 0x10, false}, {"reset", 0, false}, {"started", 0x10, false}}},
-		{"protocol-fault-cascade", "TestFSM_StateAborted_ContinuationCountsFaults", []oracleStep{{"started", 0x71, false}, {"byte", 0x10, false}, {"byte", 0xB5, false}, {"byte", 0x16, false}, {"byte", 0xFF, false}, {"byte", 0x00, false}, {"byte", 0x00, false}, {"byte", 0x00, false}, {"byte", 0x00, false}, {"byte", 0x00, false}}},
+		{"protocol-fault-cascade", "TestFSM_StateAborted_ContinuationCountsFaults", []oracleStep{{"started", 0x71, false}, {"byte", 0x10, false}, {"byte", 0xB5, false}, {"byte", 0x16, false}, {"byte", 0xFF, false}, {"byte", 0x00, false}, {"byte", 0x01, false}, {"byte", 0x02, false}, {"byte", 0x03, false}, {"byte", 0x04, false}, {"reset", 0, false}, {"byte", 0x55, false}}},
 		{"legitimate-bytes", "TestFSM_EnforceMode_LegitimateBytesNotDropped", []oracleStep{{"started", 0x71, false}, {"byte", 0x10, false}, {"byte", 0xB5, false}, {"byte", 0x16, false}}},
 		{"wire-syn-mid-frame", "TestStreamEventWireSyn_EnforceMode_Drops", []oracleStep{{"started", 0x71, false}, {"wire_syn", 0xAA, false}}},
 		{"failed-enters-passive", "TestFSM_StreamEventFailed_EntersPassiveTracking", []oracleStep{{"failed", 0x31, false}, {"byte", 0x10, false}}},

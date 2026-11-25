@@ -407,8 +407,11 @@ func oracleTapReconnect(t *testing.T) {
 		Stimulus:  "TestPassiveBusTap_ReconnectsAfterDisconnect",
 		Input: oracleInput{
 			Bytes:      "1122",
-			Qualifiers: map[string]any{"protocol": string(TransportENH), "network": "tcp", "address_class": "loopback-direct"},
-			Clock:      map[string]any{"reconnect_delay_ns": int64(5 * time.Millisecond)},
+			Qualifiers: map[string]any{"protocol": string(TransportENH), "network": "tcp", "address_class": "loopback-direct", "observations_exclude": []any{"read_timeout"}},
+			Clock: map[string]any{
+				"reconnect_delay_ns": int64(5 * time.Millisecond), "read_timeout_ns": int64(50 * time.Millisecond),
+				"absence_threshold_ns": int64(time.Second),
+			},
 		},
 		Output: oracleOutput{
 			Decisions: []any{map[string]any{
@@ -427,6 +430,8 @@ func oracleTapReconnect(t *testing.T) {
 // oracleTapEventsThrough lists the emitted events in order, up to and
 // including the first symbol event equal to last; events after it race with
 // the connection teardown and are not part of what the pin's test waits for.
+// Read-timeout events depend on when the writer goroutine runs against the
+// read deadline, so they are left out of the list and the input names that.
 func oracleTapEventsThrough(events []PassiveTapEvent, last byte) []any {
 	names := map[PassiveTapEventKind]string{
 		PassiveTapEventConnected: "connected", PassiveTapEventDisconnected: "disconnected", PassiveTapEventSymbol: "symbol",
@@ -434,6 +439,9 @@ func oracleTapEventsThrough(events []PassiveTapEvent, last byte) []any {
 	}
 	out := make([]any, 0, len(events))
 	for _, event := range events {
+		if event.Kind == PassiveTapEventReadTimeout {
+			continue
+		}
 		entry := map[string]any{"kind": names[event.Kind]}
 		if event.Kind == PassiveTapEventSymbol {
 			entry["symbol"] = hex.EncodeToString([]byte{event.Symbol})
@@ -595,8 +603,20 @@ func oracleRecordDedup(t *testing.T) {
 		Input: oracleInput{
 			Bytes:      hex.EncodeToString(append(append([]byte{}, activeRequest.Data...), activeResponse.Data...)),
 			Qualifiers: map[string]any{"canonical": stateKey.Canonical(), "passive_source": "10"},
-			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "passive_offset_ns": int64(100 * time.Millisecond)},
-			State:      map[string]any{"observation_state": string(observation.State)},
+			Clock: map[string]any{
+				"base": base.UTC().Format(time.RFC3339Nano), "passive_offset_ns": int64(100 * time.Millisecond),
+				"release_offset_ns": int64(100*time.Millisecond + deduplicator.budgets.PendingGraceTimeout + time.Millisecond),
+			},
+			State: map[string]any{
+				"observation_state": string(observation.State),
+				"watch_observer": map[string]any{
+					"canonical": stateKey.Canonical(), "state": string(WatchObservationStateActive), "has_descriptor": true,
+					"descriptor": map[string]any{
+						"key": oracleKeyCanonical(stateKey), "semantic_class": string(WatchSemanticClassState),
+						"correlation_policy": string(WatchCorrelationPolicyRequestResponse), "direct_apply_policy": string(WatchDirectApplyPolicyStateDefault),
+					},
+				},
+			},
 		},
 		Output: oracleOutput{
 			Decisions: []any{map[string]any{
