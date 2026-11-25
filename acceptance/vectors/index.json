@@ -759,11 +759,59 @@
     },
     {
       "path": "pre-port/losses.json",
-      "sha256": "be90e52d81a23d10399425529450929593dfb354b069630684e3373a3b777ddd",
+      "sha256": "fe9d088a1399a2792cd72b3bd5959bdabf93d2cb5b35b53d862f4e611df0e156",
       "origin": "recorded-pre-port",
       "reference": "pre-port",
       "role": "expected-output",
       "recorder": "recorders/losses.py"
+    },
+    {
+      "path": "pre-port/gateway/canonical-pv/canonical-pv-mapper.json",
+      "sha256": "0b91343af95a07c9b0479307d25633350cf2c87d9edd891db2a6f709b6013a8d",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway-canonical-pv --package internal/modbusadapter --sources pre-port-canonical-pv/modbusadapter --test TestOraclePrePortCanonicalPVMapper"
+    },
+    {
+      "path": "pre-port/gateway/canonical-pv/m2m-canonical-pv-contract.json",
+      "sha256": "d9af8397bfdc8246c3b28d7e9772afd8eb7ec11de9778a378d067dc8d2fb7af0",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway-canonical-pv --package m2mgraphql --sources pre-port-canonical-pv/m2mgraphql --test TestOraclePrePortCanonicalPVContract"
+    },
+    {
+      "path": "pre-port/gateway/canonical-pv/mcp-canonical-pv-envelope.json",
+      "sha256": "2cc85d7305963e605db753082f2b6b90f98b3e35f2659aa4d6e78ccea450d743",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway-canonical-pv --package mcp --sources pre-port-canonical-pv/mcp --test TestOraclePrePortCanonicalPVEnvelope"
+    },
+    {
+      "path": "pre-port/gateway/typed/graphql-typed-mutations.json",
+      "sha256": "b7476921903afbbb2b2b8ce0518e9b807d7a7b6f160c188421aa00a17be30885",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway --package graphql --sources pre-port-typed/graphql --test TestOraclePrePortTyped"
+    },
+    {
+      "path": "pre-port/gateway/typed/graphql-typed-queries.json",
+      "sha256": "abfec7232da85f045ff2856d4e73ee73873dbbf1a13fba4c1324276f8d49ba68",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway --package graphql --sources pre-port-typed/graphql --test TestOraclePrePortTyped"
+    },
+    {
+      "path": "pre-port/gateway/typed/mcp-typed-tools.json",
+      "sha256": "edb9b09d3b82cca1330c82ffdc9e53ca17401036b5df7ebc4778d792e6c1f593",
+      "origin": "recorded-pre-port",
+      "reference": "pre-port",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference pre-port --entry gateway --package mcp --sources pre-port-typed/mcp --test TestOraclePrePortTypedMCP"
     },
     {
       "path": "spec/modbus-register-writes.json",

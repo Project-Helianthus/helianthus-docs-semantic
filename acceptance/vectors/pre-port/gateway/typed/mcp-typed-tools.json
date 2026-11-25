@@ -1,0 +1,2500 @@
+{
+  "complete": [
+    {
+      "name": "ebus.v1.semantic.zones.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.zones.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "config": {
+              "allowed_modes": [
+                "synthetic-AllowedModes"
+              ],
+              "associated_circuit": 106,
+              "circuit_type": "synthetic-CircuitType",
+              "holiday_end_date": "synthetic-HolidayEndDate",
+              "holiday_end_time": "synthetic-HolidayEndTime",
+              "holiday_setpoint_c": 20.5,
+              "holiday_start_date": "synthetic-HolidayStartDate",
+              "holiday_start_time": "synthetic-HolidayStartTime",
+              "operating_mode": "synthetic-OperatingMode",
+              "preset": "synthetic-Preset",
+              "quick_veto": true,
+              "quick_veto_duration_h": 19.5,
+              "quick_veto_expiry": "synthetic-QuickVetoExpiry",
+              "quick_veto_setpoint_c": 18.5,
+              "room_temperature_zone_mapping": 107,
+              "target_temp_c": 15.5
+            },
+            "id": "synthetic-ID",
+            "name": "synthetic-Name",
+            "state": {
+              "current_humidity_pct": 12.5,
+              "current_temp_c": 11.5,
+              "heating_demand_pct": 13.5,
+              "hvac_action": "synthetic-HvacAction",
+              "special_function": "synthetic-SpecialFunction",
+              "valve_position_pct": 14.5
+            }
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "56ec434e16bd4430beacae05dced9e8d16220e0eca2d6ece1e2793a4c18886c7"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.circuits.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.circuits.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "circuit_type": "synthetic-CircuitType",
+            "config": {
+              "cooling_enabled": true,
+              "flow_temp_max_c": 34.5,
+              "flow_temp_min_c": 35.5,
+              "frost_prot_c": 37.5,
+              "heating_curve": 33.5,
+              "room_temp_control": "synthetic-RoomTempControl",
+              "summer_limit_c": 36.5
+            },
+            "has_mixer": true,
+            "index": 114,
+            "managing_device": {
+              "address": 128,
+              "device_id": "synthetic-DeviceID",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {
+              "calc_flow_temp_c": 28.5,
+              "circuit_state": "synthetic-CircuitState",
+              "dew_point": 30.5,
+              "flow_setpoint_c": 27.5,
+              "flow_temperature_c": 26.5,
+              "humidity": 29.5,
+              "mixer_position_pct": 25.5,
+              "pump_active": true,
+              "pump_hours": 31.5,
+              "pump_starts": 122
+            }
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "b3c4986b646cd84d38944918ba79dc8abae15c99a15982924de4be5c403fd3f0"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.radio_devices.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.radio_devices.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "device_class_address": 131,
+            "device_connected": true,
+            "device_model": "synthetic-DeviceModel",
+            "device_paired": true,
+            "firmware_version": "synthetic-FirmwareVersion",
+            "group": 129,
+            "hardware_identifier": 132,
+            "instance": 130,
+            "reception_strength": 134,
+            "remote_control_address": 133,
+            "room_humidity_pct": 47.5,
+            "room_temperature_c": 46.5,
+            "slot_mode": "synthetic-SlotMode",
+            "zone_assignment": 135
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "30a824db4649904ca4a24854b27546b98738fb59abd2e8e5d7e4a0f8cea84269"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.fm5_mode.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.fm5_mode.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": "INTERPRETED",
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "ac78da26b20b6b4a1d4878b0211d502e1cd6f75a9c513cfad6db6014d8327e3c"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.solar.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.solar.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "collector_temperature_c": 48.5,
+          "current_yield": 50.5,
+          "function_mode": true,
+          "pump_active": true,
+          "pump_hours": 51.5,
+          "return_temperature_c": 49.5,
+          "solar_enabled": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "90737596fb4966ede2f79e02505d042a81af7f7d45bb0f428abb129b3562fc3e"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.cylinders.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.cylinders.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "charge_hysteresis_c": 55.5,
+            "charge_offset_c": 56.5,
+            "index": 142,
+            "max_setpoint_c": 54.5,
+            "temperature_c": 53.5
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "fc4c94ecb19f8510ecc385d17c429e1b70a55b7e4c91db93c136de6e100e24e8"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.dhw.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.dhw.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "config": {
+            "holiday_end_date": "synthetic-HolidayEndDate",
+            "holiday_start_date": "synthetic-HolidayStartDate",
+            "operating_mode": "synthetic-OperatingMode",
+            "preset": "synthetic-Preset",
+            "target_temp_c": 23.5
+          },
+          "state": {
+            "current_temp_c": 21.5,
+            "heating_demand_pct": 22.5,
+            "special_function": "synthetic-SpecialFunction"
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "1d125d9653f16c362d9a99b7c21fe7a48835c1177d50f7551017d75f2f4fde12"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.energy_totals.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.energy_totals.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "electric": {
+            "climate": {
+              "monthly": [
+                90.5,
+                91.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 95.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 96.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 87.5,
+              "today_meta": {
+                "age_seconds": 92.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                88.5,
+                89.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 93.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 94.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [
+                80.5,
+                81.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 85.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 86.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 77.5,
+              "today_meta": {
+                "age_seconds": 82.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                78.5,
+                79.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 83.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 84.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            }
+          },
+          "gas": {
+            "climate": {
+              "monthly": [
+                70.5,
+                71.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 75.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 76.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 67.5,
+              "today_meta": {
+                "age_seconds": 72.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                68.5,
+                69.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 73.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 74.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [
+                60.5,
+                61.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 65.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 66.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 57.5,
+              "today_meta": {
+                "age_seconds": 62.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                58.5,
+                59.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 63.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 64.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            }
+          },
+          "solar": {
+            "climate": {
+              "monthly": [
+                110.5,
+                111.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 115.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 116.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 107.5,
+              "today_meta": {
+                "age_seconds": 112.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                108.5,
+                109.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 113.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 114.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            },
+            "dhw": {
+              "monthly": [
+                100.5,
+                101.5
+              ],
+              "monthly_meta": [
+                {
+                  "age_seconds": 105.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 106.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ],
+              "today": 97.5,
+              "today_meta": {
+                "age_seconds": 102.5,
+                "freshness_state": "fresh",
+                "last_observed_utc": "synthetic-LastObservedUTC",
+                "provenance": "register",
+                "stale": true
+              },
+              "yearly": [
+                98.5,
+                99.5
+              ],
+              "yearly_meta": [
+                {
+                  "age_seconds": 103.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                {
+                  "age_seconds": 104.5,
+                  "freshness_state": "fresh",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                }
+              ]
+            }
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "4efe4de68ae2be4b32afd0e664e8c37958337789d1bf24c945e9967b71a7a536"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.boiler_status.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.boiler_status.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "config": {
+            "dhw_operating_mode": "synthetic-DhwOperatingMode",
+            "flowset_hc_max_c": 133.5,
+            "flowset_hwc_max_c": 134.5,
+            "hours_till_service": 228,
+            "installer_menu_code": 227,
+            "partload_hc_kw": 135.5,
+            "partload_hwc_kw": 136.5,
+            "phone_number": "synthetic-PhoneNumber"
+          },
+          "diagnostics": {
+            "central_heating_hours": 141.5,
+            "central_heating_starts": 233,
+            "deactivations_ifc": 237,
+            "deactivations_templimiter": 238,
+            "dhw_hours": 142.5,
+            "dhw_starts": 234,
+            "dhw_status_raw": 230,
+            "fan_hours": 146.5,
+            "heating_status_raw": 229,
+            "pump_hours": 145.5
+          },
+          "state": {
+            "central_heating_pump_active": true,
+            "circulation_pump_active": true,
+            "dhw_demand_active": true,
+            "dhw_target_temperature_c": 132.5,
+            "dhw_temp_desired_c": 129.5,
+            "dhw_temperature_c": 131.5,
+            "dhw_water_flow_lpm": 124.5,
+            "diverter_valve_position_pct": 120.5,
+            "external_pump_active": true,
+            "fan_speed_rpm": 211,
+            "flame_active": true,
+            "flow_temp_desired_c": 128.5,
+            "flow_temperature_c": 52.5,
+            "gas_valve_active": true,
+            "heating_switch_active": true,
+            "ionisation_voltage_ua": 123.5,
+            "modulation_pct": 126.5,
+            "primary_circuit_flow_lpm": 127.5,
+            "return_temperature_c": 118.5,
+            "state_number": 220,
+            "storage_load_pump_pct": 125.5,
+            "target_fan_speed_rpm": 212,
+            "water_pressure_bar": 119.5
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "1e64d47a12f54abb23a8a76362aaa1748a415ac6963676d37c0e5dc8f8cb8791"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.system.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "config": {
+            "adaptive_heating_curve": true,
+            "alternative_point": 155.5,
+            "dhw_bivalence_point": 157.5,
+            "hc_emergency_temperature": 158.5,
+            "heating_circuit_bivalence_point": 156.5,
+            "hwc_max_flow_temp_desired": 159.5,
+            "installer_menu_code": 251,
+            "installer_name": "synthetic-InstallerName",
+            "installer_phone": "synthetic-InstallerPhone",
+            "maintenance_date": "synthetic-MaintenanceDate",
+            "max_room_humidity": 250
+          },
+          "properties": {
+            "module_configuration_vr71": 253,
+            "system_scheme": 252
+          },
+          "state": {
+            "hwc_cylinder_temperature_bottom": 154.5,
+            "hwc_cylinder_temperature_top": 153.5,
+            "maintenance_due": true,
+            "outdoor_temperature": 151.5,
+            "outdoor_temperature_avg24h": 152.5,
+            "system_flow_temperature": 150.5,
+            "system_off": true,
+            "system_water_pressure": 149.5
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "076a479a252464ba4ac7a29eac57fae02224299dac878c4143219152266df3d7"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.schedules.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.schedules.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "programs": [
+            {
+              "config": {
+                "has_temperature": true,
+                "max_slots": 255,
+                "max_temp_c": 170.5,
+                "min_duration": 257,
+                "min_temp_c": 169.5,
+                "temp_slots": 258,
+                "time_resolution": 256
+              },
+              "days": [
+                {
+                  "slots": [
+                    {
+                      "end_hour": 265,
+                      "end_minute": 266,
+                      "start_hour": 263,
+                      "start_minute": 264,
+                      "temperature_c": 177.5,
+                      "temperature_raw": 268
+                    }
+                  ],
+                  "weekday": "synthetic-Weekday"
+                }
+              ],
+              "hc": "synthetic-HC",
+              "slots_used": [
+                261,
+                262
+              ],
+              "zone": 254
+            }
+          ]
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "bac8a36345c3e4da3b79997c967b13477d38f80065bd2fd850c92c6dadf3baaf"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.adapter_info.get",
+      "fixture": "complete-synthetic",
+      "tool": "ebus.v1.semantic.adapter_info.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "bootloader_checksum": "synthetic-BootloaderChecksum",
+          "bootloader_version": "synthetic-BootloaderVersion",
+          "bus_voltage_max_dv": 273,
+          "bus_voltage_min_dv": 274,
+          "features": 170,
+          "firmware_checksum": "synthetic-FirmwareChecksum",
+          "firmware_version": "synthetic-FirmwareVersion",
+          "hardware_config": "synthetic-HardwareConfig",
+          "hardware_id": "synthetic-HardwareID",
+          "info_supported": true,
+          "is_ethernet": true,
+          "is_wifi": true,
+          "jumper_flags": [
+            "synthetic-JumperFlags"
+          ],
+          "jumpers": 171,
+          "last_identity_query": "2026-03-12T18:30:00Z",
+          "last_telemetry_query": "2026-03-12T18:30:00Z",
+          "reset_cause": "synthetic-ResetCause",
+          "reset_cause_code": 176,
+          "restart_count": 177,
+          "supply_voltage_mv": 272,
+          "temperature_c": 181.5,
+          "version_response_len": 278,
+          "wifi_rssi_dbm": 277
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "35d347d695f0ba9d6cec80f885076b5c1778dc583b1ea1452a738ef4d5f4733f"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.snapshot.get",
+      "fixture": "complete-synthetic; runtime_status is not selected because it reports the host process",
+      "tool": "ebus.v1.semantic.snapshot.get",
+      "arguments": {
+        "planes": [
+          "zones",
+          "dhw",
+          "energy_totals",
+          "boiler_status",
+          "system",
+          "circuits",
+          "radio_devices",
+          "fm5_mode",
+          "solar",
+          "cylinders",
+          "schedules",
+          "adapter_info"
+        ]
+      },
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "completed_planes": [
+            "zones",
+            "dhw",
+            "energy_totals",
+            "boiler_status",
+            "system",
+            "circuits",
+            "radio_devices",
+            "fm5_mode",
+            "solar",
+            "cylinders",
+            "schedules",
+            "adapter_info"
+          ],
+          "planes": {
+            "adapter_info": {
+              "bootloader_checksum": "synthetic-BootloaderChecksum",
+              "bootloader_version": "synthetic-BootloaderVersion",
+              "bus_voltage_max_dv": 273,
+              "bus_voltage_min_dv": 274,
+              "features": 170,
+              "firmware_checksum": "synthetic-FirmwareChecksum",
+              "firmware_version": "synthetic-FirmwareVersion",
+              "hardware_config": "synthetic-HardwareConfig",
+              "hardware_id": "synthetic-HardwareID",
+              "info_supported": true,
+              "is_ethernet": true,
+              "is_wifi": true,
+              "jumper_flags": [
+                "synthetic-JumperFlags"
+              ],
+              "jumpers": 171,
+              "last_identity_query": "2026-03-12T18:30:00Z",
+              "last_telemetry_query": "2026-03-12T18:30:00Z",
+              "reset_cause": "synthetic-ResetCause",
+              "reset_cause_code": 176,
+              "restart_count": 177,
+              "supply_voltage_mv": 272,
+              "temperature_c": 181.5,
+              "version_response_len": 278,
+              "wifi_rssi_dbm": 277
+            },
+            "boiler_status": {
+              "config": {
+                "dhw_operating_mode": "synthetic-DhwOperatingMode",
+                "flowset_hc_max_c": 133.5,
+                "flowset_hwc_max_c": 134.5,
+                "hours_till_service": 228,
+                "installer_menu_code": 227,
+                "partload_hc_kw": 135.5,
+                "partload_hwc_kw": 136.5,
+                "phone_number": "synthetic-PhoneNumber"
+              },
+              "diagnostics": {
+                "central_heating_hours": 141.5,
+                "central_heating_starts": 233,
+                "deactivations_ifc": 237,
+                "deactivations_templimiter": 238,
+                "dhw_hours": 142.5,
+                "dhw_starts": 234,
+                "dhw_status_raw": 230,
+                "fan_hours": 146.5,
+                "heating_status_raw": 229,
+                "pump_hours": 145.5
+              },
+              "state": {
+                "central_heating_pump_active": true,
+                "circulation_pump_active": true,
+                "dhw_demand_active": true,
+                "dhw_target_temperature_c": 132.5,
+                "dhw_temp_desired_c": 129.5,
+                "dhw_temperature_c": 131.5,
+                "dhw_water_flow_lpm": 124.5,
+                "diverter_valve_position_pct": 120.5,
+                "external_pump_active": true,
+                "fan_speed_rpm": 211,
+                "flame_active": true,
+                "flow_temp_desired_c": 128.5,
+                "flow_temperature_c": 52.5,
+                "gas_valve_active": true,
+                "heating_switch_active": true,
+                "ionisation_voltage_ua": 123.5,
+                "modulation_pct": 126.5,
+                "primary_circuit_flow_lpm": 127.5,
+                "return_temperature_c": 118.5,
+                "state_number": 220,
+                "storage_load_pump_pct": 125.5,
+                "target_fan_speed_rpm": 212,
+                "water_pressure_bar": 119.5
+              }
+            },
+            "circuits": [
+              {
+                "circuit_type": "synthetic-CircuitType",
+                "config": {
+                  "cooling_enabled": true,
+                  "flow_temp_max_c": 34.5,
+                  "flow_temp_min_c": 35.5,
+                  "frost_prot_c": 37.5,
+                  "heating_curve": 33.5,
+                  "room_temp_control": "synthetic-RoomTempControl",
+                  "summer_limit_c": 36.5
+                },
+                "has_mixer": true,
+                "index": 114,
+                "managing_device": {
+                  "address": 128,
+                  "device_id": "synthetic-DeviceID",
+                  "role": "FUNCTION_MODULE"
+                },
+                "state": {
+                  "calc_flow_temp_c": 28.5,
+                  "circuit_state": "synthetic-CircuitState",
+                  "dew_point": 30.5,
+                  "flow_setpoint_c": 27.5,
+                  "flow_temperature_c": 26.5,
+                  "humidity": 29.5,
+                  "mixer_position_pct": 25.5,
+                  "pump_active": true,
+                  "pump_hours": 31.5,
+                  "pump_starts": 122
+                }
+              }
+            ],
+            "cylinders": [
+              {
+                "charge_hysteresis_c": 55.5,
+                "charge_offset_c": 56.5,
+                "index": 142,
+                "max_setpoint_c": 54.5,
+                "temperature_c": 53.5
+              }
+            ],
+            "dhw": {
+              "config": {
+                "holiday_end_date": "synthetic-HolidayEndDate",
+                "holiday_start_date": "synthetic-HolidayStartDate",
+                "operating_mode": "synthetic-OperatingMode",
+                "preset": "synthetic-Preset",
+                "target_temp_c": 23.5
+              },
+              "state": {
+                "current_temp_c": 21.5,
+                "heating_demand_pct": 22.5,
+                "special_function": "synthetic-SpecialFunction"
+              }
+            },
+            "energy_totals": {
+              "electric": {
+                "climate": {
+                  "monthly": [
+                    90.5,
+                    91.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 95.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 96.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 87.5,
+                  "today_meta": {
+                    "age_seconds": 92.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    88.5,
+                    89.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 93.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 94.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                },
+                "dhw": {
+                  "monthly": [
+                    80.5,
+                    81.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 85.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 86.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 77.5,
+                  "today_meta": {
+                    "age_seconds": 82.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    78.5,
+                    79.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 83.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 84.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                }
+              },
+              "gas": {
+                "climate": {
+                  "monthly": [
+                    70.5,
+                    71.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 75.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 76.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 67.5,
+                  "today_meta": {
+                    "age_seconds": 72.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    68.5,
+                    69.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 73.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 74.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                },
+                "dhw": {
+                  "monthly": [
+                    60.5,
+                    61.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 65.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 66.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 57.5,
+                  "today_meta": {
+                    "age_seconds": 62.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    58.5,
+                    59.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 63.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 64.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                }
+              },
+              "solar": {
+                "climate": {
+                  "monthly": [
+                    110.5,
+                    111.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 115.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 116.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 107.5,
+                  "today_meta": {
+                    "age_seconds": 112.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    108.5,
+                    109.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 113.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 114.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                },
+                "dhw": {
+                  "monthly": [
+                    100.5,
+                    101.5
+                  ],
+                  "monthly_meta": [
+                    {
+                      "age_seconds": 105.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 106.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ],
+                  "today": 97.5,
+                  "today_meta": {
+                    "age_seconds": 102.5,
+                    "freshness_state": "fresh",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  "yearly": [
+                    98.5,
+                    99.5
+                  ],
+                  "yearly_meta": [
+                    {
+                      "age_seconds": 103.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    },
+                    {
+                      "age_seconds": 104.5,
+                      "freshness_state": "fresh",
+                      "last_observed_utc": "synthetic-LastObservedUTC",
+                      "provenance": "register",
+                      "stale": true
+                    }
+                  ]
+                }
+              }
+            },
+            "fm5_mode": "INTERPRETED",
+            "radio_devices": [
+              {
+                "device_class_address": 131,
+                "device_connected": true,
+                "device_model": "synthetic-DeviceModel",
+                "device_paired": true,
+                "firmware_version": "synthetic-FirmwareVersion",
+                "group": 129,
+                "hardware_identifier": 132,
+                "instance": 130,
+                "reception_strength": 134,
+                "remote_control_address": 133,
+                "room_humidity_pct": 47.5,
+                "room_temperature_c": 46.5,
+                "slot_mode": "synthetic-SlotMode",
+                "zone_assignment": 135
+              }
+            ],
+            "schedules": {
+              "programs": [
+                {
+                  "config": {
+                    "has_temperature": true,
+                    "max_slots": 255,
+                    "max_temp_c": 170.5,
+                    "min_duration": 257,
+                    "min_temp_c": 169.5,
+                    "temp_slots": 258,
+                    "time_resolution": 256
+                  },
+                  "days": [
+                    {
+                      "slots": [
+                        {
+                          "end_hour": 265,
+                          "end_minute": 266,
+                          "start_hour": 263,
+                          "start_minute": 264,
+                          "temperature_c": 177.5,
+                          "temperature_raw": 268
+                        }
+                      ],
+                      "weekday": "synthetic-Weekday"
+                    }
+                  ],
+                  "hc": "synthetic-HC",
+                  "slots_used": [
+                    261,
+                    262
+                  ],
+                  "zone": 254
+                }
+              ]
+            },
+            "solar": {
+              "collector_temperature_c": 48.5,
+              "current_yield": 50.5,
+              "function_mode": true,
+              "pump_active": true,
+              "pump_hours": 51.5,
+              "return_temperature_c": 49.5,
+              "solar_enabled": true
+            },
+            "system": {
+              "config": {
+                "adaptive_heating_curve": true,
+                "alternative_point": 155.5,
+                "dhw_bivalence_point": 157.5,
+                "hc_emergency_temperature": 158.5,
+                "heating_circuit_bivalence_point": 156.5,
+                "hwc_max_flow_temp_desired": 159.5,
+                "installer_menu_code": 251,
+                "installer_name": "synthetic-InstallerName",
+                "installer_phone": "synthetic-InstallerPhone",
+                "maintenance_date": "synthetic-MaintenanceDate",
+                "max_room_humidity": 250
+              },
+              "properties": {
+                "module_configuration_vr71": 253,
+                "system_scheme": 252
+              },
+              "state": {
+                "hwc_cylinder_temperature_bottom": 154.5,
+                "hwc_cylinder_temperature_top": 153.5,
+                "maintenance_due": true,
+                "outdoor_temperature": 151.5,
+                "outdoor_temperature_avg24h": 152.5,
+                "system_flow_temperature": 150.5,
+                "system_off": true,
+                "system_water_pressure": 149.5
+              }
+            },
+            "zones": [
+              {
+                "config": {
+                  "allowed_modes": [
+                    "synthetic-AllowedModes"
+                  ],
+                  "associated_circuit": 106,
+                  "circuit_type": "synthetic-CircuitType",
+                  "holiday_end_date": "synthetic-HolidayEndDate",
+                  "holiday_end_time": "synthetic-HolidayEndTime",
+                  "holiday_setpoint_c": 20.5,
+                  "holiday_start_date": "synthetic-HolidayStartDate",
+                  "holiday_start_time": "synthetic-HolidayStartTime",
+                  "operating_mode": "synthetic-OperatingMode",
+                  "preset": "synthetic-Preset",
+                  "quick_veto": true,
+                  "quick_veto_duration_h": 19.5,
+                  "quick_veto_expiry": "synthetic-QuickVetoExpiry",
+                  "quick_veto_setpoint_c": 18.5,
+                  "room_temperature_zone_mapping": 107,
+                  "target_temp_c": 15.5
+                },
+                "id": "synthetic-ID",
+                "name": "synthetic-Name",
+                "state": {
+                  "current_humidity_pct": 12.5,
+                  "current_temp_c": 11.5,
+                  "heating_demand_pct": 13.5,
+                  "hvac_action": "synthetic-HvacAction",
+                  "special_function": "synthetic-SpecialFunction",
+                  "valve_position_pct": 14.5
+                }
+              }
+            ]
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "c6c51f79eaff33730d80e976d2eb72ea19de5d097fd2ddba9a4b3f528514ae32"
+        }
+      }
+    }
+  ],
+  "config_writer_calls": [
+    {
+      "field": "maxRoomHumidity",
+      "value": "70",
+      "writer": "system"
+    },
+    {
+      "field": "flowsetHcMaxC",
+      "value": "55",
+      "writer": "boiler"
+    }
+  ],
+  "description": "semantic tools of the pre-port MCP server; the envelope's data_timestamp is the host wall clock and is not recorded",
+  "format": "helianthus-oracle-pre-port-typed-mcp/1",
+  "pin_cases": [
+    {
+      "name": "ebus.v1.semantic.zones.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.zones.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.circuits.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.circuits.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.radio_devices.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.radio_devices.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.fm5_mode.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.fm5_mode.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": "ABSENT",
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "e2a4f41ffa7e493ece58261e73f22a981fc5b3cf036689f0540c090869e6ff35"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.solar.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.solar.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.cylinders.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.cylinders.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.dhw.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.dhw.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.energy_totals.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.energy_totals.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.boiler_status.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.boiler_status.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.system.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.schedules.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.schedules.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.adapter_info.get/no-provider",
+      "fixture": "server without a semantic provider",
+      "tool": "ebus.v1.semantic.adapter_info.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": null,
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.zones.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.zones.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "config": {
+              "operating_mode": "AUTO",
+              "preset": "COMFORT",
+              "quick_veto": false
+            },
+            "id": "zone-a",
+            "name": "Living",
+            "state": {}
+          },
+          {
+            "config": {
+              "operating_mode": "AUTO",
+              "preset": "COMFORT",
+              "quick_veto": false
+            },
+            "id": "zone-b",
+            "name": "Bedroom",
+            "state": {}
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "5da5c97200ec9fefc7aeb8d5b1b2b980b79b1a46b639e9905d9f8b432d96defb"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.circuits.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.circuits.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "circuit_type": "heating",
+            "config": {},
+            "has_mixer": false,
+            "index": 0,
+            "managing_device": {
+              "address": 38,
+              "device_id": "VR_71",
+              "role": "FUNCTION_MODULE"
+            },
+            "state": {}
+          },
+          {
+            "circuit_type": "fixed_value",
+            "config": {},
+            "has_mixer": false,
+            "index": 1,
+            "managing_device": {
+              "role": "UNKNOWN"
+            },
+            "state": {}
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "c95e914afc6ccf056274022bcbdf911ce9b5193bcfc646b0ce8a72bdeb3b93b1"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.radio_devices.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.radio_devices.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "device_model": "VRC720",
+            "group": 9,
+            "instance": 1,
+            "slot_mode": ""
+          },
+          {
+            "device_model": "VR92",
+            "group": 10,
+            "instance": 1,
+            "slot_mode": ""
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "9481e63aa1f26f5ac0526f8a9e95ffcfd617ee9989742693ef2bca9f3cb9ca61"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.fm5_mode.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.fm5_mode.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": "INTERPRETED",
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "ac78da26b20b6b4a1d4878b0211d502e1cd6f75a9c513cfad6db6014d8327e3c"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.solar.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.solar.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "collector_temperature_c": 72.5,
+          "pump_active": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "f4f47245aabfbc5182b54a0de9485346509182b51e0f42956fcdf3db24737159"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.cylinders.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.cylinders.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [
+          {
+            "index": 0,
+            "temperature_c": 48
+          },
+          {
+            "index": 1,
+            "temperature_c": 46
+          }
+        ],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "78a4a17b32d37ef1f04b2caa2deabf10bc36daeb24836394f45a6c4a17e386fe"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.dhw.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.dhw.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "config": {
+            "operating_mode": "AUTO",
+            "preset": "ECO"
+          },
+          "state": {}
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "bd22a9b4cbc4996af71a4a64d9bdb271a90941d21ed5cea83eb7c742049c0e35"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.energy_totals.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.energy_totals.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "electric": {
+            "climate": {
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "",
+                "provenance": "",
+                "stale": false
+              },
+              "yearly": null
+            },
+            "dhw": {
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "",
+                "provenance": "",
+                "stale": false
+              },
+              "yearly": null
+            }
+          },
+          "gas": {
+            "climate": {
+              "today": 2.5,
+              "today_meta": {
+                "freshness_state": "stale",
+                "provenance": "broadcast",
+                "stale": true
+              },
+              "yearly": [
+                30,
+                40
+              ]
+            },
+            "dhw": {
+              "today": 1.25,
+              "today_meta": {
+                "freshness_state": "fresh",
+                "provenance": "register",
+                "stale": false
+              },
+              "yearly": [
+                10,
+                20
+              ]
+            }
+          },
+          "solar": {
+            "climate": {
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "",
+                "provenance": "",
+                "stale": false
+              },
+              "yearly": null
+            },
+            "dhw": {
+              "today": 0,
+              "today_meta": {
+                "freshness_state": "",
+                "provenance": "",
+                "stale": false
+              },
+              "yearly": null
+            }
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "be5bd1e887b05ecd969ea44acac725679591a4d77c258450126ae41533bfd3a9"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.get/semantic-snapshots",
+      "fixture": "the provider of the pin's TestServer_ToolsCallSemanticSnapshots",
+      "tool": "ebus.v1.semantic.system.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "config": {
+            "max_room_humidity": 70
+          },
+          "properties": {
+            "module_configuration_vr71": 2,
+            "system_scheme": 8
+          },
+          "state": {
+            "outdoor_temperature": 6,
+            "system_flow_temperature": 32,
+            "system_off": false,
+            "system_water_pressure": 1.5
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "83037d0e09b9ff3dce8aafce6f6e15e7bae213e60a1c74d6d799aa6a00af4ab0"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.boiler_status.get/boiler-fixture",
+      "fixture": "the boiler status of the pin's MCP boiler case",
+      "tool": "ebus.v1.semantic.boiler_status.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "diagnostics": {
+            "heating_status_raw": 2
+          },
+          "state": {
+            "central_heating_pump_active": true,
+            "flow_temperature_c": 52.5,
+            "return_temperature_c": 47
+          }
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "2143e45c4e955a050b0c96162a93010570fbabc5e6c970fff82c531b80a4d29b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.adapter_info.get/adapter-fixture",
+      "fixture": "the adapter hardware info of the pin's TestServer_SnapshotConsistencyAdapterInfo",
+      "tool": "ebus.v1.semantic.adapter_info.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "bootloader_checksum": "",
+          "bootloader_version": "",
+          "bus_voltage_max_dv": 150,
+          "bus_voltage_min_dv": 130,
+          "features": 0,
+          "firmware_checksum": "",
+          "firmware_version": "1.2.3",
+          "hardware_config": "c0ffee",
+          "hardware_id": "deadbeef",
+          "info_supported": true,
+          "is_ethernet": false,
+          "is_wifi": false,
+          "jumper_flags": [
+            "JP1",
+            "JP2"
+          ],
+          "jumpers": 0,
+          "last_identity_query": "2026-03-12T13:00:00Z",
+          "last_telemetry_query": "2026-03-12T13:01:00Z",
+          "reset_cause": "power_on",
+          "reset_cause_code": 4,
+          "restart_count": 7,
+          "supply_voltage_mv": 2500,
+          "temperature_c": 24.5,
+          "version_response_len": 8,
+          "wifi_rssi_dbm": -62
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "f711ecfba053c238d1a4485ff8fe67d09fa98acd9ecf5f3620f5fd2dd07f433c"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.zones.get/empty-published",
+      "fixture": "the pin's empty zones case",
+      "tool": "ebus.v1.semantic.zones.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.circuits.get/empty-published",
+      "fixture": "the pin's empty circuits case",
+      "tool": "ebus.v1.semantic.circuits.get",
+      "arguments": {},
+      "is_error": false,
+      "envelope": {
+        "data": [],
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      }
+    }
+  ],
+  "schedule_writer_calls": [
+    {
+      "slots": [
+        {
+          "start_hour": 6,
+          "start_minute": 0,
+          "end_hour": 22,
+          "end_minute": 0,
+          "temperature_c": 21.5
+        }
+      ],
+      "weekday": 3,
+      "writer": "zone",
+      "zone": 1
+    },
+    {
+      "slots": [
+        {
+          "start_hour": 5,
+          "start_minute": 30,
+          "end_hour": 23,
+          "end_minute": 0
+        }
+      ],
+      "weekday": 5,
+      "writer": "dhw"
+    }
+  ],
+  "write_cases": [
+    {
+      "name": "ebus.v1.semantic.schedules.set_zone_time_program/no-writer",
+      "fixture": "the pin's TestScheduleWriteNoWriter",
+      "tool": "ebus.v1.semantic.schedules.set_zone_time_program",
+      "arguments": {
+        "slots": [],
+        "weekday": 0,
+        "zone": 0
+      },
+      "is_error": true,
+      "envelope": {
+        "data": null,
+        "error": {
+          "code": "INTERNAL",
+          "message": "schedule writer not available",
+          "retriable": false,
+          "source_layer": "gateway"
+        },
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.set_config/no-writer",
+      "fixture": "server without a config writer",
+      "tool": "ebus.v1.semantic.system.set_config",
+      "arguments": {
+        "field": "maxRoomHumidity",
+        "value": "70"
+      },
+      "is_error": true,
+      "envelope": {
+        "data": null,
+        "error": {
+          "code": "INTERNAL",
+          "message": "system config writer not available",
+          "retriable": false,
+          "source_layer": "gateway"
+        },
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.schedules.set_zone_time_program/success",
+      "fixture": "the pin's TestScheduleWriteZoneSuccess",
+      "tool": "ebus.v1.semantic.schedules.set_zone_time_program",
+      "arguments": {
+        "slots": [
+          {
+            "end_hour": 22,
+            "end_minute": 0,
+            "start_hour": 6,
+            "start_minute": 0,
+            "temperature_c": 21.5
+          }
+        ],
+        "weekday": 3,
+        "zone": 1
+      },
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "slot_results": [
+            {
+              "accepted": true,
+              "error_code": 0,
+              "error_description": "accepted",
+              "slot_index": 0
+            }
+          ],
+          "success": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "e5d148a61b0394554965e3cbb1bfcad1c35b405c25e63c057933cda6e7f8f183"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.schedules.set_dhw_time_program/success",
+      "fixture": "the pin's TestScheduleWriteDhwSuccess",
+      "tool": "ebus.v1.semantic.schedules.set_dhw_time_program",
+      "arguments": {
+        "slots": [
+          {
+            "end_hour": 23,
+            "end_minute": 0,
+            "start_hour": 5,
+            "start_minute": 30
+          }
+        ],
+        "weekday": 5
+      },
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "slot_results": [
+            {
+              "accepted": true,
+              "error_code": 0,
+              "error_description": "accepted",
+              "slot_index": 0
+            }
+          ],
+          "success": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "e5d148a61b0394554965e3cbb1bfcad1c35b405c25e63c057933cda6e7f8f183"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.schedules.set_zone_time_program/missing-temperature",
+      "fixture": "the pin's TestScheduleWriteZoneMissingTemp",
+      "tool": "ebus.v1.semantic.schedules.set_zone_time_program",
+      "arguments": {
+        "slots": [
+          {
+            "end_hour": 22,
+            "end_minute": 0,
+            "start_hour": 6,
+            "start_minute": 0
+          }
+        ],
+        "weekday": 3,
+        "zone": 1
+      },
+      "is_error": true,
+      "envelope": {
+        "data": null,
+        "error": {
+          "code": "INTERNAL",
+          "message": "slot 0: temperature_c is required",
+          "retriable": false,
+          "source_layer": "gateway"
+        },
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.set_config/success",
+      "fixture": "a config writer that accepts",
+      "tool": "ebus.v1.semantic.system.set_config",
+      "arguments": {
+        "field": "maxRoomHumidity",
+        "value": "70"
+      },
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "success": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "c955e57777ec0d73639dca6748560d00aa5eb8e12f13ebb2ed9656add3908f97"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.boiler_status.set_config/success",
+      "fixture": "a config writer that accepts",
+      "tool": "ebus.v1.semantic.boiler_status.set_config",
+      "arguments": {
+        "field": "flowsetHcMaxC",
+        "value": "55"
+      },
+      "is_error": false,
+      "envelope": {
+        "data": {
+          "success": true
+        },
+        "error": null,
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "c955e57777ec0d73639dca6748560d00aa5eb8e12f13ebb2ed9656add3908f97"
+        }
+      }
+    },
+    {
+      "name": "ebus.v1.semantic.system.set_config/field-missing",
+      "fixture": "a call without a field",
+      "tool": "ebus.v1.semantic.system.set_config",
+      "arguments": {
+        "value": "70"
+      },
+      "is_error": true,
+      "envelope": {
+        "data": null,
+        "error": {
+          "code": "INTERNAL",
+          "message": "field is required",
+          "retriable": false,
+          "source_layer": "gateway"
+        },
+        "meta": {
+          "consistency": {
+            "mode": "LIVE"
+          },
+          "contract": {
+            "major": 1,
+            "minor": 0,
+            "name": "helianthus-ebus-mcp"
+          },
+          "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      }
+    }
+  ]
+}

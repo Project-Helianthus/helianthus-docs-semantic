@@ -2,6 +2,7 @@
   "format": "helianthus-oracle-pre-port-losses/1",
   "derived": true,
   "derivation": "pre-port introspection fields, snake-case normalized, not present in the current pin's introspection golden and not a previous_name row of its register_derived_names.json",
+  "value_derivation": "pre_port_vector points at the introspection entry of the field; pre_port_value_vector points at the typed GraphQL answer of the complete synthetic fixture that shows a value for it, pre_port_pin_fixture_vector at a GraphQL answer on a fixture the pin's own tests use where one shows a value, pre_port_mcp_value_vector at the semantic MCP tool answer of the complete fixture and pre_port_mcp_pin_fixture_vector at an MCP answer on a fixture the pin's own tests use where one shows a value; the value of a complete-fixture answer is synthetic, except BoilerState.flowTemperatureC, which carries the flow value of the pin's MCP boiler fixture",
   "current_pin": {
     "repository": "helianthus-ebusgateway",
     "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
@@ -11,415 +12,979 @@
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.flowsetHcMaxC",
       "normalized": "boiler_config.flowset_hc_max_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/2"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/2",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/flowsetHcMaxC",
+        "value": 133.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/flowset_hc_max_c",
+        "value": 133.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.flowsetHwcMaxC",
       "normalized": "boiler_config.flowset_hwc_max_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/3"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/3",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/flowsetHwcMaxC",
+        "value": 134.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/flowset_hwc_max_c",
+        "value": 134.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.hoursTillService",
       "normalized": "boiler_config.hours_till_service",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/hoursTillService",
+        "value": 228
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/hours_till_service",
+        "value": 228
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.installerMenuCode",
       "normalized": "boiler_config.installer_menu_code",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/installerMenuCode",
+        "value": 227
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/installer_menu_code",
+        "value": 227
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.partloadHcKW",
       "normalized": "boiler_config.partload_hc_kw",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/partloadHcKW",
+        "value": 135.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/partload_hc_kw",
+        "value": 135.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.partloadHwcKW",
       "normalized": "boiler_config.partload_hwc_kw",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/11"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/11",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/partloadHwcKW",
+        "value": 136.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/partload_hwc_kw",
+        "value": 136.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerConfig.phoneNumber",
       "normalized": "boiler_config.phone_number",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/14"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/14",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/phoneNumber",
+        "value": "synthetic-PhoneNumber"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/phone_number",
+        "value": "synthetic-PhoneNumber"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.centralHeatingHours",
       "normalized": "boiler_diagnostics.central_heating_hours",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/centralHeatingHours",
+        "value": 141.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/central_heating_hours",
+        "value": 141.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.centralHeatingStarts",
       "normalized": "boiler_diagnostics.central_heating_starts",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/1"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/1",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/centralHeatingStarts",
+        "value": 233
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/central_heating_starts",
+        "value": 233
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.deactivationsIFC",
       "normalized": "boiler_diagnostics.deactivations_ifc",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/deactivationsIFC",
+        "value": 237
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/deactivations_ifc",
+        "value": 237
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.deactivationsTemplimiter",
       "normalized": "boiler_diagnostics.deactivations_templimiter",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/5"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/5",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/deactivationsTemplimiter",
+        "value": 238
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/deactivations_templimiter",
+        "value": 238
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.dhwHours",
       "normalized": "boiler_diagnostics.dhw_hours",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/dhwHours",
+        "value": 142.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/dhw_hours",
+        "value": 142.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.dhwStarts",
       "normalized": "boiler_diagnostics.dhw_starts",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/9"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/9",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/dhwStarts",
+        "value": 234
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/dhw_starts",
+        "value": 234
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.fanHours",
       "normalized": "boiler_diagnostics.fan_hours",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/14"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/14",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/fanHours",
+        "value": 146.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/fan_hours",
+        "value": 146.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerDiagnostics.pumpHours",
       "normalized": "boiler_diagnostics.pump_hours",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/18"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/18",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/pumpHours",
+        "value": 145.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/pump_hours",
+        "value": 145.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.dhwTempDesiredC",
       "normalized": "boiler_state.dhw_temp_desired_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/dhwTempDesiredC",
+        "value": 129.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/dhw_temp_desired_c",
+        "value": 129.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.dhwWaterFlowLpm",
       "normalized": "boiler_state.dhw_water_flow_lpm",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/dhwWaterFlowLpm",
+        "value": 124.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/dhw_water_flow_lpm",
+        "value": 124.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.diverterValvePositionPct",
       "normalized": "boiler_state.diverter_valve_position_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/14"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/14",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/diverterValvePositionPct",
+        "value": 120.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/diverter_valve_position_pct",
+        "value": 120.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.fanSpeedRpm",
       "normalized": "boiler_state.fan_speed_rpm",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/18"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/18",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/fanSpeedRpm",
+        "value": 211
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/fan_speed_rpm",
+        "value": 211
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.flowTempDesiredC",
       "normalized": "boiler_state.flow_temp_desired_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/22"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/22",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/flowTempDesiredC",
+        "value": 128.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/flow_temp_desired_c",
+        "value": 128.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.flowTemperatureC",
       "normalized": "boiler_state.flow_temperature_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/23"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/23",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/flowTemperatureC",
+        "value": 52.5
+      },
+      "pre_port_pin_fixture_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/pin_cases/18/response/data/boilerStatus/state/flowTemperatureC",
+        "value": 52.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/flow_temperature_c",
+        "value": 52.5
+      },
+      "pre_port_mcp_pin_fixture_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/pin_cases/21/envelope/data/state/flow_temperature_c",
+        "value": 52.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.ionisationVoltageUa",
       "normalized": "boiler_state.ionisation_voltage_ua",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/30"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/30",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/ionisationVoltageUa",
+        "value": 123.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/ionisation_voltage_ua",
+        "value": 123.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.modulationPct",
       "normalized": "boiler_state.modulation_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/32"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/32",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/modulationPct",
+        "value": 126.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/modulation_pct",
+        "value": 126.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.primaryCircuitFlowLpm",
       "normalized": "boiler_state.primary_circuit_flow_lpm",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/34"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/34",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/primaryCircuitFlowLpm",
+        "value": 127.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/primary_circuit_flow_lpm",
+        "value": 127.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.stateNumber",
       "normalized": "boiler_state.state_number",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/38"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/38",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/stateNumber",
+        "value": 220
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/state_number",
+        "value": 220
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.storageLoadPumpPct",
       "normalized": "boiler_state.storage_load_pump_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/40"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/40",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/storageLoadPumpPct",
+        "value": 125.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/storage_load_pump_pct",
+        "value": 125.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.targetFanSpeedRpm",
       "normalized": "boiler_state.target_fan_speed_rpm",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/42"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/42",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/targetFanSpeedRpm",
+        "value": 212
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/target_fan_speed_rpm",
+        "value": 212
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "BoilerState.waterPressureBar",
       "normalized": "boiler_state.water_pressure_bar",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/44"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/44",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/waterPressureBar",
+        "value": 119.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/water_pressure_bar",
+        "value": 119.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.coolingEnabled",
       "normalized": "circuit_config.cooling_enabled",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/coolingEnabled",
+        "value": true
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/cooling_enabled",
+        "value": true
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.flowTempMaxC",
       "normalized": "circuit_config.flow_temp_max_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/2"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/2",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/flowTempMaxC",
+        "value": 34.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/flow_temp_max_c",
+        "value": 34.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.flowTempMinC",
       "normalized": "circuit_config.flow_temp_min_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/3"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/3",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/flowTempMinC",
+        "value": 35.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/flow_temp_min_c",
+        "value": 35.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.frostProtC",
       "normalized": "circuit_config.frost_prot_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/frostProtC",
+        "value": 37.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/frost_prot_c",
+        "value": 37.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.heatingCurve",
       "normalized": "circuit_config.heating_curve",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/heatingCurve",
+        "value": 33.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/heating_curve",
+        "value": 33.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.roomTempControl",
       "normalized": "circuit_config.room_temp_control",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/roomTempControl",
+        "value": "synthetic-RoomTempControl"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/room_temp_control",
+        "value": "synthetic-RoomTempControl"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitConfig.summerLimitC",
       "normalized": "circuit_config.summer_limit_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/12"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/12",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/summerLimitC",
+        "value": 36.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/summer_limit_c",
+        "value": 36.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.dewPoint",
       "normalized": "circuit_state.dew_point",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/dewPoint",
+        "value": 30.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/dew_point",
+        "value": 30.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.flowSetpointC",
       "normalized": "circuit_state.flow_setpoint_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/flowSetpointC",
+        "value": 27.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/flow_setpoint_c",
+        "value": 27.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.flowTemperatureC",
       "normalized": "circuit_state.flow_temperature_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/7"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/7",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/flowTemperatureC",
+        "value": 26.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/flow_temperature_c",
+        "value": 26.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.humidity",
       "normalized": "circuit_state.humidity",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/humidity",
+        "value": 29.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/humidity",
+        "value": 29.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.mixerPositionPct",
       "normalized": "circuit_state.mixer_position_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/11"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/11",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/mixerPositionPct",
+        "value": 25.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/mixer_position_pct",
+        "value": 25.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.pumpActive",
       "normalized": "circuit_state.pump_active",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/13"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/13",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/pumpActive",
+        "value": true
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/pump_active",
+        "value": true
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.pumpHours",
       "normalized": "circuit_state.pump_hours",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/14"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/14",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/pumpHours",
+        "value": 31.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/pump_hours",
+        "value": 31.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "CircuitState.pumpStarts",
       "normalized": "circuit_state.pump_starts",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/15"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/15",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/pumpStarts",
+        "value": 122
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/pump_starts",
+        "value": 122
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwConfig.holidayEndDate",
       "normalized": "dhw_config.holiday_end_date",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/config/holidayEndDate",
+        "value": "synthetic-HolidayEndDate"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/config/holiday_end_date",
+        "value": "synthetic-HolidayEndDate"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwConfig.holidayStartDate",
       "normalized": "dhw_config.holiday_start_date",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/1"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/1",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/config/holidayStartDate",
+        "value": "synthetic-HolidayStartDate"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/config/holiday_start_date",
+        "value": "synthetic-HolidayStartDate"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwConfig.operatingMode",
       "normalized": "dhw_config.operating_mode",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/config/operatingMode",
+        "value": "synthetic-OperatingMode"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/config/operating_mode",
+        "value": "synthetic-OperatingMode"
+      },
+      "pre_port_mcp_pin_fixture_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/pin_cases/18/envelope/data/config/operating_mode",
+        "value": "AUTO"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwConfig.targetTempC",
       "normalized": "dhw_config.target_temp_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/7"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/30/fields/7",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/config/targetTempC",
+        "value": 23.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/config/target_temp_c",
+        "value": 23.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwState.currentTempC",
       "normalized": "dhw_state.current_temp_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/state/currentTempC",
+        "value": 21.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/state/current_temp_c",
+        "value": 21.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "DhwState.specialFunction",
       "normalized": "dhw_state.special_function",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/31/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/1/response/data/dhw/state/specialFunction",
+        "value": "synthetic-SpecialFunction"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/6/envelope/data/state/special_function",
+        "value": "synthetic-SpecialFunction"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemConfig.alternativePoint",
       "normalized": "system_config.alternative_point",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/2"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/2",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/alternativePoint",
+        "value": 155.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/alternative_point",
+        "value": 155.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemConfig.dhwBivalencePoint",
       "normalized": "system_config.dhw_bivalence_point",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/dhwBivalencePoint",
+        "value": 157.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/dhw_bivalence_point",
+        "value": 157.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemConfig.hcEmergencyTemperature",
       "normalized": "system_config.hc_emergency_temperature",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/hcEmergencyTemperature",
+        "value": 158.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/hc_emergency_temperature",
+        "value": 158.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemConfig.hwcMaxFlowTempDesired",
       "normalized": "system_config.hwc_max_flow_temp_desired",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/hwcMaxFlowTempDesired",
+        "value": 159.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/hwc_max_flow_temp_desired",
+        "value": 159.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemConfig.installerPhone",
       "normalized": "system_config.installer_phone",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/14"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/14",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/installerPhone",
+        "value": "synthetic-InstallerPhone"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/installer_phone",
+        "value": "synthetic-InstallerPhone"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemState.hwcCylinderTemperatureBottom",
       "normalized": "system_state.hwc_cylinder_temperature_bottom",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/state/hwcCylinderTemperatureBottom",
+        "value": 154.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/state/hwc_cylinder_temperature_bottom",
+        "value": 154.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemState.hwcCylinderTemperatureTop",
       "normalized": "system_state.hwc_cylinder_temperature_top",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/1"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/1",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/state/hwcCylinderTemperatureTop",
+        "value": 153.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/state/hwc_cylinder_temperature_top",
+        "value": 153.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemState.maintenanceDue",
       "normalized": "system_state.maintenance_due",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/4"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/4",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/state/maintenanceDue",
+        "value": true
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/state/maintenance_due",
+        "value": true
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "SystemState.outdoorTemperatureAvg24h",
       "normalized": "system_state.outdoor_temperature_avg24h",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/7"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/7",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/state/outdoorTemperatureAvg24h",
+        "value": 152.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/state/outdoor_temperature_avg24h",
+        "value": 152.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.holidayEndDate",
       "normalized": "zone_config.holiday_end_date",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/6"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/6",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayEndDate",
+        "value": "synthetic-HolidayEndDate"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_end_date",
+        "value": "synthetic-HolidayEndDate"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.holidayEndTime",
       "normalized": "zone_config.holiday_end_time",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/7"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/7",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayEndTime",
+        "value": "synthetic-HolidayEndTime"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_end_time",
+        "value": "synthetic-HolidayEndTime"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.holidaySetpoint",
       "normalized": "zone_config.holiday_setpoint",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidaySetpoint",
+        "value": 20.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_setpoint_c",
+        "value": 20.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.holidayStartDate",
       "normalized": "zone_config.holiday_start_date",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/9"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/9",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayStartDate",
+        "value": "synthetic-HolidayStartDate"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_start_date",
+        "value": "synthetic-HolidayStartDate"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.holidayStartTime",
       "normalized": "zone_config.holiday_start_time",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayStartTime",
+        "value": "synthetic-HolidayStartTime"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_start_time",
+        "value": "synthetic-HolidayStartTime"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.quickVetoDuration",
       "normalized": "zone_config.quick_veto_duration",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/20"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/20",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/quickVetoDuration",
+        "value": 19.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/quick_veto_duration_h",
+        "value": 19.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneConfig.quickVetoSetpoint",
       "normalized": "zone_config.quick_veto_setpoint",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/22"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/22",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/quickVetoSetpoint",
+        "value": 18.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/quick_veto_setpoint_c",
+        "value": 18.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneState.currentHumidityPct",
       "normalized": "zone_state.current_humidity_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/0"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/0",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/state/currentHumidityPct",
+        "value": 12.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/state/current_humidity_pct",
+        "value": 12.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneState.currentTempC",
       "normalized": "zone_state.current_temp_c",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/1"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/1",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/state/currentTempC",
+        "value": 11.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/state/current_temp_c",
+        "value": 11.5
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneState.specialFunction",
       "normalized": "zone_state.special_function",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/8"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/8",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/state/specialFunction",
+        "value": "synthetic-SpecialFunction"
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/state/special_function",
+        "value": "synthetic-SpecialFunction"
+      }
     },
     {
       "surface": "graphql",
       "published_at_pre_port": "ZoneState.valvePositionPct",
       "normalized": "zone_state.valve_position_pct",
-      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/10"
+      "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/76/fields/10",
+      "pre_port_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/state/valvePositionPct",
+        "value": 14.5
+      },
+      "pre_port_mcp_value_vector": {
+        "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/state/valve_position_pct",
+        "value": 14.5
+      }
     }
   ]
 }

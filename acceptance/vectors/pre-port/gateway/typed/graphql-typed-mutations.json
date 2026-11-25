@@ -1,0 +1,390 @@
+{
+  "cases": [
+    {
+      "fixture": "TestSetCircuitConfigMutation_Success",
+      "invoker_calls": [
+        {
+          "plane": "system",
+          "method": "set_ext_register",
+          "params": {
+            "addr": "u16:000F",
+            "data": "0000C03F",
+            "group": "byte:02",
+            "instance": "byte:01",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        },
+        {
+          "plane": "system",
+          "method": "get_ext_register",
+          "params": {
+            "addr": "u16:000F",
+            "group": "byte:02",
+            "instance": "byte:01",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        }
+      ],
+      "name": "setCircuitConfig/success",
+      "request": "mutation { setCircuitConfig(index: 1, field: \"heatingCurve\", value: \"1.5\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": null,
+          "success": true
+        }
+      }
+    },
+    {
+      "fixture": "TestSetSystemConfigMutation_Success",
+      "invoker_calls": [
+        {
+          "plane": "system",
+          "method": "set_ext_register",
+          "params": {
+            "addr": "u16:0014",
+            "data": "01",
+            "group": "byte:00",
+            "instance": "byte:00",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        },
+        {
+          "plane": "system",
+          "method": "get_ext_register",
+          "params": {
+            "addr": "u16:0014",
+            "group": "byte:00",
+            "instance": "byte:00",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        }
+      ],
+      "name": "setSystemConfig/success",
+      "request": "mutation { setSystemConfig(field: \"adaptiveHeatingCurve\", value: \"true\") { success error } }",
+      "response": {
+        "setSystemConfig": {
+          "error": null,
+          "success": true
+        }
+      }
+    },
+    {
+      "boiler_writer_calls": [
+        {
+          "field": "flowsetHcMaxC",
+          "value": "55"
+        }
+      ],
+      "fixture": "TestSetBoilerConfigMutation_DelegatesToWriter",
+      "name": "setBoilerConfig/delegates-to-writer",
+      "request": "mutation { setBoilerConfig(field: \"flowsetHcMaxC\", value: \"55\") { success error } }",
+      "response": {
+        "setBoilerConfig": {
+          "error": null,
+          "success": true
+        }
+      }
+    },
+    {
+      "fixture": "TestSetBoilerConfigMutation_UnsupportedInReducedProfile",
+      "name": "setBoilerConfig/unsupported-in-reduced-profile",
+      "request": "mutation { setBoilerConfig(field: \"flowsetHcMaxC\", value: \"55\") { success error } }",
+      "response": {
+        "setBoilerConfig": {
+          "error": "unsupported source: B509 writes are disabled in reduced profile",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetZoneTimeProgramMutation_Success",
+      "name": "setZoneTimeProgram/success",
+      "request": "mutation { setZoneTimeProgram(zone: 2, weekday: 1, slots: \"[{\\\"start_hour\\\":6,\\\"start_minute\\\":0,\\\"end_hour\\\":22,\\\"end_minute\\\":0,\\\"temperature_c\\\":21}]\") { success error slotResults { slotIndex accepted errorCode errorDescription } } }",
+      "response": {
+        "setZoneTimeProgram": {
+          "error": null,
+          "slotResults": [
+            {
+              "accepted": true,
+              "errorCode": 0,
+              "errorDescription": null,
+              "slotIndex": 0
+            }
+          ],
+          "success": true
+        }
+      },
+      "schedule_writer_dhw_calls": [],
+      "schedule_writer_zone_calls": [
+        {
+          "slots": [
+            {
+              "start_hour": 6,
+              "start_minute": 0,
+              "end_hour": 22,
+              "end_minute": 0,
+              "temperature_c": 21
+            }
+          ],
+          "weekday": 1,
+          "zone": 2
+        }
+      ]
+    },
+    {
+      "fixture": "TestSetDhwTimeProgramMutation_Success",
+      "name": "setDhwTimeProgram/success",
+      "request": "mutation { setDhwTimeProgram(weekday: 5, slots: \"[{\\\"start_hour\\\":5,\\\"start_minute\\\":30,\\\"end_hour\\\":7,\\\"end_minute\\\":0}]\") { success error slotResults { slotIndex accepted errorCode errorDescription } } }",
+      "response": {
+        "setDhwTimeProgram": {
+          "error": null,
+          "slotResults": [
+            {
+              "accepted": true,
+              "errorCode": 0,
+              "errorDescription": null,
+              "slotIndex": 0
+            }
+          ],
+          "success": true
+        }
+      },
+      "schedule_writer_dhw_calls": [
+        {
+          "slots": [
+            {
+              "start_hour": 5,
+              "start_minute": 30,
+              "end_hour": 7,
+              "end_minute": 0
+            }
+          ],
+          "weekday": 5
+        }
+      ],
+      "schedule_writer_zone_calls": []
+    },
+    {
+      "fixture": "TestSetZoneTimeProgramMutation_InvalidJSON",
+      "name": "setZoneTimeProgram/invalid-json",
+      "request": "mutation { setZoneTimeProgram(zone: 1, weekday: 2, slots: \"not-json\") { success error slotResults { slotIndex } } }",
+      "response": {
+        "setZoneTimeProgram": {
+          "error": "invalid slots JSON: invalid character 'o' in literal null (expecting 'u')",
+          "slotResults": [],
+          "success": false
+        }
+      },
+      "schedule_writer_dhw_calls": [],
+      "schedule_writer_zone_calls": []
+    },
+    {
+      "fixture": "TestSetSystemConfigMutation_IntegerLikeFloatString",
+      "invoker_calls": [
+        {
+          "plane": "system",
+          "method": "set_ext_register",
+          "params": {
+            "addr": "u16:000E",
+            "data": "3700",
+            "group": "byte:00",
+            "instance": "byte:00",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        },
+        {
+          "plane": "system",
+          "method": "get_ext_register",
+          "params": {
+            "addr": "u16:000E",
+            "group": "byte:00",
+            "instance": "byte:00",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        }
+      ],
+      "name": "setSystemConfig/integer-like-float-string",
+      "request": "mutation { setSystemConfig(field: \"maxRoomHumidityPct\", value: \"55.0\") { success error } }",
+      "response": {
+        "setSystemConfig": {
+          "error": null,
+          "success": true
+        }
+      }
+    },
+    {
+      "fixture": "TestSetCircuitConfigMutation_ReadbackConfirmFailure",
+      "invoker_calls": [
+        {
+          "plane": "system",
+          "method": "set_ext_register",
+          "params": {
+            "addr": "u16:000F",
+            "data": "0000C03F",
+            "group": "byte:02",
+            "instance": "byte:02",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        },
+        {
+          "plane": "system",
+          "method": "get_ext_register",
+          "params": {
+            "addr": "u16:000F",
+            "group": "byte:02",
+            "instance": "byte:02",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        }
+      ],
+      "name": "setCircuitConfig/readback-mismatch",
+      "request": "mutation { setCircuitConfig(index: 2, field: \"heatingCurve\", value: \"1.5\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": "write confirm failed: read-back mismatch: ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetCircuitConfigMutation_FailsClosedBeforeSourceAdmission",
+      "invoker_calls": [],
+      "name": "setCircuitConfig/fails-closed-before-source-admission",
+      "request": "mutation { setCircuitConfig(index: 1, field: \"heatingCurve\", value: \"1.5\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": "source selection not active: ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetCircuitConfigMutation_ValidationFailures: unknown field",
+      "invoker_calls": [],
+      "name": "setCircuitConfig/unknown-field",
+      "request": "mutation { setCircuitConfig(index: 1, field: \"bogus\", value: \"1\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": "unknown circuit field \"bogus\" (allowed: coolingEnabled, flowTempMaxC, flowTempMinC, frostProtC, heatingCurve, roomTempControl, summerLimitC): ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetCircuitConfigMutation_ValidationFailures: float out of range",
+      "invoker_calls": [],
+      "name": "setCircuitConfig/float-out-of-range",
+      "request": "mutation { setCircuitConfig(index: 1, field: \"heatingCurve\", value: \"8.1\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": "value 8.1 out of range [0.1, 4]: ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetCircuitConfigMutation_ValidationFailures: invalid enum",
+      "invoker_calls": [],
+      "name": "setCircuitConfig/invalid-enum",
+      "request": "mutation { setCircuitConfig(index: 1, field: \"roomTempControl\", value: \"manual\") { success error } }",
+      "response": {
+        "setCircuitConfig": {
+          "error": "invalid enum value \"manual\" (allowed: modulating, off, thermostat): ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetSystemConfigMutation_FailureScenarios: invalid bool",
+      "invoker_calls": [],
+      "name": "setSystemConfig/invalid-bool",
+      "request": "mutation { setSystemConfig(field: \"adaptiveHeatingCurve\", value: \"maybe\") { success error } }",
+      "response": {
+        "setSystemConfig": {
+          "error": "invalid boolean value \"maybe\" (expected true/false): ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetSystemConfigMutation_FailureScenarios: missing controller",
+      "invoker_calls": [],
+      "name": "setSystemConfig/missing-controller",
+      "request": "mutation { setSystemConfig(field: \"adaptiveHeatingCurve\", value: \"true\") { success error } }",
+      "response": {
+        "setSystemConfig": {
+          "error": "no heating regulator at canonical eBUS target addresses: ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "TestSetSystemConfigMutation_FailureScenarios: missing get method",
+      "invoker_calls": [],
+      "name": "setSystemConfig/missing-get-method",
+      "request": "mutation { setSystemConfig(field: \"adaptiveHeatingCurve\", value: \"true\") { success error } }",
+      "response": {
+        "setSystemConfig": {
+          "error": "controller missing method \"get_ext_register\": ebus: payload does not match expected schema",
+          "success": false
+        }
+      }
+    },
+    {
+      "fixture": "harness fixture: no test of the pin drives setZoneConfig; the controller and invoker of the pin's circuit success case with the enum value of the zone operating mode",
+      "invoker_calls": [
+        {
+          "plane": "system",
+          "method": "set_ext_register",
+          "params": {
+            "addr": "u16:0006",
+            "data": "0100",
+            "group": "byte:03",
+            "instance": "byte:01",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        },
+        {
+          "plane": "system",
+          "method": "get_ext_register",
+          "params": {
+            "addr": "u16:0006",
+            "group": "byte:03",
+            "instance": "byte:01",
+            "opcode": "byte:02",
+            "source": "byte:7F"
+          }
+        }
+      ],
+      "name": "setZoneConfig/success",
+      "request": "mutation { setZoneConfig(index: 1, field: \"operatingMode\", value: \"auto\") { success error } }",
+      "response": {
+        "setZoneConfig": {
+          "error": null,
+          "success": true
+        }
+      }
+    },
+    {
+      "call": "ApplyConfigMutation(source 0, not admitted, heatingCurve, 1.5)",
+      "fixture": "TestApplyConfigMutation_FailsClosedBeforeSourceAdmission",
+      "invoker_calls": 0,
+      "name": "ApplyConfigMutation/fails-closed-before-source-admission",
+      "response": {
+        "error": "source selection not active: ebus: payload does not match expected schema",
+        "success": false
+      }
+    }
+  ],
+  "description": "mutation answers of graphql/mutations.go on the fixtures of the pin's mutation tests; the source provider admits source 0x7F except where stated by the fixture name",
+  "format": "helianthus-oracle-pre-port-typed-graphql-mutations/1"
+}
