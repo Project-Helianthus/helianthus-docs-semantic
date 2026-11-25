@@ -1134,6 +1134,103 @@ class ManifestCLITest(unittest.TestCase):
             [("assertion", "stay-value")],
         )
 
+    SCOPE = "closure/cross/scope"
+    EXT = "closure/cross/ext"
+
+    def scope_move(self, symbol: str) -> dict:
+        return self.repo.symbol(self.SCOPE, f"{self.SCOPE}/scope.go", symbol, "engine/scope.go")
+
+    def test_a_binding_counts_only_where_it_is_in_scope(self) -> None:
+        # The select case binds `pending` for its own clause only: the default
+        # clause reads the package variable.
+        selected = self.repo.generate(self.symbol_spec("scope-select", [self.scope_move("SelectMove")]))
+        self.assert_fail(selected)
+        self.assertEqual(selected.stdout, "outside-set: pending\n")
+        self.assert_absent("scope-select")
+        # An if initializer binds `value` in every else branch as well.
+        branched = self.repo.generate(self.symbol_spec("scope-else", [self.scope_move("ElseMove")]))
+        self.assert_ok(branched)
+        self.assertNotIn("outside-set", branched.stdout)
+        self.assert_ok(self.repo.check("scope-else"))
+
+    def test_a_struct_alias_masks_its_literal_keys(self) -> None:
+        moves = [self.scope_move(name) for name in ("AliasMove", "view", "base")]
+        aliased = self.repo.generate(self.symbol_spec("scope-alias", moves))
+        self.assert_ok(aliased)
+        self.assertNotIn("outside-set", aliased.stdout)
+        uses = {item["name"]: item["uses"] for item in self.repo.manifest("scope-alias")["symbols"]}
+        self.assertEqual(uses, {"AliasMove": ["view"], "base": [], "view": ["base"]})
+        self.assert_ok(self.repo.check("scope-alias"))
+
+    def test_the_last_symbol_of_a_donor_package_still_closes(self) -> None:
+        move = self.repo.symbol(self.PA, f"{self.PA}/a.go", "Move", "engine/cross.go")
+        helper = self.repo.symbol(self.PB, f"{self.PB}/b.go", "Helper", "engine/cross.go")
+        alone = self.repo.generate(self.symbol_spec("last-alone", [move]))
+        self.assert_fail(alone)
+        self.assertEqual(alone.stdout, f"outside-set: {self.PB}.Helper\n")
+        self.assert_absent("last-alone")
+        self.assert_ok(self.repo.generate(self.symbol_spec("last-both", [move, helper])))
+        self.assert_ok(self.repo.check("last-both"))
+        stripped = json.loads(self.repo.manifest_path("last-both").read_text(encoding="utf-8"))
+        stripped["symbols"] = [item for item in stripped["symbols"] if item["name"] != "Helper"]
+        path = self.repo.root / "acceptance" / "manifests" / "last-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("last-both", manifest=path), f"unmatched-destination symbol={self.PB}:Helper",
+        )
+        stripped["destinations"] = [
+            item for item in stripped["destinations"] if item.get("name") != "Helper"
+        ]
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("last-both", manifest=path), f"outside-set: {self.PB}.Helper")
+
+    def test_a_donor_test_that_uses_a_moved_symbol_through_an_import_is_accounted(self) -> None:
+        moves = [
+            self.repo.symbol(self.PA, f"{self.PA}/a.go", "Move", "engine/cross.go"),
+            self.repo.symbol(self.PB, f"{self.PB}/b.go", "Helper", "engine/cross.go"),
+        ]
+        keep = [{"package": self.EXT, "path": f"{self.EXT}/ext.go", "symbol": "Keep"}]
+        bare = self.repo.generate(self.symbol_spec("import-bare", moves, stay_symbols=keep))
+        self.assert_fail(
+            bare,
+            "left-behind: TestViaImport",
+            "unaccounted-assertion function=TestMixedImport assertion=mixed-moved",
+        )
+        self.assertNotIn("assertion=mixed-kept", bare.stdout)
+        self.assert_absent("import-bare")
+        given = [{
+            "function": "TestMixedImport",
+            "name": "mixed-moved",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        done = self.repo.generate(self.symbol_spec(
+            "import-given", moves, stay_symbols=keep, assertions=given, specimens=["TestViaImport"],
+        ))
+        self.assert_ok(done)
+        manifest = self.repo.manifest("import-given")
+        self.assertEqual(
+            [(item["function"], item["name"]) for item in manifest["assertions"]],
+            [("TestMixedImport", "mixed-moved")],
+        )
+        self.assertIn(("specimen", "TestViaImport"), [(item["kind"], item["name"]) for item in manifest["stays"]])
+        self.assert_ok(self.repo.check("import-given"))
+
+    def test_check_rejects_a_symbol_destination_outside_the_sealed_list(self) -> None:
+        spec = self.symbol_spec("seal-symbol", self.alpha_moves(), assertions=self.clone_assertions())
+        self.assert_ok(self.repo.generate(spec))
+        self.assert_ok(self.repo.check("seal-symbol"))
+        moved = json.loads(self.repo.manifest_path("seal-symbol").read_text(encoding="utf-8"))
+        for entry in moved["destinations"]:
+            if entry.get("name") == "cloneRecord":
+                entry["path"] = "unsealed/other.go"
+        path = self.repo.root / "acceptance" / "manifests" / "seal-symbol-moved.json"
+        path.write_text(json.dumps(moved), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("seal-symbol", manifest=path), "unsealed-destination: ebusgo:unsealed/other.go",
+        )
+
     def test_same_named_assertions_of_two_packages_stay_distinct(self) -> None:
         moves = [
             self.repo.symbol(self.DA, f"{self.DA}/da.go", "MoveA", "engine/dup.go"),
@@ -1235,6 +1332,47 @@ class ManifestCLITest(unittest.TestCase):
         written = self._gg13_snapshot()
         self._restore_gg13(snapshot)
         self.assert_fail(refused, f"partial-move: {self.ALPHA}/core.go")
+        self.assertEqual(written, snapshot)
+
+    def test_deletion_refuses_a_shared_file_the_symbol_move_did_not_move(self) -> None:
+        shared = [{"repository": "gateway", "path": "closure/closed/moved.go"}]
+        self.assert_ok(self.repo.generate(self.symbol_spec(
+            "shared-move", self.alpha_moves(), assertions=self.clone_assertions(), shared=shared,
+        )))
+        dest = self.repo.private_dest()
+        (dest / "engine").mkdir(exist_ok=True)
+        (dest / "engine" / "records.go").write_text("package engine\n", encoding="utf-8")
+        git(dest, "add", "-A")
+        git(dest, "commit", "-m", "records")
+        merged = git_out(dest, "rev-parse", "HEAD")
+        (dest / "REV.txt").write_text("integrated again\n", encoding="utf-8")
+        git(dest, "add", "-A")
+        git(dest, "commit", "-m", "integrated again")
+        integrated = git_out(dest, "rev-parse", "HEAD")
+        self.assert_ok(self.repo.receipt("shared-move", self.repo.result("ebusgo", "row", merged), dest, "ebusgo"))
+        self.assert_ok(self.repo.receipt(
+            "shared-move", self.repo.result("ebusgo", "whole-session", integrated), dest, "ebusgo",
+        ))
+        clone = self.repo.root.parent / "donor-shared"
+        git(self.repo.root.parent, "clone", str(self.repo.root), str(clone))
+        ledger = clone / "tools" / "boundary" / "ledger.tsv"
+        ledger.write_text("closure/closed/moved.go\tmove\tsample\tGG13\n", encoding="utf-8")
+        git(clone, "add", "-A")
+        git(clone, "commit", "-m", "ledger names the shared file")
+        body = {
+            "row": "GG13",
+            "donor_sha": self.repo.sha,
+            "ledger_commit": git_out(clone, "rev-parse", "HEAD"),
+            "manifests": [str(self.repo.manifest_path("shared-move"))],
+            "grants": [],
+            "reserves": [],
+            "live_inputs": [],
+        }
+        snapshot = self._gg13_snapshot()
+        refused = self.repo.deletion(body, gateway=clone)
+        written = self._gg13_snapshot()
+        self._restore_gg13(snapshot)
+        self.assert_fail(refused, "partial-move: closure/closed/moved.go")
         self.assertEqual(written, snapshot)
 
     def test_left_behind_test_and_historical_specimen(self) -> None:

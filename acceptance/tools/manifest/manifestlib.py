@@ -1018,11 +1018,25 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
     records = list(manifest["destinations"]) + list(manifest["stays"])
     if not manifest["symbols"] and any(item.get("kind") == "symbol" for item in records):
         return ["symbol-set"]
+    sealed = {entry["repository"]: set(entry["paths"]) for entry in manifest["paths"]}
+    for entry in manifest["destinations"]:
+        if entry.get("kind") == "symbol" and entry.get("path") not in sealed.get(entry.get("repository"), set()):
+            errors.append(
+                f"unsealed-destination: {entry.get('repository')}:{entry.get('path')}"
+            )
+    if errors:
+        return errors
     if not moved:
         return errors
     symbol_level = any("package" in item for item in manifest["symbols"])
     symbol_moves: list[dict[str, Any]] = []
     if symbol_level:
+        recorded = {(item.get("package"), item["name"]) for item in manifest["symbols"]}
+        for entry in manifest["destinations"]:
+            if entry.get("kind") == "symbol" and (entry.get("package"), entry.get("name")) not in recorded:
+                errors.append(f"unmatched-destination symbol={entry.get('package')}:{entry.get('name')}")
+        if errors:
+            return errors
         for item in manifest["symbols"]:
             destination = [
                 entry for entry in manifest["destinations"]
@@ -1991,10 +2005,9 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
             symbol_files = {item["file"] for item in manifest["symbols"]}
             if finding["path"] not in donor_paths and finding["path"] not in symbol_files:
                 continue
-            # A symbol-level record proves its symbols moved, not the whole file.
-            if finding["path"] in {
-                item["file"] for item in manifest["symbols"] if "package" in item
-            }:
+            # A symbol-level record proves its symbols moved, not a whole file:
+            # a file it moves in part, or lists as shared, is not covered by it.
+            if any("package" in item for item in manifest["symbols"]):
                 partial = True
                 continue
             if not _covers_requested_donor(manifest, spec):

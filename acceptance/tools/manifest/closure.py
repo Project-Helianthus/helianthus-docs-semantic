@@ -467,11 +467,16 @@ def _tests(
     outside_names: set[str],
     parsed: dict[str, "GoFile"] | None = None,
     struct_types: set[str] | None = None,
+    aliases_of: "Callable[[str], dict[str, str]] | None" = None,
+    qualified_names: set[str] | None = None,
 ) -> list[TestFunction]:
     """Test functions with the donor symbols each one and each assertion uses.
 
     With ``parsed`` a use is a reference that resolves to a declaration of the
-    package: a local name that is spelled like one is not a use.
+    package: a local name that is spelled like one is not a use. With
+    ``aliases_of`` (the import names of a test file) a reference
+    ``alias.Name`` that is spelled ``directory.Name`` in ``qualified_names``
+    is a use of that name of another donor package.
     """
     package_names = moved_names | outside_names
     tests: list[TestFunction] = []
@@ -482,6 +487,7 @@ def _tests(
         blanked = blank_source(text)
         imports = _import_names(blanked)
         source = parsed.get(path) if parsed else None
+        aliases = aliases_of(text) if aliases_of else None
         resolved = (
             {item.name: item for item in source.declarations if item.kind == "func"}
             if source else {}
@@ -493,7 +499,11 @@ def _tests(
             raw_body = raw_blank_pairs[body_start:body_end]
             declaration = resolved.get(name)
             if source is not None and declaration is not None:
-                uses = source.uses(declaration, package_names, struct_types or set())
+                reached: set[tuple[str, str]] = set()
+                uses = source.uses(
+                    declaration, package_names, struct_types or set(), aliases, reached
+                )
+                uses |= _qualified(reached, qualified_names)
             else:
                 uses = _uses_in_text(body, package_names, imports)
             assertions: list[Assertion] = []
@@ -506,10 +516,12 @@ def _tests(
                 ordinal += 1
                 helpers = _helpers(segment, moved_names)
                 if source is not None and declaration is not None:
+                    reached = set()
                     assertion_uses = source.uses(
-                        declaration, package_names, struct_types or set(),
+                        declaration, package_names, struct_types or set(), aliases, reached,
                         window=(body_start + start, body_start + end),
                     )
+                    assertion_uses |= _qualified(reached, qualified_names)
                     helpers = [item for item in helpers if item in assertion_uses]
                 else:
                     assertion_uses = _uses_in_text(segment, package_names, imports)
@@ -522,6 +534,12 @@ def _tests(
                 ))
             tests.append(TestFunction(name=name, file=path, uses=uses, assertions=assertions))
     return tests
+
+
+def _qualified(reached: set[tuple[str, str]], names: set[str] | None) -> set[str]:
+    if not names:
+        return set()
+    return {f"{directory}.{name}" for directory, name in reached if f"{directory}.{name}" in names}
 
 
 def classify_test(test: TestFunction, moved_names: set[str], outside_names: set[str]) -> str:
@@ -560,6 +578,7 @@ class Declaration:
     last: int
     receiver: str = ""
     struct: bool = False
+    base: str = ""
     body: int = -1
     skip: set[int] = field(default_factory=set)
     masks: list[tuple[str, int, int]] = field(default_factory=list)
@@ -791,12 +810,22 @@ class GoFile:
                 cursor = self._end_of(cursor) + 1
             if cursor < stop and self._word(cursor) == "=":
                 cursor += 1
+            # A type spelled as another package type name (an alias or a
+            # defined type) has that type's underlying kind.
+            base = ""
+            if (
+                cursor < stop
+                and _is_name(self._word(cursor))
+                and (cursor + 1 >= stop or self._word(cursor + 1) != ".")
+            ):
+                base = self._word(cursor)
             found.append(Declaration(
                 name=self.tokens[start][0],
                 kind="type",
                 first=first,
                 last=stop,
                 struct=cursor < stop and self._word(cursor) == "struct",
+                base=base,
                 skip={start},
                 masks=masks,
             ))
@@ -901,7 +930,12 @@ class GoFile:
     def _scope_end(self, stack: list[tuple[int, str, bool]], limit: int) -> int:
         return self._end_of(stack[-1][0]) + 1 if stack else limit
 
-    def _header_scope(self, index: int, limit: int) -> tuple[int, int]:
+    def _header_scope(self, index: int, limit: int, chain: bool = False) -> tuple[int, int]:
+        """Token range a binding of an if, for or switch header is visible in.
+
+        With ``chain`` the range of an ``if`` runs through every ``else``
+        branch that follows its block.
+        """
         depth = 0
         semicolon = -1
         cursor = index + 1
@@ -909,7 +943,27 @@ class GoFile:
             word = self.tokens[cursor][0]
             if word == "{" and depth == 0:
                 start = semicolon + 1 if semicolon >= 0 else cursor
-                return start, self._end_of(cursor) + 1
+                stop = self._end_of(cursor) + 1
+                while chain and stop < limit and self._word(stop) == "else":
+                    nxt = stop + 1
+                    if self._word(nxt) == "if":
+                        probe, level = nxt + 1, 0
+                        while probe < limit:
+                            probe_word = self.tokens[probe][0]
+                            if probe_word == "{" and level == 0:
+                                break
+                            if probe_word in _OPENERS:
+                                level += 1
+                            elif probe_word in _CLOSERS:
+                                level -= 1
+                            probe += 1
+                        if probe >= limit:
+                            break
+                        nxt = probe
+                    if self._word(nxt) != "{":
+                        break
+                    stop = self._end_of(nxt) + 1
+                return start, stop
             if word in _OPENERS:
                 depth += 1
             elif word in _CLOSERS:
@@ -918,6 +972,22 @@ class GoFile:
                 semicolon = cursor
             cursor += 1
         return limit, limit
+
+    def _clause_end(self, cursor: int, limit: int, stack: list[tuple[int, str, bool]]) -> int:
+        """End of a ``case`` clause of a select or switch that starts at ``cursor``."""
+        depth = 0
+        while cursor < limit:
+            word = self.tokens[cursor][0]
+            if word in _OPENERS:
+                depth += 1
+            elif word in _CLOSERS:
+                if depth == 0:
+                    return cursor
+                depth -= 1
+            elif depth == 0 and word in ("case", "default"):
+                return cursor
+            cursor += 1
+        return self._scope_end(stack, limit)
 
     def _local_declaration(self, index: int, limit: int, stack: list[tuple[int, str, bool]], skip: set[int], add) -> None:
         kind = self._word(index)
@@ -1034,12 +1104,12 @@ class GoFile:
                     skip.update(chain)
                     lead = self._word(chain[-1] - 1) if chain[-1] - 1 >= low else ""
                     if lead in ("if", "for", "switch"):
-                        start, stop = self._header_scope(index, high)
+                        start, stop = self._header_scope(index, high, chain=lead == "if")
                     elif lead == "case":
                         cursor = index + 1
                         while cursor < high and self._word(cursor) != ":":
                             cursor += 1
-                        start, stop = cursor, self._scope_end(stack, high)
+                        start, stop = cursor, self._clause_end(cursor + 1, high, stack)
                     else:
                         start = self._statement_end(chain[-1], high)
                         stop = self._scope_end(stack, high)
@@ -1095,14 +1165,13 @@ def _module_path(repo: Path, revision: str) -> str:
 
 def _import_aliases(
     text: str,
-    packages: list[str],
-    clauses: dict[str, str],
-    module: str,
+    resolve: "Callable[[str], str | None]",
+    clause_of: "Callable[[str], str]",
 ) -> dict[str, str]:
-    """Import names of one file that stand for a donor directory of the input.
+    """Import names of one file that stand for a donor directory.
 
-    The import path is matched to the directory under the module path of the
-    donor, or by its trailing directory when the donor has no go.mod.
+    ``resolve`` maps an import path to the donor directory it names, or None.
+    An import without a name takes the package clause of that directory.
     """
     aliases: dict[str, str] = {}
     for line in text.splitlines():
@@ -1112,14 +1181,60 @@ def _import_aliases(
         if not found:
             continue
         local, path = found.group(1), found.group(2)
-        for directory in packages:
-            if module:
-                same = path == f"{module}/{directory}"
-            else:
-                same = path == directory or path.endswith("/" + directory)
-            if same and local not in (".", "_"):
-                aliases[local or clauses[directory]] = directory
+        if local in (".", "_"):
+            continue
+        directory = resolve(path)
+        if directory is None:
+            continue
+        name = local or clause_of(directory)
+        if name:
+            aliases[name] = directory
     return aliases
+
+
+def _directory_resolver(repo: Path, revision: str, module: str) -> "Callable[[str], str | None]":
+    """Map an import path to the donor directory that holds its Go files.
+
+    The directory is found under the module path of the donor, or by the
+    longest trailing part of the path that is a donor directory when the donor
+    has no go.mod. Any donor directory counts, not only those the input names.
+    """
+    cache: dict[str, str | None] = {}
+
+    def has_go(directory: str) -> bool:
+        return any(name.endswith(".go") for name in list_dir(repo, revision, directory))
+
+    def resolve(path: str) -> str | None:
+        if path in cache:
+            return cache[path]
+        found: str | None = None
+        if module:
+            if path.startswith(module + "/") and has_go(path[len(module) + 1:]):
+                found = path[len(module) + 1:]
+        else:
+            parts = path.split("/")
+            for index in range(len(parts)):
+                candidate = "/".join(parts[index:])
+                if has_go(candidate):
+                    found = candidate
+                    break
+        cache[path] = found
+        return found
+
+    return resolve
+
+
+def _struct_closure(declarations: list[Declaration]) -> set[str]:
+    """Names of types that are structs, aliases and defined types of structs included."""
+    struct_types = {item.name for item in declarations if item.kind == "type" and item.struct}
+    changed = True
+    while changed:
+        changed = False
+        for item in declarations:
+            if item.kind == "type" and item.base in struct_types and item.name not in struct_types:
+                struct_types.add(item.name)
+                changed = True
+    return struct_types
 
 
 @dataclass
@@ -1144,13 +1259,30 @@ def analyze_symbols(
     ``moves`` and ``stays`` hold ``package`` (the donor directory), ``path``
     and ``symbol``. A moved symbol may use only moved symbols and symbols the
     input declares as staying. The methods of a moved type are siblings and
-    follow the same rule.
+    follow the same rule. A name qualified by an import of any other donor
+    directory is a use of that directory, whether or not the input names it.
     """
     facts = SymbolFacts()
     entries = [("move", item) for item in moves] + [("stay", item) for item in stays]
     packages = sorted({item["package"].rstrip("/") for _kind, item in entries})
     parsed: dict[str, dict[str, GoFile]] = {}
     texts: dict[str, dict[str, str]] = {}
+    clause_cache: dict[str, str] = {}
+
+    def load(directory: str, clause: str) -> None:
+        parsed[directory] = {}
+        texts[directory] = {}
+        siblings = [path for path in list_dir(repo, revision, directory) if path.endswith(".go")]
+        for path, blob in read_blobs(repo, revision, siblings).items():
+            text = blob.decode(errors="replace")
+            try:
+                if package_name(text) != clause:
+                    continue
+            except ValueError:
+                continue
+            texts[directory][path] = text
+            parsed[directory][path] = GoFile(text)
+
     for directory in packages:
         listed = sorted({
             item["path"] for _kind, item in entries
@@ -1172,42 +1304,54 @@ def analyze_symbols(
         if len(clauses) != 1:
             facts.errors.append(f"package-mismatch: {directory}")
             continue
-        clause = next(iter(clauses))
-        siblings = [path for path in list_dir(repo, revision, directory) if path.endswith(".go")]
-        parsed[directory] = {}
-        texts[directory] = {}
-        for path, blob in read_blobs(repo, revision, siblings).items():
-            text = blob.decode(errors="replace")
-            try:
-                if package_name(text) != clause:
-                    continue
-            except ValueError:
-                continue
-            texts[directory][path] = text
-            parsed[directory][path] = GoFile(text)
+        clause_cache[directory] = next(iter(clauses))
+        load(directory, clause_cache[directory])
     if facts.errors:
         return facts
     module = _module_path(repo, revision)
-    clauses = {
-        directory: package_name(next(iter(texts[directory].values()))) if texts[directory] else ""
-        for directory in packages
-    }
+    resolve = _directory_resolver(repo, revision, module)
+
+    def clause_of(directory: str) -> str:
+        if directory not in clause_cache:
+            clause_cache[directory] = ""
+            names = [path for path in list_dir(repo, revision, directory) if path.endswith(".go")]
+            blobs = read_blobs(repo, revision, names)
+            for path in sorted(blobs, key=lambda item: (item.endswith("_test.go"), item)):
+                try:
+                    clause_cache[directory] = package_name(blobs[path].decode(errors="replace"))
+                except ValueError:
+                    continue
+                break
+        return clause_cache[directory]
+
+    def aliases_of(text: str) -> dict[str, str]:
+        return _import_aliases(text, resolve, clause_of)
+
+    # Any donor directory a moved file imports is read, so that a name it uses
+    # there is found even when the input names no symbol of that directory.
+    loaded = list(packages)
+    for kind, item in entries:
+        if kind != "move":
+            continue
+        for directory in sorted(set(aliases_of(texts[item["package"].rstrip("/")][item["path"]]).values())):
+            if directory not in parsed and clause_of(directory):
+                load(directory, clause_of(directory))
+                loaded.append(directory)
     info: dict[str, dict[str, object]] = {}
-    for directory in packages:
+    for directory in loaded:
         files = parsed[directory]
         declared: set[str] = set()
-        struct_types: set[str] = set()
         methods: list[Declaration] = []
         lookup: dict[tuple[str, str], Declaration] = {}
+        every: list[Declaration] = []
         for path, source in files.items():
             for declaration in source.declarations:
                 lookup.setdefault((path, declaration.key), declaration)
+                every.append(declaration)
                 if declaration.kind == "method":
                     methods.append(declaration)
                 else:
                     declared.add(declaration.name)
-                    if declaration.struct:
-                        struct_types.add(declaration.name)
         moved_keys: dict[str, str] = {}
         stay_keys: dict[str, str] = {}
         for kind, item in entries:
@@ -1225,7 +1369,7 @@ def analyze_symbols(
                 facts.errors.append(f"moved-and-stays: {moved_keys[key]} {key}")
         info[directory] = {
             "declared": declared,
-            "struct_types": struct_types,
+            "struct_types": _struct_closure(every),
             "methods": methods,
             "lookup": lookup,
             "moved_keys": moved_keys,
@@ -1248,9 +1392,7 @@ def analyze_symbols(
         stay_names = info[directory]["stay_names"]
         for key in sorted(moved_keys):
             declaration = lookup[(moved_keys[key], key)]
-            aliases = _import_aliases(
-                texts[directory][moved_keys[key]], packages, clauses, module
-            )
+            aliases = aliases_of(texts[directory][moved_keys[key]])
             reached: set[tuple[str, str]] = set()
             used = files[moved_keys[key]].uses(
                 declaration, declared, struct_types, aliases, reached
@@ -1258,7 +1400,7 @@ def analyze_symbols(
             used.discard(declaration.name)
             outside.update(used - moved_names - stay_names)
             for other, name in reached:
-                if other == directory or name not in info[other]["declared"]:
+                if other == directory or other not in info or name not in info[other]["declared"]:
                     continue
                 if name not in info[other]["moved_names"] and name not in info[other]["stay_names"]:
                     outside.add(f"{other}.{name}")
@@ -1274,20 +1416,38 @@ def analyze_symbols(
                         outside.add(method.key)
         for key in sorted(stay_keys):
             facts.stays.append({"package": directory, "file": stay_keys[key], "name": key})
-        facts.moved_names[directory] = moved_names
+        facts.moved_names[directory] = set(moved_names)
         facts.outside_names[directory] = declared - moved_names
     facts.outside_uses = sorted(outside)
     facts.moved.sort(key=lambda item: (item["package"], item["file"], item["name"]))
     facts.stays.sort(key=lambda item: (item["package"], item["file"], item["name"]))
     if facts.errors or facts.outside_uses:
         return facts
+    # A donor test names a symbol of another donor package of the move as
+    # ``alias.Name``; that spelling is the name it uses there.
+    qualified_moved = {
+        directory: {f"{other}.{name}" for other in packages if other != directory for name in info[other]["moved_names"]}
+        for directory in packages
+    }
+    qualified_outside = {
+        directory: {
+            f"{other}.{name}"
+            for other in packages if other != directory
+            for name in info[other]["declared"] - info[other]["moved_names"]
+        }
+        for directory in packages
+    }
+    for directory in packages:
+        facts.moved_names[directory] |= qualified_moved[directory]
+        facts.outside_names[directory] |= qualified_outside[directory]
     for directory in packages:
         moved_files = {
             (item["file"], item["name"]) for item in facts.moved if item["package"] == directory
         }
         found = _tests(
             texts[directory], set(), facts.moved_names[directory], facts.outside_names[directory],
-            parsed[directory], info[directory]["struct_types"],
+            parsed[directory], info[directory]["struct_types"], aliases_of,
+            qualified_moved[directory] | qualified_outside[directory],
         )
         facts.tests[directory] = [
             test for test in found if (test.file, test.name) not in moved_files

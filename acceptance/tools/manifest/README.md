@@ -102,7 +102,8 @@ A bound name stops counting only inside the scope that binds it: a receiver, par
 A moved symbol may use a moved symbol of its own package, or a symbol that `stay_symbols` declares.
 Any other declared name of that package it uses fails the move as one `outside-set: <name>` line, sorted and unique across the whole input.
 The methods of a moved type are its siblings: each one is moved or declared staying, otherwise `outside-set: <Type>.<Method>` names it.
-A name written `alias.Name`, where the import is a donor package that the input names, is a use of `Name` in that package. It must be moved or declared staying there, otherwise `outside-set: <package>.<Name>` names it; the alias itself is not a use. A package that no entry of the input names is not read, so a name qualified by it is not followed.
+A name written `alias.Name`, where the import is a directory of the donor, is a use of `Name` in that directory, whether or not any entry of the input names that directory. It must be moved or declared staying there, otherwise `outside-set: <directory>.<Name>` names it; the alias itself is not a use.
+A binding counts only in its own scope: a `select` case binding ends with its clause, and an `if` initializer binding reaches every `else` branch. A struct alias or defined type of a struct is a struct for the keys of its literals.
 `generate` also fails, and writes nothing, for:
 
 | Line | Cause |
@@ -115,7 +116,7 @@ A name written `alias.Name`, where the import is a donor package that the input 
 | `ambiguous-assertion function=<f> assertion=<a> package=<p>` | Two donor packages hold a moved-only assertion of that function and name, and the input names it without `package` |
 
 Donor tests are accounted as for a whole-file move, per donor package: a test that uses only moved symbols is `left-behind` unless it is a specimen, and a mixed test needs its moved-only assertions in `assertions` with a destination.
-A use in a test is a reference that resolves to a declaration of the package, so a local name spelled like a staying symbol does not make the test mixed.
+A use in a test is a reference that resolves to a declaration of the package, so a local name spelled like a staying symbol does not make the test mixed. A test that reaches a symbol of another donor package of the move through an import (`alias.Name`) uses that symbol and is accounted the same way.
 An `assertions` entry may carry `package` (the donor directory); it is required when two packages hold an assertion of the same function and name. The manifest then records `package` on that assertion and on its destination, and `compare` runs and tracks each separately.
 A moved test function is a moved symbol and is not accounted again.
 
@@ -129,9 +130,9 @@ Only these records differ:
 | `destinations` | A symbol is `kind` `symbol`, with `name`, `package`, `repository`, `path` and `destination_name`. `destination_name` is the donor name when nothing was renamed |
 | `paths` | The donor list holds each file that has a moved symbol, so a file that only gives part of itself is listed whole |
 
-`check` recomputes the closure from the donor, the moved symbols and the declared staying symbols of the manifest, and fails on a changed symbol set (including a manifest whose `symbols` were removed while symbol destinations or declared staying symbols remain: `symbol-set`), a changed `uses`, a removed staying declaration (`outside-set`) or a symbol without exactly one destination (`missing-destination symbol=<package>:<name>`).
+`check` recomputes the closure from the donor, the moved symbols and the declared staying symbols of the manifest, and fails on a changed symbol set (including a manifest whose `symbols` were removed while symbol destinations or declared staying symbols remain: `symbol-set`), a changed `uses`, a removed staying declaration (`outside-set`), a symbol without exactly one destination (`missing-destination symbol=<package>:<name>`), a symbol destination with no recorded symbol (`unmatched-destination symbol=<package>:<name>`) or a symbol destination that is not in the sealed list of its repository (`unsealed-destination: <repository>:<path>`).
 `compare` is unchanged: it executes the transferred assertions and the bound cases, and fails with `not-executed` when they did not run.
-`deletion` never counts a symbol-level record as covering a donor file: a ledger finding for such a file is answered `partial-move: <path>` and no list is written, unless a whole-file manifest covers it.
+`deletion` never counts a symbol-level manifest as covering a donor file, whether the file is partly moved or only listed as shared: a finding of the debt list for such a file is answered `partial-move: <path>` and no list is written, unless a whole-file manifest covers it.
 
 ## Manifest
 
