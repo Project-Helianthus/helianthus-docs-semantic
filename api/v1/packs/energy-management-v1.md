@@ -35,6 +35,7 @@ Operation capabilities, operations and effect rules stay on the control plane.
 
 A price the admitted table records as `unit.currency_per_joule` stays
 `unit.currency_per_joule`. The registry does not rewrite it as another unit.
+A consumer shows that price per kWh. The registry value stays per joule.
 
 `energy.task.remote_controllable`: absent means true. A false value declines writes on
 the features linked through the job relation list. That absence rule is not a catalog

@@ -6,6 +6,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The EVSE page names the watt-to-ampere rule and RR05: measured voltage
+  when SemReg has one, else the specification nominal voltage, marked
+  declared. The energy-management page keeps registry prices in
+  `unit.currency_per_joule` and states that a consumer shows that price per
+  kWh. A verification level recorded beside an element blocks nothing. No
+  element is marked sensitive or hidden. No catalog element is added.
+  `pv.limit.active_power_enabled` and `evse.limit.allocated_current_enabled`
+  are absent from the fact tables, so no release case, release argument, or
+  release schema is added. The existing PV and EVSE set cases stay. Admitted
+  naming rows keep `historical_name` equal to `canonical_name` and carry no
+  confirmation question. Two-vendor-only rows with an unconfirmed second
+  vendor stay out of the catalog, pack metadata, and both targets.
+  `storage.limit.charge_current` and `storage.limit.discharge_current` stay
+  and are not withheld. Donor mapping copies stay. No pack version is raised.
 - The eeBUS SPINE 1.3.0 target publishes one row for every pack-owned
   catalog fact, capability, operation, service, relation and event. An
   empty, missing, or Matter-only fact-table eeBUS cell is unknown with

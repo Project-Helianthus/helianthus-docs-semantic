@@ -347,6 +347,8 @@ A room control does not take a zone argument.
 Source epoch, driver generation, semantic revision, qualification, activation,
 generation fencing, partial updates, stale/unknown evidence, and last-known-good
 retention remain independent. Candidate mappings never qualify or activate.
+A verification level recorded beside an element blocks nothing. No element is
+marked sensitive or hidden.
 
 ## Projection loss
 
