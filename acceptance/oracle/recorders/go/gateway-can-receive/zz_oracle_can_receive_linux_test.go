@@ -248,11 +248,12 @@ func TestOracleCanReceive(t *testing.T) {
 			}
 			identity := receiver.Identity()
 			return receiver, map[string]any{
-				"open":         label,
-				"identity":     map[string]any{"name": identity.Name(), "index": identity.Index()},
-				"sequence":     record.Sequence,
-				"monotonic_ns": record.Monotonic.Nanoseconds(),
-				"raw_hex":      hex.EncodeToString(record.Raw),
+				"open":             label,
+				"identity":         map[string]any{"name": identity.Name(), "index": identity.Index()},
+				"record_interface": map[string]any{"name": record.Interface.Name(), "index": record.Interface.Index()},
+				"sequence":         record.Sequence,
+				"monotonic_ns":     record.Monotonic.Nanoseconds(),
+				"raw_hex":          hex.EncodeToString(record.Raw),
 			}, record
 		}
 		first, firstReceipt, a := receive("first")

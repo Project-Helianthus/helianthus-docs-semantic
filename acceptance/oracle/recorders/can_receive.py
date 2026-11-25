@@ -75,8 +75,25 @@ def case_entries(entries):
 
 
 def index_digest(entries):
-    """Digest of the common index of the six cases: what both runners must hold alike."""
-    return sha256(json.dumps(case_entries(entries), sort_keys=True).encode("utf-8"))
+    """Digest of the whole common index (every entry, ordered by path): what both runners must hold alike."""
+    return sha256(json.dumps(sorted(entries, key=lambda e: e["path"]), sort_keys=True).encode("utf-8"))
+
+
+def oracle_revision():
+    """The commit of this repository that the recorder runs from; a receipt of another revision is not accepted."""
+    return subprocess.run(["git", "-C", str(common.ROOT), "rev-parse", "HEAD"], stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+
+
+def pinned_sources(platform):
+    """Path and sha256 of the pinned source files of one platform, read from the gateway pin itself."""
+    item = gateway_entry()
+    files = []
+    for path in SOURCES[platform]:
+        pinned = common.show(item, path)
+        if pinned is None:
+            sys.exit(f"{path} does not exist at the gateway pin")
+        files.append({"path": path, "sha256": sha256(pinned)})
+    return files
 
 
 def recorder_digest():
@@ -123,12 +140,7 @@ def record(output):
     for source in sorted(GO_SOURCES.glob("*.go")):
         shutil.copyfile(source, package / source.name)
     overlay = overlaid(item, tree, platform)
-    files = []
-    for path in SOURCES[platform]:
-        pinned = common.show(item, path)
-        if pinned is None:
-            sys.exit(f"{path} does not exist at the gateway pin")
-        files.append({"path": path, "sha256": sha256(pinned)})
+    files = pinned_sources(platform)
     output = Path(output).resolve()
     common.clean(output)
     cases = output / "cases"
@@ -163,6 +175,7 @@ def record(output):
         "command": "python3 acceptance/oracle/check.py --record-can-native current",
         "cases": sorted(produced),
         "statuses": {"compile": compiled.returncode, "run": ran.returncode},
+        "oracle_revision": oracle_revision(),
         "gateway_pin": item["commit"],
         "selected_pinned_files": sorted(name for name in selected if name.startswith("growatt_") and "socketcan" in name),
         "pinned_sources": files,

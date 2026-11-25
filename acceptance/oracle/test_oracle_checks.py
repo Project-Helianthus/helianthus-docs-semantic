@@ -1015,6 +1015,9 @@ def can_world(tmp_path, monkeypatch):
                 entries.append({"path": path, "sha256": hashlib.sha256(data).hexdigest(), "origin": "recorded-current", "reference": "current", "role": "expected-output",
                                 "recorder": "check.py --record-can-native current", "case": case, "platform": platform})
     monkeypatch.setattr(check, "VECTORS", vectors)
+    monkeypatch.setattr(can_receive, "oracle_revision", lambda: "a" * 40)
+    sources = {platform: [{"path": path, "sha256": hashlib.sha256(path.encode()).hexdigest()} for path in can_receive.SOURCES[platform]] for platform in can_receive.PARTITIONS}
+    monkeypatch.setattr(can_receive, "pinned_sources", lambda platform: copy.deepcopy(sources[platform]))
     pin = next(item for item in check.references()["current"]["entries"] if item["id"] == "gateway")["commit"]
 
     def tree(platform, root=None):
@@ -1028,9 +1031,9 @@ def can_world(tmp_path, monkeypatch):
         receipt = {
             "format": can_receive.RECEIPT_FORMAT, "reference": "current", "platform": platform,
             "native": {"goos": "linux" if linux else "darwin", "goarch": "arm64", "hostos": "linux" if linux else "darwin", "hostarch": "arm64"},
-            "cases": sorted(can_receive.PARTITIONS[platform]), "statuses": {"compile": 0, "run": 0}, "gateway_pin": pin,
+            "cases": sorted(can_receive.PARTITIONS[platform]), "statuses": {"compile": 0, "run": 0}, "gateway_pin": pin, "oracle_revision": "a" * 40,
             "selected_pinned_files": sorted(Path(path).name for path in can_receive.SOURCES[platform]),
-            "pinned_sources": [{"path": path, "sha256": "0" * 64} for path in can_receive.SOURCES[platform]],
+            "pinned_sources": copy.deepcopy(sources[platform]),
             "executable_sha256": "1" * 64, "recorder_sha256": can_receive.recorder_digest(), "index_sha256": can_receive.index_digest(entries),
         }
         (root / "receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
@@ -1111,6 +1114,10 @@ RECEIPT_MUTATIONS = {
     "selected files": lambda d: d.update(selected_pinned_files=["growatt_bms_can_socketcan_unsupported.go"]),  # another branch of the opener is accepted
     "pinned sources": lambda d: d.update(pinned_sources=d["pinned_sources"][:1]),  # a receipt that omits a pinned source is accepted
     "recorder digest": lambda d: d.update(recorder_sha256="2" * 64),  # a receipt of another recorder revision is accepted
+    "oracle revision": lambda d: d.update(oracle_revision="b" * 40),  # a receipt collected at an older revision of this repository is accepted
+    "pinned source digest": lambda d: d["pinned_sources"][0].update(sha256="0" * 64),  # a receipt whose pinned source differs from the pin is accepted
+    "oracle revision absent": lambda d: d.pop("oracle_revision"),  # a receipt that does not name its revision is accepted
+    "native absent": lambda d: d.pop("native"),  # a receipt with no host or target metadata is accepted
     "index digest": lambda d: d.update(index_sha256="3" * 64),  # a receipt of another index revision is accepted
     "executable digest": lambda d: d.update(executable_sha256=""),  # a receipt with no executable digest is accepted
 }
@@ -1122,6 +1129,33 @@ def test_every_receipt_member_is_checked(tmp_path, monkeypatch, name):
     root, _receipt = tree("linux")
     rewrite_receipt(root, RECEIPT_MUTATIONS[name])
     assert check.verify_can_tree("linux", root, entries)
+
+
+@pytest.mark.parametrize("change", [
+    lambda d: d.pop("native"),  # both pairs of missing members compare equal
+    lambda d: d.update(native={}),
+    lambda d: d["native"].pop("hostos"),
+    lambda d: d["native"].update(goarch="", hostarch=""),
+    lambda d: d["native"].update(goos="linux", hostos="linux"),  # a Linux target stands in for the non-Linux partition
+    lambda d: d["native"].update(hostos="linux"),  # a cross-compiled target
+], ids=["no-native", "empty-native", "no-host", "empty-arch", "linux-target", "cross-target"])
+def test_a_nonlinux_receipt_without_native_evidence_fails(tmp_path, monkeypatch, change):
+    _vectors, entries, tree = can_world(tmp_path, monkeypatch)
+    root, _receipt = tree("nonlinux")
+    assert check.verify_can_tree("nonlinux", root, entries) == []
+    rewrite_receipt(root, change)
+    assert check.verify_can_tree("nonlinux", root, entries)
+
+
+def test_the_index_digest_covers_the_whole_index(tmp_path, monkeypatch):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    other = {"path": "current/other/vector.json", "sha256": "5" * 64, "origin": "recorded-current", "reference": "current", "role": "expected-output"}
+    assert can_receive.index_digest(entries + [other]) != can_receive.index_digest(entries)
+
+
+def test_the_project_reopen_recorder_serializes_the_interface_of_each_record():
+    source = (HERE / "recorders" / "go" / "gateway-can-receive" / "zz_oracle_can_receive_linux_test.go").read_text(encoding="utf-8")
+    assert '"record_interface": map[string]any{"name": record.Interface.Name(), "index": record.Interface.Index()}' in " ".join(source.split())
 
 
 INDEX_MUTATIONS = {

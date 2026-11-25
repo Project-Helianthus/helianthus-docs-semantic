@@ -181,9 +181,9 @@ so no pin test supplies a stimulus for the unsupported branch.
 
 The recorder is `recorders/can_receive.py` with the harness-only files of `recorders/go/gateway-can-receive/`. It compiles the
 test binary on the host, runs it, and writes a receipt beside the cases: the platform, the Go target and the host it ran on, the
-toolchain, the command, the compile and run statuses, the pinned sources and their digests, the overlay, the pinned files that
+toolchain, the command, the compile and run statuses, the revision of this repository the recorder ran from, the pinned sources and their digests, the overlay, the pinned files that
 the compile selected (`go list`), the digest of the test executable, the digest of the recorder sources and the digest of the
-six cases' index entries. The gateway resolves the CAN library to its own pseudo-version (see `bom/current-gateway.json`), not
+whole `index.json` entry list. The gateway resolves the CAN library to its own pseudo-version (see `bom/current-gateway.json`), not
 to the pin of the `canbus` entry. That pin has no `receiver/` and no `periodic/` directory, so there is no periodic-publication
 donor at it.
 
@@ -329,7 +329,7 @@ extracted cache or the donor clones, and `go.sum` verifies them.
   scratch is under the scratch root of `record.sh`. It then compares the tree with the frozen expectation. A run whose Go target is
   not the host's own is refused. `record.sh` does not run these cases: the replay of `current` takes both trees from the
   collected directories. `check.py --replay current` fails when either tree is absent, holds a receipt of another platform,
-  revision, recorder, index or pin, was not run natively, has a failed status, or lacks, adds or changes a case.
+  revision, recorder, index or pin, whose pinned source digests differ from the pin, carries no host and target metadata, was not run natively, has a failed status, or lacks, adds or changes a case.
 - `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` when they are recorded.
 
 ## Sources

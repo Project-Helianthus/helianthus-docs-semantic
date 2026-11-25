@@ -108,6 +108,18 @@ def can_index_errors(entries):
     return errors
 
 
+def native_expectation(platform, native):
+    """The native-platform members a receipt must carry: all four are present, host and target alike, and the target OS is Linux exactly on the linux partition.
+
+    A receipt without a native member, or with an empty member, never equals this expectation."""
+    values = {name: native.get(name) for name in ("goos", "goarch", "hostos", "hostarch")}
+    if not all(isinstance(value, str) and value for value in values.values()):
+        return "four non-empty goos, goarch, hostos and hostarch members"
+    if (values["goos"] == "linux") != (platform == "linux"):
+        return f"a {'linux' if platform == 'linux' else 'non-linux'} goos"
+    return values if (values["goos"], values["goarch"]) == (values["hostos"], values["hostarch"]) else "goos and goarch equal to hostos and hostarch"
+
+
 def verify_can_tree(platform, tree, entries):
     """Compare one collected actual tree with the frozen expectations of its platform partition.
 
@@ -131,13 +143,14 @@ def verify_can_tree(platform, tree, entries):
         ("format", receipt.get("format"), can_receive.RECEIPT_FORMAT),
         ("reference", receipt.get("reference"), "current"),
         ("platform", receipt.get("platform"), platform),
-        ("native platform", (native.get("goos") == "linux", native.get("goos") == native.get("hostos"), native.get("goarch") == native.get("hostarch")),
-         (platform == "linux", True, True)),
+        ("native platform", {name: native.get(name) for name in ("goos", "goarch", "hostos", "hostarch")},
+         native_expectation(platform, native)),
+        ("oracle revision", receipt.get("oracle_revision"), can_receive.oracle_revision()),
         ("cases", receipt.get("cases"), sorted(can_receive.PARTITIONS[platform])),
         ("statuses", receipt.get("statuses"), {"compile": 0, "run": 0}),
         ("gateway pin", receipt.get("gateway_pin"), pin.get("commit")),
         ("selected pinned files", receipt.get("selected_pinned_files"), sorted(Path(path).name for path in can_receive.SOURCES[platform])),
-        ("pinned sources", [item.get("path") for item in receipt.get("pinned_sources", [])], list(can_receive.SOURCES[platform])),
+        ("pinned sources", receipt.get("pinned_sources"), can_receive.pinned_sources(platform)),
         ("recorder digest", receipt.get("recorder_sha256"), can_receive.recorder_digest()),
         ("index digest", receipt.get("index_sha256"), can_receive.index_digest(entries)),
     )
