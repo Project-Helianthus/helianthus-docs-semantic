@@ -6,6 +6,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The energy-management pack stays `helianthus.pack.energy_management` 1.0.0
+  and publishes the admitted tariff, price, incentive, grid and metering facts,
+  `resource.tariff`, `energy.dimension.tariff`, twelve qualifier dimensions,
+  `energy.service.tariff`, the direct-control and task-management fields, and
+  six operations with one capability and one effect rule each. Prices recorded
+  as `unit.currency_per_joule` stay that unit. Six quantities the table marks
+  signed use direction `not_applicable` because this pack admits no supplies
+  relation. Three quantities name no unit. Two changed events are catalog
+  entries. No supplies relation is added. Empty bounds stay empty. New Matter
+  1.6.1 rows are unknown with `matter.unmapped.v1`. The historical Matter 1.7
+  roster stays at 184 items. No pack version is raised.
 - The energy-management pack `helianthus.pack.energy_management` 1.0.0
   publishes the admitted subject facts, `energy.dimension.subject`, five
   qualifier dimensions, `energy.service.subject`, one read capability, and

@@ -9448,6 +9448,2214 @@
       "canonical_name": "energy.preference.priorities.water_consumption",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "resource.tariff",
+      "canonical_name": "resource.tariff",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.currency_per_joule",
+      "canonical_name": "unit.currency_per_joule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.kilogram_per_joule",
+      "canonical_name": "unit.kilogram_per_joule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.volt_ampere",
+      "canonical_name": "unit.volt_ampere",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.activity_state",
+      "canonical_name": "energy.direct_control.activity_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.energy",
+      "canonical_name": "energy.direct_control.energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.energy_mode",
+      "canonical_name": "energy.direct_control.energy_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.energy_unit",
+      "canonical_name": "energy.direct_control.energy_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.is_activity_state_changeable",
+      "canonical_name": "energy.direct_control.is_activity_state_changeable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.is_energy_changeable",
+      "canonical_name": "energy.direct_control.is_energy_changeable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.is_energy_mode_changeable",
+      "canonical_name": "energy.direct_control.is_energy_mode_changeable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.is_power_changeable",
+      "canonical_name": "energy.direct_control.is_power_changeable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.positive_energy_direction",
+      "canonical_name": "energy.direct_control.positive_energy_direction",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.power",
+      "canonical_name": "energy.direct_control.power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.power_unit",
+      "canonical_name": "energy.direct_control.power_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.sequence_id",
+      "canonical_name": "energy.direct_control.sequence_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.timestamp",
+      "canonical_name": "energy.direct_control.timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.carbon_intensity",
+      "canonical_name": "energy.grid.carbon_intensity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.carbon_level",
+      "canonical_name": "energy.grid.carbon_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.end",
+      "canonical_name": "energy.grid.end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_carbon_intensity",
+      "canonical_name": "energy.grid.local_carbon_intensity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_carbon_level",
+      "canonical_name": "energy.grid.local_carbon_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_generation_available",
+      "canonical_name": "energy.grid.local_generation_available",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.start",
+      "canonical_name": "energy.grid.start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.boundary_lower",
+      "canonical_name": "energy.incentive.boundary_lower",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.boundary_upper",
+      "canonical_name": "energy.incentive.boundary_upper",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.co2_intensity",
+      "canonical_name": "energy.incentive.co2_intensity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_kind",
+      "canonical_name": "energy.incentive.incentive_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_value",
+      "canonical_name": "energy.incentive.incentive_value",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.maximum_slots",
+      "canonical_name": "energy.incentive.maximum_slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.maximum_tiers",
+      "canonical_name": "energy.incentive.maximum_tiers",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.renewable_ratio",
+      "canonical_name": "energy.incentive.renewable_ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.slot_end",
+      "canonical_name": "energy.incentive.slot_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.slot_start",
+      "canonical_name": "energy.incentive.slot_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.tier_kind",
+      "canonical_name": "energy.incentive.tier_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.actor",
+      "canonical_name": "energy.itpcm.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.committed_power_plan",
+      "canonical_name": "energy.itpcm.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.itpcm_031",
+      "canonical_name": "energy.itpcm.itpcm_031",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.per",
+      "canonical_name": "energy.itpcm.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.simple_committed_incentive_table",
+      "canonical_name": "energy.itpcm.simple_committed_incentive_table",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.slots",
+      "canonical_name": "energy.itpcm.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.use_case_name",
+      "canonical_name": "energy.itpcm.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.use_case_version",
+      "canonical_name": "energy.itpcm.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.itpcm.value_range_min",
+      "canonical_name": "energy.itpcm.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.actor",
+      "canonical_name": "energy.lpc.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.committed_power_plan",
+      "canonical_name": "energy.lpc.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.heartbeat_counter",
+      "canonical_name": "energy.lpc.heartbeat_counter",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.heartbeat_timestamp",
+      "canonical_name": "energy.lpc.heartbeat_timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.per",
+      "canonical_name": "energy.lpc.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.slots",
+      "canonical_name": "energy.lpc.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.use_case_name",
+      "canonical_name": "energy.lpc.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.use_case_version",
+      "canonical_name": "energy.lpc.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpc.value_range_min",
+      "canonical_name": "energy.lpc.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.actor",
+      "canonical_name": "energy.lpp.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.committed_power_plan",
+      "canonical_name": "energy.lpp.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.heartbeat_counter",
+      "canonical_name": "energy.lpp.heartbeat_counter",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.heartbeat_timestamp",
+      "canonical_name": "energy.lpp.heartbeat_timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.per",
+      "canonical_name": "energy.lpp.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.slots",
+      "canonical_name": "energy.lpp.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.use_case_name",
+      "canonical_name": "energy.lpp.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.use_case_version",
+      "canonical_name": "energy.lpp.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.lpp.value_range_min",
+      "canonical_name": "energy.lpp.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.metering.maximum_quantities",
+      "canonical_name": "energy.metering.maximum_quantities",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.metering.quantity",
+      "canonical_name": "energy.metering.quantity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.metering.timestamp",
+      "canonical_name": "energy.metering.timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.negotiation.request_timeout",
+      "canonical_name": "energy.negotiation.request_timeout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.negotiation.simulation_concurrent",
+      "canonical_name": "energy.negotiation.simulation_concurrent",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.negotiation.simulation_cycles_maximum",
+      "canonical_name": "energy.negotiation.simulation_cycles_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.negotiation.writeable_wait",
+      "canonical_name": "energy.negotiation.writeable_wait",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.active_duration_min",
+      "canonical_name": "energy.ohpcf.active_duration_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.actor",
+      "canonical_name": "energy.ohpcf.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.alternatives",
+      "canonical_name": "energy.ohpcf.alternatives",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.alternatives_count",
+      "canonical_name": "energy.ohpcf.alternatives_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.committed_power_plan",
+      "canonical_name": "energy.ohpcf.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.default_duration",
+      "canonical_name": "energy.ohpcf.default_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.earliest_start_time",
+      "canonical_name": "energy.ohpcf.earliest_start_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.elapsed_slot_time",
+      "canonical_name": "energy.ohpcf.elapsed_slot_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.flexibility",
+      "canonical_name": "energy.ohpcf.flexibility",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.is_pausable",
+      "canonical_name": "energy.ohpcf.is_pausable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.is_stoppable",
+      "canonical_name": "energy.ohpcf.is_stoppable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.latest_end_time",
+      "canonical_name": "energy.ohpcf.latest_end_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.pause_duration_min",
+      "canonical_name": "energy.ohpcf.pause_duration_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.per",
+      "canonical_name": "energy.ohpcf.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.remaining_slot_time",
+      "canonical_name": "energy.ohpcf.remaining_slot_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.sequence_id",
+      "canonical_name": "energy.ohpcf.sequence_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.slots",
+      "canonical_name": "energy.ohpcf.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.supports_reselection",
+      "canonical_name": "energy.ohpcf.supports_reselection",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.total_sequences_count_max",
+      "canonical_name": "energy.ohpcf.total_sequences_count_max",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.use_case_name",
+      "canonical_name": "energy.ohpcf.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.use_case_version",
+      "canonical_name": "energy.ohpcf.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.ohpcf.value_range_min",
+      "canonical_name": "energy.ohpcf.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.actor",
+      "canonical_name": "energy.podf.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.committed_power_plan",
+      "canonical_name": "energy.podf.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.per",
+      "canonical_name": "energy.podf.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.slots",
+      "canonical_name": "energy.podf.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.use_case_name",
+      "canonical_name": "energy.podf.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.use_case_version",
+      "canonical_name": "energy.podf.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.podf.value_range_min",
+      "canonical_name": "energy.podf.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.actor",
+      "canonical_name": "energy.poen.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.committed_power_plan",
+      "canonical_name": "energy.poen.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.per",
+      "canonical_name": "energy.poen.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.slots",
+      "canonical_name": "energy.poen.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.use_case_name",
+      "canonical_name": "energy.poen.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.use_case_version",
+      "canonical_name": "energy.poen.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.poen.value_range_min",
+      "canonical_name": "energy.poen.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.current",
+      "canonical_name": "energy.price.current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.current_description",
+      "canonical_name": "energy.price.current_description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.current_end",
+      "canonical_name": "energy.price.current_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.current_level",
+      "canonical_name": "energy.price.current_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.current_start",
+      "canonical_name": "energy.price.current_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.forecast_end",
+      "canonical_name": "energy.price.forecast_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.forecast_level",
+      "canonical_name": "energy.price.forecast_level",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.forecast_price",
+      "canonical_name": "energy.price.forecast_price",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.price.forecast_start",
+      "canonical_name": "energy.price.forecast_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.block_mode",
+      "canonical_name": "energy.tariff.block_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.calendar_period_pattern",
+      "canonical_name": "energy.tariff.calendar_period_pattern",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.calendar_period_start",
+      "canonical_name": "energy.tariff.calendar_period_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_apparent_power_threshold",
+      "canonical_name": "energy.tariff.component_apparent_power_threshold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_auxiliary_load",
+      "canonical_name": "energy.tariff.component_auxiliary_load",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_friendly_credit",
+      "canonical_name": "energy.tariff.component_friendly_credit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_label",
+      "canonical_name": "energy.tariff.component_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_peak_period",
+      "canonical_name": "energy.tariff.component_peak_period",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_power_threshold",
+      "canonical_name": "energy.tariff.component_power_threshold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_predicted",
+      "canonical_name": "energy.tariff.component_predicted",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price",
+      "canonical_name": "energy.tariff.component_price",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind",
+      "canonical_name": "energy.tariff.component_price_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_threshold",
+      "canonical_name": "energy.tariff.component_threshold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.currency",
+      "canonical_name": "energy.tariff.currency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.current_components",
+      "canonical_name": "energy.tariff.current_components",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.current_day",
+      "canonical_name": "energy.tariff.current_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.current_day_entry",
+      "canonical_name": "energy.tariff.current_day_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.current_day_entry_date",
+      "canonical_name": "energy.tariff.current_day_entry_date",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_entry_duration",
+      "canonical_name": "energy.tariff.day_entry_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_entry_randomization_offset",
+      "canonical_name": "energy.tariff.day_entry_randomization_offset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_entry_start",
+      "canonical_name": "energy.tariff.day_entry_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days",
+      "canonical_name": "energy.tariff.day_pattern_days",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_entry",
+      "canonical_name": "energy.tariff.day_pattern_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.direction",
+      "canonical_name": "energy.tariff.direction",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_date",
+      "canonical_name": "energy.tariff.individual_day_date",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_entry",
+      "canonical_name": "energy.tariff.individual_day_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_kind",
+      "canonical_name": "energy.tariff.individual_day_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.label",
+      "canonical_name": "energy.tariff.label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.next_components",
+      "canonical_name": "energy.tariff.next_components",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.next_day",
+      "canonical_name": "energy.tariff.next_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.next_day_entry",
+      "canonical_name": "energy.tariff.next_day_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.next_day_entry_date",
+      "canonical_name": "energy.tariff.next_day_entry_date",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.period_component",
+      "canonical_name": "energy.tariff.period_component",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.period_entry",
+      "canonical_name": "energy.tariff.period_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.period_label",
+      "canonical_name": "energy.tariff.period_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.price_kind",
+      "canonical_name": "energy.tariff.price_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.provider",
+      "canonical_name": "energy.tariff.provider",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind",
+      "canonical_name": "energy.tariff.randomization_kind",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_offset",
+      "canonical_name": "energy.tariff.randomization_offset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.start",
+      "canonical_name": "energy.tariff.start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.status",
+      "canonical_name": "energy.tariff.status",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.unit_basis",
+      "canonical_name": "energy.tariff.unit_basis",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.description",
+      "canonical_name": "energy.task.description",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.direct_control_related",
+      "canonical_name": "energy.task.direct_control_related",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.elapsed_time",
+      "canonical_name": "energy.task.elapsed_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.hvac_related",
+      "canonical_name": "energy.task.hvac_related",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.hvac_related_overrun_id",
+      "canonical_name": "energy.task.hvac_related_overrun_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_id",
+      "canonical_name": "energy.task.job_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_source",
+      "canonical_name": "energy.task.job_source",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_state",
+      "canonical_name": "energy.task.job_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.jobs_active",
+      "canonical_name": "energy.task.jobs_active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.label",
+      "canonical_name": "energy.task.label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.load_control_releated",
+      "canonical_name": "energy.task.load_control_releated",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.load_control_releated_event_id",
+      "canonical_name": "energy.task.load_control_releated_event_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.power_sequences_related",
+      "canonical_name": "energy.task.power_sequences_related",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.power_sequences_related_sequence_id",
+      "canonical_name": "energy.task.power_sequences_related_sequence_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.remaining_time",
+      "canonical_name": "energy.task.remaining_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.remote_controllable",
+      "canonical_name": "energy.task.remote_controllable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.smart_energy_management_ps_related",
+      "canonical_name": "energy.task.smart_energy_management_ps_related",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.smart_energy_management_ps_related_sequence_id",
+      "canonical_name": "energy.task.smart_energy_management_ps_related_sequence_id",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.timestamp",
+      "canonical_name": "energy.task.timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.actor",
+      "canonical_name": "energy.tout.actor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.committed_power_plan",
+      "canonical_name": "energy.tout.committed_power_plan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.per",
+      "canonical_name": "energy.tout.per",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.slots",
+      "canonical_name": "energy.tout.slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.use_case_name",
+      "canonical_name": "energy.tout.use_case_name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.use_case_version",
+      "canonical_name": "energy.tout.use_case_version",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tout.value_range_min",
+      "canonical_name": "energy.tout.value_range_min",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.activity_state.inactive",
+      "canonical_name": "energy.direct_control.activity_state.inactive",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.activity_state.paused",
+      "canonical_name": "energy.direct_control.activity_state.paused",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.direct_control.activity_state.running",
+      "canonical_name": "energy.direct_control.activity_state.running",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.carbon_level.high",
+      "canonical_name": "energy.grid.carbon_level.high",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.carbon_level.low",
+      "canonical_name": "energy.grid.carbon_level.low",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.carbon_level.medium",
+      "canonical_name": "energy.grid.carbon_level.medium",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_carbon_level.high",
+      "canonical_name": "energy.grid.local_carbon_level.high",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_carbon_level.low",
+      "canonical_name": "energy.grid.local_carbon_level.low",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.grid.local_carbon_level.medium",
+      "canonical_name": "energy.grid.local_carbon_level.medium",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_kind.absolute_cost",
+      "canonical_name": "energy.incentive.incentive_kind.absolute_cost",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_kind.co2_emission",
+      "canonical_name": "energy.incentive.incentive_kind.co2_emission",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_kind.relative_cost",
+      "canonical_name": "energy.incentive.incentive_kind.relative_cost",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.incentive_kind.renewable_energy_percentage",
+      "canonical_name": "energy.incentive.incentive_kind.renewable_energy_percentage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.tier_kind.dynamic_cost",
+      "canonical_name": "energy.incentive.tier_kind.dynamic_cost",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.incentive.tier_kind.fixed_cost",
+      "canonical_name": "energy.incentive.tier_kind.fixed_cost",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.block_mode.combined",
+      "canonical_name": "energy.tariff.block_mode.combined",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.block_mode.individual",
+      "canonical_name": "energy.tariff.block_mode.individual",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.block_mode.no_block",
+      "canonical_name": "energy.tariff.block_mode.no_block",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_auxiliary_load.none",
+      "canonical_name": "energy.tariff.component_auxiliary_load.none",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_auxiliary_load.off",
+      "canonical_name": "energy.tariff.component_auxiliary_load.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_auxiliary_load.on",
+      "canonical_name": "energy.tariff.component_auxiliary_load.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_peak_period.high",
+      "canonical_name": "energy.tariff.component_peak_period.high",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_peak_period.low",
+      "canonical_name": "energy.tariff.component_peak_period.low",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_peak_period.medium",
+      "canonical_name": "energy.tariff.component_peak_period.medium",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_peak_period.unused",
+      "canonical_name": "energy.tariff.component_peak_period.unused",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind.critical",
+      "canonical_name": "energy.tariff.component_price_kind.critical",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind.incentive",
+      "canonical_name": "energy.tariff.component_price_kind.incentive",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind.incentive_signal",
+      "canonical_name": "energy.tariff.component_price_kind.incentive_signal",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind.standard",
+      "canonical_name": "energy.tariff.component_price_kind.standard",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.component_price_kind.virtual",
+      "canonical_name": "energy.tariff.component_price_kind.virtual",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.friday",
+      "canonical_name": "energy.tariff.day_pattern_days.friday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.monday",
+      "canonical_name": "energy.tariff.day_pattern_days.monday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.saturday",
+      "canonical_name": "energy.tariff.day_pattern_days.saturday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.sunday",
+      "canonical_name": "energy.tariff.day_pattern_days.sunday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.thursday",
+      "canonical_name": "energy.tariff.day_pattern_days.thursday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.tuesday",
+      "canonical_name": "energy.tariff.day_pattern_days.tuesday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.day_pattern_days.wednesday",
+      "canonical_name": "energy.tariff.day_pattern_days.wednesday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.direction.consumption",
+      "canonical_name": "energy.tariff.direction.consumption",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.direction.production",
+      "canonical_name": "energy.tariff.direction.production",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_kind.dynamic",
+      "canonical_name": "energy.tariff.individual_day_kind.dynamic",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_kind.event",
+      "canonical_name": "energy.tariff.individual_day_kind.event",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_kind.holiday",
+      "canonical_name": "energy.tariff.individual_day_kind.holiday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.individual_day_kind.standard",
+      "canonical_name": "energy.tariff.individual_day_kind.standard",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.price_kind.energy",
+      "canonical_name": "energy.tariff.price_kind.energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.price_kind.energy_and_transmission",
+      "canonical_name": "energy.tariff.price_kind.energy_and_transmission",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.price_kind.transmission",
+      "canonical_name": "energy.tariff.price_kind.transmission",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind.fixed",
+      "canonical_name": "energy.tariff.randomization_kind.fixed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind.none",
+      "canonical_name": "energy.tariff.randomization_kind.none",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind.random",
+      "canonical_name": "energy.tariff.randomization_kind.random",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind.random_negative",
+      "canonical_name": "energy.tariff.randomization_kind.random_negative",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.randomization_kind.random_positive",
+      "canonical_name": "energy.tariff.randomization_kind.random_positive",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.status.committed",
+      "canonical_name": "energy.tariff.status.committed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.status.preliminary",
+      "canonical_name": "energy.tariff.status.preliminary",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.unit_basis.apparent_energy",
+      "canonical_name": "energy.tariff.unit_basis.apparent_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.tariff.unit_basis.energy",
+      "canonical_name": "energy.tariff.unit_basis.energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_source.external_configuration",
+      "canonical_name": "energy.task.job_source.external_configuration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_source.internal_mechanism",
+      "canonical_name": "energy.task.job_source.internal_mechanism",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.task.job_source.user_interaction",
+      "canonical_name": "energy.task.job_source.user_interaction",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.tariff",
+      "canonical_name": "energy.dimension.tariff",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.tier",
+      "canonical_name": "energy.dimension.tier",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.boundary",
+      "canonical_name": "energy.dimension.boundary",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.incentive",
+      "canonical_name": "energy.dimension.incentive",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.component",
+      "canonical_name": "energy.dimension.component",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.day_entry",
+      "canonical_name": "energy.dimension.day_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.day_pattern",
+      "canonical_name": "energy.dimension.day_pattern",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.calendar_period",
+      "canonical_name": "energy.dimension.calendar_period",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.tariff_period",
+      "canonical_name": "energy.dimension.tariff_period",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.individual_day",
+      "canonical_name": "energy.dimension.individual_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.forecast_slot",
+      "canonical_name": "energy.dimension.forecast_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.direct_control_timestamp",
+      "canonical_name": "energy.dimension.direct_control_timestamp",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.job",
+      "canonical_name": "energy.dimension.job",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.service.tariff",
+      "canonical_name": "energy.service.tariff",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.read.tariff",
+      "canonical_name": "energy.capability.read.tariff",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.write_incentive_slot",
+      "canonical_name": "energy.capability.write_incentive_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_local_generation_available",
+      "canonical_name": "energy.capability.set_local_generation_available",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_direct_control_activity_state",
+      "canonical_name": "energy.capability.set_direct_control_activity_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_direct_control_energy_mode",
+      "canonical_name": "energy.capability.set_direct_control_energy_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_direct_control_power",
+      "canonical_name": "energy.capability.set_direct_control_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_direct_control_energy",
+      "canonical_name": "energy.capability.set_direct_control_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.write_incentive_slot",
+      "canonical_name": "energy.operation.write_incentive_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_local_generation_available",
+      "canonical_name": "energy.operation.set_local_generation_available",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_direct_control_activity_state",
+      "canonical_name": "energy.operation.set_direct_control_activity_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_direct_control_energy_mode",
+      "canonical_name": "energy.operation.set_direct_control_energy_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_direct_control_power",
+      "canonical_name": "energy.operation.set_direct_control_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_direct_control_energy",
+      "canonical_name": "energy.operation.set_direct_control_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.write_incentive_slot",
+      "canonical_name": "energy.effect.write_incentive_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_local_generation_available",
+      "canonical_name": "energy.effect.set_local_generation_available",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_direct_control_activity_state",
+      "canonical_name": "energy.effect.set_direct_control_activity_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_direct_control_energy_mode",
+      "canonical_name": "energy.effect.set_direct_control_energy_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_direct_control_power",
+      "canonical_name": "energy.effect.set_direct_control_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_direct_control_energy",
+      "canonical_name": "energy.effect.set_direct_control_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.event.price_changed",
+      "canonical_name": "energy.event.price_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.event.grid_conditions_changed",
+      "canonical_name": "energy.event.grid_conditions_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.portal.read.tariff",
+      "canonical_name": "energy.portal.read.tariff",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {
