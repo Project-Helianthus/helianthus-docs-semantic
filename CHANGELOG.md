@@ -6,6 +6,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The oracle records the family graph of the frozen gateway under
+  `acceptance/vectors/current/graph/`: one cut per family (PV logger children,
+  single-device SunSpec, storage, EVSE, synthetic infrastructure, site, thermal,
+  the paired candidates, and the PV, storage and EVSE relations) and one file
+  per negative class (duplicate identity, false join, missing membership,
+  stale or dangling relation, identity drift, unauthorized control). The meter,
+  VRF, gateway topology, eeBUS inbound and CAN storage files record the empty
+  state the pin gives them, and the thermal and EVSE files record assets that
+  publish without graph members. The pin's semantic registry has no sites
+  traversal and seeds no lens, so the files state that instead of a traversal.
 - The oracle records the typed semantic GraphQL queries and mutations and the
   semantic MCP tools of the last 0.6 gateway release under
   `acceptance/vectors/pre-port/gateway/typed/`, and the canonical PV v1 mapper,

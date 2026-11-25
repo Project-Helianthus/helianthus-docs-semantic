@@ -1,0 +1,256 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "pv-sunspec",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestPUBLIC05SunSpecSemRegSurvivesGatewayProvidersAndPortal: one SunSpec inverter served by the pin's virtual server over a loopback socket, qualified and refreshed by the production producer",
+  "publication": "graph",
+  "statement": "A single-device SunSpec chain publishes the inverter, its phases and the PV system as the PV class's one graph-enforced asset.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "driver": "pv_sunspec",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "pv-asset-5c57adba3ad8a529617c1f8627ae32f1"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:0b168e3fbcfc8c66357b14e4c829911c",
+      "kind": "resource.phase",
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "state": "current",
+      "anchor": "component/native_slot/slot:L1/parent:resource:83d518f71c9529f961542e5cd4e173ec",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:12147cc3c1e085f13ebf94fc35816295",
+      "kind": "resource.phase",
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "state": "current",
+      "anchor": "component/native_slot/slot:L3/parent:resource:83d518f71c9529f961542e5cd4e173ec",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:5e3f244c024ab638a4d8be121703142d",
+      "kind": "resource.pv_system",
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "state": "current",
+      "anchor": "function/operator_slot/slot:3d801cffbf2c8571a703298ffb798596",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:83d518f71c9529f961542e5cd4e173ec",
+      "kind": "resource.inverter",
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:3d801cffbf2c8571a703298ffb798596",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic",
+        "provenance"
+      ]
+    },
+    {
+      "resource": "resource:ae396f713cf22483d51d1e1a1af16730",
+      "kind": "resource.phase",
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "state": "current",
+      "anchor": "component/native_slot/slot:L2/parent:resource:83d518f71c9529f961542e5cd4e173ec",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    }
+  ],
+  "relations": [],
+  "facts": [
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.aggregate_active_power",
+      "dimensions": [
+        "pv.dimension.inverter=resource:83d518f71c9529f961542e5cd4e173ec"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.frequency",
+      "dimensions": [
+        "pv.dimension.inverter=resource:83d518f71c9529f961542e5cd4e173ec"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.status.operating",
+      "dimensions": [
+        "pv.dimension.inverter=resource:83d518f71c9529f961542e5cd4e173ec"
+      ],
+      "candidates": 1,
+      "planes": [
+        "diagnostic"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.temperature.inverter",
+      "dimensions": [
+        "pv.dimension.inverter=resource:83d518f71c9529f961542e5cd4e173ec"
+      ],
+      "candidates": 1,
+      "planes": [
+        "diagnostic"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.current",
+      "dimensions": [
+        "pv.dimension.phase=resource:0b168e3fbcfc8c66357b14e4c829911c"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.voltage",
+      "dimensions": [
+        "pv.dimension.phase=resource:0b168e3fbcfc8c66357b14e4c829911c"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.current",
+      "dimensions": [
+        "pv.dimension.phase=resource:12147cc3c1e085f13ebf94fc35816295"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.voltage",
+      "dimensions": [
+        "pv.dimension.phase=resource:12147cc3c1e085f13ebf94fc35816295"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.current",
+      "dimensions": [
+        "pv.dimension.phase=resource:ae396f713cf22483d51d1e1a1af16730"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.ac.voltage",
+      "dimensions": [
+        "pv.dimension.phase=resource:ae396f713cf22483d51d1e1a1af16730"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "fact": "pv.energy.generated",
+      "dimensions": [
+        "pv.dimension.system=resource:5e3f244c024ab638a4d8be121703142d"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "findings": [
+    "anchor_parent_unresolved resource=pv-asset-5c57adba3ad8a529617c1f8627ae32f1/resource:0b168e3fbcfc8c66357b14e4c829911c",
+    "anchor_parent_unresolved resource=pv-asset-5c57adba3ad8a529617c1f8627ae32f1/resource:12147cc3c1e085f13ebf94fc35816295",
+    "anchor_parent_unresolved resource=pv-asset-5c57adba3ad8a529617c1f8627ae32f1/resource:ae396f713cf22483d51d1e1a1af16730"
+  ],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

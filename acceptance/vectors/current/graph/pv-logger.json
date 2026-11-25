@@ -1,0 +1,1240 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "pv-logger",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestHuaweiPVRelationsPublishGateInstances: the logger replay of one logger and one dongle on one hub, each child an asset of the logger PV class",
+  "publication": "graph",
+  "statement": "Each admitted inverter child is one asset with the gate's system-to-inverter and inverter-to-input instances; each logger is one generic equipment asset.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "pv-asset-21498a3ab249777380027587c741085d",
+      "driver": "relations-alpha",
+      "enforcement": "enforced"
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "driver": "relations-alpha",
+      "enforcement": "enforced"
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "driver": "relations-beta",
+      "enforcement": "enforced"
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "driver": "relations-alpha",
+      "enforcement": "enforced"
+    },
+    {
+      "asset": "pv-asset-ed0d1ecc7bb3c5a69d67c3024b2bbe39",
+      "driver": "relations-beta",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "pv-asset-21498a3ab249777380027587c741085d",
+      "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "pv-asset-ed0d1ecc7bb3c5a69d67c3024b2bbe39"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:09bd78f64aa432a7d1717b139865b4a6",
+      "kind": "resource.equipment",
+      "asset": "pv-asset-21498a3ab249777380027587c741085d",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:alpha",
+      "origin": "operator",
+      "planes": [
+        "physical"
+      ]
+    },
+    {
+      "resource": "resource:0e440417ba5a7fc4fd8351e4dfb2e2bb",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:3/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:1c32d8b16eeb61b8ea964ae5b3522fb3",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:4/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:50c375d11aa3b3ac3d63497d3e377129",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:5/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:96900a0946a054700be0aeccf2c6b23c",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:2/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:990974b6468ab2b9743555f486ecc7f2",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:6/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:a776035c73cf66fbc7d9413d11c34e55",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:8/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:bb95284ccc8eb631f720df7bd4316114",
+      "kind": "resource.pv_system",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "function/operator_slot/slot:alpha/2",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:c4641a0772b5f8d640e7191ea542bac9",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:1/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:e6fcb712800bea83758d2eddc7699268",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "component/native_slot/slot:7/parent:resource:e749d430063d5065c087aaf27d4d9bf9",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "kind": "resource.inverter",
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:alpha/2#1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:1bf961680484898f88eaa835513f60ce",
+      "kind": "resource.inverter",
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:beta/1#1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control",
+        "diagnostic"
+      ]
+    },
+    {
+      "resource": "resource:af8a43cdeaec374e162ca4ae2fe710b1",
+      "kind": "resource.pv_system",
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "state": "current",
+      "anchor": "function/operator_slot/slot:beta/1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:de8c98fb1e2c229fe031a8fc55a02b43",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "state": "current",
+      "anchor": "component/native_slot/slot:1/parent:resource:1bf961680484898f88eaa835513f60ce",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:02bfce88c34c30fab7f2c1ffe55f3df6",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:1/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:25b81bfd6f1e536315c3729701054601",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:6/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:34640e980f5fed9742da814d7618afe0",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:2/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:50af25b60a9c0d8f3aecb386dafe5167",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:8/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "kind": "resource.inverter",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:alpha/1#1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:c5c97dbbb5b7b064f82c1aae808f2b51",
+      "kind": "resource.pv_system",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "function/operator_slot/slot:alpha/1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "resource": "resource:ec13ba466593502e0e49181ee3e32648",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:7/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:fafa711fc138a9ccf1d18433b993b142",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:3/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:fc7f1c4ff518f0aba750b1a59f4a8bf1",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:5/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:fcf4caf42b640385a8575d8f8c39515a",
+      "kind": "resource.dc_input",
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "state": "current",
+      "anchor": "component/native_slot/slot:4/parent:resource:623a7af8fb064c4edabe17a4310b1d40",
+      "origin": "native_observation",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "resource": "resource:ae321c421ee5ed6b408c6f41cd69fddc",
+      "kind": "resource.equipment",
+      "asset": "pv-asset-ed0d1ecc7bb3c5a69d67c3024b2bbe39",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:beta",
+      "origin": "operator",
+      "planes": [
+        "physical"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:1bf961680484898f88eaa835513f60ce",
+      "to": "resource:de8c98fb1e2c229fe031a8fc55a02b43",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:02bfce88c34c30fab7f2c1ffe55f3df6",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:25b81bfd6f1e536315c3729701054601",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:34640e980f5fed9742da814d7618afe0",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:50af25b60a9c0d8f3aecb386dafe5167",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:ec13ba466593502e0e49181ee3e32648",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:fafa711fc138a9ccf1d18433b993b142",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:fc7f1c4ff518f0aba750b1a59f4a8bf1",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "to": "resource:fcf4caf42b640385a8575d8f8c39515a",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:0e440417ba5a7fc4fd8351e4dfb2e2bb",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:1c32d8b16eeb61b8ea964ae5b3522fb3",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:50c375d11aa3b3ac3d63497d3e377129",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:96900a0946a054700be0aeccf2c6b23c",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:990974b6468ab2b9743555f486ecc7f2",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:a776035c73cf66fbc7d9413d11c34e55",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:c4641a0772b5f8d640e7191ea542bac9",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.inverter_input",
+        "version": "1.0.0"
+      },
+      "from": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "to": "resource:e6fcb712800bea83758d2eddc7699268",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.system_inverter",
+        "version": "1.0.0"
+      },
+      "from": "resource:af8a43cdeaec374e162ca4ae2fe710b1",
+      "to": "resource:1bf961680484898f88eaa835513f60ce",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.system_inverter",
+        "version": "1.0.0"
+      },
+      "from": "resource:bb95284ccc8eb631f720df7bd4316114",
+      "to": "resource:e749d430063d5065c087aaf27d4d9bf9",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "definition": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.relation.system_inverter",
+        "version": "1.0.0"
+      },
+      "from": "resource:c5c97dbbb5b7b064f82c1aae808f2b51",
+      "to": "resource:623a7af8fb064c4edabe17a4310b1d40",
+      "state": "qualified",
+      "coherence": "coherent",
+      "basis_class": "gate_rule",
+      "planes": [
+        "physical",
+        "energy",
+        "control"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:0e440417ba5a7fc4fd8351e4dfb2e2bb"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:0e440417ba5a7fc4fd8351e4dfb2e2bb"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:1c32d8b16eeb61b8ea964ae5b3522fb3"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:1c32d8b16eeb61b8ea964ae5b3522fb3"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:50c375d11aa3b3ac3d63497d3e377129"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:50c375d11aa3b3ac3d63497d3e377129"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:96900a0946a054700be0aeccf2c6b23c"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:96900a0946a054700be0aeccf2c6b23c"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:990974b6468ab2b9743555f486ecc7f2"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:990974b6468ab2b9743555f486ecc7f2"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:a776035c73cf66fbc7d9413d11c34e55"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:a776035c73cf66fbc7d9413d11c34e55"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:c4641a0772b5f8d640e7191ea542bac9"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:c4641a0772b5f8d640e7191ea542bac9"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:e6fcb712800bea83758d2eddc7699268"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:e6fcb712800bea83758d2eddc7699268"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-85205e1d0757eebf1a23987f742fe23b",
+      "fact": "pv.energy.generated",
+      "dimensions": [
+        "pv.dimension.system=resource:bb95284ccc8eb631f720df7bd4316114"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:de8c98fb1e2c229fe031a8fc55a02b43"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:de8c98fb1e2c229fe031a8fc55a02b43"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.ac.aggregate_active_power",
+      "dimensions": [
+        "pv.dimension.inverter=resource:1bf961680484898f88eaa835513f60ce"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.dc.aggregate_power",
+      "dimensions": [
+        "pv.dimension.inverter=resource:1bf961680484898f88eaa835513f60ce"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.status.operating",
+      "dimensions": [
+        "pv.dimension.inverter=resource:1bf961680484898f88eaa835513f60ce"
+      ],
+      "candidates": 1,
+      "planes": [
+        "diagnostic"
+      ]
+    },
+    {
+      "asset": "pv-asset-b525e16fe295d0beb7fa0c9be222925a",
+      "fact": "pv.energy.generated",
+      "dimensions": [
+        "pv.dimension.system=resource:af8a43cdeaec374e162ca4ae2fe710b1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:02bfce88c34c30fab7f2c1ffe55f3df6"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:02bfce88c34c30fab7f2c1ffe55f3df6"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:25b81bfd6f1e536315c3729701054601"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:25b81bfd6f1e536315c3729701054601"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:34640e980f5fed9742da814d7618afe0"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:34640e980f5fed9742da814d7618afe0"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:50af25b60a9c0d8f3aecb386dafe5167"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:50af25b60a9c0d8f3aecb386dafe5167"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:ec13ba466593502e0e49181ee3e32648"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:ec13ba466593502e0e49181ee3e32648"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:fafa711fc138a9ccf1d18433b993b142"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:fafa711fc138a9ccf1d18433b993b142"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:fc7f1c4ff518f0aba750b1a59f4a8bf1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:fc7f1c4ff518f0aba750b1a59f4a8bf1"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.current",
+      "dimensions": [
+        "pv.dimension.input=resource:fcf4caf42b640385a8575d8f8c39515a"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.dc.voltage",
+      "dimensions": [
+        "pv.dimension.input=resource:fcf4caf42b640385a8575d8f8c39515a"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    },
+    {
+      "asset": "pv-asset-bb6af4fdf67f70902b87d8eee342cd5d",
+      "fact": "pv.energy.generated",
+      "dimensions": [
+        "pv.dimension.system=resource:c5c97dbbb5b7b064f82c1aae808f2b51"
+      ],
+      "candidates": 1,
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}

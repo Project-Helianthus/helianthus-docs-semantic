@@ -1,0 +1,126 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "negative",
+  "class": "duplicate identity",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub",
+  "statement": "The pin refuses a second claimant of one asset at declaration; a resource identifier that two assets each carry is not refused at publication, and the cut reports it as a duplicate identity finding and excludes the members.",
+  "scenarios": [
+    {
+      "case": "one resource identifier homed in two assets",
+      "fixture": "oraFixture: two synthetic drivers whose first batches each carry the same resource identifier",
+      "outcomes": [
+        {
+          "case": "first driver's first batch",
+          "attempt": "publish resource:dup:meter in asset:dup-a",
+          "answer": "accepted"
+        },
+        {
+          "case": "second driver's first batch",
+          "attempt": "publish resource:dup:meter in asset:dup-b",
+          "answer": "accepted"
+        }
+      ],
+      "state": {
+        "name": "dup-resource",
+        "assets": [
+          {
+            "asset": "asset:dup-a",
+            "driver": "driver-dup-a",
+            "enforcement": "enforced"
+          },
+          {
+            "asset": "asset:dup-b",
+            "driver": "driver-dup-b",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "partial",
+          "members": [
+            "asset:dup-a",
+            "asset:dup-b"
+          ],
+          "excluded": [
+            "asset:dup-a",
+            "asset:dup-b"
+          ],
+          "not_included": [
+            {
+              "asset": "asset:dup-a",
+              "reason": "excluded"
+            },
+            {
+              "asset": "asset:dup-b",
+              "reason": "excluded"
+            }
+          ]
+        },
+        "resources": [
+          {
+            "resource": "resource:dup:meter",
+            "kind": "resource.meter",
+            "asset": "asset:dup-a",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": []
+          },
+          {
+            "resource": "resource:dup:meter",
+            "kind": "resource.meter",
+            "asset": "asset:dup-b",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [],
+        "facts": [],
+        "findings": [
+          "duplicate_identity resource=asset:dup-a/resource:dup:meter resource=asset:dup-b/resource:dup:meter"
+        ]
+      }
+    },
+    {
+      "case": "a second claimant of one declared asset",
+      "fixture": "TestSemanticMultiSourceAcceptanceUndeclaredClaimantsStayFatal and TestSemanticMultiSourceAcceptanceOneUnitThroughTwoPaths: the declared pairing",
+      "outcomes": [
+        {
+          "case": "second claimant of the paired asset",
+          "attempt": "declare the asset of the pairing under another driver",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "semhub: identity collision between drivers \"pairtest_third\" and \"pairtest_owner\"",
+            "the refusal is a collision error: yes"
+          ]
+        },
+        {
+          "case": "undeclared source on the paired asset",
+          "attempt": "begin a transaction on the paired asset",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "semhub: invalid transaction: asset is declared with another source"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "one configured asset identifier in two families",
+      "fixture": "preflightSemanticHub: the storage and the EVSE configuration name one asset identifier",
+      "outcomes": [
+        {
+          "case": "startup preflight",
+          "attempt": "declare the storage and the EVSE asset under one identifier",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "semantic publication preflight: semhub: identity collision between drivers \"tesla_evse\" and \"growatt_storage\""
+          ]
+        }
+      ]
+    }
+  ]
+}

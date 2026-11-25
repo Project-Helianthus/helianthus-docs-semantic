@@ -51,6 +51,7 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | Path | Content | Origin |
 | --- | --- | --- |
 | `current/gateway-goldens.json` | path, sha256, checking test and exit status at the pin of every golden of the frozen gateway | recorded-current |
+| `current/graph/` | one cut per family (`<family>.json`) and one file per negative class (`negative-<class>.json`), read through the one hub of the frozen gateway | recorded-current |
 | `current/gateway/cmd-gateway/ss02/` | native records of the Vaillant hot-water mappers and of the gateway Growatt CAN receive path | recorded-current |
 | `current/canbusreg/canbusreg/ss02/` | native records of the registry Growatt CAN classifier | recorded-current |
 | `current/modbusreg/sunspec/ss02/` | native records of the SunSpec decoder and monitoring capability on the Model 103 W and W_SF operands, with each fact's number, enum number and symbol, or bits and bit symbols | recorded-current |
@@ -78,6 +79,58 @@ A recorded vector carries the input it was recorded from and every output the co
 document, version and clause or register and never the text. A vector that carries an identifier the eBUS bus transmits is
 not committed; its recorder is, and its index entry keeps the frozen digest (`digest_only`). The `radio/` and
 `adapter-hardware/` cases of `current/gateway/cmd-gateway/vaillant-typed/` are such vectors.
+
+## Family graph files
+
+`current/graph/` holds one file per family and one per negative class, recorded at the gateway pin through the one publication
+hub (`internal/semhub/`, `Hub.CaptureCut`) and the family table `cmd/gateway/semantic_family_graph.go`. The recorder is the
+harness-only `recorders/go/gateway-graph/zz_oracle_graph_*_test.go`; `record.sh` copies it into a scratch unpack of the gateway
+pin and runs `TestOracleGraph` there, driving each publisher of the pin from the offline fixtures the pin's own tests use and
+editing none of them. A file holds no clock, no digest of a run and no identifier a run allocates (source epoch, binding,
+candidate, snapshot or cut identifier), so two recordings are the same bytes.
+
+A family file has the format `helianthus-oracle-graph/1`, kind `family`:
+
+- `name`, `source`, `fixture` (the pin's test whose fixture drives the publisher), `publication` (`graph` when an asset of the family
+  is graph-enforced, `ungraphed` when the family publishes assets that are declared without enforcement and so holds no graph
+  member, `empty` when the pin composes no publisher of the family) and `statement`.
+- `family_table`: each row of the pin's family table and the value of its graph switch.
+- `catalog_digest`, `assets` (the hub's graph state: asset, driver and enforcement), and `cut` (completeness, members, the
+  members the cut excluded for a duplicate identity and the declared assets it does not include, each with its reason).
+- `resources` (kind, home asset, state, anchor, origin and the planes the cut gives each), `relations` (each instance with its
+  state, coherence, basis class and planes), `facts` (each fact key held by a member, its candidate count and its planes), `findings` and, in the relation files,
+  `declared_relation_definitions` (the pack's relation definitions in the embedded catalog).
+- `retrieval`: the sites traversal and the seeded lenses. The semantic registry the gateway resolves at the pin has no cut
+  traversal function, no lens retrieval function and an embedded catalog that seeds no lens; the recorder checks the first two
+  against the module source the gateway resolves, so `sites_traversal` is `not_available`, `seeded_lenses` is empty, and the
+  installation roots are the cut's current resources of the installation-root kind. A later pin that adds the retrieval
+  functions makes the recorder stop instead of recording a traversal it does not run.
+
+| File | Publisher at the pin | Fixture |
+| --- | --- | --- |
+| `pv-logger.json` | the logger PV class, one asset per admitted inverter child and one per logger | the logger replay of one logger and one dongle |
+| `pv-sunspec.json` | the SunSpec PV class | one inverter served by the pin's virtual server over a loopback socket |
+| `storage.json` | the configured battery storage asset | the production runtime over the pin's scripted endpoint |
+| `evse.json` | the retained EVSE owner; the family is off in the table | its first persistent outcome |
+| `infrastructure.json` | the synthetic site publisher, the infrastructure pack's only graph-enforced publisher | its own batches |
+| `site.json` | the same publisher with the operator-record section accepted | the configured site, grid connection and meter role |
+| `pv-relations.json` | the logger PV class's relation instances after the native owner withholds one child; the pack's declared relation definitions | the logger replay with one child withheld |
+| `storage-relations.json` | the storage gate: no relation instance, no absence; the pack's declared relation definitions | the production runtime over the pin's scripted endpoint |
+| `evse-relations.json` | the operator-record path of the EVSE pack: a configured meter measures the charging driver's EVSE; the pack's declared relation definitions | a synthetic charging driver with graph enforcement and the accepted operator-record section |
+| `thermal.json` | the boiler publisher; the family is off in the table | its first qualified flow temperature |
+| `paired.json` | one unit observed by an owner family and a contributor family through the declared pairing | the pairing acceptance fixture |
+| `meter.json`, `vrf.json`, `gateway-topology.json` | none: the pin has no such publisher | empty hub |
+| `eebus-inbound.json`, `can-storage.json` | none: the pin's file does not name the publication hub (the file says so) | empty hub |
+
+The empty files are read through the same cut as every other family: no asset, no member, no resource, no relation.
+
+A negative file has kind `negative`, a `class` and `scenarios`, each with the fixture, the outcomes the pin gives (accepted, or
+refused with the kernel's stable identifier and its text, and whether the asset's snapshot bytes are unchanged) and, where it
+is meaningful, the `state` of the cut after the scenario. The six classes are `duplicate-identity`, `false-join`,
+`missing-membership`, `stale-or-dangling-relation`, `identity-drift` and `unauthorized-control`. A result that is not the
+refusal its scenario title suggests is recorded as the pin gave it: two assets that each carry one resource identifier are both
+accepted and the cut reports a duplicate identity finding and excludes them; a withdrawal of a resource that a service names is
+refused as `dangling_reference`; a configured relation to an unpublished far end is published and the cut judges it dangling.
 
 ## Engine, adaptermux and local worker case files
 

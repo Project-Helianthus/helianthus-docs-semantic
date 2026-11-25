@@ -1,0 +1,327 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "negative",
+  "class": "stale or dangling relation",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub",
+  "statement": "The pin judges each relation instance of the cut as coherent, stale, dangling, outside the cut, excluded or conflicting; a batch that withdraws a resource that is still named, and a configured relation whose far end nobody has published, are answered as recorded.",
+  "scenarios": [
+    {
+      "case": "a resource that a service and a relation name is withdrawn",
+      "fixture": "the infrastructure site publisher with its operator-record section accepted",
+      "outcomes": [
+        {
+          "case": "driver batch",
+          "attempt": "withdraw resource:igt:meter-1, which a service and the grid connection's measures relation name",
+          "answer": "refused",
+          "error_identifier": "dangling_reference",
+          "detail": [
+            "dangling_reference: service resource",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "withdrawn-far-end",
+        "assets": [
+          {
+            "asset": "asset:igt-site",
+            "driver": "driver-igt-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:igt-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:igt:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          },
+          {
+            "resource": "resource:igt:meter-1",
+            "kind": "resource.meter",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:igt:site-1",
+            "kind": "resource.site",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:site-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "asset": "asset:igt-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.grid_connection_meter",
+              "version": "1.0.0"
+            },
+            "from": "resource:igt:connection-1",
+            "to": "resource:igt:meter-1",
+            "state": "qualified",
+            "coherence": "coherent",
+            "basis_class": "configuration",
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.site_grid_connection",
+              "version": "1.0.0"
+            },
+            "from": "resource:igt:site-1",
+            "to": "resource:igt:connection-1",
+            "state": "qualified",
+            "coherence": "coherent",
+            "basis_class": "configuration",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.export_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.import_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.export",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.import",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    },
+    {
+      "case": "a configured relation to a resource nobody has published",
+      "fixture": "oraFixture: a site driver and a meter driver, the operator-record section naming an unpublished far end",
+      "outcomes": [
+        {
+          "case": "operator-record section",
+          "attempt": "declare a measures relation from resource:ora:connection-1 to resource:ora:not-published",
+          "answer": "record status published:"
+        }
+      ],
+      "state": {
+        "name": "relation-unpublished-far-end",
+        "assets": [
+          {
+            "asset": "asset:ora-meter-source",
+            "driver": "driver-ora-meter-source",
+            "enforcement": "enforced"
+          },
+          {
+            "asset": "asset:ora-site",
+            "driver": "driver-ora-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:ora-meter-source",
+            "asset:ora-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:ora:far-meter",
+            "kind": "resource.meter",
+            "asset": "asset:ora-meter-source",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-9",
+            "origin": "native_observation",
+            "planes": [
+              "physical"
+            ]
+          },
+          {
+            "resource": "resource:ora:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:ora-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [
+          {
+            "asset": "asset:ora-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.grid_connection_meter",
+              "version": "1.0.0"
+            },
+            "from": "resource:ora:connection-1",
+            "to": "resource:ora:not-published",
+            "state": "qualified",
+            "coherence": "dangling",
+            "basis_class": "configuration",
+            "planes": []
+          }
+        ],
+        "facts": [],
+        "findings": []
+      }
+    },
+    {
+      "case": "the far end belongs to another asset whose source stops",
+      "fixture": "oraFixture: a site driver and a meter driver, the relation configured while both publish, then the meter driver stops",
+      "outcomes": [
+        {
+          "case": "operator-record section",
+          "attempt": "declare a measures relation from resource:ora:connection-1 to resource:ora:far-meter, then stop the meter driver",
+          "answer": "record status published:"
+        },
+        {
+          "case": "cut before the stop",
+          "attempt": "read the cut while both assets publish",
+          "answer": "relations 1, members 2"
+        }
+      ],
+      "state": {
+        "name": "relation-far-end-source-stopped",
+        "assets": [
+          {
+            "asset": "asset:ora-meter-source",
+            "driver": "driver-ora-meter-source",
+            "enforcement": "enforced"
+          },
+          {
+            "asset": "asset:ora-site",
+            "driver": "driver-ora-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "partial",
+          "members": [
+            "asset:ora-site"
+          ],
+          "excluded": [],
+          "not_included": [
+            {
+              "asset": "asset:ora-meter-source",
+              "reason": "publication_withheld"
+            }
+          ]
+        },
+        "resources": [
+          {
+            "resource": "resource:ora:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:ora-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [
+          {
+            "asset": "asset:ora-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.grid_connection_meter",
+              "version": "1.0.0"
+            },
+            "from": "resource:ora:connection-1",
+            "to": "resource:ora:far-meter",
+            "state": "qualified",
+            "coherence": "outside_cut",
+            "basis_class": "configuration",
+            "planes": []
+          }
+        ],
+        "facts": [],
+        "findings": []
+      }
+    }
+  ]
+}

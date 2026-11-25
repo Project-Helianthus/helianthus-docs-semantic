@@ -1,0 +1,437 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "negative",
+  "class": "identity drift",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub",
+  "statement": "The pin refuses a fact whose subject is a resource of another kind than its dimension names and a resource identifier that changes kind; each refusal leaves the asset's snapshot bytes unchanged.",
+  "scenarios": [
+    {
+      "case": "a fact whose subject or dimension names the wrong resource",
+      "fixture": "TestInfrastructureGraphRoleNeverChangesAFactDefinition",
+      "outcomes": [
+        {
+          "case": "power under the meter dimension",
+          "attempt": "publish the fact in one batch of the site publisher",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "invalid_value: infrastructure fact dimension",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        },
+        {
+          "case": "power whose subject is the meter",
+          "attempt": "publish the fact in one batch of the site publisher",
+          "answer": "refused",
+          "error_identifier": "identity_drift",
+          "detail": [
+            "identity_drift: fact resource dimension kind",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        },
+        {
+          "case": "energy under the grid connection dimension",
+          "attempt": "publish the fact in one batch of the site publisher",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "invalid_value: infrastructure fact dimension",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        },
+        {
+          "case": "energy whose subject is the grid connection",
+          "attempt": "publish the fact in one batch of the site publisher",
+          "answer": "refused",
+          "error_identifier": "identity_drift",
+          "detail": [
+            "identity_drift: fact resource dimension kind",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "identity-drift-facts",
+        "assets": [
+          {
+            "asset": "asset:igt-site",
+            "driver": "driver-igt-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:igt-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:igt:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          },
+          {
+            "resource": "resource:igt:meter-1",
+            "kind": "resource.meter",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:igt:site-1",
+            "kind": "resource.site",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:site-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "asset": "asset:igt-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.grid_connection_meter",
+              "version": "1.0.0"
+            },
+            "from": "resource:igt:connection-1",
+            "to": "resource:igt:meter-1",
+            "state": "qualified",
+            "coherence": "coherent",
+            "basis_class": "configuration",
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "definition": {
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              },
+              "id": "infrastructure.relation.site_grid_connection",
+              "version": "1.0.0"
+            },
+            "from": "resource:igt:site-1",
+            "to": "resource:igt:connection-1",
+            "state": "qualified",
+            "coherence": "coherent",
+            "basis_class": "configuration",
+            "planes": [
+              "physical",
+              "energy",
+              "diagnostic"
+            ]
+          }
+        ],
+        "facts": [
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.export_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.import_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.export",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.import",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    },
+    {
+      "case": "one identifier republished as another kind",
+      "fixture": "the infrastructure site publisher",
+      "outcomes": [
+        {
+          "case": "resource republished under another kind",
+          "attempt": "publish resource:igt:meter-1 as a resource.grid_connection",
+          "answer": "refused",
+          "error_identifier": "invalid_value",
+          "detail": [
+            "invalid_value: anchor class differs from the kind's class",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "identity-drift-kind",
+        "assets": [
+          {
+            "asset": "asset:igt-site",
+            "driver": "driver-igt-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:igt-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:igt:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "resource": "resource:igt:meter-1",
+            "kind": "resource.meter",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:igt:site-1",
+            "kind": "resource.site",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:site-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [],
+        "facts": [
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.export_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.import_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.export",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.import",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    },
+    {
+      "case": "one identifier republished under another anchor",
+      "fixture": "the infrastructure site publisher",
+      "outcomes": [
+        {
+          "case": "resource republished under another anchor",
+          "attempt": "publish resource:igt:meter-1 under the native slot meter-2 instead of meter-1",
+          "answer": "refused",
+          "error_identifier": "identity_drift",
+          "detail": [
+            "identity_drift: anchor change without a supersession",
+            "the asset's snapshot bytes are unchanged"
+          ]
+        }
+      ],
+      "state": {
+        "name": "identity-drift-anchor",
+        "assets": [
+          {
+            "asset": "asset:igt-site",
+            "driver": "driver-igt-site",
+            "enforcement": "enforced"
+          }
+        ],
+        "cut": {
+          "completeness": "complete",
+          "members": [
+            "asset:igt-site"
+          ],
+          "excluded": [],
+          "not_included": []
+        },
+        "resources": [
+          {
+            "resource": "resource:igt:connection-1",
+            "kind": "resource.grid_connection",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:connection-1",
+            "origin": "native_observation",
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "resource": "resource:igt:meter-1",
+            "kind": "resource.meter",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "equipment/native_slot/slot:meter-1",
+            "origin": "native_observation",
+            "planes": [
+              "physical",
+              "energy",
+              "provenance"
+            ]
+          },
+          {
+            "resource": "resource:igt:site-1",
+            "kind": "resource.site",
+            "asset": "asset:igt-site",
+            "state": "current",
+            "anchor": "function/native_slot/slot:site-1",
+            "origin": "native_observation",
+            "planes": []
+          }
+        ],
+        "relations": [],
+        "facts": [
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.export_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.power.import_active",
+            "dimensions": [
+              "infrastructure.dimension.grid_connection=resource:igt:connection-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.export",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          },
+          {
+            "asset": "asset:igt-site",
+            "fact": "infrastructure.energy.import",
+            "dimensions": [
+              "infrastructure.dimension.meter=resource:igt:meter-1"
+            ],
+            "candidates": 1,
+            "planes": [
+              "energy"
+            ]
+          }
+        ],
+        "findings": []
+      }
+    }
+  ]
+}

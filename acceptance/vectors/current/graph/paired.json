@@ -1,0 +1,90 @@
+{
+  "format": "helianthus-oracle-graph/1",
+  "kind": "family",
+  "name": "paired",
+  "source": "cmd/gateway/semantic_family_graph.go and internal/semhub/graph_cut.go",
+  "fixture": "TestSemanticMultiSourceAcceptanceOneUnitThroughTwoPaths: one unit observed by an owner family and a contributor family through the declared pairing",
+  "publication": "graph",
+  "statement": "The declared pair is one graph-enforced asset with one resource, one binding and one identity link per path, and one fact key with two candidates.",
+  "family_table": [
+    {
+      "family": "evse",
+      "listed": true,
+      "graph": false
+    },
+    {
+      "family": "pv",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "pv.logger",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "storage",
+      "listed": true,
+      "graph": true
+    },
+    {
+      "family": "thermal",
+      "listed": true,
+      "graph": false
+    }
+  ],
+  "catalog_digest": "sha256:17a741942cfa778fabc5e4eb6e79aa69a7557df17cf578924768445def86f4e8",
+  "assets": [
+    {
+      "asset": "asset:pairtest:unit",
+      "driver": "pairtest_owner",
+      "enforcement": "enforced"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:pairtest:unit"
+    ],
+    "excluded": [],
+    "not_included": []
+  },
+  "resources": [
+    {
+      "resource": "resource:83ed30dba559a1a1d72834f3e45c163d",
+      "kind": "resource.inverter",
+      "asset": "asset:pairtest:unit",
+      "state": "current",
+      "anchor": "equipment/operator_slot/slot:unit-1",
+      "origin": "operator",
+      "planes": [
+        "physical",
+        "energy"
+      ]
+    }
+  ],
+  "relations": [],
+  "facts": [
+    {
+      "asset": "asset:pairtest:unit",
+      "fact": "pv.ac.aggregate_active_power",
+      "dimensions": [
+        "pv.dimension.inverter=resource:83ed30dba559a1a1d72834f3e45c163d"
+      ],
+      "candidates": 2,
+      "planes": [
+        "energy"
+      ]
+    }
+  ],
+  "findings": [],
+  "retrieval": {
+    "graph_traverse_function": "absent",
+    "graph_lens_retrieval_function": "absent",
+    "sites_traversal": "not_available",
+    "installation_root_kind": "resource.site",
+    "installation_roots_in_the_cut": [],
+    "seeded_lenses": [],
+    "statement": "At this pin the semantic registry the gateway resolves has no cut traversal function and no lens retrieval function, so no sites traversal and no lens retrieval is recorded; the cut, its relation coherence, findings and plane membership are the hub's own. The installation roots are the cut's current resources of the installation-root kind; every seeded lens of the embedded catalog is listed with the roots the cut has for it."
+  }
+}
