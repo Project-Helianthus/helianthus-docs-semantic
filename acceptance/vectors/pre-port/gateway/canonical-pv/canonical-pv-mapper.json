@@ -1,0 +1,3239 @@
+{
+  "accounting": {
+    "facts": 11,
+    "projection_report": 14,
+    "requested_outputs": 14,
+    "withheld": 3
+  },
+  "description": "the canonical PV v1 snapshot and the SemReg shadow of the qualified inverter observation that the pin's mapper test serves (register payloads left out, its digest kept); evaluation instant, production time and shadow entropy are fixed by the recorder",
+  "fixed": {
+    "deadline_identity": 81,
+    "endpoint": "tcp://127.0.0.1:20502",
+    "evaluated_monotonic_ns": 100,
+    "poll_generation": 71,
+    "produced_at": "2026-08-17T15:00:00Z"
+  },
+  "format": "helianthus-oracle-pre-port-canonical-pv-mapper/1",
+  "legacy": {
+    "ContractID": "helianthus.canonical-pv/v1",
+    "AssetRef": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+    "Generation": 1,
+    "Evaluated": 100,
+    "Source": {
+      "Protocol": "sunspec_modbus",
+      "ProfileID": "sunspec.inverter.three_phase.monitoring@1.0.0",
+      "ProfileVersion": "1.0.0",
+      "Validity": "terminal_verified",
+      "SourceRegistryRef": "sha256:e21d5d4914fba2249c68cc147243c22f89cc9e1f2be71e4565a3950f31e94750",
+      "SourceObservationRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+      "SourceShadowRef": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+      "EvidenceRef": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851"
+    },
+    "Facts": {
+      "pv.ac.current|phase=L1": {
+        "ID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L1",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "A",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.current|phase=L2": {
+        "ID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L2",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "A",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.current|phase=L3": {
+        "ID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L3",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "A",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.frequency|scope=total": {
+        "ID": "pv.ac.frequency",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "Hz",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.power.active|scope=total": {
+        "ID": "pv.ac.power.active",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "W",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.voltage.line_to_neutral|phase=L1": {
+        "ID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L1",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "V",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.voltage.line_to_neutral|phase=L2": {
+        "ID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L2",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "V",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.ac.voltage.line_to_neutral|phase=L3": {
+        "ID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L3",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "V",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.energy.active_export_total|scope=total": {
+        "ID": "pv.energy.active_export_total",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "Wh",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 900000000100,
+          "RetainUntil": 86400000000100,
+          "Policy": "pv.accumulator.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": {
+          "State": "BASELINE",
+          "Delta": null,
+          "Modulus": null,
+          "EvidenceRef": ""
+        }
+      },
+      "pv.operating.state|scope=total": {
+        "ID": "pv.operating.state",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Value": {
+          "Kind": "enum",
+          "Decimal": null,
+          "Symbol": "OPERATING",
+          "Symbols": null
+        },
+        "Unit": "1",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 60000000100,
+          "RetainUntil": 600000000100,
+          "Policy": "pv.status.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      },
+      "pv.temperature|sensor_id=cabinet": {
+        "ID": "pv.temperature",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": "cabinet"
+        },
+        "Value": {
+          "Kind": "decimal",
+          "Decimal": {
+            "Coefficient": "0",
+            "Scale": 0
+          },
+          "Symbol": "",
+          "Symbols": null
+        },
+        "Unit": "Cel",
+        "Quality": "GOOD",
+        "Availability": "AVAILABLE",
+        "Freshness": "FRESH",
+        "Temporal": {
+          "Receipt": 100,
+          "FreshUntil": 30000000100,
+          "RetainUntil": 300000000100,
+          "Policy": "pv.telemetry.fast.v1"
+        },
+        "OriginRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "Continuity": null
+      }
+    },
+    "Origins": {
+      "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061": {
+        "Protocol": "sunspec_modbus",
+        "ProfileID": "sunspec.inverter.three_phase.monitoring@1.0.0",
+        "ProfileVersion": "1.0.0",
+        "Validity": "terminal_verified",
+        "SourceRegistryRef": "sha256:e21d5d4914fba2249c68cc147243c22f89cc9e1f2be71e4565a3950f31e94750",
+        "SourceObservationRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "SourceShadowRef": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+        "EvidenceRef": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851"
+      }
+    },
+    "SourceTimeState": "UNAVAILABLE",
+    "Capability": {
+      "ID": "helianthus.pv.inverter.three_phase.telemetry.v1",
+      "Outcome": "SATISFIED"
+    },
+    "RequestedOutputs": [
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:038c7606e2a72596d005754a459927439b04751d2a3790e00091020549406c4f"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:0d0472dbaeb980ee433afa2b7c5866f21369037307809126e4fa8266b180c4b1"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:16ef0196f7b93d8963e2ba8b43239348600092ae669a1eda984a21a1954a565f"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:1b02b46807946a80d112321e3af4c28146c37eb5f68d6c18d5b6d9b8bf8f5eaa"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:426cd70347e2153707ca7ded8dc324591d3cdeaa778feb905cc9f80a1a30613b"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:6e05e76ac18312d255b87519294328d81329b947b6daba4049471a48230e7a1a"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:6e985852c6f92a790a1c4a5f68ccf4f215db0bdfe0c9aa270672a7e6dc19ce7c"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:742dfd72dd7950dd6e6b51163652a6008685443b2cc01cdec79f82d5d735c75f"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:9152fde11def0bdd3703a8aec83dcc09fb112bfbc2a30dfceca2f4f3478e97dc"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:b0285580e46e4f9541651367e0592f1c8c21b884cd5d3ea8c1cdeed7ce780e59"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:debce5d518ab31f6740eb04e708c41f655e0932be7b8e34c0c9ca2264219c3b0"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:df41d1e3b7567131f3e22295b137bdcf0f634749c64c26450d8841255d2c6902"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:e31201e9e3097df8d9c58511b057d9b744ad5191f6734dcbf81a5a9634ca6a94"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:e34f588ca08f204e256e3119ebad3aed024df427164f48410d5bece3ecfa9ebf"
+      }
+    ],
+    "ProjectionReport": [
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:038c7606e2a72596d005754a459927439b04751d2a3790e00091020549406c4f",
+        "FactID": "",
+        "Dimensions": null,
+        "Outcome": "WITHHELD"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:0d0472dbaeb980ee433afa2b7c5866f21369037307809126e4fa8266b180c4b1",
+        "FactID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L2",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:16ef0196f7b93d8963e2ba8b43239348600092ae669a1eda984a21a1954a565f",
+        "FactID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L3",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:1b02b46807946a80d112321e3af4c28146c37eb5f68d6c18d5b6d9b8bf8f5eaa",
+        "FactID": "",
+        "Dimensions": null,
+        "Outcome": "WITHHELD"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:426cd70347e2153707ca7ded8dc324591d3cdeaa778feb905cc9f80a1a30613b",
+        "FactID": "",
+        "Dimensions": null,
+        "Outcome": "WITHHELD"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:6e05e76ac18312d255b87519294328d81329b947b6daba4049471a48230e7a1a",
+        "FactID": "pv.operating.state",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:6e985852c6f92a790a1c4a5f68ccf4f215db0bdfe0c9aa270672a7e6dc19ce7c",
+        "FactID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L1",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:742dfd72dd7950dd6e6b51163652a6008685443b2cc01cdec79f82d5d735c75f",
+        "FactID": "pv.energy.active_export_total",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:9152fde11def0bdd3703a8aec83dcc09fb112bfbc2a30dfceca2f4f3478e97dc",
+        "FactID": "pv.temperature",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": "cabinet"
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:b0285580e46e4f9541651367e0592f1c8c21b884cd5d3ea8c1cdeed7ce780e59",
+        "FactID": "pv.ac.power.active",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:debce5d518ab31f6740eb04e708c41f655e0932be7b8e34c0c9ca2264219c3b0",
+        "FactID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L3",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:df41d1e3b7567131f3e22295b137bdcf0f634749c64c26450d8841255d2c6902",
+        "FactID": "pv.ac.voltage.line_to_neutral",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L2",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:e31201e9e3097df8d9c58511b057d9b744ad5191f6734dcbf81a5a9634ca6a94",
+        "FactID": "pv.ac.current",
+        "Dimensions": {
+          "Scope": "",
+          "Phase": "L1",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      },
+      {
+        "SourceRef": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+        "RequestedOutputRef": "sha256:e34f588ca08f204e256e3119ebad3aed024df427164f48410d5bece3ecfa9ebf",
+        "FactID": "pv.ac.frequency",
+        "Dimensions": {
+          "Scope": "total",
+          "Phase": "",
+          "PhasePair": "",
+          "InputID": "",
+          "SensorID": ""
+        },
+        "Outcome": "MAPPED"
+      }
+    ]
+  },
+  "observation": {
+    "capability_id": "sunspec.inverter.three_phase.monitoring@1.0.0",
+    "capability_reason": "ADMITTED",
+    "chain": [
+      {
+        "ModelID": 1,
+        "ModelLength": 65
+      },
+      {
+        "ModelID": 113,
+        "ModelLength": 60
+      },
+      {
+        "ModelID": 120,
+        "ModelLength": 26
+      },
+      {
+        "ModelID": 121,
+        "ModelLength": 30
+      },
+      {
+        "ModelID": 122,
+        "ModelLength": 44
+      },
+      {
+        "ModelID": 123,
+        "ModelLength": 24
+      },
+      {
+        "ModelID": 160,
+        "ModelLength": 88
+      },
+      {
+        "ModelID": 124,
+        "ModelLength": 24
+      },
+      {
+        "ModelID": 65535,
+        "ModelLength": 0
+      }
+    ],
+    "flavor_id": "sunspec.flavor.fronius.gen24.float.observed@1.1.0",
+    "flavor_reason": "MATCHED",
+    "occurrences": [
+      {
+        "decoder_key": {
+          "ModelID": 1,
+          "ModelLength": 65,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40002,
+        "ordinal": 1,
+        "payload_offset": 40004,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 2,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 3,
+            "PDUOffset": 0,
+            "WordCount": 65
+          }
+        ],
+        "wire_key": {
+          "ModelID": 1,
+          "ModelLength": 65
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 113,
+          "ModelLength": 60,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40069,
+        "ordinal": 2,
+        "payload_offset": 40071,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 4,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 5,
+            "PDUOffset": 0,
+            "WordCount": 60
+          }
+        ],
+        "wire_key": {
+          "ModelID": 113,
+          "ModelLength": 60
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 120,
+          "ModelLength": 26,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40131,
+        "ordinal": 3,
+        "payload_offset": 40133,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 6,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 7,
+            "PDUOffset": 0,
+            "WordCount": 26
+          }
+        ],
+        "wire_key": {
+          "ModelID": 120,
+          "ModelLength": 26
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 121,
+          "ModelLength": 30,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40159,
+        "ordinal": 4,
+        "payload_offset": 40161,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 8,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 9,
+            "PDUOffset": 0,
+            "WordCount": 30
+          }
+        ],
+        "wire_key": {
+          "ModelID": 121,
+          "ModelLength": 30
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 122,
+          "ModelLength": 44,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40191,
+        "ordinal": 5,
+        "payload_offset": 40193,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 10,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 11,
+            "PDUOffset": 0,
+            "WordCount": 44
+          }
+        ],
+        "wire_key": {
+          "ModelID": 122,
+          "ModelLength": 44
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 123,
+          "ModelLength": 24,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40237,
+        "ordinal": 6,
+        "payload_offset": 40239,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 12,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 13,
+            "PDUOffset": 0,
+            "WordCount": 24
+          }
+        ],
+        "wire_key": {
+          "ModelID": 123,
+          "ModelLength": 24
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 160,
+          "ModelLength": 88,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40263,
+        "ordinal": 7,
+        "payload_offset": 40265,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 14,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 15,
+            "PDUOffset": 0,
+            "WordCount": 88
+          }
+        ],
+        "wire_key": {
+          "ModelID": 160,
+          "ModelLength": 88
+        }
+      },
+      {
+        "decoder_key": {
+          "ModelID": 124,
+          "ModelLength": 24,
+          "SchemaRevision": "sunspec.models@7abdf898-v1"
+        },
+        "disposition": "admitted",
+        "header_offset": 40353,
+        "ordinal": 8,
+        "payload_offset": 40355,
+        "schema_revision": "sunspec.models@7abdf898-v1",
+        "source_spans": [
+          {
+            "LogicalViewID": 16,
+            "PDUOffset": 0,
+            "WordCount": 2
+          },
+          {
+            "LogicalViewID": 17,
+            "PDUOffset": 0,
+            "WordCount": 24
+          }
+        ],
+        "wire_key": {
+          "ModelID": 124,
+          "ModelLength": 24
+        }
+      }
+    ],
+    "sample_id": "sunspec-71-81",
+    "sample_identity": {
+      "deadline_identity": 81,
+      "poll_generation": 71
+    },
+    "schema": "helianthus-sunspec-qualification-observation/v1",
+    "source_views": [
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40000,
+        "logical_view_id": 1,
+        "logical_word_count": 2,
+        "physical_offset": 40000,
+        "physical_request_id": 1,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 1
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40002,
+        "logical_view_id": 2,
+        "logical_word_count": 2,
+        "physical_offset": 40002,
+        "physical_request_id": 2,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 2
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40004,
+        "logical_view_id": 3,
+        "logical_word_count": 65,
+        "physical_offset": 40004,
+        "physical_request_id": 3,
+        "physical_word_count": 65,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 65,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 3
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40069,
+        "logical_view_id": 4,
+        "logical_word_count": 2,
+        "physical_offset": 40069,
+        "physical_request_id": 4,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 4
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40071,
+        "logical_view_id": 5,
+        "logical_word_count": 60,
+        "physical_offset": 40071,
+        "physical_request_id": 5,
+        "physical_word_count": 60,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 60,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 5
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40131,
+        "logical_view_id": 6,
+        "logical_word_count": 2,
+        "physical_offset": 40131,
+        "physical_request_id": 6,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 6
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40133,
+        "logical_view_id": 7,
+        "logical_word_count": 26,
+        "physical_offset": 40133,
+        "physical_request_id": 7,
+        "physical_word_count": 26,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 26,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 7
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40159,
+        "logical_view_id": 8,
+        "logical_word_count": 2,
+        "physical_offset": 40159,
+        "physical_request_id": 8,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 8
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40161,
+        "logical_view_id": 9,
+        "logical_word_count": 30,
+        "physical_offset": 40161,
+        "physical_request_id": 9,
+        "physical_word_count": 30,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 30,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 9
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40191,
+        "logical_view_id": 10,
+        "logical_word_count": 2,
+        "physical_offset": 40191,
+        "physical_request_id": 10,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 10
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40193,
+        "logical_view_id": 11,
+        "logical_word_count": 44,
+        "physical_offset": 40193,
+        "physical_request_id": 11,
+        "physical_word_count": 44,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 44,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 11
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40237,
+        "logical_view_id": 12,
+        "logical_word_count": 2,
+        "physical_offset": 40237,
+        "physical_request_id": 12,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 12
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40239,
+        "logical_view_id": 13,
+        "logical_word_count": 24,
+        "physical_offset": 40239,
+        "physical_request_id": 13,
+        "physical_word_count": 24,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 24,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 13
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40263,
+        "logical_view_id": 14,
+        "logical_word_count": 2,
+        "physical_offset": 40263,
+        "physical_request_id": 14,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 14
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40265,
+        "logical_view_id": 15,
+        "logical_word_count": 88,
+        "physical_offset": 40265,
+        "physical_request_id": 15,
+        "physical_word_count": 88,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 88,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 15
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40353,
+        "logical_view_id": 16,
+        "logical_word_count": 2,
+        "physical_offset": 40353,
+        "physical_request_id": 16,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 16
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40355,
+        "logical_view_id": 17,
+        "logical_word_count": 24,
+        "physical_offset": 40355,
+        "physical_request_id": 17,
+        "physical_word_count": 24,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 24,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 17
+      },
+      {
+        "authorization_scope": "test:canonical-pv",
+        "connection_id": 1,
+        "deadline_identity": 81,
+        "endpoint": "tcp://127.0.0.1:20502",
+        "logical_offset": 40379,
+        "logical_view_id": 18,
+        "logical_word_count": 2,
+        "physical_offset": 40379,
+        "physical_request_id": 18,
+        "physical_word_count": 2,
+        "poll_generation": 71,
+        "received_function": 3,
+        "requested_function": 3,
+        "slice_offset": 0,
+        "slice_word_count": 2,
+        "table": "holding_registers",
+        "transport": "tcp",
+        "transport_generation": 1,
+        "unit_id": 1,
+        "wire_response_id": 18
+      }
+    ]
+  },
+  "observation_encoded_sha256": "8a722e32d1804ad4640eaab966c5167f336f475e35e35319be7f00459c9e61ea",
+  "shadow": {
+    "canonical": "{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"bindings\":[{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"driver_generation\":\"1\",\"native_resource\":{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"state\":\"current\"}],\"capabilities\":[],\"contract\":\"helianthus.semantic.kernel/v1\",\"cursors\":[{\"driver_generation\":\"1\",\"fenced\":false,\"last_batch_digest\":\"sha256:8271d73530dd2ce9465913061412ac61bdf59f99dc3b9162d1649430773b70ab\",\"last_sequence\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"}],\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"facts\":[{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:c7081d86d57c0519d8696403dbd0ba8c\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.ac.aggregate_active_power\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:c7081d86d57c0519d8696403dbd0ba8c\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.watt\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.ac.aggregate_active_power\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:b140f13ff2771e3ba9e49dff1389d80b\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.ac.frequency\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:b140f13ff2771e3ba9e49dff1389d80b\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.hertz\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.ac.frequency\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:463ea67d6c8d0ce24e1f2712c8914e06\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"60000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.status.v1\",\"retain_for_ns\":\"600000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.status.operating\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:463ea67d6c8d0ce24e1f2712c8914e06\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"symbol\",\"symbol\":{\"known\":true,\"namespace\":\"pv.status.operating\",\"token\":\"generating\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.status.operating\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:023153eedab22b7e73cc8aa3ab985b1e\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.temperature.inverter\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:023153eedab22b7e73cc8aa3ab985b1e\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.celsius\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.inverter\",\"value\":{\"kind\":\"text\",\"text\":\"inverter:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.temperature.inverter\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:7a48cdbabd230ddb9b0c2c023c5092d9\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L1\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:7a48cdbabd230ddb9b0c2c023c5092d9\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.ampere\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L1\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:90408e4bd63166a3acf85176085286ea\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L1\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:90408e4bd63166a3acf85176085286ea\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.volt\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L1\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:b9d3bf835d6a7eff5e5ddf31b85bab08\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L2\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:b9d3bf835d6a7eff5e5ddf31b85bab08\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.ampere\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L2\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:8e537ceca158f513ffe34a28e1e1ec0a\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L2\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:8e537ceca158f513ffe34a28e1e1ec0a\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.volt\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L2\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:a15cdb235e5837b4abd97dd7952f3497\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L3\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:a15cdb235e5837b4abd97dd7952f3497\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.ampere\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L3\"}}],\"fact_id\":\"pv.ac.current\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:a3e7f0f39f4d563061879fe74c1f69aa\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"30000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.telemetry.fast.v1\",\"retain_for_ns\":\"300000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L3\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:a3e7f0f39f4d563061879fe74c1f69aa\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.volt\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.phase\",\"value\":{\"kind\":\"text\",\"text\":\"phase:L3\"}}],\"fact_id\":\"pv.ac.voltage\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"},{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"candidates\":[{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"candidate_id\":\"candidate:canonical-pv-shadow:d264f6f8adb1ff889138178c8c7189c0\",\"driver_generation\":\"1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"freshness_policy\":{\"fresh_for_ns\":\"900000000000\",\"max_wall_uncertainty_ns\":\"0\",\"policy_id\":\"pv.accumulator.v1\",\"retain_for_ns\":\"86400000000000\",\"version\":\"1.0.0\"},\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.system\",\"value\":{\"kind\":\"text\",\"text\":\"system:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.energy.generated\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"origin\":{\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"evidence\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"kind\":\"native_observation\",\"origin_id\":\"origin:canonical-pv-shadow:d264f6f8adb1ff889138178c8c7189c0\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\"},\"quality\":{\"assertion\":\"observed\",\"availability\":\"available\",\"freshness\":\"fresh\",\"promotion\":\"unpromoted\",\"qualification\":\"candidate\",\"reasons\":[],\"validity\":\"good\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"times\":{\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"evaluated_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock-epoch:gateway-adapter\",\"nanoseconds\":\"100\"},\"received_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"}},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"0\",\"exponent10\":0},\"unit\":\"unit.kilowatt_hour\"}}}],\"conflicts\":[],\"key\":{\"dimensions\":[{\"id\":\"pv.dimension.system\",\"value\":{\"kind\":\"text\",\"text\":\"system:5c57adba3ad8a529617c1f8627ae32f1\"}}],\"fact_id\":\"pv.energy.generated\",\"pack_id\":\"helianthus.pack.pv\",\"pack_version\":\"1.0.0\"},\"revision\":\"1\"}],\"fences\":[],\"identity_links\":[{\"asset_id\":\"pv-asset-5c57adba3ad8a529617c1f8627ae32f1\",\"basis\":[{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"}],\"binding_id\":\"binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"revision\":\"1\",\"state\":\"qualified\"}],\"revisions\":{\"capabilities\":\"1\",\"facts\":\"1\",\"identity\":\"1\",\"semantic\":\"1\",\"services\":\"1\"},\"services\":[],\"snapshot_id\":\"sha256:2e47120d6b33b328cb94a132bf4c9b17a2cc7682064de668929ff0bbe3f1b7f3\",\"sources\":[{\"profile_id\":\"sunspec.inverter.three_phase.monitoring\",\"profile_version\":\"1.0.0\",\"protocol_id\":\"sunspec_modbus\",\"registry_evidence\":{\"access\":\"public\",\"contract\":\"helianthus.canonical-pv/v1\",\"digest\":\"sha256:e21d5d4914fba2249c68cc147243c22f89cc9e1f2be71e4565a3950f31e94750\",\"kind\":\"canonical_pv.shadow\",\"owner\":\"helianthus.modbusadapter\",\"redaction\":\"none\"},\"revision\":\"1\",\"source_epoch_id\":\"source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10\",\"source_id\":\"source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1\",\"started_at\":{\"clock_id\":\"clock.gateway.adapter\",\"uncertainty_ns\":\"0\",\"unix_nanoseconds\":\"1786978800000000000\"},\"state\":\"current\"}]}",
+    "evaluation": {
+      "contract": "helianthus.semantic.evaluation/v1",
+      "snapshot_id": "sha256:2e47120d6b33b328cb94a132bf4c9b17a2cc7682064de668929ff0bbe3f1b7f3",
+      "revisions": {
+        "semantic": "1",
+        "identity": "1",
+        "facts": "1",
+        "services": "1",
+        "capabilities": "1"
+      },
+      "context": {
+        "evaluated_at": {
+          "unix_nanoseconds": "1786978800000000000",
+          "clock_id": "clock.gateway.adapter",
+          "uncertainty_ns": "0"
+        },
+        "evaluate_monotonic": {
+          "clock_epoch_id": "clock-epoch:gateway-adapter",
+          "nanoseconds": "100"
+        }
+      },
+      "facts": [
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:023153eedab22b7e73cc8aa3ab985b1e",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:463ea67d6c8d0ce24e1f2712c8914e06",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:7a48cdbabd230ddb9b0c2c023c5092d9",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:8e537ceca158f513ffe34a28e1e1ec0a",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:90408e4bd63166a3acf85176085286ea",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:a15cdb235e5837b4abd97dd7952f3497",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:a3e7f0f39f4d563061879fe74c1f69aa",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:b140f13ff2771e3ba9e49dff1389d80b",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:b9d3bf835d6a7eff5e5ddf31b85bab08",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:c7081d86d57c0519d8696403dbd0ba8c",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        },
+        {
+          "candidate_id": "candidate:canonical-pv-shadow:d264f6f8adb1ff889138178c8c7189c0",
+          "candidate_revision": "1",
+          "freshness": "fresh",
+          "effective_availability": "available"
+        }
+      ],
+      "evaluation_digest": "sha256:1fb0f70ea4d161febef140a0aea60656c6e1363f5854113276e4c87dcdf78360"
+    },
+    "projection": {
+      "contract": "helianthus.semantic.projection/v1",
+      "manifest": {
+        "target_id": "target:canonical-pv-comparator",
+        "target_version": "1.0.0",
+        "kernel_version": "helianthus.semantic.kernel/v1",
+        "pack_versions": [
+          {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          }
+        ],
+        "mapping_revision": "1"
+      },
+      "snapshot_id": "sha256:2e47120d6b33b328cb94a132bf4c9b17a2cc7682064de668929ff0bbe3f1b7f3",
+      "revisions": {
+        "semantic": "1",
+        "identity": "1",
+        "facts": "1",
+        "services": "1",
+        "capabilities": "1"
+      },
+      "requested": [
+        {
+          "item_id": "projection.pv.shadow.request.038c7606e2a72596d005754a459927439b04751d2a3790e00091020549406c4f",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.0d0472dbaeb980ee433afa2b7c5866f21369037307809126e4fa8266b180c4b1",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.16ef0196f7b93d8963e2ba8b43239348600092ae669a1eda984a21a1954a565f",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.1b02b46807946a80d112321e3af4c28146c37eb5f68d6c18d5b6d9b8bf8f5eaa",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.426cd70347e2153707ca7ded8dc324591d3cdeaa778feb905cc9f80a1a30613b",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.6e05e76ac18312d255b87519294328d81329b947b6daba4049471a48230e7a1a",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.6e985852c6f92a790a1c4a5f68ccf4f215db0bdfe0c9aa270672a7e6dc19ce7c",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.742dfd72dd7950dd6e6b51163652a6008685443b2cc01cdec79f82d5d735c75f",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.9152fde11def0bdd3703a8aec83dcc09fb112bfbc2a30dfceca2f4f3478e97dc",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.b0285580e46e4f9541651367e0592f1c8c21b884cd5d3ea8c1cdeed7ce780e59",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.debce5d518ab31f6740eb04e708c41f655e0932be7b8e34c0c9ca2264219c3b0",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.df41d1e3b7567131f3e22295b137bdcf0f634749c64c26450d8841255d2c6902",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.e31201e9e3097df8d9c58511b057d9b744ad5191f6734dcbf81a5a9634ca6a94",
+          "kind": "fact"
+        },
+        {
+          "item_id": "projection.pv.shadow.request.e34f588ca08f204e256e3119ebad3aed024df427164f48410d5bece3ecfa9ebf",
+          "kind": "fact"
+        }
+      ],
+      "dispositions": [
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.038c7606e2a72596d005754a459927439b04751d2a3790e00091020549406c4f",
+          "outcome": "withheld",
+          "source_keys": [],
+          "loss": [
+            {
+              "kind": "provenance",
+              "source_items": [
+                "inverter.ac.current.total"
+              ],
+              "description": "provenance: retained legacy output",
+              "reversible": false
+            }
+          ],
+          "reason": "compatibility.legacy_path_required"
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.0d0472dbaeb980ee433afa2b7c5866f21369037307809126e4fa8266b180c4b1",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.current",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L2"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.16ef0196f7b93d8963e2ba8b43239348600092ae669a1eda984a21a1954a565f",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.voltage",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L3"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.1b02b46807946a80d112321e3af4c28146c37eb5f68d6c18d5b6d9b8bf8f5eaa",
+          "outcome": "withheld",
+          "source_keys": [],
+          "loss": [
+            {
+              "kind": "provenance",
+              "source_items": [
+                "inverter.events.2"
+              ],
+              "description": "provenance: retained legacy output",
+              "reversible": false
+            }
+          ],
+          "reason": "compatibility.legacy_path_required"
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.426cd70347e2153707ca7ded8dc324591d3cdeaa778feb905cc9f80a1a30613b",
+          "outcome": "withheld",
+          "source_keys": [],
+          "loss": [
+            {
+              "kind": "provenance",
+              "source_items": [
+                "inverter.events.1"
+              ],
+              "description": "provenance: retained legacy output",
+              "reversible": false
+            }
+          ],
+          "reason": "compatibility.legacy_path_required"
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.6e05e76ac18312d255b87519294328d81329b947b6daba4049471a48230e7a1a",
+          "outcome": "transformed",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.status.operating",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.inverter",
+                  "value": {
+                    "kind": "text",
+                    "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": [
+            {
+              "kind": "symbol",
+              "source_items": [
+                "pv.status.operating"
+              ],
+              "description": "symbol: OPERATING_to_generating",
+              "reversible": false
+            }
+          ]
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.6e985852c6f92a790a1c4a5f68ccf4f215db0bdfe0c9aa270672a7e6dc19ce7c",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.voltage",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.742dfd72dd7950dd6e6b51163652a6008685443b2cc01cdec79f82d5d735c75f",
+          "outcome": "transformed",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.energy.generated",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.system",
+                  "value": {
+                    "kind": "text",
+                    "text": "system:5c57adba3ad8a529617c1f8627ae32f1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": [
+            {
+              "kind": "unit",
+              "source_items": [
+                "pv.energy.generated"
+              ],
+              "description": "unit: Wh_to_kWh_factor_1000",
+              "reversible": true
+            }
+          ]
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.9152fde11def0bdd3703a8aec83dcc09fb112bfbc2a30dfceca2f4f3478e97dc",
+          "outcome": "transformed",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.temperature.inverter",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.inverter",
+                  "value": {
+                    "kind": "text",
+                    "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": [
+            {
+              "kind": "provenance",
+              "source_items": [
+                "pv.temperature.inverter"
+              ],
+              "description": "provenance: sensor_id_cabinet_to_inverter",
+              "reversible": false
+            }
+          ]
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.b0285580e46e4f9541651367e0592f1c8c21b884cd5d3ea8c1cdeed7ce780e59",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.aggregate_active_power",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.inverter",
+                  "value": {
+                    "kind": "text",
+                    "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.debce5d518ab31f6740eb04e708c41f655e0932be7b8e34c0c9ca2264219c3b0",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.current",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L3"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.df41d1e3b7567131f3e22295b137bdcf0f634749c64c26450d8841255d2c6902",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.voltage",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L2"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.e31201e9e3097df8d9c58511b057d9b744ad5191f6734dcbf81a5a9634ca6a94",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.current",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.phase",
+                  "value": {
+                    "kind": "text",
+                    "text": "phase:L1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        },
+        {
+          "kind": "fact",
+          "item_id": "projection.pv.shadow.request.e34f588ca08f204e256e3119ebad3aed024df427164f48410d5bece3ecfa9ebf",
+          "outcome": "exact",
+          "source_keys": [
+            {
+              "pack_id": "helianthus.pack.pv",
+              "pack_version": "1.0.0",
+              "fact_id": "pv.ac.frequency",
+              "dimensions": [
+                {
+                  "id": "pv.dimension.inverter",
+                  "value": {
+                    "kind": "text",
+                    "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                  }
+                }
+              ]
+            }
+          ],
+          "loss": []
+        }
+      ]
+    },
+    "snapshot": {
+      "contract": "helianthus.semantic.kernel/v1",
+      "snapshot_id": "sha256:2e47120d6b33b328cb94a132bf4c9b17a2cc7682064de668929ff0bbe3f1b7f3",
+      "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+      "revisions": {
+        "semantic": "1",
+        "identity": "1",
+        "facts": "1",
+        "services": "1",
+        "capabilities": "1"
+      },
+      "evaluated_at": {
+        "unix_nanoseconds": "1786978800000000000",
+        "clock_id": "clock.gateway.adapter",
+        "uncertainty_ns": "0"
+      },
+      "evaluate_monotonic": {
+        "clock_epoch_id": "clock-epoch:gateway-adapter",
+        "nanoseconds": "100"
+      },
+      "sources": [
+        {
+          "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+          "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+          "protocol_id": "sunspec_modbus",
+          "profile_id": "sunspec.inverter.three_phase.monitoring",
+          "profile_version": "1.0.0",
+          "registry_evidence": {
+            "owner": "helianthus.modbusadapter",
+            "kind": "canonical_pv.shadow",
+            "digest": "sha256:e21d5d4914fba2249c68cc147243c22f89cc9e1f2be71e4565a3950f31e94750",
+            "contract": "helianthus.canonical-pv/v1",
+            "access": "public",
+            "redaction": "none"
+          },
+          "started_at": {
+            "unix_nanoseconds": "1786978800000000000",
+            "clock_id": "clock.gateway.adapter",
+            "uncertainty_ns": "0"
+          },
+          "state": "current",
+          "revision": "1"
+        }
+      ],
+      "bindings": [
+        {
+          "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+          "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+          "driver_generation": "1",
+          "native_resource": {
+            "owner": "helianthus.modbusadapter",
+            "kind": "canonical_pv.shadow",
+            "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+            "contract": "helianthus.canonical-pv/v1",
+            "access": "public",
+            "redaction": "none"
+          },
+          "state": "current",
+          "revision": "1"
+        }
+      ],
+      "identity_links": [
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+          "state": "qualified",
+          "basis": [
+            {
+              "owner": "helianthus.modbusadapter",
+              "kind": "canonical_pv.shadow",
+              "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+              "contract": "helianthus.canonical-pv/v1",
+              "access": "public",
+              "redaction": "none"
+            }
+          ],
+          "revision": "1"
+        }
+      ],
+      "facts": [
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.aggregate_active_power",
+            "dimensions": [
+              {
+                "id": "pv.dimension.inverter",
+                "value": {
+                  "kind": "text",
+                  "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:c7081d86d57c0519d8696403dbd0ba8c",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.aggregate_active_power",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.watt"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:c7081d86d57c0519d8696403dbd0ba8c",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.frequency",
+            "dimensions": [
+              {
+                "id": "pv.dimension.inverter",
+                "value": {
+                  "kind": "text",
+                  "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:b140f13ff2771e3ba9e49dff1389d80b",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.frequency",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.hertz"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:b140f13ff2771e3ba9e49dff1389d80b",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.status.operating",
+            "dimensions": [
+              {
+                "id": "pv.dimension.inverter",
+                "value": {
+                  "kind": "text",
+                  "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:463ea67d6c8d0ce24e1f2712c8914e06",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.status.operating",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "symbol",
+                "symbol": {
+                  "namespace": "pv.status.operating",
+                  "token": "generating",
+                  "known": true
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.status.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "60000000000",
+                "retain_for_ns": "600000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:463ea67d6c8d0ce24e1f2712c8914e06",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.temperature.inverter",
+            "dimensions": [
+              {
+                "id": "pv.dimension.inverter",
+                "value": {
+                  "kind": "text",
+                  "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:023153eedab22b7e73cc8aa3ab985b1e",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.temperature.inverter",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.inverter",
+                    "value": {
+                      "kind": "text",
+                      "text": "inverter:5c57adba3ad8a529617c1f8627ae32f1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.celsius"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:023153eedab22b7e73cc8aa3ab985b1e",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.current",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:7a48cdbabd230ddb9b0c2c023c5092d9",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.current",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.ampere"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:7a48cdbabd230ddb9b0c2c023c5092d9",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.voltage",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:90408e4bd63166a3acf85176085286ea",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.voltage",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:90408e4bd63166a3acf85176085286ea",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.current",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L2"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:b9d3bf835d6a7eff5e5ddf31b85bab08",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.current",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L2"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.ampere"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:b9d3bf835d6a7eff5e5ddf31b85bab08",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.voltage",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L2"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:8e537ceca158f513ffe34a28e1e1ec0a",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.voltage",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L2"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:8e537ceca158f513ffe34a28e1e1ec0a",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.current",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L3"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:a15cdb235e5837b4abd97dd7952f3497",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.current",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L3"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.ampere"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:a15cdb235e5837b4abd97dd7952f3497",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.ac.voltage",
+            "dimensions": [
+              {
+                "id": "pv.dimension.phase",
+                "value": {
+                  "kind": "text",
+                  "text": "phase:L3"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:a3e7f0f39f4d563061879fe74c1f69aa",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.ac.voltage",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.phase",
+                    "value": {
+                      "kind": "text",
+                      "text": "phase:L3"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.volt"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.telemetry.fast.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "30000000000",
+                "retain_for_ns": "300000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:a3e7f0f39f4d563061879fe74c1f69aa",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        },
+        {
+          "asset_id": "pv-asset-5c57adba3ad8a529617c1f8627ae32f1",
+          "key": {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.energy.generated",
+            "dimensions": [
+              {
+                "id": "pv.dimension.system",
+                "value": {
+                  "kind": "text",
+                  "text": "system:5c57adba3ad8a529617c1f8627ae32f1"
+                }
+              }
+            ]
+          },
+          "candidates": [
+            {
+              "candidate_id": "candidate:canonical-pv-shadow:d264f6f8adb1ff889138178c8c7189c0",
+              "key": {
+                "pack_id": "helianthus.pack.pv",
+                "pack_version": "1.0.0",
+                "fact_id": "pv.energy.generated",
+                "dimensions": [
+                  {
+                    "id": "pv.dimension.system",
+                    "value": {
+                      "kind": "text",
+                      "text": "system:5c57adba3ad8a529617c1f8627ae32f1"
+                    }
+                  }
+                ]
+              },
+              "value": {
+                "kind": "quantity",
+                "quantity": {
+                  "number": {
+                    "coefficient": "0",
+                    "exponent10": 0
+                  },
+                  "unit": "unit.kilowatt_hour"
+                }
+              },
+              "quality": {
+                "assertion": "observed",
+                "qualification": "candidate",
+                "promotion": "unpromoted",
+                "validity": "good",
+                "availability": "available",
+                "freshness": "fresh",
+                "reasons": []
+              },
+              "times": {
+                "received_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "receipt_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                },
+                "evaluated_at": {
+                  "unix_nanoseconds": "1786978800000000000",
+                  "clock_id": "clock.gateway.adapter",
+                  "uncertainty_ns": "0"
+                },
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock-epoch:gateway-adapter",
+                  "nanoseconds": "100"
+                }
+              },
+              "freshness_policy": {
+                "policy_id": "pv.accumulator.v1",
+                "version": "1.0.0",
+                "fresh_for_ns": "900000000000",
+                "retain_for_ns": "86400000000000",
+                "max_wall_uncertainty_ns": "0"
+              },
+              "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+              "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+              "driver_generation": "1",
+              "origin": {
+                "origin_id": "origin:canonical-pv-shadow:d264f6f8adb1ff889138178c8c7189c0",
+                "kind": "native_observation",
+                "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+                "binding_id": "binding:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+                "evidence": [
+                  {
+                    "owner": "helianthus.modbusadapter",
+                    "kind": "canonical_pv.shadow",
+                    "digest": "sha256:2cba5e9f6bf8a081c7daf064538dd387479397cbf406ff1d7200a48afd1fc061",
+                    "contract": "helianthus.canonical-pv/v1",
+                    "access": "public",
+                    "redaction": "none"
+                  }
+                ]
+              },
+              "evidence": [
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:4d4f632977a65c7d7e32597dad2b3a11d262a0140ee282f4cc0bd5b3ff624ef0",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                },
+                {
+                  "owner": "helianthus.modbusadapter",
+                  "kind": "canonical_pv.shadow",
+                  "digest": "sha256:b6070e944742761632497c2de7fb1801b1ee2293366d277cf4bbec66ea5be851",
+                  "contract": "helianthus.canonical-pv/v1",
+                  "access": "public",
+                  "redaction": "none"
+                }
+              ],
+              "revision": "1"
+            }
+          ],
+          "conflicts": [],
+          "revision": "1"
+        }
+      ],
+      "services": [],
+      "capabilities": [],
+      "fences": [],
+      "cursors": [
+        {
+          "source_id": "source:canonical-pv-shadow:5c57adba3ad8a529617c1f8627ae32f1",
+          "source_epoch_id": "source-epoch:canonical-pv-shadow:0102030405060708090a0b0c0d0e0f10",
+          "driver_generation": "1",
+          "last_sequence": "1",
+          "last_batch_digest": "sha256:8271d73530dd2ce9465913061412ac61bdf59f99dc3b9162d1649430773b70ab",
+          "fenced": false
+        }
+      ]
+    }
+  }
+}

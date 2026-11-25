@@ -68,7 +68,9 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/sessions/<family>/<case>/session.json` | the published input of a whole session | synthetic |
 | `current/sessions/<family>/<case>/output.json` | the frozen output of that session on the old process | recorded-current |
 | `pre-port/gateway/` | GraphQL introspection (lists in name order) and MCP tool list of the pre-port gateway | recorded-pre-port |
-| `pre-port/losses.json` | pre-port GraphQL fields the current introspection does not publish (a derived comparison) | recorded-pre-port |
+| `pre-port/gateway/typed/` | typed semantic GraphQL queries (`graphql-typed-queries.json`), GraphQL mutations (`graphql-typed-mutations.json`) and semantic MCP tools (`mcp-typed-tools.json`) of the pre-port gateway | recorded-pre-port |
+| `pre-port/gateway/canonical-pv/` | the canonical PV v1 mapper and its SemReg shadow (`canonical-pv-mapper.json`), the retained MCP envelope (`mcp-canonical-pv-envelope.json`) and the dedicated M2M contract (`m2m-canonical-pv-contract.json`) at the parent of the PV cutover | recorded-pre-port |
+| `pre-port/losses.json` | pre-port GraphQL fields the current introspection does not publish (a derived comparison), each with the pre-port vector that shows a value | recorded-pre-port |
 | `spec/` | independent protocol bytes for generic Modbus writes | specification |
 | `specification/` | SI and specification expectations of the SS02 cases, kept apart from the recorded vectors | specification |
 
@@ -412,6 +414,58 @@ Harness seams, each harness-only and none an edit of production code:
   replay fail with a bind error; run them one after another.
 - A pinned fixture that a session names and the pin lacks makes `replay_session.py` exit with status 3 and name the missing
   operand; `check.py --replay` then reports that session as incomplete.
+
+## Pre-port typed queries, MCP tools and canonical PV v1
+
+Recorded at the last 0.6 release of the gateway (`pre-port` entry `gateway`) by the harness-only sources under
+`recorders/go/pre-port-typed/{graphql,mcp}/`, which are copied next to the pinned tests and use their helpers (the
+registry, provider, invoker, schedule-writer and mutation-schema helpers); nothing in the pin is edited.
+
+- `graphql-typed-queries.json`: `complete` holds, for each typed root query (`zones`, `dhw`, `circuits`, `radioDevices`,
+  `fm5SemanticMode`, `solar`, `cylinders`, `energyTotals`, `boilerStatus`, `system`, `schedules`, `adapterHardwareInfo`, and
+  the snake-case root aliases) the query text, which selects every argument-free field the introspection lists, and the
+  answer for a provider in which every field of `semantic.go` holds a synthetic value (counter-derived, deterministic; the
+  fixed instant of the time fields is in the recorder). `pin_cases` holds the answers on the fixtures the pin's own tests
+  use: the default provider (empty, `null` and `ABSENT` answers), the zone of `zones_dhw`, the managing device of the circuit
+  case, the removed `vr71CircuitStartIndex` field, the energy no-data and with-values cases (the host-clock observation
+  time and age are not selected), the schedule program, and the boiler status of the pin's MCP boiler case (flow 52.5,
+  return 47.0, pump on, heating status 2), which is the only boiler fixture of the pin.
+- `graphql-typed-mutations.json`: every mutation of `mutations.go` that a test of the pin drives, with the request, the
+  answer, and the calls the invoker or writer received (register parameters in hexadecimal): circuit, system and boiler
+  config, zone and DHW time programs, the validation, read-back, missing-controller, missing-method and source-admission
+  failures, and the direct `ApplyConfigMutation` call. `setZoneConfig` has no test in the pin; its one case runs on the
+  controller fixture of the circuit case and is marked as a harness fixture.
+- `mcp-typed-tools.json`: `tools/call` of each semantic tool (`zones`, `circuits`, `radio_devices`, `fm5_mode`, `solar`,
+  `cylinders`, `dhw`, `energy_totals`, `boiler_status`, `system`, `schedules`, `adapter_info`, `snapshot.get`) on the
+  complete synthetic provider (`complete`), on a server without provider, on the providers of the pin's semantic snapshot
+  cases (`pin_cases`), and the five write tools (schedule and config writers, `write_cases`) with the calls the writers
+  received. The envelope's `data_timestamp` is the host wall clock and is not recorded; `runtime_status` is not selected in
+  `snapshot.get` because it reports the host process.
+- `losses.json` keeps its 69 entries and `pre_port_vector` (the introspection entry). Each entry gains
+  `pre_port_value_vector` (a pointer into the typed GraphQL vector with the value shown), `pre_port_mcp_value_vector` (the
+  semantic MCP tool answer), and, where a fixture of the pin's own tests sets the field, `pre_port_pin_fixture_vector` and
+  `pre_port_mcp_pin_fixture_vector`. `BoilerState.flowTemperatureC` shows 52.5 in all four: the value of the pin's MCP
+  boiler fixture. The values of the other fields come from the complete synthetic provider because no test of the pin sets
+  them; they show what the pre-port resolver publishes when the provider holds a value, not a field observation.
+
+Recorded at the parent of the PV cutover (`pre-port` entry `gateway-canonical-pv`) by
+`recorders/go/pre-port-canonical-pv/{modbusadapter,mcp,m2mgraphql}/`:
+
+- `canonical-pv-mapper.json`: `CanonicalPVMapper.Map` and the SemReg shadow (`canonical_pv_semreg_shadow.go`) on the qualified
+  inverter observation the pin's mapper test serves on a loopback endpoint, at the fixed endpoint of the recorded identities
+  (`tcp://127.0.0.1:20502`), a fixed evaluation instant (100 ns), a fixed production time and a fixed entropy stream, the
+  adapter's host clocks not being used. The register payloads of the observation are not recorded (they carry the device
+  identity strings of the Common model); the sha256 of the whole encoded observation is. Two replays on one host at the same
+  time, or a host process that holds that port, fail with a bind error.
+- `mcp-canonical-pv-envelope.json`: the retained canonical envelope of the pin's golden test, the sha256 of
+  `mcp/testdata/modbus_v1_canonical_pv.golden.json` and the check that the two are equal.
+- `m2m-canonical-pv-contract.json`: `m2mgraphql/testdata/contract.json` with its sha256, and the answers of the pin's handler:
+  the served snapshot, the asset not allowed, the asset without snapshot, the `GET`, the generic route and the subscription.
+
+Pre-port surfaces that no test of the pin drives: the GraphQL `boilerStatus` and `adapterHardwareInfo` roots (and their
+snake-case aliases), the `setZoneConfig` mutation, and the typed values of 67 of the 69 lost fields (all but
+`BoilerState.flowTemperatureC` and `DhwConfig.operatingMode`); the vectors record them on the harness fixtures stated above.
+No test of the pin drives the MCP `schedules` tool with a populated provider; the `adapter_info` fixture is the one of the pin's snapshot consistency case.
 
 ## Commands
 

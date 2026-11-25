@@ -1,0 +1,224 @@
+{
+  "cases": [
+    {
+      "name": "canonical-request/served",
+      "fixture": "the pin's fixture snapshot, asset allowed and present",
+      "method": "POST",
+      "route": "/graphql/m2m/v1",
+      "body": "{\"operationName\":\"M2MCurrentSnapshot\",\"query\":\"query M2MCurrentSnapshot($request: M2MCurrentSnapshotRequest!) {\\n  m2mCurrentSnapshot(request: $request) {\\n    contractId canonicalContractId assetRef generation producedAt\\n    evaluatedMonotonicNs sourceTimeState currentSourceOriginRef\\n    facts {\\n      factId\\n      dimension {\\n        ... on M2MScopeDimension { scope }\\n        ... on M2MPhaseDimension { phase }\\n        ... on M2MPhasePairDimension { phasePair }\\n        ... on M2MInputDimension { inputId }\\n        ... on M2MSensorDimension { sensorId }\\n      }\\n      value {\\n        ... on M2MDecimalValue { coefficient scale }\\n        ... on M2MEnumValue { symbol }\\n        ... on M2MBitfieldValue { symbols }\\n      }\\n      unit quality availability freshness receiptMonotonicNs\\n      freshUntilMonotonicNs retainUntilMonotonicNs freshnessPolicy originRef\\n      continuity {\\n        __typename\\n        ... on M2MBaselineContinuity { baseline }\\n        ... on M2MContiguousContinuity { delta { coefficient scale } }\\n        ... on M2MRolloverContinuity {\\n          delta { coefficient scale } modulus { coefficient scale }\\n          rolloverEvidenceRef\\n        }\\n        ... on M2MResetContinuity { resetEvidenceRef }\\n        ... on M2MDiscontinuityContinuity { discontinuityEvidenceRef }\\n      }\\n    }\\n    capabilities { id outcome }\\n    provenance {\\n      originRef sourceProtocol sourceProfileId sourceProfileVersion sourceValidity\\n      sourceRegistryRef sourceObservationRef evidenceRef\\n    }\\n    requestedOutputs { sourceRef requestedOutputRef }\\n    projectionReport {\\n      __typename\\n      ... on M2MMappedProjectionReportEntry {\\n        sourceRef requestedOutputRef factId\\n        dimension {\\n          ... on M2MScopeDimension { scope }\\n          ... on M2MPhaseDimension { phase }\\n          ... on M2MPhasePairDimension { phasePair }\\n          ... on M2MInputDimension { inputId }\\n          ... on M2MSensorDimension { sensorId }\\n        }\\n      }\\n      ... on M2MWithheldProjectionReportEntry { sourceRef requestedOutputRef }\\n      ... on M2MUnrepresentableProjectionReportEntry { sourceRef requestedOutputRef }\\n    }\\n  }\\n}\\n\",\"variables\":{\"request\":{\"assetRef\":\"pv-asset-fixture\",\"contractId\":\"PUBLIC_GRAPHQL_M2M_V1\"}}}",
+      "status": 200,
+      "response": {
+        "data": {
+          "m2mCurrentSnapshot": {
+            "assetRef": "pv-asset-fixture",
+            "canonicalContractId": "helianthus.canonical-pv/v1",
+            "capabilities": [
+              {
+                "id": "helianthus.pv.inverter.three_phase.telemetry.v1",
+                "outcome": "NOT_SATISFIED"
+              }
+            ],
+            "contractId": "PUBLIC_GRAPHQL_M2M_V1",
+            "currentSourceOriginRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "evaluatedMonotonicNs": "100",
+            "facts": [
+              {
+                "availability": "AVAILABLE",
+                "continuity": null,
+                "dimension": {
+                  "scope": "total"
+                },
+                "factId": "pv.ac.power.active",
+                "freshUntilMonotonicNs": "200",
+                "freshness": "FRESH",
+                "freshnessPolicy": "pv.telemetry.fast.v1",
+                "originRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "quality": "GOOD",
+                "receiptMonotonicNs": "100",
+                "retainUntilMonotonicNs": "300",
+                "unit": "W",
+                "value": {
+                  "coefficient": "7310",
+                  "scale": 0
+                }
+              }
+            ],
+            "generation": "1",
+            "producedAt": "2026-08-17T13:46:00Z",
+            "projectionReport": [
+              {
+                "__typename": "M2MMappedProjectionReportEntry",
+                "dimension": {
+                  "scope": "total"
+                },
+                "factId": "pv.ac.power.active",
+                "requestedOutputRef": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "sourceRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "provenance": [
+              {
+                "evidenceRef": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                "originRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "sourceObservationRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "sourceProfileId": "sunspec.inverter.three_phase.monitoring@1.0.0",
+                "sourceProfileVersion": "1.0.0",
+                "sourceProtocol": "sunspec_modbus",
+                "sourceRegistryRef": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "sourceValidity": "terminal_verified"
+              }
+            ],
+            "requestedOutputs": [
+              {
+                "requestedOutputRef": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "sourceRef": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "sourceTimeState": "UNAVAILABLE"
+          }
+        }
+      }
+    },
+    {
+      "name": "canonical-request/asset-not-allowed",
+      "fixture": "no allowed asset",
+      "method": "POST",
+      "route": "/graphql/m2m/v1",
+      "body": "{\"operationName\":\"M2MCurrentSnapshot\",\"query\":\"query M2MCurrentSnapshot($request: M2MCurrentSnapshotRequest!) {\\n  m2mCurrentSnapshot(request: $request) {\\n    contractId canonicalContractId assetRef generation producedAt\\n    evaluatedMonotonicNs sourceTimeState currentSourceOriginRef\\n    facts {\\n      factId\\n      dimension {\\n        ... on M2MScopeDimension { scope }\\n        ... on M2MPhaseDimension { phase }\\n        ... on M2MPhasePairDimension { phasePair }\\n        ... on M2MInputDimension { inputId }\\n        ... on M2MSensorDimension { sensorId }\\n      }\\n      value {\\n        ... on M2MDecimalValue { coefficient scale }\\n        ... on M2MEnumValue { symbol }\\n        ... on M2MBitfieldValue { symbols }\\n      }\\n      unit quality availability freshness receiptMonotonicNs\\n      freshUntilMonotonicNs retainUntilMonotonicNs freshnessPolicy originRef\\n      continuity {\\n        __typename\\n        ... on M2MBaselineContinuity { baseline }\\n        ... on M2MContiguousContinuity { delta { coefficient scale } }\\n        ... on M2MRolloverContinuity {\\n          delta { coefficient scale } modulus { coefficient scale }\\n          rolloverEvidenceRef\\n        }\\n        ... on M2MResetContinuity { resetEvidenceRef }\\n        ... on M2MDiscontinuityContinuity { discontinuityEvidenceRef }\\n      }\\n    }\\n    capabilities { id outcome }\\n    provenance {\\n      originRef sourceProtocol sourceProfileId sourceProfileVersion sourceValidity\\n      sourceRegistryRef sourceObservationRef evidenceRef\\n    }\\n    requestedOutputs { sourceRef requestedOutputRef }\\n    projectionReport {\\n      __typename\\n      ... on M2MMappedProjectionReportEntry {\\n        sourceRef requestedOutputRef factId\\n        dimension {\\n          ... on M2MScopeDimension { scope }\\n          ... on M2MPhaseDimension { phase }\\n          ... on M2MPhasePairDimension { phasePair }\\n          ... on M2MInputDimension { inputId }\\n          ... on M2MSensorDimension { sensorId }\\n        }\\n      }\\n      ... on M2MWithheldProjectionReportEntry { sourceRef requestedOutputRef }\\n      ... on M2MUnrepresentableProjectionReportEntry { sourceRef requestedOutputRef }\\n    }\\n  }\\n}\\n\",\"variables\":{\"request\":{\"assetRef\":\"pv-asset-fixture\",\"contractId\":\"PUBLIC_GRAPHQL_M2M_V1\"}}}",
+      "status": 200,
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "extensions": {
+              "code": "ASSET_FORBIDDEN"
+            },
+            "message": "M2M request failed",
+            "path": [
+              "m2mCurrentSnapshot"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "canonical-request/asset-without-snapshot",
+      "fixture": "asset allowed, no snapshot retained",
+      "method": "POST",
+      "route": "/graphql/m2m/v1",
+      "body": "{\"operationName\":\"M2MCurrentSnapshot\",\"query\":\"query M2MCurrentSnapshot($request: M2MCurrentSnapshotRequest!) {\\n  m2mCurrentSnapshot(request: $request) {\\n    contractId canonicalContractId assetRef generation producedAt\\n    evaluatedMonotonicNs sourceTimeState currentSourceOriginRef\\n    facts {\\n      factId\\n      dimension {\\n        ... on M2MScopeDimension { scope }\\n        ... on M2MPhaseDimension { phase }\\n        ... on M2MPhasePairDimension { phasePair }\\n        ... on M2MInputDimension { inputId }\\n        ... on M2MSensorDimension { sensorId }\\n      }\\n      value {\\n        ... on M2MDecimalValue { coefficient scale }\\n        ... on M2MEnumValue { symbol }\\n        ... on M2MBitfieldValue { symbols }\\n      }\\n      unit quality availability freshness receiptMonotonicNs\\n      freshUntilMonotonicNs retainUntilMonotonicNs freshnessPolicy originRef\\n      continuity {\\n        __typename\\n        ... on M2MBaselineContinuity { baseline }\\n        ... on M2MContiguousContinuity { delta { coefficient scale } }\\n        ... on M2MRolloverContinuity {\\n          delta { coefficient scale } modulus { coefficient scale }\\n          rolloverEvidenceRef\\n        }\\n        ... on M2MResetContinuity { resetEvidenceRef }\\n        ... on M2MDiscontinuityContinuity { discontinuityEvidenceRef }\\n      }\\n    }\\n    capabilities { id outcome }\\n    provenance {\\n      originRef sourceProtocol sourceProfileId sourceProfileVersion sourceValidity\\n      sourceRegistryRef sourceObservationRef evidenceRef\\n    }\\n    requestedOutputs { sourceRef requestedOutputRef }\\n    projectionReport {\\n      __typename\\n      ... on M2MMappedProjectionReportEntry {\\n        sourceRef requestedOutputRef factId\\n        dimension {\\n          ... on M2MScopeDimension { scope }\\n          ... on M2MPhaseDimension { phase }\\n          ... on M2MPhasePairDimension { phasePair }\\n          ... on M2MInputDimension { inputId }\\n          ... on M2MSensorDimension { sensorId }\\n        }\\n      }\\n      ... on M2MWithheldProjectionReportEntry { sourceRef requestedOutputRef }\\n      ... on M2MUnrepresentableProjectionReportEntry { sourceRef requestedOutputRef }\\n    }\\n  }\\n}\\n\",\"variables\":{\"request\":{\"assetRef\":\"pv-asset-fixture\",\"contractId\":\"PUBLIC_GRAPHQL_M2M_V1\"}}}",
+      "status": 200,
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "extensions": {
+              "code": "ASSET_NOT_FOUND"
+            },
+            "message": "M2M request failed",
+            "path": [
+              "m2mCurrentSnapshot"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "get-on-contract-route",
+      "fixture": "the pin's no-fallback case",
+      "method": "GET",
+      "route": "/graphql/m2m/v1",
+      "body": "",
+      "status": 200,
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "extensions": {
+              "code": "REQUEST_INVALID"
+            },
+            "message": "M2M request failed",
+            "path": [
+              "m2mCurrentSnapshot"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "query-on-generic-route",
+      "fixture": "the pin's no-fallback case",
+      "method": "POST",
+      "route": "/graphql",
+      "body": "{\"query\":\"{ m2mCurrentSnapshot { assetRef } }\"}",
+      "status": 200,
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "extensions": {
+              "code": "QUERY_REJECTED"
+            },
+            "message": "M2M request failed",
+            "path": [
+              "m2mCurrentSnapshot"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "subscription-on-contract-route",
+      "fixture": "the pin's no-fallback case",
+      "method": "POST",
+      "route": "/graphql/m2m/v1",
+      "body": "{\"query\":\"subscription M2MCurrentSnapshot { m2mCurrentSnapshot { assetRef } }\"}",
+      "status": 200,
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "extensions": {
+              "code": "REQUEST_INVALID"
+            },
+            "message": "M2M request failed",
+            "path": [
+              "m2mCurrentSnapshot"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "contract": {
+    "canonicalContractId": "helianthus.canonical-pv/v1",
+    "contractId": "PUBLIC_GRAPHQL_M2M_V1",
+    "errorCodes": [
+      "CONTRACT_INCOMPATIBLE",
+      "ASSET_FORBIDDEN",
+      "ASSET_NOT_FOUND",
+      "SOURCE_UNAVAILABLE",
+      "REQUEST_INVALID",
+      "QUERY_REJECTED",
+      "REQUEST_LIMIT_EXCEEDED"
+    ],
+    "limits": {
+      "concurrencyPerPrincipal": 1,
+      "facts": 256,
+      "jsonDepth": 64,
+      "projectionRows": 512,
+      "queryDepth": 8,
+      "rateBurst": 2,
+      "ratePerSecond": 1,
+      "requestBytes": 16384,
+      "responseBytes": 1048576,
+      "selectedFields": 256
+    },
+    "operationName": "M2MCurrentSnapshot",
+    "route": "/graphql/m2m/v1"
+  },
+  "contract_path": "m2mgraphql/testdata/contract.json",
+  "contract_sha256": "9009c8a3e77b0346f9a341497d0e067338116776cf8f0dbe714be2a911b938d1",
+  "description": "the dedicated M2M contract of the pin and the answers of its handler",
+  "format": "helianthus-oracle-pre-port-canonical-pv-m2m-contract/1"
+}

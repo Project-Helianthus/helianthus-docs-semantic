@@ -1,0 +1,2701 @@
+{
+  "complete": [
+    {
+      "name": "zones",
+      "fixture": "complete-synthetic",
+      "query": "query { zones { config { allowedModes allowed_modes associatedCircuit associated_circuit circuitType circuit_type holidayEndDate holidayEndTime holidaySetpoint holidayStartDate holidayStartTime holiday_end_date holiday_end_time holiday_setpoint holiday_start_date holiday_start_time operatingMode operating_mode preset quickVeto quickVetoDuration quickVetoExpiry quickVetoSetpoint quick_veto quick_veto_duration quick_veto_expiry quick_veto_setpoint roomTemperatureZoneMapping room_temperature_zone_mapping targetTempC target_temp_c } id name state { currentHumidityPct currentTempC current_humidity_pct current_temp_c heatingDemandPct heating_demand_pct hvacAction hvac_action specialFunction special_function valvePositionPct valve_position_pct } } }",
+      "response": {
+        "data": {
+          "zones": [
+            {
+              "config": {
+                "allowedModes": [
+                  "synthetic-AllowedModes"
+                ],
+                "allowed_modes": [
+                  "synthetic-AllowedModes"
+                ],
+                "associatedCircuit": 106,
+                "associated_circuit": 106,
+                "circuitType": "synthetic-CircuitType",
+                "circuit_type": "synthetic-CircuitType",
+                "holidayEndDate": "synthetic-HolidayEndDate",
+                "holidayEndTime": "synthetic-HolidayEndTime",
+                "holidaySetpoint": 20.5,
+                "holidayStartDate": "synthetic-HolidayStartDate",
+                "holidayStartTime": "synthetic-HolidayStartTime",
+                "holiday_end_date": "synthetic-HolidayEndDate",
+                "holiday_end_time": "synthetic-HolidayEndTime",
+                "holiday_setpoint": 20.5,
+                "holiday_start_date": "synthetic-HolidayStartDate",
+                "holiday_start_time": "synthetic-HolidayStartTime",
+                "operatingMode": "synthetic-OperatingMode",
+                "operating_mode": "synthetic-OperatingMode",
+                "preset": "synthetic-Preset",
+                "quickVeto": true,
+                "quickVetoDuration": 19.5,
+                "quickVetoExpiry": "synthetic-QuickVetoExpiry",
+                "quickVetoSetpoint": 18.5,
+                "quick_veto": true,
+                "quick_veto_duration": 19.5,
+                "quick_veto_expiry": "synthetic-QuickVetoExpiry",
+                "quick_veto_setpoint": 18.5,
+                "roomTemperatureZoneMapping": 107,
+                "room_temperature_zone_mapping": 107,
+                "targetTempC": 15.5,
+                "target_temp_c": 15.5
+              },
+              "id": "synthetic-ID",
+              "name": "synthetic-Name",
+              "state": {
+                "currentHumidityPct": 12.5,
+                "currentTempC": 11.5,
+                "current_humidity_pct": 12.5,
+                "current_temp_c": 11.5,
+                "heatingDemandPct": 13.5,
+                "heating_demand_pct": 13.5,
+                "hvacAction": "synthetic-HvacAction",
+                "hvac_action": "synthetic-HvacAction",
+                "specialFunction": "synthetic-SpecialFunction",
+                "special_function": "synthetic-SpecialFunction",
+                "valvePositionPct": 14.5,
+                "valve_position_pct": 14.5
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "dhw",
+      "fixture": "complete-synthetic",
+      "query": "query { dhw { config { holidayEndDate holidayStartDate holiday_end_date holiday_start_date operatingMode operating_mode preset targetTempC target_temp_c } state { currentTempC current_temp_c heatingDemandPct heating_demand_pct specialFunction special_function } } }",
+      "response": {
+        "data": {
+          "dhw": {
+            "config": {
+              "holidayEndDate": "synthetic-HolidayEndDate",
+              "holidayStartDate": "synthetic-HolidayStartDate",
+              "holiday_end_date": "synthetic-HolidayEndDate",
+              "holiday_start_date": "synthetic-HolidayStartDate",
+              "operatingMode": "synthetic-OperatingMode",
+              "operating_mode": "synthetic-OperatingMode",
+              "preset": "synthetic-Preset",
+              "targetTempC": 23.5,
+              "target_temp_c": 23.5
+            },
+            "state": {
+              "currentTempC": 21.5,
+              "current_temp_c": 21.5,
+              "heatingDemandPct": 22.5,
+              "heating_demand_pct": 22.5,
+              "specialFunction": "synthetic-SpecialFunction",
+              "special_function": "synthetic-SpecialFunction"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "circuits",
+      "fixture": "complete-synthetic",
+      "query": "query { circuits { circuitType circuit_type config { coolingEnabled cooling_enabled flowTempMaxC flowTempMinC flow_temp_max_c flow_temp_min_c frostProtC frost_prot_c heatingCurve heating_curve roomTempControl room_temp_control summerLimitC summer_limit_c } hasMixer has_mixer index managingDevice { address deviceId device_id role } managing_device { address deviceId device_id role } state { calcFlowTempC calc_flow_temp_c circuitState circuit_state dewPoint dew_point flowSetpointC flowTemperatureC flow_setpoint_c flow_temperature_c humidity mixerPositionPct mixer_position_pct pumpActive pumpHours pumpStarts pump_active pump_hours pump_starts } } }",
+      "response": {
+        "data": {
+          "circuits": [
+            {
+              "circuitType": "synthetic-CircuitType",
+              "circuit_type": "synthetic-CircuitType",
+              "config": {
+                "coolingEnabled": true,
+                "cooling_enabled": true,
+                "flowTempMaxC": 34.5,
+                "flowTempMinC": 35.5,
+                "flow_temp_max_c": 34.5,
+                "flow_temp_min_c": 35.5,
+                "frostProtC": 37.5,
+                "frost_prot_c": 37.5,
+                "heatingCurve": 33.5,
+                "heating_curve": 33.5,
+                "roomTempControl": "synthetic-RoomTempControl",
+                "room_temp_control": "synthetic-RoomTempControl",
+                "summerLimitC": 36.5,
+                "summer_limit_c": 36.5
+              },
+              "hasMixer": true,
+              "has_mixer": true,
+              "index": 114,
+              "managingDevice": {
+                "address": 128,
+                "deviceId": "synthetic-DeviceID",
+                "device_id": "synthetic-DeviceID",
+                "role": "FUNCTION_MODULE"
+              },
+              "managing_device": {
+                "address": 128,
+                "deviceId": "synthetic-DeviceID",
+                "device_id": "synthetic-DeviceID",
+                "role": "FUNCTION_MODULE"
+              },
+              "state": {
+                "calcFlowTempC": 28.5,
+                "calc_flow_temp_c": 28.5,
+                "circuitState": "synthetic-CircuitState",
+                "circuit_state": "synthetic-CircuitState",
+                "dewPoint": 30.5,
+                "dew_point": 30.5,
+                "flowSetpointC": 27.5,
+                "flowTemperatureC": 26.5,
+                "flow_setpoint_c": 27.5,
+                "flow_temperature_c": 26.5,
+                "humidity": 29.5,
+                "mixerPositionPct": 25.5,
+                "mixer_position_pct": 25.5,
+                "pumpActive": true,
+                "pumpHours": 31.5,
+                "pumpStarts": 122,
+                "pump_active": true,
+                "pump_hours": 31.5,
+                "pump_starts": 122
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "radioDevices",
+      "fixture": "complete-synthetic",
+      "query": "query { radioDevices { deviceClassAddress deviceConnected deviceModel devicePaired device_class_address device_connected device_model device_paired firmwareVersion firmware_version group hardwareIdentifier hardware_identifier instance receptionStrength reception_strength remoteControlAddress remote_control_address roomHumidityPct roomTemperatureC room_humidity_pct room_temperature_c slotMode slot_mode zoneAssignment zone_assignment } }",
+      "response": {
+        "data": {
+          "radioDevices": [
+            {
+              "deviceClassAddress": 131,
+              "deviceConnected": true,
+              "deviceModel": "synthetic-DeviceModel",
+              "devicePaired": true,
+              "device_class_address": 131,
+              "device_connected": true,
+              "device_model": "synthetic-DeviceModel",
+              "device_paired": true,
+              "firmwareVersion": "synthetic-FirmwareVersion",
+              "firmware_version": "synthetic-FirmwareVersion",
+              "group": 129,
+              "hardwareIdentifier": 132,
+              "hardware_identifier": 132,
+              "instance": 130,
+              "receptionStrength": 134,
+              "reception_strength": 134,
+              "remoteControlAddress": 133,
+              "remote_control_address": 133,
+              "roomHumidityPct": 47.5,
+              "roomTemperatureC": 46.5,
+              "room_humidity_pct": 47.5,
+              "room_temperature_c": 46.5,
+              "slotMode": "synthetic-SlotMode",
+              "slot_mode": "synthetic-SlotMode",
+              "zoneAssignment": 135,
+              "zone_assignment": 135
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "fm5SemanticMode",
+      "fixture": "complete-synthetic",
+      "query": "query { fm5SemanticMode }",
+      "response": {
+        "data": {
+          "fm5SemanticMode": "INTERPRETED"
+        }
+      }
+    },
+    {
+      "name": "solar",
+      "fixture": "complete-synthetic",
+      "query": "query { solar { collectorTemperatureC collector_temperature_c currentYield current_yield functionMode function_mode pumpActive pumpHours pump_active pump_hours returnTemperatureC return_temperature_c solarEnabled solar_enabled } }",
+      "response": {
+        "data": {
+          "solar": {
+            "collectorTemperatureC": 48.5,
+            "collector_temperature_c": 48.5,
+            "currentYield": 50.5,
+            "current_yield": 50.5,
+            "functionMode": true,
+            "function_mode": true,
+            "pumpActive": true,
+            "pumpHours": 51.5,
+            "pump_active": true,
+            "pump_hours": 51.5,
+            "returnTemperatureC": 49.5,
+            "return_temperature_c": 49.5,
+            "solarEnabled": true,
+            "solar_enabled": true
+          }
+        }
+      }
+    },
+    {
+      "name": "cylinders",
+      "fixture": "complete-synthetic",
+      "query": "query { cylinders { chargeHysteresisC chargeOffsetC charge_hysteresis_c charge_offset_c index maxSetpointC max_setpoint_c temperatureC temperature_c } }",
+      "response": {
+        "data": {
+          "cylinders": [
+            {
+              "chargeHysteresisC": 55.5,
+              "chargeOffsetC": 56.5,
+              "charge_hysteresis_c": 55.5,
+              "charge_offset_c": 56.5,
+              "index": 142,
+              "maxSetpointC": 54.5,
+              "max_setpoint_c": 54.5,
+              "temperatureC": 53.5,
+              "temperature_c": 53.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "energyTotals",
+      "fixture": "complete-synthetic",
+      "query": "query { energyTotals { electric { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } gas { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } solar { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } } }",
+      "response": {
+        "data": {
+          "energyTotals": {
+            "electric": {
+              "climate": {
+                "monthly": [
+                  90.5,
+                  91.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 95.5,
+                    "age_seconds": 95.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 96.5,
+                    "age_seconds": 96.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 95.5,
+                    "age_seconds": 95.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 96.5,
+                    "age_seconds": 96.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 87.5,
+                "todayMeta": {
+                  "ageSeconds": 92.5,
+                  "age_seconds": 92.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 92.5,
+                  "age_seconds": 92.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  88.5,
+                  89.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 93.5,
+                    "age_seconds": 93.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 94.5,
+                    "age_seconds": 94.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 93.5,
+                    "age_seconds": 93.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 94.5,
+                    "age_seconds": 94.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  80.5,
+                  81.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 85.5,
+                    "age_seconds": 85.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 86.5,
+                    "age_seconds": 86.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 85.5,
+                    "age_seconds": 85.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 86.5,
+                    "age_seconds": 86.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 77.5,
+                "todayMeta": {
+                  "ageSeconds": 82.5,
+                  "age_seconds": 82.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 82.5,
+                  "age_seconds": 82.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  78.5,
+                  79.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 83.5,
+                    "age_seconds": 83.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 84.5,
+                    "age_seconds": 84.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 83.5,
+                    "age_seconds": 83.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 84.5,
+                    "age_seconds": 84.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            },
+            "gas": {
+              "climate": {
+                "monthly": [
+                  70.5,
+                  71.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 75.5,
+                    "age_seconds": 75.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 76.5,
+                    "age_seconds": 76.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 75.5,
+                    "age_seconds": 75.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 76.5,
+                    "age_seconds": 76.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 67.5,
+                "todayMeta": {
+                  "ageSeconds": 72.5,
+                  "age_seconds": 72.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 72.5,
+                  "age_seconds": 72.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  68.5,
+                  69.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 73.5,
+                    "age_seconds": 73.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 74.5,
+                    "age_seconds": 74.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 73.5,
+                    "age_seconds": 73.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 74.5,
+                    "age_seconds": 74.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  60.5,
+                  61.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 65.5,
+                    "age_seconds": 65.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 66.5,
+                    "age_seconds": 66.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 65.5,
+                    "age_seconds": 65.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 66.5,
+                    "age_seconds": 66.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 57.5,
+                "todayMeta": {
+                  "ageSeconds": 62.5,
+                  "age_seconds": 62.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 62.5,
+                  "age_seconds": 62.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  58.5,
+                  59.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 63.5,
+                    "age_seconds": 63.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 64.5,
+                    "age_seconds": 64.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 63.5,
+                    "age_seconds": 63.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 64.5,
+                    "age_seconds": 64.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            },
+            "solar": {
+              "climate": {
+                "monthly": [
+                  110.5,
+                  111.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 115.5,
+                    "age_seconds": 115.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 116.5,
+                    "age_seconds": 116.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 115.5,
+                    "age_seconds": 115.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 116.5,
+                    "age_seconds": 116.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 107.5,
+                "todayMeta": {
+                  "ageSeconds": 112.5,
+                  "age_seconds": 112.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 112.5,
+                  "age_seconds": 112.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  108.5,
+                  109.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 113.5,
+                    "age_seconds": 113.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 114.5,
+                    "age_seconds": 114.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 113.5,
+                    "age_seconds": 113.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 114.5,
+                    "age_seconds": 114.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  100.5,
+                  101.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 105.5,
+                    "age_seconds": 105.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 106.5,
+                    "age_seconds": 106.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 105.5,
+                    "age_seconds": 105.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 106.5,
+                    "age_seconds": 106.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 97.5,
+                "todayMeta": {
+                  "ageSeconds": 102.5,
+                  "age_seconds": 102.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 102.5,
+                  "age_seconds": 102.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  98.5,
+                  99.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 103.5,
+                    "age_seconds": 103.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 104.5,
+                    "age_seconds": 104.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 103.5,
+                    "age_seconds": 103.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 104.5,
+                    "age_seconds": 104.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "boilerStatus",
+      "fixture": "complete-synthetic",
+      "query": "query { boilerStatus { config { dhwOperatingMode dhw_operating_mode flowsetHcMaxC flowsetHwcMaxC flowset_hc_max_c flowset_hwc_max_c hoursTillService hours_till_service installerMenuCode installer_menu_code partloadHcKW partloadHwcKW partload_hc_kw partload_hwc_kw phoneNumber phone_number } diagnostics { centralHeatingHours centralHeatingStarts central_heating_hours central_heating_starts deactivationsIFC deactivationsTemplimiter deactivations_ifc deactivations_templimiter dhwHours dhwStarts dhwStatusRaw dhw_hours dhw_starts dhw_status_raw fanHours fan_hours heatingStatusRaw heating_status_raw pumpHours pump_hours } state { centralHeatingPumpActive central_heating_pump_active circulationPumpActive circulation_pump_active dhwDemandActive dhwTargetTemperatureC dhwTempDesiredC dhwTemperatureC dhwWaterFlowLpm dhw_demand_active dhw_target_temperature_c dhw_temp_desired_c dhw_temperature_c dhw_water_flow_lpm diverterValvePositionPct diverter_valve_position_pct externalPumpActive external_pump_active fanSpeedRpm fan_speed_rpm flameActive flame_active flowTempDesiredC flowTemperatureC flow_temp_desired_c flow_temperature_c gasValveActive gas_valve_active heatingSwitchActive heating_switch_active ionisationVoltageUa ionisation_voltage_ua modulationPct modulation_pct primaryCircuitFlowLpm primary_circuit_flow_lpm returnTemperatureC return_temperature_c stateNumber state_number storageLoadPumpPct storage_load_pump_pct targetFanSpeedRpm target_fan_speed_rpm waterPressureBar water_pressure_bar } } }",
+      "response": {
+        "data": {
+          "boilerStatus": {
+            "config": {
+              "dhwOperatingMode": "synthetic-DhwOperatingMode",
+              "dhw_operating_mode": "synthetic-DhwOperatingMode",
+              "flowsetHcMaxC": 133.5,
+              "flowsetHwcMaxC": 134.5,
+              "flowset_hc_max_c": 133.5,
+              "flowset_hwc_max_c": 134.5,
+              "hoursTillService": 228,
+              "hours_till_service": 228,
+              "installerMenuCode": 227,
+              "installer_menu_code": 227,
+              "partloadHcKW": 135.5,
+              "partloadHwcKW": 136.5,
+              "partload_hc_kw": 135.5,
+              "partload_hwc_kw": 136.5,
+              "phoneNumber": "synthetic-PhoneNumber",
+              "phone_number": "synthetic-PhoneNumber"
+            },
+            "diagnostics": {
+              "centralHeatingHours": 141.5,
+              "centralHeatingStarts": 233,
+              "central_heating_hours": 141.5,
+              "central_heating_starts": 233,
+              "deactivationsIFC": 237,
+              "deactivationsTemplimiter": 238,
+              "deactivations_ifc": 237,
+              "deactivations_templimiter": 238,
+              "dhwHours": 142.5,
+              "dhwStarts": 234,
+              "dhwStatusRaw": 230,
+              "dhw_hours": 142.5,
+              "dhw_starts": 234,
+              "dhw_status_raw": 230,
+              "fanHours": 146.5,
+              "fan_hours": 146.5,
+              "heatingStatusRaw": 229,
+              "heating_status_raw": 229,
+              "pumpHours": 145.5,
+              "pump_hours": 145.5
+            },
+            "state": {
+              "centralHeatingPumpActive": true,
+              "central_heating_pump_active": true,
+              "circulationPumpActive": true,
+              "circulation_pump_active": true,
+              "dhwDemandActive": true,
+              "dhwTargetTemperatureC": 132.5,
+              "dhwTempDesiredC": 129.5,
+              "dhwTemperatureC": 131.5,
+              "dhwWaterFlowLpm": 124.5,
+              "dhw_demand_active": true,
+              "dhw_target_temperature_c": 132.5,
+              "dhw_temp_desired_c": 129.5,
+              "dhw_temperature_c": 131.5,
+              "dhw_water_flow_lpm": 124.5,
+              "diverterValvePositionPct": 120.5,
+              "diverter_valve_position_pct": 120.5,
+              "externalPumpActive": true,
+              "external_pump_active": true,
+              "fanSpeedRpm": 211,
+              "fan_speed_rpm": 211,
+              "flameActive": true,
+              "flame_active": true,
+              "flowTempDesiredC": 128.5,
+              "flowTemperatureC": 52.5,
+              "flow_temp_desired_c": 128.5,
+              "flow_temperature_c": 52.5,
+              "gasValveActive": true,
+              "gas_valve_active": true,
+              "heatingSwitchActive": true,
+              "heating_switch_active": true,
+              "ionisationVoltageUa": 123.5,
+              "ionisation_voltage_ua": 123.5,
+              "modulationPct": 126.5,
+              "modulation_pct": 126.5,
+              "primaryCircuitFlowLpm": 127.5,
+              "primary_circuit_flow_lpm": 127.5,
+              "returnTemperatureC": 118.5,
+              "return_temperature_c": 118.5,
+              "stateNumber": 220,
+              "state_number": 220,
+              "storageLoadPumpPct": 125.5,
+              "storage_load_pump_pct": 125.5,
+              "targetFanSpeedRpm": 212,
+              "target_fan_speed_rpm": 212,
+              "waterPressureBar": 119.5,
+              "water_pressure_bar": 119.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "system",
+      "fixture": "complete-synthetic",
+      "query": "query { system { config { adaptiveHeatingCurve adaptive_heating_curve alternativePoint alternative_point dhwBivalencePoint dhw_bivalence_point hcEmergencyTemperature hc_emergency_temperature heatingCircuitBivalencePoint heating_circuit_bivalence_point hwcMaxFlowTempDesired hwc_max_flow_temp_desired installerMenuCode installerName installerPhone installer_menu_code installer_name installer_phone maintenanceDate maintenance_date maxRoomHumidity max_room_humidity } properties { moduleConfigurationVR71 module_configuration_vr71 systemScheme system_scheme } state { hwcCylinderTemperatureBottom hwcCylinderTemperatureTop hwc_cylinder_temperature_bottom hwc_cylinder_temperature_top maintenanceDue maintenance_due outdoorTemperature outdoorTemperatureAvg24h outdoor_temperature outdoor_temperature_avg24h systemFlowTemperature systemOff systemWaterPressure system_flow_temperature system_off system_water_pressure } } }",
+      "response": {
+        "data": {
+          "system": {
+            "config": {
+              "adaptiveHeatingCurve": true,
+              "adaptive_heating_curve": true,
+              "alternativePoint": 155.5,
+              "alternative_point": 155.5,
+              "dhwBivalencePoint": 157.5,
+              "dhw_bivalence_point": 157.5,
+              "hcEmergencyTemperature": 158.5,
+              "hc_emergency_temperature": 158.5,
+              "heatingCircuitBivalencePoint": 156.5,
+              "heating_circuit_bivalence_point": 156.5,
+              "hwcMaxFlowTempDesired": 159.5,
+              "hwc_max_flow_temp_desired": 159.5,
+              "installerMenuCode": 251,
+              "installerName": "synthetic-InstallerName",
+              "installerPhone": "synthetic-InstallerPhone",
+              "installer_menu_code": 251,
+              "installer_name": "synthetic-InstallerName",
+              "installer_phone": "synthetic-InstallerPhone",
+              "maintenanceDate": "synthetic-MaintenanceDate",
+              "maintenance_date": "synthetic-MaintenanceDate",
+              "maxRoomHumidity": 250,
+              "max_room_humidity": 250
+            },
+            "properties": {
+              "moduleConfigurationVR71": 253,
+              "module_configuration_vr71": 253,
+              "systemScheme": 252,
+              "system_scheme": 252
+            },
+            "state": {
+              "hwcCylinderTemperatureBottom": 154.5,
+              "hwcCylinderTemperatureTop": 153.5,
+              "hwc_cylinder_temperature_bottom": 154.5,
+              "hwc_cylinder_temperature_top": 153.5,
+              "maintenanceDue": true,
+              "maintenance_due": true,
+              "outdoorTemperature": 151.5,
+              "outdoorTemperatureAvg24h": 152.5,
+              "outdoor_temperature": 151.5,
+              "outdoor_temperature_avg24h": 152.5,
+              "systemFlowTemperature": 150.5,
+              "systemOff": true,
+              "systemWaterPressure": 149.5,
+              "system_flow_temperature": 150.5,
+              "system_off": true,
+              "system_water_pressure": 149.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "schedules",
+      "fixture": "complete-synthetic",
+      "query": "query { schedules { programs { config { hasTemperature has_temperature maxSlots maxTempC max_slots max_temp_c minDuration minTempC min_duration min_temp_c tempSlots temp_slots timeResolution time_resolution } days { slots { endHour endMinute end_hour end_minute startHour startMinute start_hour start_minute temperatureC temperatureRaw temperature_c temperature_raw } weekday } hc slotsUsed slots_used zone } } }",
+      "response": {
+        "data": {
+          "schedules": {
+            "programs": [
+              {
+                "config": {
+                  "hasTemperature": true,
+                  "has_temperature": true,
+                  "maxSlots": 255,
+                  "maxTempC": 170.5,
+                  "max_slots": 255,
+                  "max_temp_c": 170.5,
+                  "minDuration": 257,
+                  "minTempC": 169.5,
+                  "min_duration": 257,
+                  "min_temp_c": 169.5,
+                  "tempSlots": 258,
+                  "temp_slots": 258,
+                  "timeResolution": 256,
+                  "time_resolution": 256
+                },
+                "days": [
+                  {
+                    "slots": [
+                      {
+                        "endHour": 265,
+                        "endMinute": 266,
+                        "end_hour": 265,
+                        "end_minute": 266,
+                        "startHour": 263,
+                        "startMinute": 264,
+                        "start_hour": 263,
+                        "start_minute": 264,
+                        "temperatureC": 177.5,
+                        "temperatureRaw": 268,
+                        "temperature_c": 177.5,
+                        "temperature_raw": 268
+                      }
+                    ],
+                    "weekday": "synthetic-Weekday"
+                  }
+                ],
+                "hc": "synthetic-HC",
+                "slotsUsed": [
+                  261,
+                  262
+                ],
+                "slots_used": [
+                  261,
+                  262
+                ],
+                "zone": 254
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "adapterHardwareInfo",
+      "fixture": "complete-synthetic",
+      "query": "query { adapterHardwareInfo { bootloaderChecksum bootloaderVersion bootloader_checksum bootloader_version busVoltageMaxDv busVoltageMinDv bus_voltage_max_dv bus_voltage_min_dv features firmwareChecksum firmwareVersion firmware_checksum firmware_version hardwareConfig hardwareID hardware_config hardware_id infoSupported info_supported isEthernet isWifi is_ethernet is_wifi jumperFlags jumper_flags jumpers lastIdentityQuery lastTelemetryQuery last_identity_query last_telemetry_query resetCause resetCauseCode reset_cause reset_cause_code restartCount restart_count supplyVoltageMv supply_voltage_mv temperatureC temperature_c versionResponseLen version_response_len wifiRssiDbm wifi_rssi_dbm } }",
+      "response": {
+        "data": {
+          "adapterHardwareInfo": {
+            "bootloaderChecksum": "synthetic-BootloaderChecksum",
+            "bootloaderVersion": "synthetic-BootloaderVersion",
+            "bootloader_checksum": "synthetic-BootloaderChecksum",
+            "bootloader_version": "synthetic-BootloaderVersion",
+            "busVoltageMaxDv": 273,
+            "busVoltageMinDv": 274,
+            "bus_voltage_max_dv": 273,
+            "bus_voltage_min_dv": 274,
+            "features": 170,
+            "firmwareChecksum": "synthetic-FirmwareChecksum",
+            "firmwareVersion": "synthetic-FirmwareVersion",
+            "firmware_checksum": "synthetic-FirmwareChecksum",
+            "firmware_version": "synthetic-FirmwareVersion",
+            "hardwareConfig": "synthetic-HardwareConfig",
+            "hardwareID": "synthetic-HardwareID",
+            "hardware_config": "synthetic-HardwareConfig",
+            "hardware_id": "synthetic-HardwareID",
+            "infoSupported": true,
+            "info_supported": true,
+            "isEthernet": true,
+            "isWifi": true,
+            "is_ethernet": true,
+            "is_wifi": true,
+            "jumperFlags": [
+              "synthetic-JumperFlags"
+            ],
+            "jumper_flags": [
+              "synthetic-JumperFlags"
+            ],
+            "jumpers": 171,
+            "lastIdentityQuery": "2026-03-12T18:30:00Z",
+            "lastTelemetryQuery": "2026-03-12T18:30:00Z",
+            "last_identity_query": "2026-03-12T18:30:00Z",
+            "last_telemetry_query": "2026-03-12T18:30:00Z",
+            "resetCause": "synthetic-ResetCause",
+            "resetCauseCode": 176,
+            "reset_cause": "synthetic-ResetCause",
+            "reset_cause_code": 176,
+            "restartCount": 177,
+            "restart_count": 177,
+            "supplyVoltageMv": 272,
+            "supply_voltage_mv": 272,
+            "temperatureC": 181.5,
+            "temperature_c": 181.5,
+            "versionResponseLen": 278,
+            "version_response_len": 278,
+            "wifiRssiDbm": 277,
+            "wifi_rssi_dbm": 277
+          }
+        }
+      }
+    },
+    {
+      "name": "radio_devices",
+      "fixture": "complete-synthetic",
+      "query": "query { radio_devices { deviceClassAddress deviceConnected deviceModel devicePaired device_class_address device_connected device_model device_paired firmwareVersion firmware_version group hardwareIdentifier hardware_identifier instance receptionStrength reception_strength remoteControlAddress remote_control_address roomHumidityPct roomTemperatureC room_humidity_pct room_temperature_c slotMode slot_mode zoneAssignment zone_assignment } }",
+      "response": {
+        "data": {
+          "radio_devices": [
+            {
+              "deviceClassAddress": 131,
+              "deviceConnected": true,
+              "deviceModel": "synthetic-DeviceModel",
+              "devicePaired": true,
+              "device_class_address": 131,
+              "device_connected": true,
+              "device_model": "synthetic-DeviceModel",
+              "device_paired": true,
+              "firmwareVersion": "synthetic-FirmwareVersion",
+              "firmware_version": "synthetic-FirmwareVersion",
+              "group": 129,
+              "hardwareIdentifier": 132,
+              "hardware_identifier": 132,
+              "instance": 130,
+              "receptionStrength": 134,
+              "reception_strength": 134,
+              "remoteControlAddress": 133,
+              "remote_control_address": 133,
+              "roomHumidityPct": 47.5,
+              "roomTemperatureC": 46.5,
+              "room_humidity_pct": 47.5,
+              "room_temperature_c": 46.5,
+              "slotMode": "synthetic-SlotMode",
+              "slot_mode": "synthetic-SlotMode",
+              "zoneAssignment": 135,
+              "zone_assignment": 135
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "fm5_semantic_mode",
+      "fixture": "complete-synthetic",
+      "query": "query { fm5_semantic_mode }",
+      "response": {
+        "data": {
+          "fm5_semantic_mode": "INTERPRETED"
+        }
+      }
+    },
+    {
+      "name": "energy_totals",
+      "fixture": "complete-synthetic",
+      "query": "query { energy_totals { electric { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } gas { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } solar { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } } }",
+      "response": {
+        "data": {
+          "energy_totals": {
+            "electric": {
+              "climate": {
+                "monthly": [
+                  90.5,
+                  91.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 95.5,
+                    "age_seconds": 95.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 96.5,
+                    "age_seconds": 96.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 95.5,
+                    "age_seconds": 95.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 96.5,
+                    "age_seconds": 96.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 87.5,
+                "todayMeta": {
+                  "ageSeconds": 92.5,
+                  "age_seconds": 92.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 92.5,
+                  "age_seconds": 92.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  88.5,
+                  89.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 93.5,
+                    "age_seconds": 93.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 94.5,
+                    "age_seconds": 94.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 93.5,
+                    "age_seconds": 93.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 94.5,
+                    "age_seconds": 94.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  80.5,
+                  81.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 85.5,
+                    "age_seconds": 85.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 86.5,
+                    "age_seconds": 86.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 85.5,
+                    "age_seconds": 85.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 86.5,
+                    "age_seconds": 86.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 77.5,
+                "todayMeta": {
+                  "ageSeconds": 82.5,
+                  "age_seconds": 82.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 82.5,
+                  "age_seconds": 82.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  78.5,
+                  79.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 83.5,
+                    "age_seconds": 83.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 84.5,
+                    "age_seconds": 84.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 83.5,
+                    "age_seconds": 83.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 84.5,
+                    "age_seconds": 84.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            },
+            "gas": {
+              "climate": {
+                "monthly": [
+                  70.5,
+                  71.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 75.5,
+                    "age_seconds": 75.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 76.5,
+                    "age_seconds": 76.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 75.5,
+                    "age_seconds": 75.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 76.5,
+                    "age_seconds": 76.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 67.5,
+                "todayMeta": {
+                  "ageSeconds": 72.5,
+                  "age_seconds": 72.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 72.5,
+                  "age_seconds": 72.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  68.5,
+                  69.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 73.5,
+                    "age_seconds": 73.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 74.5,
+                    "age_seconds": 74.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 73.5,
+                    "age_seconds": 73.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 74.5,
+                    "age_seconds": 74.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  60.5,
+                  61.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 65.5,
+                    "age_seconds": 65.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 66.5,
+                    "age_seconds": 66.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 65.5,
+                    "age_seconds": 65.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 66.5,
+                    "age_seconds": 66.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 57.5,
+                "todayMeta": {
+                  "ageSeconds": 62.5,
+                  "age_seconds": 62.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 62.5,
+                  "age_seconds": 62.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  58.5,
+                  59.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 63.5,
+                    "age_seconds": 63.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 64.5,
+                    "age_seconds": 64.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 63.5,
+                    "age_seconds": 63.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 64.5,
+                    "age_seconds": 64.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            },
+            "solar": {
+              "climate": {
+                "monthly": [
+                  110.5,
+                  111.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 115.5,
+                    "age_seconds": 115.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 116.5,
+                    "age_seconds": 116.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 115.5,
+                    "age_seconds": 115.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 116.5,
+                    "age_seconds": 116.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 107.5,
+                "todayMeta": {
+                  "ageSeconds": 112.5,
+                  "age_seconds": 112.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 112.5,
+                  "age_seconds": 112.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  108.5,
+                  109.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 113.5,
+                    "age_seconds": 113.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 114.5,
+                    "age_seconds": 114.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 113.5,
+                    "age_seconds": 113.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 114.5,
+                    "age_seconds": 114.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              },
+              "dhw": {
+                "monthly": [
+                  100.5,
+                  101.5
+                ],
+                "monthlyMeta": [
+                  {
+                    "ageSeconds": 105.5,
+                    "age_seconds": 105.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 106.5,
+                    "age_seconds": 106.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "monthly_meta": [
+                  {
+                    "ageSeconds": 105.5,
+                    "age_seconds": 105.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 106.5,
+                    "age_seconds": 106.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "today": 97.5,
+                "todayMeta": {
+                  "ageSeconds": 102.5,
+                  "age_seconds": 102.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "today_meta": {
+                  "ageSeconds": 102.5,
+                  "age_seconds": 102.5,
+                  "freshnessState": "fresh",
+                  "freshness_state": "fresh",
+                  "lastObservedUtc": "synthetic-LastObservedUTC",
+                  "last_observed_utc": "synthetic-LastObservedUTC",
+                  "provenance": "register",
+                  "stale": true
+                },
+                "yearly": [
+                  98.5,
+                  99.5
+                ],
+                "yearlyMeta": [
+                  {
+                    "ageSeconds": 103.5,
+                    "age_seconds": 103.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 104.5,
+                    "age_seconds": 104.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ],
+                "yearly_meta": [
+                  {
+                    "ageSeconds": 103.5,
+                    "age_seconds": 103.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  },
+                  {
+                    "ageSeconds": 104.5,
+                    "age_seconds": 104.5,
+                    "freshnessState": "fresh",
+                    "freshness_state": "fresh",
+                    "lastObservedUtc": "synthetic-LastObservedUTC",
+                    "last_observed_utc": "synthetic-LastObservedUTC",
+                    "provenance": "register",
+                    "stale": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "boiler_status",
+      "fixture": "complete-synthetic",
+      "query": "query { boiler_status { config { dhwOperatingMode dhw_operating_mode flowsetHcMaxC flowsetHwcMaxC flowset_hc_max_c flowset_hwc_max_c hoursTillService hours_till_service installerMenuCode installer_menu_code partloadHcKW partloadHwcKW partload_hc_kw partload_hwc_kw phoneNumber phone_number } diagnostics { centralHeatingHours centralHeatingStarts central_heating_hours central_heating_starts deactivationsIFC deactivationsTemplimiter deactivations_ifc deactivations_templimiter dhwHours dhwStarts dhwStatusRaw dhw_hours dhw_starts dhw_status_raw fanHours fan_hours heatingStatusRaw heating_status_raw pumpHours pump_hours } state { centralHeatingPumpActive central_heating_pump_active circulationPumpActive circulation_pump_active dhwDemandActive dhwTargetTemperatureC dhwTempDesiredC dhwTemperatureC dhwWaterFlowLpm dhw_demand_active dhw_target_temperature_c dhw_temp_desired_c dhw_temperature_c dhw_water_flow_lpm diverterValvePositionPct diverter_valve_position_pct externalPumpActive external_pump_active fanSpeedRpm fan_speed_rpm flameActive flame_active flowTempDesiredC flowTemperatureC flow_temp_desired_c flow_temperature_c gasValveActive gas_valve_active heatingSwitchActive heating_switch_active ionisationVoltageUa ionisation_voltage_ua modulationPct modulation_pct primaryCircuitFlowLpm primary_circuit_flow_lpm returnTemperatureC return_temperature_c stateNumber state_number storageLoadPumpPct storage_load_pump_pct targetFanSpeedRpm target_fan_speed_rpm waterPressureBar water_pressure_bar } } }",
+      "response": {
+        "data": {
+          "boiler_status": {
+            "config": {
+              "dhwOperatingMode": "synthetic-DhwOperatingMode",
+              "dhw_operating_mode": "synthetic-DhwOperatingMode",
+              "flowsetHcMaxC": 133.5,
+              "flowsetHwcMaxC": 134.5,
+              "flowset_hc_max_c": 133.5,
+              "flowset_hwc_max_c": 134.5,
+              "hoursTillService": 228,
+              "hours_till_service": 228,
+              "installerMenuCode": 227,
+              "installer_menu_code": 227,
+              "partloadHcKW": 135.5,
+              "partloadHwcKW": 136.5,
+              "partload_hc_kw": 135.5,
+              "partload_hwc_kw": 136.5,
+              "phoneNumber": "synthetic-PhoneNumber",
+              "phone_number": "synthetic-PhoneNumber"
+            },
+            "diagnostics": {
+              "centralHeatingHours": 141.5,
+              "centralHeatingStarts": 233,
+              "central_heating_hours": 141.5,
+              "central_heating_starts": 233,
+              "deactivationsIFC": 237,
+              "deactivationsTemplimiter": 238,
+              "deactivations_ifc": 237,
+              "deactivations_templimiter": 238,
+              "dhwHours": 142.5,
+              "dhwStarts": 234,
+              "dhwStatusRaw": 230,
+              "dhw_hours": 142.5,
+              "dhw_starts": 234,
+              "dhw_status_raw": 230,
+              "fanHours": 146.5,
+              "fan_hours": 146.5,
+              "heatingStatusRaw": 229,
+              "heating_status_raw": 229,
+              "pumpHours": 145.5,
+              "pump_hours": 145.5
+            },
+            "state": {
+              "centralHeatingPumpActive": true,
+              "central_heating_pump_active": true,
+              "circulationPumpActive": true,
+              "circulation_pump_active": true,
+              "dhwDemandActive": true,
+              "dhwTargetTemperatureC": 132.5,
+              "dhwTempDesiredC": 129.5,
+              "dhwTemperatureC": 131.5,
+              "dhwWaterFlowLpm": 124.5,
+              "dhw_demand_active": true,
+              "dhw_target_temperature_c": 132.5,
+              "dhw_temp_desired_c": 129.5,
+              "dhw_temperature_c": 131.5,
+              "dhw_water_flow_lpm": 124.5,
+              "diverterValvePositionPct": 120.5,
+              "diverter_valve_position_pct": 120.5,
+              "externalPumpActive": true,
+              "external_pump_active": true,
+              "fanSpeedRpm": 211,
+              "fan_speed_rpm": 211,
+              "flameActive": true,
+              "flame_active": true,
+              "flowTempDesiredC": 128.5,
+              "flowTemperatureC": 52.5,
+              "flow_temp_desired_c": 128.5,
+              "flow_temperature_c": 52.5,
+              "gasValveActive": true,
+              "gas_valve_active": true,
+              "heatingSwitchActive": true,
+              "heating_switch_active": true,
+              "ionisationVoltageUa": 123.5,
+              "ionisation_voltage_ua": 123.5,
+              "modulationPct": 126.5,
+              "modulation_pct": 126.5,
+              "primaryCircuitFlowLpm": 127.5,
+              "primary_circuit_flow_lpm": 127.5,
+              "returnTemperatureC": 118.5,
+              "return_temperature_c": 118.5,
+              "stateNumber": 220,
+              "state_number": 220,
+              "storageLoadPumpPct": 125.5,
+              "storage_load_pump_pct": 125.5,
+              "targetFanSpeedRpm": 212,
+              "target_fan_speed_rpm": 212,
+              "waterPressureBar": 119.5,
+              "water_pressure_bar": 119.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "adapter_hardware_info",
+      "fixture": "complete-synthetic",
+      "query": "query { adapter_hardware_info { bootloaderChecksum bootloaderVersion bootloader_checksum bootloader_version busVoltageMaxDv busVoltageMinDv bus_voltage_max_dv bus_voltage_min_dv features firmwareChecksum firmwareVersion firmware_checksum firmware_version hardwareConfig hardwareID hardware_config hardware_id infoSupported info_supported isEthernet isWifi is_ethernet is_wifi jumperFlags jumper_flags jumpers lastIdentityQuery lastTelemetryQuery last_identity_query last_telemetry_query resetCause resetCauseCode reset_cause reset_cause_code restartCount restart_count supplyVoltageMv supply_voltage_mv temperatureC temperature_c versionResponseLen version_response_len wifiRssiDbm wifi_rssi_dbm } }",
+      "response": {
+        "data": {
+          "adapter_hardware_info": {
+            "bootloaderChecksum": "synthetic-BootloaderChecksum",
+            "bootloaderVersion": "synthetic-BootloaderVersion",
+            "bootloader_checksum": "synthetic-BootloaderChecksum",
+            "bootloader_version": "synthetic-BootloaderVersion",
+            "busVoltageMaxDv": 273,
+            "busVoltageMinDv": 274,
+            "bus_voltage_max_dv": 273,
+            "bus_voltage_min_dv": 274,
+            "features": 170,
+            "firmwareChecksum": "synthetic-FirmwareChecksum",
+            "firmwareVersion": "synthetic-FirmwareVersion",
+            "firmware_checksum": "synthetic-FirmwareChecksum",
+            "firmware_version": "synthetic-FirmwareVersion",
+            "hardwareConfig": "synthetic-HardwareConfig",
+            "hardwareID": "synthetic-HardwareID",
+            "hardware_config": "synthetic-HardwareConfig",
+            "hardware_id": "synthetic-HardwareID",
+            "infoSupported": true,
+            "info_supported": true,
+            "isEthernet": true,
+            "isWifi": true,
+            "is_ethernet": true,
+            "is_wifi": true,
+            "jumperFlags": [
+              "synthetic-JumperFlags"
+            ],
+            "jumper_flags": [
+              "synthetic-JumperFlags"
+            ],
+            "jumpers": 171,
+            "lastIdentityQuery": "2026-03-12T18:30:00Z",
+            "lastTelemetryQuery": "2026-03-12T18:30:00Z",
+            "last_identity_query": "2026-03-12T18:30:00Z",
+            "last_telemetry_query": "2026-03-12T18:30:00Z",
+            "resetCause": "synthetic-ResetCause",
+            "resetCauseCode": 176,
+            "reset_cause": "synthetic-ResetCause",
+            "reset_cause_code": 176,
+            "restartCount": 177,
+            "restart_count": 177,
+            "supplyVoltageMv": 272,
+            "supply_voltage_mv": 272,
+            "temperatureC": 181.5,
+            "temperature_c": 181.5,
+            "versionResponseLen": 278,
+            "version_response_len": 278,
+            "wifiRssiDbm": 277,
+            "wifi_rssi_dbm": 277
+          }
+        }
+      }
+    }
+  ],
+  "description": "typed semantic root queries of the pre-port GraphQL surface; each query selects every argument-free field of its type",
+  "format": "helianthus-oracle-pre-port-typed-graphql/1",
+  "pin_cases": [
+    {
+      "name": "zones/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { zones { config { allowedModes allowed_modes associatedCircuit associated_circuit circuitType circuit_type holidayEndDate holidayEndTime holidaySetpoint holidayStartDate holidayStartTime holiday_end_date holiday_end_time holiday_setpoint holiday_start_date holiday_start_time operatingMode operating_mode preset quickVeto quickVetoDuration quickVetoExpiry quickVetoSetpoint quick_veto quick_veto_duration quick_veto_expiry quick_veto_setpoint roomTemperatureZoneMapping room_temperature_zone_mapping targetTempC target_temp_c } id name state { currentHumidityPct currentTempC current_humidity_pct current_temp_c heatingDemandPct heating_demand_pct hvacAction hvac_action specialFunction special_function valvePositionPct valve_position_pct } } }",
+      "response": {
+        "data": {
+          "zones": []
+        }
+      }
+    },
+    {
+      "name": "dhw/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { dhw { config { holidayEndDate holidayStartDate holiday_end_date holiday_start_date operatingMode operating_mode preset targetTempC target_temp_c } state { currentTempC current_temp_c heatingDemandPct heating_demand_pct specialFunction special_function } } }",
+      "response": {
+        "data": {
+          "dhw": null
+        }
+      }
+    },
+    {
+      "name": "circuits/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { circuits { circuitType circuit_type config { coolingEnabled cooling_enabled flowTempMaxC flowTempMinC flow_temp_max_c flow_temp_min_c frostProtC frost_prot_c heatingCurve heating_curve roomTempControl room_temp_control summerLimitC summer_limit_c } hasMixer has_mixer index managingDevice { address deviceId device_id role } managing_device { address deviceId device_id role } state { calcFlowTempC calc_flow_temp_c circuitState circuit_state dewPoint dew_point flowSetpointC flowTemperatureC flow_setpoint_c flow_temperature_c humidity mixerPositionPct mixer_position_pct pumpActive pumpHours pumpStarts pump_active pump_hours pump_starts } } }",
+      "response": {
+        "data": {
+          "circuits": []
+        }
+      }
+    },
+    {
+      "name": "radioDevices/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { radioDevices { deviceClassAddress deviceConnected deviceModel devicePaired device_class_address device_connected device_model device_paired firmwareVersion firmware_version group hardwareIdentifier hardware_identifier instance receptionStrength reception_strength remoteControlAddress remote_control_address roomHumidityPct roomTemperatureC room_humidity_pct room_temperature_c slotMode slot_mode zoneAssignment zone_assignment } }",
+      "response": {
+        "data": {
+          "radioDevices": []
+        }
+      }
+    },
+    {
+      "name": "fm5SemanticMode/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { fm5SemanticMode }",
+      "response": {
+        "data": {
+          "fm5SemanticMode": "ABSENT"
+        }
+      }
+    },
+    {
+      "name": "solar/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { solar { collectorTemperatureC collector_temperature_c currentYield current_yield functionMode function_mode pumpActive pumpHours pump_active pump_hours returnTemperatureC return_temperature_c solarEnabled solar_enabled } }",
+      "response": {
+        "data": {
+          "solar": null
+        }
+      }
+    },
+    {
+      "name": "cylinders/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { cylinders { chargeHysteresisC chargeOffsetC charge_hysteresis_c charge_offset_c index maxSetpointC max_setpoint_c temperatureC temperature_c } }",
+      "response": {
+        "data": {
+          "cylinders": []
+        }
+      }
+    },
+    {
+      "name": "energyTotals/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { energyTotals { electric { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } gas { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } solar { climate { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } dhw { monthly monthlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } monthly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today todayMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } today_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly yearlyMeta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } yearly_meta { ageSeconds age_seconds freshnessState freshness_state lastObservedUtc last_observed_utc provenance stale } } } } }",
+      "response": {
+        "data": {
+          "energyTotals": null
+        }
+      }
+    },
+    {
+      "name": "boilerStatus/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { boilerStatus { config { dhwOperatingMode dhw_operating_mode flowsetHcMaxC flowsetHwcMaxC flowset_hc_max_c flowset_hwc_max_c hoursTillService hours_till_service installerMenuCode installer_menu_code partloadHcKW partloadHwcKW partload_hc_kw partload_hwc_kw phoneNumber phone_number } diagnostics { centralHeatingHours centralHeatingStarts central_heating_hours central_heating_starts deactivationsIFC deactivationsTemplimiter deactivations_ifc deactivations_templimiter dhwHours dhwStarts dhwStatusRaw dhw_hours dhw_starts dhw_status_raw fanHours fan_hours heatingStatusRaw heating_status_raw pumpHours pump_hours } state { centralHeatingPumpActive central_heating_pump_active circulationPumpActive circulation_pump_active dhwDemandActive dhwTargetTemperatureC dhwTempDesiredC dhwTemperatureC dhwWaterFlowLpm dhw_demand_active dhw_target_temperature_c dhw_temp_desired_c dhw_temperature_c dhw_water_flow_lpm diverterValvePositionPct diverter_valve_position_pct externalPumpActive external_pump_active fanSpeedRpm fan_speed_rpm flameActive flame_active flowTempDesiredC flowTemperatureC flow_temp_desired_c flow_temperature_c gasValveActive gas_valve_active heatingSwitchActive heating_switch_active ionisationVoltageUa ionisation_voltage_ua modulationPct modulation_pct primaryCircuitFlowLpm primary_circuit_flow_lpm returnTemperatureC return_temperature_c stateNumber state_number storageLoadPumpPct storage_load_pump_pct targetFanSpeedRpm target_fan_speed_rpm waterPressureBar water_pressure_bar } } }",
+      "response": {
+        "data": {
+          "boilerStatus": null
+        }
+      }
+    },
+    {
+      "name": "system/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { system { config { adaptiveHeatingCurve adaptive_heating_curve alternativePoint alternative_point dhwBivalencePoint dhw_bivalence_point hcEmergencyTemperature hc_emergency_temperature heatingCircuitBivalencePoint heating_circuit_bivalence_point hwcMaxFlowTempDesired hwc_max_flow_temp_desired installerMenuCode installerName installerPhone installer_menu_code installer_name installer_phone maintenanceDate maintenance_date maxRoomHumidity max_room_humidity } properties { moduleConfigurationVR71 module_configuration_vr71 systemScheme system_scheme } state { hwcCylinderTemperatureBottom hwcCylinderTemperatureTop hwc_cylinder_temperature_bottom hwc_cylinder_temperature_top maintenanceDue maintenance_due outdoorTemperature outdoorTemperatureAvg24h outdoor_temperature outdoor_temperature_avg24h systemFlowTemperature systemOff systemWaterPressure system_flow_temperature system_off system_water_pressure } } }",
+      "response": {
+        "data": {
+          "system": null
+        }
+      }
+    },
+    {
+      "name": "schedules/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { schedules { programs { config { hasTemperature has_temperature maxSlots maxTempC max_slots max_temp_c minDuration minTempC min_duration min_temp_c tempSlots temp_slots timeResolution time_resolution } days { slots { endHour endMinute end_hour end_minute startHour startMinute start_hour start_minute temperatureC temperatureRaw temperature_c temperature_raw } weekday } hc slotsUsed slots_used zone } } }",
+      "response": {
+        "data": {
+          "schedules": null
+        }
+      }
+    },
+    {
+      "name": "adapterHardwareInfo/static-provider",
+      "fixture": "default provider of the builder; the pin's own test expects empty, nil and ABSENT answers",
+      "query": "query { adapterHardwareInfo { bootloaderChecksum bootloaderVersion bootloader_checksum bootloader_version busVoltageMaxDv busVoltageMinDv bus_voltage_max_dv bus_voltage_min_dv features firmwareChecksum firmwareVersion firmware_checksum firmware_version hardwareConfig hardwareID hardware_config hardware_id infoSupported info_supported isEthernet isWifi is_ethernet is_wifi jumperFlags jumper_flags jumpers lastIdentityQuery lastTelemetryQuery last_identity_query last_telemetry_query resetCause resetCauseCode reset_cause reset_cause_code restartCount restart_count supplyVoltageMv supply_voltage_mv temperatureC temperature_c versionResponseLen version_response_len wifiRssiDbm wifi_rssi_dbm } }",
+      "response": {
+        "data": {
+          "adapterHardwareInfo": null
+        }
+      }
+    },
+    {
+      "name": "zones/zones_dhw",
+      "fixture": "the zone the pin's zones_dhw case publishes",
+      "query": "query { zones { config { allowedModes allowed_modes associatedCircuit associated_circuit circuitType circuit_type holidayEndDate holidayEndTime holidaySetpoint holidayStartDate holidayStartTime holiday_end_date holiday_end_time holiday_setpoint holiday_start_date holiday_start_time operatingMode operating_mode preset quickVeto quickVetoDuration quickVetoExpiry quickVetoSetpoint quick_veto quick_veto_duration quick_veto_expiry quick_veto_setpoint roomTemperatureZoneMapping room_temperature_zone_mapping targetTempC target_temp_c } id name state { currentHumidityPct currentTempC current_humidity_pct current_temp_c heatingDemandPct heating_demand_pct hvacAction hvac_action specialFunction special_function valvePositionPct valve_position_pct } } }",
+      "response": {
+        "data": {
+          "zones": [
+            {
+              "config": {
+                "allowedModes": [
+                  "off",
+                  "auto",
+                  "heat"
+                ],
+                "allowed_modes": [
+                  "off",
+                  "auto",
+                  "heat"
+                ],
+                "associatedCircuit": 1,
+                "associated_circuit": 1,
+                "circuitType": "underfloor",
+                "circuit_type": "underfloor",
+                "holidayEndDate": null,
+                "holidayEndTime": null,
+                "holidaySetpoint": null,
+                "holidayStartDate": null,
+                "holidayStartTime": null,
+                "holiday_end_date": null,
+                "holiday_end_time": null,
+                "holiday_setpoint": null,
+                "holiday_start_date": null,
+                "holiday_start_time": null,
+                "operatingMode": "heat",
+                "operating_mode": "heat",
+                "preset": "manual",
+                "quickVeto": false,
+                "quickVetoDuration": null,
+                "quickVetoExpiry": null,
+                "quickVetoSetpoint": null,
+                "quick_veto": false,
+                "quick_veto_duration": null,
+                "quick_veto_expiry": null,
+                "quick_veto_setpoint": null,
+                "roomTemperatureZoneMapping": 2,
+                "room_temperature_zone_mapping": 2,
+                "targetTempC": null,
+                "target_temp_c": null
+              },
+              "id": "zone-2",
+              "name": "Etaj",
+              "state": {
+                "currentHumidityPct": null,
+                "currentTempC": null,
+                "current_humidity_pct": null,
+                "current_temp_c": null,
+                "heatingDemandPct": null,
+                "heating_demand_pct": null,
+                "hvacAction": null,
+                "hvac_action": null,
+                "specialFunction": null,
+                "special_function": null,
+                "valvePositionPct": null,
+                "valve_position_pct": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "circuits/managing-device",
+      "fixture": "the circuit the pin's managing-device case publishes",
+      "query": "query { circuits { index managingDevice { role deviceId address } } }",
+      "response": {
+        "data": {
+          "circuits": [
+            {
+              "index": 0,
+              "managingDevice": {
+                "address": 38,
+                "deviceId": "VR_71",
+                "role": "FUNCTION_MODULE"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "system/removed-vr71CircuitStartIndex",
+      "fixture": "the pin's removed-field case",
+      "query": "query { system { properties { vr71CircuitStartIndex } } }",
+      "response": {
+        "data": null,
+        "errors": [
+          {
+            "locations": [
+              {
+                "column": 31,
+                "line": 1
+              }
+            ],
+            "message": "Cannot query field \"vr71CircuitStartIndex\" on type \"SystemProperties\"."
+          }
+        ]
+      }
+    },
+    {
+      "name": "energyTotals/no-data",
+      "fixture": "the pin's energy_totals_root case",
+      "query": "query { energyTotals { gas { dhw { today todayMeta { freshnessState provenance stale } yearlyMeta { freshnessState provenance stale } } } } }",
+      "response": {
+        "data": {
+          "energyTotals": {
+            "gas": {
+              "dhw": {
+                "today": 0,
+                "todayMeta": {
+                  "freshnessState": "never_seen",
+                  "provenance": "none",
+                  "stale": false
+                },
+                "yearlyMeta": [
+                  {
+                    "freshnessState": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshnessState": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "energyTotals/with-values",
+      "fixture": "the register values the pin's energy_totals_root_with_values case applies; the observation time and age are the host clock and are not selected",
+      "query": "query { energyTotals { gas { dhw { today yearly monthly todayMeta { freshnessState provenance stale } monthlyMeta { freshnessState provenance stale } } climate { today } } electric { climate { today } } solar { climate { today } } } }",
+      "response": {
+        "data": {
+          "energyTotals": {
+            "electric": {
+              "climate": {
+                "today": 1.25
+              }
+            },
+            "gas": {
+              "climate": {
+                "today": 0
+              },
+              "dhw": {
+                "monthly": [
+                  0,
+                  15
+                ],
+                "monthlyMeta": [
+                  {
+                    "freshnessState": "never_seen",
+                    "provenance": "none",
+                    "stale": false
+                  },
+                  {
+                    "freshnessState": "fresh",
+                    "provenance": "register",
+                    "stale": false
+                  }
+                ],
+                "today": 3.5,
+                "todayMeta": {
+                  "freshnessState": "fresh",
+                  "provenance": "register",
+                  "stale": false
+                },
+                "yearly": [
+                  120,
+                  240
+                ]
+              }
+            },
+            "solar": {
+              "climate": {
+                "today": 2.75
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "schedules/schedules_populated",
+      "fixture": "the program the pin's schedules_populated case publishes",
+      "query": "query { schedules { programs { config { hasTemperature has_temperature maxSlots maxTempC max_slots max_temp_c minDuration minTempC min_duration min_temp_c tempSlots temp_slots timeResolution time_resolution } days { slots { endHour endMinute end_hour end_minute startHour startMinute start_hour start_minute temperatureC temperatureRaw temperature_c temperature_raw } weekday } hc slotsUsed slots_used zone } } }",
+      "response": {
+        "data": {
+          "schedules": {
+            "programs": [
+              {
+                "config": {
+                  "hasTemperature": true,
+                  "has_temperature": true,
+                  "maxSlots": 12,
+                  "maxTempC": 30,
+                  "max_slots": 12,
+                  "max_temp_c": 30,
+                  "minDuration": 5,
+                  "minTempC": 5,
+                  "min_duration": 5,
+                  "min_temp_c": 5,
+                  "tempSlots": 12,
+                  "temp_slots": 12,
+                  "timeResolution": 10,
+                  "time_resolution": 10
+                },
+                "days": [
+                  {
+                    "slots": [
+                      {
+                        "endHour": 24,
+                        "endMinute": 0,
+                        "end_hour": 24,
+                        "end_minute": 0,
+                        "startHour": 0,
+                        "startMinute": 0,
+                        "start_hour": 0,
+                        "start_minute": 0,
+                        "temperatureC": 22.5,
+                        "temperatureRaw": 225,
+                        "temperature_c": 22.5,
+                        "temperature_raw": 225
+                      }
+                    ],
+                    "weekday": "monday"
+                  }
+                ],
+                "hc": "heating",
+                "slotsUsed": [
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "slots_used": [
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "zone": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "boilerStatus/mcp-boiler-fixture",
+      "fixture": "the values the pin's MCP boiler status case publishes (flow 52.5, return 47.0, pump on, heating status 2); no GraphQL test of the pin drives boilerStatus",
+      "query": "query { boilerStatus { config { dhwOperatingMode dhw_operating_mode flowsetHcMaxC flowsetHwcMaxC flowset_hc_max_c flowset_hwc_max_c hoursTillService hours_till_service installerMenuCode installer_menu_code partloadHcKW partloadHwcKW partload_hc_kw partload_hwc_kw phoneNumber phone_number } diagnostics { centralHeatingHours centralHeatingStarts central_heating_hours central_heating_starts deactivationsIFC deactivationsTemplimiter deactivations_ifc deactivations_templimiter dhwHours dhwStarts dhwStatusRaw dhw_hours dhw_starts dhw_status_raw fanHours fan_hours heatingStatusRaw heating_status_raw pumpHours pump_hours } state { centralHeatingPumpActive central_heating_pump_active circulationPumpActive circulation_pump_active dhwDemandActive dhwTargetTemperatureC dhwTempDesiredC dhwTemperatureC dhwWaterFlowLpm dhw_demand_active dhw_target_temperature_c dhw_temp_desired_c dhw_temperature_c dhw_water_flow_lpm diverterValvePositionPct diverter_valve_position_pct externalPumpActive external_pump_active fanSpeedRpm fan_speed_rpm flameActive flame_active flowTempDesiredC flowTemperatureC flow_temp_desired_c flow_temperature_c gasValveActive gas_valve_active heatingSwitchActive heating_switch_active ionisationVoltageUa ionisation_voltage_ua modulationPct modulation_pct primaryCircuitFlowLpm primary_circuit_flow_lpm returnTemperatureC return_temperature_c stateNumber state_number storageLoadPumpPct storage_load_pump_pct targetFanSpeedRpm target_fan_speed_rpm waterPressureBar water_pressure_bar } } }",
+      "response": {
+        "data": {
+          "boilerStatus": {
+            "config": {
+              "dhwOperatingMode": null,
+              "dhw_operating_mode": null,
+              "flowsetHcMaxC": null,
+              "flowsetHwcMaxC": null,
+              "flowset_hc_max_c": null,
+              "flowset_hwc_max_c": null,
+              "hoursTillService": null,
+              "hours_till_service": null,
+              "installerMenuCode": null,
+              "installer_menu_code": null,
+              "partloadHcKW": null,
+              "partloadHwcKW": null,
+              "partload_hc_kw": null,
+              "partload_hwc_kw": null,
+              "phoneNumber": null,
+              "phone_number": null
+            },
+            "diagnostics": {
+              "centralHeatingHours": null,
+              "centralHeatingStarts": null,
+              "central_heating_hours": null,
+              "central_heating_starts": null,
+              "deactivationsIFC": null,
+              "deactivationsTemplimiter": null,
+              "deactivations_ifc": null,
+              "deactivations_templimiter": null,
+              "dhwHours": null,
+              "dhwStarts": null,
+              "dhwStatusRaw": null,
+              "dhw_hours": null,
+              "dhw_starts": null,
+              "dhw_status_raw": null,
+              "fanHours": null,
+              "fan_hours": null,
+              "heatingStatusRaw": 2,
+              "heating_status_raw": 2,
+              "pumpHours": null,
+              "pump_hours": null
+            },
+            "state": {
+              "centralHeatingPumpActive": true,
+              "central_heating_pump_active": true,
+              "circulationPumpActive": null,
+              "circulation_pump_active": null,
+              "dhwDemandActive": null,
+              "dhwTargetTemperatureC": null,
+              "dhwTempDesiredC": null,
+              "dhwTemperatureC": null,
+              "dhwWaterFlowLpm": null,
+              "dhw_demand_active": null,
+              "dhw_target_temperature_c": null,
+              "dhw_temp_desired_c": null,
+              "dhw_temperature_c": null,
+              "dhw_water_flow_lpm": null,
+              "diverterValvePositionPct": null,
+              "diverter_valve_position_pct": null,
+              "externalPumpActive": null,
+              "external_pump_active": null,
+              "fanSpeedRpm": null,
+              "fan_speed_rpm": null,
+              "flameActive": null,
+              "flame_active": null,
+              "flowTempDesiredC": null,
+              "flowTemperatureC": 52.5,
+              "flow_temp_desired_c": null,
+              "flow_temperature_c": 52.5,
+              "gasValveActive": null,
+              "gas_valve_active": null,
+              "heatingSwitchActive": null,
+              "heating_switch_active": null,
+              "ionisationVoltageUa": null,
+              "ionisation_voltage_ua": null,
+              "modulationPct": null,
+              "modulation_pct": null,
+              "primaryCircuitFlowLpm": null,
+              "primary_circuit_flow_lpm": null,
+              "returnTemperatureC": 47,
+              "return_temperature_c": 47,
+              "stateNumber": null,
+              "state_number": null,
+              "storageLoadPumpPct": null,
+              "storage_load_pump_pct": null,
+              "targetFanSpeedRpm": null,
+              "target_fan_speed_rpm": null,
+              "waterPressureBar": null,
+              "water_pressure_bar": null
+            }
+          }
+        }
+      }
+    }
+  ]
+}

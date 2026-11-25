@@ -6,6 +6,14 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The oracle records the typed semantic GraphQL queries and mutations and the
+  semantic MCP tools of the last 0.6 gateway release under
+  `acceptance/vectors/pre-port/gateway/typed/`, and the canonical PV v1 mapper,
+  its SemReg shadow, the retained MCP envelope and the dedicated M2M contract
+  at the parent of the PV cutover under
+  `acceptance/vectors/pre-port/gateway/canonical-pv/`. Each of the 69 entries of
+  `pre-port/losses.json` now points at the pre-port vector that shows a value,
+  `BoilerState.flowTemperatureC` among them.
 - The oracle records seven Modbus whole sessions under
   `acceptance/vectors/current/sessions/modbus/` (SunSpec first incarnation and
   generation replacement, the RS-485 storage runtime through its production

@@ -69,6 +69,17 @@ QV06 = (
     ("internal/eebusservicebridge", "eebusreg/bridge", "TestOracleServiceBridge", "current/eebusreg/eebusservicebridge", "eebusreg"),
 )
 
+PRE_PORT_TYPED = (
+    ("gateway", "graphql", "pre-port-typed/graphql", "TestOraclePrePortTyped", ("graphql-typed-queries.json", "graphql-typed-mutations.json"), "pre-port/gateway/typed"),
+    ("gateway", "mcp", "pre-port-typed/mcp", "TestOraclePrePortTypedMCP", ("mcp-typed-tools.json",), "pre-port/gateway/typed"),
+)
+
+PRE_PORT_CANONICAL_PV = (
+    ("gateway-canonical-pv", "internal/modbusadapter", "pre-port-canonical-pv/modbusadapter", "TestOraclePrePortCanonicalPVMapper", ("canonical-pv-mapper.json",), "pre-port/gateway/canonical-pv"),
+    ("gateway-canonical-pv", "mcp", "pre-port-canonical-pv/mcp", "TestOraclePrePortCanonicalPVEnvelope", ("mcp-canonical-pv-envelope.json",), "pre-port/gateway/canonical-pv"),
+    ("gateway-canonical-pv", "m2mgraphql", "pre-port-canonical-pv/m2mgraphql", "TestOraclePrePortCanonicalPVContract", ("m2m-canonical-pv-contract.json",), "pre-port/gateway/canonical-pv"),
+)
+
 # Cases whose record carries an identifier the eBUS bus transmits (radio device model, firmware and hardware identifier; adapter
 # hardware identity) keep only their digest in the index.
 QV07_DIGEST_ONLY = ("radio/", "adapter-hardware/")
@@ -178,7 +189,13 @@ def record(reference, vectors, oracle, sessions):
             for name in ("graphql-schema-introspection.json", "mcp-tools-list.json"):
                 common.write(vectors / "pre-port/gateway" / name, (out / name).read_bytes())
                 emit(f"pre-port/gateway/{name}", "recorders/gorun.py --reference pre-port", "recorded-pre-port")
-            losses.record(vectors / "pre-port/gateway/graphql-schema-introspection.json", vectors / "pre-port/losses.json")
+            for entry_id, package, sources, test, names, directory in PRE_PORT_TYPED + PRE_PORT_CANONICAL_PV:
+                produced = work / "pre-port-typed" / sources.replace("/", "-")
+                gorun.run("pre-port", entry_id, package, sources, test, produced)
+                for name in names:
+                    common.write(vectors / directory / name, (produced / name).read_bytes())
+                    emit(f"{directory}/{name}", f"recorders/gorun.py --reference pre-port --entry {entry_id} --package {package} --sources {sources} --test {test}", "recorded-pre-port")
+            losses.record(vectors / "pre-port/gateway/graphql-schema-introspection.json", vectors / "pre-port/gateway/typed/graphql-typed-queries.json", vectors / "pre-port/gateway/typed/mcp-typed-tools.json", vectors / "pre-port/losses.json")
             emit("pre-port/losses.json", "recorders/losses.py", "recorded-pre-port")
     return entries
 
