@@ -66,7 +66,17 @@ type step struct {
 
 func execute(t *testing.T, server http.Handler, fake *fakeProvider, steps []step, states map[string]Snapshot) []fields {
 	t.Helper()
+	out, _ := executeRaw(t, server, fake, steps, states)
+	return out
+}
+
+// executeRaw also returns the exact wire bytes of every response. The body member of a response is re-encoded by the
+// recorder, so the length and the sha256 of the wire bytes are recorded beside it: they keep a byte-level difference
+// (for example one extra newline) that the re-encoded body does not show.
+func executeRaw(t *testing.T, server http.Handler, fake *fakeProvider, steps []step, states map[string]Snapshot) ([]fields, [][]byte) {
+	t.Helper()
 	var out []fields
+	var raw [][]byte
 	for _, item := range steps {
 		if item.State != "" {
 			fake.mu.Lock()
@@ -77,9 +87,12 @@ func execute(t *testing.T, server http.Handler, fake *fakeProvider, steps []step
 		fake.mu.Lock()
 		captures, invokes := fake.captures, fake.invokes
 		fake.mu.Unlock()
-		out = append(out, fields{{"step", item.Name}, {"status", response.Code}, {"content_type", response.Header().Get("Content-Type")}, {"body", rawBody(response.Body.Bytes())}, {"captures", captures}, {"invokes", invokes}})
+		wire := bytes.Clone(response.Body.Bytes())
+		raw = append(raw, wire)
+		out = append(out, fields{{"step", item.Name}, {"status", response.Code}, {"content_type", response.Header().Get("Content-Type")}, {"body", rawBody(wire)},
+			{"wire_body_length", len(wire)}, {"wire_body_sha256", fmt.Sprintf("%x", sha256.Sum256(wire))}, {"captures", captures}, {"invokes", invokes}})
 	}
-	return out
+	return out, raw
 }
 
 func rawBody(body []byte) any {
@@ -135,7 +148,13 @@ func recordLifecycle(t *testing.T) {
 		{"changes from cursor 2 after unavailable", http.MethodGet, "/v1/changes?cursor=feed-a:2", nil, "unavailable"},
 		{"changes from cursor 1 after replay exhaustion", http.MethodGet, "/v1/changes?cursor=feed-a:1", nil, ""},
 	}
-	out := execute(t, server, fake, steps, states)
+	out, wire := executeRaw(t, server, fake, steps, states)
+	// The pin's test compares the first and second snapshot bodies byte for byte and looks for the literal empty changes array.
+	wireChecks := fields{
+		{"second_snapshot_bytes_equal_first", bytes.Equal(wire[0], wire[1])},
+		{"stable_changes_contains_empty_changes_literal", bytes.Contains(wire[2], []byte(`"changes":[]`))},
+		{"withdrawal_changes_contains_WITHDRAWN", bytes.Contains(wire[3], []byte("WITHDRAWN"))},
+	}
 	restarted, err := New(fake, Options{InstanceID: "feed-b", ReplayLimit: 2})
 	if err != nil {
 		t.Fatal(err)
@@ -157,7 +176,7 @@ func recordLifecycle(t *testing.T) {
 		obj(kv{"server", obj(kv{"instance_id", "feed-a"}, kv{"replay_limit", 1})}, kv{"restarted_server", obj(kv{"instance_id", "feed-b"}, kv{"replay_limit", 2})},
 			kv{"provider_snapshots", states}, kv{"intent", intent}, kv{"intent_deadline_note", "fixed by the recorder; the pin's test uses the wall clock plus one minute"},
 			kv{"provider_rejects_from", "invoke with the provider rejecting"}, kv{"steps", describeSteps(all)}),
-		obj(kv{"responses", out}, kv{"golden", goldenReference(t)}))
+		obj(kv{"responses", out}, kv{"wire_checks", wireChecks}, kv{"golden", goldenReference(t)}))
 }
 
 func recordDetachment(t *testing.T) {

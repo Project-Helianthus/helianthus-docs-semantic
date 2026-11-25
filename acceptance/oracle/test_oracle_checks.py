@@ -898,3 +898,51 @@ def test_a_golden_reference_with_another_entry_path_or_digest_is_refused(field, 
     goldens = json.loads((VECTORS / "current" / "gateway-goldens.json").read_text(encoding="utf-8"))
     case, reference = next(feed_golden_references())
     assert golden_reference_errors({**reference, field: value}, goldens) == [expected]
+
+
+def matter_case_document(directory, case, name):
+    return json.loads((VECTORS / directory / case / name).read_text(encoding="utf-8"))
+
+
+LIBRARYHOST = MATTER_DIRECTORIES["libraryhost"]
+FEEDV1 = MATTER_DIRECTORIES["feedv1"]
+RECORDERS = HERE / "recorders" / "go"
+
+
+def test_the_disabled_restart_input_states_the_configuration_the_host_was_built_with():
+    document = matter_case_document(LIBRARYHOST, "restart/disabled-host-stays-disabled", "input.json")
+    assert document["input"]["configuration"]["enabled"] is False
+
+
+def test_the_projector_case_input_holds_the_snapshot_and_evaluation_its_output_was_computed_from():
+    case = "project/uses-the-projector"
+    variant = matter_case_document(LIBRARYHOST, case, "input.json")["input"]["rig_variant"]
+    assert variant["capture_snapshot"] and variant["capture_evaluation"]
+    control = matter_case_document(LIBRARYHOST, case, "output.json")["output"]["observations"][0]
+    assert control["step"] == "direct Project161 control" and "snapshot" not in control and "evaluation" not in control
+
+
+@pytest.mark.parametrize("case", ["project/stop-withholds-in-flight-capture-returns-a-value", "project/stop-withholds-in-flight-capture-returns-its-cancellation"])
+def test_an_in_flight_projection_records_that_its_result_was_withheld_and_not_only_its_error(case):
+    observations = matter_case_document(LIBRARYHOST, case, "output.json")["output"]["observations"]
+    step = next(item for item in observations if item["step"] == "in-flight Project")
+    assert step["outcome"]["is_stale_callback"] is True
+    assert step["result_is_zero"] is True and step["result"]["document"]["target_id"] == ""
+
+
+def test_the_feed_lifecycle_keeps_the_wire_byte_distinction_the_donor_checks():
+    output = matter_case_document(FEEDV1, "server/lifecycle-and-admission", "output.json")["output"]
+    assert output["wire_checks"] == {"second_snapshot_bytes_equal_first": True, "stable_changes_contains_empty_changes_literal": True, "withdrawal_changes_contains_WITHDRAWN": True}
+    for case in ("server/lifecycle-and-admission", "server/detachment-and-strict-rejection"):
+        for response in matter_case_document(FEEDV1, case, "output.json")["output"]["responses"]:
+            assert response["wire_body_length"] > 0 and len(response["wire_body_sha256"]) == 64, (case, response["step"])
+    snapshots = output["responses"][:2]
+    assert snapshots[0]["wire_body_sha256"] == snapshots[1]["wire_body_sha256"]
+
+
+def test_the_hung_close_recorders_take_the_close_count_after_close_was_entered():
+    source = (RECORDERS / "gateway-libraryhost" / "zz_oracle_libraryhost_cases_test.go").read_text(encoding="utf-8")
+    assert source.count("waitForCloses(t, rig, 1)") == 2
+    for case in ("cancel/hung-close-quarantines-within-budget", "cancel/partial-construction-hung-close"):
+        step = matter_case_document(LIBRARYHOST, case, "output.json")["output"]["observations"][0]
+        assert step["step"] == "Start" and step["counts"]["closes"] == 1

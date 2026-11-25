@@ -390,6 +390,7 @@ func recordRestart(t *testing.T) {
 	disabled := aa17NewRig()
 	cfg := disabled.config()
 	cfg.Enabled = false
+	d.configure = append(fields{{"enabled", false}}, d.configure[1:]...)
 	h := New(cfg)
 	d.tr.call("Restart", h.Restart(context.Background()), h, disabled)
 	d.emit()
@@ -615,7 +616,8 @@ func recordProject(t *testing.T) {
 	rig := aa17NewRig()
 	aa17InstallProjection(t, rig)
 	want, wantErr := matter.Project161(rig.capture.Snapshot, rig.capture.Evaluation)
-	c.tr.add("direct Project161 control", kv{"snapshot", rig.capture.Snapshot}, kv{"evaluation", rig.capture.Evaluation}, kv{"outcome", outcomeOf(wantErr)}, kv{"result", want})
+	c.variant(kv{"capture_snapshot", rig.capture.Snapshot}, kv{"capture_evaluation", rig.capture.Evaluation})
+	c.tr.add("direct Project161 control", kv{"outcome", outcomeOf(wantErr)}, kv{"result", want})
 	host := New(rig.config())
 	c.tr.call("Start", host.Start(ctx), host, rig)
 	session := rig.session(0)
@@ -676,14 +678,19 @@ func recordProject(t *testing.T) {
 			return tc.exit(capture)
 		}
 		r.mu.Unlock()
-		result := make(chan error, 1)
+		type inFlight struct {
+			result matter.Result161
+			err    error
+		}
+		result := make(chan inFlight, 1)
 		go func() {
-			_, err := s.Project(ctx)
-			result <- err
+			value, err := s.Project(ctx)
+			result <- inFlight{value, err}
 		}()
 		<-entered
 		d.tr.call("Stop", h.Stop(ctx), h, r)
-		d.tr.add("in-flight Project", kv{"outcome", outcomeOf(<-result)}, kv{"status", statusOf(h)})
+		done := <-result
+		d.tr.add("in-flight Project", kv{"outcome", outcomeOf(done.err)}, kv{"result_is_zero", reflect.DeepEqual(done.result, matter.Result161{})}, kv{"result", done.result}, kv{"status", statusOf(h)})
 		d.emit()
 	}
 }
@@ -773,7 +780,9 @@ func recordCancellation(t *testing.T) {
 	cfg := rig.config()
 	cfg.CleanupBudget = 20 * time.Millisecond
 	host = New(cfg)
-	c.tr.call("Start", host.Start(cctx), host, rig)
+	startErr := host.Start(cctx)
+	waitForCloses(t, rig, 1)
+	c.tr.call("Start", startErr, host, rig)
 	c.tr.call("Start again", host.Start(context.Background()), host, rig)
 	cancel()
 	c.emit()
@@ -804,9 +813,28 @@ func recordCancellation(t *testing.T) {
 	cfg = rig.config()
 	cfg.CleanupBudget = 20 * time.Millisecond
 	host = New(cfg)
-	c.tr.call("Start", host.Start(cctx), host, rig)
+	startErr = host.Start(cctx)
+	waitForCloses(t, rig, 1)
+	c.tr.call("Start", startErr, host, rig)
 	cancel()
 	c.emit()
+}
+
+// waitForCloses returns once Close has been entered the given number of times. The host launches Close in its own
+// goroutine and may return on the budget deadline before that goroutine runs, so the count taken right after Start
+// depends on the scheduler; the recorded count is taken after Close was entered.
+func waitForCloses(t *testing.T, r *aa17Rig, want int) {
+	t.Helper()
+	deadline := time.Now().Add(10 * time.Second)
+	for {
+		if _, _, _, _, closes := r.counts(); closes >= want {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf("Close was not entered %d time(s) within 10 s", want)
+		}
+		runtime.Gosched()
+	}
 }
 
 func recordStopFencing(t *testing.T) {
