@@ -49,6 +49,12 @@ func oracleAdjudicated(event AdjudicatedPassiveEvent) map[string]any {
 	}
 }
 
+// oracleDedupInitialHealth names the starting state the recorder forces before
+// the first event: a deduplicator is constructed degraded, and every case that
+// calls forceHealthyDedup starts from the healthy state with a cleared
+// recovery record. Cases that do not force it start degraded.
+const oracleDedupInitialHealth = "healthy: constructed degraded, then forced healthy with an empty recovery record before the first event"
+
 // oraclePassiveSubmission and oracleActiveSubmission describe an event the
 // recorder submits, with its frame boundaries and the fields the
 // fingerprint is matched on, so that the input alone fixes the operands.
@@ -177,7 +183,7 @@ func oracleDedupSharedWatchKey(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"watch_observer": "none"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "release_offset_ns": int64(100*time.Millisecond + deduplicator.budgets.PendingGraceTimeout + time.Millisecond)},
-			State:      map[string]any{"submissions": []any{oraclePassiveSubmission(passiveEvent, base)}},
+			State:      map[string]any{"initial_health": oracleDedupInitialHealth, "submissions": []any{oraclePassiveSubmission(passiveEvent, base)}},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"pending_before_release": pending}},
 	})
@@ -218,7 +224,7 @@ func oracleDedupDegraded(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"bus_events": "attempt_complete then observer_fault"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "observer_fault_offset_ns": int64(100 * time.Millisecond), "passive_offset_ns": int64(200 * time.Millisecond)},
-			State: map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{
+			State: map[string]any{"initial_health": oracleDedupInitialHealth, "local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{
 				oracleActiveSubmission(activeEvent, 0), oracleActiveSubmission(faultEvent, 100*time.Millisecond), oraclePassiveSubmission(passiveEvent, base),
 			}},
 		},
@@ -254,7 +260,7 @@ func oracleDedupDiscontinuity(t *testing.T) {
 			Bytes:      hex.EncodeToString(append(append([]byte{}, request.Data...), response.Data...)),
 			Qualifiers: map[string]any{"discontinuity_reason": string(PassiveDiscontinuityTransportReset)},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "discontinuity_offset_ns": int64(100 * time.Millisecond)},
-			State:      map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(passiveEvent, base), oraclePassiveSubmission(resetEvent, base)}},
+			State:      map[string]any{"initial_health": oracleDedupInitialHealth, "local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(passiveEvent, base), oraclePassiveSubmission(resetEvent, base)}},
 		},
 		Output: oracleOutput{
 			Decisions: []any{oracleAdjudicated(event)},
@@ -292,7 +298,7 @@ func oracleDedupOverflow(t *testing.T) {
 			Bytes:      hex.EncodeToString(master.Request.Data),
 			Qualifiers: map[string]any{"subscriber_capacity": 1, "frames": 2, "frame_type": "initiator_initiator"},
 			Clock:      map[string]any{"base": base.UTC().Format(time.RFC3339Nano), "second_offset_ns": int64(10 * time.Millisecond)},
-			State:      map[string]any{"local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(master, base), oraclePassiveSubmission(second, base)}},
+			State:      map[string]any{"initial_health": oracleDedupInitialHealth, "local_address": hex.EncodeToString([]byte{request.Source}), "submissions": []any{oraclePassiveSubmission(master, base), oraclePassiveSubmission(second, base)}},
 		},
 		Output: oracleOutput{Decisions: []any{oracleAdjudicated(event)}, Counters: map[string]any{"epoch_reset_total_delta": expvarIntValue(observeFirstDedupEpochResetTotal) - resetsBefore}},
 	})

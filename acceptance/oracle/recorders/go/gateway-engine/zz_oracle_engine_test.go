@@ -158,7 +158,12 @@ func oracleSchedulerBreaker(t *testing.T) {
 		return nil, errors.New("read failed")
 	}
 	steps := make([]any, 0, 5)
+	// schedule lists each Get call in call order with the clock offset at
+	// which it is made; the fetch behaviour is the same for every call.
+	start := now
+	schedule := make([]any, 0, 5)
 	record := func(name string) {
+		schedule = append(schedule, map[string]any{"order": len(schedule) + 1, "key": "k", "max_age_ns": int64(0), "clock_offset_ns": int64(now.Sub(start))})
 		_, err := scheduler.Get(context.Background(), "k", 0, fetch)
 		steps = append(steps, map[string]any{"step": name, "error": oracleErr(err), "circuit_open": errors.Is(err, ErrSemanticReadCircuitOpen), "fetch_calls": atomic.LoadInt32(&calls)})
 	}
@@ -185,8 +190,9 @@ func oracleSchedulerBreaker(t *testing.T) {
 		Source:    "semantic_read_scheduler.go",
 		Stimulus:  "TestSemanticReadScheduler_CircuitBreaker_OpensAndSuppresses",
 		Input: oracleInput{
-			Qualifiers: map[string]any{"key": "k", "failure_budget": 2, "half_open_probe_limit": 1},
+			Qualifiers: map[string]any{"key": "k", "failure_budget": 2, "half_open_probe_limit": 1, "fetch_returns": "no value and the error 'read failed' on every call"},
 			Clock:      map[string]any{"start": time.Unix(0, 0).UTC().Format(time.RFC3339Nano), "open_cooldown_ns": int64(15 * time.Second)},
+			State:      map[string]any{"gets": schedule},
 		},
 		Output: oracleOutput{
 			Decisions:    steps,
@@ -577,7 +583,8 @@ func oracleRecordDedup(t *testing.T) {
 	deduplicator.nowFunc = func() time.Time { return base }
 	activeRequest := protocol.Frame{Source: 0x31, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x00, 0x03, 0x01, 0x1C, 0x00}}
 	activeResponse := protocol.Frame{Source: activeRequest.Target, Target: activeRequest.Source, Primary: activeRequest.Primary, Secondary: activeRequest.Secondary, Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00, 0x22}}
-	if err := deduplicator.OnBusEvent(activeAttemptEvent(activeRequest, activeResponse)); err != nil {
+	activeEvent := activeAttemptEvent(activeRequest, activeResponse)
+	if err := deduplicator.OnBusEvent(activeEvent); err != nil {
 		t.Fatal(err)
 	}
 	observation := deduplicator.Observe(stateKey)
@@ -585,7 +592,8 @@ func oracleRecordDedup(t *testing.T) {
 	passiveRequest.Source = 0x10
 	passiveResponse := activeResponse
 	passiveResponse.Target = passiveRequest.Source
-	deduplicator.OnPassiveClassifiedEvent(passiveTransactionEvent(base.Add(100*time.Millisecond), passiveRequest, passiveResponse))
+	passiveEvent := passiveTransactionEvent(base.Add(100*time.Millisecond), passiveRequest, passiveResponse)
+	deduplicator.OnPassiveClassifiedEvent(passiveEvent)
 	assertNoAdjudicatedEvent(t, subscription, 25*time.Millisecond)
 	pending := len(deduplicator.pending)
 	deduplicator.nowFunc = func() time.Time {
@@ -617,6 +625,8 @@ func oracleRecordDedup(t *testing.T) {
 				"release_offset_ns": int64(100*time.Millisecond + deduplicator.budgets.PendingGraceTimeout + time.Millisecond),
 			},
 			State: map[string]any{
+				"initial_health":    oracleDedupInitialHealth,
+				"submissions":       []any{oracleActiveSubmission(activeEvent, 0), oraclePassiveSubmission(passiveEvent, base)},
 				"observation_state": string(observation.State),
 				"watch_observer": map[string]any{
 					"canonical": stateKey.Canonical(), "state": string(WatchObservationStateActive), "has_descriptor": true,
@@ -830,15 +840,19 @@ func oracleRecordF19c(t *testing.T) {
 		decisions = append(decisions, map[string]any{"byte": hex.EncodeToString([]byte{value}), "initiator": isInitiatorAddr(value)})
 	}
 	targets := make([]any, 0, 5)
-	for _, value := range []byte{0x08, 0xAA, 0xA9, 0xFE, 0x10} {
+	targetBytes := []byte{0x08, 0xAA, 0xA9, 0xFE, 0x10}
+	for _, value := range targetBytes {
 		targets = append(targets, map[string]any{"byte": hex.EncodeToString([]byte{value}), "valid_target": isValidTargetAddr(value)})
 	}
 	oracleWrite(t, "reconstructor/f19c-initiator-and-target.json", oracleCase{
 		Component: "passive_reconstructor_f19c_helpers",
 		Source:    "passive_reconstructor_f19c_helpers.go",
 		Stimulus:  "TestF19c_InvalidQQ_NotMaster/TestF19c_F18_RegressionGuard",
-		Input:     oracleInput{Bytes: hex.EncodeToString(append(append([]byte{}, trueBytes...), falseBytes...))},
-		Output:    oracleOutput{Decisions: decisions, Observations: targets},
+		Input: oracleInput{
+			Bytes: hex.EncodeToString(append(append([]byte{}, trueBytes...), falseBytes...)),
+			State: map[string]any{"initiator_operands": hex.EncodeToString(append(append([]byte{}, trueBytes...), falseBytes...)), "target_operands": hex.EncodeToString(targetBytes)},
+		},
+		Output: oracleOutput{Decisions: decisions, Observations: targets},
 	})
 	reconstructor, subscription := oracleReconstructor()
 	payload := []byte{protocol.SymbolSyn, 0x12}
@@ -885,7 +899,14 @@ func oracleRecordWatchCatalog(t *testing.T) {
 	_, wideErr := widened.EffectiveFreshnessTTL()
 	oracleWrite(t, "watch-catalog/widened-ttl.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestWatchDescriptorRejectsWidenedTTL",
-		Input:  oracleInput{Qualifiers: map[string]any{"ttl_ns": int64(wide)}},
+		Input: oracleInput{
+			Qualifiers: map[string]any{"ttl_ns": int64(wide)},
+			State: map[string]any{"descriptor": map[string]any{
+				"key": oracleKeyCanonical(widened.Key), "semantic_class": string(widened.SemanticClass), "freshness_profile": string(widened.FreshnessProfile),
+				"decoder_id": widened.DecoderID, "correlation_policy": string(widened.CorrelationPolicy), "direct_apply_policy": string(widened.DirectApplyPolicy),
+				"freshness_ttl_ns": int64(*widened.FreshnessTTL),
+			}},
+		},
 		Output: oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(wideErr)}}},
 	})
 	duplicate := WatchDescriptor{
@@ -1218,10 +1239,19 @@ func oracleRecordObserveFirst(t *testing.T) {
 		{"ambiguous", protocol.Frame{Data: []byte{0x42, 0x01, 0x04, 0x1C, 0x00, 0x55}}},
 	})
 	b516 := protocol.Frame{Source: 0x15, Target: 0xFE, Primary: 0xB5, Secondary: 0x16, Data: []byte{0x01, 0x02}}
-	b516Policy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, b516, DedupResponseValueBearing, WatchObservation{State: WatchObservationStateCatalogMiss}, DefaultObserveFirstFeatureFlags())
+	b516Observation := WatchObservation{State: WatchObservationStateCatalogMiss}
+	b516Policy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, b516, DedupResponseValueBearing, b516Observation, DefaultObserveFirstFeatureFlags())
 	oracleWrite(t, "observe-first-family-policy/b516-energy-merge.json", oracleCase{
 		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstFamilyPolicy_B516UsesEnergyMergeOnly",
-		Input:  oracleInput{Bytes: hex.EncodeToString(b516.Data)},
+		Input: oracleInput{
+			Bytes:      hex.EncodeToString(b516.Data),
+			Qualifiers: map[string]any{"request": oracleFrame(b516, true)},
+			State: map[string]any{"calls": []any{map[string]any{
+				"order": 1, "scope": string(ObserveFirstTrafficScopePassive), "request": oracleFrame(b516, true), "response_class": string(DedupResponseValueBearing),
+				"observation": map[string]any{"state": string(b516Observation.State), "has_descriptor": b516Observation.HasDescriptor},
+				"flags":       map[string]any{"constructor": "DefaultObserveFirstFeatureFlags"},
+			}}},
+		},
 		Output: oracleOutput{Decisions: []any{oracleFamilyPolicy(b516Policy)}},
 	})
 	readRequest := protocol.Frame{Source: 0x31, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x00, 0x03, 0x01, 0x1C, 0x00}}

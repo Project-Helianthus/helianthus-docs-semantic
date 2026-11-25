@@ -181,18 +181,34 @@ func oracleRestart(t *testing.T) {
 		f := aa27StartReady(t)
 		old := f.sup.Status().Generation
 		oldReady := Report{Kind: ReportReady, Identity: aa27Self, Generation: old, Descriptors: aa27Layout, State: WorkerPassive}
-		planErr := f.sup.PublishPlan(PlanRef{Worker: old.Worker, Stream: old.Stream, Registration: old.Registration, Plan: 1})
-		enqueueErr := f.sup.Enqueue(Command{Worker: old.Worker, Stream: old.Stream, Token: old.Token, Sequence: 1})
+		// operations lists every call made on the supervisor after it is ready,
+		// in call order, with the generation operands each call submits, so
+		// that the input alone fixes which fence each stale call exercises.
+		operations := make([]any, 0, 16)
+		planOperation := func(ref PlanRef) {
+			operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "PublishPlan", "worker": ref.Worker, "stream": ref.Stream, "registration": ref.Registration, "plan": ref.Plan})
+		}
+		commandOperation := func(command Command) {
+			operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "Enqueue", "worker": command.Worker, "stream": command.Stream, "token": command.Token, "sequence": command.Sequence})
+		}
+		oldPlan := PlanRef{Worker: old.Worker, Stream: old.Stream, Registration: old.Registration, Plan: 1}
+		planOperation(oldPlan)
+		planErr := f.sup.PublishPlan(oldPlan)
+		oldCommand := Command{Worker: old.Worker, Stream: old.Stream, Token: old.Token, Sequence: 1}
+		commandOperation(oldCommand)
+		enqueueErr := f.sup.Enqueue(oldCommand)
 		_, first := f.launcher.last()
+		operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "Restart"})
 		restartErr := f.sup.Restart(context.Background())
 		stops, kills := first.counts()
 		status := f.sup.Status()
 		gen := status.Generation
 		drainedAfter := len(f.sup.Drain())
 		closedAfterRestart := oracleClosed(f)
+		operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "Observe", "report": oracleSubmittedReport(oldReady)})
 		predecessorErr := f.sup.Observe(oldReady)
 		stateAfterOldReady := fmt.Sprint(f.sup.Status().State)
-		f.ready(t)
+		operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "Observe", "report": oracleSubmittedReport(f.ready(t))})
 		stalePlans := map[string]PlanRef{
 			"old worker":       {Worker: old.Worker, Stream: gen.Stream, Registration: gen.Registration, Plan: 2},
 			"old stream":       {Worker: gen.Worker, Stream: old.Stream, Registration: gen.Registration, Plan: 2},
@@ -205,24 +221,31 @@ func oracleRestart(t *testing.T) {
 		}
 		stale := make([]any, 0)
 		for _, name := range []string{"old worker", "old stream", "old registration"} {
+			planOperation(stalePlans[name])
 			err := f.sup.PublishPlan(stalePlans[name])
 			stale = append(stale, map[string]any{"kind": "plan", "name": name, "error": oracleErr(err), "is_stale": errors.Is(err, ErrStale)})
 		}
 		for _, name := range []string{"old worker", "old stream", "old token"} {
+			commandOperation(staleCommands[name])
 			err := f.sup.Enqueue(staleCommands[name])
 			stale = append(stale, map[string]any{"kind": "command", "name": name, "error": oracleErr(err), "is_stale": errors.Is(err, ErrStale)})
 		}
 		fresh := PlanRef{Worker: gen.Worker, Stream: gen.Stream, Registration: gen.Registration, Plan: 1}
+		planOperation(fresh)
 		freshErr := f.sup.PublishPlan(fresh)
+		planOperation(fresh)
 		duplicateErr := f.sup.PublishPlan(fresh)
-		commandErr := f.sup.Enqueue(Command{Worker: gen.Worker, Stream: gen.Stream, Token: gen.Token, Sequence: 1})
+		freshCommand := Command{Worker: gen.Worker, Stream: gen.Stream, Token: gen.Token, Sequence: 1}
+		commandOperation(freshCommand)
+		commandErr := f.sup.Enqueue(freshCommand)
+		operations = append(operations, map[string]any{"order": len(operations) + 1, "call": "Drain"})
 		drained := f.sup.Drain()
 		oracleWrite(t, "supervisor/restart-advances-every-epoch.json", oracleCase{
 			Component: "localworkerhost", Source: "internal/localworkerhost/supervisor.go", Stimulus: "TestAA27RestartAdvancesEveryEpochAndReplaysNothing",
 			Input: oracleInput{
 				Qualifiers: map[string]any{"first_plan": 1, "first_command_sequence": 1},
 				Clock:      map[string]any{"now": time.Unix(1000, 0).UTC().Format(time.RFC3339Nano)},
-				State:      map[string]any{"generation_before": oracleGeneration(old)},
+				State:      map[string]any{"generation_before": oracleGeneration(old), "operations": operations},
 			},
 			Output: oracleOutput{Decisions: []any{map[string]any{
 				"first_plan_error": oracleErr(planErr), "first_enqueue_error": oracleErr(enqueueErr), "restart_error": oracleErr(restartErr),

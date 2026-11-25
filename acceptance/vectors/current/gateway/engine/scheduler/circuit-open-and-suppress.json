@@ -7,6 +7,7 @@
     "bytes": "",
     "qualifiers": {
       "failure_budget": 2,
+      "fetch_returns": "no value and the error 'read failed' on every call",
       "half_open_probe_limit": 1,
       "key": "k"
     },
@@ -14,7 +15,40 @@
       "open_cooldown_ns": 15000000000,
       "start": "1970-01-01T00:00:00Z"
     },
-    "state": {}
+    "state": {
+      "gets": [
+        {
+          "clock_offset_ns": 0,
+          "key": "k",
+          "max_age_ns": 0,
+          "order": 1
+        },
+        {
+          "clock_offset_ns": 0,
+          "key": "k",
+          "max_age_ns": 0,
+          "order": 2
+        },
+        {
+          "clock_offset_ns": 0,
+          "key": "k",
+          "max_age_ns": 0,
+          "order": 3
+        },
+        {
+          "clock_offset_ns": 15000000000,
+          "key": "k",
+          "max_age_ns": 0,
+          "order": 4
+        },
+        {
+          "clock_offset_ns": 15000000000,
+          "key": "k",
+          "max_age_ns": 0,
+          "order": 5
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

@@ -5,9 +5,39 @@
   "stimulus": "TestObserveFirstFamilyPolicy_B516UsesEnergyMergeOnly",
   "input": {
     "bytes": "0102",
-    "qualifiers": {},
+    "qualifiers": {
+      "request": {
+        "data": "0102",
+        "primary": "b5",
+        "secondary": "16",
+        "source": "15",
+        "target": "fe"
+      }
+    },
     "clock": {},
-    "state": {}
+    "state": {
+      "calls": [
+        {
+          "flags": {
+            "constructor": "DefaultObserveFirstFeatureFlags"
+          },
+          "observation": {
+            "has_descriptor": false,
+            "state": "catalog_miss"
+          },
+          "order": 1,
+          "request": {
+            "data": "0102",
+            "primary": "b5",
+            "secondary": "16",
+            "source": "15",
+            "target": "fe"
+          },
+          "response_class": "value_bearing",
+          "scope": "passive"
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

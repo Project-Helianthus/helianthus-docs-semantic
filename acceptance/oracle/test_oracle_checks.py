@@ -715,3 +715,68 @@ def test_the_in_order_lease_case_publishes_the_starting_state_and_the_timed_call
     reports = [step["report"] for step in schedule if step["call"] == "Observe"]
     assert [report["sequence"] for report in reports] == [1, 2, 3] and all(report["kind"] == 2 and report["tx_active"] is False for report in reports)
     assert [row["advance_ns"] for row in document["output"]["decisions"]] == advances
+
+
+@pytest.mark.parametrize("name", ["b524-runtime-observer-fallback", "passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression", "discontinuity-flushes-pending", "critical-subscriber-overflow"])
+def test_a_deduplicator_case_that_forces_health_publishes_its_starting_state(name):
+    state = bt01_case(f"engine/deduplicator/{name}.json")["input"]["state"]
+    assert state["initial_health"].startswith("healthy: constructed degraded, then forced healthy")
+
+
+def test_the_runtime_observer_fallback_case_publishes_the_active_and_passive_events_in_order():
+    state = bt01_case("engine/deduplicator/b524-runtime-observer-fallback.json")["input"]["state"]
+    active, passive = state["submissions"]
+    assert (active["channel"], active["kind"], active["outcome"], active["submitted_offset_ns"]) == ("active", "attempt_complete", "success", 0)
+    assert (passive["channel"], passive["observed_offset_ns"]) == ("passive", 100000000)
+    assert active["request"]["source"] == "31" and passive["request"]["source"] == "10"
+    assert active["response"]["data"] == passive["response"]["data"] == "4201031c0022"
+
+
+def test_the_b516_policy_case_publishes_the_response_class_scope_and_observation_it_was_decided_for():
+    document = bt01_case("engine/observe-first-family-policy/b516-energy-merge.json")
+    call, = document["input"]["state"]["calls"]
+    assert (call["scope"], call["response_class"], call["observation"]["state"], call["flags"]["constructor"]) == ("passive", "value_bearing", "catalog_miss", "DefaultObserveFirstFeatureFlags")
+    assert (call["request"]["source"], call["request"]["target"], call["request"]["primary"], call["request"]["secondary"]) == ("15", "fe", "b5", "16")
+    assert call["request"]["data"] == document["input"]["bytes"]
+
+
+def test_the_f19c_case_publishes_the_target_operands_it_validated():
+    document = bt01_case("engine/reconstructor/f19c-initiator-and-target.json")
+    state = document["input"]["state"]
+    assert state["target_operands"] == "08aaa9fe10" and state["initiator_operands"] == document["input"]["bytes"]
+    assert [row["byte"] for row in document["output"]["observations"]] == [state["target_operands"][i:i + 2] for i in range(0, 10, 2)]
+
+
+def test_the_widened_ttl_case_publishes_the_descriptor_it_was_checked_against():
+    descriptor = bt01_case("engine/watch-catalog/widened-ttl.json")["input"]["state"]["descriptor"]
+    assert (descriptor["semantic_class"], descriptor["freshness_profile"], descriptor["freshness_ttl_ns"]) == ("state", "state_slow", 121000000000)
+    assert {"key", "decoder_id", "correlation_policy", "direct_apply_policy"} <= set(descriptor)
+
+
+def test_the_circuit_breaker_case_publishes_the_call_schedule_and_the_fetch_behaviour():
+    document = bt01_case("engine/scheduler/circuit-open-and-suppress.json")
+    gets = document["input"]["state"]["gets"]
+    assert [item["order"] for item in gets] == [1, 2, 3, 4, 5]
+    # The clock moves by the cooldown before the fourth call, not before the third.
+    assert [item["clock_offset_ns"] for item in gets] == [0, 0, 0, 15000000000, 15000000000]
+    assert all(item["key"] == "k" and item["max_age_ns"] == 0 for item in gets)
+    assert "read failed" in document["input"]["qualifiers"]["fetch_returns"]
+    assert len(document["output"]["decisions"]) == len(gets)
+
+
+def test_the_restart_case_publishes_each_stale_operation_with_the_generation_it_submits():
+    document = bt01_case("localworkerhost/supervisor/restart-advances-every-epoch.json")
+    operations = document["input"]["state"]["operations"]
+    assert [item["order"] for item in operations] == list(range(1, len(operations) + 1))
+    assert [item["call"] for item in operations] == ["PublishPlan", "Enqueue", "Restart", "Observe", "Observe"] + ["PublishPlan"] * 3 + ["Enqueue"] * 3 + ["PublishPlan", "PublishPlan", "Enqueue", "Drain"]
+    before = document["input"]["state"]["generation_before"]
+    after = document["output"]["decisions"][0]["status_after_restart"]["generation"]
+    assert operations[3]["report"]["generation"] == before and operations[4]["report"]["generation"] == after
+    # Each stale operation differs from the current generation in exactly one field, and each field once per call kind.
+    def differing(item, keys):
+        return [key for key in keys if item[key] != after[key]]
+    assert [differing(item, ("worker", "stream", "registration")) for item in operations[5:8]] == [["worker"], ["stream"], ["registration"]]
+    assert [differing(item, ("worker", "stream", "token")) for item in operations[8:11]] == [["worker"], ["stream"], ["token"]]
+    assert [item["call"] for item in operations[11:14]] == ["PublishPlan", "PublishPlan", "Enqueue"]
+    assert operations[11] == {**operations[12], "order": 12} and differing(operations[11], ("worker", "stream", "registration")) == []
+    assert [row["name"] for row in document["output"]["decisions"][0]["stale"]] == ["old worker", "old stream", "old registration", "old worker", "old stream", "old token"]

@@ -15,7 +15,56 @@
       "release_offset_ns": 1351000000
     },
     "state": {
+      "initial_health": "healthy: constructed degraded, then forced healthy with an empty recovery record before the first event",
       "observation_state": "active",
+      "submissions": [
+        {
+          "channel": "active",
+          "frame_type": "initiator_target",
+          "has_request": true,
+          "has_response": true,
+          "kind": "attempt_complete",
+          "outcome": "success",
+          "request": {
+            "data": "060003011c00",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "31",
+            "target": "15"
+          },
+          "response": {
+            "data": "4201031c0022",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "15",
+            "target": "31"
+          },
+          "submitted_offset_ns": 0
+        },
+        {
+          "channel": "passive",
+          "discontinuity_reason": "",
+          "frame_type": "initiator_target",
+          "has_request": true,
+          "has_response": true,
+          "kind": "transaction",
+          "observed_offset_ns": 100000000,
+          "request": {
+            "data": "060003011c00",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "10",
+            "target": "15"
+          },
+          "response": {
+            "data": "4201031c0022",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "15",
+            "target": "10"
+          }
+        }
+      ],
       "watch_observer": {
         "canonical": "b524:15:06:03:01:001c",
         "descriptor": {
