@@ -570,6 +570,146 @@
       "recorder": "hand-authored"
     },
     {
+      "path": "current/sessions/modbus/dongle-tcp/output.json",
+      "sha256": "c25996e27555309d31a9938b77adc4117329ab9e1649084ee1a4a714be8cf6cd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/dongle-tcp",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/dongle-tcp/session.json",
+      "sha256": "cc208ee3632eb844ae83b23086490e7d8ad0ae0110b4a200b550b42953dae223",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/dongle-tcp",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/gen3-managed-first-incarnation/output.json",
+      "sha256": "59c74bc4159cc8bcac40f0eac6f786d85d1c357e87c4801c7059dd5343e52850",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/gen3-managed-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/gen3-managed-first-incarnation/session.json",
+      "sha256": "c17d2eff3d769f75e1653593b21aef63d04b0587947c07b1177945fcf81f1b0f",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/gen3-managed-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/gen3-managed-generation-replacement/output.json",
+      "sha256": "61d2c4f410d0d441c20069ec09b08b878cd00941f43ac99d0a3736af6c5d0c01",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/gen3-managed-generation-replacement",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/gen3-managed-generation-replacement/session.json",
+      "sha256": "70dc2d1e3adeeb5c0ccbe171c2c599d8966c702aacb20a227945df8a222d9589",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/gen3-managed-generation-replacement",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/logger-tcp/output.json",
+      "sha256": "1212d1c38f6406a7c8d3900d649c6bf1d687e7eec381fbee9578eb7ed981f25a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/logger-tcp",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/logger-tcp/session.json",
+      "sha256": "1f86073c047c5f9a41aba97c98f35334d4238d29562031cc2fef9f9ea9ae1f32",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/logger-tcp",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/rs485-storage-first-incarnation/output.json",
+      "sha256": "cc95ca6b3a93eada94b45d8bf90826209475a5f368adb018498ba8c29d1e5dd3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/rs485-storage-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/rs485-storage-first-incarnation/session.json",
+      "sha256": "006a18d5beaff5ec02336b7395a2ad20c19cd108fa8fbd93503aff34e2d61bd9",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/rs485-storage-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/sunspec-first-incarnation/output.json",
+      "sha256": "65534d1e682d8c53129dee5452da8940eddac5c7d5049c16f6cdf837191fc3e3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/sunspec-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/sunspec-first-incarnation/session.json",
+      "sha256": "5e4364b7cd39e9cf5bac04161222799b90a9eef4610a536e1f79f5d1a0ab6dac",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/sunspec-first-incarnation",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/sunspec-generation-replacement/output.json",
+      "sha256": "64cb07b0e0f7ac189b95b0f0dfbd1a4d9202ac989dc3656b9ee8d7b33438ddef",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "replay_session.py --reference current",
+      "case": "modbus/sunspec-generation-replacement",
+      "source_entry": "gateway"
+    },
+    {
+      "path": "current/sessions/modbus/sunspec-generation-replacement/session.json",
+      "sha256": "19bb14585a1b97bda12244b9db2057fedbb9f18af0a288d61a1877ee3199ce7b",
+      "origin": "synthetic",
+      "reference": "current",
+      "role": "input",
+      "recorder": "hand-authored",
+      "case": "modbus/sunspec-generation-replacement",
+      "source_entry": "gateway"
+    },
+    {
       "path": "current/sessions/vaillant/poller-cache-hydrated-partial-reads/output.json",
       "sha256": "f476fe68a1c92ff8974834ff9940329a348b9bcf44ba328d9a0e0d4871efa160",
       "origin": "recorded-current",

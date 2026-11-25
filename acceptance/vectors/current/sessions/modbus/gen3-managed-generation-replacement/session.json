@@ -1,0 +1,275 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "modbus-gen3-managed-generation-replacement",
+  "reference": "current",
+  "scenario": "gen3-managed-generation-replacement",
+  "description": "The pinned retained Gen3 owner is fenced at its generation, a successor is registered on the retained kernel, accepts its first completed exchange, and the same public reads are repeated against the successor. The old owner opens no active endpoint; the raw active-transport arm is cross-linked as stimulus.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionModbus"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/tesla_hsc_retained_owner_test.go",
+      "sha256": "7efa53b7a1c9b6af241066662026f455876c810a822647127bd761e3b8fdb452"
+    },
+    {
+      "path": "cmd/gateway/tesla_hsc_retained_owner.go",
+      "sha256": "627dbf6bc66d1e72e9c74e8600f65c17b965e0f5769dd2bbac4351ca8ffb8781"
+    },
+    {
+      "path": "cmd/gateway/portal_catalog_v1_test.go",
+      "sha256": "7d1f82e5e2f329bead3f6d147b92b6aa8bcaf6a740ca879f11d7208513df36d1"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "anchor_unix": 1700000000
+  },
+  "state": {
+    "cache_seed": null
+  },
+  "input": {
+    "config": {
+      "Enabled": true,
+      "EndpointID": "tesla-hsc-public-a",
+      "AssetID": "asset:tesla-wc3-a",
+      "SourceID": "source:tesla-wc3-a",
+      "SourceEpoch": "epoch:tesla-wc3-a",
+      "ClockEpoch": "clock:tesla-wc3-a",
+      "EVSEID": "evse-a",
+      "ConnectorID": "connector-a",
+      "Profile": "wc3_24_44_3",
+      "DriverGeneration": 7,
+      "Node": 16
+    },
+    "graphql_query": "query SemanticEVSECurrent($request: m2m_current_snapshot_request!) { semantic_evse_current(request: $request) { snapshot evaluation selections projection } }",
+    "raw_active_transport_arm": {
+      "role": "stimulus for the consumer's active Open path (MM07, MM04); the pinned owner opens no endpoint and transmits nothing, so none of these frames is a donor transmission and none is an acquisition or send of this session",
+      "ordinary_reads": {
+        "source": {
+          "repository": "helianthus-modbusreg",
+          "reference_entry": "modbusreg",
+          "file": "tesla/tesla_gen3_read_acquisition_test.go",
+          "test": "TestTeslaGen3ReadAcquisitionAcquiresEachObservationOperation"
+        },
+        "endpoint": "evse-a",
+        "node": 16,
+        "profile": "tesla_hsc",
+        "compatibility_version": "tesla_hsc_modbus_v1",
+        "gen3_version": "wc3_24_44_3",
+        "generation": 1,
+        "lifecycle_epoch": 1,
+        "request_id": 1,
+        "attempt": 1,
+        "max_attempts": 2,
+        "transport_outcome": "success",
+        "terminal_body_hex": "08017a02aabb",
+        "operations": [
+          {
+            "operation": "common.system_info",
+            "qualified_operation": "tesla.hsc.fc100.common_system_info.v1",
+            "request_function": 100,
+            "request_payload_hex": "0422021200",
+            "compared_with_donor_exchange": null
+          },
+          {
+            "operation": "wc.get_vitals",
+            "qualified_operation": "tesla.hsc.fc100.wc_vitals.v1",
+            "request_function": 100,
+            "request_payload_hex": "0432020a00",
+            "compared_with_donor_exchange": null
+          },
+          {
+            "operation": "wc.get_lifetime_stats",
+            "qualified_operation": "tesla.hsc.fc100.wc_lifetime.v1",
+            "request_function": 100,
+            "request_payload_hex": "0432021a00",
+            "compared_with_donor_exchange": null
+          },
+          {
+            "operation": "wc.get_system_info",
+            "qualified_operation": "tesla.hsc.fc100.wc_system_info.v1",
+            "request_function": 100,
+            "request_payload_hex": "0432024a00",
+            "compared_with_donor_exchange": null
+          },
+          {
+            "operation": "wc.get_load_sharing_state",
+            "qualified_operation": "tesla.hsc.fc100.wc_load_sharing_state.v1",
+            "request_function": 100,
+            "request_payload_hex": "0432025a00",
+            "compared_with_donor_exchange": null
+          }
+        ],
+        "compared_with_note": "the pinned owner ingests no ordinary read exchange, so no donor completed exchange corresponds to these operations",
+        "unknown": [
+          "the response terminal frame bytes: the pinned test builds them with an unexported helper, and the page that fixes them is not part of this session"
+        ]
+      },
+      "configured_current_arm": {
+        "source": {
+          "repository": "helianthus-ebusgateway",
+          "reference_entry": "gateway",
+          "file": "cmd/gateway/tesla_hsc_retained_owner_test.go",
+          "fixture": "teslaProvisionalOutcome"
+        },
+        "specification": {
+          "repository": "helianthus-docs-modbus",
+          "page": "protocols/tesla/gen3-hsc-rtu.md",
+          "section": "Read-only current-limit projection"
+        },
+        "operation_version": "wc3_24_44_3",
+        "endpoint": "tesla-hsc-public-a",
+        "node": 16,
+        "generation": 7,
+        "source_epoch": "epoch:tesla-wc3-a",
+        "t27_readback_request_payload_hex": "053203da0100",
+        "t28_readback_terminal_payload_hex": "10320ee2010b0a07080c10d80418001020",
+        "present_native_fields": {
+          "limit_current_max_amps": 12,
+          "limit_timeout_s": 600,
+          "inhibit_charging": false,
+          "readback_field_2_varint": 32
+        },
+        "compared_with_donor_exchange": {
+          "correlation_id": 3,
+          "operation": "wc.get_provisional",
+          "donor_values": {
+            "limit_current_max_amps": 12,
+            "limit_timeout_s": 600,
+            "inhibit_charging": false
+          }
+        },
+        "unknown": [
+          "the declared t28 read window (freshness and retention): neither the pinned fixtures nor the public page state one"
+        ],
+        "excluded": "no t7 or t25 write is part of this arm"
+      },
+      "coincident_value_note": "a configured-current value from this arm is a different native arm from the donor completed exchange: it grants no equivalence of wire, receipts, identity or time"
+    },
+    "steps": [
+      {
+        "kind": "set-clock",
+        "name": "clock-owner-start",
+        "clock_wall": "2023-11-14T22:13:30Z",
+        "read_clock_ns": 10000000000
+      },
+      {
+        "kind": "ingest-persistent",
+        "name": "persistent-correlation-1",
+        "persistent": {
+          "Exchange": {
+            "EndpointID": "tesla-hsc-public-a",
+            "SourceID": "source:tesla-wc3-a",
+            "SourceEpoch": "epoch:tesla-wc3-a",
+            "DriverGeneration": 7,
+            "Node": 16,
+            "OperationVersion": "wc3_24_44_3",
+            "Operation": "wc.configure_settings",
+            "CorrelationID": 1,
+            "RequestPayload": "CDIGOgQKAggQ",
+            "RequestADU": "EGQIMgY6BAoCCBDDzA==",
+            "ResponseFrames": [
+              {
+                "Payload": "CDIGQgQKAggQ",
+                "ADU": "EGQIMgZCBAoCCBDJtA=="
+              }
+            ],
+            "ReceiptWall": "2023-11-14T22:13:21.000000123Z",
+            "ReceiptMonotonic": 1000000000,
+            "TerminalOutcome": "success"
+          },
+          "MaxOutputCurrentAmps": 16
+        }
+      },
+      {
+        "kind": "read",
+        "name": "predecessor-read",
+        "current_at": "2023-11-14T22:13:31Z"
+      },
+      {
+        "kind": "public-reads",
+        "name": "public-reads-predecessor"
+      },
+      {
+        "kind": "inspect",
+        "name": "predecessor-inspect"
+      },
+      {
+        "kind": "fence",
+        "name": "generation-fence",
+        "fence": {
+          "current": 7,
+          "next": 8
+        }
+      },
+      {
+        "kind": "successor",
+        "name": "successor-registered",
+        "successor": {
+          "Enabled": true,
+          "EndpointID": "tesla-hsc-public-a",
+          "AssetID": "asset:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "SourceEpoch": "epoch:tesla-wc3-b",
+          "ClockEpoch": "clock:tesla-wc3-a",
+          "EVSEID": "evse-a",
+          "ConnectorID": "connector-a",
+          "Profile": "wc3_24_44_3",
+          "DriverGeneration": 8,
+          "Node": 16
+        }
+      },
+      {
+        "kind": "set-clock",
+        "name": "clock-successor",
+        "clock_wall": "2023-11-14T22:13:40Z",
+        "read_clock_ns": 20000000000
+      },
+      {
+        "kind": "ingest-persistent",
+        "name": "successor-persistent-correlation-1",
+        "persistent": {
+          "Exchange": {
+            "EndpointID": "tesla-hsc-public-a",
+            "SourceID": "source:tesla-wc3-a",
+            "SourceEpoch": "epoch:tesla-wc3-b",
+            "DriverGeneration": 8,
+            "Node": 16,
+            "OperationVersion": "wc3_24_44_3",
+            "Operation": "wc.configure_settings",
+            "CorrelationID": 1,
+            "RequestPayload": "CDIGOgQKAggS",
+            "RequestADU": "EGQIMgY6BAoCCBJCDQ==",
+            "ResponseFrames": [
+              {
+                "Payload": "CDIGQgQKAggS",
+                "ADU": "EGQIMgZCBAoCCBJIdQ=="
+              }
+            ],
+            "ReceiptWall": "2023-11-14T22:13:21.000000123Z",
+            "ReceiptMonotonic": 1000000000,
+            "TerminalOutcome": "success"
+          },
+          "MaxOutputCurrentAmps": 18
+        }
+      },
+      {
+        "kind": "read",
+        "name": "successor-read",
+        "current_at": "2023-11-14T22:13:41Z"
+      },
+      {
+        "kind": "public-reads",
+        "name": "public-reads-successor"
+      },
+      {
+        "kind": "inspect",
+        "name": "successor-inspect"
+      }
+    ]
+  }
+}

@@ -30,6 +30,7 @@ VECTORS = ROOT / "acceptance" / "vectors"
 INDEX = VECTORS / "index.json"
 ORIGINS = {"recorded-current", "recorded-released", "recorded-pre-port", "specification", "synthetic"}
 ROLES = {"expected-output", "input"}
+NO_RUNNABLE_OPERAND = 3  # exit status of replay_session.py when the pin lacks a fixture the session names
 CAN_ACTUAL = ROOT / ".tmp" / "oracle-can-actual" / "current"
 
 
@@ -231,7 +232,9 @@ def replay(reference):
                 actual.parent.mkdir(parents=True, exist_ok=True)
                 run = subprocess.run([sys.executable, "-I", str(HERE / "replay_session.py"), "--reference", reference, "--session", str(VECTORS / entry["path"]), "--output", str(actual),
                                       "--provenance", str(target / "oracle" / "provenance" / (Path(entry["path"]).parent.relative_to("current/sessions").as_posix().replace("/", "-") + ".json"))])
-                if run.returncode != 0 or not actual.is_file():
+                if run.returncode == NO_RUNNABLE_OPERAND:
+                    errors.append(f"{entry['path']}: the pin has no runnable operand for this session; the comparison is incomplete")
+                elif run.returncode != 0 or not actual.is_file():
                     errors.append(f"{entry['path']}: the replay process produced no output (exit {run.returncode})")
     for path, entry in sorted(expected.items()):
         actual = actual_vectors / path

@@ -1,0 +1,111 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "modbus-logger-tcp",
+  "reference": "current",
+  "scenario": "logger-tcp",
+  "description": "The pinned Huawei logger TCP provider replays the two per-endpoint register cycles of the public fixture, which carry five child identities, through the production read-only session and PV publication; one child then loses its identity, an incomplete listing follows, and the child is restored.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionModbus"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/huawei_replay_test.go",
+      "sha256": "c69e5e6cd99df12d38d00820e7d907764927255d067821463c85ae7376b27e3d"
+    },
+    {
+      "path": "cmd/gateway/huawei_pv_semreg.go",
+      "sha256": "a08ba7b4a4f3c4e9b8e4f0d78c4afa4060b919abb51aee0ca538bde60d107126"
+    },
+    {
+      "path": "cmd/gateway/semantic_snapshot_provider_test.go",
+      "sha256": "dc6366dd15641d2e91608aa194d01fb7ef99fb0780ff01de7d1c9be42f088dce"
+    },
+    {
+      "path": "cmd/gateway/testdata/huawei/smartlogger_replay.json",
+      "sha256": "fff086a752a1db70fb6137c0df7baf136e98440e4452b1bbcf1baff9469855fa"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "start": "2026-01-05T06:00:00Z",
+    "provider_start_offset": "1s"
+  },
+  "state": {
+    "cache_seed": null
+  },
+  "input": {
+    "family": "smartlogger",
+    "replay_fixture": "cmd/gateway/testdata/huawei/smartlogger_replay.json",
+    "clock_start": "2026-01-05T06:00:00Z",
+    "label": "alpha",
+    "source": "source:synthetic",
+    "publication_driver": "mapping-test",
+    "hub_incarnation_entropy_seed": "helianthus-oracle-modbus-logger-tcp",
+    "victim_unit": 2,
+    "mapping_unit": 1,
+    "withheld_fact_ids": [
+      "pv.ac.aggregate_active_power",
+      "pv.ac.voltage",
+      "pv.ac.current",
+      "pv.ac.frequency",
+      "pv.temperature.inverter"
+    ],
+    "steps": [
+      {
+        "kind": "refresh",
+        "name": "refresh-identification"
+      },
+      {
+        "kind": "publish",
+        "name": "publish-identification"
+      },
+      {
+        "kind": "snapshot-reads",
+        "name": "snapshot-reads-identification"
+      },
+      {
+        "kind": "mapping",
+        "name": "mapping-values"
+      },
+      {
+        "kind": "refresh",
+        "name": "refresh-guard-held-child-timeout"
+      },
+      {
+        "kind": "publish",
+        "name": "publish-guard-held-child-timeout"
+      },
+      {
+        "kind": "snapshot-reads",
+        "name": "snapshot-reads-child-timeout"
+      },
+      {
+        "kind": "lose-child",
+        "name": "lose-child-identity"
+      },
+      {
+        "kind": "publish",
+        "name": "publish-lost-child"
+      },
+      {
+        "kind": "incomplete-listing",
+        "name": "incomplete-listing"
+      },
+      {
+        "kind": "publish",
+        "name": "publish-incomplete"
+      },
+      {
+        "kind": "restore",
+        "name": "restore-child"
+      },
+      {
+        "kind": "publish",
+        "name": "publish-restored"
+      }
+    ]
+  }
+}

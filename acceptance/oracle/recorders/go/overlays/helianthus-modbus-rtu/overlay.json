@@ -1,0 +1,29 @@
+{
+  "format": "helianthus-oracle-replay-overlay/1",
+  "description": "A byte-identical scratch copy of the module version the pinned gateway go.mod requires, in which only two operands of the production RTU read change: the physical OpenRTUSerial(config.Serial) call becomes a call that returns the scripted RTUByteStream the replay executable installs, and the receipt wall-clock sample becomes the deterministic clock of the session. Nothing else in the module changes; the hooks are added in a separate file and default to the original calls.",
+  "module": "github.com/Project-Helianthus/helianthus-modbus",
+  "replacements": [
+    {
+      "file": "rtu_production.go",
+      "sha256_before": "d50e4719c2a6a876750cef8367ec4463b7ebbe8293908b271592db743d8395b4",
+      "edits": [
+        {
+          "old": "stream, err := OpenRTUSerial(config.Serial)",
+          "new": "stream, err := oracleOpenRTUStream(config.Serial)",
+          "count": 1
+        },
+        {
+          "old": "receiptWall = time.Now()",
+          "new": "receiptWall = oracleReceiptWall()",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "additions": [
+    {
+      "file": "zz_oracle_overlay.go",
+      "source": "hooks.go.txt"
+    }
+  ]
+}

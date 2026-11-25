@@ -1,0 +1,89 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "modbus-sunspec-first-incarnation",
+  "reference": "current",
+  "scenario": "sunspec-first-incarnation",
+  "description": "One synthetic SunSpec inverter incarnation on the pinned virtual server: the production worker qualifies, refreshes with one changed float word, and the registered public reads and the scope fence follow.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionModbus"
+  },
+  "fixtures": [
+    {
+      "path": "internal/modbusadapter/semreg_pv_publication_core_test.go",
+      "sha256": "1b2d2d14ca343a391f782a07a98017e75c5e52789f67cba7a059c536a86f2725"
+    },
+    {
+      "path": "internal/modbusadapter/semreg_pv_generation_characterization_test.go",
+      "sha256": "50ffb88074b084a4c29a27937fc1c62265500ef8c36f83689ab907fcfebe873d"
+    },
+    {
+      "path": "internal/modbusadapter/testfixture/sunspec.go",
+      "sha256": "a01d016a5c42574bd692eea6055deef71f78014a5cbe300f70cb3d94833462fb"
+    },
+    {
+      "path": "cmd/gateway/public05_sunspec_path_test.go",
+      "sha256": "76fee58b152185fd788d38e1b0a9af49e053ca3c8a84eccff2d48c2640ba7a70"
+    },
+    {
+      "path": "cmd/gateway/modbus_managed_driver.go",
+      "sha256": "486e2a70f6f92163b6174f3559186b4248f1ca9559e0582cf5aca3be9a594c19"
+    },
+    {
+      "path": "cmd/gateway/modbus_runtime_adapter.go",
+      "sha256": "eb581e75bcb6620772e255c90340aef1cac95a5258341d36f7e5d915e24cfb53"
+    },
+    {
+      "path": "cmd/gateway/modbus_sunspec_runtime.go",
+      "sha256": "a9569376171fefab303db919cb59149e77a28260c9efa726b5425bf700a39a53"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "origin": "2026-09-20T10:00:00Z",
+    "startup_step": "1s per endpoint factory, dial and open"
+  },
+  "state": {
+    "cache_seed": null
+  },
+  "input": {
+    "unit_id": 1,
+    "register_base": 40000,
+    "endpoint_port": 20502,
+    "clock_origin": "2026-09-20T10:00:00Z",
+    "chain_words_hex": "53756e530001004146726f6e6975730000000000000000000000000000000000000000000000000053796d6f2047454e32342031302e30000000000000000000000000000000000000000000000000000000000000000000312e34312e31312d310000000000000073796e746865746963000000000000000000000000000000000000000000000000000071003c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000078001a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000079001e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007a002c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007b001800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000580000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007c0018000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffff0000",
+    "incarnations": [
+      {
+        "name": "incarnation-1",
+        "epoch": "epoch:synthetic-a",
+        "generation": 1,
+        "start_clock_offset_ms": 0,
+        "startup_advance_ms": 1000,
+        "polls": [
+          {
+            "name": "qualify",
+            "clock_offset_ms": 5000,
+            "patch_words": []
+          },
+          {
+            "name": "refresh",
+            "clock_offset_ms": 10000,
+            "patch_words": [
+              {
+                "index": 91,
+                "words_hex": "45870c00"
+              }
+            ]
+          }
+        ],
+        "public_read": {
+          "clock_offset_ms": 12000,
+          "single_at_offset_ms": 14000
+        },
+        "retires": ""
+      }
+    ]
+  }
+}
