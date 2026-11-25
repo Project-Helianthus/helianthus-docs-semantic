@@ -38,6 +38,28 @@ def case_of(name):
     return stem.replace("growatt-bms-can-", "can-")
 
 
+BT01 = (
+    ("internal/adaptermux", "gateway-adaptermux", "TestOracleAdapterMux", "current/gateway/adaptermux"),
+    ("internal/localworkerhost", "gateway-localworkerhost", "TestOracleLocalWorkerHost", "current/gateway/localworkerhost"),
+    (".", "gateway-engine", "TestOracleEngine", "current/gateway/engine"),
+)
+
+
+def record_bt01(vectors, work):
+    """Run the three BT01 recorders at the gateway pin and write their case files; return the index entries."""
+    vectors, work = Path(vectors), Path(work)
+    entries = []
+    for package, sources, test, directory in BT01:
+        out = work / sources
+        gorun.run("current", "gateway", package, sources, test, out)
+        for produced in sorted(p for p in out.rglob("*.json")):
+            relative = f"{directory}/{produced.relative_to(out).as_posix()}"
+            common.write(vectors / relative, produced.read_bytes())
+            entries.append({"path": relative, "origin": "recorded-current", "reference": "current", "role": "expected-output",
+                            "recorder": f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"})
+    return entries
+
+
 def record(reference, vectors, oracle, sessions):
     """Return the index entries (path relative to the vectors tree) of every vector output written."""
     vectors, oracle = Path(vectors), Path(oracle)
@@ -73,6 +95,7 @@ def record(reference, vectors, oracle, sessions):
                     relative = f"{directory}/{produced.name}"
                     common.write(vectors / relative, produced.read_bytes())
                     emit(relative, f"recorders/gorun.py --entry {entry_id} --sources {sources} --test {test}", "recorded-current", case_of(produced.name), "native")
+            entries.extend(record_bt01(vectors, work))
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")

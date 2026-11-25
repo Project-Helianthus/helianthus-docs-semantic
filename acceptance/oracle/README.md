@@ -54,6 +54,9 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/gateway/cmd-gateway/ss02/` | native records of the Vaillant hot-water mappers and of the gateway Growatt CAN receive path | recorded-current |
 | `current/canbusreg/canbusreg/ss02/` | native records of the registry Growatt CAN classifier | recorded-current |
 | `current/modbusreg/sunspec/ss02/` | native records of the SunSpec decoder and monitoring capability on the Model 103 W and W_SF operands, with each fact's number, enum number and symbol, or bits and bit symbols | recorded-current |
+| `current/gateway/adaptermux/` | case files of the multiplexer: `transition/` (every fixture and input of the state transition table), `arbitration/` (bid selection at the SYN boundary), `send-symbols/` (escape pairs of the gateway write path), `v8classifier/` (classifier modes, event sequences and admin events), `pacer/` (output cadence, echo samples, grace and deadlines) and `ptytest/` (the pseudo-terminal pair and the serial multiplexer open, absent device and reopen) | recorded-current |
+| `current/gateway/localworkerhost/` | case files of the local worker supervisor: argv plan, child environment, child and configuration validation, report encoding and the lifecycle; `supervisor/` holds report fences, leases, restart, failed launch, stop escalation, unexpected exit, duplicate child and allocator mismatch | recorded-current |
+| `current/gateway/engine/` | case files of the six engines (`scheduler/`, `shadow-cache/`, `passive-tap/`, `deduplicator/`, `reconstructor/` with the F19c helpers) and of the closure that moves with them (`watch-catalog/`, `observe-first-flags/`, `observe-first-family-policy/`) | recorded-current |
 | `current/semreg/semreg-v1-graph/` | the catalog bytes embedded in the SemReg enforcement source and their sha256 | recorded-current |
 | `current/sessions/<family>/<case>/session.json` | the published input of a whole session | synthetic |
 | `current/sessions/<family>/<case>/output.json` | the frozen output of that session on the old process | recorded-current |
@@ -66,6 +69,28 @@ A recorded vector carries the input it was recorded from and every output the co
 document, version and clause or register and never the text. A vector that carries an identifier the eBUS bus transmits is
 not committed; its recorder is, and its index entry keeps the frozen digest (`digest_only`). No such vector exists in this
 revision.
+
+## Engine, adaptermux and local worker case files
+
+Each case file of `current/gateway/adaptermux/`, `current/gateway/localworkerhost/` and `current/gateway/engine/` has the
+format `helianthus-oracle-bt01-case/1`: `component`, `source` (the donor file), `stimulus` (the pin's own test that supplies
+the input), `input` (`bytes`, `qualifiers`, `clock`, `state`) and `output` (`symbols_written`, `decisions`, `cache`,
+`observations`, `counters`). The recorders are the harness-only `zz_oracle_*_test.go` files under
+`recorders/go/gateway-adaptermux/`, `recorders/go/gateway-localworkerhost/` and `recorders/go/gateway-engine/`; `record.sh`
+copies them into a scratch unpack of the gateway pin, runs `TestOracleAdapterMux`, `TestOracleLocalWorkerHost` and
+`TestOracleEngine` there and writes the case files. A case that varies a field of its input records every field it varies.
+A reconstructor case records the symbols as the pin's feeder passes them (`qualifiers.fed_symbols`, with the feeder, the escape
+flags and the tap events that follow the stream), the symbol spacing and start (`clock`), the configured watchdog and the
+local-address snapshotter (`state`). A local-worker report case records the encoded report bytes or the exact bytes given to the
+decoder (`bytes`). A transition case records in `input.bytes` the byte its input hands to the handler, including the source byte of a STARTED event. A `send-path/` case drives the mux send path and lists the symbols the upstream received. A `ptytest/pair-roundtrip.json` case runs the pin's serial-path fixtures on both serial ports. A local-worker validation case records the plan, the child identity, the observed descriptors and the environment it was given (`input.state`), and an argv case records the vector given to the parser (`input.state.args`). A reconstructor observation records its five timing markers and its ACK correlation. In an adaptermux transition case `symbols_written` lists only the payloads of adapter writes; the other
+effects are in `decisions` with their class and in `observations`. In a classifier case `symbols_written` lists the symbols
+that the classifier does not drop.
+
+Donor files with no offline fixture at the pin have no vector. `watch_efficiency.go` declares types and no function and has
+no test file: only `SemanticReadExecutionStats` is recorded, through the scheduler's watch read cases. The reconstructor's
+pending-probe SYN scan-timeout path has no caller in the pin's tests. The Linux-only pseudo-terminal files
+(`ptytest_linux.go`, `serial_exclusive_linux_test.go`) are not executed on a Darwin host, and the one pin test that is skipped
+at the pin (`TestPassiveBusTap_WrappedResetAndDecodeFaultsStillSurface`) is not recorded.
 
 ## Whole sessions
 

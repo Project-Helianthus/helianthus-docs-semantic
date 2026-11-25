@@ -239,3 +239,544 @@ def test_a_committed_session_output_holds_no_host_specific_build_record(output):
     provenance = json.loads((HERE / "provenance" / ("-".join(output.parent.relative_to(SESSIONS).parts) + ".json")).read_text(encoding="utf-8"))
     assert provenance["session_sha256"] == document["session_sha256"]
     assert {"toolchain", "executable_sha256"} <= set(provenance["build"])
+
+
+BT01 = HERE.parent / "vectors" / "current" / "gateway"
+
+
+def bt01_case(relative):
+    return json.loads((BT01 / relative).read_text(encoding="utf-8"))
+
+
+def test_the_two_self_echo_cases_differ_in_their_published_input():
+    echo = bt01_case("engine/reconstructor/self-echo-parse-failure.json")
+    plain = bt01_case("engine/reconstructor/self-echo-without-snapshotter.json")
+    assert echo["input"]["bytes"] == plain["input"]["bytes"]
+    assert echo["input"] != plain["input"]
+    assert echo["input"]["state"]["local_address_snapshotter"] == {"installed": True, "address": "71", "known": True}
+    assert plain["input"]["state"]["local_address_snapshotter"] == {"installed": False}
+    assert (echo["output"]["counters"]["abandons_by_reason"], plain["output"]["counters"]["abandons_by_reason"]) == ({"self_echo": 1}, {"corrupted_request": 1})
+
+
+def test_a_reconstructor_case_publishes_the_symbols_and_events_it_was_fed():
+    reset = bt01_case("engine/reconstructor/reset.json")["input"]
+    assert reset["qualifiers"]["tap_events_after_stream"] == [{"kind": "reset", "offset_from_start_ns": 100000000}]
+    timeout = bt01_case("engine/reconstructor/read-timeout-watchdog.json")["input"]
+    assert [event["offset_from_start_ns"] for event in timeout["qualifiers"]["tap_events_after_stream"]] == [100000000, 400000000]
+    assert timeout["state"]["passive_transaction_watchdog_ns"] == 250000000
+    direct = bt01_case("engine/reconstructor/direct.json")["input"]
+    assert direct["qualifiers"]["fed_symbols"] == "aa" + direct["bytes"] and direct["clock"]["symbol_spacing_ns"] == 10000000
+
+
+def test_the_b555_selector_cases_publish_their_arguments():
+    axes = bt01_case("engine/watch-catalog/b555-axes.json")
+    assert len(axes["input"]["qualifiers"]["keys"]) == len(axes["output"]["decisions"]) == 7
+    assert bt01_case("engine/watch-catalog/builders.json")["input"]["qualifiers"]["calls"][2]["weekday"] == "06"
+
+
+def test_the_local_worker_report_cases_publish_the_bytes_the_decoder_received():
+    good = bt01_case("localworkerhost/report-round-trip.json")["input"]["bytes"]
+    assert len(good) == 2 * 152
+    corrupt = bt01_case("localworkerhost/report-corrupt-magic.json")
+    assert corrupt["input"]["bytes"] != good and corrupt["input"]["state"]["encoded_original_hex"] == good
+    assert len(bt01_case("localworkerhost/report-short.json")["input"]["bytes"]) == 2 * 151
+
+
+def test_a_dropped_symbol_is_not_a_written_symbol():
+    enforce = bt01_case("adaptermux/v8classifier/aa-injection-enforce.json")["output"]
+    assert enforce["decisions"][0]["drop"] is True and enforce["symbols_written"] == []
+    assert bt01_case("adaptermux/v8classifier/aa-injection-off.json")["output"]["symbols_written"] == ["aa"]
+
+
+def test_an_arbitration_error_is_not_a_written_symbol():
+    mismatch = bt01_case("adaptermux/transition/start_async--started_other_source.json")["output"]
+    assert mismatch["symbols_written"] == []
+    assert any(effect.startswith("result ") and ", error " in effect for effect in mismatch["decisions"][0]["effects"])
+    assert "muxModelEffectResultError" in mismatch["decisions"][0]["effect_classes"]
+    for path in sorted((BT01 / "adaptermux" / "transition").glob("*.json")):
+        written = json.loads(path.read_text(encoding="utf-8"))["output"]["symbols_written"]
+        assert all(set(symbol) <= set("0123456789abcdef") for symbol in written), path.name
+
+
+GATEWAY_SOURCE_FIXTURES = {"gateway_awaiting_echo", "gateway_grace", "gateway_transaction", "start_async_gateway"}
+
+
+def test_a_started_transition_publishes_the_source_byte_it_was_fed():
+    paths = sorted((BT01 / "adaptermux" / "transition").glob("*--started_selected_source.json"))
+    assert len(paths) == 13
+    for path in paths:
+        fixture = path.name.split("--")[0]
+        expected = "7f" if fixture in GATEWAY_SOURCE_FIXTURES else "31"
+        assert json.loads(path.read_text(encoding="utf-8"))["input"]["bytes"] == expected, path.name
+    assert bt01_case("adaptermux/transition/idle--started_other_source.json")["input"]["bytes"] == "10"
+
+
+def test_the_send_path_record_lists_the_symbols_the_upstream_received():
+    document = bt01_case("adaptermux/send-path/write-normalization.json")
+    assert document["output"]["symbols_written"] == ["a900", "a901", "aa", "a9", "a900", "a9", "a9", "aa"]
+    assert document["input"]["bytes"] == "a9aaaaa9a9a9a9aa"
+    first = document["output"]["decisions"][0]["sends"]
+    assert [(step["session"], step["data"], step["structural"], step["upstream_writes"]) for step in first] == [
+        (0, "a9", False, "a900"), (0, "aa", False, "a901"), (0, "aa", True, "aa"), (7, "a9", False, "a9")]
+    assert [row["scenario"] for row in document["output"]["decisions"]] == [
+        "enh-logical-both-ways", "ens-logical-both-ways", "raw-receive-side", "send-side-not-raw-symbol"]
+
+
+def test_a_classifier_case_lists_the_symbols_it_forwards():
+    for mode in ("off", "shadow", "enforce"):
+        document = bt01_case(f"adaptermux/v8classifier/observe-idle-{mode}.json")
+        drops = document["output"]["decisions"][0]["drop"]
+        fed = [document["input"]["bytes"][index:index + 2] for index in range(0, len(document["input"]["bytes"]), 2)]
+        assert document["output"]["symbols_written"] == [symbol for symbol, drop in zip(fed, drops) if not drop], mode
+        assert document["output"]["symbols_written"], mode
+
+
+def test_the_serial_round_trip_runs_the_configured_serial_path_on_both_ports():
+    document = bt01_case("adaptermux/ptytest/pair-roundtrip.json")
+    assert "TestSerialConn_ENSFramingPassesThrough" in document["stimulus"]
+    assert len(document["input"]["bytes"]) == 256 * 2 * 2 and document["output"]["counters"]["receive_symbols"] == {"poller": 256, "retry": 256}
+    decision = document["output"]["decisions"][0]
+    assert [row["port"] for row in decision["receive"]] == [row["port"] for row in decision["send"]] == ["poller", "retry"]
+    assert all(row["matches_stimulus"] for row in decision["receive"] + decision["send"])
+    assert all(row["symbols"] == bytes(range(256)).hex() for row in decision["receive"])
+    assert [row["peer_read"] for row in decision["send"]] == document["output"]["symbols_written"]
+    assert all(row["peer_read"] == document["input"]["qualifiers"]["send_wire"] for row in decision["send"])
+
+
+def test_a_local_worker_validation_case_publishes_the_operands_it_was_given():
+    gogc = bt01_case("localworkerhost/validate-inherited-gogc.json")["input"]["state"]
+    assert gogc["runtime_gc"] == "off" and gogc["environment"] == {"GOGC": "50", "GOMEMLIMIT": "64MiB"}
+    assert bt01_case("localworkerhost/validate-inherited-gomemlimit.json")["input"]["state"]["environment"]["GOMEMLIMIT"] == "2GiB"
+    positive = bt01_case("localworkerhost/validate-positive.json")["input"]["state"]
+    assert positive["environment"] == {"GOGC": "off", "GOMEMLIMIT": "64MiB"} and positive["self"]["build_hex"] == positive["plan_build_hex"]
+    assert [item["fd"] for item in bt01_case("localworkerhost/validate-control-fd.json")["input"]["state"]["observed"]] == [5, 4]
+    assert len(bt01_case("localworkerhost/validate-missing-descriptor.json")["input"]["state"]["observed"]) == 1
+    assert bt01_case("localworkerhost/validate-plan-build.json")["input"]["state"]["plan_build_hex"] != positive["self"]["build_hex"]
+
+
+def test_an_argv_case_publishes_the_vector_the_parser_received():
+    for name in ("flag-alone", "trailing-gateway-flag", "missing-field", "wrong-selector", "reordered-fields", "empty-gc"):
+        state = bt01_case(f"localworkerhost/argv-{name}.json")["input"]["state"]
+        assert len(state["args"]) == state["argc"], name
+    assert bt01_case("localworkerhost/argv-flag-alone.json")["input"]["state"]["args"] == ["--internal-ebus-local-worker"]
+    assert bt01_case("localworkerhost/argv-trailing-gateway-flag.json")["input"]["state"]["args"][-1] == "-matter-library-enabled"
+    assert "gc=" in bt01_case("localworkerhost/argv-empty-gc.json")["input"]["state"]["args"]
+
+
+def test_a_reconstructor_transaction_publishes_its_timing_markers_and_ack_correlation():
+    direct = bt01_case("engine/reconstructor/direct.json")["output"]["observations"]
+    assert len(direct) == 1
+    assert direct[0]["timing"] == {
+        "request_start": "1970-01-01T00:00:00.01Z", "request_end": "1970-01-01T00:00:00.07Z",
+        "response_start": "1970-01-01T00:00:00.09Z", "response_end": "1970-01-01T00:00:00.12Z", "terminal": "1970-01-01T00:00:00.14Z"}
+    assert direct[0]["ack_correlation"] == {"byte": "00", "position": "request_ack", "complete_request": True, "correlator": "M2A"}
+    for path in sorted((BT01 / "engine" / "reconstructor").glob("*.json")):
+        for event in json.loads(path.read_text(encoding="utf-8"))["output"]["observations"]:
+            if "kind" in event:
+                assert {"timing", "ack_correlation"} <= set(event), path.name
+
+
+def test_the_pinned_budget_case_publishes_the_activations_that_exceed_the_budget():
+    state = bt01_case("engine/shadow-cache/pinned-budget-reject.json")["input"]["state"]
+    assert state["activation_source"] == "poller"
+    assert state["activated_keys"] == state["catalog_keys"] == ["b509:08:0200", "b509:08:0201", "b509:08:0202"]
+    assert len(state["activated_keys"]) > state["write_confirm_pinned_cap"]
+
+
+FENCE_MUTATIONS = {
+    "build": lambda report: report["build"] != report["executable"],
+    "abi": lambda report: report["abi"] != 1,
+    "future-worker": lambda report: report["generation"]["worker"] > 1,
+    "descriptor-size": lambda report: [d["size"] for d in report["descriptors"]] == [152, 8192],
+    "descriptor-missing": lambda report: len(report["descriptors"]) == 1,
+    "state-not-passive": lambda report: report["state"] == 2,
+    "tx-active": lambda report: report["tx_active"] is True,
+    "ready-sequence": lambda report: report["sequence"] == 1,
+    "unknown-kind": lambda report: report["kind"] == 9,
+}
+
+
+@pytest.mark.parametrize("name", sorted(FENCE_MUTATIONS))
+def test_a_report_fence_case_publishes_the_report_that_was_submitted(name):
+    case = bt01_case(f"localworkerhost/supervisor/observe-fence-{name}.json")
+    report = case["input"]["state"]["report"]
+    assert set(report) >= {"kind", "state", "tx_active", "sequence", "abi", "build", "executable", "generation", "descriptors"}
+    assert FENCE_MUTATIONS[name](report), (name, report)
+    assert case["input"]["state"]["layout"] != report["descriptors"] or name != "descriptor-size"
+
+
+def test_a_classifier_sequence_case_publishes_the_event_stream_it_replays():
+    case = bt01_case("adaptermux/v8classifier/sequence-telegram-lifecycle-enforce.json")
+    events = case["input"]["state"]["events"]
+    assert events == [
+        {"event": "started", "value": "71", "escaped": False}, {"event": "byte", "value": "10", "escaped": False},
+        {"event": "reset", "value": "00", "escaped": False}, {"event": "started", "value": "10", "escaped": False}]
+    assert [(step["event"], step["value"], step["escaped"]) for step in case["output"]["decisions"]] == [
+        (event["event"], event["value"], event["escaped"]) for event in events]
+    for path in sorted((BT01 / "adaptermux" / "v8classifier").glob("sequence-*.json")):
+        replayed = json.loads(path.read_text(encoding="utf-8"))
+        assert replayed["input"]["state"]["events"], path.name
+
+
+def test_the_serial_round_trip_writes_what_each_peer_read():
+    case = bt01_case("adaptermux/ptytest/pair-roundtrip.json")
+    sent = case["output"]["decisions"][0]["send"]
+    assert [item["port"] for item in sent] == ["poller", "retry"]
+    assert case["output"]["symbols_written"] == [item["peer_read"] for item in sent]
+    assert case["output"]["counters"] == {
+        "receive_symbols": {"poller": 256, "retry": 256}, "send_frames": {"poller": 7, "retry": 7}}
+
+
+GATEWAY = HERE.parent / "vectors" / "current" / "gateway"
+
+
+def bt01_case(relative):
+    return json.loads((GATEWAY / relative).read_text(encoding="utf-8"))
+
+
+def test_adaptermux_send_path_input_lists_each_scenario_and_its_ordered_sends():
+    document = bt01_case("adaptermux/send-path/write-normalization.json")
+    scenarios = document["input"]["qualifiers"]["scenarios"]
+    assert [item["scenario"] for item in scenarios] == [row["scenario"] for row in document["output"]["decisions"]]
+    first = scenarios[0]
+    assert (first["protocol"], first["upstream_reads_logical"]) == ("enh", True)
+    # Two consecutive aa bytes: the input alone says which one is payload and which one is structural.
+    assert [(step["session"], step["data"], step["structural"]) for step in first["sends"]] == [(0, "a9", False), (0, "aa", False), (0, "aa", True), (7, "a9", False)]
+    assert scenarios[2]["upstream_reads_logical"] is False
+    assert scenarios[3]["protocol"] == "plain"
+    for scenario, row in zip(scenarios, document["output"]["decisions"]):
+        assert [(step["session"], step["data"], step["structural"]) for step in scenario["sends"]] == [(send["session"], send["data"], send["structural"]) for send in row["sends"]]
+
+
+def test_watch_catalog_key_inputs_carry_each_request():
+    b509 = bt01_case("engine/watch-catalog/passive-b509-key.json")
+    events = b509["input"]["state"]["events"]
+    assert [item["opcode"] for item in events] == [row["opcode"] for row in b509["output"]["decisions"]] == ["0d", "29", "0e"]
+    assert all(item["has_request"] and item["request"]["primary"] == "b5" and item["request"]["secondary"] == "09" and item["request"]["target"] == "08" for item in events)
+    assert [item["request"]["data"] for item in events] == ["0d0200", "290200", "0e0200"]
+    b524 = bt01_case("engine/watch-catalog/passive-b524-key.json")
+    requests = {item["name"]: item["request"]["data"] for item in b524["input"]["state"]["events"]}
+    assert requests == {"read": "060003011c00", "write": "020203011c00aa55"}
+
+
+@pytest.mark.parametrize("name,responses", [
+    ("b509-response-class", {"header": "290200", "value": "2902007f", "single": "7f", "empty": ""}),
+    ("b524-response-class", {"header": "4201031c00", "value": "4201031c0055", "ambiguous": "4201041c0055"}),
+])
+def test_response_class_inputs_carry_each_response(name, responses):
+    document = bt01_case(f"engine/observe-first-family-policy/{name}.json")
+    operands = {item["name"]: item for item in document["input"]["state"]["responses"]}
+    assert {key: item["response"]["data"] for key, item in operands.items()} == responses
+    assert all(item["has_response"] and item["outcome"] == "success" and item["frame_type"] == "initiator_target" for item in operands.values())
+    assert [row["name"] for row in document["output"]["decisions"]] == list(responses)
+    assert document["input"]["qualifiers"]["request"]["primary"] == "b5"
+
+
+def test_supervisor_readiness_inputs_distinguish_the_call_and_carry_the_report():
+    deadline = bt01_case("localworkerhost/supervisor/lease-readiness-deadline.json")
+    late = bt01_case("localworkerhost/supervisor/lease-late-readiness.json")
+    assert deadline["input"] != late["input"]
+    assert (deadline["input"]["qualifiers"]["call"], late["input"]["qualifiers"]["call"]) == ("Tick", "Observe")
+    assert "report" not in deadline["input"]["state"]
+    report = late["input"]["state"]["report"]
+    assert (report["kind"], report["state"], report["tx_active"], report["sequence"]) == (1, 1, False, 0)
+    assert report["descriptors"] and report["generation"] == {"worker": 1, "stream": 1, "registration": 1, "token": 1}
+
+
+def test_passive_tap_reconnect_keeps_the_event_order():
+    document = bt01_case("engine/passive-tap/reconnect.json")
+    assert document["output"]["symbols_written"] == []
+    assert [(event["kind"], event.get("symbol")) for event in document["output"]["observations"]] == [
+        ("connected", None), ("symbol", "11"), ("disconnected", None), ("connected", None), ("symbol", "22"),
+    ]
+
+
+@pytest.mark.parametrize("name,entry", [
+    ("stale-active-confirmed", "entry"), ("equal-timestamp-active-confirmed", "entry"), ("evict-oldest", "pinned"),
+])
+def test_shadow_cache_entries_keep_expiry_and_generation(name, entry):
+    cache = bt01_case(f"engine/shadow-cache/{name}.json")["output"]["cache"][entry]
+    for field in ("expires_at", "observed_at", "generation", "last_write_generation", "state", "confidence", "pinned"):
+        assert field in cache
+    assert cache["expires_at"] > cache["observed_at"]
+    assert cache["generation"] >= 1
+
+
+def test_send_path_rows_record_the_active_transport_escape_mode_apart_from_the_receive_flag():
+    rows = {row["scenario"]: row for row in bt01_case("adaptermux/send-path/write-normalization.json")["output"]["decisions"]}
+    # (upstream receive flag, caller-visible escape mode of the active transport)
+    assert {name: (row["upstream_reads_logical"], row["active_transport_bytes_are_unescaped"]) for name, row in rows.items()} == {
+        "enh-logical-both-ways": (True, True),
+        "ens-logical-both-ways": (True, True),
+        "raw-receive-side": (False, False),
+        "send-side-not-raw-symbol": (True, False),
+    }
+    for row in rows.values():
+        assert row["active_reads_are_logical"] == row["upstream_reads_logical"]
+
+
+@pytest.mark.parametrize("mode,count", [("off", 100), ("shadow", 50), ("enforce", 25)])
+def test_idle_classifier_cases_feed_the_pinned_consecutive_bytes(mode, count):
+    document = bt01_case(f"adaptermux/v8classifier/observe-idle-{mode}.json")
+    assert document["input"]["bytes"] == bytes(range(count)).hex()
+    assert document["input"]["qualifiers"]["count"] == count
+    assert len(document["output"]["decisions"][0]["drop"]) == count
+    assert document["output"]["counters"]["observed_bytes_total"] == (0 if mode == "off" else count)
+    assert document["output"]["counters"]["enforce_drops_applied_total"] == 0
+    if mode == "enforce":
+        # the idle byte 01 is forwarded, not dropped
+        assert "01" in document["output"]["symbols_written"]
+
+
+def test_b524_state_default_input_carries_the_request_and_observation_of_each_decision():
+    document = bt01_case("engine/observe-first-family-policy/b524-state-default-requires-active-state-read.json")
+    operands = {item["name"]: item for item in document["input"]["qualifiers"]["cases"]}
+    rows = {row["name"]: row for row in document["output"]["decisions"]}
+    assert list(operands) == list(rows)
+    config, active = operands["config-descriptor"], operands["active-state-read"]
+    # Same request and same observation state; the descriptor's semantic class decides the admission.
+    assert config["request"] == active["request"] and config["observation"]["state"] == active["observation"]["state"] == "active"
+    assert (config["observation"]["descriptor"]["semantic_class"], active["observation"]["descriptor"]["semantic_class"]) == ("config", "state")
+    assert rows["config-descriptor"]["policy"]["direct_apply_policy"] == "never"
+    assert rows["active-state-read"]["policy"]["direct_apply_policy"] == "state_default"
+    assert operands["catalog-miss"]["observation"]["has_descriptor"] is False
+    assert operands["write"]["request"]["secondary"] == "24" and operands["write"]["request"]["source"] == "10"
+    assert document["input"]["bytes"] == "".join(item["request"]["data"] for item in operands.values())
+
+
+def test_b509_descriptor_cases_publish_the_descriptor_each_decision_was_made_for():
+    document = bt01_case("engine/observe-first-family-policy/b509-descriptor-admission.json")
+    operands = {item["name"]: item for item in document["input"]["qualifiers"]["descriptors"]}
+    assert list(operands) == [row["name"] for row in document["output"]["decisions"]]
+    request_key = document["input"]["qualifiers"]["request_key"]
+    # The matching and the mismatched key differ only in the published descriptor key.
+    assert operands["state-default-admitted"]["descriptor"]["key"] == request_key
+    assert operands["key-mismatch-refused"]["descriptor"]["key"] != request_key
+    assert operands["class-policy-mismatch-refused"]["descriptor"]["semantic_class"] == "config"
+    assert operands["never-refused"]["descriptor"]["direct_apply_policy"] == "never"
+    assert operands["unknown-policy-refused"]["descriptor"]["direct_apply_policy"] == "unknown"
+
+
+def test_the_runtime_observer_case_publishes_its_descriptor_and_release_time():
+    document = bt01_case("engine/deduplicator/b524-runtime-observer-fallback.json")
+    observer = document["input"]["state"]["watch_observer"]
+    assert (observer["state"], observer["has_descriptor"]) == ("active", True)
+    assert observer["descriptor"]["semantic_class"] == "state" and observer["descriptor"]["direct_apply_policy"] == "state_default"
+    assert observer["descriptor"]["key"] == observer["canonical"] == document["input"]["qualifiers"]["canonical"]
+    assert document["input"]["clock"]["release_offset_ns"] > document["input"]["clock"]["passive_offset_ns"]
+
+
+@pytest.mark.parametrize("name", ["allocator", "launcher", "clock", "wrong-abi", "zero-build", "layout-order", "lease-ttl", "kill-grace", "empty-gc"])
+def test_a_new_config_case_publishes_the_configuration_it_submitted(name):
+    document = bt01_case(f"localworkerhost/new-config-{name}.json")
+    config = document["input"]["state"]["config"]
+    assert document["input"]["qualifiers"]["mutation"] == name
+    expected = {
+        "allocator": ("has_allocator", False), "launcher": ("has_launcher", False), "clock": ("has_clock", False),
+        "wrong-abi": ("self", None), "zero-build": ("self", None), "layout-order": ("descriptors", [{"role": 2, "size": 4096}, {"role": 1, "size": 152}]),
+        "lease-ttl": ("lease_ttl_ns", config["lease_interval_ns"]), "kill-grace": ("kill_grace_ns", 0), "empty-gc": ("runtime_gc", ""),
+    }[name]
+    if name == "wrong-abi":
+        assert config["self"]["abi"] != 1
+    elif name == "zero-build":
+        assert config["self"]["build_hex"] == "00" * 32
+    else:
+        assert config[expected[0]] == expected[1]
+
+
+@pytest.mark.parametrize("mode", ["off", "shadow", "enforce"])
+def test_the_classifier_fault_cascade_feeds_the_pinned_continuation_and_recovery(mode):
+    document = bt01_case(f"adaptermux/v8classifier/sequence-protocol-fault-cascade-{mode}.json")
+    # Header, the NN fault byte, the five continuation bytes 00..04, then a reset and a plain byte.
+    assert document["input"]["bytes"] == "10b516ff" + "0001020304" + "55"
+    events = [step["event"] for step in document["input"]["state"]["events"]]
+    assert events[-2:] == ["reset", "byte"]
+    states = [step["fsm_state"] for step in document["output"]["decisions"]]
+    if mode != "off":
+        assert states[-3:] == ["ABORTED", "IDLE", "IDLE"]
+        assert document["output"]["counters"]["fsm_protocol_fault_total"] == 6
+
+
+def test_arbitration_rows_name_the_request_that_won_apart_from_its_session_and_initiator():
+    document = bt01_case("adaptermux/arbitration/selection-ownerfalse-idletrue.json")
+    rows = document["output"]["decisions"]
+    # Two queued bids that look equal (same session and initiator) are told apart by request identity.
+    equal_looking = [row for row in rows if row.startswith("ext=[s1:10,s1:10] gw=false mask=3 ")]
+    assert equal_looking and all("win_id=" in row and "pend_ext_id=[" in row for row in rows)
+    winners = {row.split("win_id=")[1].split(" ")[0] for row in rows if row.startswith("ext=[s1:10,s1:10] ")}
+    assert {"x0", "x1"} <= winners
+    # A selection of the second equal-looking bid is a different row from selecting the first.
+    second = [row for row in rows if row.startswith("ext=[s1:10,s1:10] gw=false mask=2 ")]
+    assert second and "win_id=x1" in second[0] and "pend_ext_id=[x0]" in second[0]
+
+
+def test_the_reconnect_case_leaves_out_the_timing_dependent_read_timeouts_and_says_so():
+    document = bt01_case("engine/passive-tap/reconnect.json")
+    assert document["input"]["qualifiers"]["observations_exclude"] == ["read_timeout"]
+    assert document["input"]["clock"]["read_timeout_ns"] < document["input"]["clock"]["absence_threshold_ns"]
+    assert "read_timeout" not in [event["kind"] for event in document["output"]["observations"]]
+
+
+def test_a_scheduler_cache_hit_returns_a_value_and_writes_no_symbol():
+    document = bt01_case("engine/scheduler/watch-read-served-from-passive-shadow.json")
+    assert document["output"]["symbols_written"] == []
+    decision = document["output"]["decisions"][0]
+    assert decision["returned_value"] == "ab" and decision["served_from_passive_shadow"] is True
+    assert document["output"]["counters"]["fetch_calls"] == 0
+
+
+@pytest.mark.parametrize("name", ["passive-first-then-active", "active-first-then-delayed-passive", "passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression"])
+def test_a_deduplicator_case_publishes_the_emitted_observation_with_its_timestamp(name):
+    document = bt01_case(f"engine/deduplicator/{name}.json")
+    event = document["output"]["decisions"][0]["event"]
+    assert event["kind"] == document["output"]["decisions"][0]["event_kind"] == "transaction"
+    assert event["observed_at"].endswith("Z") and event["observed_at"] != "0001-01-01T00:00:00Z"
+    assert event["request"]["primary"] == "b5" and event["has_request"] and event["has_response"]
+
+
+@pytest.mark.parametrize("name", ["coalesce", "cache-within-max-age", "refresh-after-max-age"])
+def test_a_scheduler_get_case_reports_returned_values_apart_from_bus_writes(name):
+    document = bt01_case(f"engine/scheduler/{name}.json")
+    # The scheduler's Get only returns values from an injected fetch; it writes no symbol to a bus.
+    assert document["output"]["symbols_written"] == []
+    decision = document["output"]["decisions"][0]
+    assert len(decision["returned_values"]) == len(decision["errors"]) == 2
+    expected = {"coalesce": ["0102", "0102"], "cache-within-max-age": ["aa", "aa"], "refresh-after-max-age": ["01", "02"]}[name]
+    assert decision["returned_values"] == expected
+
+
+def test_the_shadow_eviction_case_publishes_the_activations_budgets_and_ordered_write_times():
+    document = bt01_case("engine/shadow-cache/evict-oldest.json")
+    state, qualifiers = document["input"]["state"], document["input"]["qualifiers"]
+    assert (state["capacity"], state["pinned_capacity"], state["write_confirm_pinned_cap"]) == (2, 2, 1)
+    activations = {item["source"]: item["keys"] for item in state["activations"]}
+    assert activations["poller"] == [qualifiers["pinned"]]
+    assert activations["tooling"] == state["catalog_keys"] == [qualifiers["pinned"], qualifiers["older"], qualifiers["newer"]]
+    writes = state["writes"]
+    assert [item["order"] for item in writes] == [1, 2, 3]
+    assert [item["role"] for item in writes] == ["pinned", "older", "newer"]
+    assert [item["observed_offset_ns"] for item in writes] == [0, 1000000000, 2000000000]
+    assert "".join(item["value"] for item in writes) == document["input"]["bytes"]
+    # Only the entry that no activation pins down for the poller and is oldest is evicted.
+    assert [document["output"]["cache"][role]["present"] for role in ("pinned", "older", "newer")] == [True, False, True]
+
+
+def test_the_b524_read_write_case_publishes_the_policy_operands_of_each_call():
+    document = bt01_case("engine/observe-first-family-policy/b524-read-write.json")
+    calls = document["input"]["state"]["calls"]
+    decisions = document["output"]["decisions"]
+    assert [call["order"] for call in calls] == [1, 2, 3, 4] and len(decisions) == len(calls)
+    assert [call["response_class"] for call in calls] == ["value_bearing", "header_only", "header_only", "header_only"]
+    assert [call["request"]["secondary"] for call in calls] == ["24"] * 4
+    assert [call["request"]["data"][2:4] for call in calls] == ["00", "01", "01", "01"]
+    assert calls[0]["flags"] == {"constructor": "DefaultObserveFirstFeatureFlags"}
+    # The runtime policy each write is made under comes from its input, not from the expected decision.
+    assert [call["flags"]["external_write_policy"] for call in calls[1:]] == ["invalidate_only", "record_only", "record_and_invalidate"]
+    assert [row["effective_external_write_policy"] for row in decisions[1:]] == [call["flags"]["external_write_policy"] for call in calls[1:]]
+    assert all(call["observation"]["state"] == "active" and call["observation"]["semantic_class"] == "state" for call in calls)
+
+
+@pytest.mark.parametrize("name,channels", [
+    ("passive-first-then-active", ["passive", "active"]),
+    ("active-first-then-delayed-passive", ["active", "passive"]),
+])
+def test_a_deduplicator_match_case_publishes_both_submitted_events_with_their_frame_boundaries(name, channels):
+    document = bt01_case(f"engine/deduplicator/{name}.json")
+    submissions = document["input"]["state"]["submissions"]
+    assert [item["channel"] for item in submissions] == channels
+    fingerprint = document["output"]["decisions"][0]["fingerprint"]
+    for item in submissions:
+        assert item["has_request"] and item["has_response"] and item["frame_type"] == "initiator_target"
+        assert (item["request"]["source"], item["request"]["target"], item["request"]["primary"], item["request"]["secondary"]) == ("31", "08", "b5", "09")
+        # The fingerprint is built from the header fields and data of both frames, which the input now carries.
+        request = item["request"]
+        assert fingerprint["request"].startswith(request["source"] + request["target"] + request["primary"] + request["secondary"])
+        assert request["data"] in fingerprint["request"] and item["response"]["data"] in fingerprint["response"]
+        assert (item["response"]["source"], item["response"]["target"]) == ("08", "31")
+    assert document["input"]["bytes"] == submissions[0]["request"]["data"] + submissions[0]["response"]["data"]
+    assert document["input"]["state"]["submissions"][0]["request"] == submissions[1]["request"]
+
+
+@pytest.mark.parametrize("name", ["passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression", "discontinuity-flushes-pending", "critical-subscriber-overflow"])
+def test_every_other_deduplicator_case_publishes_the_events_it_submitted(name):
+    submissions = bt01_case(f"engine/deduplicator/{name}.json")["input"]["state"]["submissions"]
+    assert submissions and all({"channel", "kind", "frame_type", "request"} <= set(item) for item in submissions)
+
+
+def test_the_in_order_lease_case_publishes_the_starting_state_and_the_timed_call_sequence():
+    document = bt01_case("localworkerhost/supervisor/lease-in-order.json")
+    state, clock = document["input"]["state"], document["input"]["clock"]
+    assert state["start"]["state"] == "ready" and state["start"]["ready_report"]["kind"] == 1
+    schedule = state["schedule"]
+    assert [step["call"] for step in schedule] == ["clock.Advance", "Observe", "Tick"] * 3
+    # Each renewal comes after 900 ms, well past the 100 ms configured interval and inside the 1 s lease.
+    advances = [step["advance_ns"] for step in schedule if step["call"] == "clock.Advance"]
+    assert advances == [900000000] * 3 and clock["lease_interval_ns"] == 100000000 and advances[0] < clock["lease_ttl_ns"]
+    reports = [step["report"] for step in schedule if step["call"] == "Observe"]
+    assert [report["sequence"] for report in reports] == [1, 2, 3] and all(report["kind"] == 2 and report["tx_active"] is False for report in reports)
+    assert [row["advance_ns"] for row in document["output"]["decisions"]] == advances
+
+
+@pytest.mark.parametrize("name", ["b524-runtime-observer-fallback", "passive-fingerprint-shared-watch-key", "degraded-skips-active-suppression", "discontinuity-flushes-pending", "critical-subscriber-overflow"])
+def test_a_deduplicator_case_that_forces_health_publishes_its_starting_state(name):
+    state = bt01_case(f"engine/deduplicator/{name}.json")["input"]["state"]
+    assert state["initial_health"].startswith("healthy: constructed degraded, then forced healthy")
+
+
+def test_the_runtime_observer_fallback_case_publishes_the_active_and_passive_events_in_order():
+    state = bt01_case("engine/deduplicator/b524-runtime-observer-fallback.json")["input"]["state"]
+    active, passive = state["submissions"]
+    assert (active["channel"], active["kind"], active["outcome"], active["submitted_offset_ns"]) == ("active", "attempt_complete", "success", 0)
+    assert (passive["channel"], passive["observed_offset_ns"]) == ("passive", 100000000)
+    assert active["request"]["source"] == "31" and passive["request"]["source"] == "10"
+    assert active["response"]["data"] == passive["response"]["data"] == "4201031c0022"
+
+
+def test_the_b516_policy_case_publishes_the_response_class_scope_and_observation_it_was_decided_for():
+    document = bt01_case("engine/observe-first-family-policy/b516-energy-merge.json")
+    call, = document["input"]["state"]["calls"]
+    assert (call["scope"], call["response_class"], call["observation"]["state"], call["flags"]["constructor"]) == ("passive", "value_bearing", "catalog_miss", "DefaultObserveFirstFeatureFlags")
+    assert (call["request"]["source"], call["request"]["target"], call["request"]["primary"], call["request"]["secondary"]) == ("15", "fe", "b5", "16")
+    assert call["request"]["data"] == document["input"]["bytes"]
+
+
+def test_the_f19c_case_publishes_the_target_operands_it_validated():
+    document = bt01_case("engine/reconstructor/f19c-initiator-and-target.json")
+    state = document["input"]["state"]
+    assert state["target_operands"] == "08aaa9fe10" and state["initiator_operands"] == document["input"]["bytes"]
+    assert [row["byte"] for row in document["output"]["observations"]] == [state["target_operands"][i:i + 2] for i in range(0, 10, 2)]
+
+
+def test_the_widened_ttl_case_publishes_the_descriptor_it_was_checked_against():
+    descriptor = bt01_case("engine/watch-catalog/widened-ttl.json")["input"]["state"]["descriptor"]
+    assert (descriptor["semantic_class"], descriptor["freshness_profile"], descriptor["freshness_ttl_ns"]) == ("state", "state_slow", 121000000000)
+    assert {"key", "decoder_id", "correlation_policy", "direct_apply_policy"} <= set(descriptor)
+
+
+def test_the_circuit_breaker_case_publishes_the_call_schedule_and_the_fetch_behaviour():
+    document = bt01_case("engine/scheduler/circuit-open-and-suppress.json")
+    gets = document["input"]["state"]["gets"]
+    assert [item["order"] for item in gets] == [1, 2, 3, 4, 5]
+    # The clock moves by the cooldown before the fourth call, not before the third.
+    assert [item["clock_offset_ns"] for item in gets] == [0, 0, 0, 15000000000, 15000000000]
+    assert all(item["key"] == "k" and item["max_age_ns"] == 0 for item in gets)
+    assert "read failed" in document["input"]["qualifiers"]["fetch_returns"]
+    assert len(document["output"]["decisions"]) == len(gets)
+
+
+def test_the_restart_case_publishes_each_stale_operation_with_the_generation_it_submits():
+    document = bt01_case("localworkerhost/supervisor/restart-advances-every-epoch.json")
+    operations = document["input"]["state"]["operations"]
+    assert [item["order"] for item in operations] == list(range(1, len(operations) + 1))
+    assert [item["call"] for item in operations] == ["PublishPlan", "Enqueue", "Restart", "Observe", "Observe"] + ["PublishPlan"] * 3 + ["Enqueue"] * 3 + ["PublishPlan", "PublishPlan", "Enqueue", "Drain"]
+    before = document["input"]["state"]["generation_before"]
+    after = document["output"]["decisions"][0]["status_after_restart"]["generation"]
+    assert operations[3]["report"]["generation"] == before and operations[4]["report"]["generation"] == after
+    # Each stale operation differs from the current generation in exactly one field, and each field once per call kind.
+    def differing(item, keys):
+        return [key for key in keys if item[key] != after[key]]
+    assert [differing(item, ("worker", "stream", "registration")) for item in operations[5:8]] == [["worker"], ["stream"], ["registration"]]
+    assert [differing(item, ("worker", "stream", "token")) for item in operations[8:11]] == [["worker"], ["stream"], ["token"]]
+    assert [item["call"] for item in operations[11:14]] == ["PublishPlan", "PublishPlan", "Enqueue"]
+    assert operations[11] == {**operations[12], "order": 12} and differing(operations[11], ("worker", "stream", "registration")) == []
+    assert [row["name"] for row in document["output"]["decisions"][0]["stale"]] == ["old worker", "old stream", "old registration", "old worker", "old stream", "old token"]
