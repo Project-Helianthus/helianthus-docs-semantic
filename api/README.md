@@ -130,6 +130,18 @@ Its [positive and negative vectors](v1/packs/energy-management-acceptance-vector
 are checked by `scripts/validate_energy_management_pack_v1.py`. Empty bounds stay
 empty. No element is marked sensitive or hidden.
 
+## Equipment pack v1
+
+[`helianthus.pack.equipment/v1`](v1/packs/equipment-v1.md) is the accepted
+equipment pack at 1.0.0. It publishes the admitted equipment facts, the
+class-level unit and resource dimensions, the message qualifier, two services,
+the read capabilities, `equipment.operation.set_label` with its capability and
+effect rule, five changed events, and the two read portals. Battery capacity
+stays `unit.ampere_hour`. Empty bounds stay empty. No element is marked
+sensitive or hidden.
+Its [positive and negative vectors](v1/packs/equipment-acceptance-vectors.json)
+are checked by `scripts/validate_equipment_pack_v1.py`.
+
 Primary contract ID: `helianthus.semantic.kernel/v1`; the pure time-evaluation
 view uses `helianthus.semantic.evaluation/v1`, and pure presentation results use
 `helianthus.semantic.selection/v1`. Selection receives the complete matching
@@ -229,7 +241,7 @@ the element catalog and every kernel vector without it.
 ## Remaining contracts
 
 The accepted [immutable pack metadata v1](v1/pack-metadata-v1.md) exports exact
-units, dimensions, ownership and operation shapes from the six accepted packs
+units, dimensions, ownership and operation shapes from the seven accepted packs
 for a future SemReg query API. It neither implements that API nor creates a
 Gateway semantic table.
 
@@ -369,6 +381,7 @@ Each in-place change made under the exception of the version rule before the
 
 | 2026-11-25 | The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the admitted hydraulic, circuit and store facts, one qualifier dimension, five resource dimensions, five resource kinds, five services, and fifteen operations with one capability and one effect rule each. `resource.pump`, `thermal.dimension.pump` and `thermal.service.pump` keep physical, hydraulic and diagnostic and also carry energy and control. `thermal.measurement.pump_speed` stays hydraulic and diagnostic. Six changed events are catalog entries. Two domestic-hot-water boost events and seventeen pump alarm events stay out. Nine two-vendor-only fields stay out. Six hydraulic relations are not added. The valve, solar-circuit, solar-collector, detector and water-tank services have a read descriptor and no read capability. Empty bounds stay empty. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. The five new services are unsupported with `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The thermal pack page, acceptance vectors and validator. The element catalog from 1499 to 1656 entries and its pack-reference count from 1429 to 1581. Pack metadata for the thermal pack. 120 rows on the Matter 1.6.1 roster. Thermal naming rows to 679, admitted with the historical name equal to the canonical name. The catalog digest recorded by the graph vectors. |
 | 2026-11-25 | The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the admitted generator and ventilation facts, `thermal.event.maintenance_due`, 29 operations with one capability and one effect rule each, four qualifier dimensions, `resource.fan`, `resource.air_filter`, their dimensions and services, and `thermal.portal.read.fan` and `thermal.portal.read.air_filter`. `thermal.dimension.period` keeps `day`, `month` and `year`. `lifetime` is not a symbol. `thermal.dimension.purpose` and `thermal.dimension.louver_axis` stay out. `thermal.measurement.louver_position` has no axis qualifier. `thermal.energy.electrical_consumed` keeps `thermal.dimension.period` and `thermal.dimension.period_offset`. `thermal.measurement.electrical_power` uses direction `not_applicable` because the pack admits no electrical supplies relation. Empty bounds stay empty. Overrun operations keep the status symbols `active`, `finished`, `inactive` and `running`, with no default-deny rule. `thermal.relation.fan_member` and `thermal.relation.filter_member` are not added. Two-vendor-only rows stay out. A fact may store symbols, and the maintenance fact stores `clear` and `due`, so the entered derived event can name `due`. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. The two new services are unsupported with `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The thermal pack page, acceptance vectors and validator. The element catalog from 1656 to 1812 entries and its pack-reference count from 1581 to 1735. Pack metadata for the thermal pack. 116 new rows on the Matter 1.6.1 roster. Thermal naming rows to 919, admitted with the historical name equal to the canonical name. The catalog digest recorded by the graph vectors. Fact attributes gain optional `symbols`. |
+| 2026-11-25 | The equipment pack `helianthus.pack.equipment` 1.0.0 publishes the admitted equipment facts, `equipment.dimension.unit`, `equipment.dimension.resource`, the message qualifier `equipment.dimension.message` as quantity `unit.one`, two services, two read capabilities, `equipment.operation.set_label` with its capability and effect rule, five changed events, and two read portals. `equipment.power.battery_capacity` stays `unit.ampere_hour`. Empty bounds stay empty. Two-vendor-only rows stay out. Three fields with an empty admission stay out: `equipment.diagnosis.link_state`, `equipment.diagnosis.degraded_reason` and `equipment.diagnosis.controller_capability`. Events and operations whose trigger, condition, capability, argument or effect is empty stay out. New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`, and the two services are unsupported with `matter.service_not_requested_item.v1`. `evse.ac.current` stays the only transformed row. The historical Matter 1.7 roster stays at 184 items. No pack version is raised. | The equipment pack page, acceptance vectors, validator and test. The element catalog from 1812 to 1888 entries and its pack-reference count from 1735 to 1811. Pack metadata for the equipment pack. 65 rows on the Matter 1.6.1 roster. Equipment naming rows, 84, admitted with the historical name equal to the canonical name. The catalog digest recorded by the graph vectors. |
 
 
 ## Matter 1.6.1 target

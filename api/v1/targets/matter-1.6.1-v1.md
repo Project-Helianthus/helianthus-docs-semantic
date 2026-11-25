@@ -62,6 +62,15 @@ element, the row stays unknown: this roster admits one transformed row,
 `evse.ac.current`, and the conversion for those columns is not established
 here.
 
+`helianthus.pack.equipment` 1.0.0 adds one unknown row, reason
+`matter.unmapped.v1`, for each of its facts, capabilities and operations.
+`equipment.service.unit` and `equipment.service.resource` are unsupported,
+reason `matter.service_not_requested_item.v1`. Dimensions, effect rules,
+events and the read portals have no roster row. Where a reviewed column
+names a cluster element, the row stays unknown: the conversion factor,
+offset, rounding and representation bounds are not stated, and this roster
+admits one transformed row, `evse.ac.current`.
+
 Measurement-type association, unverified. The Matter column recorded for the
 measurement-type dimension is `ElectricalPowerMeasurement.Accuracy`. For the
 measured boolean the recorded columns are `ElectricalPowerMeasurement.Accuracy`,

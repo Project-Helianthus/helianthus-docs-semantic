@@ -6,6 +6,18 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The equipment pack `helianthus.pack.equipment` 1.0.0 publishes the admitted
+  equipment facts, the class-level unit and resource dimensions, the message
+  qualifier as quantity `unit.one`, two services, two read capabilities,
+  `equipment.operation.set_label` with its capability and effect rule, five
+  changed events, and two read portals. `equipment.power.battery_capacity`
+  stays `unit.ampere_hour`. Empty bounds stay empty. Two-vendor-only rows stay
+  out. Three fields with an empty admission stay out. Events and operations
+  whose trigger, condition, capability, argument or effect is empty stay out.
+  New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. The two services
+  are unsupported with `matter.service_not_requested_item.v1`.
+  `evse.ac.current` stays the only transformed row. The historical Matter 1.7
+  roster stays at 184 items. No pack version is raised.
 - The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the
   admitted generator and ventilation facts, `thermal.event.maintenance_due`,
   29 operations with one capability and one effect rule each, four qualifier
