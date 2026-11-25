@@ -5,9 +5,59 @@
   "stimulus": "TestObserveFirstResponseClass_B524ReadMapsHeaderValueAndAmbiguous",
   "input": {
     "bytes": "060003011c00",
-    "qualifiers": {},
+    "qualifiers": {
+      "request": {
+        "data": "060003011c00",
+        "primary": "b5",
+        "secondary": "24",
+        "source": "10",
+        "target": "15"
+      }
+    },
     "clock": {},
-    "state": {}
+    "state": {
+      "responses": [
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "header",
+          "outcome": "success",
+          "response": {
+            "data": "4201031c00",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        },
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "value",
+          "outcome": "success",
+          "response": {
+            "data": "4201031c0055",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        },
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "ambiguous",
+          "outcome": "success",
+          "response": {
+            "data": "4201041c0055",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

@@ -411,10 +411,10 @@ func oracleTapReconnect(t *testing.T) {
 			Clock:      map[string]any{"reconnect_delay_ns": int64(5 * time.Millisecond)},
 		},
 		Output: oracleOutput{
-			SymbolsWritten: []any{hex.EncodeToString(passiveSymbols(events))},
 			Decisions: []any{map[string]any{
 				"saw_reconnect_symbols": hasPassiveSymbols(events, 0x11, 0x22),
 			}},
+			Observations: oracleTapEventsThrough(events, 0x22),
 			Counters: map[string]any{
 				"connect_count_at_least_2":    snapshot.ConnectCount >= 2,
 				"disconnect_count_at_least_1": snapshot.DisconnectCount >= 1,
@@ -422,6 +422,29 @@ func oracleTapReconnect(t *testing.T) {
 			},
 		},
 	})
+}
+
+// oracleTapEventsThrough lists the emitted events in order, up to and
+// including the first symbol event equal to last; events after it race with
+// the connection teardown and are not part of what the pin's test waits for.
+func oracleTapEventsThrough(events []PassiveTapEvent, last byte) []any {
+	names := map[PassiveTapEventKind]string{
+		PassiveTapEventConnected: "connected", PassiveTapEventDisconnected: "disconnected", PassiveTapEventSymbol: "symbol",
+		PassiveTapEventReset: "reset", PassiveTapEventDecodeFault: "decode_fault", PassiveTapEventReadTimeout: "read_timeout",
+	}
+	out := make([]any, 0, len(events))
+	for _, event := range events {
+		entry := map[string]any{"kind": names[event.Kind]}
+		if event.Kind == PassiveTapEventSymbol {
+			entry["symbol"] = hex.EncodeToString([]byte{event.Symbol})
+			entry["was_escaped"] = event.WasEscaped
+		}
+		out = append(out, entry)
+		if event.Kind == PassiveTapEventSymbol && event.Symbol == last {
+			break
+		}
+	}
+	return out
 }
 
 func oracleTapProxySilence(t *testing.T, class string) {
@@ -1015,20 +1038,29 @@ func oracleWatchKeys(t *testing.T) {
 	writeKey, writeOK := PassiveWatchKeyFromEvent(writeEvent)
 	oracleWrite(t, "watch-catalog/passive-b524-key.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestPassiveWatchKeyFromEventMatchesB524SchedulerKey",
-		Input: oracleInput{Bytes: "060003011c00020203011c00aa55"},
+		Input: oracleInput{
+			Bytes: "060003011c00020203011c00aa55",
+			State: map[string]any{"events": []any{
+				map[string]any{"name": "read", "has_request": readEvent.HasRequest, "request": oracleFrame(readEvent.Request, true)},
+				map[string]any{"name": "write", "has_request": writeEvent.HasRequest, "request": oracleFrame(writeEvent.Request, true)},
+			}},
+		},
 		Output: oracleOutput{Decisions: []any{
 			map[string]any{"name": "read", "ok": readOK, "canonical": oracleKeyCanonical(readKey)},
 			map[string]any{"name": "write", "ok": writeOK, "canonical": oracleKeyCanonical(writeKey)},
 		}},
 	})
 	b509 := make([]any, 0, 3)
+	b509Events := make([]any, 0, 3)
 	for _, opcode := range []byte{0x0D, 0x29, 0x0E} {
 		event := PassiveClassifiedEvent{HasRequest: true, Request: protocol.Frame{Source: 0x10, Target: 0x08, Primary: 0xB5, Secondary: 0x09, Data: []byte{opcode, 0x02, 0x00}}}
 		key, ok := PassiveWatchKeyFromEvent(event)
+		b509Events = append(b509Events, map[string]any{"opcode": hex.EncodeToString([]byte{opcode}), "has_request": event.HasRequest, "request": oracleFrame(event.Request, true)})
 		b509 = append(b509, map[string]any{"opcode": hex.EncodeToString([]byte{opcode}), "ok": ok, "canonical": oracleKeyCanonical(key)})
 	}
 	oracleWrite(t, "watch-catalog/passive-b509-key.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestPassiveWatchKeyFromEventMatchesB509SchedulerKey",
+		Input:  oracleInput{Bytes: "0d02002902000e0200", State: map[string]any{"events": b509Events}},
 		Output: oracleOutput{Decisions: b509},
 	})
 }
@@ -1121,26 +1153,40 @@ func oracleRecordObserveFirst(t *testing.T) {
 		Output: oracleOutput{Decisions: parsed},
 	})
 
+	type responseCase struct {
+		name     string
+		response protocol.Frame
+	}
+	classify := func(file, stimulus string, request protocol.Frame, cases []responseCase) {
+		decisions := make([]any, 0, len(cases))
+		operands := make([]any, 0, len(cases))
+		for _, item := range cases {
+			class := observeFirstResponseClass(request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, item.response, true)
+			decisions = append(decisions, map[string]any{"name": item.name, "class": string(class)})
+			operands = append(operands, map[string]any{"name": item.name, "frame_type": oracleFrameType(protocol.FrameTypeInitiatorTarget), "outcome": string(DedupOutcomeSuccess), "has_response": true, "response": oracleFrame(item.response, true)})
+		}
+		oracleWrite(t, file, oracleCase{
+			Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: stimulus,
+			Input: oracleInput{
+				Bytes:      hex.EncodeToString(request.Data),
+				Qualifiers: map[string]any{"request": oracleFrame(request, true)},
+				State:      map[string]any{"responses": operands},
+			},
+			Output: oracleOutput{Decisions: decisions},
+		})
+	}
 	b509Request := protocol.Frame{Source: 0x31, Target: 0x08, Primary: 0xB5, Secondary: 0x09, Data: []byte{0x29, 0x02, 0x00}}
-	oracleWrite(t, "observe-first-family-policy/b509-response-class.json", oracleCase{
-		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstResponseClass_B509ReadMapsHeaderOnlyAndValueBearing",
-		Input: oracleInput{Bytes: hex.EncodeToString(b509Request.Data)},
-		Output: oracleOutput{Decisions: []any{
-			map[string]any{"name": "header", "class": string(observeFirstResponseClass(b509Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x29, 0x02, 0x00}}, true))},
-			map[string]any{"name": "value", "class": string(observeFirstResponseClass(b509Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x29, 0x02, 0x00, 0x7F}}, true))},
-			map[string]any{"name": "single", "class": string(observeFirstResponseClass(b509Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x7F}}, true))},
-			map[string]any{"name": "empty", "class": string(observeFirstResponseClass(b509Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{}, true))},
-		}},
+	classify("observe-first-family-policy/b509-response-class.json", "TestObserveFirstResponseClass_B509ReadMapsHeaderOnlyAndValueBearing", b509Request, []responseCase{
+		{"header", protocol.Frame{Data: []byte{0x29, 0x02, 0x00}}},
+		{"value", protocol.Frame{Data: []byte{0x29, 0x02, 0x00, 0x7F}}},
+		{"single", protocol.Frame{Data: []byte{0x7F}}},
+		{"empty", protocol.Frame{}},
 	})
 	b524Request := protocol.Frame{Source: 0x10, Target: 0x15, Primary: 0xB5, Secondary: 0x24, Data: []byte{0x06, 0x00, 0x03, 0x01, 0x1C, 0x00}}
-	oracleWrite(t, "observe-first-family-policy/b524-response-class.json", oracleCase{
-		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstResponseClass_B524ReadMapsHeaderValueAndAmbiguous",
-		Input: oracleInput{Bytes: hex.EncodeToString(b524Request.Data)},
-		Output: oracleOutput{Decisions: []any{
-			map[string]any{"name": "header", "class": string(observeFirstResponseClass(b524Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00}}, true))},
-			map[string]any{"name": "value", "class": string(observeFirstResponseClass(b524Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00, 0x55}}, true))},
-			map[string]any{"name": "ambiguous", "class": string(observeFirstResponseClass(b524Request, protocol.FrameTypeInitiatorTarget, DedupOutcomeSuccess, protocol.Frame{Data: []byte{0x42, 0x01, 0x04, 0x1C, 0x00, 0x55}}, true))},
-		}},
+	classify("observe-first-family-policy/b524-response-class.json", "TestObserveFirstResponseClass_B524ReadMapsHeaderValueAndAmbiguous", b524Request, []responseCase{
+		{"header", protocol.Frame{Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00}}},
+		{"value", protocol.Frame{Data: []byte{0x42, 0x01, 0x03, 0x1C, 0x00, 0x55}}},
+		{"ambiguous", protocol.Frame{Data: []byte{0x42, 0x01, 0x04, 0x1C, 0x00, 0x55}}},
 	})
 	b516 := protocol.Frame{Source: 0x15, Target: 0xFE, Primary: 0xB5, Secondary: 0x16, Data: []byte{0x01, 0x02}}
 	b516Policy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, b516, DedupResponseValueBearing, WatchObservation{State: WatchObservationStateCatalogMiss}, DefaultObserveFirstFeatureFlags())
@@ -1283,7 +1329,19 @@ func oracleEntry(cache *ShadowCache, key WatchKey) map[string]any {
 	if !ok {
 		return map[string]any{"present": false}
 	}
-	return map[string]any{"present": true, "value": hex.EncodeToString(entry.Value), "source": string(entry.Source)}
+	stamp := func(at time.Time) string {
+		if at.IsZero() {
+			return ""
+		}
+		return at.UTC().Format(time.RFC3339Nano)
+	}
+	return map[string]any{
+		"present": true, "value": hex.EncodeToString(entry.Value), "source": string(entry.Source),
+		"confidence": string(entry.Confidence), "state": string(entry.State), "observed_at": stamp(entry.ObservedAt), "expires_at": stamp(entry.ExpiresAt),
+		"generation": entry.Generation, "last_write_generation": entry.LastWriteGeneration, "invalidation_generation": entry.InvalidationGeneration,
+		"invalidation_reason": string(entry.InvalidationReason), "invalidation_source": string(entry.InvalidationSource), "invalidated_at": stamp(entry.InvalidatedAt),
+		"pinned": entry.Pinned,
+	}
 }
 
 func oracleKeyCanonical(key WatchKey) string {

@@ -92,15 +92,19 @@ func oracleLeases(t *testing.T) {
 	lease := func(f *aa27Fixture, sequence uint64) error {
 		return f.sup.Observe(Report{Kind: ReportLease, Identity: aa27Self, Generation: f.sup.Status().Generation, State: WorkerPassive, Sequence: sequence})
 	}
-	record := func(name, stimulus string, qualifiers map[string]any, decisions []any, f *aa27Fixture) {
+	recordState := func(name, stimulus string, qualifiers, state map[string]any, decisions []any, f *aa27Fixture) {
 		oracleWrite(t, "supervisor/lease-"+name+".json", oracleCase{
 			Component: "localworkerhost", Source: "internal/localworkerhost/supervisor.go", Stimulus: "TestAA27LeasesAdvanceStrictlyAndExpireOnInjectedTime/" + stimulus,
 			Input: oracleInput{
 				Qualifiers: qualifiers,
 				Clock:      map[string]any{"start": time.Unix(1000, 0).UTC().Format(time.RFC3339Nano), "lease_interval_ns": int64(100 * time.Millisecond), "lease_ttl_ns": int64(time.Second), "ready_timeout_ns": int64(5 * time.Second)},
+				State:      state,
 			},
 			Output: oracleOutput{Decisions: decisions, Counters: map[string]any{"status": oracleStatusOf(f.sup.Status())}},
 		})
+	}
+	record := func(name, stimulus string, qualifiers map[string]any, decisions []any, f *aa27Fixture) {
+		recordState(name, stimulus, qualifiers, nil, decisions, f)
 	}
 	t.Run("lease-in-order", func(t *testing.T) {
 		f := aa27StartReady(t)
@@ -147,7 +151,7 @@ func oracleLeases(t *testing.T) {
 		}
 		f.clock.Advance(5 * time.Second)
 		err := f.sup.Tick()
-		record("readiness-deadline", "readiness deadline", map[string]any{"advance_ns": int64(5 * time.Second)}, []any{map[string]any{"tick_error": oracleErr(err), "is_ready_timeout": errors.Is(err, ErrReadyTimeout)}}, f)
+		record("readiness-deadline", "readiness deadline", map[string]any{"call": "Tick", "advance_ns": int64(5 * time.Second)}, []any{map[string]any{"tick_error": oracleErr(err), "is_ready_timeout": errors.Is(err, ErrReadyTimeout)}}, f)
 	})
 	t.Run("lease-late-readiness", func(t *testing.T) {
 		f := newAA27Fixture(t)
@@ -157,7 +161,7 @@ func oracleLeases(t *testing.T) {
 		f.clock.Advance(5 * time.Second)
 		report := Report{Kind: ReportReady, Identity: aa27Self, Generation: f.sup.Status().Generation, Descriptors: aa27Layout, State: WorkerPassive}
 		err := f.sup.Observe(report)
-		record("late-readiness", "late readiness", map[string]any{"advance_ns": int64(5 * time.Second)}, []any{map[string]any{"observe_error": oracleErr(err), "is_ready_timeout": errors.Is(err, ErrReadyTimeout)}}, f)
+		recordState("late-readiness", "late readiness", map[string]any{"call": "Observe", "advance_ns": int64(5 * time.Second)}, map[string]any{"report": oracleSubmittedReport(report)}, []any{map[string]any{"observe_error": oracleErr(err), "is_ready_timeout": errors.Is(err, ErrReadyTimeout)}}, f)
 	})
 }
 

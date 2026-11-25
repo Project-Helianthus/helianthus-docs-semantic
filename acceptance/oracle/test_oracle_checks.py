@@ -425,3 +425,78 @@ def test_the_serial_round_trip_writes_what_each_peer_read():
     assert case["output"]["symbols_written"] == [item["peer_read"] for item in sent]
     assert case["output"]["counters"] == {
         "receive_symbols": {"poller": 256, "retry": 256}, "send_frames": {"poller": 7, "retry": 7}}
+
+
+GATEWAY = HERE.parent / "vectors" / "current" / "gateway"
+
+
+def bt01_case(relative):
+    return json.loads((GATEWAY / relative).read_text(encoding="utf-8"))
+
+
+def test_adaptermux_send_path_input_lists_each_scenario_and_its_ordered_sends():
+    document = bt01_case("adaptermux/send-path/write-normalization.json")
+    scenarios = document["input"]["qualifiers"]["scenarios"]
+    assert [item["scenario"] for item in scenarios] == [row["scenario"] for row in document["output"]["decisions"]]
+    first = scenarios[0]
+    assert (first["protocol"], first["upstream_reads_logical"]) == ("enh", True)
+    # Two consecutive aa bytes: the input alone says which one is payload and which one is structural.
+    assert [(step["session"], step["data"], step["structural"]) for step in first["sends"]] == [(0, "a9", False), (0, "aa", False), (0, "aa", True), (7, "a9", False)]
+    assert scenarios[2]["upstream_reads_logical"] is False
+    assert scenarios[3]["protocol"] == "plain"
+    for scenario, row in zip(scenarios, document["output"]["decisions"]):
+        assert [(step["session"], step["data"], step["structural"]) for step in scenario["sends"]] == [(send["session"], send["data"], send["structural"]) for send in row["sends"]]
+
+
+def test_watch_catalog_key_inputs_carry_each_request():
+    b509 = bt01_case("engine/watch-catalog/passive-b509-key.json")
+    events = b509["input"]["state"]["events"]
+    assert [item["opcode"] for item in events] == [row["opcode"] for row in b509["output"]["decisions"]] == ["0d", "29", "0e"]
+    assert all(item["has_request"] and item["request"]["primary"] == "b5" and item["request"]["secondary"] == "09" and item["request"]["target"] == "08" for item in events)
+    assert [item["request"]["data"] for item in events] == ["0d0200", "290200", "0e0200"]
+    b524 = bt01_case("engine/watch-catalog/passive-b524-key.json")
+    requests = {item["name"]: item["request"]["data"] for item in b524["input"]["state"]["events"]}
+    assert requests == {"read": "060003011c00", "write": "020203011c00aa55"}
+
+
+@pytest.mark.parametrize("name,responses", [
+    ("b509-response-class", {"header": "290200", "value": "2902007f", "single": "7f", "empty": ""}),
+    ("b524-response-class", {"header": "4201031c00", "value": "4201031c0055", "ambiguous": "4201041c0055"}),
+])
+def test_response_class_inputs_carry_each_response(name, responses):
+    document = bt01_case(f"engine/observe-first-family-policy/{name}.json")
+    operands = {item["name"]: item for item in document["input"]["state"]["responses"]}
+    assert {key: item["response"]["data"] for key, item in operands.items()} == responses
+    assert all(item["has_response"] and item["outcome"] == "success" and item["frame_type"] == "initiator_target" for item in operands.values())
+    assert [row["name"] for row in document["output"]["decisions"]] == list(responses)
+    assert document["input"]["qualifiers"]["request"]["primary"] == "b5"
+
+
+def test_supervisor_readiness_inputs_distinguish_the_call_and_carry_the_report():
+    deadline = bt01_case("localworkerhost/supervisor/lease-readiness-deadline.json")
+    late = bt01_case("localworkerhost/supervisor/lease-late-readiness.json")
+    assert deadline["input"] != late["input"]
+    assert (deadline["input"]["qualifiers"]["call"], late["input"]["qualifiers"]["call"]) == ("Tick", "Observe")
+    assert "report" not in deadline["input"]["state"]
+    report = late["input"]["state"]["report"]
+    assert (report["kind"], report["state"], report["tx_active"], report["sequence"]) == (1, 1, False, 0)
+    assert report["descriptors"] and report["generation"] == {"worker": 1, "stream": 1, "registration": 1, "token": 1}
+
+
+def test_passive_tap_reconnect_keeps_the_event_order():
+    document = bt01_case("engine/passive-tap/reconnect.json")
+    assert document["output"]["symbols_written"] == []
+    assert [(event["kind"], event.get("symbol")) for event in document["output"]["observations"]] == [
+        ("connected", None), ("symbol", "11"), ("disconnected", None), ("connected", None), ("symbol", "22"),
+    ]
+
+
+@pytest.mark.parametrize("name,entry", [
+    ("stale-active-confirmed", "entry"), ("equal-timestamp-active-confirmed", "entry"), ("evict-oldest", "pinned"),
+])
+def test_shadow_cache_entries_keep_expiry_and_generation(name, entry):
+    cache = bt01_case(f"engine/shadow-cache/{name}.json")["output"]["cache"][entry]
+    for field in ("expires_at", "observed_at", "generation", "last_write_generation", "state", "confidence", "pinned"):
+        assert field in cache
+    assert cache["expires_at"] > cache["observed_at"]
+    assert cache["generation"] >= 1

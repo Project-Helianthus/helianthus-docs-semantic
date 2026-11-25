@@ -6,7 +6,8 @@
   "input": {
     "bytes": "",
     "qualifiers": {
-      "advance_ns": 5000000000
+      "advance_ns": 5000000000,
+      "call": "Tick"
     },
     "clock": {
       "lease_interval_ns": 100000000,

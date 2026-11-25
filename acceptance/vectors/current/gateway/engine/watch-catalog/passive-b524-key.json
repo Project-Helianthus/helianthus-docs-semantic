@@ -7,7 +7,32 @@
     "bytes": "060003011c00020203011c00aa55",
     "qualifiers": {},
     "clock": {},
-    "state": {}
+    "state": {
+      "events": [
+        {
+          "has_request": true,
+          "name": "read",
+          "request": {
+            "data": "060003011c00",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "10",
+            "target": "15"
+          }
+        },
+        {
+          "has_request": true,
+          "name": "write",
+          "request": {
+            "data": "020203011c00aa55",
+            "primary": "b5",
+            "secondary": "24",
+            "source": "10",
+            "target": "15"
+          }
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

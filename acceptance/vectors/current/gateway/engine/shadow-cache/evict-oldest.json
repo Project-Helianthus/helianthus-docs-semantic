@@ -22,16 +22,38 @@
     "decisions": [],
     "cache": {
       "newer": {
+        "confidence": "high_confidence",
+        "expires_at": "1970-01-01T00:02:12Z",
+        "generation": 1,
+        "invalidated_at": "",
+        "invalidation_generation": 0,
+        "invalidation_reason": "",
+        "invalidation_source": "",
+        "last_write_generation": 1,
+        "observed_at": "1970-01-01T00:01:42Z",
+        "pinned": false,
         "present": true,
         "source": "passive",
+        "state": "present",
         "value": "12"
       },
       "older": {
         "present": false
       },
       "pinned": {
+        "confidence": "high_confidence",
+        "expires_at": "1970-01-01T00:02:10Z",
+        "generation": 1,
+        "invalidated_at": "",
+        "invalidation_generation": 0,
+        "invalidation_reason": "",
+        "invalidation_source": "",
+        "last_write_generation": 1,
+        "observed_at": "1970-01-01T00:01:40Z",
+        "pinned": true,
         "present": true,
         "source": "passive",
+        "state": "present",
         "value": "10"
       }
     },

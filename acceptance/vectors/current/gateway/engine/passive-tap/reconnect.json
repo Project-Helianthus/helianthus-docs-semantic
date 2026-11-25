@@ -16,16 +16,34 @@
     "state": {}
   },
   "output": {
-    "symbols_written": [
-      "1122"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
         "saw_reconnect_symbols": true
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      {
+        "kind": "connected"
+      },
+      {
+        "kind": "symbol",
+        "symbol": "11",
+        "was_escaped": false
+      },
+      {
+        "kind": "disconnected"
+      },
+      {
+        "kind": "connected"
+      },
+      {
+        "kind": "symbol",
+        "symbol": "22",
+        "was_escaped": false
+      }
+    ],
     "counters": {
       "connect_count_at_least_2": true,
       "disconnect_count_at_least_1": true,

@@ -146,6 +146,14 @@ func oracleRecordSendPath(t *testing.T) {
 	rows := make([]any, 0, len(scenarios))
 	written := make([]any, 0, 8)
 	fed := make([]byte, 0, 8)
+	operands := make([]any, 0, len(scenarios))
+	for _, scenario := range scenarios {
+		planned := make([]any, 0, len(scenario.sends))
+		for _, step := range scenario.sends {
+			planned = append(planned, map[string]any{"session": step.session, "data": fmt.Sprintf("%02x", step.data), "structural": step.structural})
+		}
+		operands = append(operands, map[string]any{"scenario": scenario.name, "protocol": scenario.protocol, "upstream_reads_logical": scenario.readsLogical, "sends": planned})
+	}
 	for _, scenario := range scenarios {
 		mux := New(Config{Protocol: scenario.protocol, Logger: log.New(io.Discard, "", 0)})
 		ctx, cancel := context.WithCancel(context.Background())
@@ -183,7 +191,7 @@ func oracleRecordSendPath(t *testing.T) {
 		Stimulus:  "TestRawContinuity_WriteNormalizationIsIndependentOfReceiveFlag",
 		Input: oracleInput{
 			Bytes:      hex.EncodeToString(fed),
-			Qualifiers: map[string]any{"scenarios": len(scenarios), "gateway_session": gatewaySessionID, "external_session": 7, "owner_initiator": "10"},
+			Qualifiers: map[string]any{"scenarios": operands, "gateway_session": gatewaySessionID, "external_session": 7, "owner_initiator": "10"},
 			State:      map[string]any{"upstream": "write recorder without a raw view; ownership confirmed for the sending session before each send"},
 		},
 		Output: oracleOutput{SymbolsWritten: written, Decisions: rows, Counters: map[string]any{"scenarios": len(scenarios), "sends": len(written)}},

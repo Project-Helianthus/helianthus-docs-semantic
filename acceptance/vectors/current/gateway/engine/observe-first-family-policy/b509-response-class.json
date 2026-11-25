@@ -5,9 +5,72 @@
   "stimulus": "TestObserveFirstResponseClass_B509ReadMapsHeaderOnlyAndValueBearing",
   "input": {
     "bytes": "290200",
-    "qualifiers": {},
+    "qualifiers": {
+      "request": {
+        "data": "290200",
+        "primary": "b5",
+        "secondary": "09",
+        "source": "31",
+        "target": "08"
+      }
+    },
     "clock": {},
-    "state": {}
+    "state": {
+      "responses": [
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "header",
+          "outcome": "success",
+          "response": {
+            "data": "290200",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        },
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "value",
+          "outcome": "success",
+          "response": {
+            "data": "2902007f",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        },
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "single",
+          "outcome": "success",
+          "response": {
+            "data": "7f",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        },
+        {
+          "frame_type": "initiator_target",
+          "has_response": true,
+          "name": "empty",
+          "outcome": "success",
+          "response": {
+            "data": "",
+            "primary": "00",
+            "secondary": "00",
+            "source": "00",
+            "target": "00"
+          }
+        }
+      ]
+    }
   },
   "output": {
     "symbols_written": [],

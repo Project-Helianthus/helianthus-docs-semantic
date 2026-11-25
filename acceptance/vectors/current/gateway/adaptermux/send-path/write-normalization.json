@@ -9,7 +9,76 @@
       "external_session": 7,
       "gateway_session": 0,
       "owner_initiator": "10",
-      "scenarios": 4
+      "scenarios": [
+        {
+          "protocol": "enh",
+          "scenario": "enh-logical-both-ways",
+          "sends": [
+            {
+              "data": "a9",
+              "session": 0,
+              "structural": false
+            },
+            {
+              "data": "aa",
+              "session": 0,
+              "structural": false
+            },
+            {
+              "data": "aa",
+              "session": 0,
+              "structural": true
+            },
+            {
+              "data": "a9",
+              "session": 7,
+              "structural": false
+            }
+          ],
+          "upstream_reads_logical": true
+        },
+        {
+          "protocol": "ens",
+          "scenario": "ens-logical-both-ways",
+          "sends": [
+            {
+              "data": "a9",
+              "session": 0,
+              "structural": false
+            }
+          ],
+          "upstream_reads_logical": true
+        },
+        {
+          "protocol": "enh",
+          "scenario": "raw-receive-side",
+          "sends": [
+            {
+              "data": "a9",
+              "session": 0,
+              "structural": false
+            }
+          ],
+          "upstream_reads_logical": false
+        },
+        {
+          "protocol": "plain",
+          "scenario": "send-side-not-raw-symbol",
+          "sends": [
+            {
+              "data": "a9",
+              "session": 0,
+              "structural": false
+            },
+            {
+              "data": "aa",
+              "session": 0,
+              "structural": false
+            }
+          ],
+          "upstream_reads_logical": true
+        }
+      ]
     },
     "clock": {},
     "state": {
