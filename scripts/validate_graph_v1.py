@@ -1061,11 +1061,18 @@ def pin_error(request: dict[str, Any], held: list[str]) -> str | None:
     return None
 
 
+def depth_cap(lens: dict[str, Any] | None) -> int:
+    """Section 27 bound when no lens is named or the lens omits max_depth."""
+    if lens is None or "max_depth" not in lens:
+        return DEPTH_BOUND
+    return lens["max_depth"]
+
+
 def bounds_error(request: dict[str, Any], lens: dict[str, Any] | None) -> str | None:
     page_size = request.get("page_size")
     if page_size is not None and page_size > PAGE_BOUND:
         return "bounds_exceeded"
-    cap = lens["max_depth"] if lens is not None else DEPTH_BOUND
+    cap = depth_cap(lens)
     if request.get("depth", cap) > cap or request.get("depth", cap) > DEPTH_BOUND:
         return "bounds_exceeded"
     return None
@@ -1406,7 +1413,7 @@ def graph_body(vector: dict[str, Any], entries: dict[str, dict[str, Any]], conte
     entry_ids = resolve_entry(request, lens, resource_index(vector["input"]["snapshots"], entries))
     if isinstance(entry_ids, str):
         return entry_ids
-    cap = lens["max_depth"] if lens is not None else DEPTH_BOUND
+    cap = depth_cap(lens)
     depth, frontier = walk_reached(entry_ids, edges, request.get("direction", "outgoing"), request.get("depth", cap))
     if len(frontier) > FRONTIER_BOUND:
         return "bounds_exceeded"

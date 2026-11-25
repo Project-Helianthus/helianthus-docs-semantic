@@ -95,6 +95,8 @@ UNSTATED_BY = {
     "infrastructure.relation.circuit_phase": "native_contract:phase_assignment_not_stated",
     "infrastructure.relation.feeder_circuit": "configuration:no_feeder_or_circuit_declared_by_this_gate",
     "infrastructure.relation.grid_connection_feeder": "configuration:no_feeder_or_circuit_declared_by_this_gate",
+    "infrastructure.relation.load_meter": "configuration:no_load_declared_by_this_gate",
+    "infrastructure.relation.site_load": "configuration:no_load_declared_by_this_gate",
 }
 UNSTATED_OUTCOME = "unknown_not_absent"
 INVENTORY = [

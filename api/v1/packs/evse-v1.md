@@ -55,6 +55,7 @@ evse.service.meter
 evse.relation.asset_evse           evse.relation.evse_connector
 evse.relation.connector_phase      evse.relation.connector_session
 evse.relation.evse_meter
+evse.relation.connector_vehicle
 evse.capability.read.evse          evse.capability.read.connector
 evse.capability.read.phase         evse.capability.read.session
 evse.capability.read.meter         evse.capability.set_allocated_current
@@ -73,7 +74,8 @@ evse.portal.operation.set_allocated_current
 dimensions `evse.dimension.target_schedule` and `evse.dimension.target` are
 quantity indexes in `unit.one`. Each admitted operation has one capability and
 one effect rule. `evse.operation.set_allocated_current` and its set case stay.
-No release case is added. `evse.relation.connector_vehicle` is not added.
+No release case is added. `evse.relation.connector_vehicle` hosts the connector
+and the vehicle, one to one.
 
 New quantities use `unit.ampere`, `unit.watt`, `unit.joule`, `unit.second`,
 `unit.one`, `unit.ratio`, `unit.metre` or `unit.currency`. A new quantity bound

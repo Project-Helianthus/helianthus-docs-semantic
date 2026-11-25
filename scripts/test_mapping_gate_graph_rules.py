@@ -178,8 +178,17 @@ class GraphRulesTest(unittest.TestCase):
                 gate["graph"]["relations"][0]["definition"] = definition
                 self.assert_fails(gate, "relation_not_member", "$.graph.relations[0].definition")
 
+    def test_relation_relays_admits_gate_rule(self):
+        gate = valid_gate()
+        gate["graph"]["relations"][0]["basis_class"] = "gate_rule"
+        self.assertEqual(rules.check(gate, CATALOG), [])
+        catalog = copy.deepcopy(CATALOG)
+        definition = next(element for element in catalog["elements"] if element["ref"]["id"] == "relation.relays")
+        definition["attributes"]["basis_classes"] = ["native_observation", "configuration"]
+        self.assert_fails(gate, "basis_class_not_admitted", "$.graph.relations[0].basis_class", catalog)
+
     def test_basis_class_not_admitted(self):
-        for index, basis in ((1, "configuration"), (1, "native_observation"), (2, "native_observation"), (0, "gate_rule"), (0, "address_arithmetic")):
+        for index, basis in ((1, "configuration"), (1, "native_observation"), (2, "native_observation"), (0, "address_arithmetic")):
             with self.subTest(index=index, basis=basis):
                 gate = valid_gate()
                 gate["graph"]["relations"][index]["basis_class"] = basis

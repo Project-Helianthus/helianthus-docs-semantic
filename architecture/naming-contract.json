@@ -18304,6 +18304,86 @@
       "canonical_name": "equipment.time.timezone",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.pump_member",
+      "canonical_name": "thermal.relation.pump_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.valve_member",
+      "canonical_name": "thermal.relation.valve_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.solar_circuit_collector",
+      "canonical_name": "thermal.relation.solar_circuit_collector",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.detector_member",
+      "canonical_name": "thermal.relation.detector_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.water_tank_member",
+      "canonical_name": "thermal.relation.water_tank_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.fan_member",
+      "canonical_name": "thermal.relation.fan_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.relation.filter_member",
+      "canonical_name": "thermal.relation.filter_member",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.relation.site_load",
+      "canonical_name": "infrastructure.relation.site_load",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/infrastructure/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "infrastructure.relation.load_meter",
+      "canonical_name": "infrastructure.relation.load_meter",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.relation.connector_vehicle",
+      "canonical_name": "evse.relation.connector_vehicle",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {

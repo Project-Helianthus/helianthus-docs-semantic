@@ -32,10 +32,10 @@ FOREIGN_DIMENSION = "storage.dimension.battery"
 CORE_KIND = "resource.equipment"
 KERNEL_TYPE = "kernel.ack_state"
 LENS_ROOT = "resource.pv_system"
-# Section 29 seeds. Relation definitions stay unnamed. lens.energy_flow omits
-# resource.storage_system: that kind admits physical only, so it admits no
-# energy plane (LNS-1). Provenance roots are the equipment endpoints of
-# relation.relays, the six equipment kinds.
+# Section 29 seeds. The four published lenses keep max_depth and leave relation
+# definitions unnamed. The six added lenses omit max_depth. lens.electrical and
+# lens.communication name relations. Provenance roots are the equipment
+# endpoints of relation.relays.
 SEEDED_LENSES = (
     {
         "id": "lens.installation_hierarchy",
@@ -52,7 +52,8 @@ SEEDED_LENSES = (
         "question": "Where does electrical energy flow and where is it measured?",
         "planes": ["energy"],
         "root_kinds": [
-            "resource.site", "resource.grid_connection", "resource.pv_system", "resource.charging_station",
+            "resource.site", "resource.grid_connection", "resource.pv_system", "resource.storage_system",
+            "resource.charging_station",
         ],
         "max_depth": 16,
     },
@@ -62,7 +63,8 @@ SEEDED_LENSES = (
         "planes": ["physical", "diagnostic"],
         "root_kinds": [
             "resource.inverter", "resource.battery", "resource.battery_pack", "resource.charging_station",
-            "resource.meter", "resource.equipment",
+            "resource.meter", "resource.equipment", "resource.heat_generator", "resource.terminal_unit",
+            "resource.thermal_store",
         ],
         "max_depth": 8,
     },
@@ -72,17 +74,91 @@ SEEDED_LENSES = (
         "planes": ["provenance"],
         "root_kinds": [
             "resource.battery", "resource.battery_pack", "resource.charging_station", "resource.equipment",
-            "resource.inverter", "resource.meter",
+            "resource.inverter", "resource.meter", "resource.heat_generator", "resource.terminal_unit",
+            "resource.thermal_store",
         ],
         "max_depth": 8,
     },
+    {
+        "id": "lens.hydraulic",
+        "question": "How do heat-transfer fluids, including refrigerant, circulate?",
+        "planes": ["hydraulic"],
+        "root_kinds": ["resource.thermal_system", "resource.heat_generator", "resource.refrigerant_circuit"],
+    },
+    {
+        "id": "lens.thermal",
+        "question": "How does heat move through the hydraulic, control, energy and diagnostic views of one installation?",
+        "planes": ["energy", "hydraulic", "control", "diagnostic"],
+        "root_kinds": ["resource.thermal_system", "resource.heat_generator", "resource.zone"],
+    },
+    {
+        "id": "lens.electrical",
+        "question": "Which supplies of the electrical medium, and which contains and measures definitions, carry the energy plane?",
+        "planes": ["energy"],
+        "root_kinds": [
+            "resource.site", "resource.grid_connection", "resource.pv_system", "resource.storage_system",
+            "resource.charging_station",
+        ],
+    },
+    {
+        "id": "lens.control_hierarchy",
+        "question": "Who regulates or commands what, from the controlling equipment down?",
+        "planes": ["control"],
+        "root_kinds": ["resource.equipment", "resource.thermal_system", "resource.pv_system"],
+    },
+    {
+        "id": "lens.diagnostic",
+        "question": "Where are faults, alarms and health reported and localized?",
+        "planes": ["physical", "diagnostic"],
+        "root_kinds": [
+            "resource.site", "resource.thermal_system", "resource.storage_system", "resource.charging_station",
+            "resource.heat_generator", "resource.inverter",
+        ],
+    },
+    {
+        "id": "lens.communication",
+        "question": "Which equipment relays the data of which equipment?",
+        "planes": ["provenance"],
+        "root_kinds": ["resource.equipment"],
+    },
+)
+# Energy-plane member relations whose core type is contains, measures, or
+# supplies with medium electrical. Sorted by identifier.
+ELECTRICAL_REQUIRED = (
+    "evse.relation.asset_evse",
+    "evse.relation.connector_phase",
+    "evse.relation.evse_connector",
+    "evse.relation.evse_meter",
+    "infrastructure.relation.circuit_phase",
+    "infrastructure.relation.feeder_circuit",
+    "infrastructure.relation.grid_connection_feeder",
+    "infrastructure.relation.grid_connection_meter",
+    "infrastructure.relation.load_meter",
+    "infrastructure.relation.site_grid_connection",
+    "infrastructure.relation.site_load",
+    "pv.relation.inverter_array",
+    "pv.relation.inverter_input",
+    "pv.relation.inverter_phase",
+    "relation.electrical_supply",
+    "relation.meter_measures",
+    "relation.storage_coupling",
+    "storage.relation.battery_pack",
+    "storage.relation.interface_supply",
+    "storage.relation.module_cell",
+    "storage.relation.pack_interface",
 )
 # One member kind per lens that admits none of that lens's planes.
 OUTSIDE_LENS_PLANE = {
     "lens.installation_hierarchy": "resource.feeder",
-    "lens.energy_flow": "resource.storage_system",
+    "lens.energy_flow": "resource.compressor",
     "lens.equipment_composition": "resource.feeder",
-    "lens.provenance": "resource.heat_generator",
+    "lens.provenance": "resource.zone",
+    "lens.hydraulic": "resource.site",
+    "lens.thermal": "resource.pv_string",
+    "lens.electrical": "resource.compressor",
+    "lens.control_hierarchy": "resource.meter",
+    "lens.diagnostic": "resource.feeder",
+    "lens.communication": "resource.zone",
 }
 SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/registries/synthetic"]}
 THERMAL_PAGE = "api/v1/packs/thermal-hvac-v1.md"
@@ -154,6 +230,71 @@ def ref_of(catalog, ident):
     return copy.deepcopy(entry_of(catalog, ident)["ref"])
 
 
+def electrical_relation_ids(catalog):
+    """Energy-plane contains, measures, and electrical supplies, sorted by id."""
+    found = []
+    for entry in catalog["elements"]:
+        if entry["element_kind"] != "relation" or entry["disposition"] != "member":
+            continue
+        if "energy" not in entry["planes"]:
+            continue
+        attributes = entry["attributes"]
+        core_type = attributes["core_type"]
+        electrical = core_type == "measures" or core_type == "contains"
+        electrical = electrical or (core_type == "supplies" and attributes.get("medium") == "electrical")
+        if electrical:
+            found.append(entry["ref"]["id"])
+    return tuple(sorted(found))
+
+
+def containment_entry(ident, source_kind, source_dimension, target_kind, target_dimension):
+    """One unchanged QQ11 containment row. Every field is part of the expected value."""
+    owner = {"kind": "pack", "pack": {"id": "helianthus.pack.thermal", "version": "1.0.0"}}
+
+    def relation_ref(name):
+        return {"owner": copy.deepcopy(owner), "id": name, "version": "1.0.0"}
+
+    return {
+        "ref": relation_ref(ident),
+        "element_kind": "relation",
+        "disposition": "member",
+        "planes": ["physical"],
+        "admission": {
+            "arm": "eebus",
+            "evidence": [
+                THERMAL_PAGE,
+                "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/173",
+            ],
+        },
+        "attributes": {
+            "core_type": "contains",
+            "orientation": "as_core",
+            "from_kinds": [source_kind],
+            "to_kinds": [target_kind],
+            "cardinality": "one_to_many",
+            "over_time": False,
+            "basis_classes": ["configuration"],
+            "endpoint_dimensions": {
+                "from": relation_ref(source_dimension),
+                "to": relation_ref(target_dimension),
+            },
+        },
+    }
+
+
+QQ11_CONTAINMENT = {
+    "thermal.relation.circuit_room": containment_entry(
+        "thermal.relation.circuit_room", "resource.thermal_circuit", "thermal.dimension.circuit",
+        "resource.room", "thermal.dimension.room"),
+    "thermal.relation.circuit_zone": containment_entry(
+        "thermal.relation.circuit_zone", "resource.thermal_circuit", "thermal.dimension.circuit",
+        "resource.zone", "thermal.dimension.zone"),
+    "thermal.relation.zone_room": containment_entry(
+        "thermal.relation.zone_room", "resource.zone", "thermal.dimension.zone",
+        "resource.room", "thermal.dimension.room"),
+}
+
+
 def resort(catalog):
     catalog["elements"].sort(key=validator.order_key)
 
@@ -187,7 +328,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1888 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1903 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -319,8 +460,8 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 1811)
-        self.assertEqual(kinds.count("relation"), 30)
+        self.assertEqual(len(kinds), 1821)
+        self.assertEqual(kinds.count("relation"), 40)
         self.assertEqual(kinds.count("presentation"), 55)
         self.assertEqual(kinds.count("dimension"), 87)
         self.assertEqual(len(INPUTS.kernel_types), 28)
@@ -330,18 +471,12 @@ class CommittedCatalog(unittest.TestCase):
         self.assertEqual(entry_of(CATALOG, "resource.room")["planes"], planes)
         self.assertEqual(entry_of(CATALOG, "thermal.dimension.room")["planes"], planes)
         self.assertEqual(entry_of(CATALOG, "resource.room")["attributes"]["anchor_class"], "function")
-        for ident in (
-            "thermal.relation.circuit_room",
-            "thermal.relation.circuit_zone",
-            "thermal.relation.zone_room",
-        ):
-            entry = entry_of(CATALOG, ident)
-            self.assertEqual(entry["planes"], ["physical"])
-            self.assertEqual(entry["attributes"]["core_type"], "contains")
-            self.assertNotIn("medium", entry["attributes"])
+        for ident, expected in QQ11_CONTAINMENT.items():
+            self.assertEqual(entry_of(CATALOG, ident), expected)
         fluid = entry_of(CATALOG, "thermal.relation.fluid_supply")
         self.assertEqual(fluid["attributes"]["core_type"], "supplies")
         self.assertEqual(fluid["attributes"]["medium"], "heat_transfer_fluid")
+        self.assertEqual(fluid["attributes"]["basis_classes"], ["configuration", "gate_rule"])
         self.assertEqual(fluid["planes"], ["energy", "hydraulic"])
         self.assertNotIn("physical", fluid["planes"])
 
@@ -554,16 +689,93 @@ class Mutations(unittest.TestCase):
             })
         self.rejects(mutate, "membership_missing", "CAT-4", "lens.synthetic_control", "member of no lens plane")
 
-    def test_four_lenses_match_section_29(self):
-        self.assertEqual(CATALOG["lenses"], [dict(item) for item in SEEDED_LENSES])
-        for lens in CATALOG["lenses"]:
-            self.assertNotIn("relations", lens)
+    def test_ten_lenses_match_section_29(self):
+        self.assertEqual([item["id"] for item in CATALOG["lenses"]], [item["id"] for item in SEEDED_LENSES])
+        named = {"lens.electrical", "lens.communication"}
+        for seeded, lens in zip(SEEDED_LENSES, CATALOG["lenses"]):
+            for key in ("id", "question", "planes", "root_kinds"):
+                self.assertEqual(lens[key], seeded[key], lens["id"])
+            if "max_depth" in seeded:
+                self.assertEqual(lens["max_depth"], seeded["max_depth"], lens["id"])
+            else:
+                self.assertNotIn("max_depth", lens, lens["id"])
+            if seeded["id"] not in named:
+                self.assertNotIn("relations", lens, lens["id"])
+        self.assertEqual(
+            [item["max_depth"] for item in CATALOG["lenses"] if "max_depth" in item],
+            [16, 16, 8, 8],
+        )
+        electrical = next(item for item in CATALOG["lenses"] if item["id"] == "lens.electrical")
+        derived = electrical_relation_ids(CATALOG)
+        self.assertEqual(derived, ELECTRICAL_REQUIRED)
+        self.assertEqual(tuple(item["id"] for item in electrical["relations"]), ELECTRICAL_REQUIRED)
+        self.assertEqual(electrical["relations"], [ref_of(CATALOG, ident) for ident in ELECTRICAL_REQUIRED])
+        communication = next(item for item in CATALOG["lenses"] if item["id"] == "lens.communication")
+        self.assertEqual(communication["relations"], [ref_of(CATALOG, "relation.relays")])
 
     def test_provenance_roots_are_the_relay_equipment(self):
         relays = entry_of(CATALOG, "relation.relays")["attributes"]
         lens = next(item for item in CATALOG["lenses"] if item["id"] == "lens.provenance")
         self.assertEqual(lens["root_kinds"], relays["from_kinds"])
         self.assertEqual(lens["root_kinds"], relays["to_kinds"])
+
+    def test_lens_record_fields(self):
+        # Fields and the production mutation each case catches:
+        # id: copying lens.hydraulic onto lens.thermal is duplicate_identity CAT-4.
+        # question: an empty question is schema minLength and not a CAT finding.
+        # planes: physical on lens.communication is LNS-1.
+        # root_kinds: one outside kind per lens is LNS-1, in the test below.
+        # relations: fluid_supply on lens.communication, and thermal_control on
+        # lens.electrical, are each LNS-1.
+        # max_depth: 0 is schema minimum; 33 is accepted because the field states
+        # no maximum. An omitted max_depth is the committed catalog.
+        def duplicate(catalog):
+            thermal = next(item for item in catalog["lenses"] if item["id"] == "lens.thermal")
+            thermal["id"] = "lens.hydraulic"
+
+        self.rejects(duplicate, "duplicate_identity", "CAT-4", "lens lens.hydraulic")
+
+        def empty_question(catalog):
+            hydraulic = next(item for item in catalog["lenses"] if item["id"] == "lens.hydraulic")
+            hydraulic["question"] = ""
+
+        questioned = mutate_copy(empty_question)
+        self.assertEqual(validator.check_rules(questioned, INPUTS), [])
+        findings = validator.validate(questioned, INPUTS, SCHEMA)
+        self.assertTrue(any("minLength 1 not satisfied" in item.detail for item in findings), findings)
+
+        def physical_communication(catalog):
+            lens = next(item for item in catalog["lenses"] if item["id"] == "lens.communication")
+            lens["planes"] = ["physical"]
+
+        self.rejects(physical_communication, "membership_missing", "CAT-4", "lens.communication", "(LNS-1)")
+
+        def foreign_communication(catalog):
+            lens = next(item for item in catalog["lenses"] if item["id"] == "lens.communication")
+            lens["relations"] = [ref_of(catalog, "thermal.relation.fluid_supply")]
+
+        self.rejects(foreign_communication, "membership_missing", "CAT-4", "lens.communication", "(LNS-1)")
+
+        def foreign_electrical(catalog):
+            lens = next(item for item in catalog["lenses"] if item["id"] == "lens.electrical")
+            lens["relations"] = [ref_of(catalog, "relation.thermal_control")]
+
+        self.rejects(foreign_electrical, "membership_missing", "CAT-4", "lens.electrical", "(LNS-1)")
+
+        def depth_zero(catalog):
+            hydraulic = next(item for item in catalog["lenses"] if item["id"] == "lens.hydraulic")
+            hydraulic["max_depth"] = 0
+
+        zeroed = mutate_copy(depth_zero)
+        self.assertEqual(validator.check_rules(zeroed, INPUTS), [])
+        findings = validator.validate(zeroed, INPUTS, SCHEMA)
+        self.assertTrue(any("max_depth/minimum" in item.detail for item in findings), findings)
+
+        def depth_above_section_27(catalog):
+            hydraulic = next(item for item in catalog["lenses"] if item["id"] == "lens.hydraulic")
+            hydraulic["max_depth"] = 33
+
+        self.assertEqual(validator.validate(mutate_copy(depth_above_section_27), INPUTS, SCHEMA), [])
 
     def test_each_seeded_lens_rejects_a_root_outside_its_planes(self):
         # Field varied: root_kinds of each seeded lens. The production mutation

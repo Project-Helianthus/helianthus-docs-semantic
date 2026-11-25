@@ -1032,6 +1032,138 @@
           "kind": "core",
           "contract": "helianthus.semantic.kernel/v1"
         },
+        "id": "relation.electrical_supply",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "owner_decision",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
+        ]
+      },
+      "attributes": {
+        "core_type": "supplies",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.electrical_circuit",
+          "resource.feeder",
+          "resource.grid_connection"
+        ],
+        "to_kinds": [
+          "resource.battery",
+          "resource.charging_station",
+          "resource.heat_generator",
+          "resource.inverter",
+          "resource.storage_interface",
+          "resource.terminal_unit"
+        ],
+        "cardinality": "many_to_many",
+        "over_time": false,
+        "medium": "electrical",
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
+        "id": "relation.energy_control",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "owner_decision",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
+        ]
+      },
+      "attributes": {
+        "core_type": "controls",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.equipment"
+        ],
+        "to_kinds": [
+          "resource.connector",
+          "resource.electrical_circuit",
+          "resource.evse",
+          "resource.inverter",
+          "resource.pv_system",
+          "resource.storage_interface"
+        ],
+        "cardinality": "many_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
+        "id": "relation.meter_measures",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "owner_decision",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
+        ]
+      },
+      "attributes": {
+        "core_type": "measures",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.meter"
+        ],
+        "to_kinds": [
+          "resource.battery",
+          "resource.charging_station",
+          "resource.electrical_circuit",
+          "resource.heat_generator",
+          "resource.inverter",
+          "resource.pv_system",
+          "resource.site",
+          "resource.storage_system",
+          "resource.terminal_unit"
+        ],
+        "cardinality": "many_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
         "id": "relation.relays",
         "version": "1.0.0"
       },
@@ -1056,7 +1188,10 @@
           "resource.charging_station",
           "resource.equipment",
           "resource.inverter",
-          "resource.meter"
+          "resource.meter",
+          "resource.heat_generator",
+          "resource.terminal_unit",
+          "resource.thermal_store"
         ],
         "to_kinds": [
           "resource.battery",
@@ -1064,13 +1199,97 @@
           "resource.charging_station",
           "resource.equipment",
           "resource.inverter",
-          "resource.meter"
+          "resource.meter",
+          "resource.heat_generator",
+          "resource.terminal_unit",
+          "resource.thermal_store"
         ],
         "cardinality": "many_to_many",
         "over_time": false,
         "basis_classes": [
           "native_observation",
-          "configuration"
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
+        "id": "relation.site_system",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "owner_decision",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
+        ]
+      },
+      "attributes": {
+        "core_type": "groups",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.site"
+        ],
+        "to_kinds": [
+          "resource.charging_station",
+          "resource.equipment",
+          "resource.pv_system",
+          "resource.storage_system",
+          "resource.thermal_system"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "core",
+          "contract": "helianthus.semantic.kernel/v1"
+        },
+        "id": "relation.storage_coupling",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "owner_decision",
+        "evidence": [
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/67"
+        ]
+      },
+      "attributes": {
+        "core_type": "supplies",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.inverter"
+        ],
+        "to_kinds": [
+          "resource.battery",
+          "resource.storage_interface"
+        ],
+        "cardinality": "many_to_many",
+        "over_time": false,
+        "medium": "electrical",
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
         ]
       }
     },
@@ -1630,7 +1849,8 @@
         "energy",
         "hydraulic",
         "control",
-        "diagnostic"
+        "diagnostic",
+        "provenance"
       ],
       "admission": {
         "arm": "matter_baseline",
@@ -2082,7 +2302,8 @@
       "element_kind": "resource_kind",
       "disposition": "member",
       "planes": [
-        "physical"
+        "physical",
+        "energy"
       ],
       "admission": {
         "arm": "accepted_pack",
@@ -2136,7 +2357,8 @@
         "energy",
         "hydraulic",
         "control",
-        "diagnostic"
+        "diagnostic",
+        "provenance"
       ],
       "admission": {
         "arm": "matter_baseline",
@@ -2190,7 +2412,8 @@
         "physical",
         "energy",
         "hydraulic",
-        "control"
+        "control",
+        "provenance"
       ],
       "admission": {
         "arm": "eebus",
@@ -38201,6 +38424,72 @@
             "version": "1.0.0"
           }
         },
+        "id": "evse.relation.connector_vehicle",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/evse-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "hosts",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.connector"
+        ],
+        "to_kinds": [
+          "resource.vehicle"
+        ],
+        "cardinality": "one_to_one",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              }
+            },
+            "id": "evse.dimension.connector",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              }
+            },
+            "id": "evse.dimension.vehicle",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          }
+        },
         "id": "evse.relation.evse_connector",
         "version": "1.0.0"
       },
@@ -44508,6 +44797,71 @@
             "version": "1.0.0"
           }
         },
+        "id": "infrastructure.relation.load_meter",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "measures",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.meter"
+        ],
+        "to_kinds": [
+          "resource.load"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
         "id": "infrastructure.relation.site_grid_connection",
         "version": "1.0.0"
       },
@@ -44559,6 +44913,72 @@
               }
             },
             "id": "infrastructure.dimension.grid_connection",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          }
+        },
+        "id": "infrastructure.relation.site_load",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/infrastructure-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.site"
+        ],
+        "to_kinds": [
+          "resource.load"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.site",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.infrastructure",
+                "version": "1.0.0"
+              }
+            },
+            "id": "infrastructure.dimension.load",
             "version": "1.0.0"
           }
         }
@@ -53593,7 +54013,8 @@
       "element_kind": "dimension",
       "disposition": "member",
       "planes": [
-        "physical"
+        "physical",
+        "energy"
       ],
       "admission": {
         "arm": "accepted_pack",
@@ -66171,7 +66592,8 @@
         "energy",
         "hydraulic",
         "control",
-        "diagnostic"
+        "diagnostic",
+        "provenance"
       ],
       "admission": {
         "arm": "matter_baseline",
@@ -66683,7 +67105,8 @@
         "energy",
         "hydraulic",
         "control",
-        "diagnostic"
+        "diagnostic",
+        "provenance"
       ],
       "admission": {
         "arm": "matter_baseline",
@@ -66714,7 +67137,8 @@
         "physical",
         "energy",
         "hydraulic",
-        "control"
+        "control",
+        "provenance"
       ],
       "admission": {
         "arm": "eebus",
@@ -83778,6 +84202,134 @@
             "version": "1.0.0"
           }
         },
+        "id": "thermal.relation.detector_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.pump",
+          "resource.thermal_system",
+          "resource.zone"
+        ],
+        "to_kinds": [
+          "resource.detector"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.fan_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.heat_generator",
+          "resource.terminal_unit",
+          "resource.ventilation_system"
+        ],
+        "to_kinds": [
+          "resource.fan"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.filter_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.terminal_unit",
+          "resource.ventilation_system"
+        ],
+        "to_kinds": [
+          "resource.air_filter"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
         "id": "thermal.relation.fluid_supply",
         "version": "1.0.0"
       },
@@ -83813,7 +84365,8 @@
         "over_time": false,
         "medium": "heat_transfer_fluid",
         "basis_classes": [
-          "configuration"
+          "configuration",
+          "gate_rule"
         ]
       }
     },
@@ -83891,6 +84444,51 @@
             "version": "1.0.0"
           }
         },
+        "id": "thermal.relation.pump_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "hydraulic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.domestic_hot_water",
+          "resource.heat_generator",
+          "resource.solar_thermal_circuit",
+          "resource.thermal_circuit"
+        ],
+        "to_kinds": [
+          "resource.pump"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
         "id": "thermal.relation.refrigerant_circuit_member",
         "version": "1.0.0"
       },
@@ -83934,6 +84532,72 @@
             "version": "1.0.0"
           }
         },
+        "id": "thermal.relation.solar_circuit_collector",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "hydraulic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.solar_thermal_circuit"
+        ],
+        "to_kinds": [
+          "resource.solar_collector"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ],
+        "endpoint_dimensions": {
+          "from": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.solar_circuit",
+            "version": "1.0.0"
+          },
+          "to": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.thermal",
+                "version": "1.0.0"
+              }
+            },
+            "id": "thermal.dimension.solar_collector",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
         "id": "thermal.relation.system_member",
         "version": "1.0.0"
       },
@@ -83964,6 +84628,95 @@
           "resource.thermal_store",
           "resource.ventilation_system",
           "resource.zone"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.valve_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical",
+        "hydraulic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.domestic_hot_water",
+          "resource.heat_generator",
+          "resource.terminal_unit",
+          "resource.thermal_circuit",
+          "resource.zone"
+        ],
+        "to_kinds": [
+          "resource.valve"
+        ],
+        "cardinality": "one_to_many",
+        "over_time": false,
+        "basis_classes": [
+          "configuration",
+          "gate_rule"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.thermal",
+            "version": "1.0.0"
+          }
+        },
+        "id": "thermal.relation.water_tank_member",
+        "version": "1.0.0"
+      },
+      "element_kind": "relation",
+      "disposition": "member",
+      "planes": [
+        "physical"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/thermal-hvac-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/184"
+        ]
+      },
+      "attributes": {
+        "core_type": "contains",
+        "orientation": "as_core",
+        "from_kinds": [
+          "resource.heat_generator",
+          "resource.terminal_unit",
+          "resource.ventilation_system"
+        ],
+        "to_kinds": [
+          "resource.water_tank"
         ],
         "cardinality": "one_to_many",
         "over_time": false,
@@ -88796,6 +89549,7 @@
         "resource.site",
         "resource.grid_connection",
         "resource.pv_system",
+        "resource.storage_system",
         "resource.charging_station"
       ],
       "max_depth": 16
@@ -88813,7 +89567,10 @@
         "resource.battery_pack",
         "resource.charging_station",
         "resource.meter",
-        "resource.equipment"
+        "resource.equipment",
+        "resource.heat_generator",
+        "resource.terminal_unit",
+        "resource.thermal_store"
       ],
       "max_depth": 8
     },
@@ -88829,9 +89586,325 @@
         "resource.charging_station",
         "resource.equipment",
         "resource.inverter",
-        "resource.meter"
+        "resource.meter",
+        "resource.heat_generator",
+        "resource.terminal_unit",
+        "resource.thermal_store"
       ],
       "max_depth": 8
+    },
+    {
+      "id": "lens.hydraulic",
+      "question": "How do heat-transfer fluids, including refrigerant, circulate?",
+      "planes": [
+        "hydraulic"
+      ],
+      "root_kinds": [
+        "resource.thermal_system",
+        "resource.heat_generator",
+        "resource.refrigerant_circuit"
+      ]
+    },
+    {
+      "id": "lens.thermal",
+      "question": "How does heat move through the hydraulic, control, energy and diagnostic views of one installation?",
+      "planes": [
+        "energy",
+        "hydraulic",
+        "control",
+        "diagnostic"
+      ],
+      "root_kinds": [
+        "resource.thermal_system",
+        "resource.heat_generator",
+        "resource.zone"
+      ]
+    },
+    {
+      "id": "lens.electrical",
+      "question": "Which supplies of the electrical medium, and which contains and measures definitions, carry the energy plane?",
+      "planes": [
+        "energy"
+      ],
+      "root_kinds": [
+        "resource.site",
+        "resource.grid_connection",
+        "resource.pv_system",
+        "resource.storage_system",
+        "resource.charging_station"
+      ],
+      "relations": [
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            }
+          },
+          "id": "evse.relation.asset_evse",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            }
+          },
+          "id": "evse.relation.connector_phase",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            }
+          },
+          "id": "evse.relation.evse_connector",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            }
+          },
+          "id": "evse.relation.evse_meter",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.circuit_phase",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.feeder_circuit",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.grid_connection_feeder",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.grid_connection_meter",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.load_meter",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.site_grid_connection",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            }
+          },
+          "id": "infrastructure.relation.site_load",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_array",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_input",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            }
+          },
+          "id": "pv.relation.inverter_phase",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "core",
+            "contract": "helianthus.semantic.kernel/v1"
+          },
+          "id": "relation.electrical_supply",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "core",
+            "contract": "helianthus.semantic.kernel/v1"
+          },
+          "id": "relation.meter_measures",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "core",
+            "contract": "helianthus.semantic.kernel/v1"
+          },
+          "id": "relation.storage_coupling",
+          "version": "1.0.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.battery_pack",
+          "version": "1.1.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.interface_supply",
+          "version": "1.1.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.module_cell",
+          "version": "1.1.0"
+        },
+        {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            }
+          },
+          "id": "storage.relation.pack_interface",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "id": "lens.control_hierarchy",
+      "question": "Who regulates or commands what, from the controlling equipment down?",
+      "planes": [
+        "control"
+      ],
+      "root_kinds": [
+        "resource.equipment",
+        "resource.thermal_system",
+        "resource.pv_system"
+      ]
+    },
+    {
+      "id": "lens.diagnostic",
+      "question": "Where are faults, alarms and health reported and localized?",
+      "planes": [
+        "physical",
+        "diagnostic"
+      ],
+      "root_kinds": [
+        "resource.site",
+        "resource.thermal_system",
+        "resource.storage_system",
+        "resource.charging_station",
+        "resource.heat_generator",
+        "resource.inverter"
+      ]
+    },
+    {
+      "id": "lens.communication",
+      "question": "Which equipment relays the data of which equipment?",
+      "planes": [
+        "provenance"
+      ],
+      "root_kinds": [
+        "resource.equipment"
+      ],
+      "relations": [
+        {
+          "owner": {
+            "kind": "core",
+            "contract": "helianthus.semantic.kernel/v1"
+          },
+          "id": "relation.relays",
+          "version": "1.0.0"
+        }
+      ]
     }
   ]
 }

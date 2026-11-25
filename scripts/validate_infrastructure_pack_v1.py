@@ -178,6 +178,8 @@ RELATIONS = {
     "infrastructure.relation.feeder_circuit": ("infrastructure.dimension.feeder", "infrastructure.dimension.circuit", "one_to_many"),
     "infrastructure.relation.circuit_phase": ("infrastructure.dimension.circuit", "infrastructure.dimension.phase", "one_to_many"),
     "infrastructure.relation.grid_connection_meter": ("infrastructure.dimension.grid_connection", "infrastructure.dimension.meter", "one_to_many"),
+    "infrastructure.relation.site_load": ("infrastructure.dimension.site", "infrastructure.dimension.load", "one_to_many"),
+    "infrastructure.relation.load_meter": ("infrastructure.dimension.meter", "infrastructure.dimension.load", "one_to_many"),
 }
 DEFINITION_GROUPS = {"fields", "fact_dimensions", "qualifier_dimensions", "services", "relations", "capabilities",
                      "operations", "effect_rules", "portal_contributions", "events"}

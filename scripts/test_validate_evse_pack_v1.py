@@ -359,6 +359,7 @@ STRUCTURAL_EVSE_IDS = frozenset({
     'evse.relation.asset_evse',
     'evse.relation.connector_phase',
     'evse.relation.connector_session',
+    'evse.relation.connector_vehicle',
     'evse.relation.evse_connector',
     'evse.relation.evse_meter',
     'evse.service.connector',
@@ -535,6 +536,37 @@ def check_qq12_evse_rows(document):
     check_qq12_text_contract(document)
     check_qq12_quantity_contract(document)
 
+def check_connector_vehicle(document):
+    """connector_vehicle fields and the production mutation each one catches.
+
+    id and ref id: renaming both is rejected as a relations catalog mismatch.
+    from, to and cardinality: each replacement is rejected as a relation association.
+    ref pack id, ref pack version and ref version: each is rejected as a missing exact DefinitionRef.
+    order: 0 is rejected as noncanonical order.
+    """
+    relations = document["catalog"]["definitions"]["relations"]
+    index = next(i for i, item in enumerate(relations) if item["id"] == "evse.relation.connector_vehicle")
+    item = relations[index]
+    if (item["from"], item["to"], item["cardinality"], item["order"]) != (
+            "evse.dimension.connector", "evse.dimension.vehicle", "one_to_one", 60):
+        raise AssertionError("connector_vehicle")
+
+    def rename(catalog, index=index):
+        row = catalog["definitions"]["relations"][index]
+        row["id"] += "_other"
+        row["ref"]["id"] += "_other"
+
+    case(document, "connector_vehicle_id", "relations catalog", rename)
+    case(document, "connector_vehicle_from", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("from", "evse.dimension.evse"))
+    case(document, "connector_vehicle_to", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("to", "evse.dimension.evse"))
+    case(document, "connector_vehicle_cardinality", "relation association", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("cardinality", "one_to_many"))
+    case(document, "connector_vehicle_pack_id", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"]["pack"].__setitem__("id", "helianthus.pack.thermal"))
+    case(document, "connector_vehicle_pack_version", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"]["pack"].__setitem__("version", "9.9.9"))
+    case(document, "connector_vehicle_version", "missing exact DefinitionRef", lambda catalog, index=index: catalog["definitions"]["relations"][index]["ref"].__setitem__("version", "9.9.9"))
+    case(document, "connector_vehicle_order", "noncanonical order", lambda catalog, index=index: catalog["definitions"]["relations"][index].__setitem__("order", 0))
+    print("connector_vehicle: PASS")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -572,6 +604,7 @@ def main():
     case(document, "counter_weakened", "counter policy", lambda c: c["counter_policy"].update(decrease="infer_reset"))
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
     print("focused_mutations: 36 REJECTED")
+    check_connector_vehicle(document)
     check_admitted_rows_leave_the_set_case(document)
     check_validate_fields_complexity(document)
     check_qq12_evse_rows(document)

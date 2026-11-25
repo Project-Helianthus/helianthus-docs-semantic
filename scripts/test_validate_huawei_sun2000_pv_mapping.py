@@ -971,7 +971,7 @@ GRAPH_NEGATIVES = [
     # Relations (section 15 item 2): definition, basis class, both endpoints, evidence, each scope member and absence sides.
     ("relation_not_member", [("set", "graph.relations.1.definition", "relation.invented")], "graph relation_not_member $.graph.relations[1].definition"),
     ("system_inverter_by_configuration", [("set", "graph.relations.1.basis_class", "configuration")], "graph_relations"),
-    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph basis_class_not_admitted $.graph.relations[0].basis_class"),
+    ("relays_by_gate_rule", [("set", "graph.relations.0.basis_class", "gate_rule")], "graph_relations"),
     ("relays_by_configuration", [("set", "graph.relations.0.basis_class", "configuration")], "graph_relations"),
     ("relation_from_kind", [("set", "graph.relations.2.from_kind", "resource.pv_system")], "graph endpoint_kind_mismatch $.graph.relations[2].from_kind"),
     ("relation_to_kind", [("set", "graph.relations.1.to_kind", "resource.dc_input")], "graph endpoint_kind_mismatch $.graph.relations[1].to_kind"),

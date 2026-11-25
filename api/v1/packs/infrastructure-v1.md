@@ -37,6 +37,8 @@ infrastructure.relation.grid_connection_feeder
 infrastructure.relation.feeder_circuit
 infrastructure.relation.circuit_phase
 infrastructure.relation.grid_connection_meter
+infrastructure.relation.site_load
+infrastructure.relation.load_meter
 infrastructure.capability.read.site
 infrastructure.capability.read.grid_connection
 infrastructure.capability.read.feeder
@@ -54,8 +56,9 @@ infrastructure.portal.read.line_pair
 Infrastructure means electrical site, grid-connection, feeder, circuit, phase,
 line-pair, and meter semantics. It does not mean host, network, deployment, or
 building automation infrastructure. The catalog records site-to-grid-connection,
-grid-connection-to-feeder, feeder-to-circuit, circuit-to-phase, and
-grid-connection-to-meter membership as explicit one-to-many relations. It never
+grid-connection-to-feeder, feeder-to-circuit, circuit-to-phase,
+grid-connection-to-meter, site-to-load, and meter-to-load membership as
+explicit one-to-many relations. It never
 invents a site member, phase, meter, circuit, topology, or aggregation. It
 declares no relation that places a line pair in that topology.
 

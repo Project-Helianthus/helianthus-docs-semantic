@@ -6,6 +6,24 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The element catalog gains five core relations and ten pack relations, and six
+  lenses that omit `max_depth`: `lens.hydraulic`, `lens.thermal`,
+  `lens.electrical`, `lens.control_hierarchy`, `lens.diagnostic` and
+  `lens.communication`. The four existing lenses keep depths 16, 16, 8 and 8.
+  `lens.electrical` and `lens.communication` name relations.
+  `thermal.relation.fluid_supply` admits configuration and gate rule.
+  `resource.storage_system` admits energy. The lens schema no longer requires
+  `max_depth` and states no maximum of its own. A traversal with no lens, or a
+  lens that omits `max_depth`, uses the bound in graph section 27.
+  `thermal.relation.solar_supply`, `thermal.relation.sensor_zone`,
+  `relation.tariff_applies` and `infrastructure.relation.circuit_line_pair`
+  are not added. The three containment relations stay. New Matter 1.6.1 rows
+  cover the pack relations. The five core relations have no roster row.
+  `evse.ac.current` stays the only transformed row. The historical Matter 1.7
+  roster stays at 184 items. No pack version is raised. The EVSE current-limit
+  gate lists `evse.relation.connector_vehicle` as unknown, not absent. The
+  gateway-meter gate lists `infrastructure.relation.load_meter` and
+  `infrastructure.relation.site_load` the same way.
 - The equipment pack `helianthus.pack.equipment` 1.0.0 publishes the admitted
   equipment facts, the class-level unit and resource dimensions, the message
   qualifier as quantity `unit.one`, two services, two read capabilities,

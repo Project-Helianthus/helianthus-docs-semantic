@@ -368,6 +368,17 @@ RELATION_CONTRACT = {
     "thermal.relation.circuit_room": (("circuit",), ("room",), "one_to_many"),
     "thermal.relation.circuit_zone": (("circuit",), ("zone",), "one_to_many"),
     "thermal.relation.zone_room": (("zone",), ("room",), "one_to_many"),
+    "thermal.relation.pump_member": (
+        ("circuit", "dhw", "heat_generator", "solar_circuit"), ("pump",), "one_to_many"),
+    "thermal.relation.valve_member": (
+        ("circuit", "zone", "dhw", "heat_generator", "terminal_unit"), ("valve",), "one_to_many"),
+    "thermal.relation.solar_circuit_collector": (("solar_circuit",), ("solar_collector",), "one_to_many"),
+    "thermal.relation.detector_member": (("system", "pump", "zone"), ("detector",), "one_to_many"),
+    "thermal.relation.water_tank_member": (
+        ("ventilation", "terminal_unit", "heat_generator"), ("water_tank",), "one_to_many"),
+    "thermal.relation.fan_member": (
+        ("terminal_unit", "ventilation", "heat_generator"), ("fan",), "one_to_many"),
+    "thermal.relation.filter_member": (("ventilation", "terminal_unit"), ("air_filter",), "one_to_many"),
 }
 CARDINALITIES = {"one_to_one", "one_to_many", "many_to_many"}
 DOMAINS = {

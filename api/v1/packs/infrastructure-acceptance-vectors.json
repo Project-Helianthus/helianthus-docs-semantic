@@ -1836,6 +1836,36 @@
           "to": "infrastructure.dimension.meter",
           "cardinality": "one_to_many",
           "order": 50
+        },
+        {
+          "id": "infrastructure.relation.site_load",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.relation.site_load",
+            "version": "1.0.0"
+          },
+          "from": "infrastructure.dimension.site",
+          "to": "infrastructure.dimension.load",
+          "cardinality": "one_to_many",
+          "order": 60
+        },
+        {
+          "id": "infrastructure.relation.load_meter",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.relation.load_meter",
+            "version": "1.0.0"
+          },
+          "from": "infrastructure.dimension.meter",
+          "to": "infrastructure.dimension.load",
+          "cardinality": "one_to_many",
+          "order": 70
         }
       ],
       "capabilities": [
