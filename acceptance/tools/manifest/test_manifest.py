@@ -1549,6 +1549,117 @@ class ManifestCLITest(unittest.TestCase):
         )
         self.assert_ok(self.repo.check("far-kept"))
 
+    HOLD = "closure/cross/hold"
+    AL = "closure/cross/al"
+    QB = "closure/cross/qb"
+    BX = "closure/cross/bx"
+    DP = "closure/cross/dp"
+    IC = "closure/cross/ic"
+    IG = "closure/cross/ig"
+    IH = "closure/cross/ih"
+
+    def test_a_method_does_not_hide_a_package_function_of_its_own_name(self) -> None:
+        move = self.move_at(self.HOLD, "Box.Hold")
+        box = self.at(self.HOLD, "Box")
+        bare = self.repo.generate(self.symbol_spec("hold-bare", [move], stay_symbols=[box]))
+        self.assert_fail(bare)
+        self.assertEqual(bare.stdout, "outside-set: Hold\n")
+        self.assert_absent("hold-bare")
+        declared = self.repo.generate(
+            self.symbol_spec("hold-declared", [move], stay_symbols=[box, self.at(self.HOLD, "Hold")])
+        )
+        self.assert_ok(declared)
+        self.assert_ok(self.repo.check("hold-declared"))
+        stripped = json.loads(self.repo.manifest_path("hold-declared").read_text(encoding="utf-8"))
+        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "Hold"]
+        path = self.repo.root / "acceptance" / "manifests" / "hold-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("hold-declared", manifest=path), "outside-set: Hold")
+
+    def test_a_field_key_of_an_alias_of_a_qualified_struct_is_not_a_use(self) -> None:
+        move = self.move_at(self.AL, "Build")
+        completed = self.repo.generate(
+            self.symbol_spec("alias-keyed", [move], stay_symbols=[self.at(self.AL, "Alias")])
+        )
+        self.assert_ok(completed)
+        self.assertNotIn("outside-set", completed.stdout)
+        self.assertEqual(
+            {item["name"]: item["uses"] for item in self.repo.manifest("alias-keyed")["symbols"]},
+            {"Build": []},
+        )
+        self.assert_ok(self.repo.check("alias-keyed"))
+
+    def test_a_donor_test_of_another_package_that_calls_a_moved_method_is_accounted(self) -> None:
+        move = self.move_at(self.BX, "Box.Count")
+        keep = [self.at(self.BX, "Box")]
+        bare = self.repo.generate(self.symbol_spec("bx-bare", [move], stay_symbols=keep))
+        self.assert_fail(bare, "unaccounted-assertion function=TestCount assertion=count")
+        self.assert_absent("bx-bare")
+        given = [{
+            "function": "TestCount",
+            "name": "count",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        self.assert_ok(self.repo.generate(self.symbol_spec("bx-given", [move], stay_symbols=keep, assertions=given)))
+        self.assertEqual(
+            [(item["function"], item["name"]) for item in self.repo.manifest("bx-given")["assertions"]],
+            [("TestCount", "count")],
+        )
+        self.assert_ok(self.repo.check("bx-given"))
+
+    def test_a_donor_test_that_dot_imports_a_moved_function_is_accounted(self) -> None:
+        move = self.move_at(self.DP, "Move")
+        bare = self.repo.generate(self.symbol_spec("dot-bare", [move]))
+        self.assert_fail(bare, "left-behind: TestDot")
+        self.assert_absent("dot-bare")
+        kept = self.repo.generate(self.symbol_spec("dot-kept", [move], specimens=["TestDot"]))
+        self.assert_ok(kept)
+        self.assertEqual(
+            [(item["kind"], item["name"]) for item in self.repo.manifest("dot-kept")["stays"]],
+            [("specimen", "TestDot")],
+        )
+        self.assert_ok(self.repo.check("dot-kept"))
+
+    def test_equal_import_spellings_give_the_same_closure(self) -> None:
+        for package, label in ((self.IG, "inline"), (self.IH, "semicolon")):
+            move = self.move_at(package, "Move")
+            bare = self.repo.generate(self.symbol_spec(f"imp-{label}-bare", [move]))
+            self.assert_fail(bare)
+            self.assertEqual(bare.stdout, f"outside-set: {self.IC}.Count\n", label)
+            self.assert_absent(f"imp-{label}-bare")
+            both = self.repo.generate(
+                self.symbol_spec(f"imp-{label}", [move, self.move_at(self.IC, "Count")])
+            )
+            self.assert_ok(both)
+            self.assertEqual(
+                {item["name"]: item["uses"] for item in self.repo.manifest(f"imp-{label}")["symbols"]},
+                {"Move": [f"{self.IC}.Count"], "Count": []},
+                label,
+            )
+            self.assert_ok(self.repo.check(f"imp-{label}"))
+
+    def test_check_binds_an_assertion_to_its_donor_file_and_one_destination(self) -> None:
+        spec = self.symbol_spec("bind-two", self.alpha_moves() + self.beta_moves(), assertions=self.clone_assertions())
+        self.assert_ok(self.repo.generate(spec))
+        self.assert_ok(self.repo.check("bind-two"))
+        original = json.loads(self.repo.manifest_path("bind-two").read_text(encoding="utf-8"))
+        path = self.repo.root / "acceptance" / "manifests" / "bind-two-mutated.json"
+        twice = json.loads(json.dumps(original))
+        extra = next(item for item in twice["destinations"] if item["kind"] == "assertion")
+        twice["destinations"].append({**extra, "test": "TestOther"})
+        path.write_text(json.dumps(twice), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("bind-two", manifest=path),
+            "ambiguous-destination function=TestStoreBehaviour assertion=clone-name",
+        )
+        moved_file = json.loads(json.dumps(original))
+        for item in moved_file["assertions"]:
+            item["file"] = f"{self.ALPHA}/gone_test.go"
+        path.write_text(json.dumps(moved_file), encoding="utf-8")
+        self.assert_fail(self.repo.check("bind-two", manifest=path), "assertions")
+
     def test_check_needs_the_donor_seal_to_cover_every_moved_file(self) -> None:
         spec = self.symbol_spec("seal-donor", self.alpha_moves(), assertions=self.clone_assertions())
         self.assert_ok(self.repo.generate(spec))

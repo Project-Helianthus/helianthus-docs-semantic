@@ -1099,16 +1099,20 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
     ]
     supplied = []
     for item in manifest["assertions"]:
-        destination = next(
-            (
-                entry for entry in manifest["destinations"]
-                if entry.get("kind") == "assertion"
-                and entry.get("function") == item["function"]
-                and entry.get("name") == item["name"]
-                and entry.get("package", "") == item.get("package", "")
-            ),
-            None,
-        )
+        matches = [
+            entry for entry in manifest["destinations"]
+            if entry.get("kind") == "assertion"
+            and entry.get("function") == item["function"]
+            and entry.get("name") == item["name"]
+            and entry.get("package", "") == item.get("package", "")
+        ]
+        if len(matches) > 1:
+            # One assertion runs one destination test; a second entry would
+            # leave it open which of them stands for the assertion.
+            errors.append(
+                f"ambiguous-destination function={item['function']} assertion={item['name']}"
+            )
+        destination = matches[0] if len(matches) == 1 else None
         supplied.append({
             "function": item["function"],
             "name": item["name"],
@@ -1142,11 +1146,11 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
     if sorted(recomputed["stays"], key=stays_key) != sorted(manifest["stays"], key=stays_key):
         errors.append("stays")
     recomputed_assertions = [
-        (item.get("package", ""), item["function"], item["name"], item["helpers"])
+        (item.get("package", ""), item["function"], item["name"], item["file"], item["helpers"])
         for item in recomputed["assertions"]
     ]
     manifest_assertions = [
-        (item.get("package", ""), item["function"], item["name"], item["helpers"])
+        (item.get("package", ""), item["function"], item["name"], item.get("file", ""), item["helpers"])
         for item in manifest["assertions"]
     ]
     if sorted(recomputed_assertions) != sorted(manifest_assertions):

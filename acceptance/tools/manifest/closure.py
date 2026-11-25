@@ -481,6 +481,9 @@ def _tests(
     method_keys: set[str] | None = None,
     foreign: dict[str, set[str]] | None = None,
     own: set[str] | None = None,
+    foreign_methods: dict[str, set[str]] | None = None,
+    dots_of: "Callable[[str], list[str]] | None" = None,
+    dot_names: dict[str, tuple[set[str], set[str]]] | None = None,
 ) -> list[TestFunction]:
     """Test functions with the donor symbols each one and each assertion uses.
 
@@ -500,6 +503,30 @@ def _tests(
         imports = _import_names(blanked)
         source = parsed.get(path) if parsed else None
         aliases = aliases_of(text) if aliases_of else None
+        dot_dirs = dots_of(text) if dots_of else []
+
+        def reach(declaration: Declaration, window: tuple[int, int] | None) -> set[str]:
+            """Donor names the declaration uses, qualified ones spelled ``directory.Name``."""
+            reached: set[tuple[str, str]] = set()
+            found = source.uses(
+                declaration, package_names, struct_types or set(), aliases, reached,
+                window=window, foreign=foreign,
+            )
+            found |= _qualified(reached, qualified_names)
+            if method_keys or foreign_methods:
+                reached_methods: set[tuple[str, str]] = set()
+                found |= source.method_uses(
+                    declaration, method_keys or set(), window=window, aliases=aliases,
+                    qualified=reached_methods, dots=dot_dirs, foreign_methods=foreign_methods,
+                )
+                found |= _qualified(reached_methods, qualified_names)
+            # A name a dot import makes available is a use of that directory.
+            for other in dot_dirs:
+                names, structs = (dot_names or {}).get(other, (set(), set()))
+                used = source.uses(declaration, names, structs, foreign=foreign, window=window)
+                found |= {f"{other}.{name}" for name in used if not qualified_names or f"{other}.{name}" in qualified_names}
+            return found
+
         resolved = (
             {item.name: item for item in source.declarations if item.kind == "func"}
             if source else {}
@@ -511,14 +538,7 @@ def _tests(
             raw_body = raw_blank_pairs[body_start:body_end]
             declaration = resolved.get(name)
             if source is not None and declaration is not None:
-                reached: set[tuple[str, str]] = set()
-                uses = source.uses(
-                    declaration, package_names, struct_types or set(), aliases, reached,
-                    foreign=foreign,
-                )
-                uses |= _qualified(reached, qualified_names)
-                if method_keys:
-                    uses |= source.method_uses(declaration, method_keys)
+                uses = reach(declaration, None)
             else:
                 uses = _uses_in_text(body, package_names, imports)
             assertions: list[Assertion] = []
@@ -531,18 +551,7 @@ def _tests(
                 ordinal += 1
                 helpers = _helpers(segment, moved_names)
                 if source is not None and declaration is not None:
-                    reached = set()
-                    assertion_uses = source.uses(
-                        declaration, package_names, struct_types or set(), aliases, reached,
-                        window=(body_start + start, body_start + end),
-                        foreign=foreign,
-                    )
-                    assertion_uses |= _qualified(reached, qualified_names)
-                    if method_keys:
-                        assertion_uses |= source.method_uses(
-                            declaration, method_keys,
-                            window=(body_start + start, body_start + end),
-                        )
+                    assertion_uses = reach(declaration, (body_start + start, body_start + end))
                     helpers = [item for item in helpers if item in assertion_uses]
                 else:
                     assertion_uses = _uses_in_text(segment, package_names, imports)
@@ -934,6 +943,15 @@ class GoFile:
                 and (cursor + 1 >= stop or self._word(cursor + 1) != ".")
             ):
                 base = self._word(cursor)
+            elif (
+                cursor + 2 < stop
+                and _is_name(self._word(cursor))
+                and self._word(cursor + 1) == "."
+                and _is_name(self._word(cursor + 2))
+                and (cursor + 3 >= stop or self._word(cursor + 3) == "[")
+            ):
+                # A type of another package, spelled ``alias.Name``.
+                base = f"{self._word(cursor)}.{self._word(cursor + 2)}"
             found.append(Declaration(
                 name=self.tokens[start][0],
                 kind="type",
@@ -1540,7 +1558,8 @@ class GoFile:
         return [part for part in parts if part[0] < part[1]]
 
 
-_IMPORT_LINE = re.compile(r'^\s*(?:import\s+)?([A-Za-z_][A-Za-z0-9_]*|\.|_)?\s*"([^"\n]+)"\s*(?://.*)?$')
+_IMPORT_SPEC_NAME = re.compile(r'(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?"([^"\n]+)"')
+_IMPORT_SINGLE = re.compile(r'\bimport\s+(?:([A-Za-z_][A-Za-z0-9_]*|\.)\s*)?"([^"\n]+)"')
 _TOP_LEVEL = re.compile(r"^(?:func|type|var|const)\b")
 
 
@@ -1567,13 +1586,22 @@ def _import_bindings(
     """
     aliases: dict[str, str] = {}
     dots: list[str] = []
+    head: list[str] = []
     for line in blank_source(text, strings=False).splitlines():
         if _TOP_LEVEL.match(line) and not line.startswith("import"):
             break
-        found = _IMPORT_LINE.match(line)
-        if not found:
-            continue
-        local, path = found.group(1), found.group(2)
+        head.append(line)
+    # A grouped import may stand on one line, with its specs separated by
+    # semicolons, so the specs are read from the declarations and not by line.
+    declared = "\n".join(head)
+    specs: list[tuple[str, str]] = []
+    for group in _IMPORT_GROUP.finditer(declared):
+        specs += [(found.group(1) or "", found.group(2)) for found in _IMPORT_SPEC_NAME.finditer(group.group(1))]
+    specs += [
+        (found.group(1) or "", found.group(2))
+        for found in _IMPORT_SINGLE.finditer(_IMPORT_GROUP.sub(" ", declared))
+    ]
+    for local, path in specs:
         if local == "_":
             continue
         directory = resolve(path)
@@ -1631,9 +1659,14 @@ def _directory_resolver(repo: Path, revision: str, module: str) -> "Callable[[st
     return resolve
 
 
-def _struct_closure(declarations: list[Declaration]) -> set[str]:
-    """Names of types that are structs, aliases and defined types of structs included."""
+def _struct_closure(declarations: list[Declaration], extra: set[str] | None = None) -> set[str]:
+    """Names of types that are structs, aliases and defined types of structs included.
+
+    ``extra`` names types that are known to be structs because they are
+    spelled as a struct type of another package.
+    """
     struct_types = {item.name for item in declarations if item.kind == "type" and item.struct}
+    struct_types |= extra or set()
     changed = True
     while changed:
         changed = False
@@ -1749,6 +1782,7 @@ def analyze_symbols(
                 load(directory, clause_of(directory))
                 loaded.append(directory)
     info: dict[str, dict[str, object]] = {}
+    qualified_bases: list[tuple[str, str, str | None, str]] = []
     for directory in loaded:
         files = parsed[directory]
         declared: set[str] = set()
@@ -1778,8 +1812,20 @@ def analyze_symbols(
         for key in moved_keys:
             if key in stay_keys:
                 facts.errors.append(f"moved-and-stays: {moved_keys[key]} {key}")
+        for path, source in files.items():
+            file_aliases = aliases_of(texts[directory][path])
+            for declaration in source.declarations:
+                if declaration.kind != "type" or "." not in declaration.base:
+                    continue
+                alias, _dot, type_name = declaration.base.partition(".")
+                target = file_aliases.get(alias)
+                if target is not None and target not in parsed and clause_of(target):
+                    load(target, clause_of(target))
+                    loaded.append(target)
+                qualified_bases.append((directory, declaration.name, target, type_name))
         info[directory] = {
             "declared": declared,
+            "every": every,
             "struct_types": _struct_closure(every),
             "methods": methods,
             "lookup": lookup,
@@ -1791,6 +1837,22 @@ def analyze_symbols(
         }
     if facts.errors:
         return facts
+    # An alias or defined type spelled ``alias.Name`` is a struct when that
+    # donor type is one (or when its package is not a donor directory, like
+    # any other qualified type); its literals then key fields, not values.
+    resolved: dict[str, set[str]] = {}
+    changed = True
+    while changed:
+        changed = False
+        for directory, name, target, type_name in qualified_bases:
+            if name in resolved.get(directory, ()):
+                continue
+            if target is None or (target in info and type_name in info[target]["struct_types"]):
+                resolved.setdefault(directory, set()).add(name)
+                info[directory]["struct_types"].update(
+                    _struct_closure(info[directory]["every"], resolved[directory])
+                )
+                changed = True
     outside: set[str] = set()
     foreign = {other: info[other]["struct_types"] for other in info}
     for directory in packages:
@@ -1810,7 +1872,10 @@ def analyze_symbols(
             used = files[moved_keys[key]].uses(
                 declaration, declared, struct_types, aliases, reached, foreign=foreign
             )
-            used.discard(declaration.name)
+            if declaration.kind != "method":
+                # A method and a package function of one name are different
+                # symbols; only a function, type or value may name itself.
+                used.discard(declaration.name)
             outside.update(used - moved_names - stay_names)
             carried = set(used & moved_names)
             for other, name in sorted(reached):
@@ -1878,6 +1943,13 @@ def analyze_symbols(
         for other in packages
         for name in info[other]["declared"] - info[other]["moved_names"]
     }
+    # A method of a donor package is named ``directory.Type.Method`` where a
+    # test of another package calls it through a value of ``alias.Type``.
+    for other in packages:
+        for key in info[other]["method_keys"]:
+            (all_moved if key in info[other]["moved_keys"] else all_outside).add(f"{other}.{key}")
+    foreign_methods = {other: info[other]["method_keys"] for other in info}
+    dot_names = {other: (info[other]["declared"], info[other]["struct_types"]) for other in info}
     for directory in packages:
         facts.moved_names[directory] |= all_moved
         facts.outside_names[directory] |= all_outside
@@ -1893,6 +1965,7 @@ def analyze_symbols(
             parsed[directory], info[directory]["struct_types"], aliases_of,
             all_moved | all_outside,
             method_keys=info[directory]["method_keys"], foreign=foreign,
+            foreign_methods=foreign_methods, dots_of=dots_of, dot_names=dot_names,
         )
         facts.tests[directory] = [
             test for test in found if (test.file, test.name) not in moved_pairs
@@ -1913,7 +1986,7 @@ def analyze_symbols(
         text = blob.decode(errors="replace")
         if not any(hint in text for hint in hints):
             continue
-        if not set(aliases_of(text).values()) & set(packages):
+        if not (set(aliases_of(text).values()) | set(dots_of(text))) & set(packages):
             continue
         try:
             clause = package_name(text)
@@ -1938,6 +2011,7 @@ def analyze_symbols(
             {path: GoFile(text) for path, text in group.items()},
             set(), aliases_of, all_moved | all_outside,
             foreign=foreign, own=own,
+            foreign_methods=foreign_methods, dots_of=dots_of, dot_names=dot_names,
         )
         found = [test for test in found if (test.file, test.name) not in moved_pairs]
         if directory in packages:
