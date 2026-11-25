@@ -1,0 +1,2276 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerScopeRemovalPreservesNextRoundRobinPeer",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 3,
+        "max_coalesced_dependents_per_key": 4,
+        "max_in_flight_requests": 4,
+        "max_queued_per_authorization_scope": 8,
+        "max_queued_per_key": 4,
+        "max_retry_attempts": 2,
+        "protected_slots_per_key": 2,
+        "shared_burst_slots": 2,
+        "total_queued": 8
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 1,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 2,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 3,
+          "scope": "b",
+          "unit": 1
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        },
+        {
+          "op": "complete",
+          "request_id": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 4,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 4
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 5,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 5
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 6,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 6
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 7,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 7
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 8,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 8
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 9,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 9
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 10,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 10
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 11,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 11
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 12,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 12
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 13,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 13
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 14,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 14
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 15,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 15
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 16,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 16
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 17,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 17
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 18,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 18
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 19,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 19
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 20,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 20
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 21,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 21
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 22,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 22
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 23,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 23
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 24,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 24
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 25,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 25
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 26,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 26
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 27,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 27
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 28,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 28
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 29,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 29
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 30,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 30
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 31,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 31
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 32,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 32
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 33,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 33
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 34,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 34
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 35,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 35
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 36,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 36
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 37,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 37
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 38,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 38
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 39,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 39
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 40,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 40
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 41,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 41
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 42,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 42
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 43,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 43
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 44,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 44
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 45,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 45
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 46,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 46
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 47,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 47
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 48,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 48
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 49,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 49
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 50,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 50
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 51,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 51
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 52,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 52
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 53,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 53
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 54,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 54
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 55,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 55
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 56,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 56
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 57,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 57
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 58,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 58
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 59,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 59
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 60,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 60
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 61,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 61
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 62,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 62
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 63,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 63
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 64,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 64
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 65,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 65
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 66,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 66
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 67,
+          "scope": "c",
+          "unit": 1
+        },
+        {
+          "op": "cancel_queued",
+          "request_id": 67
+        },
+        {
+          "now": 0,
+          "op": "dispatch"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          2,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 1,
+          "scope": "a",
+          "unit": 1
+        },
+        "state": [
+          2,
+          1,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "complete",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          3,
+          0,
+          6
+        ]
+      },
+      {
+        "cancelled": true,
+        "op": "cancel_queued",
+        "state": [
+          2,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "dispatched": true,
+        "op": "dispatch",
+        "request": {
+          "deadline_offset": 100,
+          "request_id": 3,
+          "scope": "b",
+          "unit": 1
+        },
+        "state": [
+          1,
+          1,
+          2,
+          0,
+          4
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        1,
+        1,
+        2,
+        0,
+        4
+      ]
+    }
+  }
+}

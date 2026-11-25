@@ -1,0 +1,27 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "tesla-observe-serial-opener-non-linux",
+  "source": "cmd/gateway/tesla_observe_flow_other.go",
+  "stimulus": "none at the pin; the opener is called directly with a synthetic path",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "function": "openTeslaObserveSerial",
+      "path": ""
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "receive-only serial observation requires Linux",
+        "source_is_nil": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

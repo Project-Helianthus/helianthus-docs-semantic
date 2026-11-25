@@ -1,0 +1,195 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerPreservesCapacityForInactiveAdmissionKeys",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 2,
+        "max_coalesced_dependents_per_key": 2,
+        "max_in_flight_requests": 2,
+        "max_queued_per_authorization_scope": 5,
+        "max_queued_per_key": 3,
+        "max_retry_attempts": 2,
+        "protected_slots_per_key": 2,
+        "shared_burst_slots": 1,
+        "total_queued": 5
+      },
+      "state_vector": [
+        "queued_requests",
+        "in_flight_requests",
+        "active_admission_keys",
+        "coalesced_dependents",
+        "order_metadata_size"
+      ]
+    },
+    "clock": {
+      "note": "the scheduler has no clock of its own; every dispatch carries its offset",
+      "unit": "scheduler offset"
+    },
+    "state": {
+      "script": [
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 1,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 2,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 3,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 4,
+          "scope": "a",
+          "unit": 1
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 5,
+          "scope": "b",
+          "unit": 2
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 6,
+          "scope": "b",
+          "unit": 2
+        },
+        {
+          "deadline_offset": 100,
+          "op": "enqueue",
+          "request_id": 7,
+          "scope": "c",
+          "unit": 3
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          1,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          2,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "queued_per_key",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: queued_per_key"
+        },
+        "op": "enqueue",
+        "state": [
+          3,
+          0,
+          1,
+          0,
+          2
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          4,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": null,
+        "op": "enqueue",
+        "state": [
+          5,
+          0,
+          2,
+          0,
+          4
+        ]
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "active_admission_keys",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: active_admission_keys"
+        },
+        "op": "enqueue",
+        "state": [
+          5,
+          0,
+          2,
+          0,
+          4
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_state": [
+        5,
+        0,
+        2,
+        0,
+        4
+      ]
+    }
+  }
+}

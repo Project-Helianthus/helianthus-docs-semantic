@@ -1,0 +1,74 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-reconnect-backoff",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestReconnectBackoffWaitIsCancellationAware",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "config": {
+        "ceiling_ns": 1000000000,
+        "floor_ns": 1000000000,
+        "jitter_algorithm_id": "zero",
+        "jitter_evidence": "seed:0",
+        "jitter_sequence_ns": [
+          0
+        ],
+        "jitter_version": "v1",
+        "max_attempts": 1
+      }
+    },
+    "clock": {
+      "note": "the backoff has no clock; delays are returned and the caller passes its own offsets",
+      "unit": "nanoseconds"
+    },
+    "state": {
+      "steps": [
+        {
+          "deadline_offset_ns": 2000000000,
+          "now_offset_ns": 0,
+          "step": "wait_until",
+          "then": "cancel the context once the waiter started"
+        },
+        {
+          "step": "next_delay"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "text": "context canceled"
+        },
+        "is_context_canceled": true,
+        "step": "wait_until",
+        "waiter_started_with_ns": 1000000000
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "backoff_attempts",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: backoff_attempts"
+        },
+        "step": "next_delay"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "emitted_jitter_ns": [
+        0
+      ],
+      "jitter_algorithm_id": "zero",
+      "jitter_evidence": "seed:0",
+      "jitter_version": "v1"
+    }
+  }
+}

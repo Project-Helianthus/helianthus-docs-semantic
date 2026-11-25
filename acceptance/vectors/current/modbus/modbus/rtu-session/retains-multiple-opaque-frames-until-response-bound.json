@@ -1,0 +1,221 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-rtu-session",
+  "source": "rtu_session.go",
+  "stimulus": "TestRTUSessionRetainsMultipleOpaqueFramesUntilResponseBound",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "stream": {
+        "script": "two response frames with a gap after each",
+        "write_result": "full"
+      },
+      "timing": {
+        "baud": 115200,
+        "character_time_ns": 95487,
+        "configured_max_quiescence_ns": 100000000,
+        "configured_max_response_latency_ns": 20000000,
+        "data_bits": 8,
+        "inter_character_ns": 750000,
+        "inter_frame_ns": 1750000,
+        "max_quiescence_ns": 100000000,
+        "max_response_latency_ns": 20000000,
+        "parity": "even",
+        "stop_bits": 1
+      }
+    },
+    "clock": {
+      "note": "byte receipt offsets are scripted by the stream; context timeouts use the wall clock",
+      "unit": "stream offset"
+    },
+    "state": {
+      "scripted_reads": [
+        {
+          "byte": 16,
+          "error": null,
+          "offset_ns": 0
+        },
+        {
+          "byte": 100,
+          "error": null,
+          "offset_ns": 100000
+        },
+        {
+          "byte": 0,
+          "error": null,
+          "offset_ns": 200000
+        },
+        {
+          "byte": 90,
+          "error": null,
+          "offset_ns": 300000
+        },
+        {
+          "byte": 197,
+          "error": null,
+          "offset_ns": 400000
+        },
+        {
+          "byte": 0,
+          "error": "context deadline exceeded",
+          "offset_ns": 3000000
+        },
+        {
+          "byte": 16,
+          "error": null,
+          "offset_ns": 4000000
+        },
+        {
+          "byte": 100,
+          "error": null,
+          "offset_ns": 4100000
+        },
+        {
+          "byte": 1,
+          "error": null,
+          "offset_ns": 4200000
+        },
+        {
+          "byte": 2,
+          "error": null,
+          "offset_ns": 4300000
+        },
+        {
+          "byte": 197,
+          "error": null,
+          "offset_ns": 4400000
+        },
+        {
+          "byte": 106,
+          "error": null,
+          "offset_ns": 4500000
+        },
+        {
+          "byte": 0,
+          "error": "context deadline exceeded",
+          "offset_ns": 7000000
+        }
+      ],
+      "steps": [
+        {
+          "enabled": true,
+          "max_response_frames": 0,
+          "step": "open"
+        },
+        {
+          "policy_max_attempts": 1,
+          "policy_replay_safe": false,
+          "request_adu": "1064005ac5",
+          "request_adu_error": null,
+          "step": "exchange",
+          "unit": 16
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [
+      {
+        "error": null,
+        "frame": "1064005ac5",
+        "written": 5
+      }
+    ],
+    "decisions": [
+      {
+        "error": null,
+        "session_returned": true,
+        "step": "open"
+      },
+      {
+        "error": null,
+        "responses": [
+          {
+            "adu": "1064005ac5",
+            "payload": "00"
+          },
+          {
+            "adu": "10640102c56a",
+            "payload": "0102"
+          }
+        ],
+        "step": "exchange"
+      }
+    ],
+    "cache": {},
+    "observations": [
+      {
+        "byte": 16,
+        "error": null,
+        "offset_ns": 0
+      },
+      {
+        "byte": 100,
+        "error": null,
+        "offset_ns": 100000
+      },
+      {
+        "byte": 0,
+        "error": null,
+        "offset_ns": 200000
+      },
+      {
+        "byte": 90,
+        "error": null,
+        "offset_ns": 300000
+      },
+      {
+        "byte": 197,
+        "error": null,
+        "offset_ns": 400000
+      },
+      {
+        "byte": 0,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "offset_ns": 3000000
+      },
+      {
+        "byte": 16,
+        "error": null,
+        "offset_ns": 4000000
+      },
+      {
+        "byte": 100,
+        "error": null,
+        "offset_ns": 4100000
+      },
+      {
+        "byte": 1,
+        "error": null,
+        "offset_ns": 4200000
+      },
+      {
+        "byte": 2,
+        "error": null,
+        "offset_ns": 4300000
+      },
+      {
+        "byte": 197,
+        "error": null,
+        "offset_ns": 4400000
+      },
+      {
+        "byte": 106,
+        "error": null,
+        "offset_ns": 4500000
+      },
+      {
+        "byte": 0,
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "offset_ns": 7000000
+      }
+    ],
+    "counters": {
+      "stream_write_calls": 1
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-reconnect-backoff",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestReconnectBackoffDoesNotHoldStateLockAcrossJitter",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "config": {
+        "ceiling_ns": 2000000000,
+        "floor_ns": 1000000000,
+        "jitter_algorithm_id": "callback",
+        "jitter_evidence": "schedule:zero",
+        "jitter_sequence_ns": [
+          0
+        ],
+        "jitter_version": "v1",
+        "max_attempts": 2
+      }
+    },
+    "clock": {
+      "note": "the backoff has no clock; delays are returned and the caller passes its own offsets",
+      "unit": "nanoseconds"
+    },
+    "state": {
+      "steps": [
+        {
+          "completion_bound_ns": 1000000000,
+          "jitter_callback": "calls ValidCorrelatedResponse while the delay is computed",
+          "step": "next_delay"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "completed": true,
+        "delay_ns": 1000000000,
+        "error": null,
+        "step": "next_delay"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "emitted_jitter_ns": [
+        0
+      ],
+      "jitter_algorithm_id": "callback",
+      "jitter_evidence": "schedule:zero",
+      "jitter_version": "v1"
+    }
+  }
+}

@@ -52,9 +52,16 @@ QV08 = (
 )
 
 
-def recorder_command(package, sources, test):
+QV04 = (
+    (".", "modbus", "TestOracleModbus", "current/modbus/modbus", "modbus"),
+    ("internal/modbusadapter", "gateway-modbusadapter", "TestOracleModbusAdapterReadOnlySession", "current/gateway/modbusadapter", "gateway"),
+    ("cmd/gateway", "gateway-tesla-observe", "TestOracleTeslaObserve", "current/gateway/cmd-gateway/tesla-observe", "gateway"),
+)
+
+
+def recorder_command(package, sources, test, entry_id="gateway"):
     """The recorder command stored in an index entry; run from the repository root as python3 acceptance/oracle/<command>."""
-    return (f"recorders/gorun.py --reference current --entry gateway --package {package} --sources {sources} --test {test}"
+    return (f"recorders/gorun.py --reference current --entry {entry_id} --package {package} --sources {sources} --test {test}"
             f" --output .tmp/oracle-record/{sources}")
 
 
@@ -62,13 +69,14 @@ def record_go_cases(specs, vectors, work, runnable=False):
     """Run harness-only Go recorders at the gateway pin, write their case files and return the index entries."""
     vectors, work = Path(vectors), Path(work)
     entries = []
-    for package, sources, test, directory in specs:
+    for package, sources, test, directory, *rest in specs:
+        entry_id = rest[0] if rest else "gateway"
         out = work / sources
-        gorun.run("current", "gateway", package, sources, test, out)
+        gorun.run("current", entry_id, package, sources, test, out)
         for produced in sorted(p for p in out.rglob("*.json")):
             relative = f"{directory}/{produced.relative_to(out).as_posix()}"
             common.write(vectors / relative, produced.read_bytes())
-            command = recorder_command(package, sources, test) if runnable else f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"
+            command = recorder_command(package, sources, test, entry_id) if runnable else f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"
             entries.append({"path": relative, "origin": "recorded-current", "reference": "current", "role": "expected-output", "recorder": command})
     return entries
 
@@ -76,6 +84,11 @@ def record_go_cases(specs, vectors, work, runnable=False):
 def record_bt01(vectors, work):
     """The three BT01 recorders: multiplexer, local worker supervisor and the six engines."""
     return record_go_cases(BT01, vectors, work, runnable=True)
+
+
+def record_qv04(vectors, work):
+    """The BT02 recorders: the pacing code, the read-only session and the passive opener of the non-Linux build."""
+    return record_go_cases(QV04, vectors, work, runnable=True)
 
 
 def record_qv08(vectors, work):
@@ -120,6 +133,7 @@ def record(reference, vectors, oracle, sessions):
                     emit(relative, f"recorders/gorun.py --entry {entry_id} --sources {sources} --test {test}", "recorded-current", case_of(produced.name), "native")
             entries.extend(record_bt01(vectors, work))
             entries.extend(record_qv08(vectors, work))
+            entries.extend(record_qv04(vectors, work))
             if sessions:
                 for session in sorted((vectors / "current/sessions").rglob("session.json")):
                     output = session.with_name("output.json")

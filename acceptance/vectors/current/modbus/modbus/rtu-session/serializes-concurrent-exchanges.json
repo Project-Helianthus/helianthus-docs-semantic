@@ -1,0 +1,81 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-rtu-session",
+  "source": "rtu_session.go",
+  "stimulus": "TestRTUSessionSerializesConcurrentExchanges",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "stream": {
+        "kind": "blocking",
+        "reads": "block until the context ends",
+        "write_blocks_until": "released by the caller"
+      },
+      "timing": {
+        "baud": 115200,
+        "character_time_ns": 95487,
+        "configured_max_quiescence_ns": 100000000,
+        "configured_max_response_latency_ns": 20000000,
+        "data_bits": 8,
+        "inter_character_ns": 750000,
+        "inter_frame_ns": 1750000,
+        "max_quiescence_ns": 100000000,
+        "max_response_latency_ns": 20000000,
+        "parity": "even",
+        "stop_bits": 1
+      }
+    },
+    "clock": {
+      "note": "the blocking stream reports a constant offset of two milliseconds; the second exchange starts five milliseconds of wall time after the first write began",
+      "unit": "stream offset"
+    },
+    "state": {
+      "steps": [
+        {
+          "context_timeout_ns": 1000000000,
+          "request_adu": "10640d9b",
+          "step": "first_exchange",
+          "unit": 16
+        },
+        {
+          "context_timeout_ns": 1000000000,
+          "request_adu": "10640d9b",
+          "step": "second_exchange_after_first_write_started",
+          "unit": 16
+        },
+        {
+          "step": "release_the_blocked_write_after_five_milliseconds"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [
+      {
+        "error": null,
+        "frame": "10640d9b",
+        "written": 4
+      }
+    ],
+    "decisions": [
+      {
+        "error": {
+          "text": "context deadline exceeded"
+        },
+        "step": "first_exchange"
+      },
+      {
+        "error": {
+          "text": "invalid rtu session state"
+        },
+        "step": "second_exchange"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "write_calls_at_end": 1,
+      "write_calls_while_second_waited": 1
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbusadapter-readonly-session",
+  "source": "internal/modbusadapter/readonly_session.go",
+  "stimulus": "TestH10ReadHoldingPacingCompletesAfterLateResponses",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "function": 3,
+      "offset": 0,
+      "pacing_gap_ns": 1000000000,
+      "pacing_settle_ns": 0,
+      "quantity": 1,
+      "unit": 1
+    },
+    "clock": {
+      "note": "the endpoint's second read sleeps for the delay below, then fails; the completion time is read straight after the call returns",
+      "unit": "wall clock"
+    },
+    "state": {
+      "completion_bound_after_return_ns": 40000000,
+      "endpoint": "first read returns an empty batch, the second sleeps and then returns an error whose text is h10 stop",
+      "second_read_delay_ns": 80000000
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "text": "h10 stop"
+        },
+        "step": "read_holding"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "completion_stamped_within_bound_of_the_read_end": true,
+      "endpoint_reads": 2
+    }
+  }
+}

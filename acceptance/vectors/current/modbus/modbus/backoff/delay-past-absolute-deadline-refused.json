@@ -1,0 +1,63 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-reconnect-backoff",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestReconnectBackoffRefusesDelayPastAbsoluteDeadline",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "config": {
+        "ceiling_ns": 1000000000,
+        "floor_ns": 1000000000,
+        "jitter_algorithm_id": "zero",
+        "jitter_evidence": "seed:0",
+        "jitter_sequence_ns": [
+          0
+        ],
+        "jitter_version": "v1",
+        "max_attempts": 1
+      }
+    },
+    "clock": {
+      "note": "the backoff has no clock; delays are returned and the caller passes its own offsets",
+      "unit": "nanoseconds"
+    },
+    "state": {
+      "steps": [
+        {
+          "deadline_offset_ns": 1000000000,
+          "now_offset_ns": 500000000,
+          "step": "wait_until"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "operation_deadline",
+          "kind": "invalid_range",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_range: operation_deadline"
+        },
+        "step": "wait_until",
+        "waiter_started": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "emitted_jitter_ns": [
+        0
+      ],
+      "jitter_algorithm_id": "zero",
+      "jitter_evidence": "seed:0",
+      "jitter_version": "v1"
+    }
+  }
+}

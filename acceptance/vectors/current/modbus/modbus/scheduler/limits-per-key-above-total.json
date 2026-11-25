@@ -1,0 +1,45 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-tcp-scheduler",
+  "source": "tcp_scheduler.go",
+  "stimulus": "TestSchedulerRejectsInvalidOverflowingAndInconsistentLimits/per-key-above-total",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "limits": {
+        "max_active_admission_keys": 2,
+        "max_coalesced_dependents_per_key": 2,
+        "max_in_flight_requests": 2,
+        "max_queued_per_authorization_scope": 5,
+        "max_queued_per_key": 6,
+        "max_retry_attempts": 2,
+        "protected_slots_per_key": 2,
+        "shared_burst_slots": 1,
+        "total_queued": 5
+      },
+      "mutation": "per-key-above-total"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "scheduler_limits",
+          "kind": "invalid_request",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_request: scheduler_limits"
+        },
+        "scheduler_returned": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

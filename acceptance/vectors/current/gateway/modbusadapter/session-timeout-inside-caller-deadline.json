@@ -1,0 +1,79 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbusadapter-readonly-session",
+  "source": "internal/modbusadapter/readonly_session.go",
+  "stimulus": "TestH10SessionTimeoutStaysInsideCallerDeadline",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "deadline_margin_ns": 250000000
+    },
+    "clock": {
+      "note": "the remaining time is measured when the function is called; only the pin test's own range checks are recorded for deadlines that remain",
+      "unit": "wall clock"
+    },
+    "state": {
+      "steps": [
+        {
+          "step": "no_caller_deadline"
+        },
+        {
+          "accepted_max_ns": 4750000000,
+          "accepted_min_ns": 4000000000,
+          "remaining_ns": 5000000000,
+          "step": "caller_deadline"
+        },
+        {
+          "accepted_max_ns": 1750000000,
+          "accepted_min_ns": 1000000000,
+          "remaining_ns": 2000000000,
+          "step": "caller_deadline"
+        },
+        {
+          "accepted_max_ns": 150000000,
+          "accepted_min_ns": 100000000,
+          "remaining_ns": 300000000,
+          "step": "caller_deadline"
+        },
+        {
+          "expired_by_ns": 1000000000,
+          "step": "expired_caller_deadline"
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "step": "no_caller_deadline",
+        "timeout_ns": 5000000000
+      },
+      {
+        "remaining_ns": 5000000000,
+        "step": "caller_deadline",
+        "timeout_strictly_inside_deadline": true,
+        "timeout_within_accepted_range": true
+      },
+      {
+        "remaining_ns": 2000000000,
+        "step": "caller_deadline",
+        "timeout_strictly_inside_deadline": true,
+        "timeout_within_accepted_range": true
+      },
+      {
+        "remaining_ns": 300000000,
+        "step": "caller_deadline",
+        "timeout_strictly_inside_deadline": true,
+        "timeout_within_accepted_range": true
+      },
+      {
+        "step": "expired_caller_deadline",
+        "timeout_ns": 1000000
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

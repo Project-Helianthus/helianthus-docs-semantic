@@ -1,0 +1,105 @@
+{
+  "format": "helianthus-oracle-qv04-case/1",
+  "component": "modbus-rtu-session",
+  "source": "rtu_session.go",
+  "stimulus": "TestRTUSessionRejectsDisabledAndLocalFailuresWithoutWrite",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "stream": {
+        "script": "empty",
+        "write_result": "full"
+      },
+      "timing": {
+        "baud": 115200,
+        "character_time_ns": 95487,
+        "configured_max_quiescence_ns": 100000000,
+        "configured_max_response_latency_ns": 20000000,
+        "data_bits": 8,
+        "inter_character_ns": 750000,
+        "inter_frame_ns": 1750000,
+        "max_quiescence_ns": 100000000,
+        "max_response_latency_ns": 20000000,
+        "parity": "even",
+        "stop_bits": 1
+      }
+    },
+    "clock": {
+      "note": "byte receipt offsets are scripted by the stream; context timeouts use the wall clock",
+      "unit": "stream offset"
+    },
+    "state": {
+      "scripted_reads": [],
+      "steps": [
+        {
+          "enabled": false,
+          "max_response_frames": 0,
+          "step": "open_disabled"
+        },
+        {
+          "enabled": true,
+          "max_response_frames": 0,
+          "step": "open_enabled"
+        },
+        {
+          "policy_max_attempts": 1,
+          "policy_replay_safe": false,
+          "request_adu": "",
+          "request_adu_error": {
+            "exception_code": 0,
+            "field": "private_function_code",
+            "kind": "unsupported_operation",
+            "offset": 0,
+            "received_function": 0,
+            "requested_function": 0,
+            "text": "unsupported_operation: private_function_code at byte 0"
+          },
+          "step": "exchange_invalid_local_request",
+          "unit": 0
+        }
+      ]
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "rtu_session_config",
+          "kind": "invalid_request",
+          "offset": -1,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "invalid_request: rtu_session_config"
+        },
+        "session_returned": false,
+        "step": "open_disabled"
+      },
+      {
+        "error": null,
+        "session_returned": true,
+        "step": "open_enabled"
+      },
+      {
+        "error": {
+          "exception_code": 0,
+          "field": "private_function_code",
+          "kind": "unsupported_operation",
+          "offset": 0,
+          "received_function": 0,
+          "requested_function": 0,
+          "text": "unsupported_operation: private_function_code at byte 0"
+        },
+        "responses": [],
+        "step": "exchange_invalid_local_request"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "final_stream_offset_ns": 0,
+      "stream_write_calls": 0
+    }
+  }
+}
