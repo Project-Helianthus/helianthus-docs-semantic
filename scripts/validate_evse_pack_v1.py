@@ -48,7 +48,7 @@ LOSS = {"native_enum_bitfield", "precision_range", "connector_phase_session_mete
         "direction_reference", "counter_reset_wrap", "unavailable_fields",
         "conflicting_sources", "vendor_extensions", "unsupported_operations"}
 DIMS = {"evse.dimension.asset", "evse.dimension.evse", "evse.dimension.connector",
-        "evse.dimension.phase", "evse.dimension.session", "evse.dimension.meter"}
+        "evse.dimension.phase", "evse.dimension.session", "evse.dimension.meter", "evse.dimension.vehicle"}
 FIELD_CONTRACTS = {
     "evse.ac.voltage": ("quantity", "unit.volt", "evse.dimension.phase", True, None, ("0", 0, "1", 3)),
     "evse.ac.current": ("quantity", "unit.ampere", "evse.dimension.phase", True, None, ("0", 0, "1", 3)),
@@ -66,35 +66,148 @@ FIELD_CONTRACTS = {
     "evse.status.readiness": ("symbol", None, "evse.dimension.evse", True, ("evse.status.readiness.not_ready", "evse.status.readiness.ready"), None),
     "evse.status.fault": ("symbol", None, "evse.dimension.evse", True, ("evse.status.fault.clear", "evse.status.fault.present"), None),
     "evse.status.interlock": ("symbol", None, "evse.dimension.connector", True, ("evse.status.interlock.active", "evse.status.interlock.clear"), None),
+
+    'evse.status.state': ('symbol', None, 'evse.dimension.connector', True, ('evse.status.state.fault', 'evse.status.state.not_plugged_in', 'evse.status.state.plugged_in_charging', 'evse.status.state.plugged_in_demand', 'evse.status.state.plugged_in_discharging', 'evse.status.state.plugged_in_no_demand', 'evse.status.state.session_ending'), None),
+    'evse.status.supply': ('symbol', None, 'evse.dimension.evse', True, ('evse.status.supply.charging_enabled', 'evse.status.supply.disabled', 'evse.status.supply.disabled_diagnostics', 'evse.status.supply.disabled_error', 'evse.status.supply.discharging_enabled', 'evse.status.supply.enabled'), None),
+    'evse.status.fault_cause': ('symbol', None, 'evse.dimension.evse', True, ('evse.status.fault_cause.contact_dry_failure', 'evse.status.fault_cause.contact_wet_failure', 'evse.status.fault_cause.emergency_stop', 'evse.status.fault_cause.ev_disconnected', 'evse.status.fault_cause.ground_fault', 'evse.status.fault_cause.live_neutral_swap', 'evse.status.fault_cause.meter_failure', 'evse.status.fault_cause.no_error', 'evse.status.fault_cause.other', 'evse.status.fault_cause.over_current', 'evse.status.fault_cause.over_temperature', 'evse.status.fault_cause.over_voltage', 'evse.status.fault_cause.pilot_short_circuit', 'evse.status.fault_cause.power_loss', 'evse.status.fault_cause.power_quality', 'evse.status.fault_cause.under_voltage', 'evse.status.fault_cause.wrong_power_supply'), None),
+    'evse.limit.charging_enabled_until': ('time', None, 'evse.dimension.evse', True, None, None),
+    'evse.limit.allocated_current_expiry': ('time', None, 'evse.dimension.connector', True, None, None),
+    'evse.limit.discharging_enabled_until': ('time', None, 'evse.dimension.evse', True, None, None),
+    'evse.limit.minimum_charge_current': ('quantity', 'unit.ampere', 'evse.dimension.connector', True, None, None),
+    'evse.limit.maximum_discharge_current': ('quantity', 'unit.ampere', 'evse.dimension.connector', True, None, None),
+    'evse.limit.user_maximum_charge_current': ('quantity', 'unit.ampere', 'evse.dimension.evse', True, None, None),
+    'evse.limit.failsafe_current': ('quantity', 'unit.ampere', 'evse.dimension.evse', True, None, None),
+    'evse.limit.recommended_current_phase': ('quantity', 'unit.ampere', 'evse.dimension.phase', True, None, None),
+    'evse.limit.vehicle_minimum_current_phase': ('quantity', 'unit.ampere', 'evse.dimension.phase', True, None, None),
+    'evse.limit.vehicle_maximum_current_phase': ('quantity', 'unit.ampere', 'evse.dimension.phase', True, None, None),
+    'evse.configuration.randomization_delay_window': ('quantity', 'unit.second', 'evse.dimension.evse', True, None, None),
+    'evse.mode': ('quantity', 'unit.one', 'evse.dimension.evse', True, None, None),
+    'evse.mode_supported': ('text', None, 'evse.dimension.evse', True, None, None),
+    'evse.ac.total_active_power': ('quantity', 'unit.watt', 'evse.dimension.evse', True, None, None),
+    'evse.ac.connected_phases': ('quantity', 'unit.one', 'evse.dimension.connector', True, None, None),
+    'evse.energy.lifetime_exported': ('quantity', 'unit.joule', 'evse.dimension.meter', True, None, None),
+    'evse.session.identifier': ('text', None, 'evse.dimension.session', True, None, None),
+    'evse.session.start': ('time', None, 'evse.dimension.session', True, None, None),
+    'evse.session.duration': ('quantity', 'unit.second', 'evse.dimension.session', True, None, None),
+    'evse.energy.session_discharged': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.session.rfid_token': ('text', None, 'evse.dimension.session', True, None, None),
+    'evse.session.communication_standard': ('symbol', None, 'evse.dimension.session', True, ('evse.session.communication_standard.iec_61851', 'evse.session.communication_standard.iso_15118_2', 'evse.session.communication_standard.iso_15118_20'), None),
+    'evse.session.asymmetric_charging': ('boolean', None, 'evse.dimension.session', True, None, None),
+    'evse.demand.minimum_energy': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.demand.optimal_energy': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.demand.maximum_energy': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.demand.departure_time': ('time', None, 'evse.dimension.session', True, None, None),
+    'evse.summary.energy_grid': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.summary.energy_self_produced': ('quantity', 'unit.joule', 'evse.dimension.session', True, None, None),
+    'evse.summary.self_produced_ratio': ('quantity', 'unit.ratio', 'evse.dimension.session', True, None, None),
+    'evse.summary.cost': ('quantity', 'unit.currency', 'evse.dimension.session', True, None, None),
+    'evse.summary.currency': ('text', None, 'evse.dimension.session', True, None, None),
+    'evse.summary.end': ('time', None, 'evse.dimension.session', True, None, None),
+    'evse.target.schedule_count': ('quantity', 'unit.one', 'evse.dimension.evse', True, None, None),
+    'evse.target.days': ('symbols', None, 'evse.dimension.evse', True, ('evse.target.days.friday', 'evse.target.days.monday', 'evse.target.days.saturday', 'evse.target.days.sunday', 'evse.target.days.thursday', 'evse.target.days.tuesday', 'evse.target.days.wednesday'), None),
+    'evse.target.time_of_day': ('quantity', 'unit.second', 'evse.dimension.evse', True, None, None),
+    'evse.target.state_of_charge': ('quantity', 'unit.ratio', 'evse.dimension.evse', True, None, None),
+    'evse.target.added_energy': ('quantity', 'unit.joule', 'evse.dimension.evse', True, None, None),
+    'evse.target.next_start': ('time', None, 'evse.dimension.evse', True, None, None),
+    'evse.target.next_target_time': ('time', None, 'evse.dimension.evse', True, None, None),
+    'evse.target.next_required_energy': ('quantity', 'unit.joule', 'evse.dimension.evse', True, None, None),
+    'evse.target.next_state_of_charge': ('quantity', 'unit.ratio', 'evse.dimension.evse', True, None, None),
+    'evse.vehicle.approximate_efficiency': ('quantity', None, 'evse.dimension.evse', True, None, None),
+    'evse.vehicle.state_of_charge': ('quantity', 'unit.ratio', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.battery_capacity': ('quantity', 'unit.joule', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.state_of_health': ('quantity', 'unit.ratio', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.travel_range': ('quantity', 'unit.metre', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.identifier': ('text', None, 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.minimum_power': ('quantity', 'unit.watt', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.maximum_power': ('quantity', 'unit.watt', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.standby_power': ('quantity', 'unit.watt', 'evse.dimension.vehicle', True, None, None),
+    'evse.vehicle.sleep': ('symbol', None, 'evse.dimension.vehicle', True, ('evse.vehicle.sleep.awake', 'evse.vehicle.sleep.sleeping'), None),
+    'evse.vehicle.connection': ('symbol', None, 'evse.dimension.vehicle', True, ('evse.vehicle.connection.connected', 'evse.vehicle.connection.disconnected'), None),
+    'evse.vehicle.ac_power': ('quantity', 'unit.watt', 'evse.dimension.vehicle', True, None, None),
 }
 SERVICES = {"evse.service.evse": "evse.dimension.evse",
             "evse.service.connector": "evse.dimension.connector",
             "evse.service.phase": "evse.dimension.phase",
             "evse.service.session": "evse.dimension.session",
-            "evse.service.meter": "evse.dimension.meter"}
+            "evse.service.meter": "evse.dimension.meter",
+            "evse.service.vehicle": "evse.dimension.vehicle"}
 RELATIONS = {"evse.relation.asset_evse": ("evse.dimension.asset", "evse.dimension.evse", "one_to_many"),
              "evse.relation.evse_connector": ("evse.dimension.evse", "evse.dimension.connector", "one_to_many"),
              "evse.relation.connector_phase": ("evse.dimension.connector", "evse.dimension.phase", "one_to_many"),
              "evse.relation.connector_session": ("evse.dimension.connector", "evse.dimension.session", "one_to_many_over_time"),
              "evse.relation.evse_meter": ("evse.dimension.evse", "evse.dimension.meter", "one_to_many")}
 DEFINITION_GROUPS = {"fields", "fact_dimensions", "services", "relations", "capabilities", "operations",
-                     "effect_rules", "portal_contributions"}
+                     "effect_rules", "portal_contributions", "qualifier_dimensions", "events"}
 CAPS = {"evse.capability.read.evse": ("evse.service.evse", ()),
         "evse.capability.read.connector": ("evse.service.connector", ()),
         "evse.capability.read.phase": ("evse.service.phase", ()),
         "evse.capability.read.session": ("evse.service.session", ()),
         "evse.capability.read.meter": ("evse.service.meter", ()),
-        "evse.capability.set_allocated_current": ("evse.service.connector", ("evse.limit.allocated_current",))}
+        "evse.capability.set_allocated_current": ("evse.service.connector", ("evse.limit.allocated_current",)),
+    "evse.capability.read.vehicle": ("evse.service.vehicle", ()),
+    'evse.capability.set_supply': ('evse.service.evse', ('evse.status.supply',)),
+    'evse.capability.set_allocated_current_with_expiry': ('evse.service.connector', ('evse.limit.allocated_current',)),
+    'evse.capability.set_user_maximum_charge_current': ('evse.service.evse', ('evse.limit.user_maximum_charge_current',)),
+    'evse.capability.set_randomization_delay_window': ('evse.service.evse', ('evse.configuration.randomization_delay_window',)),
+    'evse.capability.set_vehicle_efficiency': ('evse.service.evse', ('evse.vehicle.approximate_efficiency',)),
+    'evse.capability.set_target': ('evse.service.evse', ('evse.target.time_of_day',)),
+    'evse.capability.clear_targets': ('evse.service.evse', ('evse.target.schedule_count',)),
+    'evse.capability.set_evse_mode': ('evse.service.evse', ('evse.mode',)),
+    'evse.capability.set_allocated_current_phase': ('evse.service.phase', ('evse.limit.allocated_current_phase',)),
+    'evse.capability.set_recommended_current_phase': ('evse.service.phase', ('evse.limit.recommended_current_phase',)),
+    'evse.capability.set_failsafe_current': ('evse.service.evse', ('evse.limit.failsafe_current',)),}
 OP = "evse.operation.set_allocated_current"
 EFFECT = "evse.effect.set_allocated_current"
 PRECONDITIONS = ["current_source_epoch", "current_driver_generation", "current_semantic_revision", "qualified_active_capability", "exact_route", "authority_admitted"]
 STAGES = ["admission", "dispatch", "acknowledgement", "readback", "terminal_outcome"]
 OUTCOMES = ["rejected", "failed_no_contact", "acknowledged_unverified", "applied", "no_effect", "conflict", "indeterminate"]
-PORTAL_READS = {"evse.portal.read.evse": ("evse.service.evse", ("evse.ac.frequency", "evse.limit.configured_current", "evse.status.fault", "evse.status.readiness")),
-                "evse.portal.read.connector": ("evse.service.connector", ("evse.limit.actual_current", "evse.limit.advertised_current", "evse.limit.allocated_current", "evse.status.charging", "evse.status.connection", "evse.status.interlock")),
-                "evse.portal.read.phase": ("evse.service.phase", ("evse.ac.active_power", "evse.ac.current", "evse.ac.voltage", "evse.limit.allocated_current_phase")),
-                "evse.portal.read.session": ("evse.service.session", ("evse.energy.session",)),
-                "evse.portal.read.meter": ("evse.service.meter", ("evse.energy.lifetime",))}
+PORTAL_READS = {"evse.portal.read.evse": ("evse.service.evse", ("evse.ac.frequency", "evse.limit.configured_current", "evse.status.fault", "evse.status.readiness", "evse.status.supply", "evse.status.fault_cause", "evse.limit.charging_enabled_until", "evse.limit.discharging_enabled_until", "evse.limit.user_maximum_charge_current", "evse.limit.failsafe_current", "evse.configuration.randomization_delay_window", "evse.mode", "evse.mode_supported", "evse.ac.total_active_power", "evse.target.schedule_count", "evse.target.days", "evse.target.time_of_day", "evse.target.state_of_charge", "evse.target.added_energy", "evse.target.next_start", "evse.target.next_target_time", "evse.target.next_required_energy", "evse.target.next_state_of_charge", "evse.vehicle.approximate_efficiency")),
+                "evse.portal.read.connector": ("evse.service.connector", ("evse.limit.actual_current", "evse.limit.advertised_current", "evse.limit.allocated_current", "evse.status.charging", "evse.status.connection", "evse.status.interlock", "evse.status.state", "evse.limit.allocated_current_expiry", "evse.limit.minimum_charge_current", "evse.limit.maximum_discharge_current", "evse.ac.connected_phases")),
+                "evse.portal.read.phase": ("evse.service.phase", ("evse.ac.active_power", "evse.ac.current", "evse.ac.voltage", "evse.limit.allocated_current_phase", "evse.limit.recommended_current_phase", "evse.limit.vehicle_minimum_current_phase", "evse.limit.vehicle_maximum_current_phase")),
+                "evse.portal.read.session": ("evse.service.session", ("evse.energy.session", "evse.session.identifier", "evse.session.start", "evse.session.duration", "evse.energy.session_discharged", "evse.session.rfid_token", "evse.session.communication_standard", "evse.session.asymmetric_charging", "evse.demand.minimum_energy", "evse.demand.optimal_energy", "evse.demand.maximum_energy", "evse.demand.departure_time", "evse.summary.energy_grid", "evse.summary.energy_self_produced", "evse.summary.self_produced_ratio", "evse.summary.cost", "evse.summary.currency", "evse.summary.end")),
+                "evse.portal.read.meter": ("evse.service.meter", ("evse.energy.lifetime", "evse.energy.lifetime_exported")),
+                "evse.portal.read.vehicle": ("evse.service.vehicle", ("evse.vehicle.state_of_charge", "evse.vehicle.battery_capacity", "evse.vehicle.state_of_health", "evse.vehicle.travel_range", "evse.vehicle.identifier", "evse.vehicle.minimum_power", "evse.vehicle.maximum_power", "evse.vehicle.standby_power", "evse.vehicle.sleep", "evse.vehicle.connection", "evse.vehicle.ac_power"))}
+QUALIFIED = {
+    'evse.target.days': ('evse.dimension.target_schedule',),
+    'evse.target.time_of_day': ('evse.dimension.target', 'evse.dimension.target_schedule'),
+    'evse.target.state_of_charge': ('evse.dimension.target', 'evse.dimension.target_schedule'),
+    'evse.target.added_energy': ('evse.dimension.target', 'evse.dimension.target_schedule'),
+}
+QUALIFIER_DIMS = {
+    "evse.dimension.target_schedule": ("quantity", "unit.one"),
+    "evse.dimension.target": ("quantity", "unit.one"),
+}
+NEW_OPERATIONS = {
+    'evse.operation.set_supply': ('evse.capability.set_supply', 'evse.status.supply', 'evse.effect.set_supply', ('evse.limit.allocated_current', 'evse.limit.charging_enabled_until', 'evse.limit.discharging_enabled_until', 'evse.limit.maximum_discharge_current', 'evse.limit.minimum_charge_current')),
+    'evse.operation.set_allocated_current_with_expiry': ('evse.capability.set_allocated_current_with_expiry', 'evse.limit.allocated_current', 'evse.effect.set_allocated_current_with_expiry', ('evse.limit.allocated_current_expiry',)),
+    'evse.operation.set_user_maximum_charge_current': ('evse.capability.set_user_maximum_charge_current', 'evse.limit.user_maximum_charge_current', 'evse.effect.set_user_maximum_charge_current', ()),
+    'evse.operation.set_randomization_delay_window': ('evse.capability.set_randomization_delay_window', 'evse.configuration.randomization_delay_window', 'evse.effect.set_randomization_delay_window', ()),
+    'evse.operation.set_vehicle_efficiency': ('evse.capability.set_vehicle_efficiency', 'evse.vehicle.approximate_efficiency', 'evse.effect.set_vehicle_efficiency', ()),
+    'evse.operation.set_target': ('evse.capability.set_target', 'evse.target.time_of_day', 'evse.effect.set_target', ('evse.target.added_energy', 'evse.target.days', 'evse.target.state_of_charge')),
+    'evse.operation.clear_targets': ('evse.capability.clear_targets', 'evse.target.schedule_count', 'evse.effect.clear_targets', ()),
+    'evse.operation.set_evse_mode': ('evse.capability.set_evse_mode', 'evse.mode', 'evse.effect.set_evse_mode', ()),
+    'evse.operation.set_allocated_current_phase': ('evse.capability.set_allocated_current_phase', 'evse.limit.allocated_current_phase', 'evse.effect.set_allocated_current_phase', ()),
+    'evse.operation.set_recommended_current_phase': ('evse.capability.set_recommended_current_phase', 'evse.limit.recommended_current_phase', 'evse.effect.set_recommended_current_phase', ()),
+    'evse.operation.set_failsafe_current': ('evse.capability.set_failsafe_current', 'evse.limit.failsafe_current', 'evse.effect.set_failsafe_current', ()),
+}
+NEW_EFFECTS = {
+    'evse.effect.set_supply': ('evse.operation.set_supply', 'evse.status.supply'),
+    'evse.effect.set_allocated_current_with_expiry': ('evse.operation.set_allocated_current_with_expiry', 'evse.limit.allocated_current'),
+    'evse.effect.set_user_maximum_charge_current': ('evse.operation.set_user_maximum_charge_current', 'evse.limit.user_maximum_charge_current'),
+    'evse.effect.set_randomization_delay_window': ('evse.operation.set_randomization_delay_window', 'evse.configuration.randomization_delay_window'),
+    'evse.effect.set_vehicle_efficiency': ('evse.operation.set_vehicle_efficiency', 'evse.vehicle.approximate_efficiency'),
+    'evse.effect.set_target': ('evse.operation.set_target', 'evse.target.time_of_day'),
+    'evse.effect.clear_targets': ('evse.operation.clear_targets', 'evse.target.schedule_count'),
+    'evse.effect.set_evse_mode': ('evse.operation.set_evse_mode', 'evse.mode'),
+    'evse.effect.set_allocated_current_phase': ('evse.operation.set_allocated_current_phase', 'evse.limit.allocated_current_phase'),
+    'evse.effect.set_recommended_current_phase': ('evse.operation.set_recommended_current_phase', 'evse.limit.recommended_current_phase'),
+    'evse.effect.set_failsafe_current': ('evse.operation.set_failsafe_current', 'evse.limit.failsafe_current'),
+}
+EVENTS = {
+    'evse.event.fault': {'service': 'evse.service.evse', 'trigger': 'evse.status.fault_cause', 'condition': 'changed', 'payload': (), 'origin': 'emitted'},
+    'evse.event.rfid': {'service': 'evse.service.session', 'trigger': 'evse.session.rfid_token', 'condition': 'changed', 'payload': (), 'origin': 'emitted'},
+}
+
 MAPPINGS = {
     "evse.mapping.tesla.legacy_fbe0_fde0": {"id":"evse.mapping.tesla.legacy_fbe0_fde0","native_owner":"helianthus-docs-modbus","source_refs":["tesla_docs_modbus","tesla_modbusreg"],"state":"candidate","qualification":"offline_family_compatible_only","provenance":["legacy_fbe0","legacy_fde0"],"allocated_current":"native_candidate","actual_current":"native_candidate_separate","relative_or_unknown_state":"native_only_no_absolute_allocation","sender":"none","control_route":"none","live_authority":False,"loss":"unknown"},
     "evse.mapping.eebus": {"id":"evse.mapping.eebus","native_owner":"helianthus-docs-eebus","source_refs":["eebus_ledger","eebus_m625_donor"],"state":"unknown_pending_normative_source","qualification":"unresolved","loss":"unknown"},
@@ -160,6 +273,17 @@ def decimal_less(left, right):
     return lc * 10 ** (le - shared) < rc * 10 ** (rexp - shared)
 
 
+def check_qualifiers(identifier, field, base):
+    qualifiers = QUALIFIED.get(identifier)
+    if qualifiers is not None:
+        if tuple(field.get("qualifiers", ())) != qualifiers:
+            raise ValueError("field qualifiers")
+        return base | {"qualifiers"}
+    if "qualifiers" in field:
+        raise ValueError("field qualifiers")
+    return base
+
+
 def validate_fields(fields):
     records = refs(fields, "fields", FIELD_CONTRACTS)
     for identifier, field in records.items():
@@ -167,15 +291,71 @@ def validate_fields(fields):
         base = {"id", "ref", "kind", "dimension", "optional", "order"}
         if field.get("kind") != kind or field.get("dimension") != dimension or type(field.get("optional")) is not bool or field["optional"] != optional:
             raise ValueError("field has noncanonical kind, dimension, or optionality")
+        base = check_qualifiers(identifier, field, base)
         if kind == "quantity":
-            require_canonical_unit(field.get("unit"))
-            minimum = {"coefficient": bounds[0], "exponent10": bounds[1]}
-            maximum = {"coefficient": bounds[2], "exponent10": bounds[3]}
-            if set(field) != base | {"unit", "bounds"} or field.get("unit") != unit or not decimal_less(field.get("bounds", {}).get("minimum"), field.get("bounds", {}).get("maximum")) or field.get("bounds") != {"minimum": minimum, "maximum": maximum}:
-                raise ValueError("field has invalid canonical quantity contract")
-        elif set(field) != base | {"symbols"} or tuple(field.get("symbols", ())) != symbols or field.get("symbols") != sorted(field.get("symbols", [])) or any(not isinstance(value, str) or not ID.fullmatch(value) for value in field["symbols"]):
+            check_quantity(field, unit, bounds, base)
+        elif kind in ("symbol", "symbols"):
+            if set(field) != base | {"symbols"} or tuple(field.get("symbols", ())) != symbols or field.get("symbols") != sorted(field.get("symbols", [])) or any(not isinstance(value, str) or not ID.fullmatch(value) for value in field["symbols"]):
+                raise ValueError("field has invalid canonical symbol contract")
+        elif kind in ("boolean", "text", "time"):
+            if set(field) != base:
+                raise ValueError("field has invalid canonical text contract")
+        else:
             raise ValueError("field has invalid canonical symbol contract")
     return records
+
+
+def check_quantity(field, unit, bounds, base):
+    if unit is None:
+        if "unit" in field or bounds is not None or set(field) != base | {"bounds"} or field.get("bounds") != {"minimum": None, "maximum": None}:
+            raise ValueError("field has invalid canonical quantity contract")
+        return
+    require_canonical_unit(field.get("unit"))
+    if bounds is None:
+        if set(field) != base | {"unit", "bounds"} or field.get("unit") != unit or field.get("bounds") != {"minimum": None, "maximum": None}:
+            raise ValueError("field has invalid canonical quantity contract")
+        return
+    minimum = {"coefficient": bounds[0], "exponent10": bounds[1]}
+    maximum = {"coefficient": bounds[2], "exponent10": bounds[3]}
+    if set(field) != base | {"unit", "bounds"} or field.get("unit") != unit or not decimal_less(field.get("bounds", {}).get("minimum"), field.get("bounds", {}).get("maximum")) or field.get("bounds") != {"minimum": minimum, "maximum": maximum}:
+        raise ValueError("field has invalid canonical quantity contract")
+
+
+def check_qualifier_dimensions(definitions):
+    items = refs(definitions.get("qualifier_dimensions"), "qualifier dimensions", QUALIFIER_DIMS)
+    for ident, item in items.items():
+        value_kind, unit = QUALIFIER_DIMS[ident]
+        if set(item) != {"id", "ref", "value_kind", "unit", "order"} or item.get("value_kind") != value_kind or item.get("unit") != unit:
+            raise ValueError("qualifier dimension")
+
+
+def check_new_operations(operations):
+    for ident, item in operations.items():
+        if ident == OP:
+            continue
+        capability, argument, effect, parameters = NEW_OPERATIONS[ident]
+        expected = {"id", "ref", "capability", "arguments", "effect_rule", "order"}
+        if parameters:
+            expected.add("parameters")
+        if set(item) != expected or item.get("capability") != capability or tuple(item.get("arguments", ())) != (argument,) or item.get("effect_rule") != effect or tuple(item.get("parameters", ())) != parameters:
+            raise ValueError("operation association")
+
+
+def check_new_effects(effects):
+    for ident, item in effects.items():
+        if ident == EFFECT:
+            continue
+        operation, fact = NEW_EFFECTS[ident]
+        if set(item) != {"id", "ref", "operation", "fact", "operator", "order"} or item.get("operation") != operation or item.get("fact") != fact or item.get("operator") != "equal":
+            raise ValueError("effect association")
+
+
+def check_events(definitions):
+    events = refs(definitions.get("events"), "events", EVENTS)
+    for ident, item in events.items():
+        spec = EVENTS[ident]
+        if set(item) != {"id", "ref", "service", "trigger", "condition", "payload", "origin", "order"} or item.get("service") != spec["service"] or item.get("trigger") != spec["trigger"] or item.get("condition") != spec["condition"] or tuple(item.get("payload", ())) != tuple(spec["payload"]) or item.get("origin") != spec["origin"]:
+            raise ValueError("event association")
 
 
 def definition_groups(catalog):
@@ -203,14 +383,18 @@ def validate_defs(catalog):
         expected = {"id", "ref", "service", "activation", "order"} | ({"constraints"} if constraints else set())
         if item.get("service") != service or tuple(item.get("constraints", ())) != constraints or item.get("activation") != "qualified_current_binding" or set(item) != expected:
             raise ValueError("capability association")
-    operations = refs(definitions.get("operations"), "operations", {OP})
+    operations = refs(definitions.get("operations"), "operations", {OP} | set(NEW_OPERATIONS))
     operation = operations[OP]
     if set(operation) != {"id", "ref", "capability", "arguments", "argument_constraints", "effect_rule", "preconditions", "stages", "terminal_outcomes", "readback", "retry", "order"} or (operation.get("capability"), tuple(operation.get("arguments", ())), tuple(operation.get("argument_constraints", ())), operation.get("effect_rule")) != ("evse.capability.set_allocated_current", ("evse.limit.allocated_current",), ("evse.limit.allocated_current",), EFFECT) or operation.get("preconditions") != PRECONDITIONS or operation.get("stages") != STAGES or operation.get("terminal_outcomes") != OUTCOMES or operation.get("readback") != "current_generation_exact_effect" or operation.get("retry") != "forbidden_after_indeterminate":
         raise ValueError("operation safety")
-    effects = refs(definitions.get("effect_rules"), "effect rules", {EFFECT})
+    check_new_operations(operations)
+    effects = refs(definitions.get("effect_rules"), "effect rules", {EFFECT} | set(NEW_EFFECTS))
     effect = effects[EFFECT]
     if set(effect) != {"id", "ref", "operation", "fact", "operator", "order"} or (effect.get("operation"), effect.get("fact"), effect.get("operator")) != (OP, "evse.limit.allocated_current", "equal"):
         raise ValueError("effect association")
+    check_new_effects(effects)
+    check_qualifier_dimensions(definitions)
+    check_events(definitions)
     portal = refs(definitions.get("portal_contributions"), "Portal contributions", set(PORTAL_READS) | {"evse.portal.operation.set_allocated_current"})
     coverage = set()
     for key, item in portal.items():

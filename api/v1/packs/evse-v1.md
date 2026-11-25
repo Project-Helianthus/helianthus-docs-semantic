@@ -23,7 +23,7 @@ earlier customary bounds. A customary unit appears only at display, in a
 consumer. Published Decimal bounds are pack validation bounds, never a claim
 about a device's nameplate capability.
 
-Fact keys distinguish asset, EVSE, connector, phase, session, and meter. The
+Fact keys distinguish asset, EVSE, connector, phase, session, meter, and vehicle. The
 declared asset-to-EVSE, EVSE-to-connector, connector-to-phase,
 connector-to-session, and EVSE-to-meter cardinalities preserve records without
 inventing a connector, phase, meter, membership, or simultaneous-session claim.
@@ -66,10 +66,112 @@ evse.portal.read.meter
 evse.portal.operation.set_allocated_current
 ```
 
+
+`resource.vehicle` is equipment on the physical, energy and diagnostic planes.
+`evse.dimension.vehicle` uses that kind. `evse.service.vehicle` reads it through
+`evse.capability.read.vehicle` and `evse.portal.read.vehicle`. Qualifier
+dimensions `evse.dimension.target_schedule` and `evse.dimension.target` are
+quantity indexes in `unit.one`. Each admitted operation has one capability and
+one effect rule. `evse.operation.set_allocated_current` and its set case stay.
+No release case is added. `evse.relation.connector_vehicle` is not added.
+
+New quantities use `unit.ampere`, `unit.watt`, `unit.joule`, `unit.second`,
+`unit.one`, `unit.ratio`, `unit.metre` or `unit.currency`. A new quantity bound
+is empty. `evse.vehicle.approximate_efficiency` is a quantity with no unit:
+ApproximateEvEfficiency is a uint16 with no unit name and no scale, so a
+metres-per-joule qualification is withheld.
+
+`evse.ac.total_active_power`, `evse.summary.cost` and `evse.vehicle.ac_power`
+are signed in the admitted field table. This pack has no supplies relation, and
+a signed catalog fact names one. Their catalog direction is `not_applicable`
+until an EVSE supplies relation is admitted.
+
+`evse.mode` is the uint8 mode identifier. `evse.mode_supported` keeps that
+identifier and the ModeTag metadata as text. A ModeTag is not the mode value.
+`evse.operation.set_evse_mode` writes the identifier.
+`evse.operation.set_allocated_current_with_expiry` is the provisional limit
+with expiry. It does not replace `evse.operation.set_allocated_current` and it
+does not supply a minimum charge current. `evse.operation.set_supply` keeps
+enable, disable and diagnostics. Pause below the minimum current is supply
+disabled, never a 0 A write of the allocated current.
+
+`evse.event.fault` and `evse.event.rfid` are emitted with an empty payload.
+`evse.event.ev_connected`, `evse.event.ev_not_detected`,
+`evse.event.energy_transfer_started` and `evse.event.energy_transfer_stopped`
+are not catalog entries. An entered or left event must name symbols stored on
+its trigger fact, and a fact has no symbols attribute. The specification level
+on these rows blocks nothing.
+
+Public citations are Matter 1.6.1 Energy EVSE, Energy EVSE Mode, Electrical
+Power Measurement and Electrical Energy Measurement; EV Commissioning and
+Configuration V1.0.1 scenarios EVCC-sc1, EVCC-sc2, EVCC-sc3, EVCC-sc4, EVCC-sc6,
+EVCC-sc7 and EVCC-sc8; Overload Protection by EV Charging Current Curtailment
+V1.0.1b scenarios OPEV-sc1 and OPEV-sc3; Optimization of Self-Consumption During
+EV Charging V1.0.1b scenario OSCEV-sc1; EV Charging Electricity Measurement
+V1.0.1 scenarios EVCEM-sc1 and EVCEM-sc2; EV Charging Summary V1.0.1 scenario
+EVCS-sc1; Coordinated EV Charging V1.0.1 scenario CEVC-sc1; EV State of Charge
+V1.0.0 RC1 scenarios EVSOC-sc1, EVSOC-sc2, EVSOC-sc3 and EVSOC-sc4; Monitoring
+of Power Consumption V1.0.0 requirement MPC-011.
+
+The additional catalog IDs are `evse.status.state`, `evse.status.supply`,
+`evse.status.fault_cause`, `evse.limit.charging_enabled_until`,
+`evse.limit.allocated_current_expiry`, `evse.limit.discharging_enabled_until`,
+`evse.limit.minimum_charge_current`, `evse.limit.maximum_discharge_current`,
+`evse.limit.user_maximum_charge_current`, `evse.limit.failsafe_current`,
+`evse.limit.recommended_current_phase`, `evse.limit.vehicle_minimum_current_phase`,
+`evse.limit.vehicle_maximum_current_phase`,
+`evse.configuration.randomization_delay_window`, `evse.mode`,
+`evse.mode_supported`, `evse.ac.total_active_power`, `evse.ac.connected_phases`,
+`evse.energy.lifetime_exported`, `evse.session.identifier`, `evse.session.start`,
+`evse.session.duration`, `evse.energy.session_discharged`,
+`evse.session.rfid_token`, `evse.session.communication_standard`,
+`evse.session.asymmetric_charging`, `evse.demand.minimum_energy`,
+`evse.demand.optimal_energy`, `evse.demand.maximum_energy`,
+`evse.demand.departure_time`, `evse.summary.energy_grid`,
+`evse.summary.energy_self_produced`, `evse.summary.self_produced_ratio`,
+`evse.summary.cost`, `evse.summary.currency`, `evse.summary.end`,
+`evse.target.schedule_count`, `evse.target.days`, `evse.target.time_of_day`,
+`evse.target.state_of_charge`, `evse.target.added_energy`,
+`evse.target.next_start`, `evse.target.next_target_time`,
+`evse.target.next_required_energy`, `evse.target.next_state_of_charge`,
+`evse.vehicle.approximate_efficiency`, `evse.vehicle.state_of_charge`,
+`evse.vehicle.battery_capacity`, `evse.vehicle.state_of_health`,
+`evse.vehicle.travel_range`, `evse.vehicle.identifier`,
+`evse.vehicle.minimum_power`, `evse.vehicle.maximum_power`,
+`evse.vehicle.standby_power`, `evse.vehicle.sleep`, `evse.vehicle.connection`,
+`evse.vehicle.ac_power`, `evse.dimension.vehicle`,
+`evse.dimension.target_schedule`, `evse.dimension.target`,
+`evse.service.vehicle`, `evse.capability.read.vehicle`,
+`evse.capability.set_supply`, `evse.capability.set_allocated_current_with_expiry`,
+`evse.capability.set_user_maximum_charge_current`,
+`evse.capability.set_randomization_delay_window`,
+`evse.capability.set_vehicle_efficiency`, `evse.capability.set_target`,
+`evse.capability.clear_targets`, `evse.capability.set_evse_mode`,
+`evse.capability.set_allocated_current_phase`,
+`evse.capability.set_recommended_current_phase`,
+`evse.capability.set_failsafe_current`, `evse.operation.set_supply`,
+`evse.operation.set_allocated_current_with_expiry`,
+`evse.operation.set_user_maximum_charge_current`,
+`evse.operation.set_randomization_delay_window`,
+`evse.operation.set_vehicle_efficiency`, `evse.operation.set_target`,
+`evse.operation.clear_targets`, `evse.operation.set_evse_mode`,
+`evse.operation.set_allocated_current_phase`,
+`evse.operation.set_recommended_current_phase`,
+`evse.operation.set_failsafe_current`, `evse.effect.set_supply`,
+`evse.effect.set_allocated_current_with_expiry`,
+`evse.effect.set_user_maximum_charge_current`,
+`evse.effect.set_randomization_delay_window`,
+`evse.effect.set_vehicle_efficiency`, `evse.effect.set_target`,
+`evse.effect.clear_targets`, `evse.effect.set_evse_mode`,
+`evse.effect.set_allocated_current_phase`,
+`evse.effect.set_recommended_current_phase`, `evse.effect.set_failsafe_current`,
+`evse.portal.read.vehicle`, `evse.event.fault` and `evse.event.rfid`.
+
+
 ## Capability and operation boundary
 
-Read capabilities require a qualified current binding. The sole generic
-operation is `evse.operation.set_allocated_current`; it requires the exact
+Read capabilities require a qualified current binding. `evse.operation.set_allocated_current`
+keeps the generic set case; it requires the exact
 `evse.limit.allocated_current` argument, current source epoch, driver
 generation, semantic revision, qualified active capability, exact native route,
 and authority admission. Dispatch, acknowledgement, readback, and terminal

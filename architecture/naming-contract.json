@@ -5248,6 +5248,838 @@
       "canonical_name": "storage.relation.interface_supply",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.state",
+      "canonical_name": "evse.status.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.supply",
+      "canonical_name": "evse.status.supply",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.status.fault_cause",
+      "canonical_name": "evse.status.fault_cause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.charging_enabled_until",
+      "canonical_name": "evse.limit.charging_enabled_until",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.allocated_current_expiry",
+      "canonical_name": "evse.limit.allocated_current_expiry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.discharging_enabled_until",
+      "canonical_name": "evse.limit.discharging_enabled_until",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.minimum_charge_current",
+      "canonical_name": "evse.limit.minimum_charge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.maximum_discharge_current",
+      "canonical_name": "evse.limit.maximum_discharge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.user_maximum_charge_current",
+      "canonical_name": "evse.limit.user_maximum_charge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.failsafe_current",
+      "canonical_name": "evse.limit.failsafe_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.recommended_current_phase",
+      "canonical_name": "evse.limit.recommended_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.vehicle_minimum_current_phase",
+      "canonical_name": "evse.limit.vehicle_minimum_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.limit.vehicle_maximum_current_phase",
+      "canonical_name": "evse.limit.vehicle_maximum_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.configuration.randomization_delay_window",
+      "canonical_name": "evse.configuration.randomization_delay_window",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.mode",
+      "canonical_name": "evse.mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.mode_supported",
+      "canonical_name": "evse.mode_supported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.total_active_power",
+      "canonical_name": "evse.ac.total_active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.ac.connected_phases",
+      "canonical_name": "evse.ac.connected_phases",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.energy.lifetime_exported",
+      "canonical_name": "evse.energy.lifetime_exported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.identifier",
+      "canonical_name": "evse.session.identifier",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.start",
+      "canonical_name": "evse.session.start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.duration",
+      "canonical_name": "evse.session.duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.energy.session_discharged",
+      "canonical_name": "evse.energy.session_discharged",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.rfid_token",
+      "canonical_name": "evse.session.rfid_token",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.communication_standard",
+      "canonical_name": "evse.session.communication_standard",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.session.asymmetric_charging",
+      "canonical_name": "evse.session.asymmetric_charging",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.demand.minimum_energy",
+      "canonical_name": "evse.demand.minimum_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.demand.optimal_energy",
+      "canonical_name": "evse.demand.optimal_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.demand.maximum_energy",
+      "canonical_name": "evse.demand.maximum_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.demand.departure_time",
+      "canonical_name": "evse.demand.departure_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.energy_grid",
+      "canonical_name": "evse.summary.energy_grid",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.energy_self_produced",
+      "canonical_name": "evse.summary.energy_self_produced",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.self_produced_ratio",
+      "canonical_name": "evse.summary.self_produced_ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.cost",
+      "canonical_name": "evse.summary.cost",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.currency",
+      "canonical_name": "evse.summary.currency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.summary.end",
+      "canonical_name": "evse.summary.end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.schedule_count",
+      "canonical_name": "evse.target.schedule_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.days",
+      "canonical_name": "evse.target.days",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.time_of_day",
+      "canonical_name": "evse.target.time_of_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.state_of_charge",
+      "canonical_name": "evse.target.state_of_charge",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.added_energy",
+      "canonical_name": "evse.target.added_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.next_start",
+      "canonical_name": "evse.target.next_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.next_target_time",
+      "canonical_name": "evse.target.next_target_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.next_required_energy",
+      "canonical_name": "evse.target.next_required_energy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.target.next_state_of_charge",
+      "canonical_name": "evse.target.next_state_of_charge",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.approximate_efficiency",
+      "canonical_name": "evse.vehicle.approximate_efficiency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.state_of_charge",
+      "canonical_name": "evse.vehicle.state_of_charge",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.battery_capacity",
+      "canonical_name": "evse.vehicle.battery_capacity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.state_of_health",
+      "canonical_name": "evse.vehicle.state_of_health",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.travel_range",
+      "canonical_name": "evse.vehicle.travel_range",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.identifier",
+      "canonical_name": "evse.vehicle.identifier",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.minimum_power",
+      "canonical_name": "evse.vehicle.minimum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.maximum_power",
+      "canonical_name": "evse.vehicle.maximum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.standby_power",
+      "canonical_name": "evse.vehicle.standby_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.sleep",
+      "canonical_name": "evse.vehicle.sleep",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.connection",
+      "canonical_name": "evse.vehicle.connection",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.vehicle.ac_power",
+      "canonical_name": "evse.vehicle.ac_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.event.fault",
+      "canonical_name": "evse.event.fault",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.event.rfid",
+      "canonical_name": "evse.event.rfid",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_supply",
+      "canonical_name": "evse.operation.set_supply",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_allocated_current_with_expiry",
+      "canonical_name": "evse.operation.set_allocated_current_with_expiry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_user_maximum_charge_current",
+      "canonical_name": "evse.operation.set_user_maximum_charge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_randomization_delay_window",
+      "canonical_name": "evse.operation.set_randomization_delay_window",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_vehicle_efficiency",
+      "canonical_name": "evse.operation.set_vehicle_efficiency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_target",
+      "canonical_name": "evse.operation.set_target",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.clear_targets",
+      "canonical_name": "evse.operation.clear_targets",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_evse_mode",
+      "canonical_name": "evse.operation.set_evse_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_allocated_current_phase",
+      "canonical_name": "evse.operation.set_allocated_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_recommended_current_phase",
+      "canonical_name": "evse.operation.set_recommended_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.operation.set_failsafe_current",
+      "canonical_name": "evse.operation.set_failsafe_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_supply",
+      "canonical_name": "evse.effect.set_supply",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_allocated_current_with_expiry",
+      "canonical_name": "evse.effect.set_allocated_current_with_expiry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_user_maximum_charge_current",
+      "canonical_name": "evse.effect.set_user_maximum_charge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_randomization_delay_window",
+      "canonical_name": "evse.effect.set_randomization_delay_window",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_vehicle_efficiency",
+      "canonical_name": "evse.effect.set_vehicle_efficiency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_target",
+      "canonical_name": "evse.effect.set_target",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.clear_targets",
+      "canonical_name": "evse.effect.clear_targets",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_evse_mode",
+      "canonical_name": "evse.effect.set_evse_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_allocated_current_phase",
+      "canonical_name": "evse.effect.set_allocated_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_recommended_current_phase",
+      "canonical_name": "evse.effect.set_recommended_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.effect.set_failsafe_current",
+      "canonical_name": "evse.effect.set_failsafe_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_supply",
+      "canonical_name": "evse.capability.set_supply",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_allocated_current_with_expiry",
+      "canonical_name": "evse.capability.set_allocated_current_with_expiry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_user_maximum_charge_current",
+      "canonical_name": "evse.capability.set_user_maximum_charge_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_randomization_delay_window",
+      "canonical_name": "evse.capability.set_randomization_delay_window",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_vehicle_efficiency",
+      "canonical_name": "evse.capability.set_vehicle_efficiency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_target",
+      "canonical_name": "evse.capability.set_target",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.clear_targets",
+      "canonical_name": "evse.capability.clear_targets",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_evse_mode",
+      "canonical_name": "evse.capability.set_evse_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_allocated_current_phase",
+      "canonical_name": "evse.capability.set_allocated_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_recommended_current_phase",
+      "canonical_name": "evse.capability.set_recommended_current_phase",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.set_failsafe_current",
+      "canonical_name": "evse.capability.set_failsafe_current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.target_schedule",
+      "canonical_name": "evse.dimension.target_schedule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.target",
+      "canonical_name": "evse.dimension.target",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.dimension.vehicle",
+      "canonical_name": "evse.dimension.vehicle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.service.vehicle",
+      "canonical_name": "evse.service.vehicle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.capability.read.vehicle",
+      "canonical_name": "evse.capability.read.vehicle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "evse.portal.read.vehicle",
+      "canonical_name": "evse.portal.read.vehicle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "resource.vehicle",
+      "canonical_name": "resource.vehicle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.second",
+      "canonical_name": "unit.second",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.one",
+      "canonical_name": "unit.one",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ratio",
+      "canonical_name": "unit.ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.metre",
+      "canonical_name": "unit.metre",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/evse/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.currency",
+      "canonical_name": "unit.currency",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {

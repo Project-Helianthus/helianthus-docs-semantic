@@ -2,6 +2,7 @@
 """Focused RED-first mutation controls for the EVSE v1 catalog."""
 from __future__ import annotations
 
+import ast
 import copy
 import importlib.util
 import sys
@@ -57,8 +58,12 @@ def check_si_units(document):
         raise AssertionError("validator unit set differs from the unit rule")
     fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
     for field in fields.values():
-        if field["kind"] == "quantity" and field["unit"] not in SI_UNITS:
-            raise AssertionError(f"{field['id']} declares {field['unit']}")
+        unit = field.get("unit")
+        if field["kind"] == "quantity" and unit is not None and unit not in SI_UNITS:
+            raise AssertionError(f"{field['id']} declares {unit}")
+    efficiency = fields["evse.vehicle.approximate_efficiency"]
+    if "unit" in efficiency or efficiency.get("bounds") != {"minimum": None, "maximum": None}:
+        raise AssertionError("approximate efficiency declares a unit or a bound")
     for identifier, (unit, minimum, maximum, factor, offset) in CONVERTED.items():
         expected = {"minimum": converted(minimum, factor, offset), "maximum": converted(maximum, factor, offset)}
         if fields[identifier]["unit"] != unit or fields[identifier]["bounds"] != expected:
@@ -124,6 +129,95 @@ class TestAllocatedCurrentPhaseStaysOffConnector:
         print("allocated_current_phase_off_connector: PASS")
 
 
+
+def check_admitted_rows_leave_the_set_case(document):
+    """The allocated-current set case stays first and no release case is added.
+
+    Fields and the production mutation each check catches, on
+    ``evse.operation.set_supply``:
+    - capability: setting it to ``evse.capability.read.evse`` is rejected as an
+      operation association.
+    - arguments: setting them to ``evse.status.fault`` is rejected as an
+      operation association.
+    - effect_rule: setting it to ``evse.effect.set_allocated_current`` is
+      rejected as an operation association.
+    - parameters: dropping ``evse.limit.allocated_current`` is rejected as an
+      operation association.
+
+    Fields and the production mutation each check catches, on
+    ``evse.status.state``:
+    - kind: setting it to ``quantity`` is rejected as a noncanonical kind.
+    - dimension: setting it to ``evse.dimension.evse`` is rejected as a
+      noncanonical dimension.
+    - symbols: dropping ``evse.status.state.fault`` is rejected as a symbol
+      contract.
+    """
+    fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
+    if set(validator.FIELD_CONTRACTS) != set(fields):
+        raise AssertionError("FIELD_CONTRACTS differs from the vector fields")
+    operations = document["catalog"]["definitions"]["operations"]
+    if operations[0]["id"] != "evse.operation.set_allocated_current":
+        raise AssertionError("allocated-current set case moved")
+    if any("release" in item["id"] for item in operations):
+        raise AssertionError("release operation added")
+    if any("release" in item["id"] for item in document["catalog"]["definitions"]["effect_rules"]):
+        raise AssertionError("release effect added")
+    positions = {item["id"]: index for index, item in enumerate(operations)}
+    supply = positions["evse.operation.set_supply"]
+    case(document, "set_supply_capability", "operation association", lambda catalog, index=supply: catalog["definitions"]["operations"][index].update(capability="evse.capability.read.evse"))
+    case(document, "set_supply_argument", "operation association", lambda catalog, index=supply: catalog["definitions"]["operations"][index].update(arguments=["evse.status.fault"]))
+    case(document, "set_supply_effect", "operation association", lambda catalog, index=supply: catalog["definitions"]["operations"][index].update(effect_rule="evse.effect.set_allocated_current"))
+    case(document, "set_supply_parameters", "operation association", lambda catalog, index=supply: catalog["definitions"]["operations"][index].update(parameters=["evse.limit.charging_enabled_until"]))
+    state = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}["evse.status.state"]
+    case(document, "state_kind", "noncanonical kind", lambda catalog, index=state: catalog["definitions"]["fields"][index].update(kind="quantity"))
+    case(document, "state_dimension", "noncanonical kind", lambda catalog, index=state: catalog["definitions"]["fields"][index].update(dimension="evse.dimension.evse"))
+    case(document, "state_symbols", "symbol contract", lambda catalog, index=state: catalog["definitions"]["fields"][index].update(symbols=["evse.status.state.not_plugged_in"]))
+    print("admitted_rows_leave_the_set_case: PASS")
+
+
+# Decision points the readability gate counts for C901. Boolean operators are not included.
+DECISION_NODES = {"Assert", "AsyncFor", "ExceptHandler", "For", "If", "Match", "While", "With"}
+
+
+def decision_points(function):
+    measured = 1
+    for node in ast.walk(function):
+        name = type(node).__name__
+        if name in DECISION_NODES:
+            measured += 1
+        elif name == "Try":
+            measured += len(node.handlers) + bool(node.orelse) + bool(node.finalbody)
+    return measured
+
+
+def check_validate_fields_complexity(document):
+    """``validate_fields`` stays within the readability complexity limit.
+
+    The qualifier branch is still enforced. Fields and the production mutation
+    each check catches:
+    - ``evse.target.time_of_day`` qualifiers: replacing them with
+      ``evse.dimension.evse`` is rejected as field qualifiers.
+    - ``evse.ac.voltage`` qualifiers: adding ``evse.dimension.target`` is
+      rejected as field qualifiers.
+    """
+    source = (ROOT / "scripts" / "validate_evse_pack_v1.py").read_text(encoding="utf-8")
+    function = next(node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef) and node.name == "validate_fields")
+    measured = decision_points(function)
+    if measured > 10:
+        raise AssertionError(f"validate_fields complexity {measured} exceeds 10")
+    print("validate_fields_complexity: PASS")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    target = positions["evse.target.time_of_day"]
+    case(document, "target_qualifiers", "field qualifiers", lambda catalog, index=target: catalog["definitions"]["fields"][index].update(qualifiers=["evse.dimension.evse"]))
+    voltage = positions["evse.ac.voltage"]
+    case(document, "voltage_qualifiers", "field qualifiers", lambda catalog, index=voltage: catalog["definitions"]["fields"][index].update(qualifiers=["evse.dimension.target"]))
+
+
+def test_validate_fields_complexity():
+    document = validator.load_document(validator.VECTORS)
+    check_validate_fields_complexity(document)
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -161,6 +255,8 @@ def main():
     case(document, "counter_weakened", "counter policy", lambda c: c["counter_policy"].update(decrease="infer_reset"))
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
     print("focused_mutations: 36 REJECTED")
+    check_admitted_rows_leave_the_set_case(document)
+    check_validate_fields_complexity(document)
 
 
 if __name__ == "__main__":

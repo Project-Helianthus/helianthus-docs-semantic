@@ -184,7 +184,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 674 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 773 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -291,10 +291,10 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 607)
+        self.assertEqual(len(kinds), 705)
         self.assertEqual(kinds.count("relation"), 30)
-        self.assertEqual(kinds.count("presentation"), 41)
-        self.assertEqual(kinds.count("dimension"), 44)
+        self.assertEqual(kinds.count("presentation"), 42)
+        self.assertEqual(kinds.count("dimension"), 47)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_room_planes_and_containment(self):
