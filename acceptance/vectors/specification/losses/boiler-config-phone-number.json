@@ -1,0 +1,44 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerConfig.phoneNumber",
+    "normalized": "boiler_config.phone_number",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/6"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/14",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/phoneNumber",
+      "value": "synthetic-PhoneNumber"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/phone_number",
+      "value": "synthetic-PhoneNumber"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Slow-config tier, register 0x8104 (HEX:8, 8 bytes, raw hex string of 16 hex characters)",
+      "use": "register to installer phone number as a raw hex string"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x8104",
+    "wire": {
+      "type": "HEX:8",
+      "hex": "0102030405060708"
+    },
+    "native": {
+      "text": "0102030405060708"
+    }
+  },
+  "expected": {
+    "quantity": "opaque hex string (no unit)",
+    "value": {
+      "text": "0102030405060708"
+    }
+  }
+}

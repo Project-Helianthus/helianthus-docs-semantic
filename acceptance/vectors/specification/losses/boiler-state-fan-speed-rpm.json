@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.fanSpeedRpm",
+    "normalized": "boiler_state.fan_speed_rpm",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/18"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/18",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/fanSpeedRpm",
+      "value": 211
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/fan_speed_rpm",
+      "value": 211
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Fast tier, register 0x8300 (UIN, rpm)",
+      "use": "register to fan speed"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 8 (minute); section 5.4.7 (quantities of dimension one)",
+      "use": "revolutions per minute to reciprocal second: 1 rpm = 1/60 s-1, a revolution being a count"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x8300",
+    "wire": {
+      "type": "UIN",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "2400",
+      "unit": "rpm"
+    }
+  },
+  "expected": {
+    "quantity": "rotational frequency",
+    "value": {
+      "number": "40",
+      "unit": "1/s",
+      "unit_id": "unit.reciprocal_second",
+      "derivation": "2400 / 60"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

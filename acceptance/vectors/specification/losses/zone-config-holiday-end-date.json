@@ -1,0 +1,53 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "ZoneConfig.holidayEndDate",
+    "normalized": "zone_config.holiday_end_date",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/58"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/6",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayEndDate",
+      "value": "synthetic-HolidayEndDate"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_end_date",
+      "value": "synthetic-HolidayEndDate"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x03 section, RR=0x0004 holiday_end_date (date, date)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 protocol",
+      "version": "public edition, rows as cited",
+      "clause": "2.6 Wire type encoding, date (BCD-encoded DD MM YY, year = 2000 + YY)",
+      "use": "date decoding"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x03 RR=0x0004",
+    "wire": {
+      "type": "date",
+      "encoding": "BCD DD MM YY",
+      "hex": "200726"
+    },
+    "native": {
+      "text": "20.07.26"
+    }
+  },
+  "expected": {
+    "quantity": "calendar date (not an SI quantity)",
+    "value": {
+      "year": 2026,
+      "month": 7,
+      "day": 20
+    }
+  }
+}

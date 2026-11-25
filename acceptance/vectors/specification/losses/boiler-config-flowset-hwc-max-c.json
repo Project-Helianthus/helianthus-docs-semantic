@@ -1,0 +1,72 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerConfig.flowsetHwcMaxC",
+    "normalized": "boiler_config.flowset_hwc_max_c",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/1"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/2/fields/3",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/config/flowsetHwcMaxC",
+      "value": 134.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/config/flowset_hwc_max_c",
+      "value": 134.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Medium tier, register 0x0F04 (DATA2c)",
+      "use": "register to maximum hot-water flow setpoint; accepted range from the write table"
+    },
+    {
+      "document": "eBUS Application Layer",
+      "version": "public edition, rows as cited",
+      "clause": "Data Type Quick Reference, DATA2c (signed, 1/16, low byte first)",
+      "use": "DATA2c decoding"
+    },
+    {
+      "document": "Primitive Types",
+      "version": "public edition, rows as cited",
+      "clause": "DATA2c",
+      "use": "DATA2c decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x0F04",
+    "wire": {
+      "type": "DATA2c",
+      "byte_order": "little-endian",
+      "hex": "c003"
+    },
+    "native": {
+      "number": "60",
+      "unit": "degC"
+    },
+    "stated_range": {
+      "min": "30",
+      "max": "65",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "333.15",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "60 + 273.15"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "ZoneConfig.quickVetoDuration",
+    "normalized": "zone_config.quick_veto_duration",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/63"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/20",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/quickVetoDuration",
+      "value": 19.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/quick_veto_duration_h",
+      "value": 19.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x03 section, RR=0x0026 quick_veto_duration (f32, hrs); 0.5..12 step 0.5",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 8 (hour)",
+      "use": "hour to second: 1 h = 3600 s"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x03 RR=0x0026",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00004040"
+    },
+    "native": {
+      "number": "3",
+      "unit": "h"
+    },
+    "stated_range": {
+      "min": "0.5",
+      "max": "12",
+      "unit": "h"
+    }
+  },
+  "expected": {
+    "quantity": "duration",
+    "value": {
+      "number": "10800",
+      "unit": "s",
+      "unit_id": "unit.second",
+      "derivation": "3 * 3600"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "CircuitState.pumpActive",
+    "normalized": "circuit_state.pump_active",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/40"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/26/fields/13",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/state/pumpActive",
+      "value": true
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/state/pump_active",
+      "value": true
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x02 section, RR=0x001E pump_status (u16, bool)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x02 RR=0x001E",
+    "wire": {
+      "type": "u16",
+      "byte_order": "little-endian",
+      "hex": "0100"
+    },
+    "native": {
+      "raw": 1
+    }
+  },
+  "expected": {
+    "quantity": "boolean",
+    "value": {
+      "boolean": true,
+      "values": {
+        "0": false,
+        "1": true
+      }
+    }
+  }
+}

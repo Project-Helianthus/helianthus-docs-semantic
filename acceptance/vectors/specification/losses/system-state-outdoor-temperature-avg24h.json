@@ -1,0 +1,61 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "SystemState.outdoorTemperatureAvg24h",
+    "normalized": "system_state.outdoor_temperature_avg24h",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/57"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/62/fields/7",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/state/outdoorTemperatureAvg24h",
+      "value": 152.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/state/outdoor_temperature_avg24h",
+      "value": 152.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x00 section, RR=0x0095 outdoor_temperature_average24h (f32, degC)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x00 RR=0x0095",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00000841"
+    },
+    "native": {
+      "number": "8.5",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "281.65",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "8.5 + 273.15"
+    }
+  }
+}

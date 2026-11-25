@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerDiagnostics.centralHeatingHours",
+    "normalized": "boiler_diagnostics.central_heating_hours",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/7"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/3/fields/0",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/diagnostics/centralHeatingHours",
+      "value": 141.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/diagnostics/central_heating_hours",
+      "value": 141.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Slow tier, register 0x2800 (Hoursum2, hours)",
+      "use": "register to operating hours"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 8 (hour)",
+      "use": "hour to second: 1 h = 3600 s"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x2800",
+    "wire": {
+      "type": "Hoursum2",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "5120",
+      "unit": "h"
+    }
+  },
+  "expected": {
+    "quantity": "duration",
+    "value": {
+      "number": "18432000",
+      "unit": "s",
+      "unit_id": "unit.second",
+      "derivation": "5120 * 3600"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

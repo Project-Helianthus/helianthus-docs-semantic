@@ -1,0 +1,70 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.waterPressureBar",
+    "normalized": "boiler_state.water_pressure_bar",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/27"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/44",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/waterPressureBar",
+      "value": 119.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/water_pressure_bar",
+      "value": 119.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Fast tier, register 0x0200 (DATA2b, bar)",
+      "use": "register to boiler water pressure"
+    },
+    {
+      "document": "eBUS Application Layer",
+      "version": "public edition, rows as cited",
+      "clause": "Data Type Quick Reference, DATA2b (signed, 1/256, low byte first)",
+      "use": "DATA2b decoding"
+    },
+    {
+      "document": "Primitive Types",
+      "version": "public edition, rows as cited",
+      "clause": "DATA2b",
+      "use": "DATA2b decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (pascal)",
+      "use": "pascal is the SI unit of pressure; the bar is a non-SI unit whose factor to pascal is 100000"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x0200",
+    "wire": {
+      "type": "DATA2b",
+      "byte_order": "little-endian",
+      "hex": "8001"
+    },
+    "native": {
+      "number": "1.5",
+      "unit": "bar"
+    }
+  },
+  "expected": {
+    "quantity": "pressure",
+    "value": {
+      "number": "150000",
+      "unit": "Pa",
+      "unit_id": "unit.pascal",
+      "derivation": "1.5 * 100000"
+    }
+  },
+  "gaps": [
+    "the clause that defines 1 bar = 100000 Pa was not established; the factor is the definition of the bar"
+  ]
+}

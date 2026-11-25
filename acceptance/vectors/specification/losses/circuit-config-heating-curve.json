@@ -1,0 +1,60 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "CircuitConfig.heatingCurve",
+    "normalized": "circuit_config.heating_curve",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/32"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/24/fields/8",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/2/response/data/circuits/0/config/heatingCurve",
+      "value": 33.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/1/envelope/data/0/config/heating_curve",
+      "value": 33.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x02 section, RR=0x000F heating_curve (f32, dimensionless ratio)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (quantities of dimension one)",
+      "use": "a dimensionless value carries the unit one"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x02 RR=0x000F",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "0000a03f"
+    },
+    "native": {
+      "number": "1.25",
+      "unit": "1"
+    }
+  },
+  "expected": {
+    "quantity": "dimensionless ratio",
+    "value": {
+      "number": "1.25",
+      "unit": "1",
+      "unit_id": "unit.one"
+    }
+  }
+}

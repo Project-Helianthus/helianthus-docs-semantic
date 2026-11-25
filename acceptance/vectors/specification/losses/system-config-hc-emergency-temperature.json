@@ -1,0 +1,66 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "SystemConfig.hcEmergencyTemperature",
+    "normalized": "system_config.hc_emergency_temperature",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/51"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/60/fields/6",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/9/response/data/system/config/hcEmergencyTemperature",
+      "value": 158.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/9/envelope/data/config/hc_emergency_temperature",
+      "value": 158.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x00 section, RR=0x0026 hc_emergency_temperature (f32, degC); 20..80 per TSP",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
+      "use": "wire decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x00 RR=0x0026",
+    "wire": {
+      "type": "f32",
+      "byte_order": "little-endian",
+      "hex": "00002042"
+    },
+    "native": {
+      "number": "40",
+      "unit": "degC"
+    },
+    "stated_range": {
+      "min": "20",
+      "max": "80",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "313.15",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "40 + 273.15"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.dhwWaterFlowLpm",
+    "normalized": "boiler_state.dhw_water_flow_lpm",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/16"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/8",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/dhwWaterFlowLpm",
+      "value": 124.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/dhw_water_flow_lpm",
+      "value": 124.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Fast tier, register 0x5500 (UIN / 100, L/min)",
+      "use": "register to hot-water flow"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 8 (litre, minute)",
+      "use": "litre per minute to cubic metre per second: 1 L/min = 0.001 m3 / 60 s"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x5500",
+    "wire": {
+      "type": "UIN",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "12",
+      "unit": "L/min"
+    }
+  },
+  "expected": {
+    "quantity": "volumetric flow rate",
+    "value": {
+      "number": "0.0002",
+      "unit": "m3/s",
+      "unit_id": "unit.cubic_metre_per_second",
+      "derivation": "12 / 60000"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}

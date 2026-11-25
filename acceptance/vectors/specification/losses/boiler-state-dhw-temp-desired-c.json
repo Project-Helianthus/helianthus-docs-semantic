@@ -1,0 +1,67 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.dhwTempDesiredC",
+    "normalized": "boiler_state.dhw_temp_desired_c",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/15"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/6",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/dhwTempDesiredC",
+      "value": 129.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/dhw_temp_desired_c",
+      "value": 129.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Medium tier, register 0xEA03 (DATA2c)",
+      "use": "register to temperature"
+    },
+    {
+      "document": "eBUS Application Layer",
+      "version": "public edition, rows as cited",
+      "clause": "Data Type Quick Reference, DATA2c (signed, 1/16, low byte first)",
+      "use": "DATA2c decoding"
+    },
+    {
+      "document": "Primitive Types",
+      "version": "public edition, rows as cited",
+      "clause": "DATA2c",
+      "use": "DATA2c decoding"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "Table 4 (degree Celsius)",
+      "use": "degree Celsius to kelvin: T/K = t/degC + 273.15"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0xEA03",
+    "wire": {
+      "type": "DATA2c",
+      "byte_order": "little-endian",
+      "hex": "7003"
+    },
+    "native": {
+      "number": "55",
+      "unit": "degC"
+    }
+  },
+  "expected": {
+    "quantity": "temperature",
+    "value": {
+      "number": "328.15",
+      "unit": "K",
+      "unit_id": "unit.kelvin",
+      "derivation": "55 + 273.15"
+    }
+  }
+}

@@ -6,6 +6,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The oracle publishes a specification vector for each pre-port loss under
+  `acceptance/vectors/specification/losses/` (68 of the 69 entries of
+  `acceptance/vectors/pre-port/losses.json`): the synthetic input from the public
+  register documents, the result in SI units (temperatures in kelvin; the boiler flow
+  temperature record sits beside the recorded pre-port value), and the cited document,
+  version and register. The zone valve position has no file because the public register
+  map states a boolean for it. Each file is indexed as a hand-authored input of the
+  pre-port reference; the SS02 specification files and the generic Modbus write vectors
+  are unchanged.
 - The oracle records the paired-thermal restart under `acceptance/vectors/current/restart/`
   (`cut-first.json`, `cut-second.json`): a paired thermal asset with an owner and a contributor
   source, the configuration home with its site, and an operator identity link declared after the

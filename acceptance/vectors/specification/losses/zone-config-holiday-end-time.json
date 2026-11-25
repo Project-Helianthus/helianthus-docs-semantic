@@ -1,0 +1,52 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "ZoneConfig.holidayEndTime",
+    "normalized": "zone_config.holiday_end_time",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/59"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/75/fields/7",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/0/response/data/zones/0/config/holidayEndTime",
+      "value": "synthetic-HolidayEndTime"
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/0/envelope/data/0/config/holiday_end_time",
+      "value": "synthetic-HolidayEndTime"
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
+      "clause": "GG=0x03 section, RR=0x0020 holiday_end_time (time, time)",
+      "use": "register to value"
+    },
+    {
+      "document": "Vaillant B524 protocol",
+      "version": "public edition, rows as cited",
+      "clause": "2.6 Wire type encoding, time (BCD-encoded HH MM, 2 bytes for timers)",
+      "use": "time decoding"
+    }
+  ],
+  "input": {
+    "selector": "B524 opcode 0x02 GG=0x03 RR=0x0020",
+    "wire": {
+      "type": "time",
+      "encoding": "BCD HH MM",
+      "hex": "1200"
+    },
+    "native": {
+      "text": "12:00"
+    }
+  },
+  "expected": {
+    "quantity": "time of day (not an SI quantity)",
+    "value": {
+      "hour": 12,
+      "minute": 0
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "format": "helianthus-oracle-spec-loss/1",
+  "origin": "specification",
+  "loss": {
+    "published_at_pre_port": "BoilerState.diverterValvePositionPct",
+    "normalized": "boiler_state.diverter_valve_position_pct",
+    "losses_json": "acceptance/vectors/pre-port/losses.json#/losses/17"
+  },
+  "pre_port_recorded": {
+    "pre_port_vector": "acceptance/vectors/pre-port/gateway/graphql-schema-introspection.json#/data/__schema/types/4/fields/14",
+    "pre_port_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/graphql-typed-queries.json#/complete/8/response/data/boilerStatus/state/diverterValvePositionPct",
+      "value": 120.5
+    },
+    "pre_port_mcp_value_vector": {
+      "vector": "acceptance/vectors/pre-port/gateway/typed/mcp-typed-tools.json#/complete/8/envelope/data/state/diverter_valve_position_pct",
+      "value": 120.5
+    }
+  },
+  "sources": [
+    {
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
+      "clause": "Fast tier, register 0x5400 (UCH, percent)",
+      "use": "register to diverter valve position"
+    },
+    {
+      "document": "SI Brochure",
+      "version": "9th edition (2019)",
+      "clause": "section 5.4.7 (percent as a value of a quantity of dimension one)",
+      "use": "percent to ratio: 1 % = 0.01"
+    }
+  ],
+  "input": {
+    "selector": "B509 register 0x5400",
+    "wire": {
+      "type": "UCH",
+      "hex": null,
+      "layout": "not stated by the cited documents"
+    },
+    "native": {
+      "number": "40",
+      "unit": "%"
+    }
+  },
+  "expected": {
+    "quantity": "ratio",
+    "value": {
+      "number": "0.4",
+      "unit": "1",
+      "unit_id": "unit.ratio",
+      "derivation": "40 * 0.01"
+    }
+  },
+  "gaps": [
+    "the byte layout of this codec is not stated by the cited documents; only the decoded native value is given"
+  ]
+}
