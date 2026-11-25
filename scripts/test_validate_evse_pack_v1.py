@@ -2,6 +2,7 @@
 """Focused RED-first mutation controls for the EVSE v1 catalog."""
 from __future__ import annotations
 
+import ast
 import copy
 import importlib.util
 import sys
@@ -174,6 +175,49 @@ def check_admitted_rows_leave_the_set_case(document):
     print("admitted_rows_leave_the_set_case: PASS")
 
 
+# Decision points the readability gate counts for C901. Boolean operators are not included.
+DECISION_NODES = {"Assert", "AsyncFor", "ExceptHandler", "For", "If", "Match", "While", "With"}
+
+
+def decision_points(function):
+    measured = 1
+    for node in ast.walk(function):
+        name = type(node).__name__
+        if name in DECISION_NODES:
+            measured += 1
+        elif name == "Try":
+            measured += len(node.handlers) + bool(node.orelse) + bool(node.finalbody)
+    return measured
+
+
+def check_validate_fields_complexity(document):
+    """``validate_fields`` stays within the readability complexity limit.
+
+    The qualifier branch is still enforced. Fields and the production mutation
+    each check catches:
+    - ``evse.target.time_of_day`` qualifiers: replacing them with
+      ``evse.dimension.evse`` is rejected as field qualifiers.
+    - ``evse.ac.voltage`` qualifiers: adding ``evse.dimension.target`` is
+      rejected as field qualifiers.
+    """
+    source = (ROOT / "scripts" / "validate_evse_pack_v1.py").read_text(encoding="utf-8")
+    function = next(node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef) and node.name == "validate_fields")
+    measured = decision_points(function)
+    if measured > 10:
+        raise AssertionError(f"validate_fields complexity {measured} exceeds 10")
+    print("validate_fields_complexity: PASS")
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    target = positions["evse.target.time_of_day"]
+    case(document, "target_qualifiers", "field qualifiers", lambda catalog, index=target: catalog["definitions"]["fields"][index].update(qualifiers=["evse.dimension.evse"]))
+    voltage = positions["evse.ac.voltage"]
+    case(document, "voltage_qualifiers", "field qualifiers", lambda catalog, index=voltage: catalog["definitions"]["fields"][index].update(qualifiers=["evse.dimension.target"]))
+
+
+def test_validate_fields_complexity():
+    document = validator.load_document(validator.VECTORS)
+    check_validate_fields_complexity(document)
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -212,6 +256,7 @@ def main():
     case(document, "lifecycle_weakened", "lifecycle axes", lambda c: c["lifecycle_axes"].remove("generation_fencing"))
     print("focused_mutations: 36 REJECTED")
     check_admitted_rows_leave_the_set_case(document)
+    check_validate_fields_complexity(document)
 
 
 if __name__ == "__main__":

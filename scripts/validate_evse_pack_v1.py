@@ -273,6 +273,17 @@ def decimal_less(left, right):
     return lc * 10 ** (le - shared) < rc * 10 ** (rexp - shared)
 
 
+def check_qualifiers(identifier, field, base):
+    qualifiers = QUALIFIED.get(identifier)
+    if qualifiers is not None:
+        if tuple(field.get("qualifiers", ())) != qualifiers:
+            raise ValueError("field qualifiers")
+        return base | {"qualifiers"}
+    if "qualifiers" in field:
+        raise ValueError("field qualifiers")
+    return base
+
+
 def validate_fields(fields):
     records = refs(fields, "fields", FIELD_CONTRACTS)
     for identifier, field in records.items():
@@ -280,13 +291,7 @@ def validate_fields(fields):
         base = {"id", "ref", "kind", "dimension", "optional", "order"}
         if field.get("kind") != kind or field.get("dimension") != dimension or type(field.get("optional")) is not bool or field["optional"] != optional:
             raise ValueError("field has noncanonical kind, dimension, or optionality")
-        qualifiers = QUALIFIED.get(identifier)
-        if qualifiers is not None:
-            if tuple(field.get("qualifiers", ())) != qualifiers:
-                raise ValueError("field qualifiers")
-            base = base | {"qualifiers"}
-        elif "qualifiers" in field:
-            raise ValueError("field qualifiers")
+        base = check_qualifiers(identifier, field, base)
         if kind == "quantity":
             check_quantity(field, unit, bounds, base)
         elif kind in ("symbol", "symbols"):
