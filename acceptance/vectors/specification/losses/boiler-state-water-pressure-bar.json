@@ -19,20 +19,20 @@
   },
   "sources": [
     {
-      "document": "Vaillant B509 Boiler Register Map (BAI00), docs-ebus protocols/vaillant/ebus-vaillant-B509-boiler-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B509 Boiler Register Map (BAI00)",
+      "version": "public edition, rows as cited",
       "clause": "Fast tier, register 0x0200 (DATA2b, bar)",
       "use": "register to boiler water pressure"
     },
     {
-      "document": "eBUS Application Layer, docs-ebus protocols/ebus-services/ebus-application-layer.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "eBUS Application Layer",
+      "version": "public edition, rows as cited",
       "clause": "Data Type Quick Reference, DATA2b (signed, 1/256, low byte first)",
       "use": "DATA2b decoding"
     },
     {
-      "document": "Primitive Types, docs-ebus types/primitives.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Primitive Types",
+      "version": "public edition, rows as cited",
       "clause": "DATA2b",
       "use": "DATA2b decoding"
     },

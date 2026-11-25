@@ -19,14 +19,14 @@
   },
   "sources": [
     {
-      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
       "clause": "GG=0x00 section, RR=0x006F installer_phone_1 (string, text); CString, maxLength 6",
       "use": "register to value"
     },
     {
-      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
       "clause": "GG=0x00 section, RR=0x0070 installer_phone_2 (string, text); CString, maxLength 6",
       "use": "register to value"
     }

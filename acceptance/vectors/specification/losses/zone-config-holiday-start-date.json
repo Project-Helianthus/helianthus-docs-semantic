@@ -19,14 +19,14 @@
   },
   "sources": [
     {
-      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
       "clause": "GG=0x03 section, RR=0x0003 holiday_start_date (date, date)",
       "use": "register to value"
     },
     {
-      "document": "Vaillant B524 protocol, docs-ebus protocols/vaillant/ebus-vaillant-B524.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 protocol",
+      "version": "public edition, rows as cited",
       "clause": "2.6 Wire type encoding, date (BCD-encoded DD MM YY, year = 2000 + YY)",
       "use": "date decoding"
     }

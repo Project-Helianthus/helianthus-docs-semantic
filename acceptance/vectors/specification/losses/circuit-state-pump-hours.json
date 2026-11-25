@@ -19,14 +19,14 @@
   },
   "sources": [
     {
-      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
       "clause": "GG=0x02 section, RR=0x0024 pump_operating_hours (u32, hrs)",
       "use": "register to value"
     },
     {
-      "document": "Vaillant B524 Extended Register Map, docs-ebus protocols/vaillant/ebus-vaillant-B524-register-map.md",
-      "version": "docs-ebus release v0.5.0 (the cited rows are unchanged on its main branch)",
+      "document": "Vaillant B524 Extended Register Map",
+      "version": "public edition, rows as cited",
       "clause": "Table Legend, Wire column (multi-byte integers little-endian; f32 little-endian for the controller address)",
       "use": "wire decoding"
     },
