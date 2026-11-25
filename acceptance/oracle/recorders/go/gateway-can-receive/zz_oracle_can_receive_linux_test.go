@@ -208,6 +208,9 @@ func TestOracleCanReceive(t *testing.T) {
 	t.Run("linux-project-reopen-clock", func(t *testing.T) {
 		calls := &oracleCalls{}
 		readings := []time.Duration{2 * time.Millisecond, 7 * time.Millisecond, 9 * time.Millisecond}
+		// The 16 raw bytes every scripted read delivers: zero but for byte 4, which is 8. The case input serializes them.
+		stimulus := make([]byte, 16)
+		stimulus[4] = 8
 		oracleProjectReadings, oracleProjectOrigins = readings, nil
 		ops := growattProjectSyscalls{
 			lookup: func(name string) (*net.Interface, error) {
@@ -229,8 +232,8 @@ func TestOracleCanReceive(t *testing.T) {
 			},
 			read: func(fd int, buffer []byte) (int, error) {
 				calls.add("read", map[string]any{"fd": fd, "buffer_length": len(buffer)})
-				buffer[4] = 8
-				return 16, nil
+				copy(buffer, stimulus)
+				return len(stimulus), nil
 			},
 			close: func(fd int) error {
 				calls.add("close", map[string]any{"fd": fd})
@@ -271,7 +274,8 @@ func TestOracleCanReceive(t *testing.T) {
 				"configured_name": "can0",
 				"lookup":          map[string]any{"index": 7},
 				"socket_fd":       9,
-				"read_length":     16,
+				"read_length":     len(stimulus),
+				"read_bytes_hex":  []any{hex.EncodeToString(stimulus), hex.EncodeToString(stimulus)},
 				"clock": map[string]any{
 					"origin":      "growattProjectClockOrigin, one package variable shared by every receiver and by the snapshot",
 					"readings_ns": []any{readings[0].Nanoseconds(), readings[1].Nanoseconds(), readings[2].Nanoseconds()},

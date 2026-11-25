@@ -45,9 +45,9 @@ def references():
     return json.loads((HERE / "references.json").read_text(encoding="utf-8"))["references"]
 
 
-def verify_index():
+def verify_index(entries=None):
     errors = []
-    entries = load_index()
+    entries = load_index() if entries is None else entries
     known = references()
     by_path = {}
     for entry in entries:
@@ -189,7 +189,7 @@ def record_can_native(reference):
     if reference != "current":
         return [f"the CAN receive cases are recorded only for the current reference, not {reference!r}"]
     entries = load_index()
-    errors = can_index_errors(entries)
+    errors = verify_index(entries) + can_index_errors(entries)
     if errors:
         return errors
     platform, _target = can_receive.native_platform()

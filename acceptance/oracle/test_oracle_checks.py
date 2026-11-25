@@ -1158,6 +1158,12 @@ def test_the_project_reopen_recorder_serializes_the_interface_of_each_record():
     assert '"record_interface": map[string]any{"name": record.Interface.Name(), "index": record.Interface.Index()}' in " ".join(source.split())
 
 
+def test_the_project_reopen_input_serializes_the_raw_bytes_each_read_delivers():
+    source = " ".join((HERE / "recorders" / "go" / "gateway-can-receive" / "zz_oracle_can_receive_linux_test.go").read_text(encoding="utf-8").split())
+    assert '"read_bytes_hex": []any{hex.EncodeToString(stimulus), hex.EncodeToString(stimulus)}' in source
+    assert "copy(buffer, stimulus)" in source and "buffer[4] = 8" not in source
+
+
 INDEX_MUTATIONS = {
     "origin": lambda e: e.update(origin="synthetic"),
     "reference": lambda e: e.update(reference="released"),
@@ -1182,6 +1188,35 @@ def test_a_missing_or_extra_index_entry_fails(tmp_path, monkeypatch):
     assert any("not in index.json" in error for error in check.can_index_errors(entries[1:]))
     extra = entries + [dict(entries[0], path=f"{can_receive.CASES_DIRECTORY}/seventh/input.json")]
     assert any("outside the six cases" in error for error in check.can_index_errors(extra))
+
+
+def refused_before_recording(monkeypatch, entries):
+    monkeypatch.setattr(check, "load_index", lambda: entries)
+    monkeypatch.setattr(check.can_receive, "native_platform", lambda: ("linux", {}))
+
+    def recorder_must_not_run(*_args, **_kwargs):
+        raise AssertionError("the recorder was invoked against an invalid common index")
+
+    monkeypatch.setattr(check.subprocess, "run", recorder_must_not_run)
+    return check.record_can_native("current")
+
+
+def test_native_recording_refuses_a_duplicate_case_entry_before_the_recorder_runs(tmp_path, monkeypatch):
+    _vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    assert check.can_index_errors(entries + [dict(entries[0])]) == []  # the six-case check alone collapses a duplicate path
+    errors = refused_before_recording(monkeypatch, entries + [dict(entries[0])])
+    assert any("listed twice" in error for error in errors)
+
+
+def test_native_recording_refuses_a_changed_non_can_payload_before_the_recorder_runs(tmp_path, monkeypatch):
+    vectors, entries, _tree = can_world(tmp_path, monkeypatch)
+    other = vectors / "current" / "other" / "vector.json"
+    other.parent.mkdir(parents=True)
+    other.write_bytes(b"{}\n")
+    entry = {"path": "current/other/vector.json", "sha256": "5" * 64, "origin": "recorded-current", "reference": "current", "role": "expected-output",
+             "recorder": "x"}
+    errors = refused_before_recording(monkeypatch, entries + [entry])
+    assert any("sha256 differs from index.json" in error for error in errors)
 
 
 def test_the_index_digest_follows_every_entry_member(tmp_path, monkeypatch):
