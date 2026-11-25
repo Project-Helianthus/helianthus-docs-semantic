@@ -52,7 +52,13 @@ QV08 = (
 )
 
 
-def record_go_cases(specs, vectors, work):
+def recorder_command(package, sources, test):
+    """The recorder command stored in an index entry; run from the repository root as python3 acceptance/oracle/<command>."""
+    return (f"recorders/gorun.py --reference current --entry gateway --package {package} --sources {sources} --test {test}"
+            f" --output .tmp/oracle-record/{sources}")
+
+
+def record_go_cases(specs, vectors, work, runnable=False):
     """Run harness-only Go recorders at the gateway pin, write their case files and return the index entries."""
     vectors, work = Path(vectors), Path(work)
     entries = []
@@ -62,14 +68,14 @@ def record_go_cases(specs, vectors, work):
         for produced in sorted(p for p in out.rglob("*.json")):
             relative = f"{directory}/{produced.relative_to(out).as_posix()}"
             common.write(vectors / relative, produced.read_bytes())
-            entries.append({"path": relative, "origin": "recorded-current", "reference": "current", "role": "expected-output",
-                            "recorder": f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"})
+            command = recorder_command(package, sources, test) if runnable else f"recorders/gorun.py --entry gateway --package {package} --sources {sources} --test {test}"
+            entries.append({"path": relative, "origin": "recorded-current", "reference": "current", "role": "expected-output", "recorder": command})
     return entries
 
 
 def record_bt01(vectors, work):
     """The three BT01 recorders: multiplexer, local worker supervisor and the six engines."""
-    return record_go_cases(BT01, vectors, work)
+    return record_go_cases(BT01, vectors, work, runnable=True)
 
 
 def record_qv08(vectors, work):

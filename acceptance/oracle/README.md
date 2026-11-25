@@ -81,7 +81,10 @@ the input), `input` (`bytes`, `qualifiers`, `clock`, `state`) and `output` (`sym
 `observations`, `counters`). The recorders are the harness-only `zz_oracle_*_test.go` files under
 `recorders/go/gateway-adaptermux/`, `recorders/go/gateway-localworkerhost/` and `recorders/go/gateway-engine/`; `record.sh`
 copies them into a scratch unpack of the gateway pin, runs `TestOracleAdapterMux`, `TestOracleLocalWorkerHost` and
-`TestOracleEngine` there and writes the case files. A case that varies a field of its input records every field it varies.
+`TestOracleEngine` there and writes the case files. The `recorder` of each of these entries is a complete command: run from the
+repository root as `python3 acceptance/oracle/<recorder>`, with `ORACLE_DONOR_ROOT` set (see Commands), it writes the whole
+group under `.tmp/oracle-record/<sources>/`, and the vector named by the entry is at that directory plus the entry path
+without its `current/gateway/<group>/` prefix. A case that varies a field of its input records every field it varies.
 A reconstructor case records the symbols as the pin's feeder passes them (`qualifiers.fed_symbols`, with the feeder, the escape
 flags and the tap events that follow the stream), the symbol spacing and start (`clock`), the configured watchdog and the
 local-address snapshotter (`state`). A local-worker report case records the encoded report bytes or the exact bytes given to the
