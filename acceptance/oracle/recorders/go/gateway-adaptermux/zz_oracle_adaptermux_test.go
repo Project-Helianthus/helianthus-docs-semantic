@@ -146,22 +146,36 @@ func oracleTransitionState(state transitionState) map[string]any {
 func oracleRecordClassifier(t *testing.T) {
 	t.Helper()
 	now := time.Unix(0, 0).UTC()
-	for _, mode := range []v8classifier.Mode{v8classifier.ModeOff, v8classifier.ModeShadow, v8classifier.ModeEnforce} {
+	// The pinned tests feed consecutive bytes starting at zero: 100 in ModeOff,
+	// 50 in ModeShadow and 25 in ModeEnforce.
+	for _, idle := range []struct {
+		mode     v8classifier.Mode
+		count    int
+		stimulus string
+	}{
+		{v8classifier.ModeOff, 100, "TestClassifier_Observe_OffMode_IsNoOp"},
+		{v8classifier.ModeShadow, 50, "TestClassifier_Observe_ShadowMode_CountsButDoesNotDrop"},
+		{v8classifier.ModeEnforce, 25, "TestClassifier_Observe_EnforceMode_IdleStateBytesNotDropped"},
+	} {
+		mode := idle.mode
 		classifier := v8classifier.New(mode)
-		drops := make([]bool, 0, 4)
-		forwarded := make([]any, 0, 4)
-		for _, value := range []byte{0x00, 0x10, 0x31, 0x52} {
+		drops := make([]bool, 0, idle.count)
+		forwarded := make([]any, 0, idle.count)
+		fed := make([]byte, 0, idle.count)
+		for i := 0; i < idle.count; i++ {
+			value := byte(i)
 			drop := classifier.Observe(transport.StreamEvent{Kind: transport.StreamEventByte, Byte: value}, now)
 			drops = append(drops, drop)
 			forwarded = append(forwarded, oracleForwarded(fmt.Sprintf("%02x", value), drop)...)
+			fed = append(fed, value)
 		}
 		oracleWrite(t, "v8classifier/observe-idle-"+mode.String()+".json", oracleCase{
 			Component: "v8classifier",
 			Source:    "internal/adaptermux/v8classifier/classifier.go",
-			Stimulus:  "TestClassifier_Observe/" + mode.String(),
+			Stimulus:  idle.stimulus,
 			Input: oracleInput{
-				Bytes:      "00103152",
-				Qualifiers: map[string]any{"mode": mode.String(), "kind": "byte"},
+				Bytes:      hex.EncodeToString(fed),
+				Qualifiers: map[string]any{"mode": mode.String(), "kind": "byte", "count": idle.count},
 				Clock:      map[string]any{"at": now.Format(time.RFC3339Nano)},
 				State:      map[string]any{"fsm": "idle"},
 			},

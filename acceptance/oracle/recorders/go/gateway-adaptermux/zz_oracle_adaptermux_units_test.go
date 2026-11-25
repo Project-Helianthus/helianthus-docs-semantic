@@ -161,6 +161,7 @@ func oracleRecordSendPath(t *testing.T) {
 		up := &writeRecorderUpstream{unescaped: scenario.readsLogical}
 		mux.upstream = up
 		activeLogical := mux.activeReadsAreLogical()
+		callerUnescaped := mux.ActiveTransport().(transport.EscapeAware).BytesAreUnescaped()
 		sends := make([]any, 0, len(scenario.sends))
 		for _, step := range scenario.sends {
 			mux.arb.forceRelease()
@@ -182,7 +183,7 @@ func oracleRecordSendPath(t *testing.T) {
 		cancel()
 		rows = append(rows, map[string]any{
 			"scenario": scenario.name, "protocol": scenario.protocol, "upstream_reads_logical": scenario.readsLogical,
-			"active_reads_are_logical": activeLogical, "sends": sends,
+			"active_reads_are_logical": activeLogical, "active_transport_bytes_are_unescaped": callerUnescaped, "sends": sends,
 		})
 	}
 	oracleWrite(t, "send-path/write-normalization.json", oracleCase{

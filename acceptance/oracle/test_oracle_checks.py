@@ -500,3 +500,45 @@ def test_shadow_cache_entries_keep_expiry_and_generation(name, entry):
         assert field in cache
     assert cache["expires_at"] > cache["observed_at"]
     assert cache["generation"] >= 1
+
+
+def test_send_path_rows_record_the_active_transport_escape_mode_apart_from_the_receive_flag():
+    rows = {row["scenario"]: row for row in bt01_case("adaptermux/send-path/write-normalization.json")["output"]["decisions"]}
+    # (upstream receive flag, caller-visible escape mode of the active transport)
+    assert {name: (row["upstream_reads_logical"], row["active_transport_bytes_are_unescaped"]) for name, row in rows.items()} == {
+        "enh-logical-both-ways": (True, True),
+        "ens-logical-both-ways": (True, True),
+        "raw-receive-side": (False, False),
+        "send-side-not-raw-symbol": (True, False),
+    }
+    for row in rows.values():
+        assert row["active_reads_are_logical"] == row["upstream_reads_logical"]
+
+
+@pytest.mark.parametrize("mode,count", [("off", 100), ("shadow", 50), ("enforce", 25)])
+def test_idle_classifier_cases_feed_the_pinned_consecutive_bytes(mode, count):
+    document = bt01_case(f"adaptermux/v8classifier/observe-idle-{mode}.json")
+    assert document["input"]["bytes"] == bytes(range(count)).hex()
+    assert document["input"]["qualifiers"]["count"] == count
+    assert len(document["output"]["decisions"][0]["drop"]) == count
+    assert document["output"]["counters"]["observed_bytes_total"] == (0 if mode == "off" else count)
+    assert document["output"]["counters"]["enforce_drops_applied_total"] == 0
+    if mode == "enforce":
+        # the idle byte 01 is forwarded, not dropped
+        assert "01" in document["output"]["symbols_written"]
+
+
+def test_b524_state_default_input_carries_the_request_and_observation_of_each_decision():
+    document = bt01_case("engine/observe-first-family-policy/b524-state-default-requires-active-state-read.json")
+    operands = {item["name"]: item for item in document["input"]["qualifiers"]["cases"]}
+    rows = {row["name"]: row for row in document["output"]["decisions"]}
+    assert list(operands) == list(rows)
+    config, active = operands["config-descriptor"], operands["active-state-read"]
+    # Same request and same observation state; the descriptor's semantic class decides the admission.
+    assert config["request"] == active["request"] and config["observation"]["state"] == active["observation"]["state"] == "active"
+    assert (config["observation"]["descriptor"]["semantic_class"], active["observation"]["descriptor"]["semantic_class"]) == ("config", "state")
+    assert rows["config-descriptor"]["policy"]["direct_apply_policy"] == "never"
+    assert rows["active-state-read"]["policy"]["direct_apply_policy"] == "state_default"
+    assert operands["catalog-miss"]["observation"]["has_descriptor"] is False
+    assert operands["write"]["request"]["secondary"] == "24" and operands["write"]["request"]["source"] == "10"
+    assert document["input"]["bytes"] == "".join(item["request"]["data"] for item in operands.values())

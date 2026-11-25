@@ -99,13 +99,27 @@ func oracleB524StateDefault(t *testing.T) {
 		{"active-state-read", read, testActiveStateObservation(key)},
 	}
 	rows := make([]any, 0, len(cases))
+	operands := make([]any, 0, len(cases))
+	fed := make([]byte, 0, 32)
 	for _, tc := range cases {
 		policy := observeFirstFamilyPolicy(ObserveFirstTrafficScopePassive, tc.request, DedupResponseValueBearing, tc.observation, DefaultObserveFirstFeatureFlags())
 		rows = append(rows, map[string]any{"name": tc.name, "request": hex.EncodeToString(tc.request.Data), "observation_state": tc.observation.State, "policy": oracleFamilyPolicy(policy)})
+		operand := map[string]any{
+			"name": tc.name, "request": oracleFrame(tc.request, true), "response_class": "value-bearing",
+			"observation": map[string]any{"state": tc.observation.State, "has_descriptor": tc.observation.HasDescriptor},
+		}
+		if tc.observation.HasDescriptor {
+			operand["observation"].(map[string]any)["descriptor"] = map[string]any{
+				"key": oracleKeyCanonical(tc.observation.Descriptor.Key), "semantic_class": tc.observation.Descriptor.SemanticClass,
+				"correlation_policy": tc.observation.Descriptor.CorrelationPolicy, "direct_apply_policy": tc.observation.Descriptor.DirectApplyPolicy,
+			}
+		}
+		operands = append(operands, operand)
+		fed = append(fed, tc.request.Data...)
 	}
 	oracleWrite(t, "observe-first-family-policy/b524-state-default-requires-active-state-read.json", oracleCase{
 		Component: "observe_first_family_policy", Source: "observe_first_family_policy.go", Stimulus: "TestObserveFirstFamilyPolicy_B524StateDefaultRequiresActiveDescriptorBackedStateRead",
-		Input:  oracleInput{Qualifiers: map[string]any{"key": oracleKeyCanonical(key), "response": "value-bearing", "flags": "default"}},
+		Input:  oracleInput{Bytes: hex.EncodeToString(fed), Qualifiers: map[string]any{"key": oracleKeyCanonical(key), "response": "value-bearing", "flags": "default", "traffic_scope": "passive", "cases": operands}},
 		Output: oracleOutput{Decisions: rows},
 	})
 }
