@@ -6,6 +6,19 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The Matter 1.6.1 roster gains one unknown row for each catalog event, reason
+  `matter.unmapped.v1`, with no target. A reviewed column becomes `transformed`
+  only when one device type, one cluster, one element and one cited conversion
+  exist together. The conversion cites factor, offset, rounding and
+  representation bounds. The reviewed columns for elements already on main do
+  not cite those four, so those rows stay unknown. `evse.ac.current` stays
+  transformed and cites factor 1000, offset 0, rounding exact and its signed
+  representation bounds. Pilot accuracy rows stay unknown and have no target.
+  `whole_document_no_payload` does not name `unqualified`. The driver contract
+  names SS01 for removing that northbound effect. Southbound Matter input
+  guards stay. `model_source` stays the go-fabric release already pinned by
+  this descriptor. The historical Matter 1.7 ledger is not rewritten. No pack
+  version is raised.
 - The element catalog gains five core relations and ten pack relations, and six
   lenses that omit `max_depth`: `lens.hydraulic`, `lens.thermal`,
   `lens.electrical`, `lens.control_hierarchy`, `lens.diagnostic` and

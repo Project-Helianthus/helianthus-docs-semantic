@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 LEDGER = ROOT / 'api/v1/targets/matter-1.6.1-v1.json'
 CATALOG = ROOT / 'api/v1/element-catalog-v1.json'
 HISTORICAL = ROOT / 'api/v1/targets/matter-1.7-ballot-0.9-v1.json'
-KINDS = ['fact', 'capability', 'operation', 'service', 'relation']
+KINDS = ['fact', 'capability', 'operation', 'service', 'relation', 'event']
 GUARDS = ['stale', 'unavailable', 'conflicted', 'invalid',
           'revision_mismatch', 'nonrepresentable_value',
           'multiple_or_ambiguous_source_keys']
@@ -26,8 +26,8 @@ MODELS = [
 ]
 VALUE = {
     'from_unit': 'unit.ampere', 'to_unit': 'amperage-mA',
-    'conversion': {'algorithm': 'exact_multiply', 'factor': 1000,
-                   'require_integral_result': True},
+    'conversion': {'algorithm': 'exact_multiply', 'factor': 1000, 'offset': 0,
+                   'rounding': 'exact', 'require_integral_result': True},
     'representation': {'kind': 'signed_integer', 'minimum': -(2**62),
                        'maximum': 2**62, 'nullable': True},
     'emission': {'value_must_be_non_null': True, 'eligible_source_keys': 1,
@@ -137,14 +137,49 @@ def check_roster(d):
     require(d['scope'] == SCOPE, 'scope')
 
 
+def cited_number(mapping, key):
+    item = mapping.get(key)
+    return (key in mapping and isinstance(item, (int, float)) and
+            not isinstance(item, bool))
+
+
+def cites_conversion(row):
+    # A transformed row names one device type, one cluster, one element, and
+    # one conversion that cites factor, offset, rounding and representation bounds.
+    target = row.get('target')
+    if not isinstance(target, dict):
+        return False
+    value = target.get('value')
+    if not isinstance(value, dict):
+        return False
+    conversion = value.get('conversion')
+    representation = value.get('representation')
+    if not isinstance(conversion, dict) or not isinstance(representation, dict):
+        return False
+    rounding = conversion.get('rounding')
+    return (cited_number(target, 'device_type_id') and
+            cited_number(target, 'cluster_id') and
+            cited_number(target, 'attribute_id') and
+            cited_number(conversion, 'factor') and
+            cited_number(conversion, 'offset') and
+            isinstance(rounding, str) and rounding != '' and
+            cited_number(representation, 'minimum') and
+            cited_number(representation, 'maximum'))
+
+
 def check_dispositions(d):
-    require([r['ref'] for r in d['rows']
-             if r['disposition'] in ('exact', 'transformed')] ==
-            [POSITIVE_REF], 'single positive')
+    positives = [r['ref'] for r in d['rows']
+                 if r['disposition'] in ('exact', 'transformed')]
+    require(POSITIVE_REF in positives, 'evse.ac.current remains transformed')
     for row, (element, kind) in zip(d['rows'], items()):
-        if row['ref'] == POSITIVE_REF:
-            require(row['kind'] == 'fact' and row['disposition'] == 'transformed'
-                    and row['reason'] == POSITIVE_REASON, 'positive identity')
+        if row['disposition'] in ('exact', 'transformed'):
+            require(kind in ('fact', 'capability', 'operation', 'event'),
+                    'service and relation are not transformed')
+            require(cites_conversion(row),
+                    'transformed row cites device type, cluster, element, factor, offset, rounding and bounds')
+            if row['ref'] == POSITIVE_REF:
+                require(row['kind'] == 'fact' and row['disposition'] == 'transformed'
+                        and row['reason'] == POSITIVE_REASON, 'positive identity')
             continue
         outcome, reason = rule(element, kind)[:2]
         require(row['disposition'] == outcome and row['reason'] == reason and
@@ -179,7 +214,7 @@ def check_source(d):
     for row, (element, kind) in zip(d['rows'], items()):
         ref = pack_ref(element['ref'])
         requested = None
-        if kind != 'service':
+        if kind not in ('service', 'event'):
             requested = {'kind': kind, 'item_id': ref['id'],
                          'item_version': ref['version']}
         require(row['source'] == {
@@ -293,8 +328,14 @@ class Matter161TargetTests(unittest.TestCase):
             expected = copy.deepcopy(new)
             if expected['ref'] == POSITIVE_REF:
                 # The phase association now cites its relation definition.
+                # Offset and rounding cite the same exact milliampere conversion.
                 del expected['relations']
                 expected['reason'] = HISTORICAL_POSITIVE_REASON
+                conversion = expected['target']['value']['conversion']
+                self.assertEqual(conversion['offset'], 0)
+                self.assertEqual(conversion['rounding'], 'exact')
+                del conversion['offset']
+                del conversion['rounding']
             self.assertEqual(old, expected)
         pilot = {'pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
                  'infrastructure.accuracy.measured', 'infrastructure.accuracy.ratio_maximum',
@@ -1660,6 +1701,104 @@ class Matter161TargetTests(unittest.TestCase):
                     {'kind': 'service', 'item_id': row['ref']['id'],
                      'item_version': row['ref']['version']})
 
+    def test_event_is_never_a_requested_item_mutant(self):
+        # requested: installing an event request is rejected. The production
+        # row keeps requested null because an event is not a kernel-v1 item.
+        i = self.first('event')
+        row = self.document['rows'][i]
+        self.reject(check_source, ('rows', i, 'source', 'requested'),
+                    {'kind': 'event', 'item_id': row['ref']['id'],
+                     'item_version': row['ref']['version']})
+
+    def test_catalog_events_stay_unmapped_without_a_target(self):
+        rows = {(r['ref']['id'], r['kind']): r for r in self.document['rows']}
+        seen = 0
+        for element, kind in items():
+            if kind != 'event':
+                continue
+            seen += 1
+            row = rows[(element['ref']['id'], 'event')]
+            self.assertEqual(row['disposition'], 'unknown')
+            self.assertEqual(row['reason'], 'matter.unmapped.v1')
+            self.assertNotIn('target', row)
+        self.assertGreater(seen, 0)
+
+    def test_pilot_accuracy_rows_stay_unknown_without_a_target(self):
+        rows = {r['ref']['id']: r for r in self.document['rows']}
+        for ident in ('pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
+                      'infrastructure.accuracy.measured',
+                      'infrastructure.accuracy.ratio_maximum'):
+            with self.subTest(ident=ident):
+                row = rows[ident]
+                self.assertEqual(row['disposition'], 'unknown')
+                self.assertEqual(row['reason'], 'matter.unmapped.v1')
+                self.assertNotIn('target', row)
+
+    def test_unqualified_is_not_a_whole_document_guard(self):
+        guards = self.document['input_guards']['whole_document_no_payload']
+        self.assertNotIn('unqualified', guards)
+        self.assertEqual(guards, GUARDS)
+        self.assertEqual(self.document['model_source']['repository'], 'SukramJ/go-fabric')
+        self.assertEqual(self.document['model_source']['tag'], 'v0.13.12')
+
+    def test_a_second_cited_transformed_row_is_admitted(self):
+        """A second transformed row is admitted when every citation field is present.
+
+        Fields and the production mutation each check catches:
+        - device_type_id: deleting it is rejected as an uncited device type.
+        - cluster_id: deleting it is rejected as an uncited cluster.
+        - attribute_id: deleting it is rejected as an uncited element.
+        - conversion.factor: deleting it is rejected as an uncited factor.
+        - conversion.offset: deleting it is rejected as an uncited offset.
+        - conversion.rounding: deleting it is rejected as an uncited rounding.
+        - representation.minimum: deleting it is rejected as an uncited lower bound.
+        - representation.maximum: deleting it is rejected as an uncited upper bound.
+        - evse.ac.current disposition: demoting it is rejected while the second row stays.
+        """
+        ref = {'pack': {'id': 'helianthus.pack.evse', 'version': '1.0.0'},
+               'id': 'evse.ac.voltage', 'version': '1.0.0'}
+
+        def cited(document):
+            row = document['rows'][self.index(ref)]
+            row['disposition'] = 'transformed'
+            row['reason'] = 'matter.cited_conversion.v1'
+            row['target'] = {
+                'device_type_id': 14, 'cluster_id': 156, 'attribute_id': 4,
+                'value': {
+                    'conversion': {'factor': 1, 'offset': 0, 'rounding': 'exact'},
+                    'representation': {'minimum': 0, 'maximum': 100},
+                },
+            }
+            return document
+
+        check_dispositions(cited(copy.deepcopy(self.document)))
+        fields = [
+            ('device_type_id', ('target', 'device_type_id')),
+            ('cluster_id', ('target', 'cluster_id')),
+            ('attribute_id', ('target', 'attribute_id')),
+            ('factor', ('target', 'value', 'conversion', 'factor')),
+            ('offset', ('target', 'value', 'conversion', 'offset')),
+            ('rounding', ('target', 'value', 'conversion', 'rounding')),
+            ('minimum', ('target', 'value', 'representation', 'minimum')),
+            ('maximum', ('target', 'value', 'representation', 'maximum')),
+        ]
+        for label, path in fields:
+            candidate = cited(copy.deepcopy(self.document))
+            node = candidate['rows'][self.index(ref)]
+            for key in path[:-1]:
+                node = node[key]
+            del node[path[-1]]
+            with self.subTest(field=label):
+                with self.assertRaises(ValueError):
+                    check_dispositions(candidate)
+        demoted = cited(copy.deepcopy(self.document))
+        positive = demoted['rows'][self.index()]
+        positive['disposition'] = 'unknown'
+        positive['reason'] = 'matter.unmapped.v1'
+        del positive['target']
+        with self.assertRaises(ValueError):
+            check_dispositions(demoted)
+
     def test_relation_type_mutants(self):
         withheld = self.first('relation', 'withheld')
         self.reject(check_relations, ('rows', withheld, 'relation', 'core_type'),
@@ -1726,6 +1865,8 @@ class Matter161TargetTests(unittest.TestCase):
         cases = [(('conversion', 'algorithm'), 'round'),
                  (('conversion', 'require_integral_result'), False),
                  (('conversion', 'factor'), 1),
+                 (('conversion', 'offset'), 1),
+                 (('conversion', 'rounding'), 'round'),
                  (('representation', 'minimum'), 0),
                  (('representation', 'maximum'), 2**63 - 1),
                  (('representation', 'nullable'), False),
@@ -1814,6 +1955,13 @@ class Matter161ProjectionPageTests(unittest.TestCase):
         self.assertNotIn('PE03', self.text)
         self.assertNotIn('PE10', self.text)
         self.assertIn('unverified', self.text)
+
+    def test_page_does_not_treat_unqualified_as_a_payload_guard(self):
+        self.assertNotIn('unqualified', self.text)
+        self.assertNotIn('SS01', self.text)
+        contract = (ROOT / 'api/v1/driver-contract.md').read_text()
+        self.assertEqual(contract.count('SS01'), 1)
+        self.assertIn('SS01 removes\n  that northbound effect', contract)
 
 
 if __name__ == '__main__':

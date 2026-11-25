@@ -41,35 +41,44 @@ implementation equivalent to 1.6.1.
 ## Accounting and admission
 
 The roster is derived from the [element catalog](../element-catalog-v1.json):
-one row for every fact, capability, operation, service and relation definition
-owned by the five accepted packs, 252 rows in all (146 facts, 37 capabilities,
-7 operations, 36 services and 26 relation definitions). Pack versions are
-Energy management, EVSE, Infrastructure, PV and Thermal `1.0.0`, and Storage
-`1.1.0`, as the catalog keys them. Core-owned elements, dimensions, effect rules and presentations are
-not requested; the rows that cite them account for them. Rows sort by exact
-pack ID, pack version, item ID and item version; kind is also part of row
-identity. Each fact, capability, operation and relation row preserves its typed
-kernel-v1 request and exact snapshot/revision binding. Fact rows keep their
-canonical runtime FactKey dimensions, read from the catalog subject. These are
-runtime bindings, not synthetic values supplied by the descriptor.
+one row for every fact, capability, operation, service, relation definition
+and event owned by an accepted pack. Pack versions are Energy management,
+Equipment, EVSE, Infrastructure, PV and Thermal `1.0.0`, and Storage `1.1.0`,
+as the catalog keys them. Core-owned elements, dimensions, effect rules and
+presentations are not requested; the rows that cite them account for them.
+Rows sort by exact pack ID, pack version, item ID and item version; kind is
+also part of row identity. Each fact, capability, operation and relation row
+preserves its typed kernel-v1 request and exact snapshot/revision binding.
+Fact rows keep their canonical runtime FactKey dimensions, read from the
+catalog subject. These are runtime bindings, not synthetic values supplied by
+the descriptor. An event is not a kernel-v1 requested item, so its `requested`
+member is null and it has no FactKey.
+
+A reviewed column becomes `transformed` only when one device type, one
+cluster, one element and one cited conversion exist together. The conversion
+cites the factor, the offset, the rounding and the representation bounds
+stated for that element. A column that names a cluster element and does not
+cite those four stays `unknown` with reason `matter.unmapped.v1` and has no
+target. The reviewed columns for elements already on main name a cluster
+element or name none. None of those columns cites one device type, one
+cluster, one element and one conversion together, so those rows stay
+`unknown` with no target. `evse.ac.current` stays `transformed` on the
+conversion this descriptor already states.
+
+Each catalog event has one projection row, `unknown`, reason
+`matter.unmapped.v1`, and no target, until a table gives that four-part
+mapping. An event the catalog does not admit has no roster row. Dimensions,
+effect rules and read portals have no roster row.
 
 `helianthus.pack.energy_management` 1.0.0 adds one unknown row, reason
-`matter.unmapped.v1`, for each of its facts, capabilities and operations.
-`energy.service.subject` is unsupported, reason
-`matter.service_not_requested_item.v1`. Dimensions, effect rules, events and
-the read portal have no roster row. Where a reviewed column names a cluster
-element, the row stays unknown: this roster admits one transformed row,
-`evse.ac.current`, and the conversion for those columns is not established
-here.
+`matter.unmapped.v1`, for each of its facts, capabilities, operations and
+events. `energy.service.subject` is unsupported, reason
+`matter.service_not_requested_item.v1`.
 
 `helianthus.pack.equipment` 1.0.0 adds one unknown row, reason
-`matter.unmapped.v1`, for each of its facts, capabilities and operations.
-`equipment.service.unit` and `equipment.service.resource` are unsupported,
-reason `matter.service_not_requested_item.v1`. Dimensions, effect rules,
-events and the read portals have no roster row. Where a reviewed column
-names a cluster element, the row stays unknown: the conversion factor,
-offset, rounding and representation bounds are not stated, and this roster
-admits one transformed row, `evse.ac.current`.
+`matter.unmapped.v1`, for each of its facts, capabilities, operations and
+events. `equipment.service.unit` and `equipment.service.resource` are
+unsupported, reason `matter.service_not_requested_item.v1`.
 
 Measurement-type association, unverified. The Matter column recorded for the
 measurement-type dimension is `ElectricalPowerMeasurement.Accuracy`. For the
@@ -109,9 +118,10 @@ Only `evse.ac.current` is `transformed`, with reason
 `matter.phase_association_by_relation.v1`, to device/cluster/attribute
 `0x0510 / 0x0090 / 0x0005`. Multiply exact amperes by 1000; emit only an integral,
 non-null signed `amperage-mA` value within the inclusive bounds
-`-4611686018427387904..4611686018427387904`. The attribute is nullable, but this
-positive projection never emits null. No rounding, truncation, saturation or
-floating-point approximation is permitted: `1.234 A` is `1234 mA`, whereas
+`-4611686018427387904..4611686018427387904`. That conversion cites factor
+1000, offset 0, rounding exact, and those representation bounds. The attribute
+is nullable, but this positive projection never emits null. No rounding,
+truncation, saturation or floating-point approximation is permitted: `1.234 A` is `1234 mA`, whereas
 `0.0001 A` is nonrepresentable. Signed values and exact bounds are preserved.
 
 Require exactly one eligible, pack-validated, phase-qualified source FactKey;
@@ -131,23 +141,25 @@ loss of the scalar value.
 
 Each relation row carries the member `relation` with the catalog core type, and
 the medium where the catalog states one. Every `measures` definition and every
-`supplies` definition with medium `electrical` (five rows) is `withheld` with
+`supplies` definition with medium `electrical` is `withheld` with
 reason `matter.power_topology_endpoint_unallocated.v1`. Its `target_construct`
 names the Power Topology cluster `0x009C` with equivalence **Hypothesis**. That
 construct carries an electrical association only between allocated endpoints.
-This descriptor allocates none, so no association is emitted. The other 21
-relation definitions (`contains`, `groups` and `hosts`) remain `unknown` with
+This descriptor allocates none, so no association is emitted. The other
+relation definitions remain `unknown` with
 `matter.relation_construct_not_adopted.v1`. Their target constructs lie outside
 the three adopted model identities. No relation row is `unrepresentable`: the
 catalog's admission record of every core type used here names a construct of
 the target data model.
 
 Kernel-v1 `ItemKind` names facts, relations, capabilities and operations only,
-so a service is never a requested item. Each of the 36 services is
+so a service is never a requested item, and neither is an event. Each service is
 `unsupported` with `matter.service_not_requested_item.v1`, a null `requested`
 member and no FactKey. Its subject has no allocated endpoint in this target.
+Each catalog event is `unknown` with `matter.unmapped.v1`, a null `requested`
+member, no FactKey and no target.
 
-All other 189 facts/capabilities/operations remain kernel-v1 `unknown` with
+Every other fact, capability and operation remains kernel-v1 `unknown` with
 `matter.unmapped.v1` and irreversible policy loss. They create no target lookup,
 inferred fallback, intent, authority, route, operation or control. A similar
 name or model identity cannot promote them. Protocol-native facts still require
@@ -162,7 +174,7 @@ cannot reconstruct a phase or an endpoint, collapse multiple phases into a
 total, or manufacture an endpoint correspondence. Preserve the original native
 and semantic evidence outside the projection. Every service and relation row
 declares one irreversible identity loss: no association or endpoint
-correspondence is emitted or inferred. Unknown fact, capability and operation
+correspondence is emitted or inferred. Unknown fact, capability, operation and event
 rows retain their explicit irreversible policy loss. Absence of a target is not
 an unsupported-device qualification.
 
@@ -186,12 +198,16 @@ Run `python3 -m unittest discover -s tests -p 'test_matter161_target.py' -v`.
 The standard-library checks validate publication/accounting rules and disposable
 JSON contract mutants. They do not test a production converter or SDK runtime.
 The expected roster is computed from the element catalog, never from pinned
-counts. Model version/revision drift, a second positive row, a missing
-requested item of any pack and kind, a requested service, weakened phase
-admission, rounding permission, a dropped or wrong relation citation, a
-promoted relation or service, or erased loss must independently fail. Row
-identity, source binding and cited relation axes are varied independently with
-valid sibling values; all other fields remain unchanged in each mutant.
+counts. Model version/revision drift, a transformed row that omits the device
+type, the cluster, the element, the factor, the offset, the rounding or the
+representation bounds, a missing requested item of any pack and kind, a
+requested service, a requested event, weakened phase admission, rounding
+permission on the current row, a dropped or wrong relation citation, a
+promoted relation or service, or erased loss must independently fail. A
+second transformed row that cites all of those conversion fields is admitted.
+`evse.ac.current` remains one of them. Row identity, source binding and cited
+relation axes are varied independently with valid sibling values; all other
+fields remain unchanged in each mutant.
 
 Unresolved: complete model/feature closure, endpoint allocation, reproducible
 retained SDK inputs, real binding execution and platform/physical
