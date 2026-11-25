@@ -6,6 +6,17 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The eeBUS SPINE 1.3.0 target publishes one row for every pack-owned
+  catalog fact, capability, operation, service, relation and event. An
+  empty, missing, or Matter-only fact-table eeBUS cell is unknown with
+  reason `eebus.unmapped.v1` and has no target. A cited row uses reason
+  `eebus.cited.v1` and records the use case, revision, scenario, SPINE
+  feature, function and unit conversion the fact tables give. Equivalence
+  is Hypothesis. Public documents are cited by name and revision. A
+  restricted use case is cited by name, revision and scenario identifier.
+  Requirement text is not copied. Inspection is Hypothesis. Execution and
+  standards equivalence stay Unknown. The Matter 1.6.1 target and the
+  historical Matter 1.7 ledger are unchanged. No pack version is raised.
 - The Matter 1.6.1 roster gains one unknown row for each catalog event, reason
   `matter.unmapped.v1`, with no target. A reviewed column becomes `transformed`
   only when one device type, one cluster, one element and one cited conversion
