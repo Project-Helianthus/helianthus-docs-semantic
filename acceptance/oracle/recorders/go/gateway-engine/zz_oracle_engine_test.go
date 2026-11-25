@@ -589,7 +589,7 @@ func oracleRecordDedup(t *testing.T) {
 
 func oracleRecordReconstructor(t *testing.T) {
 	t.Helper()
-	oracleReconstructorCase(t, "reconstructor/broadcast.json", "TestPassiveTransactionReconstructor_ClassifiesBroadcast", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/broadcast.json", "TestPassiveTransactionReconstructor_ClassifiesBroadcast", oracleReconSpec{}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		frame := protocol.Frame{Source: 0x10, Target: protocol.AddressBroadcast, Primary: 0xB5, Secondary: 0x16, Data: []byte{0x01, 0x02}}
 		payload := frameBytes(frame)
@@ -597,7 +597,7 @@ func oracleRecordReconstructor(t *testing.T) {
 		event := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventBroadcastFrame)
 		return payload, []PassiveClassifiedEvent{event}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/master-master.json", "TestPassiveTransactionReconstructor_ClassifiesMasterMaster", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/master-master.json", "TestPassiveTransactionReconstructor_ClassifiesMasterMaster", oracleReconSpec{}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		frame := protocol.Frame{Source: 0x30, Target: 0x10, Primary: 0x01, Secondary: 0x02, Data: []byte{0x03}}
 		payload := append(requestFrameBytes(frame), protocol.SymbolAck, protocol.SymbolSyn)
@@ -605,7 +605,7 @@ func oracleRecordReconstructor(t *testing.T) {
 		event := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventMasterFrame)
 		return payload, []PassiveClassifiedEvent{event}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/direct.json", "TestPassiveTransactionReconstructor_ClassifiesDirectTransaction", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/direct.json", "TestPassiveTransactionReconstructor_ClassifiesDirectTransaction", oracleReconSpec{}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		request := protocol.Frame{Source: 0x10, Target: 0x08, Primary: 0xB5, Secondary: 0x09, Data: []byte{0x01}}
 		payload := append(requestFrameBytes(request), protocol.SymbolAck)
@@ -615,7 +615,7 @@ func oracleRecordReconstructor(t *testing.T) {
 		event := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventTransaction)
 		return payload, []PassiveClassifiedEvent{event}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/no-response.json", "TestPassiveTransactionReconstructor_NoResponseBecomesAbandoned", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/no-response.json", "TestPassiveTransactionReconstructor_NoResponseBecomesAbandoned", oracleReconSpec{}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		request := protocol.Frame{Source: 0x10, Target: 0x08, Primary: 0xB5, Secondary: 0x09, Data: []byte{0x01}}
 		payload := append(requestFrameBytes(request), protocol.SymbolAck, protocol.SymbolSyn)
@@ -623,7 +623,7 @@ func oracleRecordReconstructor(t *testing.T) {
 		event := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventAbandonedTransaction)
 		return payload, []PassiveClassifiedEvent{event}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/reset.json", "TestPassiveTransactionReconstructor_ResetAbandonsInFlight", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/reset.json", "TestPassiveTransactionReconstructor_ResetAbandonsInFlight", oracleReconSpec{TapEvents: []oracleTapEvent{{Kind: "reset", OffsetNS: int64(100 * time.Millisecond)}}}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		request := protocol.Frame{Source: 0x10, Target: 0x08, Primary: 0xB5, Secondary: 0x09, Data: []byte{0x01}}
 		payload := append(requestFrameBytes(request), protocol.SymbolAck)
@@ -634,14 +634,14 @@ func oracleRecordReconstructor(t *testing.T) {
 		discontinuity := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventDiscontinuity)
 		return payload, []PassiveClassifiedEvent{abandoned, discontinuity}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/scan-collision.json", "TestPassiveReconstructor_F19a_PreservesClassification_ScanCollision", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/scan-collision.json", "TestPassiveReconstructor_F19a_PreservesClassification_ScanCollision", oracleReconSpec{Raw: true}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		payload := []byte{protocol.SymbolSyn, 0x10, 0xFE, 0x07, 0x04, 0x01, 0xAA, 0xAA}
 		feedPassiveSymbolsRaw(reconstructor, time.Unix(0, 0), payload)
 		event := requirePassiveClassifiedEvent(t, subscription, PassiveClassifiedEventAbandonedTransaction)
 		return payload, []PassiveClassifiedEvent{event}, reconstructor
 	})
-	oracleReconstructorCase(t, "reconstructor/arbitration-fragment.json", "TestPassiveReconstructor_F19b_FourByteFragment_ClassifiesAsArbitrationFragment", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/arbitration-fragment.json", "TestPassiveReconstructor_F19b_FourByteFragment_ClassifiesAsArbitrationFragment", oracleReconSpec{Raw: true}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		reconstructor, subscription := oracleReconstructor()
 		payload := []byte{protocol.SymbolSyn, 0xF1, 0x15, 0xB5, 0x24, protocol.SymbolSyn}
 		feedPassiveSymbolsRaw(reconstructor, time.Unix(0, 0), payload)
@@ -660,7 +660,84 @@ func oracleReconstructor() (*PassiveTransactionReconstructor, *PassiveClassified
 	return reconstructor, subscription
 }
 
-func oracleReconstructorCase(t *testing.T, name, stimulus string, run func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor)) {
+// oracleReconSpec names the inputs of one reconstructor case that the byte
+// payload alone does not carry: whether the pin's raw feeder (no prepended SYN)
+// or the SYN-prepending feeder was used, the local-address snapshotter, the
+// configured watchdog and the non-symbol tap events that follow the stream.
+type oracleReconSpec struct {
+	Raw         bool
+	Watchdog    time.Duration
+	Snapshotter *LocalAddressSnapshot
+	TapEvents   []oracleTapEvent
+}
+
+type oracleTapEvent struct {
+	Kind     string
+	OffsetNS int64
+	Error    string
+}
+
+const oracleSymbolSpacing = 10 * time.Millisecond
+
+// oracleFedStream returns the symbols the pin's feeder passes to the
+// reconstructor and the per-symbol escape flags it derives, exactly as the
+// pin's own helpers compute them.
+func oracleFedStream(payload []byte, raw bool) ([]byte, []bool) {
+	fed := payload
+	if !raw && !(len(payload) == 0 || payload[0] == protocol.SymbolSyn) {
+		fed = append([]byte{protocol.SymbolSyn}, payload...)
+	}
+	return fed, autoEscapeMaskForLegacyTests(fed)
+}
+
+func oracleReconstructorInput(payload []byte, spec oracleReconSpec) oracleInput {
+	fed, mask := oracleFedStream(payload, spec.Raw)
+	escaped := make([]any, 0)
+	for index, flag := range mask {
+		if flag {
+			escaped = append(escaped, index)
+		}
+	}
+	feeder := "feedPassiveSymbols"
+	if spec.Raw {
+		feeder = "feedPassiveSymbolsRaw"
+	}
+	watchdog := spec.Watchdog
+	if watchdog == 0 {
+		watchdog = DefaultConfig().PassiveTransactionWatchdog
+	}
+	snapshotter := map[string]any{"installed": false}
+	if spec.Snapshotter != nil {
+		snapshotter = map[string]any{"installed": true, "address": hex.EncodeToString([]byte{spec.Snapshotter.Address}), "known": spec.Snapshotter.Known}
+	}
+	events := make([]any, 0, len(spec.TapEvents))
+	for _, event := range spec.TapEvents {
+		entry := map[string]any{"kind": event.Kind, "offset_from_start_ns": event.OffsetNS}
+		if event.Error != "" {
+			entry["error"] = event.Error
+		}
+		events = append(events, entry)
+	}
+	return oracleInput{
+		Bytes: hex.EncodeToString(payload),
+		Qualifiers: map[string]any{
+			"feeder":                  feeder,
+			"fed_symbols":             hex.EncodeToString(fed),
+			"escaped_symbol_indices":  escaped,
+			"tap_events_after_stream": events,
+		},
+		Clock: map[string]any{
+			"start":             time.Unix(0, 0).UTC().Format(time.RFC3339Nano),
+			"symbol_spacing_ns": int64(oracleSymbolSpacing),
+		},
+		State: map[string]any{
+			"passive_transaction_watchdog_ns": int64(watchdog),
+			"local_address_snapshotter":       snapshotter,
+		},
+	}
+}
+
+func oracleReconstructorCase(t *testing.T, name, stimulus string, spec oracleReconSpec, run func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor)) {
 	t.Helper()
 	payload, events, reconstructor := run()
 	observations := make([]any, 0, len(events))
@@ -672,7 +749,7 @@ func oracleReconstructorCase(t *testing.T, name, stimulus string, run func() ([]
 		Component: "passive_transaction_reconstructor",
 		Source:    "passive_transaction_reconstructor.go",
 		Stimulus:  stimulus,
-		Input:     oracleInput{Bytes: hex.EncodeToString(payload), Clock: map[string]any{"start": time.Unix(0, 0).UTC().Format(time.RFC3339Nano)}},
+		Input:     oracleReconstructorInput(payload, spec),
 		Output: oracleOutput{
 			Observations: observations,
 			Counters: map[string]any{
@@ -715,7 +792,7 @@ func oracleRecordF19c(t *testing.T) {
 		Component: "passive_reconstructor_f19c_helpers",
 		Source:    "passive_reconstructor_f19c_helpers.go",
 		Stimulus:  "TestF19c_InvalidQQ_NotMaster",
-		Input:     oracleInput{Bytes: hex.EncodeToString(payload), Clock: map[string]any{"start": time.Unix(0, 0).UTC().Format(time.RFC3339Nano), "silence_ns": int64(50 * time.Millisecond)}},
+		Input:     oracleF19cSilentDropInput(payload),
 		Output: oracleOutput{Counters: map[string]any{
 			"invalid_src_class_skipped_total": snapshot.InvalidSrcClassSkippedTotal,
 			"abandons_by_reason":              oracleUint64Map(snapshot.AbandonsByReason),
@@ -831,6 +908,11 @@ func oracleWatchKeys(t *testing.T) {
 	}
 	oracleWrite(t, "watch-catalog/builders.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestWatchKeyBuildersRemainStable",
+		Input: oracleInput{Qualifiers: map[string]any{"calls": []any{
+			map[string]any{"builder": "b516", "function": "NewB516WatchKey", "target": "15", "period": "01", "source": "02", "usage": "03"},
+			map[string]any{"builder": "b555-program", "function": "NewB555ProgramWatchKey", "target": "15", "opcode": "a4", "zone": "02", "hc": "00"},
+			map[string]any{"builder": "b555", "function": "NewB555WatchKey", "target": "15", "opcode": "a5", "zone": "02", "hc": "00", "weekday": "06", "slot": "03"},
+		}}},
 		Output: oracleOutput{Decisions: builders},
 	})
 	keys := []B555WatchKey{
@@ -844,10 +926,12 @@ func oracleWatchKeys(t *testing.T) {
 	}
 	seen := map[string]int{}
 	canonicals := make([]any, 0, len(keys))
+	operands := make([]any, 0, len(keys))
 	for _, key := range keys {
 		canonical := key.Canonical()
 		seen[canonical]++
 		canonicals = append(canonicals, canonical)
+		operands = append(operands, oracleB555Selector(key))
 	}
 	unique := true
 	for _, count := range seen {
@@ -857,6 +941,7 @@ func oracleWatchKeys(t *testing.T) {
 	}
 	oracleWrite(t, "watch-catalog/b555-axes.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestB555WatchKeyCanonicalPreservesSelectorAxes",
+		Input:  oracleInput{Qualifiers: map[string]any{"keys": operands}},
 		Output: oracleOutput{Decisions: canonicals, Counters: map[string]any{"unique": unique}},
 	})
 	validProgram := NewB555ProgramWatchKey(0x15, 0xA4, 0x02, 0x00)
@@ -871,7 +956,7 @@ func oracleWatchKeys(t *testing.T) {
 	_, found := catalog.DescriptorByCanonical(malformed.Canonical())
 	oracleWrite(t, "watch-catalog/b555-malformed-program.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestB555WatchKeyCanonicalDisambiguatesMalformedProgramSelectors",
-		Input: oracleInput{State: map[string]any{"valid": validProgram.Canonical()}},
+		Input: oracleInput{Qualifiers: map[string]any{"malformed_selector": oracleB555Selector(malformed), "valid_selector": oracleB555Selector(validProgram)}, State: map[string]any{"valid": validProgram.Canonical()}},
 		Output: oracleOutput{Decisions: []any{map[string]any{
 			"malformed": malformed.Canonical(), "aliases_valid": malformed.Canonical() == validProgram.Canonical(), "catalog_hit": found,
 		}}},
@@ -888,7 +973,7 @@ func oracleWatchKeys(t *testing.T) {
 	_, timerFound := timerCatalog.DescriptorByCanonical(sentinel.Canonical())
 	oracleWrite(t, "watch-catalog/b555-sentinel-timer.json", oracleCase{
 		Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: "TestB555WatchKeyCanonicalDisambiguatesSentinelTimerSelectors",
-		Input: oracleInput{State: map[string]any{"valid": validTimer.Canonical()}},
+		Input: oracleInput{Qualifiers: map[string]any{"sentinel_selector": oracleB555Selector(sentinel), "valid_selector": oracleB555Selector(validTimer)}, State: map[string]any{"valid": validTimer.Canonical()}},
 		Output: oracleOutput{Decisions: []any{map[string]any{
 			"sentinel": sentinel.Canonical(), "aliases_valid": sentinel.Canonical() == validTimer.Canonical(), "catalog_hit": timerFound,
 		}}},
@@ -915,7 +1000,7 @@ func oracleWatchKeys(t *testing.T) {
 		_, ttlErr := tc.descriptor.EffectiveFreshnessTTL()
 		oracleWrite(t, "watch-catalog/b555-reject-"+tc.name+".json", oracleCase{
 			Component: "watch_catalog", Source: "watch_catalog.go", Stimulus: tc.stimulus,
-			Input:  oracleInput{Qualifiers: map[string]any{"canonical": tc.descriptor.Key.Canonical()}},
+			Input:  oracleInput{Qualifiers: map[string]any{"canonical": tc.descriptor.Key.Canonical(), "selector": oracleB555Selector(tc.descriptor.Key.(B555WatchKey))}},
 			Output: oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(ttlErr)}}},
 		})
 	}
@@ -1265,5 +1350,20 @@ func oracleWrite(t *testing.T, name string, document oracleCase) {
 	}
 	if err := os.WriteFile(path, append(encoded, '\n'), 0o644); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func oracleF19cSilentDropInput(payload []byte) oracleInput {
+	input := oracleReconstructorInput(payload, oracleReconSpec{Raw: true})
+	input.Clock["silence_ns"] = int64(50 * time.Millisecond)
+	return input
+}
+
+func oracleB555Selector(key B555WatchKey) map[string]any {
+	return map[string]any{
+		"target": hex.EncodeToString([]byte{key.Target}), "opcode": hex.EncodeToString([]byte{key.Opcode}),
+		"zone": hex.EncodeToString([]byte{key.Zone}), "hc": hex.EncodeToString([]byte{key.HC}),
+		"weekday": hex.EncodeToString([]byte{key.Weekday}), "slot": hex.EncodeToString([]byte{key.Slot}),
+		"has_weekday": key.HasWeekday, "has_slot": key.HasSlot,
 	}
 }

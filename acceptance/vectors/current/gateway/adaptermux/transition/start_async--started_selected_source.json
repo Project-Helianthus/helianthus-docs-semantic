@@ -32,13 +32,15 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "passive: symbol 0x31",
-      "session 1: STARTED 0x31",
-      "session 2: RECEIVED 0x31"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectPassiveSymbol",
+          "muxModelEffectSessionStarted",
+          "muxModelEffectSessionReceived",
+          "muxModelEffectResultGranted"
+        ],
         "effects": [
           "passive: symbol 0x31",
           "session 1: STARTED 0x31",
@@ -64,7 +66,11 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "passive: symbol 0x31",
+      "session 1: STARTED 0x31",
+      "session 2: RECEIVED 0x31"
+    ],
     "counters": {}
   }
 }

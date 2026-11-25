@@ -32,12 +32,14 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 1: RECEIVED 0x10",
-      "session 2: RECEIVED 0x10"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectActiveByte",
+          "muxModelEffectSessionReceived",
+          "muxModelEffectSessionReceived"
+        ],
         "effects": [
           "active: 0x10",
           "session 1: RECEIVED 0x10",
@@ -62,7 +64,11 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "active: 0x10",
+      "session 1: RECEIVED 0x10",
+      "session 2: RECEIVED 0x10"
+    ],
     "counters": {}
   }
 }

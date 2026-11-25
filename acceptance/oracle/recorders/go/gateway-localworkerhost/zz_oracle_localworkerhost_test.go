@@ -223,8 +223,13 @@ func oracleRecordReport(t *testing.T) {
 		Source:    "internal/localworkerhost/supervisor.go",
 		Stimulus:  "TestAA27ReportEncodingRoundTripsAndRefusesCorruption/positive",
 		Input: oracleInput{
-			Qualifiers: map[string]any{"kind": "ready", "tx_active": false},
-			State:      map[string]any{"generation": oracleGeneration(report.Generation), "layout": oracleLayout(report.Descriptors)},
+			Bytes:      hex.EncodeToString(raw[:]),
+			Qualifiers: map[string]any{"kind": "ready", "tx_active": false, "decoder_operand": "bytes", "decoder_operand_length": len(raw)},
+			State: map[string]any{
+				"generation": oracleGeneration(report.Generation), "layout": oracleLayout(report.Descriptors),
+				"identity_build_hex": hex.EncodeToString(report.Identity.Build[:]), "identity_executable_hex": hex.EncodeToString(report.Identity.Executable[:]),
+				"worker_state": report.State,
+			},
 		},
 		Output: oracleOutput{Decisions: []any{map[string]any{
 			"encode_error":     oracleErr(err),
@@ -256,8 +261,12 @@ func oracleRecordReport(t *testing.T) {
 			Component: "localworkerhost",
 			Source:    "internal/localworkerhost/supervisor.go",
 			Stimulus:  "TestAA27ReportEncodingRoundTripsAndRefusesCorruption/" + tc.name,
-			Input:     oracleInput{Qualifiers: map[string]any{"offset": tc.offset}, State: map[string]any{"xor": 127}},
-			Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(corruptErr), "is_report": errors.Is(corruptErr, ErrReport)}}},
+			Input: oracleInput{
+				Bytes:      hex.EncodeToString(bad[:]),
+				Qualifiers: map[string]any{"offset": tc.offset, "decoder_operand": "bytes", "decoder_operand_length": len(bad)},
+				State:      map[string]any{"xor": 127, "encoded_original_hex": hex.EncodeToString(raw[:])},
+			},
+			Output: oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(corruptErr), "is_report": errors.Is(corruptErr, ErrReport)}}},
 		})
 	}
 	_, shortErr := DecodeReport(raw[:ReportBytes-1])
@@ -265,8 +274,12 @@ func oracleRecordReport(t *testing.T) {
 		Component: "localworkerhost",
 		Source:    "internal/localworkerhost/supervisor.go",
 		Stimulus:  "TestAA27ReportEncodingRoundTripsAndRefusesCorruption/short",
-		Input:     oracleInput{Qualifiers: map[string]any{"length": ReportBytes - 1}},
-		Output:    oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(shortErr), "is_report": errors.Is(shortErr, ErrReport)}}},
+		Input: oracleInput{
+			Bytes:      hex.EncodeToString(raw[:ReportBytes-1]),
+			Qualifiers: map[string]any{"length": ReportBytes - 1, "decoder_operand": "bytes", "decoder_operand_length": ReportBytes - 1},
+			State:      map[string]any{"encoded_original_hex": hex.EncodeToString(raw[:])},
+		},
+		Output: oracleOutput{Decisions: []any{map[string]any{"error": oracleErr(shortErr), "is_report": errors.Is(shortErr, ErrReport)}}},
 	})
 }
 

@@ -5,11 +5,22 @@
   "stimulus": "TestPassiveTransactionReconstructor_ClassifiesBroadcast",
   "input": {
     "bytes": "10feb5160201020baa",
-    "qualifiers": {},
-    "clock": {
-      "start": "1970-01-01T00:00:00Z"
+    "qualifiers": {
+      "escaped_symbol_indices": [],
+      "fed_symbols": "aa10feb5160201020baa",
+      "feeder": "feedPassiveSymbols",
+      "tap_events_after_stream": []
     },
-    "state": {}
+    "clock": {
+      "start": "1970-01-01T00:00:00Z",
+      "symbol_spacing_ns": 10000000
+    },
+    "state": {
+      "local_address_snapshotter": {
+        "installed": false
+      },
+      "passive_transaction_watchdog_ns": 1000000000
+    }
   },
   "output": {
     "symbols_written": [],

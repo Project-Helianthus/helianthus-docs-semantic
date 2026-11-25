@@ -6,7 +6,17 @@
   "input": {
     "bytes": "",
     "qualifiers": {
-      "canonical": "b555:15:a5:02:00:ff:03:raw:1:ff:1:03"
+      "canonical": "b555:15:a5:02:00:ff:03:raw:1:ff:1:03",
+      "selector": {
+        "has_slot": true,
+        "has_weekday": true,
+        "hc": "00",
+        "opcode": "a5",
+        "slot": "03",
+        "target": "15",
+        "weekday": "ff",
+        "zone": "02"
+      }
     },
     "clock": {},
     "state": {}

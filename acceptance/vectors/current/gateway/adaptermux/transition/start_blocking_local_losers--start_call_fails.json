@@ -32,11 +32,14 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 2: RECEIVED 0xAA"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectSessionReceived",
+          "muxModelEffectResultError",
+          "muxModelEffectResultError"
+        ],
         "effects": [
           "session 2: RECEIVED 0xAA",
           "result session 1 0x31: source 0x31, error scripted START failure",
@@ -61,7 +64,9 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "session 2: RECEIVED 0xAA"
+    ],
     "counters": {}
   }
 }

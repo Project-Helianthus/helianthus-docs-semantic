@@ -32,12 +32,16 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 1: RESETTED 0x00",
-      "session 2: RESETTED 0x00"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectPassiveReset",
+          "muxModelEffectActiveError",
+          "muxModelEffectSessionReset",
+          "muxModelEffectSessionReset",
+          "muxModelEffectResultError"
+        ],
         "effects": [
           "passive: reset",
           "active: error ebus: adapter reset during operation",
@@ -64,7 +68,11 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "passive: reset",
+      "session 1: RESETTED 0x00",
+      "session 2: RESETTED 0x00"
+    ],
     "counters": {}
   }
 }

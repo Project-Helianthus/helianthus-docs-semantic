@@ -239,3 +239,60 @@ def test_a_committed_session_output_holds_no_host_specific_build_record(output):
     provenance = json.loads((HERE / "provenance" / ("-".join(output.parent.relative_to(SESSIONS).parts) + ".json")).read_text(encoding="utf-8"))
     assert provenance["session_sha256"] == document["session_sha256"]
     assert {"toolchain", "executable_sha256"} <= set(provenance["build"])
+
+
+BT01 = HERE.parent / "vectors" / "current" / "gateway"
+
+
+def bt01_case(relative):
+    return json.loads((BT01 / relative).read_text(encoding="utf-8"))
+
+
+def test_the_two_self_echo_cases_differ_in_their_published_input():
+    echo = bt01_case("engine/reconstructor/self-echo-parse-failure.json")
+    plain = bt01_case("engine/reconstructor/self-echo-without-snapshotter.json")
+    assert echo["input"]["bytes"] == plain["input"]["bytes"]
+    assert echo["input"] != plain["input"]
+    assert echo["input"]["state"]["local_address_snapshotter"] == {"installed": True, "address": "71", "known": True}
+    assert plain["input"]["state"]["local_address_snapshotter"] == {"installed": False}
+    assert (echo["output"]["counters"]["abandons_by_reason"], plain["output"]["counters"]["abandons_by_reason"]) == ({"self_echo": 1}, {"corrupted_request": 1})
+
+
+def test_a_reconstructor_case_publishes_the_symbols_and_events_it_was_fed():
+    reset = bt01_case("engine/reconstructor/reset.json")["input"]
+    assert reset["qualifiers"]["tap_events_after_stream"] == [{"kind": "reset", "offset_from_start_ns": 100000000}]
+    timeout = bt01_case("engine/reconstructor/read-timeout-watchdog.json")["input"]
+    assert [event["offset_from_start_ns"] for event in timeout["qualifiers"]["tap_events_after_stream"]] == [100000000, 400000000]
+    assert timeout["state"]["passive_transaction_watchdog_ns"] == 250000000
+    direct = bt01_case("engine/reconstructor/direct.json")["input"]
+    assert direct["qualifiers"]["fed_symbols"] == "aa" + direct["bytes"] and direct["clock"]["symbol_spacing_ns"] == 10000000
+
+
+def test_the_b555_selector_cases_publish_their_arguments():
+    axes = bt01_case("engine/watch-catalog/b555-axes.json")
+    assert len(axes["input"]["qualifiers"]["keys"]) == len(axes["output"]["decisions"]) == 7
+    assert bt01_case("engine/watch-catalog/builders.json")["input"]["qualifiers"]["calls"][2]["weekday"] == "06"
+
+
+def test_the_local_worker_report_cases_publish_the_bytes_the_decoder_received():
+    good = bt01_case("localworkerhost/report-round-trip.json")["input"]["bytes"]
+    assert len(good) == 2 * 152
+    corrupt = bt01_case("localworkerhost/report-corrupt-magic.json")
+    assert corrupt["input"]["bytes"] != good and corrupt["input"]["state"]["encoded_original_hex"] == good
+    assert len(bt01_case("localworkerhost/report-short.json")["input"]["bytes"]) == 2 * 151
+
+
+def test_a_dropped_symbol_is_not_a_written_symbol():
+    enforce = bt01_case("adaptermux/v8classifier/aa-injection-enforce.json")["output"]
+    assert enforce["decisions"][0]["drop"] is True and enforce["symbols_written"] == []
+    assert bt01_case("adaptermux/v8classifier/aa-injection-off.json")["output"]["symbols_written"] == ["aa"]
+
+
+def test_an_arbitration_error_is_not_a_written_symbol():
+    mismatch = bt01_case("adaptermux/transition/start_async--started_other_source.json")["output"]
+    assert mismatch["symbols_written"] == []
+    assert any(effect.startswith("result ") and ", error " in effect for effect in mismatch["decisions"][0]["effects"])
+    assert "muxModelEffectResultError" in mismatch["decisions"][0]["effect_classes"]
+    for path in sorted((BT01 / "adaptermux" / "transition").glob("*.json")):
+        written = json.loads(path.read_text(encoding="utf-8"))["output"]["symbols_written"]
+        assert all(set(symbol) <= set("0123456789abcdef") for symbol in written), path.name

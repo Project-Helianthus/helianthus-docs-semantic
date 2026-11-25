@@ -32,11 +32,13 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 1: STARTED 0x31"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectSessionStarted",
+          "muxModelEffectResultGranted"
+        ],
         "effects": [
           "session 1: STARTED 0x31",
           "result session 1 0x31: granted, source 0x31, started queued"
@@ -60,7 +62,9 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "session 1: STARTED 0x31"
+    ],
     "counters": {}
   }
 }

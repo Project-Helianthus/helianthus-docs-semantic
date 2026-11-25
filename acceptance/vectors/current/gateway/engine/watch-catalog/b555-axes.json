@@ -5,7 +5,80 @@
   "stimulus": "TestB555WatchKeyCanonicalPreservesSelectorAxes",
   "input": {
     "bytes": "",
-    "qualifiers": {},
+    "qualifiers": {
+      "keys": [
+        {
+          "has_slot": false,
+          "has_weekday": false,
+          "hc": "00",
+          "opcode": "a4",
+          "slot": "00",
+          "target": "15",
+          "weekday": "00",
+          "zone": "02"
+        },
+        {
+          "has_slot": false,
+          "has_weekday": false,
+          "hc": "01",
+          "opcode": "a4",
+          "slot": "00",
+          "target": "15",
+          "weekday": "00",
+          "zone": "02"
+        },
+        {
+          "has_slot": true,
+          "has_weekday": true,
+          "hc": "00",
+          "opcode": "a5",
+          "slot": "03",
+          "target": "15",
+          "weekday": "06",
+          "zone": "02"
+        },
+        {
+          "has_slot": true,
+          "has_weekday": true,
+          "hc": "00",
+          "opcode": "a5",
+          "slot": "03",
+          "target": "15",
+          "weekday": "06",
+          "zone": "01"
+        },
+        {
+          "has_slot": true,
+          "has_weekday": true,
+          "hc": "01",
+          "opcode": "a5",
+          "slot": "03",
+          "target": "15",
+          "weekday": "06",
+          "zone": "02"
+        },
+        {
+          "has_slot": true,
+          "has_weekday": true,
+          "hc": "00",
+          "opcode": "a5",
+          "slot": "03",
+          "target": "15",
+          "weekday": "05",
+          "zone": "02"
+        },
+        {
+          "has_slot": true,
+          "has_weekday": true,
+          "hc": "00",
+          "opcode": "a5",
+          "slot": "02",
+          "target": "15",
+          "weekday": "06",
+          "zone": "02"
+        }
+      ]
+    },
     "clock": {},
     "state": {}
   },

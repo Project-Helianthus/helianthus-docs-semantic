@@ -5,11 +5,24 @@
   "stimulus": "TestReconstructorSelfEchoOnParseFailure",
   "input": {
     "bytes": "7108b5090101ffaa",
-    "qualifiers": {},
-    "clock": {
-      "start": "1970-01-01T00:00:00Z"
+    "qualifiers": {
+      "escaped_symbol_indices": [],
+      "fed_symbols": "aa7108b5090101ffaa",
+      "feeder": "feedPassiveSymbols",
+      "tap_events_after_stream": []
     },
-    "state": {}
+    "clock": {
+      "start": "1970-01-01T00:00:00Z",
+      "symbol_spacing_ns": 10000000
+    },
+    "state": {
+      "local_address_snapshotter": {
+        "address": "71",
+        "installed": true,
+        "known": true
+      },
+      "passive_transaction_watchdog_ns": 1000000000
+    }
   },
   "output": {
     "symbols_written": [],

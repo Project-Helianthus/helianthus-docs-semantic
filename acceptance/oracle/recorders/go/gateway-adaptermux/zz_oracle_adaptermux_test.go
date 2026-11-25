@@ -42,12 +42,7 @@ func oracleRecordTransitions(t *testing.T) {
 		after := h.state()
 		effects := append([]string(nil), h.effects()...)
 		h.stop()
-		symbols := make([]any, 0)
-		for _, effect := range effects {
-			if strings.Contains(effect, "symbol") || strings.Contains(effect, "RECEIVED") || strings.Contains(effect, "STARTED") || strings.Contains(effect, "RESETTED") {
-				symbols = append(symbols, effect)
-			}
-		}
+		symbols, observations, classes := oracleClassifyEffects(effects)
 		oracleWrite(t, "transition/"+row.fixture+"--"+row.input+".json", oracleCase{
 			Component: "adaptermux",
 			Source:    "internal/adaptermux/mux.go",
@@ -60,10 +55,36 @@ func oracleRecordTransitions(t *testing.T) {
 			},
 			Output: oracleOutput{
 				SymbolsWritten: symbols,
-				Decisions:      []any{map[string]any{"state": oracleTransitionState(after), "effects": effects}},
+				Decisions:      []any{map[string]any{"state": oracleTransitionState(after), "effects": effects, "effect_classes": classes}},
+				Observations:   observations,
 			},
 		})
 	}
+}
+
+// oracleClassifyEffects splits the harness effect log with the pin's own effect
+// classifier. Only the payload of an adapter write is a symbol written;
+// consumer-facing passive, active and session entries are observations; adapter
+// start requests, results and errors stay in the effect list and its classes.
+func oracleClassifyEffects(effects []string) (written, observations, classes []any) {
+	written, observations, classes = []any{}, []any{}, []any{}
+	for _, effect := range effects {
+		kind, err := muxModelEffectKind(effect)
+		if err != nil {
+			classes = append(classes, "unclassified")
+			continue
+		}
+		classes = append(classes, kind.String())
+		switch kind {
+		case muxModelEffectAdapterWrite:
+			written = append(written, strings.ToLower(strings.ReplaceAll(strings.TrimPrefix(effect, "adapter: Write "), " ", "")))
+		case muxModelEffectPassiveSymbol, muxModelEffectPassiveReset, muxModelEffectPassiveLifecycle, muxModelEffectActiveByte,
+			muxModelEffectSessionReceived, muxModelEffectSessionStarted, muxModelEffectSessionFailed, muxModelEffectSessionReset,
+			muxModelEffectSessionError, muxModelEffectSessionInfo:
+			observations = append(observations, effect)
+		}
+	}
+	return written, observations, classes
 }
 
 func oracleUpstream(mode transitionUpstreamMode) string {
@@ -168,13 +189,22 @@ func oracleRecordClassifier(t *testing.T) {
 				State:      map[string]any{"after_started": true},
 			},
 			Output: oracleOutput{
-				SymbolsWritten: []any{"aa"},
+				SymbolsWritten: oracleForwarded("aa", drop),
 				Decisions:      []any{map[string]any{"drop": drop, "admin_events": recorded, "admin_dropped": dropped}},
 				Observations:   recorded,
 				Counters:       oracleClassifierCounters(classifier),
 			},
 		})
 	}
+}
+
+// oracleForwarded lists the symbol the classifier lets through: a symbol that
+// Observe drops is not forwarded and is not listed as written.
+func oracleForwarded(symbol string, drop bool) []any {
+	if drop {
+		return []any{}
+	}
+	return []any{symbol}
 }
 
 func oracleClassifierCounters(classifier *v8classifier.Classifier) map[string]any {

@@ -32,14 +32,15 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "passive: symbol 0x10",
-      "session 1: RECEIVED 0x10",
-      "session 2: RECEIVED 0x10",
-      "result gateway 0x7F: source 0x10, error adaptermux: STARTED mismatch (got 0x10, want 0x7F)"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectPassiveSymbol",
+          "muxModelEffectSessionReceived",
+          "muxModelEffectSessionReceived",
+          "muxModelEffectResultError"
+        ],
         "effects": [
           "passive: symbol 0x10",
           "session 1: RECEIVED 0x10",
@@ -65,7 +66,11 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "passive: symbol 0x10",
+      "session 1: RECEIVED 0x10",
+      "session 2: RECEIVED 0x10"
+    ],
     "counters": {}
   }
 }

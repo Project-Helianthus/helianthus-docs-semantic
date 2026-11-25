@@ -32,12 +32,13 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 1: RECEIVED 0x52",
-      "session 2: RECEIVED 0x52"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectSessionReceived",
+          "muxModelEffectSessionReceived"
+        ],
         "effects": [
           "session 1: RECEIVED 0x52",
           "session 2: RECEIVED 0x52"
@@ -61,7 +62,10 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "session 1: RECEIVED 0x52",
+      "session 2: RECEIVED 0x52"
+    ],
     "counters": {}
   }
 }

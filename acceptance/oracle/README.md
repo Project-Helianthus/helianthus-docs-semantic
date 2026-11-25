@@ -79,6 +79,12 @@ the input), `input` (`bytes`, `qualifiers`, `clock`, `state`) and `output` (`sym
 `recorders/go/gateway-adaptermux/`, `recorders/go/gateway-localworkerhost/` and `recorders/go/gateway-engine/`; `record.sh`
 copies them into a scratch unpack of the gateway pin, runs `TestOracleAdapterMux`, `TestOracleLocalWorkerHost` and
 `TestOracleEngine` there and writes the case files. A case that varies a field of its input records every field it varies.
+A reconstructor case records the symbols as the pin's feeder passes them (`qualifiers.fed_symbols`, with the feeder, the escape
+flags and the tap events that follow the stream), the symbol spacing and start (`clock`), the configured watchdog and the
+local-address snapshotter (`state`). A local-worker report case records the encoded report bytes or the exact bytes given to the
+decoder (`bytes`). In an adaptermux transition case `symbols_written` lists only the payloads of adapter writes; the other
+effects are in `decisions` with their class and in `observations`. In a classifier case `symbols_written` lists the symbols
+that the classifier does not drop.
 
 Donor files with no offline fixture at the pin have no vector. `watch_efficiency.go` declares types and no function and has
 no test file: only `SemanticReadExecutionStats` is recorded, through the scheduler's watch read cases. The reconstructor's

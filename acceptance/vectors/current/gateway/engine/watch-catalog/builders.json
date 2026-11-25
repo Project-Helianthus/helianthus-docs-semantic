@@ -5,7 +5,36 @@
   "stimulus": "TestWatchKeyBuildersRemainStable",
   "input": {
     "bytes": "",
-    "qualifiers": {},
+    "qualifiers": {
+      "calls": [
+        {
+          "builder": "b516",
+          "function": "NewB516WatchKey",
+          "period": "01",
+          "source": "02",
+          "target": "15",
+          "usage": "03"
+        },
+        {
+          "builder": "b555-program",
+          "function": "NewB555ProgramWatchKey",
+          "hc": "00",
+          "opcode": "a4",
+          "target": "15",
+          "zone": "02"
+        },
+        {
+          "builder": "b555",
+          "function": "NewB555WatchKey",
+          "hc": "00",
+          "opcode": "a5",
+          "slot": "03",
+          "target": "15",
+          "weekday": "06",
+          "zone": "02"
+        }
+      ]
+    },
     "clock": {},
     "state": {}
   },

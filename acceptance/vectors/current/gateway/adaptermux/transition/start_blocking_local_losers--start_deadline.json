@@ -35,6 +35,10 @@
     "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectResultError",
+          "muxModelEffectResultError"
+        ],
         "effects": [
           "result session 1 0x31: source 0x31, error adaptermux: START deadline expired",
           "result gateway 0x7F: source 0x7F, error adaptermux: START deadline expired: ebus: no response within timeout window"

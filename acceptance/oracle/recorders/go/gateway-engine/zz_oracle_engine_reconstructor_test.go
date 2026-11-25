@@ -11,7 +11,13 @@ import (
 // TestOracleEngineReconstructor records the pin's reconstructor stimuli for
 // the read-timeout watchdog and for self-echo classification.
 func TestOracleEngineReconstructor(t *testing.T) {
-	oracleReconstructorCase(t, "reconstructor/read-timeout-watchdog.json", "TestPassiveTransactionReconstructor_ReadTimeoutHonorsWatchdog", func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+	oracleReconstructorCase(t, "reconstructor/read-timeout-watchdog.json", "TestPassiveTransactionReconstructor_ReadTimeoutHonorsWatchdog", oracleReconSpec{
+		Watchdog: 250 * time.Millisecond,
+		TapEvents: []oracleTapEvent{
+			{Kind: "read_timeout", OffsetNS: int64(100 * time.Millisecond), Error: ebuserrors.ErrTimeout.Error()},
+			{Kind: "read_timeout", OffsetNS: int64(400 * time.Millisecond), Error: ebuserrors.ErrTimeout.Error()},
+		},
+	}, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 		cfg := DefaultConfig()
 		cfg.PassiveTransactionWatchdog = 250 * time.Millisecond
 		reconstructor := newPassiveTransactionReconstructorCore(cfg)
@@ -42,7 +48,11 @@ func TestOracleEngineReconstructor(t *testing.T) {
 	}
 	for _, tc := range selfEchoCases {
 		tc := tc
-		oracleReconstructorCase(t, "reconstructor/"+tc.name+".json", tc.stimulus, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
+		spec := oracleReconSpec{}
+		if tc.snapshotter {
+			spec.Snapshotter = &LocalAddressSnapshot{Address: 0x71, Known: true}
+		}
+		oracleReconstructorCase(t, "reconstructor/"+tc.name+".json", tc.stimulus, spec, func() ([]byte, []PassiveClassifiedEvent, *PassiveTransactionReconstructor) {
 			reconstructor := newPassiveTransactionReconstructorCore(DefaultConfig())
 			if tc.snapshotter {
 				reconstructor.SetLocalAddressSnapshotter(testLocalSnapshotter{address: 0x71, known: true})

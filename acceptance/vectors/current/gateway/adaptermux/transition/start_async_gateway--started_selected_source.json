@@ -32,12 +32,14 @@
     }
   },
   "output": {
-    "symbols_written": [
-      "session 1: RECEIVED 0x7F",
-      "session 2: RECEIVED 0x7F"
-    ],
+    "symbols_written": [],
     "decisions": [
       {
+        "effect_classes": [
+          "muxModelEffectSessionReceived",
+          "muxModelEffectSessionReceived",
+          "muxModelEffectResultGranted"
+        ],
         "effects": [
           "session 1: RECEIVED 0x7F",
           "session 2: RECEIVED 0x7F",
@@ -62,7 +64,10 @@
       }
     ],
     "cache": {},
-    "observations": [],
+    "observations": [
+      "session 1: RECEIVED 0x7F",
+      "session 2: RECEIVED 0x7F"
+    ],
     "counters": {}
   }
 }
