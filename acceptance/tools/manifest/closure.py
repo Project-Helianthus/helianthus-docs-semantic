@@ -54,6 +54,9 @@ class TestFunction:
     file: str
     uses: set[str] = field(default_factory=set)
     assertions: list[Assertion] = field(default_factory=list)
+    # Names declared by the package of this test when that package is not one
+    # the input names (an external test package); they stay in the donor.
+    own: set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -469,6 +472,9 @@ def _tests(
     struct_types: set[str] | None = None,
     aliases_of: "Callable[[str], dict[str, str]] | None" = None,
     qualified_names: set[str] | None = None,
+    method_keys: set[str] | None = None,
+    foreign: dict[str, set[str]] | None = None,
+    own: set[str] | None = None,
 ) -> list[TestFunction]:
     """Test functions with the donor symbols each one and each assertion uses.
 
@@ -501,9 +507,12 @@ def _tests(
             if source is not None and declaration is not None:
                 reached: set[tuple[str, str]] = set()
                 uses = source.uses(
-                    declaration, package_names, struct_types or set(), aliases, reached
+                    declaration, package_names, struct_types or set(), aliases, reached,
+                    foreign=foreign,
                 )
                 uses |= _qualified(reached, qualified_names)
+                if method_keys:
+                    uses |= source.method_uses(declaration, method_keys)
             else:
                 uses = _uses_in_text(body, package_names, imports)
             assertions: list[Assertion] = []
@@ -520,8 +529,14 @@ def _tests(
                     assertion_uses = source.uses(
                         declaration, package_names, struct_types or set(), aliases, reached,
                         window=(body_start + start, body_start + end),
+                        foreign=foreign,
                     )
                     assertion_uses |= _qualified(reached, qualified_names)
+                    if method_keys:
+                        assertion_uses |= source.method_uses(
+                            declaration, method_keys,
+                            window=(body_start + start, body_start + end),
+                        )
                     helpers = [item for item in helpers if item in assertion_uses]
                 else:
                     assertion_uses = _uses_in_text(segment, package_names, imports)
@@ -532,7 +547,9 @@ def _tests(
                     uses=assertion_uses,
                     helpers=helpers,
                 ))
-            tests.append(TestFunction(name=name, file=path, uses=uses, assertions=assertions))
+            tests.append(TestFunction(
+                name=name, file=path, uses=uses, assertions=assertions, own=set(own or ()),
+            ))
     return tests
 
 
@@ -829,12 +846,17 @@ class GoFile:
         if self.tokens[cursor][0] == "(":
             end = self._end_of(cursor)
             at = cursor + 1
+            # A constant specification without a type and an initializer
+            # repeats the previous one, so it uses what that one uses.
+            inherit: dict[str, object] | None = (
+                {"start": None, "skip": set()} if kind == "const" else None
+            )
             while at < end:
                 if self.tokens[at][0] == ";":
                     at += 1
                     continue
                 stop = self._statement_end(at, end)
-                self._spec(kind, at, stop, found, at)
+                self._spec(kind, at, stop, found, at, inherit)
                 at = max(stop, at + 1)
             return end + 1
         stop = self._statement_end(cursor, count)
@@ -858,7 +880,15 @@ class GoFile:
             return self._word(self._end_of(opener + 2) + 1) not in ("]", "")
         return bool(second) and _is_name(second)
 
-    def _spec(self, kind: str, start: int, stop: int, found: list[Declaration], first: int) -> None:
+    def _spec(
+        self,
+        kind: str,
+        start: int,
+        stop: int,
+        found: list[Declaration],
+        first: int,
+        inherit: dict[str, object] | None = None,
+    ) -> None:
         if start >= stop or not _is_name(self.tokens[start][0]):
             return
         if kind == "type":
@@ -900,6 +930,14 @@ class GoFile:
                 cursor += 2
             else:
                 break
+        skipped = set(names)
+        if inherit is not None:
+            if names[-1] + 1 >= stop and inherit["start"] is not None:
+                first = inherit["start"]
+                skipped = set(inherit["skip"]) | skipped
+            else:
+                inherit["start"] = first
+            inherit["skip"] = set(skipped)
         for at in names:
             if self.tokens[at][0] != "_":
                 found.append(Declaration(
@@ -907,7 +945,7 @@ class GoFile:
                     kind=kind,
                     first=first,
                     last=stop,
-                    skip=set(names),
+                    skip=set(skipped),
                 ))
 
     def _fields(self, opener: int, interface: bool, skip: set[int], add) -> None:
@@ -951,7 +989,14 @@ class GoFile:
                 return
         skip.add(first)
 
-    def _literal(self, index: int, low: int, stack: list[tuple[int, str, bool]], struct_types: set[str]) -> tuple[str, bool]:
+    def _literal(
+        self,
+        index: int,
+        low: int,
+        stack: list[tuple[int, str, bool]],
+        struct_types: set[str],
+        qualified_struct: "Callable[[str, str], bool] | None" = None,
+    ) -> tuple[str, bool]:
         """Kind of the composite literal opened at ``index``.
 
         ``struct`` means the keys of its elements are field names.
@@ -983,7 +1028,12 @@ class GoFile:
             if start - 2 >= low and self._word(start - 1) == "." and _is_name(self._word(start - 2)):
                 start -= 2
                 qualified = True
-            is_struct = qualified or before in struct_types
+            if qualified:
+                # A type of another package is a struct unless that package is a
+                # donor directory that declares it as some other kind of type.
+                is_struct = qualified_struct(self._word(start), before) if qualified_struct else True
+            else:
+                is_struct = before in struct_types
             if start > low and self._word(start - 1) == "]":
                 return "collection", is_struct
             return ("struct" if is_struct else "other"), False
@@ -1068,7 +1118,25 @@ class GoFile:
             cursor += 1
         return self._scope_end(stack, limit)
 
-    def _local_declaration(self, index: int, limit: int, stack: list[tuple[int, str, bool]], skip: set[int], add) -> None:
+    def _short_scope(
+        self, index: int, chain: list[int], low: int, high: int, stack: list[tuple[int, str, bool]]
+    ) -> tuple[int, int]:
+        """Token range a name bound by the ``:=`` at ``index`` is visible in."""
+        lead = self._word(chain[-1] - 1) if chain[-1] - 1 >= low else ""
+        if lead in ("if", "for", "switch"):
+            return self._header_scope(index, high, chain=lead == "if")
+        if lead == "case":
+            cursor = index + 1
+            while cursor < high and self._word(cursor) != ":":
+                cursor += 1
+            return cursor, self._clause_end(cursor + 1, high, stack)
+        return self._statement_end(chain[-1], high), self._scope_end(stack, high)
+
+    def _local_declaration(
+        self, index: int, limit: int, stack: list[tuple[int, str, bool]], skip: set[int], add,
+        types: "list[tuple[str, int, int, bool]] | None" = None,
+        struct_types: set[str] | None = None,
+    ) -> None:
         kind = self._word(index)
         end = self._scope_end(stack, limit)
         names: list[tuple[list[int], int]] = []
@@ -1089,6 +1157,20 @@ class GoFile:
             for at in chain:
                 skip.add(at)
                 add(self.tokens[at][0], stop, end)
+                if kind == "type" and types is not None:
+                    types.append((self.tokens[at][0], stop, end, self._struct_spec(at + 1, stop, struct_types or set())))
+
+    def _struct_spec(self, start: int, stop: int, struct_types: set[str]) -> bool:
+        """True when the type specification tokens from ``start`` spell a struct."""
+        cursor = start
+        if cursor < stop and self._word(cursor) == "=":
+            cursor += 1
+        if cursor >= stop:
+            return False
+        word = self._word(cursor)
+        if word == "struct":
+            return True
+        return _is_name(word) and word in struct_types and (cursor + 1 >= stop or self._word(cursor + 1) != ".")
 
     def _chain(self, start: int, stop: int, single: bool) -> list[int]:
         chain: list[int] = []
@@ -1109,6 +1191,7 @@ class GoFile:
         aliases: dict[str, str] | None = None,
         qualified: set[tuple[str, str]] | None = None,
         window: tuple[int, int] | None = None,
+        foreign: dict[str, set[str]] | None = None,
     ) -> set[str]:
         """Candidate names the declaration uses.
 
@@ -1132,6 +1215,13 @@ class GoFile:
             add(name, start, stop)
         blocks = {declaration.body} if declaration.body >= 0 else set()
         stack: list[tuple[int, str, bool]] = []
+        local_types: list[tuple[str, int, int, bool]] = []
+
+        def qualified_struct(alias: str, name: str) -> bool:
+            if aliases and foreign and alias in aliases and aliases[alias] in foreign:
+                return name in foreign[aliases[alias]]
+            return True
+
         seen: list[tuple[str, int]] = []
         quals: list[tuple[str, str, int]] = []
         index = low
@@ -1158,7 +1248,16 @@ class GoFile:
                     kind = "body"
                     self._fields(index, before == "interface", skip, add)
                 else:
-                    kind, element = self._literal(index, low, stack, struct_types)
+                    known = struct_types
+                    active = [item for item in local_types if item[1] <= index < item[2]]
+                    if active:
+                        known = set(struct_types)
+                        for name, _first, _last, is_struct in active:
+                            if is_struct:
+                                known.add(name)
+                            else:
+                                known.discard(name)
+                    kind, element = self._literal(index, low, stack, known, qualified_struct)
                 stack.append((index, kind, element))
             elif word == "}":
                 if stack:
@@ -1174,23 +1273,13 @@ class GoFile:
                         break
                 if chain:
                     skip.update(chain)
-                    lead = self._word(chain[-1] - 1) if chain[-1] - 1 >= low else ""
-                    if lead in ("if", "for", "switch"):
-                        start, stop = self._header_scope(index, high, chain=lead == "if")
-                    elif lead == "case":
-                        cursor = index + 1
-                        while cursor < high and self._word(cursor) != ":":
-                            cursor += 1
-                        start, stop = cursor, self._clause_end(cursor + 1, high, stack)
-                    else:
-                        start = self._statement_end(chain[-1], high)
-                        stop = self._scope_end(stack, high)
+                    start, stop = self._short_scope(index, chain, low, high, stack)
                     for at in chain:
                         add(self.tokens[at][0], start, stop)
             elif word in ("var", "const", "type") and stack and (
                 self._word(index + 1) == "(" or _is_name(self._word(index + 1))
             ):
-                self._local_declaration(index, high, stack, skip, add)
+                self._local_declaration(index, high, stack, skip, add, local_types, struct_types)
             elif _is_name(word):
                 before = self._word(index - 1) if index > low else ""
                 if (
@@ -1231,35 +1320,48 @@ class GoFile:
             return self._word(cursor)
         return None
 
-    def method_uses(self, declaration: Declaration, keys: set[str]) -> set[str]:
+    def method_uses(
+        self,
+        declaration: Declaration,
+        keys: set[str],
+        window: tuple[int, int] | None = None,
+    ) -> set[str]:
         """Method keys of ``keys`` that the declaration refers to.
 
         A reference is ``name.Method`` where ``name`` is a parameter, receiver
         or local variable that is declared with a package type ``T`` and
-        ``T.Method`` is in ``keys``, or the method expression ``T.Method``. A
-        name that is bound more than once to different types, or to a value
-        whose type is not spelled, resolves to no type. A field is never a
-        method key, so a field selector is not a reference.
+        ``T.Method`` is in ``keys``, or the method expression ``T.Method``. The
+        binding in scope at the reference gives the type; a name bound to a
+        value whose type is not spelled resolves to no type. A field is never a
+        method key, so a field selector is not a reference. ``window`` limits
+        the result to references at those source offsets.
         """
         low, high = declaration.first, declaration.last
-        types: dict[str, str | None] = {}
+        # Each binding is visible from where it takes effect to the end of its
+        # scope, and the innermost one that covers a reference gives its type.
+        bindings: dict[str, list[tuple[int, int, str | None]]] = {}
 
-        def bind(name: str, kind: str | None) -> None:
-            if name in types and types[name] != kind:
-                types[name] = None
-            else:
-                types[name] = kind
+        def bind(name: str, start: int, stop: int, kind: str | None) -> None:
+            bindings.setdefault(name, []).append((start, stop, kind))
 
         for name, kind in declaration.typed:
-            bind(name, kind)
+            bind(name, low, high, kind)
+        stack: list[tuple[int, str, bool]] = []
         index = low
         while index < high:
             word = self.tokens[index][0]
             if word == "func" and self._word(index + 1) == "(" and not (
                 index == low and declaration.kind in ("func", "method")
             ):
-                for name, kind in self._typed_signature(index + 1):
-                    bind(name, kind)
+                _names, _after, body = self._signature(index + 1)
+                if body is not None:
+                    for name, kind in self._typed_signature(index + 1):
+                        bind(name, body, self._end_of(body) + 1, kind)
+            elif word == "{":
+                stack.append((index, "", False))
+            elif word == "}":
+                if stack:
+                    stack.pop()
             elif word == ":=":
                 chain: list[int] = []
                 at = index - 1
@@ -1269,11 +1371,13 @@ class GoFile:
                         at -= 2
                     else:
                         break
-                kind = None
-                if len(chain) == 1:
-                    kind = self._initializer_type(index + 1, self._statement_end(index + 1, high))
-                for at in chain:
-                    bind(self.tokens[at][0], kind)
+                if chain:
+                    kind = None
+                    if len(chain) == 1:
+                        kind = self._initializer_type(index + 1, self._statement_end(index + 1, high))
+                    start, stop = self._short_scope(index, chain, low, high, stack)
+                    for at in chain:
+                        bind(self.tokens[at][0], start, stop, kind)
             elif word == "var" and index > low:
                 specs: list[tuple[int, int]] = []
                 if self._word(index + 1) == "(":
@@ -1297,8 +1401,9 @@ class GoFile:
                         kind = self._initializer_type(after + 1, stop) if len(chain) == 1 else None
                     else:
                         kind = self._type_name(after, stop)
+                    scope_end = self._scope_end(stack, high)
                     for name_at in chain:
-                        bind(self.tokens[name_at][0], kind)
+                        bind(self.tokens[name_at][0], stop, scope_end, kind)
             index += 1
         found: set[str] = set()
         for index in range(low, high):
@@ -1311,7 +1416,10 @@ class GoFile:
                 or not _is_name(self._word(index + 2))
             ):
                 continue
-            kind = types.get(word, word)
+            if window is not None and not window[0] <= self.tokens[index][1] < window[1]:
+                continue
+            covering = [item for item in bindings.get(word, ()) if item[0] <= index < item[1]]
+            kind = max(covering, key=lambda item: item[0])[2] if covering else word
             if kind is None:
                 continue
             key = f"{kind}.{self._word(index + 2)}"
@@ -1547,10 +1655,12 @@ def analyze_symbols(
             "stay_keys": stay_keys,
             "moved_names": {key for key in moved_keys if "." not in key},
             "stay_names": {key for key in stay_keys if "." not in key},
+            "method_keys": {item.key for item in methods},
         }
     if facts.errors:
         return facts
     outside: set[str] = set()
+    foreign = {other: info[other]["struct_types"] for other in info}
     for directory in packages:
         files = parsed[directory]
         declared = info[directory]["declared"]
@@ -1566,7 +1676,7 @@ def analyze_symbols(
             aliases = aliases_of(texts[directory][moved_keys[key]])
             reached: set[tuple[str, str]] = set()
             used = files[moved_keys[key]].uses(
-                declaration, declared, struct_types, aliases, reached
+                declaration, declared, struct_types, aliases, reached, foreign=foreign
             )
             used.discard(declaration.name)
             outside.update(used - moved_names - stay_names)
@@ -1615,12 +1725,18 @@ def analyze_symbols(
     for directory in packages:
         facts.moved_names[directory] |= all_moved
         facts.outside_names[directory] |= all_outside
+        # A call of a method is a use of that method: a moved one is moved, any
+        # other one of the package stays.
+        methods_here = info[directory]["method_keys"]
+        facts.moved_names[directory] |= {key for key in methods_here if key in info[directory]["moved_keys"]}
+        facts.outside_names[directory] |= {key for key in methods_here if key not in info[directory]["moved_keys"]}
     moved_pairs = {(item["file"], item["name"]) for item in facts.moved}
     for directory in packages:
         found = _tests(
             texts[directory], set(), facts.moved_names[directory], facts.outside_names[directory],
             parsed[directory], info[directory]["struct_types"], aliases_of,
             all_moved | all_outside,
+            method_keys=info[directory]["method_keys"], foreign=foreign,
         )
         facts.tests[directory] = [
             test for test in found if (test.file, test.name) not in moved_pairs
@@ -1636,24 +1752,42 @@ def analyze_symbols(
         path for path in list_files_recursive(repo, revision)
         if path.endswith("_test.go") and path not in covered
     ]
-    grouped: dict[str, dict[str, str]] = {}
+    grouped: dict[tuple[str, str], dict[str, str]] = {}
     for path, blob in sorted(read_blobs(repo, revision, candidates).items()):
         text = blob.decode(errors="replace")
         if not any(hint in text for hint in hints):
             continue
         if not set(aliases_of(text).values()) & set(packages):
             continue
-        grouped.setdefault(str(Path(path).parent), {})[path] = text
-    for directory, group in sorted(grouped.items()):
+        try:
+            clause = package_name(text)
+        except ValueError:
+            continue
+        grouped.setdefault((str(Path(path).parent), clause), {})[path] = text
+    for (directory, clause), group in sorted(grouped.items()):
+        # What the package of these tests declares stays in the donor, so a
+        # test that also uses one of those names is a mixed test.
+        own: set[str] = set()
+        siblings = [path for path in list_dir(repo, revision, directory) if path.endswith(".go")]
+        for blob in read_blobs(repo, revision, siblings).values():
+            text = blob.decode(errors="replace")
+            try:
+                if package_name(text) != clause:
+                    continue
+            except ValueError:
+                continue
+            own.update(item.name for item in GoFile(text).declarations if item.kind != "method")
         found = _tests(
-            group, set(), set(), set(), {path: GoFile(text) for path, text in group.items()},
+            group, set(), set(all_moved), all_outside | own,
+            {path: GoFile(text) for path, text in group.items()},
             set(), aliases_of, all_moved | all_outside,
+            foreign=foreign, own=own,
         )
         found = [test for test in found if (test.file, test.name) not in moved_pairs]
         if directory in packages:
             facts.tests[directory] += found
         else:
-            facts.tests[directory] = found
-            facts.moved_names[directory] = set(all_moved)
-            facts.outside_names[directory] = set(all_outside)
+            facts.tests.setdefault(directory, []).extend(found)
+            facts.moved_names.setdefault(directory, set(all_moved))
+            facts.outside_names.setdefault(directory, set(all_outside))
     return facts

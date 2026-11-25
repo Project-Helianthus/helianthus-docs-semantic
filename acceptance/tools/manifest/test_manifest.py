@@ -1301,6 +1301,117 @@ class ManifestCLITest(unittest.TestCase):
         self.assert_ok(field)
         self.assertNotIn("outside-set", field.stdout)
 
+    FIX = "closure/cross/fix"
+    KEYED = "closure/cross/keyed"
+    METH = "closure/cross/meth"
+    XO = "closure/cross/xo"
+
+    def fix_move(self, symbol: str) -> dict:
+        return self.repo.symbol(self.FIX, f"{self.FIX}/fix.go", symbol, "engine/fix.go")
+
+    def fix_stay(self, symbol: str, package: str | None = None) -> dict:
+        package = package or self.FIX
+        file = "fix.go" if package == self.FIX else "keyed.go"
+        return {"package": package, "path": f"{package}/{file}", "symbol": symbol}
+
+    def test_a_donor_test_that_calls_a_moved_method_is_accounted(self) -> None:
+        move = self.repo.symbol(self.METH, f"{self.METH}/meth.go", "Record.Value", "engine/meth.go")
+        keep = [{"package": self.METH, "path": f"{self.METH}/meth.go", "symbol": "Record"}]
+        bare = self.repo.generate(self.symbol_spec("meth-bare", [move], stay_symbols=keep))
+        self.assert_fail(bare, "unaccounted-assertion function=TestRecordValue assertion=record-value")
+        self.assert_absent("meth-bare")
+        given = [{
+            "function": "TestRecordValue",
+            "name": "record-value",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        self.assert_ok(self.repo.generate(self.symbol_spec("meth-given", [move], stay_symbols=keep, assertions=given)))
+        manifest = self.repo.manifest("meth-given")
+        self.assertEqual(
+            [(item["function"], item["name"]) for item in manifest["assertions"]],
+            [("TestRecordValue", "record-value")],
+        )
+        self.assert_ok(self.repo.check("meth-given"))
+        stripped = json.loads(self.repo.manifest_path("meth-given").read_text(encoding="utf-8"))
+        stripped["assertions"] = []
+        stripped["destinations"] = [item for item in stripped["destinations"] if item["kind"] != "assertion"]
+        path = self.repo.root / "acceptance" / "manifests" / "meth-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(
+            self.repo.check("meth-given", manifest=path),
+            "unaccounted-assertion function=TestRecordValue assertion=record-value",
+        )
+
+    def test_a_nested_binding_does_not_hide_the_method_in_scope_at_the_call(self) -> None:
+        types = [self.fix_stay("R"), self.fix_stay("S")]
+        outer = self.repo.generate(self.symbol_spec("nest-outer", [self.fix_move("Nested")], stay_symbols=types))
+        self.assert_fail(outer)
+        self.assertEqual(outer.stdout, "outside-set: R.Read\n")
+        self.assert_absent("nest-outer")
+        declared = types + [self.fix_stay("R.Read")]
+        self.assert_ok(self.repo.generate(self.symbol_spec("nest-outer-stays", [self.fix_move("Nested")], stay_symbols=declared)))
+        self.assert_ok(self.repo.check("nest-outer-stays"))
+        inner = self.repo.generate(self.symbol_spec("nest-inner", [self.fix_move("Inner")], stay_symbols=types))
+        self.assert_fail(inner)
+        self.assertEqual(inner.stdout, "outside-set: S.Read\n")
+        self.assert_absent("nest-inner")
+
+    def test_a_grouped_constant_uses_what_the_preceding_specification_uses(self) -> None:
+        open_group = self.repo.generate(self.symbol_spec("const-open", [self.fix_move("Moved")]))
+        self.assert_fail(open_group)
+        self.assertEqual(open_group.stdout, "outside-set: Kept\n")
+        self.assert_absent("const-open")
+        closed = self.repo.generate(
+            self.symbol_spec("const-stays", [self.fix_move("Moved")], stay_symbols=[self.fix_stay("Kept")])
+        )
+        self.assert_ok(closed)
+        self.assert_ok(self.repo.check("const-stays"))
+        stripped = json.loads(self.repo.manifest_path("const-stays").read_text(encoding="utf-8"))
+        stripped["stays"] = []
+        path = self.repo.root / "acceptance" / "manifests" / "const-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("const-stays", manifest=path), "outside-set: Kept")
+
+    def test_literal_keys_are_fields_only_for_struct_types(self) -> None:
+        local = self.repo.generate(self.symbol_spec("keys-local", [self.fix_move("LocalKeys")]))
+        self.assert_ok(local)
+        self.assertNotIn("outside-set", local.stdout)
+        types = [self.fix_stay("M", self.KEYED), self.fix_stay("S", self.KEYED)]
+        mapped = self.repo.generate(self.symbol_spec("keys-map", [self.fix_move("MapKeys")], stay_symbols=types))
+        self.assert_fail(mapped)
+        self.assertEqual(mapped.stdout, "outside-set: Kept\n")
+        self.assert_absent("keys-map")
+        declared = self.repo.generate(
+            self.symbol_spec("keys-map-stays", [self.fix_move("MapKeys")], stay_symbols=types + [self.fix_stay("Kept")])
+        )
+        self.assert_ok(declared)
+        structured = self.repo.generate(self.symbol_spec("keys-struct", [self.fix_move("StructKeys")], stay_symbols=types))
+        self.assert_ok(structured)
+        self.assertNotIn("outside-set", structured.stdout)
+
+    def test_an_external_test_keeps_the_staying_symbols_of_its_own_package(self) -> None:
+        move = self.repo.symbol(self.XO, f"{self.XO}/xo.go", "Move", "engine/xo.go")
+        bare = self.repo.generate(self.symbol_spec("own-bare", [move]))
+        self.assert_fail(bare, "unaccounted-assertion function=TestOwnSplit assertion=own-moved")
+        self.assertNotIn("left-behind", bare.stdout)
+        self.assertNotIn("TestOwn ", bare.stdout)
+        self.assertNotIn("assertion=own-kept", bare.stdout)
+        self.assert_absent("own-bare")
+        given = [{
+            "function": "TestOwnSplit",
+            "name": "own-moved",
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+        self.assert_ok(self.repo.generate(self.symbol_spec("own-given", [move], assertions=given)))
+        stays = [(item["kind"], item["name"]) for item in self.repo.manifest("own-given")["stays"]]
+        self.assertIn(("test", "TestOwn"), stays)
+        self.assertIn(("assertion", "own-kept"), stays)
+        self.assert_ok(self.repo.check("own-given"))
+
     def test_an_external_test_package_of_a_moved_directory_is_accounted(self) -> None:
         move = self.repo.symbol(self.XT, f"{self.XT}/xt.go", "Move", "engine/xt.go")
         bare = self.repo.generate(self.symbol_spec("ext-bare", [move]))
@@ -1467,6 +1578,18 @@ class ManifestCLITest(unittest.TestCase):
             "reserves": [],
             "live_inputs": [],
         }
+        snapshot = self._gg13_snapshot()
+        refused = self.repo.deletion(body, gateway=clone)
+        written = self._gg13_snapshot()
+        self._restore_gg13(snapshot)
+        self.assert_fail(refused, f"partial-move: {self.ALPHA}/core.go")
+        self.assertEqual(written, snapshot)
+        # A manifest cut down to its symbol-level records is no whole-file coverage.
+        truncated = json.loads(self.repo.manifest_path("part-move").read_text(encoding="utf-8"))
+        truncated["symbols"] = []
+        cut = self.repo.root / "acceptance" / "manifests" / "part-move-cut.json"
+        cut.write_text(json.dumps(truncated), encoding="utf-8")
+        body["manifests"] = [str(cut)]
         snapshot = self._gg13_snapshot()
         refused = self.repo.deletion(body, gateway=clone)
         written = self._gg13_snapshot()

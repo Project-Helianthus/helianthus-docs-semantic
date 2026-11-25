@@ -348,7 +348,8 @@ def _account_tests(
     }
     specimens = set(spec.get("specimens") or [])
     for test in tests:
-        kind = closure.classify_test(test, moved_names, outside_names)
+        staying_names = outside_names | test.own
+        kind = closure.classify_test(test, moved_names, staying_names)
         if kind == "unrelated":
             continue
         if test.name in specimens:
@@ -366,7 +367,7 @@ def _account_tests(
         staying = []
         for assertion in test.assertions:
             uses_moved = bool(assertion.uses & moved_names)
-            uses_stay = bool(assertion.uses & outside_names)
+            uses_stay = bool(assertion.uses & staying_names)
             if uses_moved and not uses_stay:
                 moved_only.append(assertion)
             else:
@@ -465,7 +466,7 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
             for test in symbol_facts.tests[directory]:
                 for assertion in test.assertions:
                     if (assertion.uses & symbol_facts.moved_names[directory]) and not (
-                        assertion.uses & symbol_facts.outside_names[directory]
+                        assertion.uses & (symbol_facts.outside_names[directory] | test.own)
                     ):
                         claimed.setdefault((assertion.function, assertion.name), set()).add(directory)
         ambiguous = {key for key, where in claimed.items() if len(where) > 1}
@@ -2014,7 +2015,12 @@ def deletion(spec: dict[str, Any], gateway: Path) -> int:
                 continue
             # A symbol-level record proves its symbols moved, not a whole file:
             # a file it moves in part, or lists as shared, is not covered by it.
-            if any("package" in item for item in manifest["symbols"]):
+            # A manifest that lost its symbols but keeps symbol-level
+            # destination or stay records is still a symbol-level record.
+            if any("package" in item for item in manifest["symbols"]) or any(
+                item.get("kind") == "symbol" and "package" in item
+                for item in list(manifest["destinations"]) + list(manifest["stays"])
+            ):
                 partial = True
                 continue
             if not _covers_requested_donor(manifest, spec):
