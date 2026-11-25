@@ -1,0 +1,28 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "localworkerhost",
+  "source": "internal/localworkerhost/supervisor.go",
+  "stimulus": "TestAA27ReportEncodingRoundTripsAndRefusesCorruption/magic",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "offset": 0
+    },
+    "clock": {},
+    "state": {
+      "xor": 127
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "localworkerhost: malformed or unexpected report",
+        "is_report": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

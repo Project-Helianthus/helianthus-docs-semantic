@@ -756,6 +756,3046 @@
       "role": "input",
       "recorder": "hand-authored",
       "case": "vaillant-dhw-0005"
+    },
+    {
+      "path": "current/gateway/adaptermux/arbitration/selection-ownerfalse-idlefalse.json",
+      "sha256": "6486f06ef03bff3bb351e136be27ab829161db0142d124f0eda28f31f06e538f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/arbitration/selection-ownerfalse-idletrue.json",
+      "sha256": "461572474d508dde86fd6ecc7c5edaf2b4382cee031204f8a148afb9d4c7779f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/arbitration/selection-ownertrue-idlefalse.json",
+      "sha256": "4784462427676c6b0b10a791d3d0dc4cd9cfbe9a1b4f25711796c69a15722ded",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/arbitration/selection-ownertrue-idletrue.json",
+      "sha256": "ed940cfea937801c70756eb8483508502ec76da1d9bdb6a53052e3a73b79e377",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/pacer/echo-samples.json",
+      "sha256": "52612a39c6768dceef9d99e177eaa176c5e52653f008e92a3eb739174b06127e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/pacer/grace-and-deadlines.json",
+      "sha256": "1a05b93ec2a9b71cf4c6d602019cdd5f6b924e72a214db5fcda354e8f5d116fa",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/pacer/schedule-cadence.json",
+      "sha256": "b32850857417a1a1e7ae80480a85ef0fa0fc734e469c5fe73e9b36b857d72ba6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/pacer/set-tau.json",
+      "sha256": "4929581dc9c5397029da11cb3b056ce57856e36b44eabc23a53997603dd1374f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/ptytest/mux-absent-device.json",
+      "sha256": "31796f993e46e271a30fc2413ca7fc2092ebd202ec396457e3689de8788f5696",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/ptytest/mux-open-enh.json",
+      "sha256": "d06d494e825d2e153276e1aeb0ea1777a0955d0b295e39f2a1e5c84a82d0bf8a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/ptytest/mux-open-ens.json",
+      "sha256": "5d6d7cf94c5686d06119f134b44c0f73958fafaa4a53ce920457c1569141b012",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/ptytest/mux-reopen.json",
+      "sha256": "de6dd9b501f5bc18f0e401f5de80a1111d230a3978f497dd812ada39f5f99e00",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/ptytest/pair-roundtrip.json",
+      "sha256": "a5221bb0f83dcd6d312ccbbddeb90909a2ab2e559182dc634bddffa7c9dcc151",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/send-symbols/gateway-send-symbols.json",
+      "sha256": "de193c2ab64ac67f05d53ff7db1fe7bcfa22583170a6106b179c607ad44c104b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--bid.json",
+      "sha256": "b87cfa4b92cae9446c307996db3428045ea12a4585e03f299ad5b3a43098c28a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--failed.json",
+      "sha256": "3d801d9fa524d419377145951f659857a6518764351477902d1c15efa7ca070a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--grant.json",
+      "sha256": "585b34477a807f01d72981621016f1995e8b8b4435949cdbc03ef1a01cccf19c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--received_initiator_symbol.json",
+      "sha256": "643d40e0eaa733349387615ad0bb5d202622a15cfb3500e9ad20798cf88faa99",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--received_symbol.json",
+      "sha256": "d9ce455f1f60cfc3c2aae953554ea82717f751af6b11469bb640029ac9934135",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--reset.json",
+      "sha256": "37b7f4f99733ad391270db050085b7145cf60e817deb9d22704663d9348568f2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--session_close.json",
+      "sha256": "fc1ba5b3145c6f09075447fb090e68f7f97c9bb49c14b7a561275daa65fd264b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--started_other_source.json",
+      "sha256": "a4bf03aaf6f6938d970dfdb31fb470275f9d45e978eef490a7b08bd38b50376f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--started_selected_source.json",
+      "sha256": "5acda9625e2b120902d64c5284580b73b4d9b2a4c451859282850a5af6bbecb4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--stream_wire_syn.json",
+      "sha256": "a2e7e60baa085cac30bb8df1cb25c65ac28af5c38f8e213dbb61aa6869afcdda",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/absorb_pending--wire_syn.json",
+      "sha256": "0b46cfb4c6019ba675518e79d2eade3d496ab6af5a6b561a57a04a2d7ec8c2d8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--bid.json",
+      "sha256": "e6a1ef045e6292c03f995ee2c1f46c8fad0d8ce9c8a40cfe1b3fa27c014a88c6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--failed.json",
+      "sha256": "3f126ee699445c1603cbbc4f2ea97f8ab832832a4b7509bb65f6b341af6af7e7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--grant.json",
+      "sha256": "6a8de9577354d99a961aed4d3c3e6c722cfa98534aecd9181f5ac360b824df62",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--received_initiator_symbol.json",
+      "sha256": "ecef70b92330ff67d8c06f745b395b80288734bdf7d29ce127572b0788f09dbc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--received_symbol.json",
+      "sha256": "954b71a534c6e7356e4830b7c463e6300a264df24c1cb11a9c6ec07786f6919d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--reset.json",
+      "sha256": "f74a6fdad65d19c66dc5d7a27aaba2844bd35e8ccb20ed0541d08ce1c04a9bb1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--session_close.json",
+      "sha256": "a5e1eda24d57b669c0ba5487d84230d0ab2baea7f360e7f18541b143e7ae729b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--started_other_source.json",
+      "sha256": "e5040d0ca77e8f2f4744f620e6a5a09e62cf62d318f4290278741d3cfee4e208",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--started_selected_source.json",
+      "sha256": "8935cdcb1045f2394572460ae1ef53445996ba205bc1b94dde5d05b5358fb110",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--stream_wire_syn.json",
+      "sha256": "3ce913cb3d4c3eb78623b50310c59bb4131a9068ee33783d78404fc262e7c9eb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/bids_queued--wire_syn.json",
+      "sha256": "9479f20a1341460e836c1cc2f260a7a5b32be19df574776d7a8e9f29b3620d43",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--bid.json",
+      "sha256": "982b13134c23237a6f815ffb9a3799f1764608dbd643f88c1903d2336cc71600",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--failed.json",
+      "sha256": "eed5c0a4aa1fde6c3e4a2992c2dd5b6186e625f94f144721f454f77239c55137",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--grant.json",
+      "sha256": "78c4a6a2fe2d311569957943bd92c85417d49f9f145692ac45d7abc4bea6e3f3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--received_initiator_symbol.json",
+      "sha256": "854c95caccf41584d5d9fc03c9c0ae4121ae4a153364b0b9e72337ba9792ce82",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--received_symbol.json",
+      "sha256": "1549800ac0ac6cdf9701630a211ffd959d9c2c5812f04d8a8d0ab9d9af8b71e9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--reset.json",
+      "sha256": "416eacad1e4fbe7a17345a3796e018a6ac0e51c8cc420edb2b69ca11249e12b4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--session_close.json",
+      "sha256": "a6b024475ca14b84ea699efbedb667c1c6fe529a4205b5660d4967c92300fde5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--started_other_source.json",
+      "sha256": "8ef5451bb9e9583cbbbad71a0106f5912588e7fa39732cea066e02d65552f65f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--started_selected_source.json",
+      "sha256": "382b13993bb544d15c36dfa61145101bce982c2b4a47a6bc7035a4e16b2d9797",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--stream_wire_syn.json",
+      "sha256": "7fcb649e8b63e01e18d509a69b011f7f59c70fa8ba1c603debd02be6fc450a91",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/fenced--wire_syn.json",
+      "sha256": "6a00315152fd0bbf59cf7db02ca94215bae0c72f0887c3f9e21a0fae9df8437d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--bid.json",
+      "sha256": "ed3c5b61ed4db26cff6670bbfdd577f1be93eeba553dff34dd33b4219d409591",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--failed.json",
+      "sha256": "544b49e219ad8654f0cb841eff48f09f9732feade72e63ad041a70e8bd2186c9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--grant.json",
+      "sha256": "8eb43b3f265ebcee28068159befa96a3c192289b426904f5b81a8b8b0ec5a370",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--received_initiator_symbol.json",
+      "sha256": "d944c777f08edbd55c75cd81d9fab08f5a0eb1b6c52cf5f6189afaeecf0d2741",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--received_symbol.json",
+      "sha256": "88ff6e1e7b1397aab21ac4ad28a260eb635c230e0182519f613a41e3c7b4872d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--reset.json",
+      "sha256": "793e7c2bfcfb938f8c88977755d2336a932895d6f0bebaaf89daf10a0e41ae26",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--session_close.json",
+      "sha256": "d076aeb3e789b8bf14b41cd7fe61c9c3bfb4b7891abc3c3408d22ca490f26384",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--started_other_source.json",
+      "sha256": "74b21e200489e387b0364e745978b64f5fc5633a7ada84e070e845ef360b48cf",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--started_selected_source.json",
+      "sha256": "26c2ef94806a7a2faebf13889e91f6ab52758130b440c172fbd7189e2943afe2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--stream_wire_syn.json",
+      "sha256": "9b5afad327d9cd1ec593f66ab58a67d8cb58b45a6a2ba4e31c0d971e9c0b127a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_awaiting_echo--wire_syn.json",
+      "sha256": "0b8c4ee7b5a7b207e637789f767cda22ddd9a741dd2ca1e058432c0a6f8fc71b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--bid.json",
+      "sha256": "a62830155333bf7708731571de0e4a7b4fac0301d10d40cc0cdbfb9d6f14fc48",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--failed.json",
+      "sha256": "18d3fa63904c48f087012ad94e243900d87fc0baeb4a1e9ec72a4790354a9044",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--grant.json",
+      "sha256": "651f68b5b116c23752d5e33af7cb6dc9882696b59ca08dc9cc1b8870d83f738a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--received_initiator_symbol.json",
+      "sha256": "29f92f19594a6932a144706abddbdfcc6d088c0380442a534fb0038911d8bd69",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--received_symbol.json",
+      "sha256": "45e510ca7a2b8f150b7b0b9eeddc44a9166bb2e97106def5993ed4599c05656e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--reset.json",
+      "sha256": "a2077a0bfc6be04e5ef77112966ab9e6b1467ab91d18ee56f8474ffc009a20c2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--session_close.json",
+      "sha256": "9caec0a1b0dcb5fa50142ba5d4503c2d3f851d06be849645298416cd31cc58f3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--started_other_source.json",
+      "sha256": "ea94f556d2e00cbd9a20aedb0d6932278a3a48ba2ff251bca2a2d1975934882b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--started_selected_source.json",
+      "sha256": "3c0a7b18c63769d102ef891d7658a8229debacad71e42fece523fb5bdb41e03a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--stream_wire_syn.json",
+      "sha256": "0cffc3346c2e6a936d3db7c0116e210a5a0c82f4474298eb1dca188c9666ac79",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_grace--wire_syn.json",
+      "sha256": "6394f9f32f196f828099be4b0e1acc6186ae22e431dce2ed7829878f52b55562",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--bid.json",
+      "sha256": "875f980dc3ee09fb953b96a59726bf25ca745fbb5bd84c89d7c7b86d07723c7d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--failed.json",
+      "sha256": "73e853ad88813f17aa5dc6790620177cc2c139b6899e4f331a0c88f6f2d2af5b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--grant.json",
+      "sha256": "3c433868b34ead9b555df440fe319417cb02864ebc6ee16e999e3f052db96a4c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--received_initiator_symbol.json",
+      "sha256": "85f3bb3558f059defd71ae53e6b24bf1763b20f4f2e373849da05ebec2bafab1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--received_symbol.json",
+      "sha256": "472a9075bbf22677ce9c138d812ea040e5cccdf54da53372491c1d884a6bc0df",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--reset.json",
+      "sha256": "5d9f34d56d3c0b7723299e4c9a757a7051ccf033ead9468f1952488fe1eac1ef",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--session_close.json",
+      "sha256": "9e8c87013414b77dde7b4b08a587a264cdd8142351b0a701583a75264170682c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--started_other_source.json",
+      "sha256": "cfc2edb3db5e1d1ba6c397bc5dedae71cebc74bb65c9c73aea56de7e38053a8a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--started_selected_source.json",
+      "sha256": "06b1e62819c412433ad7bc5f36e8ff118d0b794e14c2eda282a83e1eda22b451",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--stream_wire_syn.json",
+      "sha256": "9eedaa1e882d8ccc64e4933f27914de9c0c48dcadadc6ddae155807c39348fd5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/gateway_transaction--wire_syn.json",
+      "sha256": "67f74f684d41eaef39dd9080b32f8cade92ef1bda89c1a4ff796fa9eabfb79bc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--bid.json",
+      "sha256": "cd92a6c32adf87c9710353ff3a7cabdd554477945440fce8b17446af174fd964",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--failed.json",
+      "sha256": "01c74cbac2554e5a32603d1f360af2b8bfc5c0814586a5ee3f35ba52e5a80e12",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--grant.json",
+      "sha256": "d244a41db0d422fabf5f9d832aea7b927bddd1afdd972597b55d71fe4898f3b9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--received_initiator_symbol.json",
+      "sha256": "1acf802d0be1928c776dd4b554cad1040768a3492e2df68cfdbfc3e102cab692",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--received_symbol.json",
+      "sha256": "ddb1363045a248b5d617abe0cd4c0007fb414ee98f41c213c92c237a5dacdb98",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--reset.json",
+      "sha256": "181a76d4c1ae7224ef296a08276dbd81e8bc3df4dd401538a6573cd1a25ee6e5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--session_close.json",
+      "sha256": "e72e34cfc1f8013406bb09069249f26de6cb94106710a528467e3286d451105b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--started_other_source.json",
+      "sha256": "67f83926a9ab02ff8213f9af289fb95c7a13f58ced0e70915fbab2721c55fefb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--started_selected_source.json",
+      "sha256": "0e5bc446e3e08e521d77e13dd7892e5192d4c5d5b972db0796d1b674a7a2dcc9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--stream_wire_syn.json",
+      "sha256": "cea080d51c91e9cec68636430a8d6f9e26e25287f9098f4451455c5f6d9e9b8f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/idle--wire_syn.json",
+      "sha256": "432948721ff21dab52ae39f0bc262a2c68603c2eaec3a12df4ed5ace1d979e4c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/raw_view_bids_queued--raw_escape_lead.json",
+      "sha256": "9a3fff947cda2192c0881700139518fd42c15ebadea680740840ec1e00e2944f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/raw_view_bids_queued--stream_wire_syn.json",
+      "sha256": "01dc0ca177a5b46d5a4922281e82d420ea41a2a2118172e96348a54743779c2c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/raw_view_idle--raw_escape_lead.json",
+      "sha256": "d134d4358e73ac64936399d45517b237c20e630dc191f4da2693b7fd5375e271",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/raw_view_idle--stream_wire_syn.json",
+      "sha256": "2d40e5da1c1447ce44cc3e78759e4ccdf54bd527d1cd08bd6733ecc0ddb0396d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--bid.json",
+      "sha256": "e7422b62a4016f413239ef64979abd277c245157811ecaaed8a1d98f8a7d62b5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--failed.json",
+      "sha256": "9280c95bffc70cc796513d8ef584e59bee96769e342a5e14945dd776a45e5b55",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--grant.json",
+      "sha256": "90aa7b9622e2ee72c68c5b05b388bde06f4d26ae87cc0882b3e190c0772cc086",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--received_initiator_symbol.json",
+      "sha256": "87009d98675739df4bf0022e0e7eb2d5dda422ad359e6d9270598119327cce16",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--received_symbol.json",
+      "sha256": "4203b5f683867ed2fd3641292fbd69d63060a561e9862bb97eeea78b31a8ec3e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--reset.json",
+      "sha256": "8d27b8f90f8ce3adceaff76fbdb90c7aeb7444636ad2a51cf8f2339f25f54f7a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--session_close.json",
+      "sha256": "f83d7bc8718400af761f44d16461892e6294620e01aabe04a7b2c87769f1caf9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--started_other_source.json",
+      "sha256": "83c7f69d579fca57e7ad7a85d380a9f621bc35525e83e79ab572b3a2d13aecad",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--started_selected_source.json",
+      "sha256": "5c492c5d2969c9274de53030b730cef4e706a57dd4f47a91351c32086faf8011",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--stream_wire_syn.json",
+      "sha256": "6ff90db9629304a44ee5712e0932666b4c6f3121947ee1ef7a7ba45eecd52dbe",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/session_owned--wire_syn.json",
+      "sha256": "49a07befd97de46e586ab997042d9c197edfcce24353e4f466e2a3d3d99799c5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--bid.json",
+      "sha256": "a9444be610a2bb8768d4556ca8103aaec99d0a1c00bfa119866d91b7092ab0d8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--failed.json",
+      "sha256": "394b86623adce318f82ab8f230ab2d429eb82a595c5e9c9faf4c69c4c79a6d8e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--grant.json",
+      "sha256": "14003ac49d39bfef4aa980228520cbcf13db38a6de0c427df9f80b31168d6d73",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--received_initiator_symbol.json",
+      "sha256": "9094f25249c272f7437cb7def72429823ffa83caafd6310499155acfd9913203",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--received_symbol.json",
+      "sha256": "196bf8cd694578e7576465d38598de766209eb93a1565c822331225b0f2c029f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--reset.json",
+      "sha256": "1fc9a96ce20aeaa3eebb5a60a9ad18a453010b23e540a845ac5ff1f570fb18b8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--session_close.json",
+      "sha256": "d4a7a1f50850fe89a797d4be31aee38ebe2a6820d2437a18d3feec6ac28d7463",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--start_deadline.json",
+      "sha256": "8caf3761c56f71df129fca592d6924209c25fde3a3d314c9b82504bb4f2aaf80",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--started_other_source.json",
+      "sha256": "8b9c28f6ca3c8b098ffda3d6c4696a940c0f8a29f0b30dd3a95c4b67533ed3e1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--started_selected_source.json",
+      "sha256": "062c8614a8c32f98bc26b06c7240ac11c4d5e75867b9182f27f343083cd06eb8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--stream_wire_syn.json",
+      "sha256": "ad6f5a75197cc2aaee6b5d1601568e996be2849a6c04c679d04cdbf6a2e2c6a3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async--wire_syn.json",
+      "sha256": "1f3baebd13e11d4051acbf678d022fbe6e75953df1de6ebc1e9d0e7d9d1b0bc1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--bid.json",
+      "sha256": "81bf39469bafbf2abdb9245b6e9842a87fa3ba9280c132ceb3229783e59f60dc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--failed.json",
+      "sha256": "457a10754071a3e700ea7b8e983a1b2f0e375f54a6530df19ab4d3c5eef22d85",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--grant.json",
+      "sha256": "8dbde2fcbe0e4b66b9df96ed1531fefb889feae7dd7f3836f69fc506e46ecc36",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--received_initiator_symbol.json",
+      "sha256": "b5484b4ded1b4b43ec61fe426bc3d2a6e6f5ea669fed211f2a7ba9f639b66781",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--received_symbol.json",
+      "sha256": "b3360c9116953a791ee4825938b79d5bfc5a18e3b748581fca13d54e077bc16e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--reset.json",
+      "sha256": "97a0d9728ca14aad4e0fb757234ba1404ce69e0eee1c0a02282242fabf28dd2f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--session_close.json",
+      "sha256": "fb17d072b189913047805258bf6178dd7ec18f8cf99c6263cdd0ec3008e230a5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--start_deadline.json",
+      "sha256": "2ad75f86157823c146f1057dd56d1eb0757a1c5f4f73208dbcad9448d778bcad",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--started_other_source.json",
+      "sha256": "13c0096b84e988b024c848a17887ca52bc2da75f756c253cb67862e43b40ffd8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--started_selected_source.json",
+      "sha256": "06b6b691a7569e115055d96ed5598e0d24a4d787ede83bab31ca1961ee93359f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--stream_wire_syn.json",
+      "sha256": "8cac2a6c2a31aa8b7becfa75083a5fc230cc37eba6f4a6795c64b3062aee22aa",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_gateway--wire_syn.json",
+      "sha256": "f21e9837915d5a8dd5301eb3ed8bf12b13b46469c7d56bc9e6da27cfb98ded20",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--bid.json",
+      "sha256": "5754d1f3643dcf1524c201e135d0f2e5d9de34e3855a8d564cd713ec65975fd0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--failed.json",
+      "sha256": "13c45c72ae41fe014893d4faa8d56451d31aa45faab82d77fba61d525ac0287d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--grant.json",
+      "sha256": "25234f7be1caae2d0aaf9fe6733e0761dc56ff59928f7e8737c3e37e98407799",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--received_initiator_symbol.json",
+      "sha256": "9a80178c537b9eb17c7b3e5664c640b54c41ac1d47980bebdfb4934f5cd0ae64",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--received_symbol.json",
+      "sha256": "4d3bb09b453030ad3c921e05b5db8e71dcb1ad6e84fa8d34e9c4c8876a833286",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--reset.json",
+      "sha256": "357c7a3e5075c5c798ec2841c4b9ea64bc4f4baf91bfdd571825bb0c0d9232ee",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--session_close.json",
+      "sha256": "09cdd35b7e82e2e24e9f9cea4c193a01c17aeaa6180b671a2c5dd7ff8056292f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--start_deadline.json",
+      "sha256": "78a28d157882dee18cbde4c34fbc822c3509384ec4e560b8fc99460a5fe31b74",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--started_other_source.json",
+      "sha256": "00ad4e2dc77f33b96312eabd8759ce88b5e285b56f4202370a4e36c64bd12bfe",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--started_selected_source.json",
+      "sha256": "ae5c53d15f424bbf7817c53b51e1c3ba8bcb3bb63264b557697ad5181ae39393",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--stream_wire_syn.json",
+      "sha256": "01106cd2d4fb38c15b8e11442bba11c79ff36cfad810949b6e006a3d856bdb8e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_async_local_losers--wire_syn.json",
+      "sha256": "65c90a59012ced461e9fd0f8ef060d512a0ba83a15a1becc32ba38f80adb9a86",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--bid.json",
+      "sha256": "bd66fb5b802321a630f10594374ccbb4fe351427d864abc740bf406554b87970",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--failed.json",
+      "sha256": "6457fca4b296de95e615411b3b21c9d8a9823373c6402e22eb0ec4e2b021d94c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--grant.json",
+      "sha256": "11d747462d13bc120d0c411a2a46fc5c4dfae3d8094d8c5e145107776de12497",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--received_initiator_symbol.json",
+      "sha256": "33553083dcd4f030c5a2d816808d5a843ce9093f547b490785d7e2688b4c3fa6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--received_symbol.json",
+      "sha256": "329e6992a4d420a774d1dd9417df23f518f23a810b4a5f453042289d30fa2764",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--reset.json",
+      "sha256": "add6569ebcd464b52fe5c120cacf29126cda854bfac73e799ab1efd4265a3f5e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--session_close.json",
+      "sha256": "89412277ee236cf4e7952d689388d9b3e7b9f94a82a0705bcdb5dd8ec73ab2e5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--start_call_fails.json",
+      "sha256": "2eb4edb22a15edd794275160a170edfdcb2069d3140bb1c1fde6d5d593d8c4bd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--start_call_returns.json",
+      "sha256": "b7a6125ed0a575c1167d3a8fc7598bf2f8963eb858b4e8195fbfad86850c39d5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--start_deadline.json",
+      "sha256": "d3977c7b0ae63627c30f1c35e9adb16f9196b48063c02f886f956ea37e0149e4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--started_other_source.json",
+      "sha256": "64c92821edc5d5915b7a94ebde1ccae19edc84cd3fe38f9fa07a6de2165588fd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--started_selected_source.json",
+      "sha256": "daf9ab5bf9eb0fb6ae0d416981f38494d6ba1cc7b1437aafe26713dbc91c79e1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--stream_wire_syn.json",
+      "sha256": "eace2475b559964f520549c900306eadb8c0029cf7d31d3abc640ede1d456e2d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking--wire_syn.json",
+      "sha256": "7e08b72a690e8bfa33c39429bccf0d95712ed10d6f5075d59bd3173cb560f853",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--bid.json",
+      "sha256": "a8612087240091103b6e4038d6397d462491d8cdae9ff84c49b7daa2699bd520",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--failed.json",
+      "sha256": "7e407bf218f7fdee6ac4518c695be30c58e373b6d77867ecfd93f7e5932447af",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--grant.json",
+      "sha256": "3215c80bba41d64ce50996d01c21879dca7c582f8c0bb120d0facddee6ba712e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--received_initiator_symbol.json",
+      "sha256": "629b415bceb269fb0e75818ce4d48284d0e6c8970367128f1d0b3da2f06d26da",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--received_symbol.json",
+      "sha256": "f9d2904cf49ab12b37e23912585e5cee77b56fd53446c0a20762bafae949f674",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--reset.json",
+      "sha256": "a46a181e164fc433cc5a91b25f6db8a331bcf3049ef4f09c3d3adfe35f898a8c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--session_close.json",
+      "sha256": "4a81cbd76455fe739745cd31bb7b318704e7080e96b8f9ec17a9d63c6971f7ec",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--start_call_fails.json",
+      "sha256": "19efda30478dbd319b44448255e5e6540577f82b211cb6cead03b507d8922cdf",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--start_call_returns.json",
+      "sha256": "1f3286e74ca42a733aa58512002bdfddcdcd695cc4df04312969bac1313783a7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--start_deadline.json",
+      "sha256": "5f1f4a57383310863a00c95216a3fcadc6db84ee1fa2de15307882f88f198f2d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--started_other_source.json",
+      "sha256": "e8945e6fd13cbda528bdd3cb85a8e55ce0b8599cf3bf2313adf12964e013c9e3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--started_selected_source.json",
+      "sha256": "4e352240a10053dd4093fb72085f417188a100c707217feca2c326de209120ba",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--stream_wire_syn.json",
+      "sha256": "613570636742e5e09c5dedb48f5df579ab8b5754fe41f1f197287c9ffe3e4af3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/transition/start_blocking_local_losers--wire_syn.json",
+      "sha256": "e0f4b5974e8ae3dc2845dea476980915a4f02b6873769fb643e40ec9bc76b65d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/aa-injection-enforce.json",
+      "sha256": "e01dae7a1289029d9056ebe727bb46897bf0bdaaad4004dc1a0e05d2ec413ac6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/aa-injection-off.json",
+      "sha256": "7d00d0de8b051c48b37a762f63ac128c399d7d5bbdd161982f1f9b3652e2a3f1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/aa-injection-shadow.json",
+      "sha256": "09d739d7f38a1e022d365e8da05757f49e01ee578022cf57447a14a0e3c0c553",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/observe-idle-enforce.json",
+      "sha256": "fcfed0f44d28bc7ac5fada21c755cda7cc25655d3cd0cc6ed048269ff4acc536",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/observe-idle-off.json",
+      "sha256": "68ffc0c53763b9c2f6394239c7433a4395992c7cba86bc7d3a8d4b80a501107f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/observe-idle-shadow.json",
+      "sha256": "d78f4d383eba219f80e2bf1577efe4953a5baa0269215edc98f8c30dac8195d1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-capitalised.json",
+      "sha256": "8f95fb66e8545ffc4ebadd5a240c8790ec5d51587c3e2d2d7f67d8bcf9b0c30e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-empty.json",
+      "sha256": "9bb504d6bcdf58a0749f63624ce22006c13d66217181f65fe025cf307d3f1e91",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-enforce.json",
+      "sha256": "322b7e472a8629ca7e95f3ee14834615c92fea5d9940ae41758e4e865595e2b6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-off.json",
+      "sha256": "4b375fd2932be1c6306b0d043aabf92d2c9cd046d80f4dd00194eddff2719e37",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-shadow.json",
+      "sha256": "a999a2372c6907781c77f77f5f5a175a41f236ae29d44eb4cbb7b69504fe0fb1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/parse-mode-unknown.json",
+      "sha256": "6014c328b33bc6a7bb7af0d8d34fca7a3b2ffcf03933562cc80679cf6e628c6c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-failed-enters-passive-enforce.json",
+      "sha256": "06a0b0fbf7a7df72b26a7bf5f620f782871c7e14367313a1d0effe58ca1d5fe4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-failed-enters-passive-off.json",
+      "sha256": "bfcf43dcb536b0887c9e81f6ee02a2d05ea72d1b22d0178b8521bc01d7cb39be",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-failed-enters-passive-shadow.json",
+      "sha256": "33693f674377d29a00ecd38a8c53ccd1a7ce31de460a4d2a4a254de0acc2df98",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-legitimate-bytes-enforce.json",
+      "sha256": "eace43017c123308b19325ebf21afcdaf1ebb0b60836350607ff7e9b74840f7c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-legitimate-bytes-off.json",
+      "sha256": "aac731feb089e9c54bf1ef38db4d9bad40395fd7abb440bbd9ac90cc8a054a58",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-legitimate-bytes-shadow.json",
+      "sha256": "11b570883a9ed1ab295cdfc76eeaeb570ea8aeacc3228fc5447b29b30852b7db",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-protocol-fault-cascade-enforce.json",
+      "sha256": "7d46e6235019bef4f8f9797d42eacdb266c16dd1432dad80d11dd38d365ad535",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-protocol-fault-cascade-off.json",
+      "sha256": "171093820d1d3be76a89a06a1fbe884ceee9f7bdb8b25279fce5c150a3cb0ca7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-protocol-fault-cascade-shadow.json",
+      "sha256": "dd349438456339df68c282425910a1ea642b2a4cf3ba24e1f31f389cf39e5a55",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-aa-enforce.json",
+      "sha256": "d38cfa6dc06cbefbdbe7312a5d53d62d7863a706587c7882f64916a0e46e3ff5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-aa-off.json",
+      "sha256": "4f59ff159f21bc8cb1acdefbe8ce7e6037285c7736d7eb7dfe36a9b5ae79a455",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-aa-shadow.json",
+      "sha256": "2d85e62dbfe4d0b7cf41dd998988f1193ed849e0a0f09136afb1148c77d93e39",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-esc-enforce.json",
+      "sha256": "ac33ba628ab030fb9292a59055eb23edded9a7d2d9583529ee275cfe785a92da",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-esc-off.json",
+      "sha256": "541db3d4f95f0404035d4e6997c9b9528b836d450c21db7ed0db0a37027a1285",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-escaped-esc-shadow.json",
+      "sha256": "d4fe679df1d9d6efa24f7a0497f93958850d1c4303dc86457916d0c213ad47ee",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-mixed-enforce.json",
+      "sha256": "7771dd7af4acfd30255d5d4c07e3e5c62bf12d0eb00e28c39e3dac9dd40c856f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-mixed-off.json",
+      "sha256": "437738d855fcd19d6ca886fa7535dd9c95180c6120e547f42a73f7278e875806",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-provenance-mixed-shadow.json",
+      "sha256": "60824a70845d2ad4b173ace2c05002f9f06409740d67b49863d8670a56483119",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-telegram-lifecycle-enforce.json",
+      "sha256": "50d14d9acbeeb0068d2f76f7c968eead83a05de5cce2a3b3f8f2670e4181c392",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-telegram-lifecycle-off.json",
+      "sha256": "a09ac50fadcf7ef324d7948cf4dabb82f8a3d0fbb3fc3eed9b2b3c3101691028",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-telegram-lifecycle-shadow.json",
+      "sha256": "b23410c8c136762ad969032c4cc6699460c4a07a395df0a298ad87399269df9f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-wire-syn-mid-frame-enforce.json",
+      "sha256": "eb0d1b5f23550f7ddb0fe71a3aa8dce7f1f82f725253235b36df8c51fa1f42c5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-wire-syn-mid-frame-off.json",
+      "sha256": "d1bafe13ff1ffd25e741e0427b5390e39c1e2bf1e21b8d925b91ff05a74262f5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/adaptermux/v8classifier/sequence-wire-syn-mid-frame-shadow.json",
+      "sha256": "912045b77c1ee56e1b4d91165c8d3bb923ff08129bd3508facfc4c0ca217517b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/adaptermux --sources gateway-adaptermux --test TestOracleAdapterMux"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/active-first-then-delayed-passive.json",
+      "sha256": "f721e4d726c92943f86c8ae435d474a55f8ed169cc1762bbc4808dfdcaadaaa3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/b524-runtime-observer-fallback.json",
+      "sha256": "4aeb96a85a2e99682649b500e4592612af97ff949eee8727ec1d6d9edfe4ef3c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/critical-subscriber-overflow.json",
+      "sha256": "12bcf1e90b81dae6f5b11db4d4c2ee3e28d8e592e54b62a32be98532ad2bb371",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/default-budgets.json",
+      "sha256": "5008d86ddf0c5f8e2f2a96d2fd03963417448833912b7f0bddab10cb6bfa6935",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/degraded-skips-active-suppression.json",
+      "sha256": "096e92af10c33b63fb38b2da9d55b4f60537cd2625094d2aa5aae72da376d7c1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/discontinuity-flushes-pending.json",
+      "sha256": "3df97436bad827073e2889f39edb7b2a5139ed06ae18f094b1985e23bcee4435",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/passive-fingerprint-shared-watch-key.json",
+      "sha256": "e97341e2bed54390b564cd2bd0f486d54037cac8a1cf1bfc3bcb5834fbf1bf3f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/deduplicator/passive-first-then-active.json",
+      "sha256": "f551788d8b2aacb93022578bd628cf662461b567a61f953c54c97ffdb8e264ca",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b509-descriptor-admission.json",
+      "sha256": "0952637ba549fa652913aa3e45bfe533fa713a70026c019491a9e7c1a5255b5c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b509-direct-apply-payload-read.json",
+      "sha256": "7f1cc549023e72ebfc88dae16d538b4b462eb143375d26a65e194c65822559c1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b509-response-class.json",
+      "sha256": "b8fa2f162b93041cf5d8da91f2a9af4c6ca82efc6d23f119d8db7189ad0f0ec5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b516-energy-merge.json",
+      "sha256": "3b2a57ae8e4d7b3a3aa08ed896ae614684d922aa07effa8fa5d6d4e2992a8a3f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b524-read-write.json",
+      "sha256": "ff22e82c4e2f5f3718d6c305ffda63fca3f73adee7275a0e9456c8843ce3fef9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b524-response-class.json",
+      "sha256": "68c2ab3236281d0c84fbfcc425050413d2c0f7ca3f91adc493ca77f85e4164e5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b524-state-default-requires-active-state-read.json",
+      "sha256": "62af11dcb67fafdbcbbb166fc200ead88a5c490c4a224dc6f18139af2048815a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-family-policy/b555-record-invalidate.json",
+      "sha256": "4e289ec95de03d899d313aeab0c5ed8d2e6d3ca9d51d7b99dbc1fac4967cf61d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/apply-defaults.json",
+      "sha256": "57e0c7847a22019bdd40e74bda6d9731ba6d93f30fa6b295b65a1db7033a2194",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/config-requires-invalidation.json",
+      "sha256": "5bbc79282e76aceb09b1e4391809bf32dd1ba74c8ccdd39f3fe16d80e832c0c9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/default.json",
+      "sha256": "81b6834dd0bb5cd5bc5aada22df051cab22e6316827e25b2e9600c72dac30f68",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/master-off.json",
+      "sha256": "62703a055946f8e8274f47deb12172a451f8210b32ef6a411b252153f22eb226",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/parse-policy.json",
+      "sha256": "b46b150da430de23b251adbad529eb06ada6729e7e9656c0ab80b3ce0f80e0c9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/state-at.json",
+      "sha256": "c79394288bd78dd3ef2495b743bac1658930049d007417b7811e2940a58e35a5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/state-disabled-keeps-valid-policy.json",
+      "sha256": "6f41becdd1dd19a057cbaf53e373cb9ad73681eb02431e198532048ab26897cb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/observe-first-flags/state-disabled.json",
+      "sha256": "d1915ab287cae6ac5d2bce3d8e31ffa15279d776232b28df64e5e545cc125a22",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/proxy-silence-proxy-default.json",
+      "sha256": "dabea8470f70d899ff0e735fd807457b41c5d237e82ee59346a965bc4971155d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/reconnect.json",
+      "sha256": "33b5a2d72ab0c342fee8a7dcac6d937d452b1cc215806a7fc3aa0fd09bd1f05a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/reject-ebusd-tcp.json",
+      "sha256": "24414e39e603b1ccfdaa6b5a0d3c4f175f1f60021e2a6aad4870637aa22f1e53",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/reject-ebusd.json",
+      "sha256": "261e86b3be3f5ef7add5e3fd9d295641cfc36680ce6e21da19a1be9678102d82",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/wire-escape-custom-remote-port.json",
+      "sha256": "fb687b82615c70ea650481b8a104b526df68d076ffd3dc0982c05a838ae97a37",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/wire-escape-loopback-direct.json",
+      "sha256": "21700414f4d147d39b238c5552023450c96769eaf8ee893f63b1b8ec8603c4e5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/wire-escape-proxy-like.json",
+      "sha256": "4edfaa38542d168b6ef87ebaf07cd00837d99495e47f6270864187111df254bd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/wire-escape-remote-direct-ip.json",
+      "sha256": "203e941ba2fd545e62430839bf909fb9fbf2a85890f30d4919502a8f2f9befdd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/passive-tap/wire-escape-remote-direct-name.json",
+      "sha256": "bb53fc718b8fbdb2ea8f009ff94a541f1e34cf63c7b06aaa9eec0247eae8f39b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/arbitration-fragment.json",
+      "sha256": "b4dc527fd5d35bf4ff0dfbe2db1700992ffb8060553ebf74f0ac7f398053f8c4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/broadcast.json",
+      "sha256": "5e4828c1c5c026dcab66c4990b5a54485621436b4be4f6b12f6661ba70b403fc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/direct.json",
+      "sha256": "f56362a408016c4ed22a0c53ec4567d4edf8b53a0727fcf6a37b94f6483dac60",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/f19c-initiator-and-target.json",
+      "sha256": "496325565e875f51e79d765d547176d9a63d2f4de933e68a9b749aa7fb3c54bf",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/f19c-invalid-qq-silent-drop.json",
+      "sha256": "c663f646c6bbd46de53940b53c36bb80208346564ba3e7d28f6346aeb65c7eb9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/master-master.json",
+      "sha256": "0634f771bd0acebad8cdcfa639287b0a47d5db81e88007aa4713e668d0c393f1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/no-response.json",
+      "sha256": "23fe046ed390161345514a0df1068f429614483f078fe9af86688dc52329f0e3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/no-self-echo-third-party.json",
+      "sha256": "eb426dbc74379d058461995684bbac35f0eb0d269f01f0b7d06dacca04517be8",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/read-timeout-watchdog.json",
+      "sha256": "e0d197a98ac05f034520b082f0c45214826e21accedb7613719fd339b3fede35",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/reset.json",
+      "sha256": "f4ea8d01f1e163af6ce8af4ae713afb9bf50303c1037518fa1badb5922191da1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/scan-collision.json",
+      "sha256": "3ca1559703a8832c16db8eddfd783c8ff777817ca72350eb632c78fc30f428e6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/self-echo-ack-phase.json",
+      "sha256": "2e5e21d4aa29dfc657f75c100d2011f07ff4abd63390446acc4695ded17917b1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/self-echo-parse-failure.json",
+      "sha256": "b888eec1dea31ea1eded986bce729868f6036f89a0252606ee1e8a092cd1aeae",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/reconstructor/self-echo-without-snapshotter.json",
+      "sha256": "3361b7eaae17c3ef4997984e491b2b47b1e3149eabd83069c7929d70110d1c14",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/breaker-disabled-at-zero-budget.json",
+      "sha256": "a55747479cd485aac9fad770b86c066d9cffd1278261046610b75d6ff4940311",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/cache-within-max-age.json",
+      "sha256": "78717a5e4aa6250de0bc46d0cd2f72031dbf580ebfd18f2e9bfc2a72987cfb61",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/circuit-open-and-suppress.json",
+      "sha256": "75ee32f302055e3a90b260cf433467551380b686f7ea735f7768053821a19912",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/coalesce.json",
+      "sha256": "25dfde6c1f681522faebb566f432fd630e2159fb138b4d570a1c057ad3e6a0b2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/half-open-probe-limit.json",
+      "sha256": "ec5736aac7c2663d933ad854a6cd8d2077015297989d5a6543186008d6e40df0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/half-open-success-resets-budget.json",
+      "sha256": "2f04d5eb21aaa9f2340798bb097afe0f58f96eb8175f9f40a220c8156bd9b9b5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/refresh-after-max-age.json",
+      "sha256": "26f14a25db10c933c8d5fa15a9003edb54620373333e99fba3ebefe7c244643f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/scheduler/watch-read-served-from-passive-shadow.json",
+      "sha256": "0e26715b273f52f8905ef1763c5a9fa310552a457e579e0eaa45824e638aa268",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/shadow-cache/equal-timestamp-active-confirmed.json",
+      "sha256": "43ed86c6d3651c855984ede2af8c74cae998396150037df32a01e9c8fd18effc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/shadow-cache/evict-oldest.json",
+      "sha256": "3db93efdcb1fd63008e190f388d60c018beefb7c9f7fefd5193737875c4e147f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/shadow-cache/normalized-flags.json",
+      "sha256": "e7b6421bd7d41c450fed1750e3945007fbb6a904b5227496030bed18d644a791",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/shadow-cache/pinned-budget-reject.json",
+      "sha256": "4e0985b9723eec326d6805658280f160ef95e5ba2e6aee8c80da4629a7c13e3e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/shadow-cache/stale-active-confirmed.json",
+      "sha256": "154cec6af9c070082dae6033aae58f1b1b88ec843835601439113598cb8dc4f4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/activation-union.json",
+      "sha256": "93ac9a9e720a1257f45406ad3f65bc6cc86a728d6947fd70a158524603a4b0aa",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-axes.json",
+      "sha256": "77bf108176faef5fcd171d90655000bfadc0cbf4ec464485be1e6c12f31e5d96",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-malformed-program.json",
+      "sha256": "6f71f2355573be738eddc61e8fe8e823fd484974ce49d67fcf9ce2b45b5d7dff",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-reject-non-canonical.json",
+      "sha256": "2093253d1ab952f5df339760648a082d56c841120bac088c0a652106b9f2313d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-reject-partial.json",
+      "sha256": "c3cb87ae5138468272f64d579d9dac9b5ec22604e824c246779d2b654da3078f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-reject-sentinel-descriptor.json",
+      "sha256": "386e0252217b7de4ebcce6712248f449eb721624e60fd07e4d67389369cb0b08",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/b555-sentinel-timer.json",
+      "sha256": "e5a9f081cb42a811d20bd08570e52d019c5e966acf2a9c413593f600cad11aa4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/builders.json",
+      "sha256": "14ada01ff9af316fd7eb60df01674721ef100210efab3f3ea54c4707ae29c477",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/catalog-miss-activation.json",
+      "sha256": "138900b7bea29f02a98007758c4b11ae99479b088efa3d0c687512860559823e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/clone-pointer-key.json",
+      "sha256": "58dc14bf036b1e31ad195ef99d85b9c2ba2d8c749fc4cad61ffa11d3c068ab79",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/duplicate.json",
+      "sha256": "5b556d9e0e793710328ea46ce56711f5295d8f998e6e0659dbb2327ecd282326",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/freshness-ttl.json",
+      "sha256": "2051ef52f4787a8252af4da93c78443d80db9c1536a099e6d9d4020e19a13d82",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/invalid-pairing.json",
+      "sha256": "2faf53d69b9e20800f6c91f47cd43e904001682213a28b3c2fde7d58b3dcbd7b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/passive-b509-key.json",
+      "sha256": "cc1b8dba8a8a1d9deb04103538058d6efeb0c28b3e3b6c9656fb5309e2c601ad",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/passive-b524-key.json",
+      "sha256": "30db24bb58d7c71b61d24f3958e138be2965e27fd81bab52a075b2a93393e99a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/unsupported-mutable-key.json",
+      "sha256": "89948ad5a8bf79ae09084ae4d247b16da800a21784539c8723d931ee9e37e53f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/engine/watch-catalog/widened-ttl.json",
+      "sha256": "3424e8c83726d3f5fbc887700d4a2290ea1cdf369165d48a0a357d6da60ae506",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package . --sources gateway-engine --test TestOracleEngine"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-abi.json",
+      "sha256": "93cd5da29d20f79d0e8584f465d68d85d635a00a040bb7404e3a971c22d6a461",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-build.json",
+      "sha256": "a5c1c55c7f7632bd23f3cf5506c404c9970aa16574ebb24ae68dd92e5dd24603",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-control.json",
+      "sha256": "f4f23f0ce1ed0c9a2467de3517f9ae4a7ba459e514e2e3afe417580160e6bb1b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-executable.json",
+      "sha256": "44a9c8066878e5431fe11e14f2b70c0caaca6486225c23863b13e64c142343ca",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-gc.json",
+      "sha256": "e606371fdea7bd2bdbd793237428800e8654d7f7168a66dffab6a57ce46a799f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-lease-ms.json",
+      "sha256": "20529a88b4234e2173379cd5981422efd3aa88565bc92e84bd2bbb71b1370739",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-mapping.json",
+      "sha256": "deba8f2134d6062669042e60e92e433e4effe173d2108798923fbb2ec59f3310",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-memlimit.json",
+      "sha256": "ba233ce23ac2933028d3d533b1dcce40f556744f5977ab8eb5aca3da974d955e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-registration.json",
+      "sha256": "83f7f0fac81a5bb8b5391a0d48f8e7ea3564fd4f04fc6b961b97e3565c98dbc4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-stream.json",
+      "sha256": "e59fff69b6852e4aeec978370f14b331349d71f8ef5d7de87ae52ba3008c4413",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-token.json",
+      "sha256": "2f1865823da31268bd6d204207b790b32857c98a0cd8083f9fda1d8ce59b1bc6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-empty-worker.json",
+      "sha256": "78920570efd560385becec37189e6c885612ec065bf11ab6c6f447e5b1e238a7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-flag-alone.json",
+      "sha256": "14ad79f29e989e4a0129dfdc8343b7b7a9ed53164c7afd5f0e0c1517e9ffdecf",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-missing-field.json",
+      "sha256": "411c9dfccba59710deb6066b15e572caa55c77206cbea9e9ae76b049866271a7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-reordered-fields.json",
+      "sha256": "3b59746199e5a22b334fa921a41d6dc259faec78a39af85c87c55a34c5ef2029",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-round-trip.json",
+      "sha256": "c0c69947956edcee10c410cd07d904621641293ac779e4505b87a0bba43fda87",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-trailing-gateway-flag.json",
+      "sha256": "bd059fe271b5c95fef684d1a5e9587d3af1bc99884ecad2685fca9d5eee3867d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/argv-wrong-selector.json",
+      "sha256": "46ba6bb8971e8c473936eb08db2c955f42f3bb2c41caea68113101dfea4e800a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/child-env-GODEBUG.json",
+      "sha256": "ea124b7cd450b6be6f3e1fb11cb39b24f78b62d94bdc7930ddd15c90bff64446",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/child-env-GOGC.json",
+      "sha256": "cb4ab42c2866fb29f8b5e056bdb81606d4da6c06b877c7b4c295d085b71fa784",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/child-env-GOMAXPROCS.json",
+      "sha256": "8f3f97d2efd1373983d9260e880fc587e4ba6c159a1196466da2e11be0d5f1c7",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/child-env-GOMEMLIMIT.json",
+      "sha256": "1ce04aa52b50dd22a3cce8dac3f8e9f643ed14bdf1ca45f75baa3fbd439ed0a5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/lifecycle-start-ready-stop.json",
+      "sha256": "b3917b05b5b735666d578955a773c2f5f6043a0774e6b9400f133a930e68d094",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-allocator.json",
+      "sha256": "23f21aa11ae54275ec6d4382e1b938ff989d40c8a67b20843248276b3c48aa9f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-clock.json",
+      "sha256": "691d130f8e9230629c69279f64f6c3f6020b7a2177b0df5249969483b03d98ce",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-empty-gc.json",
+      "sha256": "d8ea0a728fd8442b8ebac253bd82f9fc7fbea519ae7134b7395b582694a37652",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-empty-memory-limit.json",
+      "sha256": "b8bb2c1e768295cdc852a89b21474f2ebaf202521f20c52662070a60a6e94628",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-kill-grace.json",
+      "sha256": "6e3f5c9516dec1c723420d3f9861a799d21033ab951d89692ac05eb9ebf9656e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-launcher.json",
+      "sha256": "138e2d7d062b41d1c5e1d019e7f2b0a3fff5b5f7cfac6787717162be78c51a8a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-layout-order.json",
+      "sha256": "0741fb83d189657cc3072e253c5b9a31562558cd14718fbb2b4c6577cf73cd4f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-lease-ttl.json",
+      "sha256": "2f298128c9e82a594383756551a6603e923ee83273c8cd473be4a142db2e7abd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-relative-executable.json",
+      "sha256": "2151f63a57350d544dceb72ce6d7a649a12a47bc573614e4f7973e3ce2dd216f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-wrong-abi.json",
+      "sha256": "dfad61dc77195ee00aea295fb16e68d3029cd955ef0c74c39d4348639137f1c3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-zero-build.json",
+      "sha256": "0eb1536963b735fd87883d253fdfd118a876a8f2fd6e19fc85c04269df8c9a1e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/new-config-zero-executable.json",
+      "sha256": "f625d863b19050c868a750029dbd51eb40c64f41966931ca5de3e369995585db",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-corrupt-descriptor-count.json",
+      "sha256": "40fd5c65a7c2a928ad7ccbd115e597a1b22f35045a9d473a1b6afcd4fa0e84fb",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-corrupt-descriptor-padding.json",
+      "sha256": "32ae30cba21551205bfe781d9cf61581e9837ec8f5a5837410a3f21cec75e5b1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-corrupt-magic.json",
+      "sha256": "7c33fdff003ec3edfb14db0be53379c8007b7b36e972d5b74bcd99a8f3b90915",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-corrupt-reserved.json",
+      "sha256": "ff96f488479a37599514c8aa0976284f213afcc396bb5d92d7752119d1671079",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-corrupt-tx-flag.json",
+      "sha256": "cb054b992c316a4b79a69e4d91a9890a6110714b7a79dbafca40bc8ba3b0fc3d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-round-trip.json",
+      "sha256": "c2efb1e8443ac871abd958a9ff7013455e57e2b8d92ef768f03233ae7734fe3e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/report-short.json",
+      "sha256": "3c2f2215f68d9bc22d6be0399cde23d8470499db8047ef7021b521403da9d60b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/allocator-mismatch-role.json",
+      "sha256": "6bc7e76247ef7c97d8d080261527b3bac85895b9fee14a14c3a6bf8c8b454d1b",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/allocator-mismatch-size.json",
+      "sha256": "d7f4a2bec82306cc2463b8a455463b593a0298631ec2c28bf72d7cc28b55ac37",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/duplicate-child-and-recursion.json",
+      "sha256": "2b734b5d9f507d08aceac9418efe171f90734a1a32f1cff77f74f086a1b23fd4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/failed-launch-consumes-generation.json",
+      "sha256": "ff2384dd1e4782986ae585c73a3b2cf75bacdf95ed94f40d2440cd58897fef3d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-in-order.json",
+      "sha256": "e8d37e8e90cf72f2f26867ccdacead147621ed92d9837fce42f18cdad96b78a1",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-late-readiness.json",
+      "sha256": "0444ea878c3a5abe98eb68cf51f868e8776d82b35ddd48646ad6b50c7d546a79",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-late.json",
+      "sha256": "edce3a8128266253cf0a72733b1af010737e84849b0ff9331e8b4da1836276f5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-readiness-deadline.json",
+      "sha256": "326f716a5e04e1864e592ee95133486541ab333624ae086ea34e88ee61125937",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-replayed.json",
+      "sha256": "553add601a7c09f2f4844124fd8ac1cd0fdf61f1d4ea128b2e28072bab0f1320",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-skipped.json",
+      "sha256": "50dcb9fdc760be76a15964bf76a6c7882d62548b951a8501d39a93302acab4fe",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-tick-at-expiry.json",
+      "sha256": "8127013e5a39ee4754cf6cc85aeb852ddafb6b8760bf556c710cb301290fc2b0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/lease-tx-active.json",
+      "sha256": "9e66ac3848e6d7e7de5ff3a6ae18703536a7f599d627d181c0fa05f3e988f31a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-abi.json",
+      "sha256": "8704d6bc46cbed6cf72a9a0d0b02422b8d1ae4d4ac44adbb272d0c6b7373e876",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-build.json",
+      "sha256": "b26ebfe446bc2b8cdc0563359010f45c4614243ebf3a53c0656a11408e7acfe5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-descriptor-missing.json",
+      "sha256": "a24938635b1f3b6640dcddaebdc06108e7747f58a3d69f408c3e808f4d07d223",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-descriptor-role.json",
+      "sha256": "9b367f9ccf8194e7c74db215b4c7d0f9c020476d18575ac8cd577d5ae32147e6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-descriptor-size.json",
+      "sha256": "9e9a44e3b888d8fbb9d795ec7f558d6a706c64aaa4305e089d72a4206e6a93e3",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-executable.json",
+      "sha256": "a29325203aa2636112a8936bf90aefd9255aa55ffda67925a636d2e50d4a6843",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-future-worker.json",
+      "sha256": "c415c77c1a02fabb836c400dfa24f27210d809bb848fb4a295c8aa978b741b15",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-ready-sequence.json",
+      "sha256": "e5d4dca78e24a22749ec66e23cfbc4a6782bd92c0ae21155f0ef0d110ed8848e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-registration.json",
+      "sha256": "89099a99be5302e9589104004785a988afedc9efbb0cb7661f6e14a6a70bda5e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-state-not-passive.json",
+      "sha256": "36e69ef67d5ce4ac227e3d5dad1b789860cfbceeda42b621fab30dd72f6b3025",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-stream.json",
+      "sha256": "3f0dcb0cae58d8560bc80b743ccee1624a0c43bae8abc403da4ed4052824dbea",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-token.json",
+      "sha256": "2b9517b1814bc52659a955d6a7091c05ffcd4095558df4a2ec43f1dceb9356b0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-tx-active.json",
+      "sha256": "673961e69d430481fa895062d8fba10d54a9fc131b9ac4bc65248f2ec377bac5",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/observe-fence-unknown-kind.json",
+      "sha256": "c835489847949ba98310bb01a68b59fe284e492514f6898af68c7e71035537de",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/restart-advances-every-epoch.json",
+      "sha256": "428070f566608f615a562880ede885c3fbc41c1b03e92b477d282eff98158b2c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/stop-graceful.json",
+      "sha256": "b20f452cf6f94049542c0fc31c1bd9a6ce02ee2a95ba439f1911e9ad94eef3f6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/stop-kill-after-cancelled-context.json",
+      "sha256": "cc28ecb655102e48125f4a27b1d8307ee4569ef8ffb14ba2dccef18d2a2728e6",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/stop-kill-after-grace.json",
+      "sha256": "9c4d619b5748ea2ca26ce5579777b96985558344faec7174bc0dff90243702f2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/stop-unreaped.json",
+      "sha256": "a126f4c8f754772908b87784e035990e932f5bf92f94407c7233564588d3e753",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/supervisor/unexpected-exit-fences-and-releases.json",
+      "sha256": "06acea85fb1a4242085cdb8c16ccfd33f620c3f84662ec88a7f0f9cd09e33ce0",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-child-abi.json",
+      "sha256": "82846ad326a0d16824f36ad018fc5d55b327a08173a209aad4e2e6f3bfbcb6b4",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-child-build.json",
+      "sha256": "11fcbe8a0da881592a2ca5eddcc78c71382de503aa5bce72b46fb064f31ceb86",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-child-executable.json",
+      "sha256": "61aa6ebbb8b6d9d9008d188607994e2ea8d6efddcdca0b0127f4f7c95ee2b51a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-control-fd.json",
+      "sha256": "9d4eb18fcfe0a0174f342b33f788a53fd25ddfbe7de2ed168523e95e4795ace9",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-control-kind.json",
+      "sha256": "ec928a5300091e6342b551d601efa541cb5880dfefa274fb5c99076096afaf3a",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-control-role.json",
+      "sha256": "bcaf8f6f6d79767b28b3ff2367aa61e9d696d6ab2aff94aaad36fd008a7e1e5f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-control-size.json",
+      "sha256": "d0ea7743d15b5aedcf3398b4e5fd4f9f6becd283f71cae0b0c18e5f85b4de4d2",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-inherited-gogc.json",
+      "sha256": "c6c74859929548b97de2d4aae581c4a159cfc0df908855a79e5d7060f85078fc",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-inherited-gomemlimit.json",
+      "sha256": "bfddb69106c5c375710d8b222c55aa52d9d9fa7f8bb572509c094461d42f7698",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-mapping-kind.json",
+      "sha256": "e2a6869a89aa6c726f6421addb4604d3738d93c93d305f11f91e61b88b8eaded",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-mapping-observed-size.json",
+      "sha256": "b5fd952444925c06fa7c3bd9d2d80cbfa6fa2a6c9e85e826a30101caedf64867",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-mapping-role.json",
+      "sha256": "0cb975efdb5113a77e08d57ba0394102dca0f1d2b1d5be56015c9f1680050e30",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-mapping-size-above-bound.json",
+      "sha256": "fc56934b6779e52a17347e1b85b6230e4fd14ad81c996879a035b267b14e9b51",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-mapping-size-unaligned.json",
+      "sha256": "d53021a2bac7469f5efce147f4b3a633651787957727d2bc5515fac9f10c0fbd",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-missing-descriptor.json",
+      "sha256": "649d14b1d71d5adc6fe68b999d63ebe5ad4bb41ed6722bb3b02450a7aa149860",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-plan-abi.json",
+      "sha256": "9315c56082c9463c084bccf30d090fe3ddfb6ddd07227e997b2e57b2bcb69399",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-plan-build.json",
+      "sha256": "55afad5ac5dc3edf39d395a0c8880e5dd86bfed9216224e86e46133f6b5b6e43",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-plan-executable.json",
+      "sha256": "68a627465466fc860c8138f7e81c64ddea55051a6ca8b726fb960b26a748db34",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-positive.json",
+      "sha256": "337a5375de9e78765b35ad06d9bb01a4a0ed3313ea7f6910a8d159643de61273",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-zero-registration.json",
+      "sha256": "da558d044df293899cd120f7cdabde4a3328139f328c9c96b4b1a9dcf3b5504f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-zero-stream.json",
+      "sha256": "ffc72455f0196360ec8e846867c2327d848c712c9636ba061457838a87125d8d",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-zero-token.json",
+      "sha256": "626b240c8ce7d2e08a8f02cea1ddc0041700ce6bc58c05111baf86b6f53fb83c",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
+    },
+    {
+      "path": "current/gateway/localworkerhost/validate-zero-worker.json",
+      "sha256": "58d44462edd5c51f45bb32971ac6d5962f2b0d7d7b1cc5e6c6687e58e381668e",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --entry gateway --package internal/localworkerhost --sources gateway-localworkerhost --test TestOracleLocalWorkerHost"
     }
   ]
 }

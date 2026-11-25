@@ -1,0 +1,35 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "watch_catalog",
+  "source": "watch_catalog.go",
+  "stimulus": "TestPassiveWatchKeyFromEventMatchesB509SchedulerKey",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "canonical": "b509:08:0200",
+        "ok": true,
+        "opcode": "0d"
+      },
+      {
+        "canonical": "b509:08:0200",
+        "ok": true,
+        "opcode": "29"
+      },
+      {
+        "canonical": "b509:08:0200",
+        "ok": true,
+        "opcode": "0e"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

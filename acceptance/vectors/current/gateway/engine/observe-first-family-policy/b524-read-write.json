@@ -1,0 +1,56 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "observe_first_family_policy",
+  "source": "observe_first_family_policy.go",
+  "stimulus": "TestObserveFirstFamilyPolicy_B524ReadAndObservedWriteStaySeparated",
+  "input": {
+    "bytes": "060003011c00060103011c00",
+    "qualifiers": {},
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "correlation_policy": "request_response",
+        "direct_apply_policy": "state_default",
+        "effective_external_write_policy": "",
+        "family": "B524",
+        "request_intent": "read",
+        "response_class": "value_bearing",
+        "uses_runtime_external_write_policy": false
+      },
+      {
+        "correlation_policy": "request_response",
+        "direct_apply_policy": "never",
+        "effective_external_write_policy": "invalidate_only",
+        "family": "B524",
+        "request_intent": "write",
+        "response_class": "header_only",
+        "uses_runtime_external_write_policy": true
+      },
+      {
+        "correlation_policy": "request_response",
+        "direct_apply_policy": "never",
+        "effective_external_write_policy": "record_only",
+        "family": "B524",
+        "request_intent": "write",
+        "response_class": "header_only",
+        "uses_runtime_external_write_policy": true
+      },
+      {
+        "correlation_policy": "request_response",
+        "direct_apply_policy": "never",
+        "effective_external_write_policy": "record_and_invalidate",
+        "family": "B524",
+        "request_intent": "write",
+        "response_class": "header_only",
+        "uses_runtime_external_write_policy": true
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

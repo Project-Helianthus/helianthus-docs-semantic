@@ -1,0 +1,60 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "active_passive_deduplicator",
+  "source": "active_passive_deduplicator.go",
+  "stimulus": "TestActivePassiveDeduplicator_MatchesPendingPassiveFirstArrival",
+  "input": {
+    "bytes": "011122",
+    "qualifiers": {
+      "local_address": "31",
+      "passive_first": true
+    },
+    "clock": {
+      "base": "1970-01-01T00:00:00Z",
+      "second_arrival_offset_ns": 500000000
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "discontinuity_reason": "",
+        "disposition": "matched_active_duplicate",
+        "epoch": 1,
+        "event_kind": "transaction",
+        "family_policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "",
+          "family": "B509",
+          "request_intent": "unknown",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "fingerprint": {
+          "outcome_class": "success",
+          "request": "3108b50901016d",
+          "response": "0831b50902112230",
+          "response_class": "value_bearing",
+          "shared_watch_key": "",
+          "source": "31",
+          "target": "08",
+          "transaction_class": "initiator_target"
+        },
+        "local_participant_inbound": false,
+        "matched_active_duplicate": true,
+        "observability_only": false,
+        "suppress_shadow": true,
+        "suppress_watch_efficiency": true,
+        "third_party_eligible": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "active": 0,
+      "pending": 0
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "localworkerhost",
+  "source": "internal/localworkerhost/supervisor.go",
+  "stimulus": "TestAA27ValidateChildVariesEveryIdentityDescriptorAndPolicyField/child-executable",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "mutation": "child-executable"
+    },
+    "clock": {},
+    "state": {
+      "abi": 1,
+      "generation": {
+        "registration": 7,
+        "stream": 5,
+        "token": 11,
+        "worker": 3
+      },
+      "layout": [
+        {
+          "role": 1,
+          "size": 152
+        },
+        {
+          "role": 2,
+          "size": 4096
+        }
+      ],
+      "lease_ms": 100,
+      "runtime_gc": "off",
+      "runtime_memory": "64MiB"
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "localworkerhost: build or executable identity mismatch"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

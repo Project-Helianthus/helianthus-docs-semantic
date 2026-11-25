@@ -1,0 +1,27 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "ptytest",
+  "source": "internal/adaptermux/ptytest/ptytest.go",
+  "stimulus": "ptytest.Open/WritePeer",
+  "input": {
+    "bytes": "3115070400",
+    "qualifiers": {
+      "device": "synthetic-pty"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [
+      "07"
+    ],
+    "decisions": [
+      {
+        "read_matches_write": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "observe_first_family_policy",
+  "source": "observe_first_family_policy.go",
+  "stimulus": "TestObserveFirstFamilyPolicy_B524StateDefaultRequiresActiveDescriptorBackedStateRead",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "flags": "default",
+      "key": "b524:15:06:03:01:001c",
+      "response": "value-bearing"
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "name": "catalog-miss",
+        "observation_state": "catalog_miss",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "",
+          "family": "B524",
+          "request_intent": "read",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "request": "060003011c00"
+      },
+      {
+        "name": "inactive-descriptor",
+        "observation_state": "inactive",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "",
+          "family": "B524",
+          "request_intent": "read",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "request": "060003011c00"
+      },
+      {
+        "name": "config-descriptor",
+        "observation_state": "active",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "",
+          "family": "B524",
+          "request_intent": "read",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "request": "060003011c00"
+      },
+      {
+        "name": "timer-read",
+        "observation_state": "active",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "",
+          "family": "B524",
+          "request_intent": "read",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "request": "030100"
+      },
+      {
+        "name": "write",
+        "observation_state": "active",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "never",
+          "effective_external_write_policy": "record_only",
+          "family": "B524",
+          "request_intent": "write",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": true
+        },
+        "request": "060103011c00"
+      },
+      {
+        "name": "active-state-read",
+        "observation_state": "active",
+        "policy": {
+          "correlation_policy": "request_response",
+          "direct_apply_policy": "state_default",
+          "effective_external_write_policy": "",
+          "family": "B524",
+          "request_intent": "read",
+          "response_class": "value_bearing",
+          "uses_runtime_external_write_policy": false
+        },
+        "request": "060003011c00"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

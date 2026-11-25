@@ -1,0 +1,60 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "active_passive_deduplicator",
+  "source": "active_passive_deduplicator.go",
+  "stimulus": "TestActivePassiveDeduplicator_CriticalSubscriberOverflowAdvancesEpoch",
+  "input": {
+    "bytes": "03",
+    "qualifiers": {
+      "frame_type": "initiator_initiator",
+      "frames": 2,
+      "subscriber_capacity": 1
+    },
+    "clock": {
+      "base": "1970-01-01T00:00:00Z",
+      "second_offset_ns": 10000000
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "discontinuity_reason": "critical_subscriber_overflow",
+        "disposition": "discontinuity",
+        "epoch": 1,
+        "event_kind": "discontinuity",
+        "family_policy": {
+          "correlation_policy": "",
+          "direct_apply_policy": "",
+          "effective_external_write_policy": "",
+          "family": "",
+          "request_intent": "",
+          "response_class": "",
+          "uses_runtime_external_write_policy": false
+        },
+        "fingerprint": {
+          "outcome_class": "",
+          "request": "",
+          "response": "",
+          "response_class": "",
+          "shared_watch_key": "",
+          "source": "00",
+          "target": "00",
+          "transaction_class": ""
+        },
+        "local_participant_inbound": false,
+        "matched_active_duplicate": false,
+        "observability_only": true,
+        "suppress_shadow": false,
+        "suppress_watch_efficiency": false,
+        "third_party_eligible": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "epoch_reset_total_delta": 1
+    }
+  }
+}

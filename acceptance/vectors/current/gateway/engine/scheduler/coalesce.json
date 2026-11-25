@@ -1,0 +1,36 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "semantic_read_scheduler",
+  "source": "semantic_read_scheduler.go",
+  "stimulus": "TestSemanticReadScheduler_CoalescesConcurrentGets",
+  "input": {
+    "bytes": "0102",
+    "qualifiers": {
+      "key": "k",
+      "max_age_ns": 1000000000
+    },
+    "clock": {
+      "now": "1970-01-01T00:00:00Z"
+    },
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [
+      "0102",
+      "0102"
+    ],
+    "decisions": [
+      {
+        "errors": [
+          "",
+          ""
+        ]
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "fetch_calls": 1
+    }
+  }
+}

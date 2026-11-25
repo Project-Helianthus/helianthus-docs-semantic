@@ -1,0 +1,27 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "localworkerhost",
+  "source": "internal/localworkerhost/supervisor.go",
+  "stimulus": "TestAA27ParseChildArgvAcceptsOnlyTheExactPlan/empty-registration",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "mutation": "empty-registration"
+    },
+    "clock": {},
+    "state": {
+      "argc": 13
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "localworkerhost: malformed worker argv: field registration"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

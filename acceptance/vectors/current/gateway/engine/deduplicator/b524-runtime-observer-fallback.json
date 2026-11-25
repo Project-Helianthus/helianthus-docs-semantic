@@ -1,0 +1,42 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "active_passive_deduplicator",
+  "source": "active_passive_deduplicator.go",
+  "stimulus": "TestActivePassiveDeduplicator_B524CorrelatedReadUsesRuntimeObserverFallback",
+  "input": {
+    "bytes": "060003011c004201031c0022",
+    "qualifiers": {
+      "canonical": "b524:15:06:03:01:001c",
+      "passive_source": "10"
+    },
+    "clock": {
+      "base": "1970-01-01T00:00:00Z",
+      "passive_offset_ns": 100000000
+    },
+    "state": {
+      "observation_state": "active"
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "correlation_policy": "request_response",
+        "direct_apply_policy": "state_default",
+        "disposition": "unmatched_third_party",
+        "effective_external_write_policy": "",
+        "family": "B524",
+        "request_intent": "read",
+        "response_class": "value_bearing",
+        "third_party_eligible": true,
+        "uses_runtime_external_write_policy": false
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {
+      "pending_before_release": 1,
+      "released": 1
+    }
+  }
+}

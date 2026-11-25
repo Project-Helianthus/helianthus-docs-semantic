@@ -1,0 +1,25 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "watch_catalog",
+  "source": "watch_catalog.go",
+  "stimulus": "TestWatchDescriptorRejectsWidenedTTL",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "ttl_ns": 121000000000
+    },
+    "clock": {},
+    "state": {}
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "watch descriptor \"b524:15:06:01:00:0005\" freshness ttl 2m1s widens default 2m0s"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}

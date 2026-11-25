@@ -1,0 +1,27 @@
+{
+  "format": "helianthus-oracle-bt01-case/1",
+  "component": "localworkerhost",
+  "source": "internal/localworkerhost/supervisor.go",
+  "stimulus": "TestAA27ParseChildArgvAcceptsOnlyTheExactPlan/trailing-gateway-flag",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "mutation": "trailing-gateway-flag"
+    },
+    "clock": {},
+    "state": {
+      "argc": 14
+    }
+  },
+  "output": {
+    "symbols_written": [],
+    "decisions": [
+      {
+        "error": "localworkerhost: malformed worker argv"
+      }
+    ],
+    "cache": {},
+    "observations": [],
+    "counters": {}
+  }
+}
