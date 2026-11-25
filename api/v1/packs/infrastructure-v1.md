@@ -116,7 +116,9 @@ generation fencing, partial updates, stale/unknown evidence, and permitted
 last-known-good retention remain independent. Publication requires a current
 source/generation/revision and qualified active capability. Partial publication
 changes supplied valid fields only; withdrawal is explicit and generation-fenced.
-Stale or unknown evidence cannot promote, authorize, or operate.
+Stale or unknown evidence cannot promote, authorize, or operate. A
+verification level recorded beside an element blocks nothing. No element is
+marked sensitive or hidden.
 
 Import/export counter decrease does not prove reset or wrap. Native evidence is
 required; the result is counter-continuity evidence or explicit loss. Projection

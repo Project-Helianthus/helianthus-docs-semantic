@@ -77,6 +77,12 @@ one effect rule. `evse.operation.set_allocated_current` and its set case stay.
 No release case is added. `evse.relation.connector_vehicle` hosts the connector
 and the vehicle, one to one.
 
+A watt value becomes ampere by the watt-to-ampere rule. RR05 is the row that
+converts it: measured voltage when SemReg has one, else the specification
+nominal voltage, marked declared. The gateway does not convert it. A
+verification level recorded beside an element blocks nothing. No element is
+marked sensitive or hidden.
+
 New quantities use `unit.ampere`, `unit.watt`, `unit.joule`, `unit.second`,
 `unit.one`, `unit.ratio`, `unit.metre` or `unit.currency`. A new quantity bound
 is empty. `evse.vehicle.approximate_efficiency` is a quantity with no unit:

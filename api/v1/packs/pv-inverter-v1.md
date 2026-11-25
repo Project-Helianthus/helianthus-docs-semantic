@@ -106,6 +106,8 @@ Read capabilities require a qualified current binding. The only operations are
 `pv.operation.set_active_power_limit` and `pv.operation.set_export_limit`.
 The three yields are periods. The ratio is not the watt limit.
 `pv.operation.set_active_power_limit` still takes `pv.limit.active_power`.
+No release case is added. A verification level recorded beside an element
+blocks nothing. No element is marked sensitive or hidden.
 Each requires its exact field, capability, qualified active binding, current
 generation, exact native route, and authority admission. An exact qualified
 native owner may expose one of these routes; lack of such a route publishes no
