@@ -1,0 +1,238 @@
+{
+  "format": "helianthus-oracle-restart/1",
+  "kind": "cut",
+  "case": "restart-paired-thermal",
+  "lifecycle": {
+    "name": "second",
+    "allocator_store": "file store of the state file's directory, one directory for both lifecycles",
+    "unit_anchor_held_when_the_lifecycle_opened": true,
+    "stopped_after_the_cut": false
+  },
+  "source": "cmd/gateway/semantic_pairing_composition.go, cmd/gateway/semantic_resource_allocator.go, internal/semgraph/store_file.go, internal/semhub/operator_links.go, internal/semhub/restore.go and cmd/gateway/operator_record_publisher.go",
+  "fixture": "a synthetic paired thermal asset with an owner and a contributor source, the configuration home with its site and grid connection, and an operator identity link declared after the first batch, on one allocator store directory",
+  "statement": "The paired asset is declared through the pin's pairing composition with graph enforcement; the pin's family table keeps the thermal family itself off. The unit is resolved by the allocator on a file store under one operator slot through both sources' paths. The owner's identity link names the unit in its first batch; the contributor's first batch has a link that names none, the operator declares the link afterwards, and the contributor's next batch carries it. The pin holds no numeric priority per source: the priority of a source is the owner-first presentation policy, recorded per fact key.",
+  "compared": {
+    "node_ids": [
+      "resource:33db0b17c43728bf4abd312c897adb8d",
+      "resource:qv02:connection-1",
+      "resource:qv02:site-1"
+    ],
+    "nodes": [
+      {
+        "resource": "resource:33db0b17c43728bf4abd312c897adb8d",
+        "asset": "asset:qv02:thermal-pair",
+        "kind": "resource.heat_generator",
+        "state": "current",
+        "anchor": "equipment/operator_slot/slot:generator-1",
+        "origin": "operator"
+      },
+      {
+        "resource": "resource:qv02:connection-1",
+        "asset": "asset:qv02:configuration-home",
+        "kind": "resource.grid_connection",
+        "state": "current",
+        "anchor": "function/operator_slot/slot:connection-1",
+        "origin": "operator"
+      },
+      {
+        "resource": "resource:qv02:site-1",
+        "asset": "asset:qv02:configuration-home",
+        "kind": "resource.site",
+        "state": "current",
+        "anchor": "function/operator_slot/slot:site-1",
+        "origin": "operator"
+      }
+    ],
+    "link_keys": [
+      {
+        "definition": "infrastructure.relation.site_grid_connection",
+        "from": "resource:qv02:site-1",
+        "to": "resource:qv02:connection-1",
+        "type": "configuration",
+        "asset": "asset:qv02:configuration-home",
+        "state": "qualified",
+        "coherence": "coherent"
+      }
+    ],
+    "aliases": [
+      {
+        "resource": "resource:33db0b17c43728bf4abd312c897adb8d",
+        "key_kind": "resource.heat_generator",
+        "key_digest": "",
+        "key_parent": "",
+        "key_slot": "generator-1",
+        "class": "equipment",
+        "basis": "operator_slot",
+        "slot": "generator-1",
+        "superseded": false,
+        "home": "asset:qv02:thermal-pair"
+      }
+    ],
+    "source_links": [
+      {
+        "asset": "asset:qv02:thermal-pair",
+        "source": "source:qv02:thermal-owner",
+        "native": "helianthus.pack.thermal/qv02.native/sha256:bfbc3b6266636cb9009ad8a116bddb993c285b787fa198d27ad378be0a82c254",
+        "resource": "resource:33db0b17c43728bf4abd312c897adb8d",
+        "state": "qualified",
+        "revision": "1",
+        "operator_declaration": false,
+        "basis": [
+          "helianthus.pack.thermal/qv02.observation/sha256:1408dc6fcc3f0550ebfcdde38cdb46bc08b2e67d1112b5eb8bb0eb75ff2d00d0"
+        ]
+      },
+      {
+        "asset": "asset:qv02:thermal-pair",
+        "source": "source:qv02:thermal-peer",
+        "native": "helianthus.pack.thermal/qv02.native/sha256:702786451cf9d932fbd41cc491840ce31e33addaddedb729dc609a0420eaff1e",
+        "resource": "resource:33db0b17c43728bf4abd312c897adb8d",
+        "state": "qualified",
+        "revision": "2",
+        "operator_declaration": true,
+        "basis": [
+          "helianthus.gateway.configuration/qv02.operator.declaration/sha256:b592839aab5b67989c93684bb5e2373d81a3334b2511100d92e66b8c68d24090"
+        ]
+      }
+    ],
+    "consumer_value_keys": [
+      {
+        "asset": "asset:qv02:thermal-pair",
+        "fact": "thermal.measurement.heat_generator_flow_temperature",
+        "dimensions": [
+          "thermal.dimension.heat_generator=resource:33db0b17c43728bf4abd312c897adb8d"
+        ],
+        "candidates": 2
+      }
+    ]
+  },
+  "late_link": [
+    {
+      "asset": "asset:qv02:thermal-pair",
+      "source": "source:qv02:thermal-peer",
+      "native": "helianthus.pack.thermal/qv02.native/sha256:702786451cf9d932fbd41cc491840ce31e33addaddedb729dc609a0420eaff1e",
+      "resource": "resource:33db0b17c43728bf4abd312c897adb8d",
+      "state": "qualified",
+      "revision": "2",
+      "operator_declaration": true,
+      "basis": [
+        "helianthus.gateway.configuration/qv02.operator.declaration/sha256:b592839aab5b67989c93684bb5e2373d81a3334b2511100d92e66b8c68d24090"
+      ]
+    }
+  ],
+  "source_values": [
+    {
+      "fact": "thermal.measurement.heat_generator_flow_temperature",
+      "dimensions": [
+        "thermal.dimension.heat_generator=resource:33db0b17c43728bf4abd312c897adb8d"
+      ],
+      "source": "source:qv02:thermal-owner",
+      "role": "owner",
+      "value": "32315e-2 unit.kelvin",
+      "quality": "observed/qualified/promoted/good/available/fresh",
+      "presented": true
+    },
+    {
+      "fact": "thermal.measurement.heat_generator_flow_temperature",
+      "dimensions": [
+        "thermal.dimension.heat_generator=resource:33db0b17c43728bf4abd312c897adb8d"
+      ],
+      "source": "source:qv02:thermal-peer",
+      "role": "contributor",
+      "value": "32265e-2 unit.kelvin",
+      "quality": "observed/qualified/promoted/good/available/fresh",
+      "presented": false
+    }
+  ],
+  "presentation": [
+    {
+      "policy": "policy:gateway-owner-first",
+      "policy_version": "1.0.0",
+      "owner": "source:qv02:thermal-owner",
+      "fact": "thermal.measurement.heat_generator_flow_temperature",
+      "dimensions": [
+        "thermal.dimension.heat_generator=resource:33db0b17c43728bf4abd312c897adb8d"
+      ],
+      "selected_source": "source:qv02:thermal-owner",
+      "selected_value": "32315e-2 unit.kelvin"
+    }
+  ],
+  "cut": {
+    "completeness": "complete",
+    "members": [
+      "asset:qv02:configuration-home",
+      "asset:qv02:thermal-pair"
+    ],
+    "excluded": [],
+    "findings": []
+  },
+  "recovery_export": [
+    {
+      "call": "Hub.ExportRecoveryChecked",
+      "recovery_hooks": "not enabled: the hub is created with no recovery hooks, as the pin's composition creates it",
+      "version": 0,
+      "assets": 0,
+      "epochs": 0,
+      "regimes": 0,
+      "unfixed": 0,
+      "drivers": 0,
+      "error": "semhub: recovery refused: recovery not enabled",
+      "error_is_ErrRestore": true,
+      "error_is_ErrRecoveryMultiSource": false
+    },
+    {
+      "call": "Hub.ExportRecovery",
+      "recovery_hooks": "not enabled: the hub is created with no recovery hooks, as the pin's composition creates it",
+      "version": 0,
+      "assets": 0,
+      "epochs": 0,
+      "regimes": 0,
+      "unfixed": 0,
+      "drivers": 0,
+      "error": "",
+      "error_is_ErrRestore": false,
+      "error_is_ErrRecoveryMultiSource": false
+    },
+    {
+      "call": "Hub.ExportRecoveryChecked",
+      "recovery_hooks": "enabled after the declaration through the hub's own field, as the pin's package test seam does (a contributor list is refused at declaration while the hooks are enabled)",
+      "version": 0,
+      "assets": 0,
+      "epochs": 0,
+      "regimes": 0,
+      "unfixed": 0,
+      "drivers": 0,
+      "error": "semhub: recovery record holds one source per asset: asset asset:qv02:thermal-pair",
+      "error_is_ErrRestore": false,
+      "error_is_ErrRecoveryMultiSource": true
+    },
+    {
+      "call": "Hub.ExportRecovery",
+      "recovery_hooks": "enabled after the declaration through the hub's own field, as the pin's package test seam does (a contributor list is refused at declaration while the hooks are enabled)",
+      "version": 0,
+      "assets": 0,
+      "epochs": 0,
+      "regimes": 0,
+      "unfixed": 0,
+      "drivers": 0,
+      "error": "",
+      "error_is_ErrRestore": false,
+      "error_is_ErrRecoveryMultiSource": false
+    }
+  ],
+  "not_compared": [
+    "lifecycle",
+    "late_link",
+    "source_values",
+    "presentation",
+    "cut",
+    "recovery_export",
+    "not_compared",
+    "not_recorded"
+  ],
+  "not_recorded": [
+    "clocks",
+    "leases",
+    "cut digests",
+    "source epochs, bindings, batches and snapshot identifiers: a run allocates them, so a recording that held them would differ from the next"
+  ]
+}

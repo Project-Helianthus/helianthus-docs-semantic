@@ -52,6 +52,7 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | --- | --- | --- |
 | `current/gateway-goldens.json` | path, sha256, checking test and exit status at the pin of every golden of the frozen gateway | recorded-current |
 | `current/graph/` | one cut per family (`<family>.json`) and one file per negative class (`negative-<class>.json`), read through the one hub of the frozen gateway | recorded-current |
+| `current/restart/` | `cut-first.json` and `cut-second.json`: the two lifecycles of one composition over one allocator store directory | recorded-current |
 | `current/gateway/cmd-gateway/ss02/` | native records of the Vaillant hot-water mappers and of the gateway Growatt CAN receive path | recorded-current |
 | `current/canbusreg/canbusreg/ss02/` | native records of the registry Growatt CAN classifier | recorded-current |
 | `current/modbusreg/sunspec/ss02/` | native records of the SunSpec decoder and monitoring capability on the Model 103 W and W_SF operands, with each fact's number, enum number and symbol, or bits and bit symbols | recorded-current |
@@ -123,6 +124,52 @@ A family file has the format `helianthus-oracle-graph/1`, kind `family`:
 | `eebus-inbound.json`, `can-storage.json` | none: the pin's file does not name the publication hub (the file says so) | empty hub |
 
 The empty files are read through the same cut as every other family: no asset, no member, no resource, no relation.
+
+## Restart files
+
+`current/restart/cut-first.json` and `current/restart/cut-second.json` record two lifecycles of one composition of the frozen
+gateway over one allocator store directory. The recorder is the harness-only
+`recorders/go/gateway-restart/zz_oracle_restart_test.go`; `record.sh` copies it into a scratch unpack of the gateway pin and runs
+`TestOracleRestart` there, driving the pin's pairing composition, resource allocator on its file store, operator-link seam and
+operator-record configuration provider, and editing none of them.
+
+Each lifecycle declares a paired asset of the thermal pack with an owner source and a contributor source, and the configuration
+home that holds a site, its grid connection and the site-contains-connection relation. Both sources resolve the one unit under one
+operator slot. The owner publishes the unit and its flow temperature; the contributor's first batch carries an identity link that
+names no resource; the operator then declares that link; the contributor's next batch carries it with its own flow temperature;
+the configuration provider accepts the site section. The first lifecycle is captured and stopped (each source's epoch retired);
+the second opens a new hub on the same allocator store directory, republishes in the same order and is captured again. A file
+holds no clock, lease, cut digest, source epoch, binding, batch or snapshot identifier, so two recordings are the same bytes.
+
+A cut has the format `helianthus-oracle-restart/1`, kind `cut`:
+
+- `compared`: the members the two lifecycles are compared on, sorted: `node_ids`, `nodes` (resource, home asset, kind, state,
+  anchor, origin), `link_keys` (relation definition, endpoints, type, home asset, state, coherence), `aliases` (each anchor key the
+  allocator store holds for a resource, with its class, basis, slot, supersession state and home), `source_links` (each source's
+  identity link: its native evidence, the resource it names, state, revision, whether it is an operator declaration, and its
+  basis) and `consumer_value_keys` (each fact key with its dimensions and candidate count).
+- `late_link`: the operator identity link declared after the first batch, as it is published. It is also a row of `source_links`.
+- `source_values` and `presentation`: each source's candidate of the fact, its value and quality, and the pin's presentation of
+  the key. The pin holds no numeric priority per source; the priority is the owner-first presentation policy
+  (`policy:gateway-owner-first`), so each value says whether it is the one presented and `presentation` names the policy, the
+  owner and the selected source and value.
+- `recovery_export`: what the recovery seam returns for the shared asset, exactly as the pin returns it, from four calls. The
+  pin's composition creates its hub with no recovery hooks, so `ExportRecoveryChecked` answers that recovery is not enabled and
+  `ExportRecovery` the zero record. A hub with a contributor list cannot be declared with the hooks enabled, so the same two
+  calls are repeated after the hooks are enabled on the declared hub through the hub's own field, as the pin's package test seam
+  does; `ExportRecoveryChecked` then fails with `ErrRecoveryMultiSource` and the zero record. Export and restore of an asset with
+  several sources are the repair of SS05 and SS06; the result is recorded as the pin's behaviour, and no per-source share is
+  asserted.
+- `lifecycle`, `cut` (completeness, members, findings), `not_compared` and `not_recorded`.
+
+`check.py --restart` verifies that both files are indexed as recorded-current expected output of the `current` reference with
+their sha256, then compares `compared` member by member. Clocks, leases, cut digests, `late_link`, `source_values`,
+`presentation`, `cut`, `lifecycle` and `recovery_export` are not part of the comparison. When the lifecycles match it prints
+`OK` and exits 0. When a member differs it prints each difference as an item 15 defect (the identity differs between the two
+lifecycles of the pin, owned by SS05 and SS06, a 0.7 bug); the command exits 0 only if `index.json` marks that member in the
+`defect` object of both cuts (`item`, `owner` and `members`, added when the cuts are first recorded), so the committed bytes stay
+the pin's, and exits nonzero for a difference the index does not mark or a mark the cuts do not show. `check.py --replay current`
+rebuilds both cuts under `.tmp/`, compares their bytes with the committed ones, and runs the same comparison on the rebuilt cuts.
 
 A negative file has kind `negative`, a `class` and `scenarios`, each with the fixture, the outcomes the pin gives (accepted, or
 refused with the kernel's stable identifier and its text, and whether the asset's snapshot bytes are unchanged) and, where it
@@ -551,7 +598,7 @@ extracted cache or the donor clones, and `go.sum` verifies them.
   not the host's own is refused. `record.sh` does not run these cases: the replay of `current` takes both trees from the
   collected directories. `check.py --replay current` fails when either tree is absent, holds a receipt of another platform,
   revision, recorder, index or pin, whose pinned source digests differ from the pin, carries no host and target metadata, was not run natively, has a failed status, or lacks, adds or changes a case.
-- `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` when they are recorded.
+- `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` (see the restart files).
 
 ## Sources
 

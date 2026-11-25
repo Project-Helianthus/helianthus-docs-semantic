@@ -19,6 +19,7 @@ import common  # noqa: E402
 import goldens  # noqa: E402
 import gorun  # noqa: E402
 import losses  # noqa: E402
+import restart  # noqa: E402
 import semreg_catalog  # noqa: E402
 
 ORACLE = Path(__file__).resolve().parent.parent
@@ -60,6 +61,8 @@ QV04 = (
 
 
 QV01 = (("cmd/gateway", "gateway-graph", "TestOracleGraph", "current/graph"),)
+
+QV02 = (("cmd/gateway", "gateway-restart", "TestOracleRestart", "current/restart"),)
 
 QV07 = (("cmd/gateway", "gateway-vaillant-typed", "TestOracleVaillantTyped", "current/gateway/cmd-gateway/vaillant-typed"),)
 
@@ -124,6 +127,13 @@ def record_qv01(vectors, work):
     return record_go_cases(QV01, vectors, work, runnable=True)
 
 
+def record_qv02(vectors, work):
+    """The restart recorder: two lifecycles of one composition over one allocator store; a difference of the compared members is marked as an item 15 defect."""
+    entries = record_go_cases(QV02, vectors, work, runnable=True)
+    first, second = restart.load(Path(vectors) / restart.DIRECTORY)
+    return restart.mark(entries, first, second)
+
+
 def record_qv07(vectors, work):
     """The EE01 recorder: typed GraphQL and MCP outputs of the Vaillant publication owner and the semantic cache."""
     entries = record_go_cases(QV07, vectors, work, runnable=True)
@@ -180,6 +190,7 @@ def record(reference, vectors, oracle, sessions):
                     emit(relative, f"recorders/gorun.py --entry {entry_id} --sources {sources} --test {test}", "recorded-current", case_of(produced.name), "native")
             entries.extend(record_bt01(vectors, work))
             entries.extend(record_qv01(vectors, work))
+            entries.extend(record_qv02(vectors, work))
             entries.extend(record_qv08(vectors, work))
             entries.extend(record_qv04(vectors, work))
             entries.extend(record_qv07(vectors, work))

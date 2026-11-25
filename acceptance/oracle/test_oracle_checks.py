@@ -1256,3 +1256,145 @@ def test_the_gen3_sessions_record_empty_acquisitions_and_sends_and_carry_the_raw
 
 def test_the_exit_status_of_a_pin_without_a_runnable_operand_is_shared_by_the_runner_and_the_checker():
     assert check.NO_RUNNABLE_OPERAND == replay_session.NO_RUNNABLE_OPERAND == 3
+
+
+# The restart cuts (item 7, item 15): the committed cuts compare equal on the compared members; a change of any field of any
+# compared member in a scratch copy is a lifecycle difference, printed as an item 15 defect and accepted only where the index marks
+# it; members outside the comparison never make a difference.
+
+import hashlib  # noqa: E402
+
+import restart as restart_cuts  # noqa: E402
+
+RESTART_DIRECTORY = HERE.parent / "vectors" / "current" / "restart"
+
+
+def restart_cuts_committed():
+    return restart_cuts.load(RESTART_DIRECTORY)
+
+
+def first_row_fields():
+    """(member, field) for every field of the first row of each compared member, and (member, None) for a member of plain strings."""
+    first, _second = restart_cuts_committed()
+    cases = []
+    for member in restart_cuts.COMPARED:
+        row = first["compared"][member][0]
+        if isinstance(row, dict):
+            cases.extend((member, field) for field in row)
+        else:
+            cases.append((member, None))
+    return cases
+
+
+def changed(value):
+    if isinstance(value, bool):
+        return not value
+    if isinstance(value, list):
+        return value + ["changed"]
+    return f"{value}-changed"
+
+
+def mutate(document, member, field):
+    document = json.loads(json.dumps(document))
+    rows = document["compared"][member]
+    if field is None:
+        rows[0] = changed(rows[0])
+    else:
+        rows[0][field] = changed(rows[0][field])
+    return document
+
+
+def scratch_vectors(tmp_path, monkeypatch, second, marked=()):
+    """A scratch copy of the vectors tree holding the first committed cut and `second`, with the index entries of both cuts."""
+    target = tmp_path / "vectors"
+    (target / "current" / "restart").mkdir(parents=True)
+    shutil.copyfile(RESTART_DIRECTORY / "cut-first.json", target / "current" / "restart" / "cut-first.json")
+    (target / "current" / "restart" / "cut-second.json").write_text(json.dumps(second, indent=2) + "\n", encoding="utf-8")
+    entries = []
+    for entry in check.load_index():
+        if entry["path"].startswith("current/restart/"):
+            entry = dict(entry)
+            entry["sha256"] = hashlib.sha256((target / entry["path"]).read_bytes()).hexdigest()
+            if marked:
+                entry["defect"] = {"item": 15, "owner": "SS05 and SS06", "members": list(marked)}
+            entries.append(entry)
+    (target / "index.json").write_text(json.dumps({"format": "helianthus-oracle-vector-index/1", "vectors": entries}), encoding="utf-8")
+    monkeypatch.setattr(check, "VECTORS", target)
+    monkeypatch.setattr(check, "INDEX", target / "index.json")
+
+
+def committed_digests():
+    return {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in RESTART_DIRECTORY.glob("cut-*.json")}
+
+
+def test_the_committed_lifecycles_are_equal_on_the_compared_members(capsys):
+    assert check.restart() == []
+    assert "DEFECT" not in capsys.readouterr().out
+    first, second = restart_cuts_committed()
+    assert restart_cuts.differences(first, second) == []
+    assert all(first["compared"][member] for member in restart_cuts.COMPARED)
+
+
+def test_the_cuts_are_indexed_as_recorded_current_expected_output():
+    entries = {entry["path"]: entry for entry in check.load_index()}
+    for name in restart_cuts.CUTS:
+        entry = entries[f"current/restart/{name}"]
+        assert (entry["origin"], entry["reference"], entry["role"]) == ("recorded-current", "current", "expected-output")
+        assert entry["sha256"] == hashlib.sha256((RESTART_DIRECTORY / name).read_bytes()).hexdigest()
+        assert "defect" not in entry
+
+
+def test_a_cut_holds_the_late_link_both_sources_and_the_export_as_the_pin_returned_it():
+    for document in restart_cuts_committed():
+        late = document["late_link"]
+        assert len(late) == 1 and late[0]["operator_declaration"] is True and late[0]["source"].endswith("thermal-peer")
+        assert late[0] in document["compared"]["source_links"] and late[0]["revision"] == "2"
+        values = {row["role"]: row for row in document["source_values"]}
+        assert sorted(values) == ["contributor", "owner"] and values["owner"]["presented"] and not values["contributor"]["presented"]
+        assert document["presentation"][0]["policy"] == "policy:gateway-owner-first"
+        assert document["presentation"][0]["selected_source"] == values["owner"]["source"]
+        enabled = [call for call in document["recovery_export"] if call["recovery_hooks"].startswith("enabled")]
+        disabled = [call for call in document["recovery_export"] if call["recovery_hooks"].startswith("not enabled")]
+        assert [(call["call"], call["error_is_ErrRecoveryMultiSource"]) for call in enabled] == [("Hub.ExportRecoveryChecked", True), ("Hub.ExportRecovery", False)]
+        assert [(call["call"], call["error_is_ErrRestore"]) for call in disabled] == [("Hub.ExportRecoveryChecked", True), ("Hub.ExportRecovery", False)]
+        assert all(call["version"] == 0 for call in document["recovery_export"])
+        assert "recovery_export" not in restart_cuts.COMPARED
+
+
+@pytest.mark.parametrize("member,field", first_row_fields())
+def test_a_changed_field_of_a_compared_member_is_an_item_15_defect_the_index_must_mark(member, field, tmp_path, monkeypatch, capsys):
+    """Each field of each compared member: a mutation of that field alone in the second lifecycle is found, named and printed."""
+    before = committed_digests()
+    first, second = restart_cuts_committed()
+    scratch_vectors(tmp_path, monkeypatch, mutate(second, member, field))
+    assert [name for name, _left, _right in restart_cuts.differences(first, mutate(second, member, field))] == [member]
+    errors = check.restart()
+    printed = capsys.readouterr().out
+    assert f"DEFECT (item 15, owner SS05 and SS06): the lifecycles differ in {member}" in printed
+    assert errors == [f"the lifecycle difference in {member} is not marked as an item 15 defect in index.json"]
+    (tmp_path / "marked").mkdir()
+    scratch_vectors(tmp_path / "marked", monkeypatch, mutate(second, member, field), marked=[member])
+    assert check.restart() == []
+    assert committed_digests() == before
+
+
+def test_a_mark_the_lifecycles_do_not_show_is_an_error(tmp_path, monkeypatch):
+    _first, second = restart_cuts_committed()
+    scratch_vectors(tmp_path, monkeypatch, second, marked=["link_keys"])
+    assert check.restart() == ["index.json marks an item 15 defect in link_keys that the lifecycles do not show"]
+
+
+@pytest.mark.parametrize("member", ["lifecycle", "late_link", "source_values", "presentation", "cut", "recovery_export", "not_compared", "not_recorded", "format", "statement"])
+def test_a_member_outside_the_comparison_is_never_a_difference(member):
+    first, second = restart_cuts_committed()
+    second = json.loads(json.dumps(second))
+    second[member] = "other" if member in ("format", "statement") else {"other": True}
+    assert restart_cuts.differences(first, second) == []
+
+
+def test_a_compared_member_missing_from_a_cut_is_a_difference():
+    first, second = restart_cuts_committed()
+    second = json.loads(json.dumps(second))
+    del second["compared"]["aliases"]
+    assert restart_cuts.differences(first, second) == [("aliases", first["compared"]["aliases"], "absent")]
+    assert restart_cuts.differences(first, {}) != []

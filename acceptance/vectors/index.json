@@ -706,6 +706,22 @@
       "kind": "native"
     },
     {
+      "path": "current/restart/cut-first.json",
+      "sha256": "5d5a3def1ad855deb9e1fd953881cbc46be6d1bc6e8a86531b07bf6a226d317f",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-restart --test TestOracleRestart --output .tmp/oracle-record/gateway-restart"
+    },
+    {
+      "path": "current/restart/cut-second.json",
+      "sha256": "9360d0743bfe633b95d92418985d79f28591d91000827d4fdd332ea3785acd71",
+      "origin": "recorded-current",
+      "reference": "current",
+      "role": "expected-output",
+      "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-restart --test TestOracleRestart --output .tmp/oracle-record/gateway-restart"
+    },
+    {
       "path": "current/semreg/semreg-v1-graph/embedded-element-catalog.json",
       "sha256": "da9374aef2d755ed9e8a260fa5a41719feb2931339bbc2149ead7b4445336aa2",
       "origin": "recorded-current",

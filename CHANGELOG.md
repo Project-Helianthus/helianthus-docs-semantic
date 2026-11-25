@@ -6,6 +6,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The oracle records the paired-thermal restart under `acceptance/vectors/current/restart/`
+  (`cut-first.json`, `cut-second.json`): a paired thermal asset with an owner and a contributor
+  source, the configuration home with its site, and an operator identity link declared after the
+  first batch, captured, stopped, started on the same allocator store and republished. Each cut
+  holds the resource identifiers, relation keys, consumer value keys, the late link, each source's
+  links and values with the owner-first presentation, and what the recovery seam returns when
+  asked to export the shared asset. `check.py --restart` compares the two lifecycles on sorted
+  node identifiers, link keys with endpoints and types, aliases, source links and consumer value
+  keys, and prints a difference as an item 15 defect marked in the index.
 - The oracle records the family graph of the frozen gateway under
   `acceptance/vectors/current/graph/`: one cut per family (PV logger children,
   single-device SunSpec, storage, EVSE, synthetic infrastructure, site, thermal,
