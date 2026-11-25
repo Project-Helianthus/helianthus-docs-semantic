@@ -115,7 +115,7 @@ func oracleEnergy(t *testing.T) {
 			map[string]any{"kind": "lifetime", "channel": "gas", "usage": "hot_water", "kwh": 321},
 			map[string]any{"kind": "window", "channel": "electricity", "usage": "climate", "period": "month", "label": "current", "ref": ref.AddDate(0, -1, 10).Format("2006-01-02T15:04:05Z07:00"), "kwh": 45},
 		}}
-		env.finish("energy/energy-ledger-lifetime-and-window-keys", []string{qv07OwnerFile, qv07ProviderFile}, "synthetic energy values over the owner ledger, following cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantPublicationEnergyLedgerKeysProviderValues", state, map[string]any{"provider_clock": qv07Clock.Format("2006-01-02T15:04:05Z07:00")}, "energy")
+		env.finish("energy/energy-owner-lifetime-and-window-keys", []string{qv07OwnerFile, qv07ProviderFile}, "synthetic energy values over the owner's lifetime and window keys, following the provider-value key test of cmd/gateway/vaillant_semantic_publication_views_test.go", state, map[string]any{"provider_clock": qv07Clock.Format("2006-01-02T15:04:05Z07:00")}, "energy")
 	}
 	{
 		env := newQV07Env(t)
@@ -129,7 +129,7 @@ func oracleEnergy(t *testing.T) {
 			return uint32(1000 + reads), ok
 		})
 		env.decide("acquire_energy", map[string]any{"reads": reads})
-		env.finish("energy/energy-acquisition-every-query", []string{qv07OwnerFile, qv07ProviderFile}, "inputs of cmd/gateway/vaillant_semantic_publication_views_test.go TestAcquireEnergyAppliesNativeValuesToTheLedger, applied to the owner ledger", map[string]any{"queries": queries}, map[string]any{"provider_clock": qv07Clock.Format("2006-01-02T15:04:05Z07:00"), "failed_query_index": failedQuery}, "energy")
+		env.finish("energy/energy-acquisition-every-query", []string{qv07OwnerFile, qv07ProviderFile}, "inputs of the energy acquisition test of cmd/gateway/vaillant_semantic_publication_views_test.go, applied to the owner's energy keys", map[string]any{"queries": queries}, map[string]any{"provider_clock": qv07Clock.Format("2006-01-02T15:04:05Z07:00"), "failed_query_index": failedQuery}, "energy")
 	}
 }
 
@@ -187,8 +187,11 @@ func oracleSchedules(t *testing.T) {
 	}
 	{
 		env := newQV07Env(t)
+		beforeGraphQL, beforeMCP := qv07Capture(t, env.provider, "schedules")
+		env.decide("capture_before_startup_schedule_placeholder", map[string]any{"graphql": beforeGraphQL, "mcp": beforeMCP})
 		env.owner.publishStartupSchedulePlaceholder()
-		env.decide("publish_startup_schedule_placeholder", map[string]any{})
+		placeholderGraphQL, placeholderMCP := qv07Capture(t, env.provider, "schedules")
+		env.decide("publish_startup_schedule_placeholder", map[string]any{"graphql": placeholderGraphQL, "mcp": placeholderMCP})
 		env.owner.publishSchedulePrograms(nil)
 		env.decide("publish_schedule_programs_nil", map[string]any{})
 		env.finish("schedules/schedules-startup-placeholder-and-nil-programs", []string{qv07OwnerFile, qv07SchedFile}, "publishStartupSchedulePlaceholder and publishSchedulePrograms with no programs", map[string]any{}, nil, "schedules")

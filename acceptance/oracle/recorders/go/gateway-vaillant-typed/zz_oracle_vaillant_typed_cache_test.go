@@ -194,10 +194,12 @@ func oracleCache(t *testing.T) {
 		overlays := map[byte]vaillantZoneCacheOverlay{
 			0: {currentTempC: qv07F(20.25), humidityPct: qv07F(45), roomMappingRaw: qv07U16(1), associatedCircuitRaw: qv07U16(0)},
 		}
+		dhwView := vaillantDhwView{snapshot: &vaillantDhwSnapshot{CurrentTempC: qv07F(48.5), OperatingMode: "auto", TargetTempC: qv07F(55)}}
+		boilerSnapshot := qv07BoilerSnapshot()
 		env := &qv07Env{t: t, provider: provider, owner: owner}
 		env.decide("publish_zone_views_live", map[string]any{"published": owner.publishZoneViews(views, semanticSnapshotSourceLive)})
-		env.decide("publish_dhw_live", map[string]any{"published": owner.publishDhwView(vaillantDhwView{snapshot: &vaillantDhwSnapshot{CurrentTempC: qv07F(48.5), OperatingMode: "auto", TargetTempC: qv07F(55)}}, semanticSnapshotSourceLive)})
-		env.decide("publish_boiler_live", map[string]any{"published": owner.publishBoilerStatusView(qv07BoilerSnapshot(), semanticSnapshotSourceLive)})
+		env.decide("publish_dhw_live", map[string]any{"published": owner.publishDhwView(dhwView, semanticSnapshotSourceLive)})
+		env.decide("publish_boiler_live", map[string]any{"published": owner.publishBoilerStatusView(boilerSnapshot, semanticSnapshotSourceLive)})
 		env.decide("persists_cache", map[string]any{"value": owner.persistsCache()})
 		owner.persistCache(overlays)
 		bytes := qv07ReadCache(t)
@@ -212,8 +214,11 @@ func oracleCache(t *testing.T) {
 			Component: "cmd/gateway semantic cache",
 			Source:    []string{qv07CachePubFile, qv07CacheFile},
 			Stimulus:  "cmd/gateway/vaillant_semantic_publication_cache.go persistCache over published planes",
-			Input:     qv07Input{Qualifiers: map[string]any{"cache_path": qv07CachePath}, Clock: map[string]any{"store_now": qv07Clock.Format("2006-01-02T15:04:05Z07:00")}, State: map[string]any{"zone_views": qv07Native(t, qv07ZoneViewState(views)), "overlays": overlayState}},
-			Output:    qv07Output{Decisions: env.decisions, GraphQL: gql, MCP: mcpRecord, Cache: map[string]any{"saved_bytes": bytes, "loaded_snapshot": qv07Native(t, loaded)}, Observations: logs.lines},
+			Input: qv07Input{Qualifiers: map[string]any{"cache_path": qv07CachePath, "source": "live"}, Clock: map[string]any{"store_now": qv07Clock.Format("2006-01-02T15:04:05Z07:00")}, State: map[string]any{
+				"zone_views": qv07Native(t, qv07ZoneViewState(views)), "dhw_view": qv07Native(t, qv07DhwViewState(dhwView)),
+				"boiler_snapshot": qv07Native(t, boilerSnapshot), "overlays": overlayState,
+			}},
+			Output: qv07Output{Decisions: env.decisions, GraphQL: gql, MCP: mcpRecord, Cache: map[string]any{"saved_bytes": bytes, "loaded_snapshot": qv07Native(t, loaded)}, Observations: logs.lines},
 		})
 	})
 }

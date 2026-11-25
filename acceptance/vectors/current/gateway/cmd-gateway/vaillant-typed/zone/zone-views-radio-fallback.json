@@ -15,6 +15,90 @@
       "energy_clock": "2030-04-10T08:00:00Z"
     },
     "state": {
+      "poller": {
+        "radio_devices": [
+          {
+            "device": {
+              "DeviceClassAddress": null,
+              "DeviceConnected": true,
+              "DeviceModel": "",
+              "DevicePaired": null,
+              "FirmwareVersion": null,
+              "Group": 10,
+              "HardwareIdentifier": null,
+              "Instance": 2,
+              "ReceptionStrength": null,
+              "RemoteControlAddress": null,
+              "RoomHumidityPct": 44,
+              "RoomTemperatureC": 20.5,
+              "SlotMode": "",
+              "ZoneAssignment": 2
+            },
+            "group": 10,
+            "instance": 2
+          }
+        ],
+        "zones": {
+          "0": {
+            "AllowedModes": null,
+            "ConfigurationAssociatedCircuitRaw": null,
+            "ConfigurationCircuitTypeRaw": null,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": 0,
+            "CurrentTempC": 22,
+            "FieldFreshness": null,
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": 51,
+            "HvacAction": "",
+            "Instance": 0,
+            "Name": "",
+            "OperatingMode": "",
+            "Present": true,
+            "Preset": "",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "",
+            "StateValveStatusRaw": null,
+            "TargetTempC": null
+          },
+          "1": {
+            "AllowedModes": [
+              "auto"
+            ],
+            "ConfigurationAssociatedCircuitRaw": null,
+            "ConfigurationCircuitTypeRaw": null,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": null,
+            "CurrentTempC": null,
+            "FieldFreshness": null,
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": null,
+            "HvacAction": "",
+            "Instance": 1,
+            "Name": "Upstairs",
+            "OperatingMode": "",
+            "Present": true,
+            "Preset": "",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "",
+            "StateValveStatusRaw": null,
+            "TargetTempC": null
+          }
+        }
+      },
       "zone_views": [
         {
           "inferred_room_mapping_raw": null,

@@ -86,7 +86,7 @@ var qv07Planes = map[string]qv07Plane{
 		return map[string]any{"boiler_status": a.BoilerStatus()}
 	}},
 	"system": {[]string{"system"}, []string{"ebus_v1_semantic_system_get"}, func(a mcpSemanticProviderAdapter) map[string]any { return map[string]any{"system": a.System()} }},
-	"fm5": {[]string{"fm5_semantic_mode"}, []string{"ebus_v1_semantic_fm5_mode_get", "ebus_v1_semantic_fm5_interpretation_get"}, func(a mcpSemanticProviderAdapter) map[string]any {
+	"fm5": {[]string{"fm5_semantic_mode", "fm5_interpretation"}, []string{"ebus_v1_semantic_fm5_mode_get", "ebus_v1_semantic_fm5_interpretation_get"}, func(a mcpSemanticProviderAdapter) map[string]any {
 		return map[string]any{"fm5_mode": a.FM5SemanticMode(), "fm5_interpretation": a.FM5Interpretation()}
 	}},
 	"solar":     {[]string{"solar"}, []string{"ebus_v1_semantic_solar_get"}, func(a mcpSemanticProviderAdapter) map[string]any { return map[string]any{"solar": a.Solar()} }},
@@ -174,7 +174,12 @@ func qv07GraphQL(t *testing.T, provider *graphql.LiveSemanticProvider, roots []s
 
 func qv07Tool(t *testing.T, server *mcp.Server, tool string) map[string]any {
 	t.Helper()
-	body := fmt.Sprintf(`{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":%q,"arguments":{}}}`, tool)
+	return qv07ToolWith(t, server, tool, "{}")
+}
+
+func qv07ToolWith(t *testing.T, server *mcp.Server, tool string, arguments string) map[string]any {
+	t.Helper()
+	body := fmt.Sprintf(`{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":%q,"arguments":%s}}`, tool, arguments)
 	request := httptest.NewRequest(http.MethodPost, "/mcp", strings.NewReader(body))
 	recorder := httptest.NewRecorder()
 	server.Handler().ServeHTTP(recorder, request)
@@ -230,6 +235,12 @@ func qv07MCP(t *testing.T, provider *graphql.LiveSemanticProvider, planes []stri
 	adapters := map[string]any{}
 	tools := map[string]any{}
 	for _, name := range planes {
+		if name == "capability" {
+			for tool, record := range qv07CapabilityMCP(t, provider) {
+				tools[tool] = record
+			}
+			continue
+		}
 		plane := qv07Planes[name]
 		if plane.adapter == nil {
 			continue
@@ -242,6 +253,22 @@ func qv07MCP(t *testing.T, provider *graphql.LiveSemanticProvider, planes []stri
 		}
 	}
 	return map[string]any{"adapter": adapters, "tools": tools}
+}
+
+// qv07CapabilityMCP records the regulator capability as the pin's MCP server
+// emits it: the runtime status tool and the runtime status plane of the
+// semantic snapshot tool, over the pin's runtime status provider.
+func qv07CapabilityMCP(t *testing.T, provider *graphql.LiveSemanticProvider) map[string]any {
+	t.Helper()
+	server, err := mcp.NewServer(registry.NewDeviceRegistry(nil), qv07Invoker{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	server.SetStatusProvider(newMCPRuntimeStatusProvider(provider, nil))
+	return map[string]any{
+		"ebus_v1_runtime_status_get":    qv07ToolWith(t, server, "ebus_v1_runtime_status_get", "{}"),
+		"ebus_v1_semantic_snapshot_get": qv07ToolWith(t, server, "ebus_v1_semantic_snapshot_get", `{"planes":["runtime_status"]}`),
+	}
 }
 
 // qv07Capture records the published state of the named planes.

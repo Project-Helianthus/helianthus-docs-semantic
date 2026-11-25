@@ -9,12 +9,70 @@
   "input": {
     "bytes": "",
     "qualifiers": {
-      "cache_path": "semantic-cache.json"
+      "cache_path": "semantic-cache.json",
+      "source": "live"
     },
     "clock": {
       "store_now": "2030-04-10T08:00:00Z"
     },
     "state": {
+      "boiler_snapshot": {
+        "CentralHeatingHours": 4321.5,
+        "CentralHeatingPumpActive": true,
+        "CentralHeatingStarts": 12345,
+        "CirculationPumpActive": true,
+        "DeactivationsIFC": 3,
+        "DeactivationsTemplimiter": 1,
+        "DhwDemandActive": false,
+        "DhwHours": 987.25,
+        "DhwOperatingMode": 2,
+        "DhwStarts": 6789,
+        "DhwStatusRaw": 1,
+        "DhwTargetTemperatureC": 50,
+        "DhwTempDesiredC": 50,
+        "DhwTemperatureC": 48,
+        "DhwWaterFlowLpm": 7.25,
+        "DiverterValvePositionPct": 100,
+        "ExternalPumpActive": false,
+        "FanHours": 4800,
+        "FanSpeedRpm": 3120,
+        "FlameActive": true,
+        "FlowTempDesiredC": 55,
+        "FlowTemperatureC": 54.5,
+        "FlowsetHcMaxC": 75,
+        "FlowsetHwcMaxC": 80,
+        "GasValveActive": true,
+        "HeatingStatusRaw": 4,
+        "HeatingSwitchActive": true,
+        "HoursTillService": 2400,
+        "InstallerMenuCode": 17,
+        "IonisationVoltageUa": 5.5,
+        "ModulationPct": 35,
+        "PartloadHcKW": 12,
+        "PartloadHwcKW": 24,
+        "PhoneNumber": "0123",
+        "PrimaryCircuitFlowLpm": 12.5,
+        "PumpHours": 5000,
+        "ReturnTemperatureC": 41,
+        "StateNumber": 8,
+        "StorageLoadPumpPct": 65,
+        "TargetFanSpeedRpm": 3200,
+        "WaterPressureBar": 1.6
+      },
+      "dhw_view": {
+        "expired": false,
+        "snapshot": {
+          "ConfigurationDHWOperationMode": "",
+          "CurrentTempC": 48.5,
+          "FieldFreshness": null,
+          "HolidayEndDate": "",
+          "HolidayStartDate": "",
+          "OperatingMode": "auto",
+          "Preset": "",
+          "StateSpecialFunction": "",
+          "TargetTempC": 55
+        }
+      },
       "overlays": {
         "0": {
           "associated_circuit_raw": 0,

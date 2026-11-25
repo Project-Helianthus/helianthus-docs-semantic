@@ -68,6 +68,14 @@
         "data": [],
         "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
       },
+      "fm5_interpretation": {
+        "data": {
+          "degraded_reason": "CONFIGURATION_NOT_INTERPRETABLE",
+          "evidence_revision": "synthetic-rev-2",
+          "mode": "GPIO_ONLY"
+        },
+        "query": "{ fm5_interpretation { degraded_reason evidence_revision mode } }"
+      },
       "fm5_semantic_mode": {
         "data": "GPIO_ONLY",
         "query": "{ fm5_semantic_mode }"

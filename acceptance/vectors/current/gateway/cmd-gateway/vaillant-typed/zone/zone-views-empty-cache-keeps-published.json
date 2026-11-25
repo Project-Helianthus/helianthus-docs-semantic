@@ -19,40 +19,92 @@
       "energy_clock": "2030-04-10T08:00:00Z"
     },
     "state": {
-      "first_views": [
+      "steps": [
         {
-          "inferred_room_mapping_raw": null,
-          "instance": 0,
-          "radio_room_humidity_pct": null,
-          "radio_room_temp_c": null,
-          "snapshot": {
-            "AllowedModes": null,
-            "ConfigurationAssociatedCircuitRaw": null,
-            "ConfigurationCircuitTypeRaw": null,
-            "ConfigurationHeatingOperationMode": "",
-            "ConfigurationRoomTemperatureZoneMappingRaw": null,
-            "CurrentTempC": 19,
-            "FieldFreshness": null,
-            "HolidayEndDate": "",
-            "HolidayEndTime": "",
-            "HolidaySetpointC": null,
-            "HolidayStartDate": "",
-            "HolidayStartTime": "",
-            "HumidityPct": null,
-            "HvacAction": "",
-            "Instance": 0,
-            "Name": "Kept",
-            "OperatingMode": "",
-            "Present": true,
-            "Preset": "",
-            "QuickVetoDurationH": null,
-            "QuickVetoEndDate": "",
-            "QuickVetoEndTime": "",
-            "QuickVetoTempC": null,
-            "StateSpecialFunction": "",
-            "StateValveStatusRaw": null,
-            "TargetTempC": null
-          }
+          "source": "live",
+          "zone_views": [
+            {
+              "inferred_room_mapping_raw": null,
+              "instance": 0,
+              "radio_room_humidity_pct": null,
+              "radio_room_temp_c": null,
+              "snapshot": {
+                "AllowedModes": null,
+                "ConfigurationAssociatedCircuitRaw": null,
+                "ConfigurationCircuitTypeRaw": null,
+                "ConfigurationHeatingOperationMode": "",
+                "ConfigurationRoomTemperatureZoneMappingRaw": null,
+                "CurrentTempC": 19,
+                "FieldFreshness": null,
+                "HolidayEndDate": "",
+                "HolidayEndTime": "",
+                "HolidaySetpointC": null,
+                "HolidayStartDate": "",
+                "HolidayStartTime": "",
+                "HumidityPct": null,
+                "HvacAction": "",
+                "Instance": 0,
+                "Name": "Kept",
+                "OperatingMode": "",
+                "Present": true,
+                "Preset": "",
+                "QuickVetoDurationH": null,
+                "QuickVetoEndDate": "",
+                "QuickVetoEndTime": "",
+                "QuickVetoTempC": null,
+                "StateSpecialFunction": "",
+                "StateValveStatusRaw": null,
+                "TargetTempC": null
+              }
+            }
+          ]
+        },
+        {
+          "source": "cache",
+          "zone_views": []
+        },
+        {
+          "source": "cache",
+          "zone_views": [
+            {
+              "inferred_room_mapping_raw": null,
+              "instance": 1,
+              "radio_room_humidity_pct": null,
+              "radio_room_temp_c": null,
+              "snapshot": {
+                "AllowedModes": null,
+                "ConfigurationAssociatedCircuitRaw": null,
+                "ConfigurationCircuitTypeRaw": null,
+                "ConfigurationHeatingOperationMode": "",
+                "ConfigurationRoomTemperatureZoneMappingRaw": null,
+                "CurrentTempC": null,
+                "FieldFreshness": null,
+                "HolidayEndDate": "",
+                "HolidayEndTime": "",
+                "HolidaySetpointC": null,
+                "HolidayStartDate": "",
+                "HolidayStartTime": "",
+                "HumidityPct": null,
+                "HvacAction": "",
+                "Instance": 1,
+                "Name": "Cached",
+                "OperatingMode": "",
+                "Present": true,
+                "Preset": "",
+                "QuickVetoDurationH": null,
+                "QuickVetoEndDate": "",
+                "QuickVetoEndTime": "",
+                "QuickVetoTempC": null,
+                "StateSpecialFunction": "",
+                "StateValveStatusRaw": null,
+                "TargetTempC": null
+              }
+            }
+          ]
+        },
+        {
+          "source": "live",
+          "zone_views": []
         }
       ]
     }

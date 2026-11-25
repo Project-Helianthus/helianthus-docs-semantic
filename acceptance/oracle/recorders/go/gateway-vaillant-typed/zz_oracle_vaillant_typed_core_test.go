@@ -61,7 +61,14 @@ func oracleZones(t *testing.T) {
 		poller.mu.Lock()
 		views := poller.zoneViewsLocked()
 		poller.mu.Unlock()
-		state := map[string]any{"zone_views": qv07Native(t, qv07ZoneViewState(views))}
+		pollerRadio := []any{}
+		for key, device := range poller.radioDevices {
+			pollerRadio = append(pollerRadio, map[string]any{"group": key.Group, "instance": key.Instance, "device": device})
+		}
+		state := map[string]any{
+			"poller":     qv07Native(t, map[string]any{"radio_devices": pollerRadio, "zones": poller.zones}),
+			"zone_views": qv07Native(t, qv07ZoneViewState(views)),
+		}
 		env.decide("publish_zone_views_live", map[string]any{"published": env.owner.publishZoneViews(views, semanticSnapshotSourceLive)})
 		env.finish("zone/zone-views-radio-fallback", []string{qv07ViewsFile, qv07ProviderFile}, qv07ViewsTest+" TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues", state, map[string]any{"source": "live"}, "zones")
 	}
@@ -98,10 +105,16 @@ func oracleZones(t *testing.T) {
 	{
 		env := newQV07Env(t)
 		one := []vaillantZoneView{{instance: 0, snapshot: &vaillantZoneSnapshot{Instance: 0, Present: true, Name: "Kept", CurrentTempC: qv07F(19)}}}
-		state := map[string]any{"first_views": qv07Native(t, qv07ZoneViewState(one))}
+		cached := []vaillantZoneView{{instance: 1, snapshot: &vaillantZoneSnapshot{Instance: 1, Present: true, Name: "Cached"}}}
+		state := map[string]any{"steps": []any{
+			map[string]any{"source": "live", "zone_views": qv07Native(t, qv07ZoneViewState(one))},
+			map[string]any{"source": "cache", "zone_views": qv07Native(t, qv07ZoneViewState(nil))},
+			map[string]any{"source": "cache", "zone_views": qv07Native(t, qv07ZoneViewState(cached))},
+			map[string]any{"source": "live", "zone_views": qv07Native(t, qv07ZoneViewState(nil))},
+		}}
 		env.decide("publish_zone_views_live", map[string]any{"published": env.owner.publishZoneViews(one, semanticSnapshotSourceLive)})
 		env.decide("publish_empty_zone_views_cache", map[string]any{"published": env.owner.publishZoneViews(nil, semanticSnapshotSourceCache), "zones_published": len(env.provider.Zones())})
-		env.decide("publish_zone_views_cache_replacement", map[string]any{"published": env.owner.publishZoneViews([]vaillantZoneView{{instance: 1, snapshot: &vaillantZoneSnapshot{Instance: 1, Present: true, Name: "Cached"}}}, semanticSnapshotSourceCache), "zones_published": len(env.provider.Zones())})
+		env.decide("publish_zone_views_cache_replacement", map[string]any{"published": env.owner.publishZoneViews(cached, semanticSnapshotSourceCache), "zones_published": len(env.provider.Zones())})
 		env.decide("publish_empty_zone_views_live", map[string]any{"published": env.owner.publishZoneViews(nil, semanticSnapshotSourceLive), "zones_published": len(env.provider.Zones())})
 		env.finish("zone/zone-views-empty-cache-keeps-published", []string{qv07ViewsFile}, "synthetic native zone views over publishZoneViews", state, map[string]any{"sources": []any{"live", "cache", "cache", "live"}}, "zones")
 	}
@@ -246,16 +259,22 @@ func oracleSystem(t *testing.T) {
 	}
 	{
 		env := newQV07Env(t)
-		steps := []map[string]any{}
+		steps := []any{}
+		natives := []any{}
 		for _, capability := range []struct {
 			name  string
 			value productids.ControllerCapability
 		}{{"present", productids.ControllerPresent}, {"none", productids.ControllerNone}, {"unrecognised", productids.ControllerCapability(99)}} {
+			natives = append(natives, map[string]any{"name": capability.name, "native_value": int(capability.value)})
 			env.owner.publishRegulatorCapability(capability.value)
-			steps = append(steps, map[string]any{"native": capability.name, "published": string(env.provider.VaillantRegulatorCapability())})
+			gql, _ := qv07Capture(t, env.provider, "capability")
+			steps = append(steps, map[string]any{
+				"native": capability.name, "published": string(env.provider.VaillantRegulatorCapability()),
+				"graphql": gql, "mcp": qv07CapabilityMCP(t, env.provider),
+			})
 		}
 		env.decide("publish_regulator_capability", map[string]any{"mapped": steps})
-		env.finish("system/regulator-capability-mapping", []string{qv07ViewsFile}, "synthetic native controller capabilities over publishRegulatorCapability", map[string]any{"capabilities": []any{"present", "none", "unrecognised"}}, nil, "capability")
+		env.finish("system/regulator-capability-mapping", []string{qv07ViewsFile}, "synthetic native controller capabilities over publishRegulatorCapability, read through the pin's GraphQL root and MCP runtime status tools after each step", map[string]any{"capabilities": natives}, nil, "capability")
 	}
 }
 

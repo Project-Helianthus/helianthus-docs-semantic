@@ -9162,7 +9162,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/cache/cache-persist-published-planes-with-zone-overlay.json",
-      "sha256": "5fe04782b41532a55e961cac7ed44d7d3b9bea7124ab09d14695ae2fc655719c",
+      "sha256": "fa16ce0797f7cf2d373e6f54796759661160f69a4ddd2d72bb4610b9dd6637f0",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9226,15 +9226,15 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/energy/energy-acquisition-every-query.json",
-      "sha256": "8500fbf7be323df842167acf1b94b2e413ba48f629ff0eaddd076fbb89b09f55",
+      "sha256": "652e43e208d3032e10d523f9915372cc0b3ecc5a5199109f1a2cdcd068c500b1",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
       "recorder": "recorders/gorun.py --reference current --entry gateway --package cmd/gateway --sources gateway-vaillant-typed --test TestOracleVaillantTyped --output .tmp/oracle-record/gateway-vaillant-typed"
     },
     {
-      "path": "current/gateway/cmd-gateway/vaillant-typed/energy/energy-ledger-lifetime-and-window-keys.json",
-      "sha256": "5281bbac831b78fc7c43d8d5c3e836251a3c1658150402a7c2e5d4ad8e797b35",
+      "path": "current/gateway/cmd-gateway/vaillant-typed/energy/energy-owner-lifetime-and-window-keys.json",
+      "sha256": "7aba82dc7fa07888f9e80191d71a82ef2625db6bab106e796d3a37f779d8b516",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9242,7 +9242,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-absent-without-solar-and-cylinders.json",
-      "sha256": "1e3f76cacdf999f930410abcdec246ef0de429ed0191b79669017c27b2c49787",
+      "sha256": "e618767a71d2a488a5d82390a4d181e35265f0ffb843588bf187b7e6a7b4fa99",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9250,7 +9250,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-gpio-only-structural-withdrawal.json",
-      "sha256": "cdf57e69cfd4afbaabce64eb5b7ce328c6ed7b49a0116b47d08f3b258a9b702d",
+      "sha256": "7fad488539e6145743f78b5e8a28d816b0f4fd2d8a37667e8d18c45808f03cc1",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9258,7 +9258,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-interpreted-published-from-cache-source.json",
-      "sha256": "f4308e7dbc06224ee02200f46eac286b06006ac8cccbfa6faa2dd2ef6913c815",
+      "sha256": "6a3d577582fba75e10f823d976b7c421f79b3f4fcf3b07c2b9e4163b735f9f7f",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9266,7 +9266,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-interpreted-with-solar-and-cylinders.json",
-      "sha256": "6ea7e7253466881bb534e6adca51ed08ec1c4393c4289188599431d7abd84056",
+      "sha256": "d3421ce2a52a6250bce3fef9abd206dd254ec947294c25d4e778694835e7909f",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9274,7 +9274,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/fm5/fm5-verdict-outside-native-set-keeps-previous.json",
-      "sha256": "fdd1a4e2d2f664ce929212ce9875167524c425335ad1ef71fcfdc6c5f6c1db06",
+      "sha256": "822e4faefb675406b523237c4693f41893b38e0c2409de11b42c223c415c697b",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9324,7 +9324,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/schedules/schedules-startup-placeholder-and-nil-programs.json",
-      "sha256": "110f52669915a4b31db300f24088d28ce34ce7eecfb9e9755f93a813386338bd",
+      "sha256": "540bfdf31733bc742e02c1d02703aa388b48b16324194f45cb68cfbebce74b50",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9340,7 +9340,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/system/regulator-capability-mapping.json",
-      "sha256": "bbae93fd32bbda51d48e74c392bac7b9b8a28dc12860260060d305f483d670d2",
+      "sha256": "e90fbe41c6d67904e1c6042a17187c15db5dc0e5b7f16ff55fe922be8c7a5e97",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9364,7 +9364,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/zone/zone-views-empty-cache-keeps-published.json",
-      "sha256": "6f3cc4ecc573f51dca04b3e6aec83d457bb1212c3130519c825a869412178d6d",
+      "sha256": "1b13d94216d772556ebd47d2887766ad0046aeb5fee1bf333d2517e4aa932597",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",
@@ -9380,7 +9380,7 @@
     },
     {
       "path": "current/gateway/cmd-gateway/vaillant-typed/zone/zone-views-radio-fallback.json",
-      "sha256": "47f6fad4196ea4e1f69d3a525a6ca3130c3b8f1d13e50c0b3b8a20751534c506",
+      "sha256": "ce3262d4a6cb57ba347c4698e46030f650b465ea4d15ff169ef474b21a1e5375",
       "origin": "recorded-current",
       "reference": "current",
       "role": "expected-output",

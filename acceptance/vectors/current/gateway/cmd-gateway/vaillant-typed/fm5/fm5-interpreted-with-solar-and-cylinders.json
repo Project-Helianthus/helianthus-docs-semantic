@@ -83,6 +83,14 @@
         ],
         "query": "{ cylinders { charge_hysteresis_c charge_offset_c index max_setpoint_c temperature_c } }"
       },
+      "fm5_interpretation": {
+        "data": {
+          "degraded_reason": null,
+          "evidence_revision": "synthetic-rev-1",
+          "mode": "INTERPRETED"
+        },
+        "query": "{ fm5_interpretation { degraded_reason evidence_revision mode } }"
+      },
       "fm5_semantic_mode": {
         "data": "INTERPRETED",
         "query": "{ fm5_semantic_mode }"
