@@ -4225,6 +4225,110 @@ class ManifestCLITest(unittest.TestCase):
             self.assert_fail(self.repo.check("agree-two", manifest=path), "assertions")
 
 
+    def test_an_assertion_is_classified_from_the_binding_it_reads(self) -> None:
+        move = self.move_at("closure/cross/shadow", "Moved")
+        keep = [self.at("closure/cross/shadow", "Host"), self.at("closure/cross/shadow", "Other")]
+        bare = self.repo.generate(self.symbol_spec("shadow-bare", [move], stay_symbols=keep))
+        self.assert_fail(
+            bare,
+            "unaccounted-assertion function=TestShadowed assertion=outer",
+            "unaccounted-assertion function=TestShadowedHeader assertion=after-header",
+        )
+        self.assertNotIn("assertion=host", bare.stdout)
+        self.assertNotIn("assertion=header", bare.stdout)
+        self.assert_absent("shadow-bare")
+        given = [
+            {
+                "function": function,
+                "name": name,
+                "destination_repository": "ebusgo",
+                "destination_path": "dest/echo_test.go",
+                "test": "TestEcho",
+            }
+            for function, name in (("TestShadowed", "outer"), ("TestShadowedHeader", "after-header"))
+        ]
+        self.assert_ok(self.repo.generate(self.symbol_spec("shadow-given", [move], stay_symbols=keep, assertions=given)))
+        self.assertEqual(
+            sorted((item["function"], item["name"]) for item in self.repo.manifest("shadow-given")["assertions"]),
+            [("TestShadowed", "outer"), ("TestShadowedHeader", "after-header")],
+        )
+        self.assert_ok(self.repo.check("shadow-given"))
+
+    def test_a_raw_string_import_of_a_donor_test_is_accounted_like_a_quoted_one(self) -> None:
+        move = self.move_at("closure/cross/rq", "Move")
+        bare = self.repo.generate(self.symbol_spec("raw-test-bare", [move]))
+        self.assert_fail(bare, "left-behind: TestQuoted", "left-behind: TestRaw")
+        self.assert_absent("raw-test-bare")
+        kept = self.repo.generate(
+            self.symbol_spec("raw-test-kept", [move], specimens=["TestQuoted", "TestRaw"])
+        )
+        self.assert_ok(kept)
+        self.assertEqual(
+            sorted((item["kind"], item["name"]) for item in self.repo.manifest("raw-test-kept")["stays"]),
+            [("specimen", "TestQuoted"), ("specimen", "TestRaw")],
+        )
+        self.assert_ok(self.repo.check("raw-test-kept"))
+
+    def test_an_instantiated_receiver_expression_is_a_method_dependency(self) -> None:
+        gm = "closure/cross/gm"
+        for symbol, method in (("Move", "Method"), ("Plain", "Value")):
+            open_method = self.repo.generate(
+                self.symbol_spec(f"gm-{symbol}", [self.move_at(gm, symbol)], stay_symbols=[self.at(gm, "T")])
+            )
+            self.assert_fail(open_method)
+            self.assertEqual(open_method.stdout, f"outside-set: T.{method}\n", symbol)
+            self.assert_absent(f"gm-{symbol}")
+            declared = self.repo.generate(self.symbol_spec(
+                f"gm-{symbol}-kept", [self.move_at(gm, symbol)],
+                stay_symbols=[self.at(gm, "T"), self.at(gm, f"T.{method}")],
+            ))
+            self.assert_ok(declared)
+            self.assert_ok(self.repo.check(f"gm-{symbol}-kept"))
+
+    def test_a_field_key_of_a_local_alias_of_a_qualified_struct_is_not_a_use(self) -> None:
+        move = self.move_at("closure/cross/lq", "Move")
+        closed = self.repo.generate(
+            self.symbol_spec("lq-kept", [move], stay_symbols=[self.at("closure/cross/qb", "Box")])
+        )
+        self.assert_ok(closed)
+        self.assertNotIn("outside-set", closed.stdout)
+        self.assertEqual(
+            {item["name"]: item["uses"] for item in self.repo.manifest("lq-kept")["symbols"]},
+            {"Move": []},
+        )
+        self.assert_ok(self.repo.check("lq-kept"))
+
+    def test_siblings_of_one_declaration_do_not_share_their_initializers(self) -> None:
+        sib = "closure/cross/sib"
+        first = self.repo.generate(self.symbol_spec("sib-a", [self.move_at(sib, "A")]))
+        self.assert_ok(first)
+        self.assertEqual(
+            {item["name"]: item["uses"] for item in self.repo.manifest("sib-a")["symbols"]},
+            {"A": []},
+        )
+        self.assert_ok(self.repo.check("sib-a"))
+        second = self.repo.generate(self.symbol_spec("sib-b", [self.move_at(sib, "B")]))
+        self.assert_fail(second)
+        self.assertEqual(second.stdout, "outside-set: Helper\n")
+        self.assert_absent("sib-b")
+        shared = self.repo.generate(self.symbol_spec("sib-c", [self.move_at(sib, "C")]))
+        self.assert_fail(shared)
+        self.assertEqual(shared.stdout, "outside-set: pair\n")
+        self.assert_absent("sib-c")
+
+    def test_conflicting_destinations_for_one_assertion_fail_in_either_order(self) -> None:
+        moves = self.alpha_moves() + self.beta_moves()
+        first, = self.clone_assertions()
+        second = dict(first, test="TestOther")
+        for label, given in (("forward", [first, second]), ("reverse", [second, first])):
+            row = f"conflict-{label}"
+            failed = self.repo.generate(self.symbol_spec(row, moves, assertions=given))
+            self.assert_fail(failed, "conflicting-assertion function=TestStoreBehaviour assertion=clone-name")
+            self.assert_absent(row)
+        same = self.repo.generate(self.symbol_spec("conflict-same", moves, assertions=[first, dict(first)]))
+        self.assert_ok(same)
+
+
 class DeclaredSymbolUsesTest(unittest.TestCase):
     """Uses are counted for declared package-level names only."""
 

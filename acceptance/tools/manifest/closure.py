@@ -987,14 +987,28 @@ class GoFile:
             else:
                 inherit["start"] = first
             inherit["skip"] = set(skipped)
-        for at in names:
+        # Names that have a value each are initialized independently, so the
+        # name of one counts only its own value and not that of a sibling.
+        own_values: list[tuple[int, int]] = []
+        if len(names) > 1:
+            at = names[-1] + 1
+            while at < stop and self._word(at) != "=":
+                at = self._end_of(at) + 1 if self._word(at) in _OPENERS else at + 1
+            if at < stop:
+                own_values = self._split(at + 1, stop)
+        for position, at in enumerate(names):
             if self.tokens[at][0] != "_":
+                apart = set(skipped)
+                if len(own_values) == len(names):
+                    for other, (begin, end) in enumerate(own_values):
+                        if other != position:
+                            apart.update(range(begin, end))
                 found.append(Declaration(
                     name=self.tokens[at][0],
                     kind=kind,
                     first=first,
                     last=stop,
-                    skip=set(skipped),
+                    skip=apart,
                 ))
 
     def _fields(self, opener: int, interface: bool, skip: set[int], add) -> None:
@@ -1223,6 +1237,7 @@ class GoFile:
         self, index: int, limit: int, stack: list[tuple[int, str, bool]], skip: set[int], add,
         types: "list[tuple[str, int, int, bool]] | None" = None,
         struct_types: set[str] | None = None,
+        qualified_struct: "Callable[[str, str], bool] | None" = None,
     ) -> None:
         kind = self._word(index)
         end = self._scope_end(stack, limit, index)
@@ -1245,9 +1260,18 @@ class GoFile:
                 skip.add(at)
                 add(self.tokens[at][0], stop, end)
                 if kind == "type" and types is not None:
-                    types.append((self.tokens[at][0], stop, end, self._struct_spec(at + 1, stop, struct_types or set())))
+                    types.append((
+                        self.tokens[at][0], stop, end,
+                        self._struct_spec(at + 1, stop, struct_types or set(), qualified_struct),
+                    ))
 
-    def _struct_spec(self, start: int, stop: int, struct_types: set[str]) -> bool:
+    def _struct_spec(
+        self,
+        start: int,
+        stop: int,
+        struct_types: set[str],
+        qualified_struct: "Callable[[str, str], bool] | None" = None,
+    ) -> bool:
         """True when the type specification tokens from ``start`` spell a struct."""
         cursor = start
         if cursor < stop and self._word(cursor) == "=":
@@ -1257,6 +1281,14 @@ class GoFile:
         word = self._word(cursor)
         if word == "struct":
             return True
+        if (
+            _is_name(word)
+            and cursor + 2 < stop
+            and self._word(cursor + 1) == "."
+            and _is_name(self._word(cursor + 2))
+        ):
+            # A type of another package, spelled ``alias.Name``.
+            return qualified_struct(word, self._word(cursor + 2)) if qualified_struct else True
         return _is_name(word) and word in struct_types and (cursor + 1 >= stop or self._word(cursor + 1) != ".")
 
     def _chain(self, start: int, stop: int, single: bool) -> list[int]:
@@ -1366,7 +1398,7 @@ class GoFile:
             elif word in ("var", "const", "type") and stack and (
                 self._word(index + 1) == "(" or _is_name(self._word(index + 1))
             ):
-                self._local_declaration(index, high, stack, skip, add, local_types, struct_types)
+                self._local_declaration(index, high, stack, skip, add, local_types, struct_types, qualified_struct)
             elif _is_name(word):
                 before = self._word(index - 1) if index > low else ""
                 if (
@@ -1414,9 +1446,26 @@ class GoFile:
         ``got := Moved()`` therefore uses what that statement uses.
         """
         low, high = declaration.first, declaration.last
-        definitions: list[tuple[set[str], int, int]] = []
+        # Each definition lists the names it assigns with the binding each name
+        # is: the ``:=`` that declared it, found by scope, or None for a name
+        # declared outside the function body (a parameter, a package name).
+        definitions: list[tuple[dict[str, int | None], int, int]] = []
+        scopes: dict[str, list[tuple[int, int, int]]] = {}
+        stack: list[tuple[int, str, bool]] = []
+
+        def binding(name: str, at: int) -> int | None:
+            covering = [item for item in scopes.get(name, ()) if item[0] <= at < item[1]]
+            return max(covering, key=lambda item: item[0])[2] if covering else None
+
         for index in range(low, high):
             word = self.tokens[index][0]
+            if word == "{":
+                stack.append((index, "", False))
+                continue
+            if word == "}":
+                if stack:
+                    stack.pop()
+                continue
             if word != ":=" and not (word == "=" and self._plain_assignment(index)):
                 continue
             chain: list[int] = []
@@ -1428,19 +1477,29 @@ class GoFile:
                 else:
                     break
             stop = self._statement_end(index + 1, high)
-            if chain and stop > index + 1:
-                definitions.append(({self.tokens[at][0] for at in chain}, index, stop))
+            if not chain or stop <= index + 1:
+                continue
+            bound: dict[str, int | None] = {}
+            if word == ":=":
+                start, end = self._short_scope(index, chain, low, high, stack)
+                for at in chain:
+                    scopes.setdefault(self.tokens[at][0], []).append((start, end, index))
+                    bound[self.tokens[at][0]] = index
+            else:
+                for at in chain:
+                    bound[self.tokens[at][0]] = binding(self.tokens[at][0], index)
+            definitions.append((bound, index, stop))
 
-        def read(first: int, last: int) -> set[str]:
-            return {
-                self.tokens[at][0]
+        def read(first: int, last: int) -> list[tuple[str, int]]:
+            return [
+                (self.tokens[at][0], at)
                 for at in range(first, last)
                 if _is_name(self.tokens[at][0]) and self._word(at - 1) != "."
-            }
+            ]
 
         pending = [
-            (name, window[0])
-            for name in read(
+            (name, window[0], at)
+            for name, at in read(
                 next((at for at in range(low, high) if self.tokens[at][1] >= window[0]), high),
                 next((at for at in range(low, high) if self.tokens[at][1] >= window[1]), high),
             )
@@ -1448,16 +1507,22 @@ class GoFile:
         windows: list[tuple[int, int]] = []
         done: set[int] = set()
         while pending:
-            name, limit = pending.pop()
-            earlier = [item for item in definitions if name in item[0] and self.tokens[item[1]][1] < limit]
+            name, limit, at = pending.pop()
+            # The binding the read refers to, not any earlier variable of the
+            # same spelling that a nested scope declared.
+            wanted = binding(name, at)
+            earlier = [
+                item for item in definitions
+                if name in item[0] and item[0][name] == wanted and self.tokens[item[1]][1] < limit
+            ]
             if not earlier:
                 continue
-            names, equals, stop = max(earlier, key=lambda item: item[1])
+            _bound, equals, stop = max(earlier, key=lambda item: item[1])
             if equals in done:
                 continue
             done.add(equals)
             windows.append((self.tokens[equals + 1][1], self.tokens[stop - 1][2]))
-            pending += [(item, self.tokens[equals][1]) for item in read(equals + 1, stop)]
+            pending += [(item, self.tokens[equals][1], where) for item, where in read(equals + 1, stop)]
         return windows
 
     def _initializer_type(self, start: int, stop: int) -> str | None:
@@ -1625,18 +1690,20 @@ class GoFile:
                     inner += 1
                 if not _is_name(self._word(inner)):
                     continue
-                if inner + 1 == index - 1:
-                    spelled = self._word(inner)
-                    head = inner
-                elif (
-                    inner + 3 == index - 1
-                    and self._word(inner + 1) == "."
+                head = inner
+                tail = inner + 1
+                spelled = self._word(inner)
+                if (
+                    self._word(inner + 1) == "."
                     and _is_name(self._word(inner + 2))
                     and self._word(inner) in (aliases or {})
                 ):
                     spelled = f"{self._word(inner)}.{self._word(inner + 2)}"
-                    head = inner
-                else:
+                    tail = inner + 3
+                if tail < index - 1 and self._word(tail) == "[" and self._end_of(tail) + 1 == index - 1:
+                    # An explicit instantiation, ``(*T[int]).Method``.
+                    tail = index - 1
+                if tail != index - 1:
                     continue
                 if window is not None and not window[0] <= self.tokens[head][1] < window[1]:
                     continue
@@ -1644,12 +1711,20 @@ class GoFile:
                     continue
                 record(spelled, self._word(index + 1))
                 continue
+            dot = index + 1
+            if (
+                _is_name(word)
+                and self._word(dot) == "["
+                and not any(item[0] <= index < item[1] for item in bindings.get(word, ()))
+            ):
+                # An instantiated type before a selector, ``T[int].Method``.
+                dot = self._end_of(dot) + 1
             if (
                 not _is_name(word)
                 or (index > low and self._word(index - 1) == ".")
-                or self._word(index + 1) != "."
-                or not self._word(index + 2)
-                or not _is_name(self._word(index + 2))
+                or self._word(dot) != "."
+                or not self._word(dot + 1)
+                or not _is_name(self._word(dot + 1))
             ):
                 continue
             if window is not None and not window[0] <= self.tokens[index][1] < window[1]:
@@ -1669,7 +1744,7 @@ class GoFile:
                 kind = f"{word}.{self._word(index + 2)}"
                 method = self._word(index + 4)
             else:
-                method = self._word(index + 2)
+                method = self._word(dot + 1)
             record(kind, method)
         return found
 
@@ -2111,9 +2186,11 @@ def analyze_symbols(
     # package) and a test file of a donor directory that the input does not
     # name still exercise moved symbols when it imports a package of the move.
     covered = {path for directory in packages for path in texts[directory]}
-    hints = [directory + '"' for directory in packages if directory != "."]
+    # An import path is an interpreted or a raw string literal.
+    quotes = ('"', "`")
+    hints = [directory + quote for directory in packages if directory != "." for quote in quotes]
     if module and "." in packages:
-        hints.append(module + '"')
+        hints += [module + quote for quote in quotes]
     candidates = [
         path for path in list_files_recursive(repo, revision)
         if path.endswith("_test.go") and path not in covered

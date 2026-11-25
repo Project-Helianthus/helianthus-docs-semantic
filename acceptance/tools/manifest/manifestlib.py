@@ -450,6 +450,15 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
     for path in moved_paths:
         if not gitstore.path_exists(donor, spec["donor_sha"], path):
             errors.append(f"absent: {path}")
+    if moved_paths:
+        # One donor assertion has one destination. The same identity given
+        # twice with different destinations has no input order that is right.
+        bound: dict[tuple[str, str, str], tuple[Any, Any, Any]] = {}
+        for item in spec.get("assertions") or []:
+            key = (item["function"], item["name"], str(item.get("package") or "").rstrip("/"))
+            destination = (item.get("destination_repository"), item.get("destination_path"), item.get("test"))
+            if bound.setdefault(key, destination) != destination:
+                errors.append(f"conflicting-assertion function={key[0]} assertion={key[1]}")
     if errors:
         return {}, errors
     stays: list[dict[str, Any]] = []
