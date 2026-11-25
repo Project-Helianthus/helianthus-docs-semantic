@@ -149,6 +149,48 @@ published. The recorder `recorders/go/gateway-tesla-observe/zz_oracle_tesla_obse
 written against the pin's test helpers and compiles for linux/amd64, but it has not been executed and no vector is derived from
 it. The `!linux` records are produced by a replay on a host that is not Linux; a replay on Linux compiles the other file.
 
+## CAN receive case files
+
+`current/transport/can-receive/<case>/{input,expected}.json` hold the six cases that the CAN receive rows replay. Each case has
+the formats `helianthus-oracle-qv05-input/1` (`case`, `partition`, `component`, `source`, `stimulus`, `operands`) and
+`helianthus-oracle-qv05-expected/1` (`case`, `partition`, `calls`, `result`). `source.files` names the pinned file under test with
+the sha256 of its bytes at the pin and `source.overlay` lists the scratch substitutions of the run (empty on a host that is not
+Linux). `calls` is the ordered list of the operating-system operands the opener made, with their arguments; `result` is what
+the opener returned. Both files of a case are recorder output, so the index gives each the origin `recorded-current`, the role
+`expected-output`, the case id (the directory name) and its `platform` partition.
+
+| Case | Partition | Pinned file | What it records |
+| --- | --- | --- | --- |
+| `linux-bms-receive` | `linux` | `growatt_bms_can_socketcan_linux.go` | lookup, socket, classic-mode option, bind, poll, read, close in order; the identity and the raw record |
+| `linux-bms-identity-mismatch` | `linux` | same | a different name, index zero and a negative index: the identity sentence and no socket or bind |
+| `linux-bms-missing-interface` | `linux` | same | a failed lookup: the wrapped error and no socket or bind |
+| `linux-project-reopen-clock` | `linux` | `growatt_project_socketcan_linux.go` | the open, receive, close, reopen, receive and snapshot sequence of `TestCX18ReopenKeepsOneClock` on one scripted clock |
+| `nonlinux-project-unsupported` | `nonlinux` | `growatt_project_socketcan_unsupported.go` | the unsupported sentence for a valid and an empty name |
+| `nonlinux-bms-unsupported` | `nonlinux` | `growatt_bms_can_socketcan_unsupported.go` | the configuration sentence for an empty name and the unsupported sentence for a valid name |
+
+The four Linux cases need a Linux host and the two unsupported cases a host that is not Linux; neither is a cross-compile
+receipt. The BMS opener calls the operating system directly (`net.InterfaceByName`, `unix.Socket`, `unix.SetsockoptInt`,
+`unix.Bind`, `unix.Poll`, `unix.Read`, `unix.Close`), so on Linux the recorder runs a scratch copy in which each call is replaced
+by a recorder function with the same signature (the table `OVERLAYS` in `recorders/can_receive.py`; the counts of the replaced
+text are checked, and the replaced text is written into `source.overlay`). The project opener already takes its operating-system
+calls as an argument; the recorder passes its own scripted calls and replaces only its one clock reading,
+`time.Since(growattProjectClockOrigin)`, so that the receipts and the snapshot read a scripted clock from the one origin. The
+unsupported cases call the pinned `!linux` openers unchanged; `result` records the imports of the pinned file (only `errors`),
+which is the evidence that the branch holds no socket call. The pinned test files of these openers are build-tagged for Linux,
+so no pin test supplies a stimulus for the unsupported branch.
+
+The recorder is `recorders/can_receive.py` with the harness-only files of `recorders/go/gateway-can-receive/`. It compiles the
+test binary on the host, runs it, and writes a receipt beside the cases: the platform, the Go target and the host it ran on, the
+toolchain, the command, the compile and run statuses, the revision of this repository the recorder ran from, the pinned sources and their digests, the overlay, the pinned files that
+the compile selected (`go list`), the digest of the test executable, the digest of the recorder sources and the digest of the
+whole `index.json` entry list. The gateway resolves the CAN library to its own pseudo-version (see `bom/current-gateway.json`), not
+to the pin of the `canbus` entry. That pin has no `receiver/` and no `periodic/` directory, so there is no periodic-publication
+donor at it.
+
+The cases are frozen once, on one host of each platform, with `recorders/can_receive.py freeze --actual <tree>`; a frozen
+case is never replaced. After both partitions are frozen and indexed, each runner runs `check.py --record-can-native current` from
+the same revision of this repository, and the two trees are collected on the replay host (see Commands).
+
 ## Matter projection, feed and library-host case files
 
 The three directories `current/gateway/matter/`, `current/gateway/matter-feedv1/` and `current/gateway/matter-libraryhost/`
@@ -280,6 +322,14 @@ extracted cache or the donor clones, and `go.sum` verifies them.
   that holds an address may differ by exactly the distance its target symbol moved, and the Go root string and the
   variable that points at it are not compared.
 - `python3 -m pytest acceptance/oracle/test_oracle_checks.py` checks the SunSpec native records and that rebuild comparison.
+- `python3 acceptance/oracle/check.py --record-can-native current` checks the six cases in `index.json` (origin, reference, role,
+  case id and platform of each file, and its sha256) and the gateway pin, runs the cases of the native platform of the host
+  (the four Linux cases on Linux, the two unsupported cases on any other host) and writes the actual tree only under
+  `.tmp/oracle-can-actual/current/linux/` or `.tmp/oracle-can-actual/current/nonlinux/`; the recorder's own unpack and build
+  scratch is under the scratch root of `record.sh`. It then compares the tree with the frozen expectation. A run whose Go target is
+  not the host's own is refused. `record.sh` does not run these cases: the replay of `current` takes both trees from the
+  collected directories. `check.py --replay current` fails when either tree is absent, holds a receipt of another platform,
+  revision, recorder, index or pin, whose pinned source digests differ from the pin, carries no host and target metadata, was not run natively, has a failed status, or lacks, adds or changes a case.
 - `python3 acceptance/oracle/check.py --restart` compares the two lifecycles of `current/restart/` when they are recorded.
 
 ## Sources

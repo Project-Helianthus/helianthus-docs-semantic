@@ -1,0 +1,38 @@
+{
+  "format": "helianthus-oracle-qv05-expected/1",
+  "case": "nonlinux-bms-unsupported",
+  "partition": "nonlinux",
+  "calls": [],
+  "result": {
+    "attempts": [
+      {
+        "is_config_error": false,
+        "is_unsupported_error": true,
+        "name": "synthetic0",
+        "outcome": {
+          "error": "growatt BMS CAN SocketCAN receive is unsupported on this platform",
+          "pinned_file_imports": [
+            "errors"
+          ],
+          "receiver_returned": false,
+          "socket_action_basis": "the pinned !linux file imports only the listed packages and holds no operating-system call",
+          "socket_actions": 0
+        }
+      },
+      {
+        "is_config_error": true,
+        "is_unsupported_error": false,
+        "name": "",
+        "outcome": {
+          "error": "enabled Growatt BMS CAN configuration is incomplete",
+          "pinned_file_imports": [
+            "errors"
+          ],
+          "receiver_returned": false,
+          "socket_action_basis": "the pinned !linux file imports only the listed packages and holds no operating-system call",
+          "socket_actions": 0
+        }
+      }
+    ]
+  }
+}

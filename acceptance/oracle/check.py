@@ -3,9 +3,12 @@
 
   check.py --index              every vector payload is in index.json with its sha256, and every file-backed entry exists
   check.py --replay <reference> re-record the reference under .tmp/ and compare every actual with the frozen expectation
+  check.py --record-can-native <reference>
+                                run the CAN receive cases of this host's native platform and compare them with the frozen expectation
   check.py --restart            compare the two lifecycles recorded under acceptance/vectors/current/restart/
 
-Nothing is ever written under acceptance/vectors by --replay, and index.json is never refreshed.
+Nothing is ever written under acceptance/vectors by --replay or --record-can-native, and index.json is never refreshed.
+--record-can-native writes its actual tree only under .tmp/oracle-can-actual/<reference>/{linux,nonlinux}/.
 """
 
 import argparse
@@ -21,10 +24,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
+sys.path.insert(0, str(HERE / "recorders"))
+import can_receive  # noqa: E402
 VECTORS = ROOT / "acceptance" / "vectors"
 INDEX = VECTORS / "index.json"
 ORIGINS = {"recorded-current", "recorded-released", "recorded-pre-port", "specification", "synthetic"}
 ROLES = {"expected-output", "input"}
+CAN_ACTUAL = ROOT / ".tmp" / "oracle-can-actual" / "current"
 
 
 def sha256(path):
@@ -39,9 +45,9 @@ def references():
     return json.loads((HERE / "references.json").read_text(encoding="utf-8"))["references"]
 
 
-def verify_index():
+def verify_index(entries=None):
     errors = []
-    entries = load_index()
+    entries = load_index() if entries is None else entries
     known = references()
     by_path = {}
     for entry in entries:
@@ -68,10 +74,138 @@ def verify_index():
     return errors
 
 
+def is_can_case(path):
+    return path.startswith(can_receive.CASES_DIRECTORY + "/")
+
+
+def can_index_errors(entries):
+    """The six CAN receive cases are indexed as recorded-current expected outputs, each with its case id and its platform partition."""
+    errors = []
+    by_path = {e["path"]: e for e in entries if is_can_case(e["path"])}
+    wanted = set()
+    for platform, cases in can_receive.PARTITIONS.items():
+        for case in cases:
+            for name in can_receive.FILES:
+                path = f"{can_receive.CASES_DIRECTORY}/{case}/{name}"
+                wanted.add(path)
+                entry = by_path.get(path)
+                if entry is None:
+                    errors.append(f"{path}: the CAN receive case is not in index.json")
+                    continue
+                for key, value in (("origin", "recorded-current"), ("reference", "current"), ("role", "expected-output"), ("case", case), ("platform", platform)):
+                    if entry.get(key) != value:
+                        errors.append(f"{path}: index {key} is {entry.get(key)!r}, not {value!r}")
+                file = VECTORS / path
+                if not file.is_file():
+                    errors.append(f"{path}: indexed file is missing")
+                elif sha256(file) != entry.get("sha256"):
+                    errors.append(f"{path}: sha256 differs from index.json")
+    for path in sorted(set(by_path) - wanted):
+        errors.append(f"{path}: indexed CAN receive entry outside the six cases")
+    pin = next((item for item in references()["current"]["entries"] if item["id"] == "gateway"), None)
+    if pin is None or not pin.get("commit"):
+        errors.append("references.json: no gateway pin for the current reference")
+    return errors
+
+
+def native_expectation(platform, native):
+    """The native-platform members a receipt must carry: all four are present, host and target alike, and the target OS is Linux exactly on the linux partition.
+
+    A receipt without a native member, or with an empty member, never equals this expectation."""
+    values = {name: native.get(name) for name in ("goos", "goarch", "hostos", "hostarch")}
+    if not all(isinstance(value, str) and value for value in values.values()):
+        return "four non-empty goos, goarch, hostos and hostarch members"
+    if (values["goos"] == "linux") != (platform == "linux"):
+        return f"a {'linux' if platform == 'linux' else 'non-linux'} goos"
+    return values if (values["goos"], values["goarch"]) == (values["hostos"], values["hostarch"]) else "goos and goarch equal to hostos and hostarch"
+
+
+def verify_can_tree(platform, tree, entries):
+    """Compare one collected actual tree with the frozen expectations of its platform partition.
+
+    The tree must hold the receipt of this exact oracle revision, produced on a native host of its platform, and exactly the cases of
+    that partition, each byte for byte equal to the committed expected file."""
+    label = f"CAN receive {platform} tree"
+    tree = Path(tree)
+    if not tree.is_dir():
+        return [f"{label}: absent"]
+    receipt_file = tree / "receipt.json"
+    if not receipt_file.is_file():
+        return [f"{label}: receipt.json is absent"]
+    try:
+        receipt = json.loads(receipt_file.read_text(encoding="utf-8"))
+    except ValueError:
+        return [f"{label}: receipt.json is not JSON"]
+    errors = []
+    native = receipt.get("native") or {}
+    pin = next((item for item in references()["current"]["entries"] if item["id"] == "gateway"), {})
+    checks = (
+        ("format", receipt.get("format"), can_receive.RECEIPT_FORMAT),
+        ("reference", receipt.get("reference"), "current"),
+        ("platform", receipt.get("platform"), platform),
+        ("native platform", {name: native.get(name) for name in ("goos", "goarch", "hostos", "hostarch")},
+         native_expectation(platform, native)),
+        ("oracle revision", receipt.get("oracle_revision"), can_receive.oracle_revision()),
+        ("cases", receipt.get("cases"), sorted(can_receive.PARTITIONS[platform])),
+        ("statuses", receipt.get("statuses"), {"compile": 0, "run": 0}),
+        ("gateway pin", receipt.get("gateway_pin"), pin.get("commit")),
+        ("selected pinned files", receipt.get("selected_pinned_files"), sorted(Path(path).name for path in can_receive.SOURCES[platform])),
+        ("pinned sources", receipt.get("pinned_sources"), can_receive.pinned_sources(platform)),
+        ("recorder digest", receipt.get("recorder_sha256"), can_receive.recorder_digest()),
+        ("index digest", receipt.get("index_sha256"), can_receive.index_digest(entries)),
+    )
+    for name, actual, expected in checks:
+        if actual != expected:
+            errors.append(f"{label}: receipt {name} is {actual!r}, expected {expected!r}")
+    if not receipt.get("executable_sha256"):
+        errors.append(f"{label}: receipt has no executable digest")
+    present = sorted(p.name for p in tree.iterdir())
+    if present != ["cases", "receipt.json"]:
+        errors.append(f"{label}: holds {present}, not cases and receipt.json")
+    cases = tree / "cases"
+    found = sorted(p.name for p in cases.iterdir()) if cases.is_dir() else []
+    for case in sorted(set(found) - set(can_receive.PARTITIONS[platform])):
+        errors.append(f"{label}: extra case {case}")
+    for case in can_receive.PARTITIONS[platform]:
+        if case not in found:
+            errors.append(f"{label}: missing case {case}")
+            continue
+        names = sorted(p.name for p in (cases / case).iterdir())
+        if names != sorted(can_receive.FILES):
+            errors.append(f"{label}: case {case} holds {names}")
+        for name in can_receive.FILES:
+            actual, frozen = cases / case / name, VECTORS / can_receive.CASES_DIRECTORY / case / name
+            if not actual.is_file():
+                errors.append(f"{label}: case {case} lacks {name}")
+            elif not frozen.is_file():
+                errors.append(f"{label}: no frozen expectation for {case}/{name}")
+            elif actual.read_bytes() != frozen.read_bytes():
+                errors.append(f"{label}: case {case}/{name} differs from the frozen expectation" + describe(frozen, actual))
+    return errors
+
+
+def record_can_native(reference):
+    """Run the CAN receive cases of this host's native platform and compare them with the frozen expectation (BT03 cases)."""
+    if reference != "current":
+        return [f"the CAN receive cases are recorded only for the current reference, not {reference!r}"]
+    entries = load_index()
+    errors = verify_index(entries) + can_index_errors(entries)
+    if errors:
+        return errors
+    platform, _target = can_receive.native_platform()
+    tree = CAN_ACTUAL / platform
+    if tree.exists():
+        shutil.rmtree(tree)
+    run = subprocess.run([sys.executable, "-I", str(HERE / "recorders" / "can_receive.py"), "record", "--output", str(tree)])
+    if run.returncode != 0:
+        return [f"the CAN receive recorder exited {run.returncode} on the {platform} platform"]
+    return verify_can_tree(platform, tree, entries)
+
+
 def replay(reference):
     errors = []
     entries = [e for e in load_index() if e["reference"] == reference]
-    expected = {e["path"]: e for e in entries if e["role"] == "expected-output"}
+    expected = {e["path"]: e for e in entries if e["role"] == "expected-output" and not is_can_case(e["path"])}
     for entry in entries:
         if entry["role"] == "input":
             file = VECTORS / entry["path"]
@@ -116,6 +250,10 @@ def replay(reference):
             if relative not in expected:
                 errors.append(f"{relative}: extra actual output with no expected-output entry")
     errors += compare_build(reference, target / "oracle")
+    if reference == "current":
+        errors += can_index_errors(load_index())
+        for platform in can_receive.PARTITIONS:
+            errors += verify_can_tree(platform, CAN_ACTUAL / platform, load_index())
     return errors
 
 
@@ -373,11 +511,14 @@ def main():
     group.add_argument("--index", action="store_true")
     group.add_argument("--replay", metavar="REFERENCE")
     group.add_argument("--restart", action="store_true")
+    group.add_argument("--record-can-native", metavar="REFERENCE")
     args = parser.parse_args()
     if args.index:
         errors = verify_index()
     elif args.restart:
         errors = restart()
+    elif args.record_can_native:
+        errors = record_can_native(args.record_can_native)
     else:
         errors = replay(args.replay)
     for error in errors:

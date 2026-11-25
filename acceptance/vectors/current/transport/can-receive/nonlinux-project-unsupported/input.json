@@ -1,0 +1,27 @@
+{
+  "format": "helianthus-oracle-qv05-input/1",
+  "case": "nonlinux-project-unsupported",
+  "partition": "nonlinux",
+  "component": "growatt-project-socketcan-opener-non-linux",
+  "source": {
+    "files": [
+      {
+        "path": "cmd/gateway/growatt_bms_can_socketcan_unsupported.go",
+        "sha256": "369069e259ddea0458084402b63c6c0c26d5824b16fe174e9e4ee3c0bd97ab8c"
+      },
+      {
+        "path": "cmd/gateway/growatt_project_socketcan_unsupported.go",
+        "sha256": "f23fa09a8d5d78efd08068d27413913373cc6ec2015c1d0182fce27ec8dc2333"
+      }
+    ],
+    "overlay": []
+  },
+  "stimulus": "openGrowattProjectSocket is called with each configured name; the pinned test files of this opener are build-tagged linux, so the pin has no stimulus for it",
+  "operands": {
+    "function": "openGrowattProjectSocket",
+    "names": [
+      "synthetic0",
+      ""
+    ]
+  }
+}
