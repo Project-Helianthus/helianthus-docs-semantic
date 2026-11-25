@@ -1013,6 +1013,13 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
         for path in donor_entry["paths"]:
             if not gitstore.path_exists(donor, manifest["donor"]["sha"], path):
                 errors.append(f"absent: {path}")
+    # A move needs the sealed list of the donor and that list covers each moved file.
+    if moved and donor_entry is None:
+        errors.append(f"unsealed-donor: {manifest['donor']['repository']}")
+    elif donor_entry is not None:
+        for path in moved:
+            if path not in donor_entry["paths"]:
+                errors.append(f"unsealed-source: {manifest['donor']['repository']}:{path}")
     if errors:
         return errors
     records = list(manifest["destinations"]) + list(manifest["stays"])

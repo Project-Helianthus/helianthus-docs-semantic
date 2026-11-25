@@ -12,7 +12,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from gitstore import list_dir, read_blobs
+from gitstore import list_dir, list_files_recursive, read_blobs
 
 
 _KEYWORDS = {
@@ -582,6 +582,7 @@ class Declaration:
     body: int = -1
     skip: set[int] = field(default_factory=set)
     masks: list[tuple[str, int, int]] = field(default_factory=list)
+    typed: list[tuple[str, str | None]] = field(default_factory=list)
 
     @property
     def key(self) -> str:
@@ -644,8 +645,8 @@ class GoFile:
                 return cursor
         return limit
 
-    def _named(self, opener: int, force: bool = False) -> list[int]:
-        """Token indexes of the names bound by a parameter or type-parameter list."""
+    def _entries(self, opener: int) -> list[tuple[int, int]]:
+        """Token ranges of the comma separated entries of a bracketed list."""
         end = self._end_of(opener)
         entries: list[tuple[int, int]] = []
         start = opener + 1
@@ -660,7 +661,11 @@ class GoFile:
                 entries.append((start, cursor))
                 start = cursor + 1
         entries.append((start, end))
-        entries = [entry for entry in entries if entry[0] < entry[1]]
+        return [entry for entry in entries if entry[0] < entry[1]]
+
+    def _named(self, opener: int, force: bool = False) -> list[int]:
+        """Token indexes of the names bound by a parameter or type-parameter list."""
+        entries = self._entries(opener)
 
         def is_named(first: int, last: int) -> bool:
             if last - first < 2 or not _is_name(self.tokens[first][0]):
@@ -675,6 +680,45 @@ class GoFile:
         if not force and not any(is_named(first, last) for first, last in entries):
             return []
         return [first for first, _last in entries if _is_name(self.tokens[first][0])]
+
+    def _type_name(self, first: int, last: int) -> str | None:
+        """Name of the package type spelled by the tokens, or None for any other type."""
+        cursor = first
+        if cursor < last and self._word(cursor) == "*":
+            cursor += 1
+        if cursor >= last or not _is_name(self._word(cursor)):
+            return None
+        if cursor + 1 < last and self._word(cursor + 1) != "[":
+            return None
+        return self._word(cursor)
+
+    def _typed(self, opener: int) -> list[tuple[str, str | None]]:
+        """Names bound by a parameter list with the type each one is declared as."""
+        named = set(self._named(opener))
+        found: list[tuple[str, str | None]] = []
+        pending: list[int] = []
+        for first, last in self._entries(opener):
+            if first not in named:
+                continue
+            if last - first < 2:
+                pending.append(first)
+                continue
+            kind = self._type_name(first + 1, last)
+            for at in [*pending, first]:
+                found.append((self.tokens[at][0], kind))
+            pending = []
+        for at in pending:
+            found.append((self.tokens[at][0], None))
+        return found
+
+    def _typed_signature(self, cursor: int) -> list[tuple[str, str | None]]:
+        """Typed names of the parameter and result lists of a signature."""
+        found: list[tuple[str, str | None]] = []
+        for _ in range(2):
+            if cursor < len(self.tokens) and self.tokens[cursor][0] == "(":
+                found += self._typed(cursor)
+                cursor = self._end_of(cursor) + 1
+        return found
 
     def _receiver_type(self, first: int, last: int) -> str:
         found = ""
@@ -736,9 +780,11 @@ class GoFile:
         type_names: list[int] = []
         receiver = ""
         method = self._word(cursor) == "("
+        typed: list[tuple[str, str | None]] = []
         if method:
             closing = self._end_of(cursor)
             names += self._named(cursor)
+            typed += self._typed(cursor)
             receiver = self._receiver_type(cursor + 1, closing)
             cursor = closing + 1
         if cursor >= count or not _is_name(self.tokens[cursor][0]):
@@ -748,6 +794,7 @@ class GoFile:
         if self._word(cursor) == "[":
             type_names = self._named(cursor, force=True)
             cursor = self._end_of(cursor) + 1
+        typed += self._typed_signature(cursor)
         parameter_names, cursor, body = self._signature(cursor)
         names += parameter_names
         end = self._end_of(body) + 1 if body is not None else cursor
@@ -760,6 +807,7 @@ class GoFile:
                 last=end,
                 receiver=receiver,
                 body=-1 if body is None else body,
+                typed=typed,
                 skip={name_at, *names, *type_names},
                 # A type parameter is in scope in the whole declaration. A
                 # receiver, parameter or result name only binds in the body, so
@@ -794,7 +842,21 @@ class GoFile:
         return max(stop, cursor + 1)
 
     def _type_parameters(self, opener: int) -> bool:
-        return _is_name(self._word(opener + 1)) and self._word(opener + 2) not in ("]", "")
+        """True when the bracket after a type name lists type parameters.
+
+        ``type A [N]int`` and ``type A [N + 1]int`` give an array length that
+        uses the constant ``N``. A list starts with a name that is followed by
+        a comma, a constraint or a type.
+        """
+        first = self._word(opener + 1)
+        if not first or not _is_name(first):
+            return False
+        second = self._word(opener + 2)
+        if second in (",", "~", "interface", "func", "map", "chan", "struct"):
+            return True
+        if second == "[":
+            return self._word(self._end_of(opener + 2) + 1) not in ("]", "")
+        return bool(second) and _is_name(second)
 
     def _spec(self, kind: str, start: int, stop: int, found: list[Declaration], first: int) -> None:
         if start >= stop or not _is_name(self.tokens[start][0]):
@@ -930,48 +992,65 @@ class GoFile:
     def _scope_end(self, stack: list[tuple[int, str, bool]], limit: int) -> int:
         return self._end_of(stack[-1][0]) + 1 if stack else limit
 
+    def _header(self, index: int, limit: int) -> tuple[int, int]:
+        """Body brace and first top-level semicolon of a header from ``index`` on.
+
+        A brace that opens a composite literal of a slice, array, map or struct
+        type is a part of the header, so a range over ``[]int{1, 2}`` still
+        finds the loop body after it. Both results are -1 when absent.
+        """
+        depth = 0
+        semicolon = -1
+        literal = False
+        cursor = index + 1
+        while cursor < limit:
+            word = self.tokens[cursor][0]
+            if depth == 0:
+                if word == "{":
+                    if self._word(cursor - 1) in ("struct", "interface"):
+                        cursor = self._end_of(cursor) + 1
+                        continue
+                    if literal:
+                        literal = False
+                        cursor = self._end_of(cursor) + 1
+                        continue
+                    return cursor, semicolon
+                if word in ("map", "struct"):
+                    literal = True
+                elif word == "[":
+                    before = self._word(cursor - 1)
+                    if not (before and _is_name(before)) and before not in ("]", ")"):
+                        literal = True
+                elif word == ";" and semicolon < 0:
+                    semicolon = cursor
+            if word in _OPENERS:
+                depth += 1
+            elif word in _CLOSERS:
+                depth -= 1
+            cursor += 1
+        return -1, semicolon
+
     def _header_scope(self, index: int, limit: int, chain: bool = False) -> tuple[int, int]:
         """Token range a binding of an if, for or switch header is visible in.
 
         With ``chain`` the range of an ``if`` runs through every ``else``
         branch that follows its block.
         """
-        depth = 0
-        semicolon = -1
-        cursor = index + 1
-        while cursor < limit:
-            word = self.tokens[cursor][0]
-            if word == "{" and depth == 0:
-                start = semicolon + 1 if semicolon >= 0 else cursor
-                stop = self._end_of(cursor) + 1
-                while chain and stop < limit and self._word(stop) == "else":
-                    nxt = stop + 1
-                    if self._word(nxt) == "if":
-                        probe, level = nxt + 1, 0
-                        while probe < limit:
-                            probe_word = self.tokens[probe][0]
-                            if probe_word == "{" and level == 0:
-                                break
-                            if probe_word in _OPENERS:
-                                level += 1
-                            elif probe_word in _CLOSERS:
-                                level -= 1
-                            probe += 1
-                        if probe >= limit:
-                            break
-                        nxt = probe
-                    if self._word(nxt) != "{":
-                        break
-                    stop = self._end_of(nxt) + 1
-                return start, stop
-            if word in _OPENERS:
-                depth += 1
-            elif word in _CLOSERS:
-                depth -= 1
-            elif word == ";" and depth == 0 and semicolon < 0:
-                semicolon = cursor
-            cursor += 1
-        return limit, limit
+        body, semicolon = self._header(index, limit)
+        if body < 0:
+            return limit, limit
+        start = semicolon + 1 if semicolon >= 0 else body
+        stop = self._end_of(body) + 1
+        while chain and stop < limit and self._word(stop) == "else":
+            nxt = stop + 1
+            if self._word(nxt) == "if":
+                nxt, _semicolon = self._header(nxt, limit)
+                if nxt < 0:
+                    break
+            if self._word(nxt) != "{":
+                break
+            stop = self._end_of(nxt) + 1
+        return start, stop
 
     def _clause_end(self, cursor: int, limit: int, stack: list[tuple[int, str, bool]]) -> int:
         """End of a ``case`` clause of a select or switch that starts at ``cursor``."""
@@ -1055,8 +1134,6 @@ class GoFile:
         stack: list[tuple[int, str, bool]] = []
         seen: list[tuple[str, int]] = []
         quals: list[tuple[str, str, int]] = []
-        pending = False
-        brackets = 0
         index = low
         while index < high:
             word = self.tokens[index][0]
@@ -1069,11 +1146,9 @@ class GoFile:
                         add(self.tokens[at][0], body, stop)
                     blocks.add(body)
             elif word in ("if", "for", "switch", "select", "else"):
-                pending = True
-            elif word in ("(", "["):
-                brackets += 1
-            elif word in (")", "]"):
-                brackets -= 1
+                body, _semicolon = self._header(index, high)
+                if body >= 0:
+                    blocks.add(body)
             elif word == "{":
                 before = self._word(index - 1) if index > low else ""
                 element = False
@@ -1082,9 +1157,6 @@ class GoFile:
                 elif before in ("struct", "interface"):
                     kind = "body"
                     self._fields(index, before == "interface", skip, add)
-                elif pending and brackets == 0:
-                    kind = "block"
-                    pending = False
                 else:
                     kind, element = self._literal(index, low, stack, struct_types)
                 stack.append((index, kind, element))
@@ -1150,6 +1222,103 @@ class GoFile:
             qualified.update((aliases[alias], name) for alias, name, at in quals if visible(alias, at))
         return {word for word, at in seen if visible(word, at)}
 
+    def _initializer_type(self, start: int, stop: int) -> str | None:
+        """Type name of an initializer that is a struct literal ``T{...}`` or ``&T{...}``."""
+        cursor = start
+        if cursor < stop and self._word(cursor) == "&":
+            cursor += 1
+        if cursor + 1 < stop and _is_name(self._word(cursor)) and self._word(cursor + 1) == "{":
+            return self._word(cursor)
+        return None
+
+    def method_uses(self, declaration: Declaration, keys: set[str]) -> set[str]:
+        """Method keys of ``keys`` that the declaration refers to.
+
+        A reference is ``name.Method`` where ``name`` is a parameter, receiver
+        or local variable that is declared with a package type ``T`` and
+        ``T.Method`` is in ``keys``, or the method expression ``T.Method``. A
+        name that is bound more than once to different types, or to a value
+        whose type is not spelled, resolves to no type. A field is never a
+        method key, so a field selector is not a reference.
+        """
+        low, high = declaration.first, declaration.last
+        types: dict[str, str | None] = {}
+
+        def bind(name: str, kind: str | None) -> None:
+            if name in types and types[name] != kind:
+                types[name] = None
+            else:
+                types[name] = kind
+
+        for name, kind in declaration.typed:
+            bind(name, kind)
+        index = low
+        while index < high:
+            word = self.tokens[index][0]
+            if word == "func" and self._word(index + 1) == "(" and not (
+                index == low and declaration.kind in ("func", "method")
+            ):
+                for name, kind in self._typed_signature(index + 1):
+                    bind(name, kind)
+            elif word == ":=":
+                chain: list[int] = []
+                at = index - 1
+                while at >= low and _is_name(self.tokens[at][0]):
+                    chain.append(at)
+                    if at - 1 >= low and self._word(at - 1) == ",":
+                        at -= 2
+                    else:
+                        break
+                kind = None
+                if len(chain) == 1:
+                    kind = self._initializer_type(index + 1, self._statement_end(index + 1, high))
+                for at in chain:
+                    bind(self.tokens[at][0], kind)
+            elif word == "var" and index > low:
+                specs: list[tuple[int, int]] = []
+                if self._word(index + 1) == "(":
+                    closing = self._end_of(index + 1)
+                    at = index + 2
+                    while at < closing:
+                        if self._word(at) == ";":
+                            at += 1
+                            continue
+                        stop = self._statement_end(at, closing)
+                        specs.append((at, stop))
+                        at = max(stop, at + 1)
+                else:
+                    specs.append((index + 1, self._statement_end(index + 1, high)))
+                for at, stop in specs:
+                    chain = self._chain(at, stop, False)
+                    if not chain:
+                        continue
+                    after = chain[-1] + 1
+                    if after < stop and self._word(after) == "=":
+                        kind = self._initializer_type(after + 1, stop) if len(chain) == 1 else None
+                    else:
+                        kind = self._type_name(after, stop)
+                    for name_at in chain:
+                        bind(self.tokens[name_at][0], kind)
+            index += 1
+        found: set[str] = set()
+        for index in range(low, high):
+            word = self.tokens[index][0]
+            if (
+                not _is_name(word)
+                or (index > low and self._word(index - 1) == ".")
+                or self._word(index + 1) != "."
+                or not self._word(index + 2)
+                or not _is_name(self._word(index + 2))
+            ):
+                continue
+            kind = types.get(word, word)
+            if kind is None:
+                continue
+            key = f"{kind}.{self._word(index + 2)}"
+            if key in keys:
+                found.add(key)
+        return found
+
 
 _IMPORT_LINE = re.compile(r'^\s*(?:import\s+)?([A-Za-z_][A-Za-z0-9_]*|\.|_)?\s*"([^"\n]+)"\s*(?://.*)?$')
 _TOP_LEVEL = re.compile(r"^(?:func|type|var|const)\b")
@@ -1209,7 +1378,9 @@ def _directory_resolver(repo: Path, revision: str, module: str) -> "Callable[[st
             return cache[path]
         found: str | None = None
         if module:
-            if path.startswith(module + "/") and has_go(path[len(module) + 1:]):
+            if path == module and has_go("."):
+                found = "."
+            elif path.startswith(module + "/") and has_go(path[len(module) + 1:]):
                 found = path[len(module) + 1:]
         else:
             parts = path.split("/")
@@ -1399,16 +1570,26 @@ def analyze_symbols(
             )
             used.discard(declaration.name)
             outside.update(used - moved_names - stay_names)
-            for other, name in reached:
+            carried = set(used & moved_names)
+            for other, name in sorted(reached):
                 if other == directory or other not in info or name not in info[other]["declared"]:
                     continue
-                if name not in info[other]["moved_names"] and name not in info[other]["stay_names"]:
+                if name in info[other]["moved_names"]:
+                    carried.add(f"{other}.{name}")
+                elif name not in info[other]["stay_names"]:
                     outside.add(f"{other}.{name}")
+            called = files[moved_keys[key]].method_uses(declaration, {item.key for item in methods})
+            called.discard(declaration.key)
+            for method_key in called:
+                if method_key in moved_keys:
+                    carried.add(method_key)
+                elif method_key not in stay_keys:
+                    outside.add(method_key)
             facts.moved.append({
                 "package": directory,
                 "file": moved_keys[key],
                 "name": key,
-                "uses": sorted(used & moved_names),
+                "uses": sorted(carried),
             })
             if declaration.kind == "type":
                 for method in methods:
@@ -1423,33 +1604,56 @@ def analyze_symbols(
     facts.stays.sort(key=lambda item: (item["package"], item["file"], item["name"]))
     if facts.errors or facts.outside_uses:
         return facts
-    # A donor test names a symbol of another donor package of the move as
+    # A donor test names a symbol of a donor package of the move as
     # ``alias.Name``; that spelling is the name it uses there.
-    qualified_moved = {
-        directory: {f"{other}.{name}" for other in packages if other != directory for name in info[other]["moved_names"]}
-        for directory in packages
-    }
-    qualified_outside = {
-        directory: {
-            f"{other}.{name}"
-            for other in packages if other != directory
-            for name in info[other]["declared"] - info[other]["moved_names"]
-        }
-        for directory in packages
+    all_moved = {f"{other}.{name}" for other in packages for name in info[other]["moved_names"]}
+    all_outside = {
+        f"{other}.{name}"
+        for other in packages
+        for name in info[other]["declared"] - info[other]["moved_names"]
     }
     for directory in packages:
-        facts.moved_names[directory] |= qualified_moved[directory]
-        facts.outside_names[directory] |= qualified_outside[directory]
+        facts.moved_names[directory] |= all_moved
+        facts.outside_names[directory] |= all_outside
+    moved_pairs = {(item["file"], item["name"]) for item in facts.moved}
     for directory in packages:
-        moved_files = {
-            (item["file"], item["name"]) for item in facts.moved if item["package"] == directory
-        }
         found = _tests(
             texts[directory], set(), facts.moved_names[directory], facts.outside_names[directory],
             parsed[directory], info[directory]["struct_types"], aliases_of,
-            qualified_moved[directory] | qualified_outside[directory],
+            all_moved | all_outside,
         )
         facts.tests[directory] = [
-            test for test in found if (test.file, test.name) not in moved_files
+            test for test in found if (test.file, test.name) not in moved_pairs
         ]
+    # A test file outside the package of its directory (an external test
+    # package) and a test file of a donor directory that the input does not
+    # name still exercise moved symbols when it imports a package of the move.
+    covered = {path for directory in packages for path in texts[directory]}
+    hints = [directory + '"' for directory in packages if directory != "."]
+    if module and "." in packages:
+        hints.append(module + '"')
+    candidates = [
+        path for path in list_files_recursive(repo, revision)
+        if path.endswith("_test.go") and path not in covered
+    ]
+    grouped: dict[str, dict[str, str]] = {}
+    for path, blob in sorted(read_blobs(repo, revision, candidates).items()):
+        text = blob.decode(errors="replace")
+        if not any(hint in text for hint in hints):
+            continue
+        if not set(aliases_of(text).values()) & set(packages):
+            continue
+        grouped.setdefault(str(Path(path).parent), {})[path] = text
+    for directory, group in sorted(grouped.items()):
+        found = _tests(
+            group, set(), set(), set(), {path: GoFile(text) for path, text in group.items()},
+            set(), aliases_of, all_moved | all_outside,
+        )
+        found = [test for test in found if (test.file, test.name) not in moved_pairs]
+        if directory in packages:
+            facts.tests[directory] += found
+        else:
+            facts.tests[directory] = found
+            facts.moved_names[directory] = set(all_moved)
+            facts.outside_names[directory] = set(all_outside)
     return facts
