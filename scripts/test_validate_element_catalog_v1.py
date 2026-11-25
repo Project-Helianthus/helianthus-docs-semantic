@@ -20,6 +20,8 @@ CATALOG = subset.load_json(validator.CATALOG)
 SCHEMA = subset.load_json(validator.SCHEMA)
 INPUTS = validator.load_inputs()
 
+PV_LIMIT = "pv.operation.set_active_power_limit"
+EVSE_LIMIT = "evse.operation.set_allocated_current"
 FIELD = "evse.ac.voltage"
 SIGNED_FIELD = "evse.ac.active_power"
 SERVICE = "evse.service.connector"
@@ -898,6 +900,38 @@ class Mutations(unittest.TestCase):
             attributes["anchor_classes"] = ["equipment"]
         self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
                      "class-level fact carries a resource kind")
+
+    def test_each_limit_operation_requires_release(self):
+        for ident in (PV_LIMIT, EVSE_LIMIT):
+            with self.subTest(operation=ident):
+                self.rejects(lambda c: entry_of(c, ident)["attributes"].pop("release"),
+                             "invalid_value", "CAT-2", ident, "operation must declare its release case")
+
+    def test_other_limit_operations_cannot_declare_release(self):
+        for ident in ("pv.operation.set_export_limit", "evse.operation.set_allocated_current_phase",
+                      "evse.operation.set_allocated_current_with_expiry"):
+            with self.subTest(operation=ident):
+                self.rejects(lambda c: entry_of(c, ident)["attributes"].update(
+                    release=copy.deepcopy(entry_of(c, EVSE_LIMIT)["attributes"]["release"])),
+                    "invalid_value", "CAT-2", ident, "operation does not declare a release case")
+
+    def test_release_scope_compares_every_reference_key_field(self):
+        # Isolate each normalized field: dropping that field from the scope
+        # comparison would admit the changed key with an otherwise valid case.
+        index = validator.build_index(CATALOG)
+        fields = ("owner kind", "pack ID", "pack version", "operation ID", "operation version")
+        variants = ("core", "helianthus.pack.synthetic", "9.9.9", "synthetic.operation.set_limit", "9.9.9")
+        for ident in (PV_LIMIT, EVSE_LIMIT):
+            entry = entry_of(CATALOG, ident)
+            key = validator.ref_key(entry["ref"])
+            self.assertEqual(list(validator.release_findings(index._replace(by_key={key: entry}))), [])
+            for offset, (field, value) in enumerate(zip(fields, variants)):
+                with self.subTest(operation=ident, field=field):
+                    changed = key[:offset] + (value,) + key[offset + 1:]
+                    probe = index._replace(by_key={changed: entry})
+                    self.assertEqual(list(validator.release_findings(probe)), [validator.Finding(
+                        "invalid_value", "CAT-2", validator.show(changed), "operation does not declare a release case",
+                    )])
 
     def test_parameter_equal_to_the_argument(self):
         def mutate(catalog):

@@ -713,6 +713,16 @@ structure they follow.
   repeated or undeclared field is rejected with a reason, and the operation's
   effect rule still judges its argument values. [PE01 item 5; F4-112; F4-113;
   SR84; SR55]
+  In the element catalog, these two operations declare the alternative in
+  `attributes.release` beside `argument` and `effect_rule`. Its entire shape is
+  `{"argument":{"value_kind":"boolean","value":false}}`. `release` and its
+  `argument` are closed objects. The boolean is a command argument, not a new
+  fact or an assertion about the existing fact's value. Release clears the
+  limit on the subject of the existing `argument` fact, under the same
+  `capability`, `effect_rule` and single setting-owner route. It takes no set
+  argument or parameter and uses no numeric fallback. The numeric set case is
+  unchanged. Readback of whether the limit is enabled remains Unknown;
+  acknowledgement or a numeric reading alone does not prove release.
 - The pack list is open: every pack the catalog defines is admitted, with no
   fixed count, and a Family row can name every accepted pack it maps to. [F4-107]
 - The units the union adds are `unit.second`, `unit.cubic_metre`, `unit.metre`,

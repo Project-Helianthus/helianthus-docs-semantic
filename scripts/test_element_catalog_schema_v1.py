@@ -348,6 +348,36 @@ class PublishedSchemaTest(unittest.TestCase):
         self.assertTrue(document["identification_schemes"] and document["lenses"])
 
 
+class OperationReleaseTest(unittest.TestCase):
+    def test_release_is_optional_and_can_declare_boolean_false(self):
+        path = at(OPERATION, "attributes", "release")
+        document = mutated((path, {"argument": {"value_kind": "boolean", "value": False}}))
+        self.assertEqual(subset.errors(document, SCHEMA), [])
+        self.assertEqual(subset.errors(catalog(), SCHEMA), [])
+
+    def test_release_is_closed_and_false_only(self):
+        release = at(OPERATION, "attributes", "release")
+        argument = release + ("argument",)
+        valid = release, {"argument": {"value_kind": "boolean", "value": False}}
+        cases = (
+            (release, None, "operationRelease/type"),
+            (argument, DROP, "operationRelease/required"),
+            (argument, False, "operationRelease/properties/argument/type"),
+            (release + ("effect_rule",), ref(PACK, EFFECT), "operationRelease/additionalProperties"),
+            (release + ("parameters",), [ref(PACK, TWO_VENDORS)], "operationRelease/additionalProperties"),
+            (argument + ("numeric_argument",), 0, "operationRelease/properties/argument/additionalProperties"),
+            (argument + ("value_kind",), DROP, "operationRelease/properties/argument/required"),
+            (argument + ("value_kind",), "quantity", "argument/properties/value_kind/const"),
+            (argument + ("value",), DROP, "operationRelease/properties/argument/required"),
+            *((argument + ("value",), value, "argument/properties/value/const")
+              for value in (True, 0, 0.0, "false", None)),
+        )
+        for path, value, location in cases:
+            with self.subTest(path=path, value=value):
+                found = subset.errors(mutated(valid, (path, value)), SCHEMA)
+                self.assertTrue(any(location in message for message in found), found)
+
+
 class NegativeProbeTest(unittest.TestCase):
     def test_probe_count(self):
         self.assertEqual(len(PROBES), 31)

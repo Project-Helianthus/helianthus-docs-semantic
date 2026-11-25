@@ -757,7 +757,7 @@ with the native hand-offs, and until then equipment anchors on
 | `service` | pack | fact-key dimension, subject kind |
 | `fact` | pack | subject, aggregation, value kind, direction and sign reference |
 | `capability` | pack | service, operation |
-| `operation` | pack | capability, argument, effect rule |
+| `operation` | pack | capability, argument, effect rule; `release` for the two limit operations named in the [driver contract](driver-contract.md#11-element-structure-for-the-matter-and-eebus-union) |
 | `effect_rule` | pack | operation, fact |
 | `evidence_state` | core (kernel) | kernel type and values |
 | `lifecycle_state` | core (kernel) | kernel type and values |
@@ -807,7 +807,9 @@ These values are separate from `ProjectionOutcome`; `withheld` or
   `definition_owner_missing`.
 - **CAT-2 Agreement.** Where the catalog repeats a fact of pack metadata or of a
   `DefinitionIndex`, it is equal. Check: cross-validation against
-  `pack-metadata-v1.json`; `invalid_value`.
+  `pack-metadata-v1.json`. The two limit operations named in the driver
+  contract each declare a `release` case; other operations do not.
+  A disagreement is `invalid_value`.
 - **CAT-3 Dispositions.** Section 10.3 holds for every entry. Check: schema
   module plus validator; `membership_missing`.
 - **CAT-4 Closure and core types.** PLN-5, PLN-6 and LNS-1 hold, and plane and

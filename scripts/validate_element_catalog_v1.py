@@ -942,10 +942,28 @@ def one_payload_finding(item, name, owner, trigger, trigger_dim, index):
                       "payload is not on the trigger subject or one relation away")
 
 
+# Driver contract section 11: the alternative belongs to these exact operations.
+RELEASE_OPERATIONS = frozenset({
+    pack_key({"id": "helianthus.pack.evse", "version": "1.0.0"}, "evse.operation.set_allocated_current", "1.0.0"),
+    pack_key({"id": "helianthus.pack.pv", "version": "1.0.0"}, "pv.operation.set_active_power_limit", "1.0.0"),
+})
+
+
+def release_findings(index):
+    for key, entry in index.by_key.items():
+        if entry["element_kind"] != "operation":
+            continue
+        has_release = "release" in entry["attributes"]
+        if key in RELEASE_OPERATIONS and not has_release:
+            yield Finding("invalid_value", "CAT-2", show(key), "operation must declare its release case")
+        elif key not in RELEASE_OPERATIONS and has_release:
+            yield Finding("invalid_value", "CAT-2", show(key), "operation does not declare a release case")
+
+
 def check_agreement(catalog, index, inputs):
     return [*agreement_findings(index, inputs), *relation_kind_findings(index, inputs),
             *subject_kind_findings(catalog, index), *check_qualifiers(catalog, index, inputs),
-            *check_parameters(catalog, index, inputs), *check_events(catalog, index, inputs)]
+            *check_parameters(catalog, index, inputs), *release_findings(index), *check_events(catalog, index, inputs)]
 
 
 # ---------------------------------------------------------------- CAT-3
