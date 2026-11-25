@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/eligibility-stale-unmapped-key",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEvaluationEligibilityFailsClosedForStaleAndUnavailable",
+"output": {
+"error": null,
+"error_id": null
+}
+}

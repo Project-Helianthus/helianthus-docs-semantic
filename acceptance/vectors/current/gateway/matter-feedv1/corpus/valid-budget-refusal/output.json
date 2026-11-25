@@ -1,0 +1,13 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "corpus/valid-budget-refusal",
+"component": "matter/feedv1/server.go",
+"source": "matter/feedv1/schema_corpus_test.go",
+"stimulus": "TestSchemaCorpusMatchesFeedWireValues/budget_refusal",
+"output": {
+"status": 503,
+"content_type": "application/json",
+"body": {"contract":"helianthus.gateway.matter-binding-feed/v1","error":"unavailable"},
+"validation": {"accepted":true,"error":null}
+}
+}

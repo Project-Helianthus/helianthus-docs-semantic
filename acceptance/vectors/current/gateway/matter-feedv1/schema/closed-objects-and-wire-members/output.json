@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "schema/closed-objects-and-wire-members",
+"component": "matter/feedv1/contract.go",
+"source": "matter/feedv1/schema_test.go",
+"stimulus": "TestSchemaKeepsPublicObjectsClosedAndMatchesWireMembers",
+"output": {
+"definitions": ["causal","changesResponse","cursor","dimension","disposition","evidence","execution","factKey","fence","id","intent","ledger","loss","manifest","matterAttribute","matterDocument","matterResult","operation","operationClaim","origin","pack","portalAction","portalSource","report","requested","resource","revisions","snapshot","snapshotResponse","target","timePoint"],
+"objects": [{"definition":"cursor","additional_properties":false,"properties":["instance","sequence"]},{"definition":"target","additional_properties":false,"properties":["mapping_revision","projection_contract","target_id","target_version"]},{"definition":"fence","additional_properties":false,"properties":["binding_id","driver_generation","revisions","snapshot_id","source_epoch"]},{"definition":"resource","additional_properties":false,"properties":["asset_id","binding_id","causal","driver_generation","last_fence","projected","resource_id","revisions","snapshot_id","source_epoch","state"]},{"definition":"operationClaim","additional_properties":false,"properties":["action_id","binding_id","capability_id","catalog_revision","digest","driver_generation","driver_id","manifest_id","manifest_version","operation_id","resource_id","revision","snapshot_id","source_epoch"]},{"definition":"operation","additional_properties":false,"properties":["action","asset_id","claim"]},{"definition":"snapshot","additional_properties":false,"properties":["contract","ledger","operations","resources","target"]},{"definition":"snapshotResponse","additional_properties":false,"properties":["contract","cursor","snapshot"]},{"definition":"changesResponse","additional_properties":false,"properties":["changes","contract","cursor","resync_required"]},{"definition":"intent","additional_properties":false,"properties":["arguments","asset_id","causal","claim","deadline","idempotency_key"]},{"definition":"execution","additional_properties":false,"properties":["ack","contract","outcome","readback"]}],
+"intent_forbidden_member_present": {"principal":false,"route":false,"native_route":false,"endpoint":false}
+}
+}

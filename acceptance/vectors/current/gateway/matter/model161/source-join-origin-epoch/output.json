@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/source-join-origin-epoch",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03SourceJoins/origin epoch",
+"output": {
+"result_is_zero": true,
+"error": "invalid_value: origin epoch",
+"error_id": "invalid_value"
+}
+}

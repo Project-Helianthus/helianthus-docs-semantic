@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "stop/concurrent-start-and-stop",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17ConcurrentStartAndStopShareTheFenceUnderTheLock",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":1}},{"step":"final Stop","outcome":{"error":null},"state":"stopped","owned_work":0,"resources":0}]
+}
+}

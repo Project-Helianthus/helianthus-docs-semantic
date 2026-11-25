@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/manifest-and-ledger",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestManifestAndLedgerCoverPinnedMetadataExactlyOnce",
+"input": {
+"calls": ["Manifest()","Ledger()"]
+}
+}

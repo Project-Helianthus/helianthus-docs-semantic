@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "corpus/valid-execution",
+"component": "matter/feedv1/contract.go",
+"source": "matter/feedv1/schema_corpus_test.go",
+"stimulus": "TestSchemaCorpusMatchesFeedWireValues/execution",
+"input": {
+"schema_file": {"path":"docs/schemas/matter-binding-feed-v1.schema.json","length":15766,"sha256":"62147a7a59d3565f006614a0ef515761b53450a9a480fd25f15969ea3cb9fb30"},
+"wire_value": {"ack":"ACKNOWLEDGED","contract":"helianthus.gateway.matter-binding-feed/v1","outcome":{"state":"completed"},"readback":{"value":1}},
+"intent_deadline_note": "the intent deadline is fixed by the recorder"
+}
+}

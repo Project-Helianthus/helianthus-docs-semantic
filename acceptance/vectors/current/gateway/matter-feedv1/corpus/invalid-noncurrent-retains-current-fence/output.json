@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "corpus/invalid-noncurrent-retains-current-fence",
+"component": "matter/feedv1/contract.go",
+"source": "matter/feedv1/schema_corpus_test.go",
+"stimulus": "TestSchemaCorpusMatchesFeedWireValues/noncurrent_retains_current_fence",
+"output": {
+"validation": {"accepted":false,"error":"$: oneOf matched 0 branches"}
+}
+}

@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "imports/allowed-set",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17PackageImportsNoSDKTransportOrVendorDecoding",
+"output": {
+"observations": [{"step":"host.go imports outside the allowed set","disallowed":null},{"step":"control net/http","source":"package libraryhost\nimport _ \"net/http\"\n","disallowed":["net/http"]},{"step":"control example.invalid/go-fabric","source":"package libraryhost\nimport _ \"example.invalid/go-fabric\"\n","disallowed":["example.invalid/go-fabric"]},{"step":"control example.invalid/vendor/decoder","source":"package libraryhost\nimport _ \"example.invalid/vendor/decoder\"\n","disallowed":["example.invalid/vendor/decoder"]}]
+}
+}

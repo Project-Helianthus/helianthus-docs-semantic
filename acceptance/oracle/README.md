@@ -57,6 +57,9 @@ replay emits and `input` for a file that no recorder emits: a session input and 
 | `current/gateway/adaptermux/` | case files of the multiplexer: `transition/` (every fixture and input of the state transition table), `arbitration/` (bid selection at the SYN boundary), `send-symbols/` (escape pairs of the gateway write path), `v8classifier/` (classifier modes, event sequences and admin events), `pacer/` (output cadence, echo samples, grace and deadlines) and `ptytest/` (the pseudo-terminal pair and the serial multiplexer open, absent device and reopen) | recorded-current |
 | `current/gateway/localworkerhost/` | case files of the local worker supervisor: argv plan, child environment, child and configuration validation, report encoding and the lifecycle; `supervisor/` holds report fences, leases, restart, failed launch, stop escalation, unexpected exit, duplicate child and allocator mismatch | recorded-current |
 | `current/gateway/engine/` | case files of the six engines (`scheduler/`, `shadow-cache/`, `passive-tap/`, `deduplicator/`, `reconstructor/` with the F19c helpers) and of the closure that moves with them (`watch-catalog/`, `observe-first-flags/`, `observe-first-family-policy/`) | recorded-current |
+| `current/gateway/matter/` | case directories of the Matter target projection: `projection/` (`projection.go`: the requested-item and disposition table, the exact milliampere conversion, eligibility, the end to end projection, rejections, several contributors and the mapped key) and `model161/` (`model161.go`: the 1.6.1 projection and its canonical output checks); each case is a directory with `input.json` and `output.json` | recorded-current |
+| `current/gateway/matter-feedv1/` | case directories of the binding feed: `server/` (lifecycle and admission, detachment and strict rejection, concurrent capture), `client/` (public wire contract, typed resync), `schema/` (closed objects and wire members), `corpus/` (valid and invalid wire values against the published schema) and `embedded-generation/` | recorded-current |
+| `current/gateway/matter-libraryhost/` | case directories of the library host lifecycle: `lifecycle/`, `unavailable/`, `rows/`, `port-failure/`, `factory/`, `stamp/`, `restart/`, `token/`, `start/`, `stop/`, `close/`, `cancel/`, `generation/`, `project/` and `imports/` | recorded-current |
 | `current/semreg/semreg-v1-graph/` | the catalog bytes embedded in the SemReg enforcement source and their sha256 | recorded-current |
 | `current/sessions/<family>/<case>/session.json` | the published input of a whole session | synthetic |
 | `current/sessions/<family>/<case>/output.json` | the frozen output of that session on the old process | recorded-current |
@@ -91,6 +94,57 @@ no test file: only `SemanticReadExecutionStats` is recorded, through the schedul
 pending-probe SYN scan-timeout path has no caller in the pin's tests. The Linux-only pseudo-terminal files
 (`ptytest_linux.go`, `serial_exclusive_linux_test.go`) are not executed on a Darwin host, and the one pin test that is skipped
 at the pin (`TestPassiveBusTap_WrappedResetAndDecodeFaultsStillSurface`) is not recorded.
+
+## Matter projection, feed and library-host case files
+
+The three directories `current/gateway/matter/`, `current/gateway/matter-feedv1/` and `current/gateway/matter-libraryhost/`
+hold one directory per offline case of the gateway pin's `matter/projection.go`, `matter/model161.go`, `matter/feedv1/` and
+`matter/libraryhost/`: `<directory>/<group>/<case>/input.json` and `<directory>/<group>/<case>/output.json`. The layout is
+the same in the three directories.
+
+- `input.json` holds the inputs. Its members are `format` (`helianthus-oracle-qv08-input/1`), `case` (`<group>/<case>`),
+  `component` (the donor file under test), `source` (the donor test file that supplies the stimulus), `stimulus` (the pin's
+  test, with its subtest where it has one) and `input`.
+- `output.json` holds every output the code produced for that input. Its members are `format`
+  (`helianthus-oracle-qv08-output/1`), the same `case`, `component`, `source` and `stimulus`, and `output`.
+
+Both files are emitted by the recorder, so both are `expected-output` entries of `index.json`; `check.py --replay current`
+compares both byte for byte, which also freezes the input. A replay of a case reads `input.json`, drives the code and
+compares what it produced with `output.json`.
+
+In `matter/`, an input holds the call (`call`), the SemReg snapshot and evaluation view or the result under test, and a
+`variant` that names what the case changed from the pin's positive fixture; the changed value is in the input, never only its
+name. An output holds `result` (the projection), `canonical` for a canonical byte string (`length` and `sha256` of the bytes
+the function returned, `null` when it returned none) and `error` and `error_id` (the error text and the SemReg identifier, both
+`null` on success). `result_is_zero` is true when the function returned its zero value with an error. A case that depends on
+the roster pin of `model161_test.go` has no record (see below).
+
+In `matter-feedv1/`, a `server/` or `client/` case lists its HTTP `steps` (method, path, body, and the provider state set
+before the step), the provider snapshots, and the server options. The output lists per step the status, content type, JSON
+body, the provider's capture and invoke counts. The intent deadline of the pin's tests is the wall clock plus one minute;
+the recorder fixes it at a calendar date in 2100 (and in 2000 for the expired intent), so the input is a value. The client
+cases run through a loopback listener whose address is not recorded. A `schema/`, `corpus/` or `embedded-generation/` case
+names the schema file of the pin (`docs/schemas/matter-binding-feed-v1.schema.json`, by length and sha256, not copied) and
+records the wire value and the validator's verdict (`accepted`, `error`). The three cases that capture the provider's snapshot through
+the feed (`server/lifecycle-and-admission`, `server/concurrent-capture-keeps-one-cursor`, `client/public-wire-contract`) carry a
+`golden` member in their output that names the item 5 golden `cmd/gateway/testdata/characterization/consumers/matter_feed.json` by its entry in
+`current/gateway-goldens.json` (path and sha256); the golden is the gateway-level capture of the same snapshot wire contract
+and is not copied.
+
+In `matter-libraryhost/`, an input holds the `configuration` (selection, generations, binding class, cleanup budget), the
+`rig_variant` (the named change of the pin's port rig), and the `script` of calls the case makes. The pin has no JSON tags on
+these types, so values carry the Go field names. An output holds `observations`: per call the error text and which sentinel
+it matches (`is_unavailable`, `is_quiesce`, `is_quarantined`, `is_stale_callback`, `is_generation_changed`,
+`is_snapshot_unavailable`, `is_context_canceled`, `is_deadline_exceeded`), the host `status` (state, reason, class, epoch,
+owned work, resources, stale callbacks rejected) and the rig `counts` (captures, qualifications, class calls, constructions,
+closes, tokens). The cases that start goroutines record only values the pin's synchronisation fixes.
+
+Evidence gaps. The two tests of `model161_test.go` that read the adopted 1.6.1 roster (`TestAA03RosterPin` and
+`TestAA03RosterPinRejectsDrift`) skip at the pin unless a docs-semantic checkout that holds the roster with the pinned digest
+is staged, and no revision of this repository holds bytes with that digest; they have no offline input and no record. The
+functions that no test of the three packages drives (the client `Invoke`, the server's method and not-found refusals, the
+`Digest` function) have no case. `TestAA17PackageImportsNoSDKTransportOrVendorDecoding` reads the pin's `host.go`; its record
+holds the imports it reports.
 
 ## Whole sessions
 

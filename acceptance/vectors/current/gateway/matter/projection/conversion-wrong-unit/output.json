@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/conversion-wrong-unit",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestEVSECurrentFailsClosedOnWrongUnitOrPrecision",
+"output": {
+"milliamperes": "",
+"error": "matter projection input is not eligible",
+"error_id": "invalid_value"
+}
+}

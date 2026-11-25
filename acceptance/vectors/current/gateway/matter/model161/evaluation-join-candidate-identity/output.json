@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/evaluation-join-candidate-identity",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03EvaluationJoins/candidate identity",
+"output": {
+"result_is_zero": true,
+"error": "dangling_reference: matter projection evaluated candidate",
+"error_id": "dangling_reference"
+}
+}

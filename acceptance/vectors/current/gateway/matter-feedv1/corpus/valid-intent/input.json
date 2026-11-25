@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "corpus/valid-intent",
+"component": "matter/feedv1/contract.go",
+"source": "matter/feedv1/schema_corpus_test.go",
+"stimulus": "TestSchemaCorpusMatchesFeedWireValues/intent",
+"input": {
+"schema_file": {"path":"docs/schemas/matter-binding-feed-v1.schema.json","length":15766,"sha256":"62147a7a59d3565f006614a0ef515761b53450a9a480fd25f15969ea3cb9fb30"},
+"wire_value": {"arguments":{"setpoint":"32"},"asset_id":"asset:test","causal":{"correlation_id":"correlation:test","expires_at":{"clock_id":"clock.utc","uncertainty_ns":"0","unix_nanoseconds":"2"},"first_seen_at":{"clock_id":"clock.utc","uncertainty_ns":"0","unix_nanoseconds":"1"},"hop_count":0,"max_hops":1,"origin":{"evidence":[{"access":"public","contract":"test.evidence/v1","digest":"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","kind":"evidence.test","owner":"owner.test","redaction":"none"}],"kind":"operator","origin_id":"origin:test"},"path":[]},"claim":{"action_id":"set","binding_id":"binding:test","capability_id":"capability","catalog_revision":"catalog","digest":"digest","driver_generation":1,"driver_id":"driver","manifest_id":"manifest","manifest_version":"1.0.0","operation_id":"operation","resource_id":"evse","revision":"{\"semantic\":\"1\",\"identity\":\"1\",\"facts\":\"1\",\"services\":\"1\",\"capabilities\":\"1\"}","snapshot_id":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","source_epoch":"epoch:test"},"deadline":"2100-01-01T00:00:00Z","idempotency_key":"key:test"},
+"intent_deadline_note": "the intent deadline is fixed by the recorder"
+}
+}

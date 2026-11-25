@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/correspondence-candidate-revision",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestProjectRejectsEvaluationCorrespondenceDrift/candidate revision",
+"output": {
+"result_is_zero": true,
+"error": "revision_conflict: matter projection candidate revision",
+"error_id": "revision_conflict"
+}
+}

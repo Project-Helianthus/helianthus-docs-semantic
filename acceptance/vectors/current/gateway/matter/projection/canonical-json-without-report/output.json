@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/canonical-json-without-report",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestCanonicalJSONIsDeterministicForEquivalentResult",
+"output": {
+"canonical": null,
+"error": "invalid_contract: contract",
+"error_id": "invalid_contract"
+}
+}

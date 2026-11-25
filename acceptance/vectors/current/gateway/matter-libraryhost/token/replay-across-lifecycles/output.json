@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "token/replay-across-lifecycles",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17TokenReplayAcrossLifecyclesIsRefused",
+"output": {
+"observations": [{"step":"Start 1","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":0}},{"step":"Stop 1","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":0}},{"step":"Start 2","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":2,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":4,"qualifies":2,"class_calls":2,"news":2,"closes":1,"tokens":0}},{"step":"Stop 2","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":2,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":4,"qualifies":2,"class_calls":2,"news":2,"closes":2,"tokens":0}},{"step":"Start 3","outcome":{"error":"matter library host unavailable: lifecycle_token_reused","unavailable_reason":"lifecycle_token_reused","is_unavailable":true,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"status":{"state":"unavailable","reason":"lifecycle_token_reused","class":"","epoch":2,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":4,"qualifies":2,"class_calls":2,"news":2,"closes":2,"tokens":0}}]
+}
+}

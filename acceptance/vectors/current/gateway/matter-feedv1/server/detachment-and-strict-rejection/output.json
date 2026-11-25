@@ -1,0 +1,14 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "server/detachment-and-strict-rejection",
+"component": "matter/feedv1/server.go",
+"source": "matter/feedv1/server_test.go",
+"stimulus": "TestInputDetachmentAndStrictRejectionHaveNoInvoke",
+"output": {
+"responses": [{"step":"route injection","status":400,"content_type":"application/json","body":{"contract":"helianthus.gateway.matter-binding-feed/v1","error":"invalid_intent"},"wire_body_length":81,"wire_body_sha256":"db65c4fd06079195f096c2018660c2c54e9a3feef847f3acf05a88a5e7855fc8","captures":0,"invokes":0},{"step":"expired deadline","status":400,"content_type":"application/json","body":{"contract":"helianthus.gateway.matter-binding-feed/v1","error":"invalid_intent"},"wire_body_length":81,"wire_body_sha256":"db65c4fd06079195f096c2018660c2c54e9a3feef847f3acf05a88a5e7855fc8","captures":0,"invokes":0},{"step":"idempotency key of 257 characters","status":400,"content_type":"application/json","body":{"contract":"helianthus.gateway.matter-binding-feed/v1","error":"invalid_intent"},"wire_body_length":81,"wire_body_sha256":"db65c4fd06079195f096c2018660c2c54e9a3feef847f3acf05a88a5e7855fc8","captures":0,"invokes":0},{"step":"valid intent","status":200,"content_type":"application/json","body":{"contract":"helianthus.gateway.matter-binding-feed/v1","ack":"ACKNOWLEDGED","readback":{"value":1},"outcome":{"state":"completed"}},"wire_body_length":132,"wire_body_sha256":"2b9658c7a294757d385bbcd71123b5e6123351f72fdb8d9cf57c03ba521f511c","captures":1,"invokes":1}],
+"provider_arguments_after_caller_mutation": "{\"setpoint\":\"32\"}",
+"provider_arguments_contain_X": false,
+"caller_arguments_after_mutation": "{\"Xetpoint\":\"32\"}",
+"captured_operation_claim_unchanged": true
+}
+}

@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "generation/change-during-qualification-source",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17GenerationChangeDuringQualificationIsFenced/source",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"default"},
+"rig_variant": {"moved_generation":"source"},
+"script": ["Start; the qualifier moves the named generation"]
+}
+}

@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/mapped-key-other-fact",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestMappedKeyNamesPackVersionAndFact/fact",
+"input": {
+"call": "mappedKey",
+"key": {"pack_id":"helianthus.pack.evse","pack_version":"1.0.0","fact_id":"evse.ac.voltage","dimensions":[{"id":"evse.dimension.phase","value":{"kind":"text","text":"l1"}}]}
+}
+}

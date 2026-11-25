@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "project/stop-withholds-in-flight-capture-returns-a-value",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17StopCancelsAndWithholdsAnInFlightProjection/capture-returns-a-value",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":1}},{"step":"Stop","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":3,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":1}},{"step":"in-flight Project","outcome":{"error":"matter library callback is stale","unavailable_reason":null,"is_unavailable":false,"is_quiesce":false,"is_quarantined":false,"is_stale_callback":true,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":false,"is_deadline_exceeded":false},"result_is_zero":true,"result":{"document":{"contract":"","target_id":"","target_version":"","mapping_revision":"","model":{"electrical_sensor_revision":0,"power_topology_revision":0,"electrical_power_measurement_revision":0},"attributes":null},"report":{"contract":"","manifest":{"target_id":"","target_version":"","kernel_version":"","pack_versions":null,"mapping_revision":""},"snapshot_id":"","revisions":{"semantic":"","identity":"","facts":"","services":"","capabilities":""},"requested":null,"dispositions":null}},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0}}]
+}
+}

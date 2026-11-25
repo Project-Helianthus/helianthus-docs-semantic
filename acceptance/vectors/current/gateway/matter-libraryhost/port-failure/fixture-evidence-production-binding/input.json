@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "port-failure/fixture-evidence-production-binding",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17PortFailuresAndClassBoundaryStayUnavailable/fixture-evidence-production-binding",
+"input": {
+"configuration": {"enabled":true,"selection":{"Tag":"tag-a","Target":"target-a","Profile":"profile-a","Evidence":"evidence-a"},"generations":{"Source":3,"Binding":5,"NativeDriver":7},"binding_class":"synthetic-fixture","tokens":"token-1, token-2, ... from the rig's counter unless the variant says otherwise","cleanup_budget":"default"},
+"rig_variant": {"port_variant":"fixture-evidence-production-binding","description":"a production factory with rows of origin synthetic-fixture","failure_text":"synthetic port failure"},
+"script": ["Start"]
+}
+}

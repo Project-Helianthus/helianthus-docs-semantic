@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/source-join-key-dimension-id",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03SourceJoins/key dimension id",
+"output": {
+"result_is_zero": true,
+"error": "invalid_value: candidate key",
+"error_id": "invalid_value"
+}
+}

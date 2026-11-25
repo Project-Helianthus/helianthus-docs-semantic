@@ -1,0 +1,15 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "projection/ledger-is-deterministic",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestLedgerIsDeterministicAndDoesNotExposeOperations",
+"output": {
+"requested_equal": true,
+"dispositions_equal": true,
+"ledger_digest": "sha256:8860055a8fbbbc29307cd7a8ce9e719be028b49ee1b19a41085fe09015b1524e",
+"requested_count": 151,
+"operation_rows": 7,
+"actionable_operation_rows": 0
+}
+}

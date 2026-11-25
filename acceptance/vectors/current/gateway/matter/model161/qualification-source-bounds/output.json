@@ -1,0 +1,12 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "model161/qualification-source-bounds",
+"component": "matter/model161.go",
+"source": "matter/model161_test.go",
+"stimulus": "TestAA03QualificationAndPrecision/source bounds",
+"output": {
+"result_is_zero": true,
+"error": "bounds_exceeded: evse quantity bounds",
+"error_id": "bounds_exceeded"
+}
+}

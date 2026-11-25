@@ -1,0 +1,10 @@
+{
+"format": "helianthus-oracle-qv08-output/1",
+"case": "stop/retry-accepts-non-comparable-contexts",
+"component": "matter/libraryhost/host.go",
+"source": "matter/libraryhost/host_test.go",
+"stimulus": "TestAA17StopRetryAcceptsNonComparableContexts",
+"output": {
+"observations": [{"step":"Start","outcome":{"error":null},"status":{"state":"running","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":0,"tokens":1}},{"step":"first Stop","outcome":{"error":"matter library host did not quiesce: context canceled","unavailable_reason":null,"is_unavailable":false,"is_quiesce":true,"is_quarantined":false,"is_stale_callback":false,"is_generation_changed":false,"is_snapshot_unavailable":false,"is_context_canceled":true,"is_deadline_exceeded":false},"status":{"state":"quarantined","reason":"","class":"synthetic-fixture","epoch":1,"owned_work":0,"resources":1,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":1,"tokens":1}},{"step":"follow-up Stop","outcome":{"error":null},"status":{"state":"stopped","reason":"","class":"","epoch":1,"owned_work":0,"resources":0,"stale_rejected":0},"counts":{"captures":2,"qualifies":1,"class_calls":1,"news":1,"closes":2,"tokens":1}},{"step":"Close calls","count":2}]
+}
+}

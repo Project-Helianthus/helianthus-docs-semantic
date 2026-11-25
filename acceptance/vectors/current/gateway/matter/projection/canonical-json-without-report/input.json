@@ -1,0 +1,11 @@
+{
+"format": "helianthus-oracle-qv08-input/1",
+"case": "projection/canonical-json-without-report",
+"component": "matter/projection.go",
+"source": "matter/projection_test.go",
+"stimulus": "TestCanonicalJSONIsDeterministicForEquivalentResult",
+"input": {
+"call": "CanonicalJSON",
+"result": {"document":{"contract":"helianthus.gateway.matter-projection/v1","target_id":"matter.data-model","target_version":"1.7-draft-ballot-0.9+29b4768a513cf566011ab8cd60df1bc495204953","mapping_revision":"1","attributes":[]},"report":{"contract":"","manifest":{"target_id":"","target_version":"","kernel_version":"","pack_versions":null,"mapping_revision":""},"snapshot_id":"","revisions":{"semantic":"","identity":"","facts":"","services":"","capabilities":""},"requested":null,"dispositions":null}}
+}
+}
