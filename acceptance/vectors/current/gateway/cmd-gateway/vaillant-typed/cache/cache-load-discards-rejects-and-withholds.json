@@ -1,0 +1,335 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway semantic cache",
+  "source": [
+    "cmd/gateway/semantic_cache.go",
+    "cmd/gateway/vaillant_semantic_publication_cache.go"
+  ],
+  "stimulus": "synthetic cache files, following cmd/gateway/semantic_cache_test.go TestSemanticCacheStoreLoad_MissLogsMarker, TestSemanticCacheStoreLoad_InvalidJSONLogsMarker, TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid, TestSemanticCacheStoreLoad_DiscardsV1, TestSemanticCacheStoreLoad_DiscardsV2",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "cache_path": "semantic-cache.json"
+    },
+    "clock": {},
+    "state": {
+      "loads": [
+        {
+          "file_present": false,
+          "name": "miss"
+        },
+        {
+          "bytes": "{not-json",
+          "file_present": true,
+          "name": "invalid_json"
+        },
+        {
+          "bytes": "{\"schema_version\":99,\"zones\":[]}",
+          "file_present": true,
+          "name": "unknown_schema_version"
+        },
+        {
+          "bytes": "{\"zones\":[{\"id\":\"zone-2\",\"name\":\"Zone 2\"},{\"id\":\"zone-1\",\"name\":\"Zone 1\",\"allowed_modes\":[\"heat\",\"auto\"]}],\"dhw\":{\"operating_mode\":\"auto\",\"preset\":\"schedule\"}}",
+          "file_present": true,
+          "name": "schema_version_absent"
+        },
+        {
+          "bytes": "{\"schema_version\":1,\"zones\":[{\"id\":\"zone-1\",\"name\":\"Zone 1\"}]}",
+          "file_present": true,
+          "name": "schema_version_1"
+        },
+        {
+          "bytes": "{\"schema_version\":2,\"metadata\":{},\"zones\":[{\"id\":\"zone-1\",\"name\":\"Zone 1\"}]}",
+          "file_present": true,
+          "name": "schema_version_2"
+        },
+        {
+          "bytes": "{\"schema_version\":3,\"zones\":\"not-a-list\"}",
+          "file_present": true,
+          "name": "schema_version_3_wrong_member_type"
+        },
+        {
+          "bytes": "{\"schema_version\":3,\"metadata\":{\"persisted_at\":\"2030-04-10T08:00:00Z\"}}",
+          "file_present": true,
+          "name": "schema_version_3_minimal"
+        },
+        {
+          "bytes": "{\"schema_version\":3,\"metadata\":{\"persisted_at\":\"2030-04-10T08:00:00Z\"},\"boiler\":{\"flow_temperature_c\":50.5,\"return_temperature_c\":40.25,\"central_heating_pump_active\":true,\"dhw_temperature_c\":47,\"dhw_target_temperature_c\":50,\"dhw_operating_mode\":\"auto\",\"heating_status_raw\":4,\"dhw_status_raw\":1}}",
+          "file_present": true,
+          "name": "schema_version_3_boiler_flow_and_pumps_withheld"
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [],
+    "graphql": {},
+    "mcp": {},
+    "cache": {
+      "loads": [
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_miss path=\"semantic-cache.json\""
+          ],
+          "name": "miss",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_invalid path=\"semantic-cache.json\" reason=json_unmarshal err=invalid character 'n' looking for beginning of object key string"
+          ],
+          "name": "invalid_json",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_invalid path=\"semantic-cache.json\" reason=unknown_schema_version schema_version=99"
+          ],
+          "name": "unknown_schema_version",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_discarded path=\"semantic-cache.json\" schema_version=0 reason=outdated_schema"
+          ],
+          "name": "schema_version_absent",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_discarded path=\"semantic-cache.json\" schema_version=1 reason=outdated_schema"
+          ],
+          "name": "schema_version_1",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_discarded path=\"semantic-cache.json\" schema_version=2 reason=outdated_schema"
+          ],
+          "name": "schema_version_2",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "0001-01-01T00:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_invalid path=\"semantic-cache.json\" reason=v3_unmarshal err=json: cannot unmarshal string into Go struct field semanticCacheV3.zones of type []main.semanticCacheZoneV3"
+          ],
+          "name": "schema_version_3_wrong_member_type",
+          "ok": false,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "0001-01-01T00:00:00Z",
+            "Zones": null
+          }
+        },
+        {
+          "hydration": {
+            "boiler": null,
+            "dhw": null,
+            "persisted_at": "2030-04-10T08:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_hit path=\"semantic-cache.json\" schema_version=3 zones=0 dhw=false"
+          ],
+          "name": "schema_version_3_minimal",
+          "ok": true,
+          "snapshot": {
+            "Boiler": null,
+            "DHW": null,
+            "PersistedAt": "2030-04-10T08:00:00Z",
+            "Zones": []
+          }
+        },
+        {
+          "hydration": {
+            "boiler": {
+              "CentralHeatingHours": null,
+              "CentralHeatingPumpActive": null,
+              "CentralHeatingStarts": null,
+              "CirculationPumpActive": null,
+              "DeactivationsIFC": null,
+              "DeactivationsTemplimiter": null,
+              "DhwDemandActive": null,
+              "DhwHours": null,
+              "DhwOperatingMode": 2,
+              "DhwStarts": null,
+              "DhwStatusRaw": 1,
+              "DhwTargetTemperatureC": 50,
+              "DhwTempDesiredC": null,
+              "DhwTemperatureC": 47,
+              "DhwWaterFlowLpm": null,
+              "DiverterValvePositionPct": null,
+              "ExternalPumpActive": null,
+              "FanHours": null,
+              "FanSpeedRpm": null,
+              "FlameActive": null,
+              "FlowTempDesiredC": null,
+              "FlowTemperatureC": null,
+              "FlowsetHcMaxC": null,
+              "FlowsetHwcMaxC": null,
+              "GasValveActive": null,
+              "HeatingStatusRaw": null,
+              "HeatingSwitchActive": null,
+              "HoursTillService": null,
+              "InstallerMenuCode": null,
+              "IonisationVoltageUa": null,
+              "ModulationPct": null,
+              "PartloadHcKW": null,
+              "PartloadHwcKW": null,
+              "PhoneNumber": null,
+              "PrimaryCircuitFlowLpm": null,
+              "PumpHours": null,
+              "ReturnTemperatureC": 40.25,
+              "StateNumber": null,
+              "StorageLoadPumpPct": null,
+              "TargetFanSpeedRpm": null,
+              "WaterPressureBar": null
+            },
+            "dhw": null,
+            "persisted_at": "2030-04-10T08:00:00Z",
+            "zones": null
+          },
+          "logs": [
+            "semantic_cache_hit path=\"semantic-cache.json\" schema_version=3 zones=0 dhw=false"
+          ],
+          "name": "schema_version_3_boiler_flow_and_pumps_withheld",
+          "ok": true,
+          "snapshot": {
+            "Boiler": {
+              "Config": {
+                "DhwOperatingMode": "auto",
+                "FlowsetHcMaxC": null,
+                "FlowsetHwcMaxC": null,
+                "HoursTillService": null,
+                "InstallerMenuCode": null,
+                "PartloadHcKW": null,
+                "PartloadHwcKW": null,
+                "PhoneNumber": null
+              },
+              "Diagnostics": {
+                "CentralHeatingHours": null,
+                "CentralHeatingStarts": null,
+                "DeactivationsIFC": null,
+                "DeactivationsTemplimiter": null,
+                "DhwHours": null,
+                "DhwStarts": null,
+                "DhwStatusRaw": 1,
+                "FanHours": null,
+                "HeatingStatusRaw": null,
+                "PumpHours": null
+              },
+              "State": {
+                "CentralHeatingPumpActive": null,
+                "CirculationPumpActive": null,
+                "DhwDemandActive": null,
+                "DhwTargetTemperatureC": 50,
+                "DhwTempDesiredC": null,
+                "DhwTemperatureC": 47,
+                "DhwWaterFlowLpm": null,
+                "DiverterValvePositionPct": null,
+                "ExternalPumpActive": null,
+                "FanSpeedRpm": null,
+                "FlameActive": null,
+                "FlowTempDesiredC": null,
+                "FlowTemperatureC": null,
+                "GasValveActive": null,
+                "HeatingSwitchActive": null,
+                "IonisationVoltageUa": null,
+                "ModulationPct": null,
+                "PrimaryCircuitFlowLpm": null,
+                "ReturnTemperatureC": 40.25,
+                "StateNumber": null,
+                "StorageLoadPumpPct": null,
+                "TargetFanSpeedRpm": null,
+                "WaterPressureBar": null
+              }
+            },
+            "DHW": null,
+            "PersistedAt": "2030-04-10T08:00:00Z",
+            "Zones": []
+          }
+        }
+      ]
+    },
+    "observations": []
+  }
+}

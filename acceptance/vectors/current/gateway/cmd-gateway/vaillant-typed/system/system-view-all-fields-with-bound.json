@@ -1,0 +1,202 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic native system view over systemStatusFromView",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "system_view": {
+        "dhw_bivalence_bound": {
+          "MaxC": 20,
+          "MinC": -10,
+          "NarrowedOnly": false,
+          "Profile": "synthetic",
+          "Reason": "",
+          "Source": "profile"
+        },
+        "snapshot": {
+          "AdaptiveHeatingCurve": true,
+          "AlternativePoint": -5,
+          "Controller": 21,
+          "DhwBivalencePoint": -2,
+          "HcEmergencyTemperature": -15,
+          "HeatingCircuitBivalencePoint": -3,
+          "HwcCylinderTemperatureBottom": 38,
+          "HwcCylinderTemperatureTop": 51,
+          "HwcMaxFlowTempDesired": 65,
+          "InstallerMenuCode": 17,
+          "InstallerName": "Synthetic Installer",
+          "InstallerPhone": "0123",
+          "MaintenanceDate": "2031-01-15",
+          "MaintenanceDue": true,
+          "MaxRoomHumidity": 70,
+          "ModuleConfigurationVR71": 2,
+          "OutdoorTemperature": 7.5,
+          "OutdoorTemperatureAvg24h": 6.25,
+          "SystemFlowTemperature": 42.5,
+          "SystemFlowTemperatureLiveAt": "0001-01-01T00:00:00Z",
+          "SystemOff": false,
+          "SystemScheme": 3,
+          "SystemWaterPressure": 1.8
+        }
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_system_live"
+      }
+    ],
+    "graphql": {
+      "system": {
+        "data": {
+          "config": {
+            "adaptive_heating_curve_enabled": true,
+            "dhw_flow_temperature_setpoint_maximum": 65,
+            "dhw_outdoor_bivalence_temperature_limit": -2,
+            "dhw_outdoor_bivalence_temperature_limit_bound": {
+              "max_c": 20,
+              "min_c": -10,
+              "narrowed_only": false,
+              "profile": "synthetic",
+              "reason": null,
+              "source": "profile"
+            },
+            "heating_flow_temperature_setpoint_maximum_at_heat_pump_fault": -15,
+            "heating_outdoor_alternative_temperature_limit": -5,
+            "heating_outdoor_bivalence_temperature_limit": -3,
+            "installer_access_code": 17,
+            "installer_name": "Synthetic Installer",
+            "installer_phone_number": "0123",
+            "maintenance_date": "2031-01-15",
+            "room_humidity_limit_maximum": 70
+          },
+          "gateway_brand": null,
+          "gateway_vendor": null,
+          "properties": {
+            "functional_module_configuration_code": 2,
+            "hydraulic_scheme_code": 3
+          },
+          "state": {
+            "dhw_cylinder_bottom_temperature": 38,
+            "dhw_cylinder_top_temperature": 51,
+            "flow_temperature": 42.5,
+            "maintenance_active": true,
+            "outdoor_temperature": 7.5,
+            "outdoor_temperature_daily_average": 6.25,
+            "system_off": false,
+            "water_pressure": 1.8
+          }
+        },
+        "query": "{ system { config { adaptive_heating_curve_enabled dhw_flow_temperature_setpoint_maximum dhw_outdoor_bivalence_temperature_limit dhw_outdoor_bivalence_temperature_limit_bound { max_c min_c narrowed_only profile reason source } heating_flow_temperature_setpoint_maximum_at_heat_pump_fault heating_outdoor_alternative_temperature_limit heating_outdoor_bivalence_temperature_limit installer_access_code installer_name installer_phone_number maintenance_date room_humidity_limit_maximum } gateway_brand gateway_vendor properties { functional_module_configuration_code hydraulic_scheme_code } state { dhw_cylinder_bottom_temperature dhw_cylinder_top_temperature flow_temperature maintenance_active outdoor_temperature outdoor_temperature_daily_average system_off water_pressure } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "system": {
+          "config": {
+            "adaptive_heating_curve_enabled": true,
+            "dhw_flow_temperature_setpoint_maximum": 65,
+            "dhw_outdoor_bivalence_temperature_limit": -2,
+            "dhw_outdoor_bivalence_temperature_limit_bound": {
+              "max_c": 20,
+              "min_c": -10,
+              "narrowed_only": false,
+              "profile": "synthetic",
+              "source": "profile"
+            },
+            "heating_flow_temperature_setpoint_maximum_at_heat_pump_fault": -15,
+            "heating_outdoor_alternative_temperature_limit": -5,
+            "heating_outdoor_bivalence_temperature_limit": -3,
+            "installer_access_code": 17,
+            "installer_name": "Synthetic Installer",
+            "installer_phone_number": "0123",
+            "maintenance_date": "2031-01-15",
+            "room_humidity_limit_maximum": 70
+          },
+          "properties": {
+            "functional_module_configuration_code": 2,
+            "hydraulic_scheme_code": 3
+          },
+          "state": {
+            "dhw_cylinder_bottom_temperature": 38,
+            "dhw_cylinder_top_temperature": 51,
+            "flow_temperature": 42.5,
+            "maintenance_active": true,
+            "outdoor_temperature": 7.5,
+            "outdoor_temperature_daily_average": 6.25,
+            "system_off": false,
+            "water_pressure": 1.8
+          }
+        }
+      },
+      "tools": {
+        "ebus_v1_semantic_system_get": {
+          "data": {
+            "config": {
+              "adaptive_heating_curve_enabled": true,
+              "dhw_flow_temperature_setpoint_maximum": 65,
+              "dhw_outdoor_bivalence_temperature_limit": -2,
+              "dhw_outdoor_bivalence_temperature_limit_bound": {
+                "max_c": 20,
+                "min_c": -10,
+                "narrowed_only": false,
+                "profile": "synthetic",
+                "source": "profile"
+              },
+              "heating_flow_temperature_setpoint_maximum_at_heat_pump_fault": -15,
+              "heating_outdoor_alternative_temperature_limit": -5,
+              "heating_outdoor_bivalence_temperature_limit": -3,
+              "installer_access_code": 17,
+              "installer_name": "Synthetic Installer",
+              "installer_phone_number": "0123",
+              "maintenance_date": "2031-01-15",
+              "room_humidity_limit_maximum": 70
+            },
+            "properties": {
+              "functional_module_configuration_code": 2,
+              "hydraulic_scheme_code": 3
+            },
+            "state": {
+              "dhw_cylinder_bottom_temperature": 38,
+              "dhw_cylinder_top_temperature": 51,
+              "flow_temperature": 42.5,
+              "maintenance_active": true,
+              "outdoor_temperature": 7.5,
+              "outdoor_temperature_daily_average": 6.25,
+              "system_off": false,
+              "water_pressure": 1.8
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "78624123ffe0ca7715a1f16454dfba080a4137de5a66e88d246ed4ca8ec81bf1"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

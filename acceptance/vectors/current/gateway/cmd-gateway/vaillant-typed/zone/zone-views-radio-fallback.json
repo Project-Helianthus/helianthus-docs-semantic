@@ -1,0 +1,269 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "zone_views": [
+        {
+          "inferred_room_mapping_raw": null,
+          "instance": 0,
+          "radio_room_humidity_pct": null,
+          "radio_room_temp_c": null,
+          "snapshot": {
+            "AllowedModes": null,
+            "ConfigurationAssociatedCircuitRaw": null,
+            "ConfigurationCircuitTypeRaw": null,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": 0,
+            "CurrentTempC": 22,
+            "FieldFreshness": null,
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": 51,
+            "HvacAction": "",
+            "Instance": 0,
+            "Name": "",
+            "OperatingMode": "",
+            "Present": true,
+            "Preset": "",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "",
+            "StateValveStatusRaw": null,
+            "TargetTempC": null
+          }
+        },
+        {
+          "inferred_room_mapping_raw": 3,
+          "instance": 1,
+          "radio_room_humidity_pct": 44,
+          "radio_room_temp_c": 20.5,
+          "snapshot": {
+            "AllowedModes": [
+              "auto"
+            ],
+            "ConfigurationAssociatedCircuitRaw": null,
+            "ConfigurationCircuitTypeRaw": null,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": null,
+            "CurrentTempC": null,
+            "FieldFreshness": null,
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": null,
+            "HvacAction": "",
+            "Instance": 1,
+            "Name": "Upstairs",
+            "OperatingMode": "",
+            "Present": true,
+            "Preset": "",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "",
+            "StateValveStatusRaw": null,
+            "TargetTempC": null
+          }
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_zone_views_live"
+      }
+    ],
+    "graphql": {
+      "zones": {
+        "data": [
+          {
+            "config": {
+              "allowed_modes": [
+                "off",
+                "auto",
+                "heat"
+              ],
+              "associated_circuit": 0,
+              "circuit_type": null,
+              "operating_mode": null,
+              "operation_mode_changeable": null,
+              "preset": null,
+              "quick_veto": false,
+              "quick_veto_expiry": null,
+              "room_temperature_zone_mapping": 0,
+              "source_label": null,
+              "target_temp_c": null,
+              "zone_holiday_end_clock_time": null,
+              "zone_holiday_end_date": null,
+              "zone_holiday_start_clock_time": null,
+              "zone_holiday_start_date": null,
+              "zone_quick_veto_time": null,
+              "zone_room_temperature_setpoint_at_holiday": null,
+              "zone_room_temperature_setpoint_at_quick_veto": null
+            },
+            "id": "zone-1",
+            "name": "Zone 1",
+            "state": {
+              "heating_demand_pct": null,
+              "hvac_action": null,
+              "zone_room_humidity": 51,
+              "zone_room_temperature": 22,
+              "zone_special_function_mode": null,
+              "zone_valve_position": null
+            }
+          },
+          {
+            "config": {
+              "allowed_modes": [
+                "auto"
+              ],
+              "associated_circuit": 2,
+              "circuit_type": null,
+              "operating_mode": null,
+              "operation_mode_changeable": null,
+              "preset": null,
+              "quick_veto": false,
+              "quick_veto_expiry": null,
+              "room_temperature_zone_mapping": 3,
+              "source_label": null,
+              "target_temp_c": null,
+              "zone_holiday_end_clock_time": null,
+              "zone_holiday_end_date": null,
+              "zone_holiday_start_clock_time": null,
+              "zone_holiday_start_date": null,
+              "zone_quick_veto_time": null,
+              "zone_room_temperature_setpoint_at_holiday": null,
+              "zone_room_temperature_setpoint_at_quick_veto": null
+            },
+            "id": "zone-2",
+            "name": "Upstairs",
+            "state": {
+              "heating_demand_pct": null,
+              "hvac_action": null,
+              "zone_room_humidity": 44,
+              "zone_room_temperature": 20.5,
+              "zone_special_function_mode": null,
+              "zone_valve_position": null
+            }
+          }
+        ],
+        "query": "{ zones { config { allowed_modes associated_circuit circuit_type operating_mode operation_mode_changeable preset quick_veto quick_veto_expiry room_temperature_zone_mapping source_label target_temp_c zone_holiday_end_clock_time zone_holiday_end_date zone_holiday_start_clock_time zone_holiday_start_date zone_quick_veto_time zone_room_temperature_setpoint_at_holiday zone_room_temperature_setpoint_at_quick_veto } id name state { heating_demand_pct hvac_action zone_room_humidity zone_room_temperature zone_special_function_mode zone_valve_position } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "zones": [
+          {
+            "config": {
+              "associated_circuit": 0,
+              "operating_mode": "",
+              "preset": "",
+              "quick_veto": false,
+              "room_temperature_zone_mapping": 0
+            },
+            "id": "zone-1",
+            "name": "Zone 1",
+            "state": {
+              "zone_room_humidity": 51,
+              "zone_room_temperature": 22
+            }
+          },
+          {
+            "config": {
+              "allowed_modes": [
+                "auto"
+              ],
+              "associated_circuit": 2,
+              "operating_mode": "",
+              "preset": "",
+              "quick_veto": false,
+              "room_temperature_zone_mapping": 3
+            },
+            "id": "zone-2",
+            "name": "Upstairs",
+            "state": {
+              "zone_room_humidity": 44,
+              "zone_room_temperature": 20.5
+            }
+          }
+        ]
+      },
+      "tools": {
+        "ebus_v1_semantic_zones_get": {
+          "data": [
+            {
+              "config": {
+                "associated_circuit": 0,
+                "operating_mode": "",
+                "preset": "",
+                "quick_veto": false,
+                "room_temperature_zone_mapping": 0
+              },
+              "id": "zone-1",
+              "name": "Zone 1",
+              "state": {
+                "zone_room_humidity": 51,
+                "zone_room_temperature": 22
+              }
+            },
+            {
+              "config": {
+                "allowed_modes": [
+                  "auto"
+                ],
+                "associated_circuit": 2,
+                "operating_mode": "",
+                "preset": "",
+                "quick_veto": false,
+                "room_temperature_zone_mapping": 3
+              },
+              "id": "zone-2",
+              "name": "Upstairs",
+              "state": {
+                "zone_room_humidity": 44,
+                "zone_room_temperature": 20.5
+              }
+            }
+          ],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "fa0ff34d49be3d37841d31e42b5137896784a21acad12b21f0702ee04d3fe95e"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

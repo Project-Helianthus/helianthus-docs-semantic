@@ -1,0 +1,97 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/vaillant_semantic_publication.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantPublicationOwnerPublishesCircuitAndDhwViews",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sources": [
+        "live",
+        "cache",
+        "cache"
+      ]
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "dhw_views": [
+        {
+          "expired": false,
+          "snapshot": {
+            "ConfigurationDHWOperationMode": "",
+            "CurrentTempC": 48.5,
+            "FieldFreshness": null,
+            "HolidayEndDate": "",
+            "HolidayStartDate": "",
+            "OperatingMode": "auto",
+            "Preset": "",
+            "StateSpecialFunction": "",
+            "TargetTempC": null
+          }
+        },
+        {
+          "expired": false,
+          "snapshot": null
+        },
+        {
+          "expired": true,
+          "snapshot": null
+        }
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_dhw_live"
+      },
+      {
+        "dhw_published": true,
+        "published": false,
+        "step": "publish_dhw_cache_without_snapshot"
+      },
+      {
+        "dhw_published": false,
+        "published": true,
+        "step": "publish_dhw_cache_expired"
+      }
+    ],
+    "graphql": {
+      "dhw": {
+        "data": null,
+        "query": "{ dhw { config { dhw_holiday_end_date dhw_holiday_start_date dhw_operating_mode dhw_temperature_setpoint operation_mode_changeable preset } state { dhw_special_function_mode dhw_temperature heating_demand_pct overrun_active } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "dhw": null
+      },
+      "tools": {
+        "ebus_v1_semantic_dhw_get": {
+          "data": null,
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

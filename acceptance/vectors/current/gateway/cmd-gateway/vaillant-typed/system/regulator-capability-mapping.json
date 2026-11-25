@@ -1,0 +1,55 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go"
+  ],
+  "stimulus": "synthetic native controller capabilities over publishRegulatorCapability",
+  "input": {
+    "bytes": "",
+    "qualifiers": {},
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "capabilities": [
+        "present",
+        "none",
+        "unrecognised"
+      ]
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "mapped": [
+          {
+            "native": "present",
+            "published": "PRESENT"
+          },
+          {
+            "native": "none",
+            "published": "NONE"
+          },
+          {
+            "native": "unrecognised",
+            "published": "UNKNOWN"
+          }
+        ],
+        "step": "publish_regulator_capability"
+      }
+    ],
+    "graphql": {
+      "vaillant_regulator_capability": {
+        "data": "UNKNOWN",
+        "query": "{ vaillant_regulator_capability }"
+      }
+    },
+    "mcp": {
+      "adapter": {},
+      "tools": {}
+    },
+    "cache": {},
+    "observations": []
+  }
+}

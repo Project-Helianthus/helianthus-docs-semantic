@@ -1,0 +1,154 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go",
+    "cmd/gateway/vaillant_semantic_publication.go"
+  ],
+  "stimulus": "synthetic native circuit view over circuitStatusFromSnapshot",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "source": "live"
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "circuits_view": {
+        "circuits": [
+          {
+            "Active": true,
+            "CalcFlowTempC": null,
+            "CircuitStateLiveAt": "0001-01-01T00:00:00Z",
+            "CircuitStateRaw": 0,
+            "CircuitTypeRaw": 99,
+            "Controller": 0,
+            "CoolingEnabledRaw": 0,
+            "DewPointC": null,
+            "FlowSetpointC": null,
+            "FlowTempMaxC": null,
+            "FlowTempMinC": null,
+            "FlowTemperatureC": null,
+            "HeatingCurve": null,
+            "HumidityPct": null,
+            "Instance": 2,
+            "MixerPositionPct": null,
+            "PumpHoursRaw": null,
+            "PumpStartsRaw": null,
+            "PumpStatusLiveAt": "0001-01-01T00:00:00Z",
+            "PumpStatusRaw": 0,
+            "RoomTempControlRaw": 0,
+            "SpecialFunctionMode": null,
+            "SummerLimitC": null
+          }
+        ],
+        "managed_by_function_module": false
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_circuits_live"
+      }
+    ],
+    "graphql": {
+      "circuits": {
+        "data": [
+          {
+            "circuit_type": "unknown_99",
+            "config": {
+              "circuit_cooling_enabled": false,
+              "circuit_flow_temperature_setpoint_minimum": null,
+              "circuit_heating_curve_factor": null,
+              "circuit_room_temperature_influence_mode": "off",
+              "circuit_special_function_mode": null,
+              "heating_circuit_flow_temperature_setpoint_maximum": null,
+              "heating_circuit_outdoor_temperature_limit_maximum": null
+            },
+            "has_mixer": false,
+            "index": 2,
+            "managing_device": {
+              "address": null,
+              "device_id": null,
+              "role": "UNKNOWN"
+            },
+            "state": {
+              "calc_flow_temp_c": null,
+              "circuit_dew_point_temperature": null,
+              "circuit_flow_temperature": null,
+              "circuit_flow_temperature_setpoint": null,
+              "circuit_mixer_position": null,
+              "circuit_pump_operating_time_total": null,
+              "circuit_pump_start_count_total": null,
+              "circuit_pump_unknown_8": false,
+              "circuit_room_humidity": null,
+              "circuit_state": "standby"
+            }
+          }
+        ],
+        "query": "{ circuits { circuit_type config { circuit_cooling_enabled circuit_flow_temperature_setpoint_minimum circuit_heating_curve_factor circuit_room_temperature_influence_mode circuit_special_function_mode heating_circuit_flow_temperature_setpoint_maximum heating_circuit_outdoor_temperature_limit_maximum } has_mixer index managing_device { address device_id role } state { calc_flow_temp_c circuit_dew_point_temperature circuit_flow_temperature circuit_flow_temperature_setpoint circuit_mixer_position circuit_pump_operating_time_total circuit_pump_start_count_total circuit_pump_unknown_8 circuit_room_humidity circuit_state } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "circuits": [
+          {
+            "circuit_type": "unknown_99",
+            "config": {
+              "circuit_cooling_enabled": false,
+              "circuit_room_temperature_influence_mode": "off"
+            },
+            "has_mixer": false,
+            "index": 2,
+            "managing_device": {
+              "role": "UNKNOWN"
+            },
+            "state": {
+              "circuit_pump_unknown_8": false,
+              "circuit_state": "standby"
+            }
+          }
+        ]
+      },
+      "tools": {
+        "ebus_v1_semantic_circuits_get": {
+          "data": [
+            {
+              "circuit_type": "unknown_99",
+              "config": {
+                "circuit_cooling_enabled": false,
+                "circuit_room_temperature_influence_mode": "off"
+              },
+              "has_mixer": false,
+              "index": 2,
+              "managing_device": {
+                "role": "UNKNOWN"
+              },
+              "state": {
+                "circuit_pump_unknown_8": false,
+                "circuit_state": "standby"
+              }
+            }
+          ],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "2d1e6c82a8c9a1e4d84dcb80fe6fc93ff12382c5d21a7ffc04668a9dc56f6b7d"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}

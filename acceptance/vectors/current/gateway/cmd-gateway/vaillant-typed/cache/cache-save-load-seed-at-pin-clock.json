@@ -1,0 +1,855 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway semantic cache",
+  "source": [
+    "cmd/gateway/semantic_cache.go",
+    "cmd/gateway/vaillant_semantic_publication_cache.go",
+    "cmd/gateway/semantic_provider.go"
+  ],
+  "stimulus": "synthetic cache snapshot saved and loaded, following cmd/gateway/semantic_cache_test.go TestSemanticCacheStoreLoad_HitLogsMarker",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "cache_path": "semantic-cache.json"
+    },
+    "clock": {
+      "store_now": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "snapshot": {
+        "Boiler": {
+          "Config": {
+            "DhwOperatingMode": "AUTO",
+            "FlowsetHcMaxC": 75,
+            "FlowsetHwcMaxC": 80,
+            "HoursTillService": 2400,
+            "InstallerMenuCode": 17,
+            "PartloadHcKW": 12,
+            "PartloadHwcKW": 24,
+            "PhoneNumber": "0123"
+          },
+          "Diagnostics": {
+            "CentralHeatingHours": 4321.5,
+            "CentralHeatingStarts": 12345,
+            "DeactivationsIFC": 3,
+            "DeactivationsTemplimiter": 1,
+            "DhwHours": 987.25,
+            "DhwStarts": 6789,
+            "DhwStatusRaw": 1,
+            "FanHours": 4800,
+            "HeatingStatusRaw": 4,
+            "PumpHours": 5000
+          },
+          "State": {
+            "CentralHeatingPumpActive": true,
+            "CirculationPumpActive": true,
+            "DhwDemandActive": false,
+            "DhwTargetTemperatureC": 50,
+            "DhwTempDesiredC": 50,
+            "DhwTemperatureC": 48,
+            "DhwWaterFlowLpm": 7.25,
+            "DiverterValvePositionPct": 100,
+            "ExternalPumpActive": false,
+            "FanSpeedRpm": 3120,
+            "FlameActive": true,
+            "FlowTempDesiredC": 55,
+            "FlowTemperatureC": 54.5,
+            "GasValveActive": true,
+            "HeatingSwitchActive": true,
+            "IonisationVoltageUa": 5.5,
+            "ModulationPct": 35,
+            "PrimaryCircuitFlowLpm": 12.5,
+            "ReturnTemperatureC": 41,
+            "StateNumber": 8,
+            "StorageLoadPumpPct": 65,
+            "TargetFanSpeedRpm": 3200,
+            "WaterPressureBar": 1.6
+          }
+        },
+        "DHW": {
+          "Config": {
+            "HolidayEndDate": "2030-12-27",
+            "HolidayStartDate": "2030-12-20",
+            "OperatingMode": "auto",
+            "OperationModeChangeable": null,
+            "Preset": "schedule",
+            "TargetTempC": 55
+          },
+          "State": {
+            "CurrentTempC": 48.5,
+            "HeatingDemandPct": 100,
+            "OverrunActive": null,
+            "SpecialFunction": "load"
+          }
+        },
+        "PersistedAt": "0001-01-01T00:00:00Z",
+        "Zones": [
+          {
+            "Config": {
+              "AllowedModes": [
+                "manual",
+                "auto"
+              ],
+              "AssociatedCircuit": 1,
+              "CircuitType": "underfloor",
+              "HolidayEndDate": "2030-12-27",
+              "HolidayEndTime": "18:30",
+              "HolidaySetpointC": 15,
+              "HolidayStartDate": "2030-12-20",
+              "HolidayStartTime": "08:00",
+              "OperatingMode": "auto",
+              "OperationModeChangeable": null,
+              "Preset": "schedule",
+              "QuickVeto": true,
+              "QuickVetoDurationH": 2,
+              "QuickVetoExpiry": "2030-04-10T10:00",
+              "QuickVetoSetpointC": 23,
+              "RoomTemperatureZoneMapping": 2,
+              "SourceLabel": null,
+              "TargetTempC": 21
+            },
+            "ID": "zone-2",
+            "Name": "Upstairs",
+            "State": {
+              "CurrentHumidityPct": 44,
+              "CurrentTempC": 20.5,
+              "HeatingDemandPct": 10,
+              "HvacAction": "idle",
+              "SpecialFunction": "none",
+              "ValvePositionPct": 50
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": null,
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "manual",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": 23
+            },
+            "ID": "zone-1",
+            "Name": "Downstairs",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": 22,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "error": "<nil>",
+        "step": "save"
+      },
+      {
+        "ok": true,
+        "step": "load"
+      },
+      {
+        "hydrated": true,
+        "step": "preload_semantic_cache"
+      }
+    ],
+    "graphql": {
+      "boiler_status": {
+        "data": {
+          "config": {
+            "central_heating_pump_mode": null,
+            "dhw_operating_mode": "AUTO",
+            "dhw_partial_load_power": null,
+            "heating_partial_load_power": null,
+            "installer_phone_number": null,
+            "maximum_dhw_flow_temperature_setpoint": null,
+            "maximum_heating_flow_temperature_setpoint": null,
+            "service_time_remaining": null
+          },
+          "diagnostics": {
+            "central_heating_operating_time": null,
+            "central_heating_start_count": null,
+            "dhw_operating_time": null,
+            "dhw_start_count": null,
+            "dhw_status_raw": 1,
+            "fan_operating_time": null,
+            "fire_control_deactivation_count": null,
+            "heating_status_raw": null,
+            "pump_operating_time": null,
+            "temperature_limiter_deactivation_count": null
+          },
+          "state": {
+            "boiler_state_code": null,
+            "central_heating_pump_active": null,
+            "circulation_pump_active": null,
+            "dhw_demand_active": null,
+            "dhw_target_temperature_c": 50,
+            "dhw_temperature_c": 48,
+            "dhw_temperature_setpoint": null,
+            "dhw_water_flow_rate": null,
+            "diverter_valve_position": null,
+            "external_pump_active": null,
+            "fan_speed": null,
+            "fan_speed_setpoint": null,
+            "flame_active": null,
+            "flame_ionization_current": null,
+            "flow_temperature": null,
+            "flow_temperature_setpoint": null,
+            "gas_valve_active": null,
+            "heating_switch_active": null,
+            "modulation_setpoint": null,
+            "primary_circuit_flow_rate": null,
+            "return_temperature_c": 41,
+            "storage_loading_pump_level": null,
+            "water_pressure": null
+          }
+        },
+        "query": "{ boiler_status { config { central_heating_pump_mode dhw_operating_mode dhw_partial_load_power heating_partial_load_power installer_phone_number maximum_dhw_flow_temperature_setpoint maximum_heating_flow_temperature_setpoint service_time_remaining } diagnostics { central_heating_operating_time central_heating_start_count dhw_operating_time dhw_start_count dhw_status_raw fan_operating_time fire_control_deactivation_count heating_status_raw pump_operating_time temperature_limiter_deactivation_count } state { boiler_state_code central_heating_pump_active circulation_pump_active dhw_demand_active dhw_target_temperature_c dhw_temperature_c dhw_temperature_setpoint dhw_water_flow_rate diverter_valve_position external_pump_active fan_speed fan_speed_setpoint flame_active flame_ionization_current flow_temperature flow_temperature_setpoint gas_valve_active heating_switch_active modulation_setpoint primary_circuit_flow_rate return_temperature_c storage_loading_pump_level water_pressure } } }"
+      },
+      "dhw": {
+        "data": {
+          "config": {
+            "dhw_holiday_end_date": null,
+            "dhw_holiday_start_date": null,
+            "dhw_operating_mode": "auto",
+            "dhw_temperature_setpoint": 55,
+            "operation_mode_changeable": null,
+            "preset": "schedule"
+          },
+          "state": {
+            "dhw_special_function_mode": "load",
+            "dhw_temperature": 48.5,
+            "heating_demand_pct": 100,
+            "overrun_active": null
+          }
+        },
+        "query": "{ dhw { config { dhw_holiday_end_date dhw_holiday_start_date dhw_operating_mode dhw_temperature_setpoint operation_mode_changeable preset } state { dhw_special_function_mode dhw_temperature heating_demand_pct overrun_active } } }"
+      },
+      "zones": {
+        "data": [
+          {
+            "config": {
+              "allowed_modes": [
+                "off",
+                "auto",
+                "heat"
+              ],
+              "associated_circuit": null,
+              "circuit_type": null,
+              "operating_mode": "manual",
+              "operation_mode_changeable": null,
+              "preset": null,
+              "quick_veto": false,
+              "quick_veto_expiry": null,
+              "room_temperature_zone_mapping": null,
+              "source_label": null,
+              "target_temp_c": 23,
+              "zone_holiday_end_clock_time": null,
+              "zone_holiday_end_date": null,
+              "zone_holiday_start_clock_time": null,
+              "zone_holiday_start_date": null,
+              "zone_quick_veto_time": null,
+              "zone_room_temperature_setpoint_at_holiday": null,
+              "zone_room_temperature_setpoint_at_quick_veto": null
+            },
+            "id": "zone-1",
+            "name": "Downstairs",
+            "state": {
+              "heating_demand_pct": null,
+              "hvac_action": null,
+              "zone_room_humidity": null,
+              "zone_room_temperature": 22,
+              "zone_special_function_mode": null,
+              "zone_valve_position": null
+            }
+          },
+          {
+            "config": {
+              "allowed_modes": [
+                "auto",
+                "manual"
+              ],
+              "associated_circuit": 1,
+              "circuit_type": "underfloor",
+              "operating_mode": "auto",
+              "operation_mode_changeable": null,
+              "preset": "schedule",
+              "quick_veto": false,
+              "quick_veto_expiry": null,
+              "room_temperature_zone_mapping": 2,
+              "source_label": null,
+              "target_temp_c": 21,
+              "zone_holiday_end_clock_time": null,
+              "zone_holiday_end_date": null,
+              "zone_holiday_start_clock_time": null,
+              "zone_holiday_start_date": null,
+              "zone_quick_veto_time": null,
+              "zone_room_temperature_setpoint_at_holiday": null,
+              "zone_room_temperature_setpoint_at_quick_veto": null
+            },
+            "id": "zone-2",
+            "name": "Upstairs",
+            "state": {
+              "heating_demand_pct": 10,
+              "hvac_action": "idle",
+              "zone_room_humidity": 44,
+              "zone_room_temperature": 20.5,
+              "zone_special_function_mode": "none",
+              "zone_valve_position": 50
+            }
+          }
+        ],
+        "query": "{ zones { config { allowed_modes associated_circuit circuit_type operating_mode operation_mode_changeable preset quick_veto quick_veto_expiry room_temperature_zone_mapping source_label target_temp_c zone_holiday_end_clock_time zone_holiday_end_date zone_holiday_start_clock_time zone_holiday_start_date zone_quick_veto_time zone_room_temperature_setpoint_at_holiday zone_room_temperature_setpoint_at_quick_veto } id name state { heating_demand_pct hvac_action zone_room_humidity zone_room_temperature zone_special_function_mode zone_valve_position } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "boiler_status": {
+          "config": {
+            "dhw_operating_mode": "AUTO"
+          },
+          "diagnostics": {
+            "dhw_status_raw": 1
+          },
+          "state": {
+            "dhw_target_temperature_c": 50,
+            "dhw_temperature_c": 48,
+            "return_temperature_c": 41
+          }
+        },
+        "dhw": {
+          "config": {
+            "dhw_operating_mode": "auto",
+            "dhw_temperature_setpoint": 55,
+            "preset": "schedule"
+          },
+          "state": {
+            "dhw_special_function_mode": "load",
+            "dhw_temperature": 48.5,
+            "heating_demand_pct": 100
+          }
+        },
+        "zones": [
+          {
+            "config": {
+              "operating_mode": "manual",
+              "preset": "",
+              "quick_veto": false,
+              "target_temp_c": 23
+            },
+            "id": "zone-1",
+            "name": "Downstairs",
+            "state": {
+              "zone_room_temperature": 22
+            }
+          },
+          {
+            "config": {
+              "allowed_modes": [
+                "auto",
+                "manual"
+              ],
+              "associated_circuit": 1,
+              "circuit_type": "underfloor",
+              "operating_mode": "auto",
+              "preset": "schedule",
+              "quick_veto": false,
+              "room_temperature_zone_mapping": 2,
+              "target_temp_c": 21
+            },
+            "id": "zone-2",
+            "name": "Upstairs",
+            "state": {
+              "heating_demand_pct": 10,
+              "hvac_action": "idle",
+              "zone_room_humidity": 44,
+              "zone_room_temperature": 20.5,
+              "zone_special_function_mode": "none",
+              "zone_valve_position": 50
+            }
+          }
+        ]
+      },
+      "tools": {
+        "ebus_v1_semantic_boiler_status_get": {
+          "data": {
+            "config": {
+              "dhw_operating_mode": "AUTO"
+            },
+            "diagnostics": {
+              "dhw_status_raw": 1
+            },
+            "state": {
+              "dhw_target_temperature_c": 50,
+              "dhw_temperature_c": 48,
+              "return_temperature_c": 41
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "0d4bf978df0b976a1276b04fbaaa218e8de8404c33f0f2a5ff9cde7d6e856003"
+          }
+        },
+        "ebus_v1_semantic_dhw_get": {
+          "data": {
+            "config": {
+              "dhw_operating_mode": "auto",
+              "dhw_temperature_setpoint": 55,
+              "preset": "schedule"
+            },
+            "state": {
+              "dhw_special_function_mode": "load",
+              "dhw_temperature": 48.5,
+              "heating_demand_pct": 100
+            }
+          },
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "e82a3582a90af0a8ec38e168c3b84404912a98928ac7fbe1fbabda4009c462f9"
+          }
+        },
+        "ebus_v1_semantic_zones_get": {
+          "data": [
+            {
+              "config": {
+                "operating_mode": "manual",
+                "preset": "",
+                "quick_veto": false,
+                "target_temp_c": 23
+              },
+              "id": "zone-1",
+              "name": "Downstairs",
+              "state": {
+                "zone_room_temperature": 22
+              }
+            },
+            {
+              "config": {
+                "allowed_modes": [
+                  "auto",
+                  "manual"
+                ],
+                "associated_circuit": 1,
+                "circuit_type": "underfloor",
+                "operating_mode": "auto",
+                "preset": "schedule",
+                "quick_veto": false,
+                "room_temperature_zone_mapping": 2,
+                "target_temp_c": 21
+              },
+              "id": "zone-2",
+              "name": "Upstairs",
+              "state": {
+                "heating_demand_pct": 10,
+                "hvac_action": "idle",
+                "zone_room_humidity": 44,
+                "zone_room_temperature": 20.5,
+                "zone_special_function_mode": "none",
+                "zone_valve_position": 50
+              }
+            }
+          ],
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "1e74ad60398044da336db3160358e7010ba834c0c58d1ab782e83af71dec97fa"
+          }
+        }
+      }
+    },
+    "cache": {
+      "hydration": {
+        "boiler": {
+          "CentralHeatingHours": null,
+          "CentralHeatingPumpActive": null,
+          "CentralHeatingStarts": null,
+          "CirculationPumpActive": null,
+          "DeactivationsIFC": null,
+          "DeactivationsTemplimiter": null,
+          "DhwDemandActive": null,
+          "DhwHours": null,
+          "DhwOperatingMode": 2,
+          "DhwStarts": null,
+          "DhwStatusRaw": 1,
+          "DhwTargetTemperatureC": 50,
+          "DhwTempDesiredC": null,
+          "DhwTemperatureC": 48,
+          "DhwWaterFlowLpm": null,
+          "DiverterValvePositionPct": null,
+          "ExternalPumpActive": null,
+          "FanHours": null,
+          "FanSpeedRpm": null,
+          "FlameActive": null,
+          "FlowTempDesiredC": null,
+          "FlowTemperatureC": null,
+          "FlowsetHcMaxC": null,
+          "FlowsetHwcMaxC": null,
+          "GasValveActive": null,
+          "HeatingStatusRaw": null,
+          "HeatingSwitchActive": null,
+          "HoursTillService": null,
+          "InstallerMenuCode": null,
+          "IonisationVoltageUa": null,
+          "ModulationPct": null,
+          "PartloadHcKW": null,
+          "PartloadHwcKW": null,
+          "PhoneNumber": null,
+          "PrimaryCircuitFlowLpm": null,
+          "PumpHours": null,
+          "ReturnTemperatureC": 41,
+          "StateNumber": null,
+          "StorageLoadPumpPct": null,
+          "TargetFanSpeedRpm": null,
+          "WaterPressureBar": null
+        },
+        "dhw": {
+          "ConfigurationDHWOperationMode": "",
+          "CurrentTempC": 48.5,
+          "FieldFreshness": {
+            "dhw.current_temp_c": {
+              "Source": 0,
+              "Stale": true
+            },
+            "dhw.operating_mode": {
+              "Source": 0,
+              "Stale": true
+            },
+            "dhw.preset": {
+              "Source": 0,
+              "Stale": true
+            },
+            "dhw.special_function_raw": {
+              "Source": 0,
+              "Stale": true
+            },
+            "dhw.target_temp_c": {
+              "Source": 0,
+              "Stale": true
+            }
+          },
+          "HolidayEndDate": "",
+          "HolidayStartDate": "",
+          "OperatingMode": "auto",
+          "Preset": "schedule",
+          "StateSpecialFunction": "load",
+          "TargetTempC": 55
+        },
+        "persisted_at": "2030-04-10T08:00:00Z",
+        "zones": [
+          {
+            "AllowedModes": null,
+            "ConfigurationAssociatedCircuitRaw": null,
+            "ConfigurationCircuitTypeRaw": null,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": null,
+            "CurrentTempC": 22,
+            "FieldFreshness": {
+              "zone.current_temp_c": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.name": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.operating_mode": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.target_temp_c": {
+                "Source": 0,
+                "Stale": true
+              }
+            },
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": null,
+            "HvacAction": "",
+            "Instance": 0,
+            "Name": "Downstairs",
+            "OperatingMode": "manual",
+            "Present": true,
+            "Preset": "",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "",
+            "StateValveStatusRaw": null,
+            "TargetTempC": 23
+          },
+          {
+            "AllowedModes": [
+              "auto",
+              "manual"
+            ],
+            "ConfigurationAssociatedCircuitRaw": 1,
+            "ConfigurationCircuitTypeRaw": 1,
+            "ConfigurationHeatingOperationMode": "",
+            "ConfigurationRoomTemperatureZoneMappingRaw": 2,
+            "CurrentTempC": 20.5,
+            "FieldFreshness": {
+              "zone.allowed_modes": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.circuit_index_raw": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.circuit_type_raw": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.current_humidity_pct": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.current_temp_c": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.hvac_action": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.name": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.operating_mode": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.preset": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.room_temperature_zone_mapping_raw": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.special_function_raw": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.target_temp_c": {
+                "Source": 0,
+                "Stale": true
+              },
+              "zone.valve_status_raw": {
+                "Source": 0,
+                "Stale": true
+              }
+            },
+            "HolidayEndDate": "",
+            "HolidayEndTime": "",
+            "HolidaySetpointC": null,
+            "HolidayStartDate": "",
+            "HolidayStartTime": "",
+            "HumidityPct": 44,
+            "HvacAction": "idle",
+            "Instance": 1,
+            "Name": "Upstairs",
+            "OperatingMode": "auto",
+            "Present": true,
+            "Preset": "schedule",
+            "QuickVetoDurationH": null,
+            "QuickVetoEndDate": "",
+            "QuickVetoEndTime": "",
+            "QuickVetoTempC": null,
+            "StateSpecialFunction": "none",
+            "StateValveStatusRaw": 32767,
+            "TargetTempC": 21
+          }
+        ]
+      },
+      "loaded_snapshot": {
+        "Boiler": {
+          "Config": {
+            "DhwOperatingMode": "AUTO",
+            "FlowsetHcMaxC": null,
+            "FlowsetHwcMaxC": null,
+            "HoursTillService": null,
+            "InstallerMenuCode": null,
+            "PartloadHcKW": null,
+            "PartloadHwcKW": null,
+            "PhoneNumber": null
+          },
+          "Diagnostics": {
+            "CentralHeatingHours": null,
+            "CentralHeatingStarts": null,
+            "DeactivationsIFC": null,
+            "DeactivationsTemplimiter": null,
+            "DhwHours": null,
+            "DhwStarts": null,
+            "DhwStatusRaw": 1,
+            "FanHours": null,
+            "HeatingStatusRaw": null,
+            "PumpHours": null
+          },
+          "State": {
+            "CentralHeatingPumpActive": null,
+            "CirculationPumpActive": null,
+            "DhwDemandActive": null,
+            "DhwTargetTemperatureC": 50,
+            "DhwTempDesiredC": null,
+            "DhwTemperatureC": 48,
+            "DhwWaterFlowLpm": null,
+            "DiverterValvePositionPct": null,
+            "ExternalPumpActive": null,
+            "FanSpeedRpm": null,
+            "FlameActive": null,
+            "FlowTempDesiredC": null,
+            "FlowTemperatureC": null,
+            "GasValveActive": null,
+            "HeatingSwitchActive": null,
+            "IonisationVoltageUa": null,
+            "ModulationPct": null,
+            "PrimaryCircuitFlowLpm": null,
+            "ReturnTemperatureC": 41,
+            "StateNumber": null,
+            "StorageLoadPumpPct": null,
+            "TargetFanSpeedRpm": null,
+            "WaterPressureBar": null
+          }
+        },
+        "DHW": {
+          "Config": {
+            "HolidayEndDate": "",
+            "HolidayStartDate": "",
+            "OperatingMode": "auto",
+            "OperationModeChangeable": null,
+            "Preset": "schedule",
+            "TargetTempC": 55
+          },
+          "State": {
+            "CurrentTempC": 48.5,
+            "HeatingDemandPct": 100,
+            "OverrunActive": null,
+            "SpecialFunction": "load"
+          }
+        },
+        "PersistedAt": "2030-04-10T08:00:00Z",
+        "Zones": [
+          {
+            "Config": {
+              "AllowedModes": null,
+              "AssociatedCircuit": null,
+              "CircuitType": "",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "manual",
+              "OperationModeChangeable": null,
+              "Preset": "",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": null,
+              "SourceLabel": null,
+              "TargetTempC": 23
+            },
+            "ID": "zone-1",
+            "Name": "Downstairs",
+            "State": {
+              "CurrentHumidityPct": null,
+              "CurrentTempC": 22,
+              "HeatingDemandPct": null,
+              "HvacAction": "",
+              "SpecialFunction": "",
+              "ValvePositionPct": null
+            }
+          },
+          {
+            "Config": {
+              "AllowedModes": [
+                "auto",
+                "manual"
+              ],
+              "AssociatedCircuit": 1,
+              "CircuitType": "underfloor",
+              "HolidayEndDate": "",
+              "HolidayEndTime": "",
+              "HolidaySetpointC": null,
+              "HolidayStartDate": "",
+              "HolidayStartTime": "",
+              "OperatingMode": "auto",
+              "OperationModeChangeable": null,
+              "Preset": "schedule",
+              "QuickVeto": false,
+              "QuickVetoDurationH": null,
+              "QuickVetoExpiry": "",
+              "QuickVetoSetpointC": null,
+              "RoomTemperatureZoneMapping": 2,
+              "SourceLabel": null,
+              "TargetTempC": 21
+            },
+            "ID": "zone-2",
+            "Name": "Upstairs",
+            "State": {
+              "CurrentHumidityPct": 44,
+              "CurrentTempC": 20.5,
+              "HeatingDemandPct": 10,
+              "HvacAction": "idle",
+              "SpecialFunction": "none",
+              "ValvePositionPct": 50
+            }
+          }
+        ]
+      },
+      "saved_bytes": "{\n  \"schema_version\": 3,\n  \"metadata\": {\n    \"persisted_at\": \"2030-04-10T08:00:00Z\"\n  },\n  \"zones\": [\n    {\n      \"id\": \"zone-1\",\n      \"name\": \"Downstairs\",\n      \"state\": {\n        \"current_temp_c\": 22\n      },\n      \"config\": {\n        \"operating_mode\": \"manual\",\n        \"target_temp_c\": 23\n      }\n    },\n    {\n      \"id\": \"zone-2\",\n      \"name\": \"Upstairs\",\n      \"state\": {\n        \"current_temp_c\": 20.5,\n        \"current_humidity_pct\": 44,\n        \"hvac_action\": \"idle\",\n        \"special_function\": \"none\",\n        \"heating_demand_pct\": 10,\n        \"valve_position_pct\": 50\n      },\n      \"config\": {\n        \"operating_mode\": \"auto\",\n        \"preset\": \"schedule\",\n        \"target_temp_c\": 21,\n        \"allowed_modes\": [\n          \"auto\",\n          \"manual\"\n        ],\n        \"circuit_type\": \"underfloor\",\n        \"associated_circuit\": 1,\n        \"room_temperature_zone_mapping\": 2\n      }\n    }\n  ],\n  \"dhw\": {\n    \"state\": {\n      \"current_temp_c\": 48.5,\n      \"special_function\": \"load\",\n      \"heating_demand_pct\": 100\n    },\n    \"config\": {\n      \"operating_mode\": \"auto\",\n      \"preset\": \"schedule\",\n      \"target_temp_c\": 55\n    }\n  },\n  \"boiler\": {\n    \"flow_temperature_c\": 54.5,\n    \"return_temperature_c\": 41,\n    \"dhw_temperature_c\": 48,\n    \"dhw_target_temperature_c\": 50,\n    \"dhw_operating_mode\": \"AUTO\",\n    \"dhw_status_raw\": 1\n  }\n}\n"
+    },
+    "observations": [
+      "semantic_cache_write path=\"semantic-cache.json\" schema_version=3 zones=2 dhw=true",
+      "semantic_cache_hit path=\"semantic-cache.json\" schema_version=3 zones=2 dhw=true",
+      "semantic_cache_hit path=\"semantic-cache.json\" schema_version=3 zones=2 dhw=true"
+    ]
+  }
+}

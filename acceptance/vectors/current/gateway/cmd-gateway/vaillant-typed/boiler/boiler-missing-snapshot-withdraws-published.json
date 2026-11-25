@@ -1,0 +1,108 @@
+{
+  "format": "helianthus-oracle-qv07-case/1",
+  "component": "cmd/gateway vaillant typed publication",
+  "source": [
+    "cmd/gateway/vaillant_semantic_publication_views.go"
+  ],
+  "stimulus": "synthetic native boiler snapshots over publishBoilerStatusView, following cmd/gateway/vaillant_semantic_publication_views_test.go TestVaillantPublicationOwnerPublishesAndWithdrawsBoilerStatus",
+  "input": {
+    "bytes": "",
+    "qualifiers": {
+      "sources": [
+        "cache",
+        "cache"
+      ]
+    },
+    "clock": {
+      "energy_clock": "2030-04-10T08:00:00Z"
+    },
+    "state": {
+      "boiler_snapshot": {
+        "CentralHeatingHours": null,
+        "CentralHeatingPumpActive": null,
+        "CentralHeatingStarts": null,
+        "CirculationPumpActive": null,
+        "DeactivationsIFC": null,
+        "DeactivationsTemplimiter": null,
+        "DhwDemandActive": null,
+        "DhwHours": null,
+        "DhwOperatingMode": null,
+        "DhwStarts": null,
+        "DhwStatusRaw": null,
+        "DhwTargetTemperatureC": null,
+        "DhwTempDesiredC": null,
+        "DhwTemperatureC": null,
+        "DhwWaterFlowLpm": null,
+        "DiverterValvePositionPct": null,
+        "ExternalPumpActive": null,
+        "FanHours": null,
+        "FanSpeedRpm": null,
+        "FlameActive": null,
+        "FlowTempDesiredC": null,
+        "FlowTemperatureC": 40,
+        "FlowsetHcMaxC": null,
+        "FlowsetHwcMaxC": null,
+        "GasValveActive": null,
+        "HeatingStatusRaw": null,
+        "HeatingSwitchActive": null,
+        "HoursTillService": null,
+        "InstallerMenuCode": null,
+        "IonisationVoltageUa": null,
+        "ModulationPct": null,
+        "PartloadHcKW": null,
+        "PartloadHwcKW": null,
+        "PhoneNumber": null,
+        "PrimaryCircuitFlowLpm": null,
+        "PumpHours": null,
+        "ReturnTemperatureC": 35,
+        "StateNumber": null,
+        "StorageLoadPumpPct": null,
+        "TargetFanSpeedRpm": null,
+        "WaterPressureBar": null
+      }
+    }
+  },
+  "output": {
+    "decisions": [
+      {
+        "published": true,
+        "step": "publish_boiler_cache"
+      },
+      {
+        "published": false,
+        "status_published": false,
+        "step": "publish_boiler_missing_snapshot_cache"
+      }
+    ],
+    "graphql": {
+      "boiler_status": {
+        "data": null,
+        "query": "{ boiler_status { config { central_heating_pump_mode dhw_operating_mode dhw_partial_load_power heating_partial_load_power installer_phone_number maximum_dhw_flow_temperature_setpoint maximum_heating_flow_temperature_setpoint service_time_remaining } diagnostics { central_heating_operating_time central_heating_start_count dhw_operating_time dhw_start_count dhw_status_raw fan_operating_time fire_control_deactivation_count heating_status_raw pump_operating_time temperature_limiter_deactivation_count } state { boiler_state_code central_heating_pump_active circulation_pump_active dhw_demand_active dhw_target_temperature_c dhw_temperature_c dhw_temperature_setpoint dhw_water_flow_rate diverter_valve_position external_pump_active fan_speed fan_speed_setpoint flame_active flame_ionization_current flow_temperature flow_temperature_setpoint gas_valve_active heating_switch_active modulation_setpoint primary_circuit_flow_rate return_temperature_c storage_loading_pump_level water_pressure } } }"
+      }
+    },
+    "mcp": {
+      "adapter": {
+        "boiler_status": null
+      },
+      "tools": {
+        "ebus_v1_semantic_boiler_status_get": {
+          "data": null,
+          "error": null,
+          "meta": {
+            "consistency": {
+              "mode": "LIVE"
+            },
+            "contract": {
+              "major": 1,
+              "minor": 0,
+              "name": "helianthus-ebus-mcp"
+            },
+            "data_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          }
+        }
+      }
+    },
+    "cache": {},
+    "observations": []
+  }
+}
