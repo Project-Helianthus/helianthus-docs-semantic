@@ -3394,6 +3394,1974 @@
       "question": null
     },
     {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "resource.sensor",
+      "canonical_name": "resource.sensor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state",
+      "canonical_name": "thermal.action.zone_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state.cooling",
+      "canonical_name": "thermal.action.zone_state.cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state.dehumidifying",
+      "canonical_name": "thermal.action.zone_state.dehumidifying",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state.heating",
+      "canonical_name": "thermal.action.zone_state.heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state.idle",
+      "canonical_name": "thermal.action.zone_state.idle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.action.zone_state.ventilating",
+      "canonical_name": "thermal.action.zone_state.ventilating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.calibration.temperature_offset",
+      "canonical_name": "thermal.calibration.temperature_offset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.function",
+      "canonical_name": "thermal.capability.read.function",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.read.sensor",
+      "canonical_name": "thermal.capability.read.sensor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_active_preset",
+      "canonical_name": "thermal.capability.set_active_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_active_program",
+      "canonical_name": "thermal.capability.set_active_program",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_control_sequence",
+      "canonical_name": "thermal.capability.set_control_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_display_unit",
+      "canonical_name": "thermal.capability.set_display_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_emergency_heat_delta",
+      "canonical_name": "thermal.capability.set_emergency_heat_delta",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_hold",
+      "canonical_name": "thermal.capability.set_hold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_keypad_lockout",
+      "canonical_name": "thermal.capability.set_keypad_lockout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_maximum_cooling_setpoint",
+      "canonical_name": "thermal.capability.set_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_maximum_heating_setpoint",
+      "canonical_name": "thermal.capability.set_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_minimum_cooling_setpoint",
+      "canonical_name": "thermal.capability.set_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_minimum_heating_setpoint",
+      "canonical_name": "thermal.capability.set_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_occupied_cooling",
+      "canonical_name": "thermal.capability.set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_occupied_heating",
+      "canonical_name": "thermal.capability.set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_preset",
+      "canonical_name": "thermal.capability.set_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_program_entry",
+      "canonical_name": "thermal.capability.set_program_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_remote_sensing",
+      "canonical_name": "thermal.capability.set_remote_sensing",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_schedule_programming",
+      "canonical_name": "thermal.capability.set_schedule_programming",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_suggestion",
+      "canonical_name": "thermal.capability.set_suggestion",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_temperature_calibration",
+      "canonical_name": "thermal.capability.set_temperature_calibration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_unoccupied_cooling",
+      "canonical_name": "thermal.capability.set_unoccupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_unoccupied_heating",
+      "canonical_name": "thermal.capability.set_unoccupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_zone_cooling_mode",
+      "canonical_name": "thermal.capability.set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.capability.set_zone_mode",
+      "canonical_name": "thermal.capability.set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence",
+      "canonical_name": "thermal.configuration.control_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.cooling_and_heating",
+      "canonical_name": "thermal.configuration.control_sequence.cooling_and_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.cooling_and_heating_with_reheat",
+      "canonical_name": "thermal.configuration.control_sequence.cooling_and_heating_with_reheat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.cooling_only",
+      "canonical_name": "thermal.configuration.control_sequence.cooling_only",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.cooling_with_reheat",
+      "canonical_name": "thermal.configuration.control_sequence.cooling_with_reheat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.heating_only",
+      "canonical_name": "thermal.configuration.control_sequence.heating_only",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.control_sequence.heating_with_reheat",
+      "canonical_name": "thermal.configuration.control_sequence.heating_with_reheat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.display_unit",
+      "canonical_name": "thermal.configuration.display_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.display_unit.celsius",
+      "canonical_name": "thermal.configuration.display_unit.celsius",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.display_unit.fahrenheit",
+      "canonical_name": "thermal.configuration.display_unit.fahrenheit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.emergency_heat_delta",
+      "canonical_name": "thermal.configuration.emergency_heat_delta",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout",
+      "canonical_name": "thermal.configuration.keypad_lockout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.level_1",
+      "canonical_name": "thermal.configuration.keypad_lockout.level_1",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.level_2",
+      "canonical_name": "thermal.configuration.keypad_lockout.level_2",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.level_3",
+      "canonical_name": "thermal.configuration.keypad_lockout.level_3",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.level_4",
+      "canonical_name": "thermal.configuration.keypad_lockout.level_4",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.level_5",
+      "canonical_name": "thermal.configuration.keypad_lockout.level_5",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.keypad_lockout.none",
+      "canonical_name": "thermal.configuration.keypad_lockout.none",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.remote_sensing",
+      "canonical_name": "thermal.configuration.remote_sensing",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.remote_sensing.local_temperature",
+      "canonical_name": "thermal.configuration.remote_sensing.local_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.remote_sensing.occupancy",
+      "canonical_name": "thermal.configuration.remote_sensing.occupancy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.remote_sensing.outdoor_temperature",
+      "canonical_name": "thermal.configuration.remote_sensing.outdoor_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.schedule_programming",
+      "canonical_name": "thermal.configuration.schedule_programming",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.schedule_programming.denied",
+      "canonical_name": "thermal.configuration.schedule_programming.denied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.configuration.schedule_programming.permitted",
+      "canonical_name": "thermal.configuration.schedule_programming.permitted",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.demand.cooling",
+      "canonical_name": "thermal.demand.cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.demand.heating",
+      "canonical_name": "thermal.demand.heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.function",
+      "canonical_name": "thermal.dimension.function",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.preset",
+      "canonical_name": "thermal.dimension.preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.program_entry",
+      "canonical_name": "thermal.dimension.program_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.sensor",
+      "canonical_name": "thermal.dimension.sensor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.suggestion",
+      "canonical_name": "thermal.dimension.suggestion",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.dimension.time_program",
+      "canonical_name": "thermal.dimension.time_program",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_active_preset",
+      "canonical_name": "thermal.effect.set_active_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_active_program",
+      "canonical_name": "thermal.effect.set_active_program",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_control_sequence",
+      "canonical_name": "thermal.effect.set_control_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_display_unit",
+      "canonical_name": "thermal.effect.set_display_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_emergency_heat_delta",
+      "canonical_name": "thermal.effect.set_emergency_heat_delta",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_hold",
+      "canonical_name": "thermal.effect.set_hold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_keypad_lockout",
+      "canonical_name": "thermal.effect.set_keypad_lockout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_maximum_cooling_setpoint",
+      "canonical_name": "thermal.effect.set_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_maximum_heating_setpoint",
+      "canonical_name": "thermal.effect.set_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_minimum_cooling_setpoint",
+      "canonical_name": "thermal.effect.set_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_minimum_heating_setpoint",
+      "canonical_name": "thermal.effect.set_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_occupied_cooling",
+      "canonical_name": "thermal.effect.set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_occupied_heating",
+      "canonical_name": "thermal.effect.set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_preset",
+      "canonical_name": "thermal.effect.set_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_program_entry",
+      "canonical_name": "thermal.effect.set_program_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_remote_sensing",
+      "canonical_name": "thermal.effect.set_remote_sensing",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_schedule_programming",
+      "canonical_name": "thermal.effect.set_schedule_programming",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_suggestion",
+      "canonical_name": "thermal.effect.set_suggestion",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_temperature_calibration",
+      "canonical_name": "thermal.effect.set_temperature_calibration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_unoccupied_cooling",
+      "canonical_name": "thermal.effect.set_unoccupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_unoccupied_heating",
+      "canonical_name": "thermal.effect.set_unoccupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_zone_cooling_mode",
+      "canonical_name": "thermal.effect.set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.effect.set_zone_mode",
+      "canonical_name": "thermal.effect.set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.active_preset_changed",
+      "canonical_name": "thermal.event.active_preset_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.active_program_changed",
+      "canonical_name": "thermal.event.active_program_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.local_temperature_changed",
+      "canonical_name": "thermal.event.local_temperature_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.occupancy_changed",
+      "canonical_name": "thermal.event.occupancy_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.running_mode_changed",
+      "canonical_name": "thermal.event.running_mode_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.running_state_changed",
+      "canonical_name": "thermal.event.running_state_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.setpoint_changed",
+      "canonical_name": "thermal.event.setpoint_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.event.system_mode_changed",
+      "canonical_name": "thermal.event.system_mode_changed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.duration",
+      "canonical_name": "thermal.hold.duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.expiry",
+      "canonical_name": "thermal.hold.expiry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.setpoint",
+      "canonical_name": "thermal.hold.setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.state",
+      "canonical_name": "thermal.hold.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.state.off",
+      "canonical_name": "thermal.hold.state.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.hold.state.on",
+      "canonical_name": "thermal.hold.state.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.absolute_maximum_cooling_setpoint",
+      "canonical_name": "thermal.limit.absolute_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.absolute_maximum_heating_setpoint",
+      "canonical_name": "thermal.limit.absolute_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.absolute_minimum_cooling_setpoint",
+      "canonical_name": "thermal.limit.absolute_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.absolute_minimum_heating_setpoint",
+      "canonical_name": "thermal.limit.absolute_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.maximum_cooling_setpoint",
+      "canonical_name": "thermal.limit.maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.maximum_heating_setpoint",
+      "canonical_name": "thermal.limit.maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.minimum_cooling_setpoint",
+      "canonical_name": "thermal.limit.minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.minimum_heating_setpoint",
+      "canonical_name": "thermal.limit.minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.minimum_setpoint_deadband",
+      "canonical_name": "thermal.limit.minimum_setpoint_deadband",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.limit.setpoint_step",
+      "canonical_name": "thermal.limit.setpoint_step",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.sensor_humidity",
+      "canonical_name": "thermal.measurement.sensor_humidity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.measurement.sensor_temperature",
+      "canonical_name": "thermal.measurement.sensor_temperature",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone.on",
+      "canonical_name": "thermal.mode.zone.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone_cooling",
+      "canonical_name": "thermal.mode.zone_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone_cooling.auto",
+      "canonical_name": "thermal.mode.zone_cooling.auto",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone_cooling.eco",
+      "canonical_name": "thermal.mode.zone_cooling.eco",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone_cooling.off",
+      "canonical_name": "thermal.mode.zone_cooling.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.mode.zone_cooling.on",
+      "canonical_name": "thermal.mode.zone_cooling.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_active_preset",
+      "canonical_name": "thermal.operation.set_active_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_active_program",
+      "canonical_name": "thermal.operation.set_active_program",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_control_sequence",
+      "canonical_name": "thermal.operation.set_control_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_display_unit",
+      "canonical_name": "thermal.operation.set_display_unit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_emergency_heat_delta",
+      "canonical_name": "thermal.operation.set_emergency_heat_delta",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_hold",
+      "canonical_name": "thermal.operation.set_hold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_keypad_lockout",
+      "canonical_name": "thermal.operation.set_keypad_lockout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_maximum_cooling_setpoint",
+      "canonical_name": "thermal.operation.set_maximum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_maximum_heating_setpoint",
+      "canonical_name": "thermal.operation.set_maximum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_minimum_cooling_setpoint",
+      "canonical_name": "thermal.operation.set_minimum_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_minimum_heating_setpoint",
+      "canonical_name": "thermal.operation.set_minimum_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_occupied_cooling",
+      "canonical_name": "thermal.operation.set_occupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_occupied_heating",
+      "canonical_name": "thermal.operation.set_occupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_preset",
+      "canonical_name": "thermal.operation.set_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_program_entry",
+      "canonical_name": "thermal.operation.set_program_entry",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_remote_sensing",
+      "canonical_name": "thermal.operation.set_remote_sensing",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_schedule_programming",
+      "canonical_name": "thermal.operation.set_schedule_programming",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_suggestion",
+      "canonical_name": "thermal.operation.set_suggestion",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_temperature_calibration",
+      "canonical_name": "thermal.operation.set_temperature_calibration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_unoccupied_cooling",
+      "canonical_name": "thermal.operation.set_unoccupied_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_unoccupied_heating",
+      "canonical_name": "thermal.operation.set_unoccupied_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_zone_cooling_mode",
+      "canonical_name": "thermal.operation.set_zone_cooling_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.operation.set_zone_mode",
+      "canonical_name": "thermal.operation.set_zone_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.portal.read.function",
+      "canonical_name": "thermal.portal.read.function",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.portal.read.sensor",
+      "canonical_name": "thermal.portal.read.sensor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.active_handle",
+      "canonical_name": "thermal.preset.active_handle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.built_in",
+      "canonical_name": "thermal.preset.built_in",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.cooling_setpoint",
+      "canonical_name": "thermal.preset.cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.heating_setpoint",
+      "canonical_name": "thermal.preset.heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.maximum_count",
+      "canonical_name": "thermal.preset.maximum_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.name",
+      "canonical_name": "thermal.preset.name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario",
+      "canonical_name": "thermal.preset.scenario",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.going_to_sleep",
+      "canonical_name": "thermal.preset.scenario.going_to_sleep",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.occupied",
+      "canonical_name": "thermal.preset.scenario.occupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.sleep",
+      "canonical_name": "thermal.preset.scenario.sleep",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.unoccupied",
+      "canonical_name": "thermal.preset.scenario.unoccupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.user_defined",
+      "canonical_name": "thermal.preset.scenario.user_defined",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.vacation",
+      "canonical_name": "thermal.preset.scenario.vacation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.scenario.wake",
+      "canonical_name": "thermal.preset.scenario.wake",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios",
+      "canonical_name": "thermal.preset.supported_scenarios",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.going_to_sleep",
+      "canonical_name": "thermal.preset.supported_scenarios.going_to_sleep",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.occupied",
+      "canonical_name": "thermal.preset.supported_scenarios.occupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.sleep",
+      "canonical_name": "thermal.preset.supported_scenarios.sleep",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.unoccupied",
+      "canonical_name": "thermal.preset.supported_scenarios.unoccupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.user_defined",
+      "canonical_name": "thermal.preset.supported_scenarios.user_defined",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.vacation",
+      "canonical_name": "thermal.preset.supported_scenarios.vacation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.preset.supported_scenarios.wake",
+      "canonical_name": "thermal.preset.supported_scenarios.wake",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.active_handle",
+      "canonical_name": "thermal.program.active_handle",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.built_in",
+      "canonical_name": "thermal.program.built_in",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_cooling_setpoint",
+      "canonical_name": "thermal.program.entry_cooling_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days",
+      "canonical_name": "thermal.program.entry_days",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.away",
+      "canonical_name": "thermal.program.entry_days.away",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.friday",
+      "canonical_name": "thermal.program.entry_days.friday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.monday",
+      "canonical_name": "thermal.program.entry_days.monday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.saturday",
+      "canonical_name": "thermal.program.entry_days.saturday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.sunday",
+      "canonical_name": "thermal.program.entry_days.sunday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.thursday",
+      "canonical_name": "thermal.program.entry_days.thursday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.tuesday",
+      "canonical_name": "thermal.program.entry_days.tuesday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_days.wednesday",
+      "canonical_name": "thermal.program.entry_days.wednesday",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_end",
+      "canonical_name": "thermal.program.entry_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_heating_setpoint",
+      "canonical_name": "thermal.program.entry_heating_setpoint",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_preset",
+      "canonical_name": "thermal.program.entry_preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_start",
+      "canonical_name": "thermal.program.entry_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_state",
+      "canonical_name": "thermal.program.entry_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_state.off",
+      "canonical_name": "thermal.program.entry_state.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_state.on",
+      "canonical_name": "thermal.program.entry_state.on",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_system_mode",
+      "canonical_name": "thermal.program.entry_system_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_system_mode.auto",
+      "canonical_name": "thermal.program.entry_system_mode.auto",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_system_mode.cool",
+      "canonical_name": "thermal.program.entry_system_mode.cool",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_system_mode.heat",
+      "canonical_name": "thermal.program.entry_system_mode.heat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.entry_system_mode.off",
+      "canonical_name": "thermal.program.entry_system_mode.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.maximum_count",
+      "canonical_name": "thermal.program.maximum_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.maximum_entries",
+      "canonical_name": "thermal.program.maximum_entries",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.maximum_entries_per_day",
+      "canonical_name": "thermal.program.maximum_entries_per_day",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.name",
+      "canonical_name": "thermal.program.name",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.preset",
+      "canonical_name": "thermal.program.preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.supported_types",
+      "canonical_name": "thermal.program.supported_types",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.supported_types.names",
+      "canonical_name": "thermal.program.supported_types.names",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.supported_types.off",
+      "canonical_name": "thermal.program.supported_types.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.supported_types.presets",
+      "canonical_name": "thermal.program.supported_types.presets",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.supported_types.setpoints",
+      "canonical_name": "thermal.program.supported_types.setpoints",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.system_mode",
+      "canonical_name": "thermal.program.system_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.system_mode.auto",
+      "canonical_name": "thermal.program.system_mode.auto",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.system_mode.cool",
+      "canonical_name": "thermal.program.system_mode.cool",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.system_mode.heat",
+      "canonical_name": "thermal.program.system_mode.heat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.program.system_mode.off",
+      "canonical_name": "thermal.program.system_mode.off",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.function",
+      "canonical_name": "thermal.service.function",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.service.sensor",
+      "canonical_name": "thermal.service.sensor",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_amount",
+      "canonical_name": "thermal.setpoint.change_amount",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_source",
+      "canonical_name": "thermal.setpoint.change_source",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_source.external",
+      "canonical_name": "thermal.setpoint.change_source.external",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_source.manual",
+      "canonical_name": "thermal.setpoint.change_source.manual",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_source.schedule",
+      "canonical_name": "thermal.setpoint.change_source.schedule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.setpoint.change_time",
+      "canonical_name": "thermal.setpoint.change_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.occupancy",
+      "canonical_name": "thermal.status.occupancy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.occupancy.occupied",
+      "canonical_name": "thermal.status.occupancy.occupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.occupancy.unoccupied",
+      "canonical_name": "thermal.status.occupancy.unoccupied",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.window",
+      "canonical_name": "thermal.status.window",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.window.closed",
+      "canonical_name": "thermal.status.window.closed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.window.open",
+      "canonical_name": "thermal.status.window.open",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state",
+      "canonical_name": "thermal.status.zone_running_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.cool",
+      "canonical_name": "thermal.status.zone_running_state.cool",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.cool_stage_2",
+      "canonical_name": "thermal.status.zone_running_state.cool_stage_2",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.fan",
+      "canonical_name": "thermal.status.zone_running_state.fan",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.fan_stage_2",
+      "canonical_name": "thermal.status.zone_running_state.fan_stage_2",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.fan_stage_3",
+      "canonical_name": "thermal.status.zone_running_state.fan_stage_3",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.heat",
+      "canonical_name": "thermal.status.zone_running_state.heat",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.status.zone_running_state.heat_stage_2",
+      "canonical_name": "thermal.status.zone_running_state.heat_stage_2",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.active",
+      "canonical_name": "thermal.suggestion.active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.current",
+      "canonical_name": "thermal.suggestion.current",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.effective_time",
+      "canonical_name": "thermal.suggestion.effective_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.expiration",
+      "canonical_name": "thermal.suggestion.expiration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.maximum_count",
+      "canonical_name": "thermal.suggestion.maximum_count",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason",
+      "canonical_name": "thermal.suggestion.not_following_reason",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.conflicting_suggestions",
+      "canonical_name": "thermal.suggestion.not_following_reason.conflicting_suggestions",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.demand_response_event",
+      "canonical_name": "thermal.suggestion.not_following_reason.demand_response_event",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.occupancy",
+      "canonical_name": "thermal.suggestion.not_following_reason.occupancy",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.ongoing_hold",
+      "canonical_name": "thermal.suggestion.not_following_reason.ongoing_hold",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.preconditioning_mode",
+      "canonical_name": "thermal.suggestion.not_following_reason.preconditioning_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.schedule",
+      "canonical_name": "thermal.suggestion.not_following_reason.schedule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.time_of_use_cost_savings",
+      "canonical_name": "thermal.suggestion.not_following_reason.time_of_use_cost_savings",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.not_following_reason.vacation_mode",
+      "canonical_name": "thermal.suggestion.not_following_reason.vacation_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "thermal.suggestion.preset",
+      "canonical_name": "thermal.suggestion.preset",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.one",
+      "canonical_name": "unit.one",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/thermal/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.second",
+      "canonical_name": "unit.second",
+      "status": "admitted",
+      "question": null
+    },
+    {
       "source": "semreg/v1/packs/pv/definitions.go",
       "kind": "definition_literal",
       "historical_name": "pv.configuration.grid_code",

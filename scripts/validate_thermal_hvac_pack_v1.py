@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Validate the kernel-compatible thermal/HVAC v1 catalog.
 
-Every field declares exactly one resource dimension, the subject of the fact;
-no qualifier dimension exists. Quantity fields use the SI units of the unit
+Every field declares exactly one fact dimension. A resource dimension names
+the resource the fact is about. thermal.dimension.function is class-level:
+anchor class function and no resource kind. A qualifier dimension qualifies a
+fact and is not its subject. Quantity fields use the SI units of the unit
 rule in api/README.md with the exact bounds of the accepted placement, and the
 pack relation definitions name their endpoint dimensions and cardinality.
 """
@@ -26,7 +28,7 @@ CANONICAL_UNITS = frozenset({
     "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule",
 })
 SUBJECTS = ("system", "zone", "circuit", "dhw", "ventilation", "heat_generator", "thermal_store",
-            "terminal_unit", "refrigerant_circuit", "compressor", "room")
+            "terminal_unit", "refrigerant_circuit", "compressor", "room", "function", "sensor")
 # Pump is a resource subject with a service and a read descriptor, and with no capability.
 RESOURCE_SUBJECTS = (*SUBJECTS, "pump")
 DIMS = {f"thermal.dimension.{name}" for name in RESOURCE_SUBJECTS}
@@ -36,15 +38,18 @@ CAPS = {f"thermal.capability.read.{name}" for name in SUBJECTS} | {
     "thermal.capability.set_temperature", "thermal.capability.set_mode",
     "thermal.room.capability_set_occupied_cooling", "thermal.room.capability_set_occupied_heating",
     "thermal.room.capability_set_temperature", "thermal.room.capability_set_zone_cooling_mode",
-    "thermal.room.capability_set_zone_mode"}
+    "thermal.room.capability_set_zone_mode",
+    'thermal.capability.set_active_preset', 'thermal.capability.set_active_program', 'thermal.capability.set_control_sequence', 'thermal.capability.set_display_unit', 'thermal.capability.set_emergency_heat_delta', 'thermal.capability.set_hold', 'thermal.capability.set_keypad_lockout', 'thermal.capability.set_maximum_cooling_setpoint', 'thermal.capability.set_maximum_heating_setpoint', 'thermal.capability.set_minimum_cooling_setpoint', 'thermal.capability.set_minimum_heating_setpoint', 'thermal.capability.set_occupied_cooling', 'thermal.capability.set_occupied_heating', 'thermal.capability.set_preset', 'thermal.capability.set_program_entry', 'thermal.capability.set_remote_sensing', 'thermal.capability.set_schedule_programming', 'thermal.capability.set_suggestion', 'thermal.capability.set_temperature_calibration', 'thermal.capability.set_unoccupied_cooling', 'thermal.capability.set_unoccupied_heating', 'thermal.capability.set_zone_cooling_mode', 'thermal.capability.set_zone_mode'}
 OPS = {"thermal.operation.set_temperature", "thermal.operation.set_mode",
        "thermal.room.operation_set_occupied_cooling", "thermal.room.operation_set_occupied_heating",
        "thermal.room.operation_set_temperature", "thermal.room.operation_set_zone_cooling_mode",
-       "thermal.room.operation_set_zone_mode"}
+       "thermal.room.operation_set_zone_mode",
+    'thermal.operation.set_active_preset', 'thermal.operation.set_active_program', 'thermal.operation.set_control_sequence', 'thermal.operation.set_display_unit', 'thermal.operation.set_emergency_heat_delta', 'thermal.operation.set_hold', 'thermal.operation.set_keypad_lockout', 'thermal.operation.set_maximum_cooling_setpoint', 'thermal.operation.set_maximum_heating_setpoint', 'thermal.operation.set_minimum_cooling_setpoint', 'thermal.operation.set_minimum_heating_setpoint', 'thermal.operation.set_occupied_cooling', 'thermal.operation.set_occupied_heating', 'thermal.operation.set_preset', 'thermal.operation.set_program_entry', 'thermal.operation.set_remote_sensing', 'thermal.operation.set_schedule_programming', 'thermal.operation.set_suggestion', 'thermal.operation.set_temperature_calibration', 'thermal.operation.set_unoccupied_cooling', 'thermal.operation.set_unoccupied_heating', 'thermal.operation.set_zone_cooling_mode', 'thermal.operation.set_zone_mode'}
 EFFECTS = {"thermal.effect.set_temperature", "thermal.effect.set_mode",
            "thermal.room.effect_set_occupied_cooling", "thermal.room.effect_set_occupied_heating",
            "thermal.room.effect_set_temperature", "thermal.room.effect_set_zone_cooling_mode",
-           "thermal.room.effect_set_zone_mode"}
+           "thermal.room.effect_set_zone_mode",
+    'thermal.effect.set_active_preset', 'thermal.effect.set_active_program', 'thermal.effect.set_control_sequence', 'thermal.effect.set_display_unit', 'thermal.effect.set_emergency_heat_delta', 'thermal.effect.set_hold', 'thermal.effect.set_keypad_lockout', 'thermal.effect.set_maximum_cooling_setpoint', 'thermal.effect.set_maximum_heating_setpoint', 'thermal.effect.set_minimum_cooling_setpoint', 'thermal.effect.set_minimum_heating_setpoint', 'thermal.effect.set_occupied_cooling', 'thermal.effect.set_occupied_heating', 'thermal.effect.set_preset', 'thermal.effect.set_program_entry', 'thermal.effect.set_remote_sensing', 'thermal.effect.set_schedule_programming', 'thermal.effect.set_suggestion', 'thermal.effect.set_temperature_calibration', 'thermal.effect.set_unoccupied_cooling', 'thermal.effect.set_unoccupied_heating', 'thermal.effect.set_zone_cooling_mode', 'thermal.effect.set_zone_mode'}
 # Room operation -> (capability, room fact, effect). The argument is that fact, not a zone fact.
 ROOM_OPERATIONS = {
     "thermal.room.operation_set_occupied_cooling": (
@@ -77,7 +82,7 @@ FIELD_CONTRACT = {
     "thermal.setpoint.occupied_heating": ("zone", KELVIN_SETPOINT),
     "thermal.setpoint.unoccupied_cooling": ("zone", KELVIN_SETPOINT),
     "thermal.setpoint.unoccupied_heating": ("zone", KELVIN_SETPOINT),
-    "thermal.mode.zone": ("zone", ("auto", "comfort", "eco", "off")),
+    "thermal.mode.zone": ("zone", ("auto", "comfort", "eco", "off", "on")),
     "thermal.measurement.circuit_flow_temperature": ("circuit", KELVIN),
     "thermal.measurement.flow_rate": ("circuit", ("unit.cubic_metre_per_second", ("0", 0), ("2", -1))),
     "thermal.measurement.dhw_temperature": ("dhw", KELVIN),
@@ -134,8 +139,77 @@ FIELD_CONTRACT = {
     "thermal.room.setpoint_occupied_cooling": ("room", ("unit.kelvin",)),
     "thermal.room.setpoint_occupied_heating": ("room", ("unit.kelvin",)),
     "thermal.room.setpoint_temperature_setpoint": ("room", ("unit.kelvin",)),
+    "thermal.action.zone_state": ("zone", ('cooling', 'dehumidifying', 'heating', 'idle', 'ventilating')),
+    "thermal.calibration.temperature_offset": ("zone", ('unit.kelvin',)),
+    "thermal.configuration.control_sequence": ("zone", ('cooling_and_heating', 'cooling_and_heating_with_reheat', 'cooling_only', 'cooling_with_reheat', 'heating_only', 'heating_with_reheat')),
+    "thermal.configuration.display_unit": ("system", ('celsius', 'fahrenheit')),
+    "thermal.configuration.emergency_heat_delta": ("zone", ('unit.kelvin',)),
+    "thermal.configuration.keypad_lockout": ("system", ('level_1', 'level_2', 'level_3', 'level_4', 'level_5', 'none')),
+    "thermal.configuration.remote_sensing": ("zone", ('local_temperature', 'occupancy', 'outdoor_temperature')),
+    "thermal.configuration.schedule_programming": ("system", ('denied', 'permitted')),
+    "thermal.demand.cooling": ("zone", ('unit.ratio', ('0', 0), ('1', 0))),
+    "thermal.demand.heating": ("zone", ('unit.ratio', ('0', 0), ('1', 0))),
+    "thermal.hold.duration": ("zone", ('unit.second',)),
+    "thermal.hold.expiry": ("zone", ()),
+    "thermal.hold.setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.hold.state": ("zone", ('off', 'on')),
+    "thermal.limit.absolute_maximum_cooling_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.absolute_maximum_heating_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.absolute_minimum_cooling_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.absolute_minimum_heating_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.maximum_cooling_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.maximum_heating_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.minimum_cooling_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.minimum_heating_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.limit.minimum_setpoint_deadband": ("zone", ('unit.kelvin', ('0', 0), ('127', -1))),
+    "thermal.limit.setpoint_step": ("zone", ('unit.kelvin',)),
+    "thermal.measurement.sensor_humidity": ("sensor", ('unit.ratio',)),
+    "thermal.measurement.sensor_temperature": ("sensor", ('unit.kelvin',)),
+    "thermal.mode.zone_cooling": ("zone", ('auto', 'eco', 'off', 'on')),
+    "thermal.preset.active_handle": ("zone", ()),
+    "thermal.preset.built_in": ("zone", ()),
+    "thermal.preset.cooling_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.preset.heating_setpoint": ("zone", ('unit.kelvin',)),
+    "thermal.preset.maximum_count": ("zone", ('unit.one', ('1', 0), None)),
+    "thermal.preset.name": ("zone", ()),
+    "thermal.preset.scenario": ("zone", ('going_to_sleep', 'occupied', 'sleep', 'unoccupied', 'user_defined', 'vacation', 'wake')),
+    "thermal.preset.supported_scenarios": ("zone", ('going_to_sleep', 'occupied', 'sleep', 'unoccupied', 'user_defined', 'vacation', 'wake')),
+    "thermal.program.active_handle": ("function", ()),
+    "thermal.program.built_in": ("function", ()),
+    "thermal.program.entry_cooling_setpoint": ("function", ('unit.kelvin',)),
+    "thermal.program.entry_days": ("function", ('away', 'friday', 'monday', 'saturday', 'sunday', 'thursday', 'tuesday', 'wednesday')),
+    "thermal.program.entry_end": ("function", ('unit.second',)),
+    "thermal.program.entry_heating_setpoint": ("function", ('unit.kelvin',)),
+    "thermal.program.entry_preset": ("function", ()),
+    "thermal.program.entry_start": ("function", ('unit.second',)),
+    "thermal.program.entry_state": ("function", ('off', 'on')),
+    "thermal.program.entry_system_mode": ("function", ('auto', 'cool', 'heat', 'off')),
+    "thermal.program.maximum_count": ("function", ('unit.one', ('1', 0), None)),
+    "thermal.program.maximum_entries": ("function", ('unit.one', ('1', 0), None)),
+    "thermal.program.maximum_entries_per_day": ("function", ('unit.one', ('1', 0), None)),
+    "thermal.program.name": ("function", ()),
+    "thermal.program.preset": ("function", ()),
+    "thermal.program.supported_types": ("function", ('names', 'off', 'presets', 'setpoints')),
+    "thermal.program.system_mode": ("function", ('auto', 'cool', 'heat', 'off')),
+    "thermal.setpoint.change_amount": ("zone", ('unit.kelvin',)),
+    "thermal.setpoint.change_source": ("zone", ('external', 'manual', 'schedule')),
+    "thermal.setpoint.change_time": ("zone", ()),
+    "thermal.status.occupancy": ("zone", ('occupied', 'unoccupied')),
+    "thermal.status.window": ("zone", ('closed', 'open')),
+    "thermal.status.zone_running_state": ("zone", ('cool', 'cool_stage_2', 'fan', 'fan_stage_2', 'fan_stage_3', 'heat', 'heat_stage_2')),
+    "thermal.suggestion.active": ("zone", ()),
+    "thermal.suggestion.current": ("zone", ('unit.one',)),
+    "thermal.suggestion.effective_time": ("zone", ()),
+    "thermal.suggestion.expiration": ("zone", ()),
+    "thermal.suggestion.maximum_count": ("zone", ('unit.one', ('5', 0), None)),
+    "thermal.suggestion.not_following_reason": ("zone", ('conflicting_suggestions', 'demand_response_event', 'occupancy', 'ongoing_hold', 'preconditioning_mode', 'schedule', 'time_of_use_cost_savings', 'vacation_mode')),
+    "thermal.suggestion.preset": ("zone", ()),
 }
 FIELDS = set(FIELD_CONTRACT)
+QUALIFIERS = {'thermal.preset.built_in': ('thermal.dimension.preset',), 'thermal.preset.cooling_setpoint': ('thermal.dimension.preset',), 'thermal.preset.heating_setpoint': ('thermal.dimension.preset',), 'thermal.preset.name': ('thermal.dimension.preset',), 'thermal.preset.scenario': ('thermal.dimension.preset',), 'thermal.program.built_in': ('thermal.dimension.time_program',), 'thermal.program.entry_cooling_setpoint': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_days': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_end': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_heating_setpoint': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_preset': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_start': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_state': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_system_mode': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.name': ('thermal.dimension.time_program',), 'thermal.program.preset': ('thermal.dimension.time_program',), 'thermal.program.system_mode': ('thermal.dimension.time_program',), 'thermal.suggestion.active': ('thermal.dimension.suggestion',), 'thermal.suggestion.effective_time': ('thermal.dimension.suggestion',), 'thermal.suggestion.expiration': ('thermal.dimension.suggestion',), 'thermal.suggestion.preset': ('thermal.dimension.suggestion',)}
+OPERATION_CONTRACT = {'thermal.operation.set_active_preset': ('thermal.capability.set_active_preset', 'thermal.preset.active_handle', 'thermal.effect.set_active_preset', (), 'thermal.service.zone'), 'thermal.operation.set_active_program': ('thermal.capability.set_active_program', 'thermal.program.active_handle', 'thermal.effect.set_active_program', (), 'thermal.service.function'), 'thermal.operation.set_control_sequence': ('thermal.capability.set_control_sequence', 'thermal.configuration.control_sequence', 'thermal.effect.set_control_sequence', (), 'thermal.service.zone'), 'thermal.operation.set_display_unit': ('thermal.capability.set_display_unit', 'thermal.configuration.display_unit', 'thermal.effect.set_display_unit', (), 'thermal.service.system'), 'thermal.operation.set_emergency_heat_delta': ('thermal.capability.set_emergency_heat_delta', 'thermal.configuration.emergency_heat_delta', 'thermal.effect.set_emergency_heat_delta', (), 'thermal.service.zone'), 'thermal.operation.set_hold': ('thermal.capability.set_hold', 'thermal.hold.state', 'thermal.effect.set_hold', ('thermal.hold.duration', 'thermal.hold.setpoint'), 'thermal.service.zone'), 'thermal.operation.set_keypad_lockout': ('thermal.capability.set_keypad_lockout', 'thermal.configuration.keypad_lockout', 'thermal.effect.set_keypad_lockout', (), 'thermal.service.system'), 'thermal.operation.set_maximum_cooling_setpoint': ('thermal.capability.set_maximum_cooling_setpoint', 'thermal.limit.maximum_cooling_setpoint', 'thermal.effect.set_maximum_cooling_setpoint', (), 'thermal.service.zone'), 'thermal.operation.set_maximum_heating_setpoint': ('thermal.capability.set_maximum_heating_setpoint', 'thermal.limit.maximum_heating_setpoint', 'thermal.effect.set_maximum_heating_setpoint', (), 'thermal.service.zone'), 'thermal.operation.set_minimum_cooling_setpoint': ('thermal.capability.set_minimum_cooling_setpoint', 'thermal.limit.minimum_cooling_setpoint', 'thermal.effect.set_minimum_cooling_setpoint', (), 'thermal.service.zone'), 'thermal.operation.set_minimum_heating_setpoint': ('thermal.capability.set_minimum_heating_setpoint', 'thermal.limit.minimum_heating_setpoint', 'thermal.effect.set_minimum_heating_setpoint', (), 'thermal.service.zone'), 'thermal.operation.set_occupied_cooling': ('thermal.capability.set_occupied_cooling', 'thermal.setpoint.occupied_cooling', 'thermal.effect.set_occupied_cooling', (), 'thermal.service.zone'), 'thermal.operation.set_occupied_heating': ('thermal.capability.set_occupied_heating', 'thermal.setpoint.occupied_heating', 'thermal.effect.set_occupied_heating', (), 'thermal.service.zone'), 'thermal.operation.set_preset': ('thermal.capability.set_preset', 'thermal.preset.heating_setpoint', 'thermal.effect.set_preset', ('thermal.preset.cooling_setpoint', 'thermal.preset.name', 'thermal.preset.scenario'), 'thermal.service.zone'), 'thermal.operation.set_program_entry': ('thermal.capability.set_program_entry', 'thermal.program.entry_start', 'thermal.effect.set_program_entry', ('thermal.program.entry_cooling_setpoint', 'thermal.program.entry_days', 'thermal.program.entry_end', 'thermal.program.entry_heating_setpoint', 'thermal.program.entry_preset', 'thermal.program.entry_state', 'thermal.program.entry_system_mode'), 'thermal.service.function'), 'thermal.operation.set_remote_sensing': ('thermal.capability.set_remote_sensing', 'thermal.configuration.remote_sensing', 'thermal.effect.set_remote_sensing', (), 'thermal.service.zone'), 'thermal.operation.set_schedule_programming': ('thermal.capability.set_schedule_programming', 'thermal.configuration.schedule_programming', 'thermal.effect.set_schedule_programming', (), 'thermal.service.system'), 'thermal.operation.set_suggestion': ('thermal.capability.set_suggestion', 'thermal.suggestion.active', 'thermal.effect.set_suggestion', ('thermal.suggestion.effective_time', 'thermal.suggestion.expiration', 'thermal.suggestion.preset'), 'thermal.service.zone'), 'thermal.operation.set_temperature_calibration': ('thermal.capability.set_temperature_calibration', 'thermal.calibration.temperature_offset', 'thermal.effect.set_temperature_calibration', (), 'thermal.service.zone'), 'thermal.operation.set_unoccupied_cooling': ('thermal.capability.set_unoccupied_cooling', 'thermal.setpoint.unoccupied_cooling', 'thermal.effect.set_unoccupied_cooling', (), 'thermal.service.zone'), 'thermal.operation.set_unoccupied_heating': ('thermal.capability.set_unoccupied_heating', 'thermal.setpoint.unoccupied_heating', 'thermal.effect.set_unoccupied_heating', (), 'thermal.service.zone'), 'thermal.operation.set_zone_cooling_mode': ('thermal.capability.set_zone_cooling_mode', 'thermal.mode.zone_cooling', 'thermal.effect.set_zone_cooling_mode', (), 'thermal.service.zone'), 'thermal.operation.set_zone_mode': ('thermal.capability.set_zone_mode', 'thermal.mode.zone', 'thermal.effect.set_zone_mode', (), 'thermal.service.zone')}
+EVENT_CONTRACT = {'thermal.event.active_preset_changed': ('thermal.service.zone', 'thermal.preset.active_handle', ()), 'thermal.event.active_program_changed': ('thermal.service.function', 'thermal.program.active_handle', ()), 'thermal.event.local_temperature_changed': ('thermal.service.zone', 'thermal.measurement.air_temperature', ()), 'thermal.event.occupancy_changed': ('thermal.service.zone', 'thermal.status.occupancy', ()), 'thermal.event.running_mode_changed': ('thermal.service.zone', 'thermal.action.zone_state', ()), 'thermal.event.running_state_changed': ('thermal.service.zone', 'thermal.status.zone_running_state', ()), 'thermal.event.setpoint_changed': ('thermal.service.zone', 'thermal.setpoint.occupied_heating', ('thermal.setpoint.change_amount', 'thermal.setpoint.change_source')), 'thermal.event.system_mode_changed': ('thermal.service.system', 'thermal.mode.system', ())}
+QUALIFIER_CONTRACT = {'thermal.dimension.preset': ('text', None), 'thermal.dimension.program_entry': ('quantity', 'unit.one'), 'thermal.dimension.suggestion': ('quantity', 'unit.one'), 'thermal.dimension.time_program': ('text', None)}
 # Relation -> (from subjects, to subjects, cardinality), table A4 of the accepted placement.
 RELATION_CONTRACT = {
     "thermal.relation.system_member": (
@@ -244,13 +318,36 @@ def magnitude(pair):
     return int(coefficient) * 10 ** exponent if exponent >= 0 else int(coefficient) / 10 ** -exponent
 
 
+
+def bound_side(bounds, name, expected):
+    if expected is None:
+        if name in bounds:
+            raise ValueError("field bounds differ from the placement")
+        return None
+    if name not in bounds:
+        raise ValueError("field bounds differ from the placement")
+    got = decimal_pair(bounds[name])
+    if got != expected:
+        raise ValueError("field bounds differ from the placement")
+    return got
+
+
+def reject_unordered(bounds):
+    if "minimum" not in bounds or "maximum" not in bounds:
+        return
+    minimum = decimal_pair(bounds["minimum"])
+    maximum = decimal_pair(bounds["maximum"])
+    if magnitude(minimum) >= magnitude(maximum):
+        raise ValueError("field unordered numeric bounds")
+
+
 def validate_quantity(field, contract):
     unit = field.get("unit")
     if not isinstance(unit, str) or not ID.fullmatch(unit):
         raise ValueError("field has invalid unit ID")
     if unit not in CANONICAL_UNITS:
         raise ValueError("field unit is outside the canonical SI unit set")
-    if not isinstance(contract, tuple) or not contract or not contract[0].startswith("unit."):
+    if not isinstance(contract, tuple) or not contract or not str(contract[0]).startswith("unit."):
         raise ValueError("field kind differs from the placement")
     if unit != contract[0]:
         raise ValueError("field unit differs from the placement")
@@ -259,11 +356,63 @@ def validate_quantity(field, contract):
             raise ValueError("field bounds differ from the placement")
         return
     bounds = field.get("bounds", {})
-    minimum, maximum = decimal_pair(bounds.get("minimum")), decimal_pair(bounds.get("maximum"))
-    if magnitude(minimum) >= magnitude(maximum):
-        raise ValueError("field unordered numeric bounds")
-    if (minimum, maximum) != contract[1:]:
-        raise ValueError("field bounds differ from the placement")
+    reject_unordered(bounds)
+    bound_side(bounds, "minimum", contract[1])
+    bound_side(bounds, "maximum", contract[2])
+
+
+def check_field_qualifiers(field):
+    expected = QUALIFIERS.get(field["id"], ())
+    if expected:
+        if list(field.get("qualifiers", ())) != list(expected):
+            raise ValueError("field qualifiers differ")
+        return
+    if "qualifiers" in field:
+        raise ValueError("field qualifiers differ")
+
+
+def check_operation_contract(item, caps):
+    contract = OPERATION_CONTRACT.get(item["id"])
+    if contract is None:
+        if "parameters" in item:
+            raise ValueError("operation parameters differ")
+        return
+    capability_id, argument, effect_id, parameters, service = contract
+    if item.get("capability") != capability_id:
+        raise ValueError("operation capability differs")
+    capability = next(cap for cap in caps if cap["id"] == item["capability"])
+    same_service = capability.get("service") == service
+    if not same_service or capability.get("constraints") != [argument]:
+        raise ValueError("operation capability differs")
+    same_argument = item.get("arguments") == [argument]
+    if not same_argument or item.get("argument_constraints") != [argument]:
+        raise ValueError("operation argument differs")
+    if item.get("effect_rule") != effect_id:
+        raise ValueError("operation effect differs")
+    if tuple(item.get("parameters", ())) != tuple(parameters):
+        raise ValueError("operation parameters differ")
+
+
+def validate_qualifier_dimensions(items):
+    for item in items:
+        value_kind, unit = QUALIFIER_CONTRACT[item["id"]]
+        if item.get("value_kind") != value_kind or item.get("unit") != unit:
+            raise ValueError("qualifier dimension differs")
+
+
+def validate_events(items):
+    for item in items:
+        service, trigger, payload = EVENT_CONTRACT[item["id"]]
+        if item.get("service") != service:
+            raise ValueError("event service differs")
+        if item.get("trigger") != trigger:
+            raise ValueError("event trigger differs")
+        if tuple(item.get("payload", ())) != tuple(payload):
+            raise ValueError("event payload differs")
+        if item.get("condition") != "changed" or item.get("origin") != "emitted":
+            raise ValueError("event payload differs")
+
+
 
 
 def validate_symbols(field, contract):
@@ -297,6 +446,7 @@ def validate_field(field):
         validate_quantity(field, contract)
     else:
         validate_symbols(field, contract)
+    check_field_qualifiers(field)
     if dimension != f"thermal.dimension.{subject}":
         raise ValueError("field subject differs from the placement")
 
@@ -327,6 +477,7 @@ def validate_operations(ops, caps, effects, fields):
     capability_ids = {item["id"] for item in caps}
     dimension_of = {field["id"]: field["dimension"] for field in fields}
     for item in ops:
+        check_operation_contract(item, caps)
         if (item.get("capability") not in capability_ids or not set(item.get("arguments", [])) <= FIELDS
                 or item.get("effect_rule") not in effects):
             raise ValueError("operation dangling reference")
@@ -368,6 +519,9 @@ def validate_defs(catalog):
     for field in fields:
         validate_field(field)
     exact(refs(definitions.get("fact_dimensions"), "fact dimensions"), DIMS, "fact-key dimension contracts")
+    qualifiers = definitions.get("qualifier_dimensions")
+    exact(refs(qualifiers, "qualifier dimensions"), set(QUALIFIER_CONTRACT), "qualifier catalog")
+    validate_qualifier_dimensions(qualifiers)
     services, caps = definitions.get("services"), definitions.get("capabilities")
     ops, effects, portal = definitions.get("operations"), definitions.get("effect_rules"), definitions.get(
         "portal_contributions")
@@ -384,6 +538,9 @@ def validate_defs(catalog):
     for item in effects:
         if item.get("operation") not in OPS or item.get("fact") not in FIELDS or item.get("operator") != "equal":
             raise ValueError("effect dangling reference")
+    events = definitions.get("events")
+    exact(refs(events, "events"), set(EVENT_CONTRACT), "event catalog")
+    validate_events(events)
     validate_portal(portal, SERVICES, OPS, fields)
 
 

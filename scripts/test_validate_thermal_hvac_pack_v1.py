@@ -27,10 +27,10 @@ SI_UNITS = {
     "unit.kelvin", "unit.pascal", "unit.ratio", "unit.reciprocal_second", "unit.volt",
     "unit.volt_ampere", "unit.volt_ampere_reactive", "unit.watt", "unit.second", "unit.cubic_metre", "unit.metre", "unit.ohm", "unit.radian", "unit.one", "unit.volt_ampere_reactive_second", "unit.volt_ampere_second", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre", "unit.kilogram_per_joule", "unit.watt_per_square_metre", "unit.metre_per_joule", "unit.currency", "unit.currency_per_joule",
 }
-# The seven units of the thermal pack after the accepted placement.
+# The nine units of the thermal pack after the accepted placement.
 PACK_UNITS = {
     "unit.kelvin", "unit.ratio", "unit.cubic_metre_per_second", "unit.pascal",
-    "unit.reciprocal_second", "unit.watt", "unit.joule",
+    "unit.reciprocal_second", "unit.watt", "unit.joule", "unit.one", "unit.second",
 }
 SYSTEM = "thermal.dimension.system"
 ZONE = "thermal.dimension.zone"
@@ -43,7 +43,9 @@ TERMINAL = "thermal.dimension.terminal_unit"
 REFRIGERANT = "thermal.dimension.refrigerant_circuit"
 COMPRESSOR = "thermal.dimension.compressor"
 ROOM = "thermal.dimension.room"
-RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM}
+FUNCTION = "thermal.dimension.function"
+SENSOR = "thermal.dimension.sensor"
+RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM, FUNCTION, SENSOR}
 # Temperature bounds of the placement, in kelvin: -100 to 200 and -50 to 150 degrees Celsius plus 273.15.
 AIR = (Fraction(-100), Fraction(200))
 SETPOINT = (Fraction(-50), Fraction(150))
@@ -122,6 +124,71 @@ FIELD_TABLE = {
     "thermal.room.setpoint_occupied_cooling": (ROOM, "unit.kelvin", None),
     "thermal.room.setpoint_occupied_heating": (ROOM, "unit.kelvin", None),
     "thermal.room.setpoint_temperature_setpoint": (ROOM, "unit.kelvin", None),
+    "thermal.action.zone_state": (ZONE, None, None),
+    "thermal.calibration.temperature_offset": (ZONE, 'unit.kelvin', None),
+    "thermal.configuration.control_sequence": (ZONE, None, None),
+    "thermal.configuration.display_unit": (SYSTEM, None, None),
+    "thermal.configuration.emergency_heat_delta": (ZONE, 'unit.kelvin', None),
+    "thermal.configuration.keypad_lockout": (SYSTEM, None, None),
+    "thermal.configuration.remote_sensing": (ZONE, None, None),
+    "thermal.configuration.schedule_programming": (SYSTEM, None, None),
+    "thermal.demand.cooling": (ZONE, 'unit.ratio', (Fraction(0, 1), Fraction(1, 1))),
+    "thermal.demand.heating": (ZONE, 'unit.ratio', (Fraction(0, 1), Fraction(1, 1))),
+    "thermal.hold.duration": (ZONE, 'unit.second', None),
+    "thermal.hold.expiry": (ZONE, None, None),
+    "thermal.hold.setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.hold.state": (ZONE, None, None),
+    "thermal.limit.absolute_maximum_cooling_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.absolute_maximum_heating_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.absolute_minimum_cooling_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.absolute_minimum_heating_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.maximum_cooling_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.maximum_heating_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.minimum_cooling_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.minimum_heating_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.limit.minimum_setpoint_deadband": (ZONE, 'unit.kelvin', (Fraction(0, 1), Fraction(127, 10))),
+    "thermal.limit.setpoint_step": (ZONE, 'unit.kelvin', None),
+    "thermal.measurement.sensor_humidity": (SENSOR, 'unit.ratio', None),
+    "thermal.measurement.sensor_temperature": (SENSOR, 'unit.kelvin', None),
+    "thermal.mode.zone_cooling": (ZONE, None, None),
+    "thermal.preset.active_handle": (ZONE, None, None),
+    "thermal.preset.built_in": (ZONE, None, None),
+    "thermal.preset.cooling_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.preset.heating_setpoint": (ZONE, 'unit.kelvin', None),
+    "thermal.preset.maximum_count": (ZONE, 'unit.one', (Fraction(1, 1), None)),
+    "thermal.preset.name": (ZONE, None, None),
+    "thermal.preset.scenario": (ZONE, None, None),
+    "thermal.preset.supported_scenarios": (ZONE, None, None),
+    "thermal.program.active_handle": (FUNCTION, None, None),
+    "thermal.program.built_in": (FUNCTION, None, None),
+    "thermal.program.entry_cooling_setpoint": (FUNCTION, 'unit.kelvin', None),
+    "thermal.program.entry_days": (FUNCTION, None, None),
+    "thermal.program.entry_end": (FUNCTION, 'unit.second', None),
+    "thermal.program.entry_heating_setpoint": (FUNCTION, 'unit.kelvin', None),
+    "thermal.program.entry_preset": (FUNCTION, None, None),
+    "thermal.program.entry_start": (FUNCTION, 'unit.second', None),
+    "thermal.program.entry_state": (FUNCTION, None, None),
+    "thermal.program.entry_system_mode": (FUNCTION, None, None),
+    "thermal.program.maximum_count": (FUNCTION, 'unit.one', (Fraction(1, 1), None)),
+    "thermal.program.maximum_entries": (FUNCTION, 'unit.one', (Fraction(1, 1), None)),
+    "thermal.program.maximum_entries_per_day": (FUNCTION, 'unit.one', (Fraction(1, 1), None)),
+    "thermal.program.name": (FUNCTION, None, None),
+    "thermal.program.preset": (FUNCTION, None, None),
+    "thermal.program.supported_types": (FUNCTION, None, None),
+    "thermal.program.system_mode": (FUNCTION, None, None),
+    "thermal.setpoint.change_amount": (ZONE, 'unit.kelvin', None),
+    "thermal.setpoint.change_source": (ZONE, None, None),
+    "thermal.setpoint.change_time": (ZONE, None, None),
+    "thermal.status.occupancy": (ZONE, None, None),
+    "thermal.status.window": (ZONE, None, None),
+    "thermal.status.zone_running_state": (ZONE, None, None),
+    "thermal.suggestion.active": (ZONE, None, None),
+    "thermal.suggestion.current": (ZONE, 'unit.one', None),
+    "thermal.suggestion.effective_time": (ZONE, None, None),
+    "thermal.suggestion.expiration": (ZONE, None, None),
+    "thermal.suggestion.maximum_count": (ZONE, 'unit.one', (Fraction(5, 1), None)),
+    "thermal.suggestion.not_following_reason": (ZONE, None, None),
+    "thermal.suggestion.preset": (ZONE, None, None),
 }
 # Overrun identity: field id, system dimension, and the four status symbols.
 # Symbol lists stay in canonical sorted order, the same rule as thermal.mode.system.
@@ -189,6 +256,25 @@ def field_index(document: dict, identifier: str) -> int:
     return next(i for i, field in enumerate(fields) if field["id"] == identifier)
 
 
+def assert_field_bounds(identifier, field, bounds):
+    if bounds is None:
+        if "bounds" in field:
+            raise AssertionError(f"{identifier} is a symbol with bounds")
+        return
+    expected_keys = set()
+    if bounds[0] is not None:
+        expected_keys.add("minimum")
+    if bounds[1] is not None:
+        expected_keys.add("maximum")
+    if set(field.get("bounds", {})) != expected_keys:
+        raise AssertionError(f"{identifier} bounds differ from the placement")
+    for side, expected in (("minimum", bounds[0]), ("maximum", bounds[1])):
+        if expected is None:
+            continue
+        if exact_value(field["bounds"][side]) != expected:
+            raise AssertionError(f"{identifier} bounds differ from {bounds}")
+
+
 def check_field_table(document: dict) -> None:
     fields = {field["id"]: field for field in document["catalog"]["definitions"]["fields"]}
     if set(fields) != set(FIELD_TABLE):
@@ -199,13 +285,7 @@ def check_field_table(document: dict) -> None:
             raise AssertionError(f"{identifier} is not keyed on its subject {dimension}")
         if field.get("unit") != unit:
             raise AssertionError(f"{identifier} declares {field.get('unit')}, not {unit}")
-        if bounds is None:
-            if "bounds" in field:
-                raise AssertionError(f"{identifier} is a symbol with bounds")
-            continue
-        actual = (exact_value(field["bounds"]["minimum"]), exact_value(field["bounds"]["maximum"]))
-        if actual != bounds:
-            raise AssertionError(f"{identifier} bounds {actual} differ from {bounds}")
+        assert_field_bounds(identifier, field, bounds)
     print("field_subject_unit_bounds_table: PASS")
 
 
@@ -237,13 +317,53 @@ def check_relations(document: dict) -> None:
     print("relation_table: PASS")
 
 
+def removed_present(text: str, identifier: str) -> bool:
+    """True when the removed id is its own token.
+
+    thermal.configuration.display_unit.celsius is an admitted symbol. It
+    contains the removed unit name only as part of that longer identifier.
+    """
+    if identifier.startswith('"'):
+        return identifier in text
+    start = 0
+    while True:
+        found = text.find(identifier, start)
+        if found < 0:
+            return False
+        before = text[found - 1] if found else " "
+        end = found + len(identifier)
+        after = text[end] if end < len(text) else " "
+        if (before not in "abcdefghijklmnopqrstuvwxyz0123456789_"
+                and after not in "abcdefghijklmnopqrstuvwxyz0123456789_"):
+            return True
+        start = found + 1
+
+
 def check_removed() -> None:
     for path in (validator.VECTORS, validator.DOCUMENT, Path(validator.__file__)):
         text = path.read_text(encoding="utf-8")
-        found = [identifier for identifier in REMOVED if identifier in text]
+        found = [identifier for identifier in REMOVED if removed_present(text, identifier)]
         if found:
             raise AssertionError(f"{path.name} still names {found}")
     print("removed_identifiers_absent: PASS")
+
+
+def reject_one_sided(document, index, bounds):
+    """Shift the present side and insert the absent side."""
+    count = 0
+    for side, expected in (("minimum", bounds[0]), ("maximum", bounds[1])):
+        if expected is None:
+            inserted = copy.deepcopy(document)
+            definitions(inserted)["fields"][index].setdefault("bounds", {})[side] = {
+                "coefficient": "9", "exponent10": 0}
+            reject(inserted, "field bounds differ")
+            count += 1
+            continue
+        shifted = copy.deepcopy(document)
+        _shift_bound(definitions(shifted)["fields"][index]["bounds"][side], side)
+        reject(shifted, "field bounds differ")
+        count += 1
+    return count
 
 
 def field_axis_mutants(document: dict) -> int:
@@ -271,6 +391,9 @@ def field_axis_mutants(document: dict) -> int:
             }
             reject(inserted, "field bounds differ")
             count += 1
+            continue
+        if bounds[0] is None or bounds[1] is None:
+            count += reject_one_sided(document, index, bounds)
             continue
         for side in ("minimum", "maximum"):
             shifted = copy.deepcopy(document)
@@ -318,7 +441,7 @@ def append_field(document: dict, identifier: str) -> None:
     extra = copy.deepcopy(definitions(document)["fields"][0])
     extra["id"] = identifier
     extra["ref"]["id"] = identifier
-    extra["order"] = 1000
+    extra["order"] = max(item["order"] for item in definitions(document)["fields"]) + 1
     definitions(document)["fields"].append(extra)
 
 
@@ -874,6 +997,13 @@ def room_mutants(document: dict) -> int:
             + room_service_mutants(document) + room_relation_mutants(document))
 
 
+PE04_FIELDS = ('thermal.action.zone_state', 'thermal.calibration.temperature_offset', 'thermal.configuration.control_sequence', 'thermal.configuration.display_unit', 'thermal.configuration.emergency_heat_delta', 'thermal.configuration.keypad_lockout', 'thermal.configuration.remote_sensing', 'thermal.configuration.schedule_programming', 'thermal.demand.cooling', 'thermal.demand.heating', 'thermal.hold.duration', 'thermal.hold.expiry', 'thermal.hold.setpoint', 'thermal.hold.state', 'thermal.limit.absolute_maximum_cooling_setpoint', 'thermal.limit.absolute_maximum_heating_setpoint', 'thermal.limit.absolute_minimum_cooling_setpoint', 'thermal.limit.absolute_minimum_heating_setpoint', 'thermal.limit.maximum_cooling_setpoint', 'thermal.limit.maximum_heating_setpoint', 'thermal.limit.minimum_cooling_setpoint', 'thermal.limit.minimum_heating_setpoint', 'thermal.limit.minimum_setpoint_deadband', 'thermal.limit.setpoint_step', 'thermal.measurement.sensor_humidity', 'thermal.measurement.sensor_temperature', 'thermal.mode.zone_cooling', 'thermal.preset.active_handle', 'thermal.preset.built_in', 'thermal.preset.cooling_setpoint', 'thermal.preset.heating_setpoint', 'thermal.preset.maximum_count', 'thermal.preset.name', 'thermal.preset.scenario', 'thermal.preset.supported_scenarios', 'thermal.program.active_handle', 'thermal.program.built_in', 'thermal.program.entry_cooling_setpoint', 'thermal.program.entry_days', 'thermal.program.entry_end', 'thermal.program.entry_heating_setpoint', 'thermal.program.entry_preset', 'thermal.program.entry_start', 'thermal.program.entry_state', 'thermal.program.entry_system_mode', 'thermal.program.maximum_count', 'thermal.program.maximum_entries', 'thermal.program.maximum_entries_per_day', 'thermal.program.name', 'thermal.program.preset', 'thermal.program.supported_types', 'thermal.program.system_mode', 'thermal.setpoint.change_amount', 'thermal.setpoint.change_source', 'thermal.setpoint.change_time', 'thermal.status.occupancy', 'thermal.status.window', 'thermal.status.zone_running_state', 'thermal.suggestion.active', 'thermal.suggestion.current', 'thermal.suggestion.effective_time', 'thermal.suggestion.expiration', 'thermal.suggestion.maximum_count', 'thermal.suggestion.not_following_reason', 'thermal.suggestion.preset')
+PE04_SYMBOLS = {'thermal.mode.zone': ('auto', 'comfort', 'eco', 'off', 'on'), 'thermal.action.zone_state': ('cooling', 'dehumidifying', 'heating', 'idle', 'ventilating'), 'thermal.configuration.control_sequence': ('cooling_and_heating', 'cooling_and_heating_with_reheat', 'cooling_only', 'cooling_with_reheat', 'heating_only', 'heating_with_reheat'), 'thermal.configuration.display_unit': ('celsius', 'fahrenheit'), 'thermal.configuration.keypad_lockout': ('level_1', 'level_2', 'level_3', 'level_4', 'level_5', 'none'), 'thermal.configuration.remote_sensing': ('local_temperature', 'occupancy', 'outdoor_temperature'), 'thermal.configuration.schedule_programming': ('denied', 'permitted'), 'thermal.hold.state': ('off', 'on'), 'thermal.mode.zone_cooling': ('auto', 'eco', 'off', 'on'), 'thermal.preset.scenario': ('going_to_sleep', 'occupied', 'sleep', 'unoccupied', 'user_defined', 'vacation', 'wake'), 'thermal.preset.supported_scenarios': ('going_to_sleep', 'occupied', 'sleep', 'unoccupied', 'user_defined', 'vacation', 'wake'), 'thermal.program.entry_days': ('away', 'friday', 'monday', 'saturday', 'sunday', 'thursday', 'tuesday', 'wednesday'), 'thermal.program.entry_state': ('off', 'on'), 'thermal.program.entry_system_mode': ('auto', 'cool', 'heat', 'off'), 'thermal.program.supported_types': ('names', 'off', 'presets', 'setpoints'), 'thermal.program.system_mode': ('auto', 'cool', 'heat', 'off'), 'thermal.setpoint.change_source': ('external', 'manual', 'schedule'), 'thermal.status.occupancy': ('occupied', 'unoccupied'), 'thermal.status.window': ('closed', 'open'), 'thermal.status.zone_running_state': ('cool', 'cool_stage_2', 'fan', 'fan_stage_2', 'fan_stage_3', 'heat', 'heat_stage_2'), 'thermal.suggestion.not_following_reason': ('conflicting_suggestions', 'demand_response_event', 'occupancy', 'ongoing_hold', 'preconditioning_mode', 'schedule', 'time_of_use_cost_savings', 'vacation_mode')}
+PE04_QUALIFIERS = {'thermal.preset.built_in': ('thermal.dimension.preset',), 'thermal.preset.cooling_setpoint': ('thermal.dimension.preset',), 'thermal.preset.heating_setpoint': ('thermal.dimension.preset',), 'thermal.preset.name': ('thermal.dimension.preset',), 'thermal.preset.scenario': ('thermal.dimension.preset',), 'thermal.program.built_in': ('thermal.dimension.time_program',), 'thermal.program.entry_cooling_setpoint': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_days': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_end': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_heating_setpoint': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_preset': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_start': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_state': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.entry_system_mode': ('thermal.dimension.program_entry', 'thermal.dimension.time_program'), 'thermal.program.name': ('thermal.dimension.time_program',), 'thermal.program.preset': ('thermal.dimension.time_program',), 'thermal.program.system_mode': ('thermal.dimension.time_program',), 'thermal.suggestion.active': ('thermal.dimension.suggestion',), 'thermal.suggestion.effective_time': ('thermal.dimension.suggestion',), 'thermal.suggestion.expiration': ('thermal.dimension.suggestion',), 'thermal.suggestion.preset': ('thermal.dimension.suggestion',)}
+PE04_OPERATIONS = {'thermal.operation.set_active_preset': ('thermal.capability.set_active_preset', 'thermal.preset.active_handle', 'thermal.effect.set_active_preset', ()), 'thermal.operation.set_active_program': ('thermal.capability.set_active_program', 'thermal.program.active_handle', 'thermal.effect.set_active_program', ()), 'thermal.operation.set_control_sequence': ('thermal.capability.set_control_sequence', 'thermal.configuration.control_sequence', 'thermal.effect.set_control_sequence', ()), 'thermal.operation.set_display_unit': ('thermal.capability.set_display_unit', 'thermal.configuration.display_unit', 'thermal.effect.set_display_unit', ()), 'thermal.operation.set_emergency_heat_delta': ('thermal.capability.set_emergency_heat_delta', 'thermal.configuration.emergency_heat_delta', 'thermal.effect.set_emergency_heat_delta', ()), 'thermal.operation.set_hold': ('thermal.capability.set_hold', 'thermal.hold.state', 'thermal.effect.set_hold', ('thermal.hold.duration', 'thermal.hold.setpoint')), 'thermal.operation.set_keypad_lockout': ('thermal.capability.set_keypad_lockout', 'thermal.configuration.keypad_lockout', 'thermal.effect.set_keypad_lockout', ()), 'thermal.operation.set_maximum_cooling_setpoint': ('thermal.capability.set_maximum_cooling_setpoint', 'thermal.limit.maximum_cooling_setpoint', 'thermal.effect.set_maximum_cooling_setpoint', ()), 'thermal.operation.set_maximum_heating_setpoint': ('thermal.capability.set_maximum_heating_setpoint', 'thermal.limit.maximum_heating_setpoint', 'thermal.effect.set_maximum_heating_setpoint', ()), 'thermal.operation.set_minimum_cooling_setpoint': ('thermal.capability.set_minimum_cooling_setpoint', 'thermal.limit.minimum_cooling_setpoint', 'thermal.effect.set_minimum_cooling_setpoint', ()), 'thermal.operation.set_minimum_heating_setpoint': ('thermal.capability.set_minimum_heating_setpoint', 'thermal.limit.minimum_heating_setpoint', 'thermal.effect.set_minimum_heating_setpoint', ()), 'thermal.operation.set_occupied_cooling': ('thermal.capability.set_occupied_cooling', 'thermal.setpoint.occupied_cooling', 'thermal.effect.set_occupied_cooling', ()), 'thermal.operation.set_occupied_heating': ('thermal.capability.set_occupied_heating', 'thermal.setpoint.occupied_heating', 'thermal.effect.set_occupied_heating', ()), 'thermal.operation.set_preset': ('thermal.capability.set_preset', 'thermal.preset.heating_setpoint', 'thermal.effect.set_preset', ('thermal.preset.cooling_setpoint', 'thermal.preset.name', 'thermal.preset.scenario')), 'thermal.operation.set_program_entry': ('thermal.capability.set_program_entry', 'thermal.program.entry_start', 'thermal.effect.set_program_entry', ('thermal.program.entry_cooling_setpoint', 'thermal.program.entry_days', 'thermal.program.entry_end', 'thermal.program.entry_heating_setpoint', 'thermal.program.entry_preset', 'thermal.program.entry_state', 'thermal.program.entry_system_mode')), 'thermal.operation.set_remote_sensing': ('thermal.capability.set_remote_sensing', 'thermal.configuration.remote_sensing', 'thermal.effect.set_remote_sensing', ()), 'thermal.operation.set_schedule_programming': ('thermal.capability.set_schedule_programming', 'thermal.configuration.schedule_programming', 'thermal.effect.set_schedule_programming', ()), 'thermal.operation.set_suggestion': ('thermal.capability.set_suggestion', 'thermal.suggestion.active', 'thermal.effect.set_suggestion', ('thermal.suggestion.effective_time', 'thermal.suggestion.expiration', 'thermal.suggestion.preset')), 'thermal.operation.set_temperature_calibration': ('thermal.capability.set_temperature_calibration', 'thermal.calibration.temperature_offset', 'thermal.effect.set_temperature_calibration', ()), 'thermal.operation.set_unoccupied_cooling': ('thermal.capability.set_unoccupied_cooling', 'thermal.setpoint.unoccupied_cooling', 'thermal.effect.set_unoccupied_cooling', ()), 'thermal.operation.set_unoccupied_heating': ('thermal.capability.set_unoccupied_heating', 'thermal.setpoint.unoccupied_heating', 'thermal.effect.set_unoccupied_heating', ()), 'thermal.operation.set_zone_cooling_mode': ('thermal.capability.set_zone_cooling_mode', 'thermal.mode.zone_cooling', 'thermal.effect.set_zone_cooling_mode', ()), 'thermal.operation.set_zone_mode': ('thermal.capability.set_zone_mode', 'thermal.mode.zone', 'thermal.effect.set_zone_mode', ())}
+PE04_EVENTS = {'thermal.event.active_preset_changed': ('thermal.service.zone', 'thermal.preset.active_handle', ()), 'thermal.event.active_program_changed': ('thermal.service.function', 'thermal.program.active_handle', ()), 'thermal.event.local_temperature_changed': ('thermal.service.zone', 'thermal.measurement.air_temperature', ()), 'thermal.event.occupancy_changed': ('thermal.service.zone', 'thermal.status.occupancy', ()), 'thermal.event.running_mode_changed': ('thermal.service.zone', 'thermal.action.zone_state', ()), 'thermal.event.running_state_changed': ('thermal.service.zone', 'thermal.status.zone_running_state', ()), 'thermal.event.setpoint_changed': ('thermal.service.zone', 'thermal.setpoint.occupied_heating', ('thermal.setpoint.change_amount', 'thermal.setpoint.change_source')), 'thermal.event.system_mode_changed': ('thermal.service.system', 'thermal.mode.system', ())}
+PE04_QUALIFIER_DIMENSIONS = {'thermal.dimension.preset': ('text', None), 'thermal.dimension.program_entry': ('quantity', 'unit.one'), 'thermal.dimension.suggestion': ('quantity', 'unit.one'), 'thermal.dimension.time_program': ('text', None)}
+
 # name -> (mutation of a copy of the document, expected rejection)
 CASES = {
     "duplicate_definition": (
@@ -908,6 +1038,289 @@ CASES = {
 }
 
 
+def check_pe04_symbols(fields: dict) -> None:
+    for ident, tokens in PE04_SYMBOLS.items():
+        expected = [f"{ident}.{token}" for token in tokens]
+        if fields[ident].get("symbols") != expected:
+            raise AssertionError(f"{ident} symbols differ")
+
+
+def check_pe04_qualifiers(fields: dict) -> None:
+    for ident, quals in PE04_QUALIFIERS.items():
+        if list(fields[ident].get("qualifiers", ())) != list(quals):
+            raise AssertionError(f"{ident} qualifiers differ")
+
+
+def check_pe04_operations(document: dict) -> None:
+    operations = {item["id"]: item for item in definitions(document)["operations"]}
+    for ident, (cap, arg, effect, params) in PE04_OPERATIONS.items():
+        item = operations[ident]
+        observed = (
+            item["capability"], item["arguments"], item["effect_rule"],
+            tuple(item.get("parameters", ())),
+        )
+        if observed != (cap, [arg], effect, params):
+            raise AssertionError(f"{ident} operation identity differs")
+
+
+def check_pe04_events(document: dict) -> None:
+    events = {item["id"]: item for item in definitions(document)["events"]}
+    for ident, (service, trigger, payload) in PE04_EVENTS.items():
+        item = events[ident]
+        if (item["service"], item["trigger"], tuple(item["payload"])) != (service, trigger, payload):
+            raise AssertionError(f"{ident} event identity differs")
+
+
+def check_pe04(document: dict) -> None:
+    """Admitted zone, function and sensor rows stay, and the two excluded rows do not."""
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    if "thermal.limit.humidity_maximum" in fields:
+        raise AssertionError("humidity maximum is a member")
+    relations = {item["id"] for item in definitions(document)["relations"]}
+    if "thermal.relation.sensor_zone" in relations:
+        raise AssertionError("sensor zone relation is a member")
+    missing = [ident for ident in PE04_FIELDS if ident not in fields]
+    if missing:
+        raise AssertionError(f"admitted fields absent: {missing}")
+    check_pe04_symbols(fields)
+    check_pe04_qualifiers(fields)
+    check_pe04_operations(document)
+    check_pe04_events(document)
+    for ident in ROOM_QUANTITIES + ROOM_MODES:
+        if ident not in fields:
+            raise AssertionError(f"room id left the pack: {ident}")
+    print("pe04_identity: PASS")
+
+
+def pe04_field_mutants(document: dict) -> int:
+    count = 0
+    for ident in PE04_FIELDS:
+        index = field_index(document, ident)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        if definitions(document)["fields"][index]["kind"] in {"symbol", "symbols", "quantity"}:
+            continue
+        extra = copy.deepcopy(document)
+        definitions(extra)["fields"][index]["unit"] = "unit.kelvin"
+        reject(extra, "non-quantity field has quantity-only data")
+        count += 1
+    return count
+
+
+def pe04_symbol_mutants(document: dict) -> int:
+    count = 0
+    for ident, tokens in PE04_SYMBOLS.items():
+        index = field_index(document, ident)
+        for token in tokens:
+            renamed = copy.deepcopy(document)
+            symbols = definitions(renamed)["fields"][index]["symbols"]
+            symbols[symbols.index(f"{ident}.{token}")] = f"{ident}.paused"
+            reject(renamed, "field has invalid semantic symbols")
+            count += 1
+    return count
+
+
+def pe04_qualifier_mutants(document: dict) -> int:
+    count = 0
+    for ident, quals in PE04_QUALIFIERS.items():
+        index = field_index(document, ident)
+        cleared = copy.deepcopy(document)
+        definitions(cleared)["fields"][index].pop("qualifiers")
+        reject(cleared, "field qualifiers differ")
+        added = copy.deepcopy(document)
+        extra = "thermal.dimension.preset" if quals == ("thermal.dimension.suggestion",) else "thermal.dimension.suggestion"
+        definitions(added)["fields"][index]["qualifiers"] = list(quals) + [extra]
+        reject(added, "field qualifiers differ")
+        count += 2
+        if len(quals) < 2:
+            continue
+        swapped = copy.deepcopy(document)
+        definitions(swapped)["fields"][index]["qualifiers"] = list(reversed(quals))
+        reject(swapped, "field qualifiers differ")
+        count += 1
+    return count
+
+
+def pe04_operation_index(document: dict, ident: str) -> int:
+    operations = definitions(document)["operations"]
+    return next(i for i, item in enumerate(operations) if item["id"] == ident)
+
+
+def pe04_operation_identity_mutants(document: dict) -> int:
+    count = 0
+    ids = list(PE04_OPERATIONS)
+    for ident in ids:
+        index = pe04_operation_index(document, ident)
+        other = ids[0] if ident != ids[0] else ids[1]
+        _cap, other_arg, other_effect, _params = PE04_OPERATIONS[other]
+        other_cap = PE04_OPERATIONS[other][0]
+        renamed = copy.deepcopy(document)
+        item = definitions(renamed)["operations"][index]
+        item["id"] += "_other"
+        item["ref"]["id"] += "_other"
+        reject(renamed, "operation catalog")
+        changed = copy.deepcopy(document)
+        definitions(changed)["operations"][index]["capability"] = other_cap
+        reject(changed, "operation capability differs")
+        argued = copy.deepcopy(document)
+        definitions(argued)["operations"][index]["arguments"] = [other_arg]
+        definitions(argued)["operations"][index]["argument_constraints"] = [other_arg]
+        reject(argued, "operation argument differs")
+        effected = copy.deepcopy(document)
+        definitions(effected)["operations"][index]["effect_rule"] = other_effect
+        reject(effected, "operation effect differs")
+        count += 4
+    return count
+
+
+def pe04_parameter_mutants(document: dict) -> int:
+    count = 0
+    for ident, (_cap, _arg, _effect, params) in PE04_OPERATIONS.items():
+        index = pe04_operation_index(document, ident)
+        extra = copy.deepcopy(document)
+        item = definitions(extra)["operations"][index]
+        item["parameters"] = list(params) + ["thermal.hold.expiry"]
+        reject(extra, "operation parameters differ")
+        count += 1
+        for parameter in params:
+            replaced = copy.deepcopy(document)
+            current = list(definitions(replaced)["operations"][index]["parameters"])
+            current[current.index(parameter)] = "thermal.hold.expiry"
+            definitions(replaced)["operations"][index]["parameters"] = current
+            reject(replaced, "operation parameters differ")
+            count += 1
+    return count
+
+
+def pe04_event_index(document: dict, ident: str) -> int:
+    events = definitions(document)["events"]
+    return next(i for i, item in enumerate(events) if item["id"] == ident)
+
+
+def pe04_event_mutants(document: dict) -> int:
+    count = 0
+    for ident, (service, trigger, payload) in PE04_EVENTS.items():
+        index = pe04_event_index(document, ident)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["events"][index]
+        reject(removed, "event catalog")
+        other_service = "thermal.service.system" if service != "thermal.service.system" else "thermal.service.zone"
+        moved = copy.deepcopy(document)
+        definitions(moved)["events"][index]["service"] = other_service
+        reject(moved, "event service differs")
+        other_trigger = "thermal.mode.zone" if trigger != "thermal.mode.zone" else "thermal.mode.system"
+        trig = copy.deepcopy(document)
+        definitions(trig)["events"][index]["trigger"] = other_trigger
+        reject(trig, "event trigger differs")
+        pay = copy.deepcopy(document)
+        definitions(pay)["events"][index]["payload"] = list(payload) + ["thermal.mode.zone"]
+        reject(pay, "event payload differs")
+        count += 4
+    return count
+
+
+def pe04_rename(document: dict, group: str, ident: str) -> dict:
+    mutated = copy.deepcopy(document)
+    for item in definitions(mutated)[group]:
+        if item["id"] == ident:
+            item["id"] += "_other"
+            item["ref"]["id"] += "_other"
+            return mutated
+    raise AssertionError(ident)
+
+
+def pe04_group_mutants(document: dict) -> int:
+    count = 0
+    cases = [(ident, "qualifier_dimensions", "qualifier catalog") for ident in PE04_QUALIFIER_DIMENSIONS]
+    cases += [
+        ("thermal.dimension.function", "fact_dimensions", "fact-key dimension contracts"),
+        ("thermal.dimension.sensor", "fact_dimensions", "fact-key dimension contracts"),
+        ("thermal.service.function", "services", "service catalog"),
+        ("thermal.service.sensor", "services", "service catalog"),
+        ("thermal.capability.read.function", "capabilities", "capability catalog"),
+        ("thermal.capability.read.sensor", "capabilities", "capability catalog"),
+        ("thermal.portal.read.function", "portal_contributions", "Portal catalog"),
+        ("thermal.portal.read.sensor", "portal_contributions", "Portal catalog"),
+    ]
+    for _ident, (cap, _arg, effect, _params) in PE04_OPERATIONS.items():
+        cases.append((cap, "capabilities", "capability catalog"))
+        cases.append((effect, "effect_rules", "effect catalog"))
+    for ident, group, message in cases:
+        reject(pe04_rename(document, group, ident), message)
+        count += 1
+    for portal_id in ("thermal.portal.read.function", "thermal.portal.read.sensor"):
+        dropped = copy.deepcopy(document)
+        portal = next(item for item in definitions(dropped)["portal_contributions"] if item["id"] == portal_id)
+        portal["fields"].pop()
+        reject(dropped, "read descriptor field coverage")
+        count += 1
+    return count
+
+
+def pe04_qualifier_dimension_mutants(document: dict) -> int:
+    count = 0
+    items = definitions(document)["qualifier_dimensions"]
+    for ident, (kind, unit) in PE04_QUALIFIER_DIMENSIONS.items():
+        index = next(i for i, item in enumerate(items) if item["id"] == ident)
+        changed = copy.deepcopy(document)
+        definitions(changed)["qualifier_dimensions"][index]["value_kind"] = "symbol" if kind != "symbol" else "text"
+        reject(changed, "qualifier dimension differs")
+        unit_change = copy.deepcopy(document)
+        item = definitions(unit_change)["qualifier_dimensions"][index]
+        if unit is None:
+            item["unit"] = "unit.one"
+        else:
+            item.pop("unit")
+        reject(unit_change, "qualifier dimension differs")
+        count += 2
+    return count
+
+
+def pe04_mutants(document: dict) -> int:
+    """Identity fields and the production mutation each case catches.
+
+    field id: removing the field is rejected as a field catalog mismatch.
+    non-quantity unit: inserting unit.kelvin is rejected as quantity-only data.
+    each symbol token, including thermal.mode.zone on: replacing that token is
+    rejected as invalid semantic symbols.
+    qualifier list: removing it, appending one, or reversing two is rejected
+    as field qualifiers differ.
+    operation id: renaming it is rejected as an operation catalog mismatch.
+    capability, argument and effect: replacing each is rejected as operation
+    capability differs, operation argument differs, or operation effect differs.
+    each parameter, and one added parameter: replacing or adding it is rejected
+    as operation parameters differ.
+    event id: removing it is rejected as an event catalog mismatch.
+    event service, trigger and payload: replacing each is rejected as event
+    service differs, event trigger differs, or event payload differs.
+    qualifier-dimension id: renaming it is rejected as a qualifier catalog mismatch.
+    qualifier value kind and unit: replacing each is rejected as qualifier
+    dimension differs.
+    function and sensor fact-dimension ids: renaming each is rejected as
+    fact-key dimension contracts differ.
+    function and sensor service ids: renaming each is rejected as a service
+    catalog mismatch.
+    each new capability id: renaming it is rejected as a capability catalog mismatch.
+    each new effect id: renaming it is rejected as an effect catalog mismatch.
+    each new portal id: renaming it is rejected as a Portal catalog mismatch.
+    one field of each new read portal: removing it is rejected as read
+    descriptor field coverage.
+    Subject, unit and each present bound of every new field are varied by
+    field_axis_mutants: a moved dimension is rejected as field subject differs,
+    a replaced unit is rejected as field unit, a shifted present bound and an
+    inserted absent bound are rejected as field bounds differ.
+    """
+    return (
+        pe04_field_mutants(document) + pe04_symbol_mutants(document)
+        + pe04_qualifier_mutants(document) + pe04_operation_identity_mutants(document)
+        + pe04_parameter_mutants(document) + pe04_event_mutants(document)
+        + pe04_group_mutants(document) + pe04_qualifier_dimension_mutants(document)
+    )
+
+
+
 def main() -> None:
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -931,7 +1344,9 @@ def main() -> None:
     print(f"occupancy_identity_mutants: {occupancy_identity_mutants(document)} REJECTED")
     print(f"pump_and_valve_mutants: {pump_and_valve_mutants(document)} REJECTED")
     check_room(document)
+    check_pe04(document)
     print(f"room_mutants: {room_mutants(document)} REJECTED")
+    print(f"pe04_mutants: {pe04_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":
