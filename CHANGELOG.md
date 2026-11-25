@@ -6,6 +6,15 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The EVSE pack publishes the 225 admitted use-case, actor, and scenario facts
+  on `evse.dimension.connector`. Text facts are on the physical plane.
+  `evse.cevc.heartbeat_timeout` is `unit.second` on the diagnostic plane with
+  an empty minimum and a maximum of 60 s. `evse.opev.heartbeat_timeout` and
+  `evse.oscev.heartbeat_timeout` are `unit.second` on the diagnostic plane
+  with an empty minimum and a maximum of 4 s. No operation is added. The
+  earlier rows stay. New Matter 1.6.1 rows are unknown with
+  `matter.unmapped.v1`. The historical Matter 1.7 roster stays at 184 items.
+  No pack version is raised.
 - The EVSE pack publishes the admitted vehicle, session, limit, target and mode
   facts, the changed events `evse.event.fault` and `evse.event.rfid`, and eleven
   operations with their capabilities and effect rules. `resource.vehicle` and

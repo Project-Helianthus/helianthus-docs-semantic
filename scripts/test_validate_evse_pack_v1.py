@@ -218,6 +218,323 @@ def test_validate_fields_complexity():
     check_validate_fields_complexity(document)
 
 
+
+PE06_FIELD_IDS = frozenset({
+    'evse.ac.active_power',
+    'evse.ac.connected_phases',
+    'evse.ac.current',
+    'evse.ac.frequency',
+    'evse.ac.total_active_power',
+    'evse.ac.voltage',
+    'evse.configuration.randomization_delay_window',
+    'evse.demand.departure_time',
+    'evse.demand.maximum_energy',
+    'evse.demand.minimum_energy',
+    'evse.demand.optimal_energy',
+    'evse.energy.lifetime',
+    'evse.energy.lifetime_exported',
+    'evse.energy.session',
+    'evse.energy.session_discharged',
+    'evse.limit.actual_current',
+    'evse.limit.advertised_current',
+    'evse.limit.allocated_current',
+    'evse.limit.allocated_current_expiry',
+    'evse.limit.allocated_current_phase',
+    'evse.limit.charging_enabled_until',
+    'evse.limit.configured_current',
+    'evse.limit.discharging_enabled_until',
+    'evse.limit.failsafe_current',
+    'evse.limit.maximum_discharge_current',
+    'evse.limit.minimum_charge_current',
+    'evse.limit.recommended_current_phase',
+    'evse.limit.user_maximum_charge_current',
+    'evse.limit.vehicle_maximum_current_phase',
+    'evse.limit.vehicle_minimum_current_phase',
+    'evse.mode',
+    'evse.mode_supported',
+    'evse.session.asymmetric_charging',
+    'evse.session.communication_standard',
+    'evse.session.duration',
+    'evse.session.identifier',
+    'evse.session.rfid_token',
+    'evse.session.start',
+    'evse.status.charging',
+    'evse.status.connection',
+    'evse.status.fault',
+    'evse.status.fault_cause',
+    'evse.status.interlock',
+    'evse.status.readiness',
+    'evse.status.state',
+    'evse.status.supply',
+    'evse.summary.cost',
+    'evse.summary.currency',
+    'evse.summary.end',
+    'evse.summary.energy_grid',
+    'evse.summary.energy_self_produced',
+    'evse.summary.self_produced_ratio',
+    'evse.target.added_energy',
+    'evse.target.days',
+    'evse.target.next_required_energy',
+    'evse.target.next_start',
+    'evse.target.next_state_of_charge',
+    'evse.target.next_target_time',
+    'evse.target.schedule_count',
+    'evse.target.state_of_charge',
+    'evse.target.time_of_day',
+    'evse.vehicle.ac_power',
+    'evse.vehicle.approximate_efficiency',
+    'evse.vehicle.battery_capacity',
+    'evse.vehicle.connection',
+    'evse.vehicle.identifier',
+    'evse.vehicle.maximum_power',
+    'evse.vehicle.minimum_power',
+    'evse.vehicle.sleep',
+    'evse.vehicle.standby_power',
+    'evse.vehicle.state_of_charge',
+    'evse.vehicle.state_of_health',
+    'evse.vehicle.travel_range',
+})
+
+STRUCTURAL_EVSE_IDS = frozenset({
+    'evse.capability.clear_targets',
+    'evse.capability.read.connector',
+    'evse.capability.read.evse',
+    'evse.capability.read.meter',
+    'evse.capability.read.phase',
+    'evse.capability.read.session',
+    'evse.capability.read.vehicle',
+    'evse.capability.set_allocated_current',
+    'evse.capability.set_allocated_current_phase',
+    'evse.capability.set_allocated_current_with_expiry',
+    'evse.capability.set_evse_mode',
+    'evse.capability.set_failsafe_current',
+    'evse.capability.set_randomization_delay_window',
+    'evse.capability.set_recommended_current_phase',
+    'evse.capability.set_supply',
+    'evse.capability.set_target',
+    'evse.capability.set_user_maximum_charge_current',
+    'evse.capability.set_vehicle_efficiency',
+    'evse.dimension.asset',
+    'evse.dimension.connector',
+    'evse.dimension.evse',
+    'evse.dimension.meter',
+    'evse.dimension.phase',
+    'evse.dimension.session',
+    'evse.dimension.target',
+    'evse.dimension.target_schedule',
+    'evse.dimension.vehicle',
+    'evse.effect.clear_targets',
+    'evse.effect.set_allocated_current',
+    'evse.effect.set_allocated_current_phase',
+    'evse.effect.set_allocated_current_with_expiry',
+    'evse.effect.set_evse_mode',
+    'evse.effect.set_failsafe_current',
+    'evse.effect.set_randomization_delay_window',
+    'evse.effect.set_recommended_current_phase',
+    'evse.effect.set_supply',
+    'evse.effect.set_target',
+    'evse.effect.set_user_maximum_charge_current',
+    'evse.effect.set_vehicle_efficiency',
+    'evse.event.fault',
+    'evse.event.rfid',
+    'evse.operation.clear_targets',
+    'evse.operation.set_allocated_current',
+    'evse.operation.set_allocated_current_phase',
+    'evse.operation.set_allocated_current_with_expiry',
+    'evse.operation.set_evse_mode',
+    'evse.operation.set_failsafe_current',
+    'evse.operation.set_randomization_delay_window',
+    'evse.operation.set_recommended_current_phase',
+    'evse.operation.set_supply',
+    'evse.operation.set_target',
+    'evse.operation.set_user_maximum_charge_current',
+    'evse.operation.set_vehicle_efficiency',
+    'evse.portal.operation.set_allocated_current',
+    'evse.portal.read.connector',
+    'evse.portal.read.evse',
+    'evse.portal.read.meter',
+    'evse.portal.read.phase',
+    'evse.portal.read.session',
+    'evse.portal.read.vehicle',
+    'evse.relation.asset_evse',
+    'evse.relation.connector_phase',
+    'evse.relation.connector_session',
+    'evse.relation.evse_connector',
+    'evse.relation.evse_meter',
+    'evse.service.connector',
+    'evse.service.evse',
+    'evse.service.meter',
+    'evse.service.phase',
+    'evse.service.session',
+    'evse.service.vehicle',
+})
+
+CONNECTOR_PORTAL_PREFIX = (
+    'evse.limit.actual_current',
+    'evse.limit.advertised_current',
+    'evse.limit.allocated_current',
+    'evse.status.charging',
+    'evse.status.connection',
+    'evse.status.interlock',
+    'evse.status.state',
+    'evse.limit.allocated_current_expiry',
+    'evse.limit.minimum_charge_current',
+    'evse.limit.maximum_discharge_current',
+    'evse.ac.connected_phases',
+)
+
+HEARTBEAT_CONTRACTS = {
+    "evse.cevc.heartbeat_timeout": ("quantity", "unit.second", "evse.dimension.connector", True, None, (None, None, "6", 1)),
+    "evse.opev.heartbeat_timeout": ("quantity", "unit.second", "evse.dimension.connector", True, None, (None, None, "4", 0)),
+    "evse.oscev.heartbeat_timeout": ("quantity", "unit.second", "evse.dimension.connector", True, None, (None, None, "4", 0)),
+}
+TEXT_ID = "evse.cevc.use_case_name"
+TEXT_CONTRACT = ("text", None, "evse.dimension.connector", True, None, None)
+
+
+def qq12_evse_ids():
+    import csv
+    path = ROOT / "acceptance/catalog-inputs/energy/qq12-fields.tsv"
+    with path.open(encoding="utf-8", newline="") as handle:
+        return {row["id"] for row in csv.DictReader(handle, delimiter="\t") if row["id"].startswith("evse.")}
+
+
+def check_qq12_field_set():
+    """FIELD_CONTRACTS is the frozen PE06 field ids plus every QQ12 evse id.
+
+    A QQ12 id missing from FIELD_CONTRACTS, a PE06 id removed from it, or an
+    id in neither set fails the equality. Overlap fails the disjoint check.
+    """
+    qq12 = qq12_evse_ids()
+    contracts = set(validator.FIELD_CONTRACTS)
+    if contracts != PE06_FIELD_IDS | qq12:
+        raise AssertionError("FIELD_CONTRACTS is not the PE06 fields plus the QQ12 evse fields")
+    if PE06_FIELD_IDS & qq12:
+        raise AssertionError("a QQ12 evse id collides with a PE06 field")
+    if len(qq12) != 225:
+        raise AssertionError("QQ12 evse field count")
+    portal = validator.PORTAL_READS["evse.portal.read.connector"][1]
+    if portal != CONNECTOR_PORTAL_PREFIX + tuple(sorted(qq12)):
+        raise AssertionError("connector portal fields changed the PE06 prefix or the QQ12 order")
+    if validator.FIELD_CONTRACTS[TEXT_ID] != TEXT_CONTRACT:
+        raise AssertionError("text contract tuple")
+    for ident, contract in HEARTBEAT_CONTRACTS.items():
+        if validator.FIELD_CONTRACTS[ident] != contract:
+            raise AssertionError(f"{ident} contract tuple")
+    print("qq12_evse_field_set: PASS")
+
+
+def check_qq12_catalog_shape():
+    """Catalog evse ids are the previous evse ids plus the QQ12 fields."""
+    import json
+    catalog = json.loads((ROOT / "api/v1/element-catalog-v1.json").read_text(encoding="utf-8"))
+    evse = [entry for entry in catalog["elements"] if entry["ref"]["id"].startswith("evse.")]
+    facts = {entry["ref"]["id"] for entry in evse if entry["element_kind"] == "fact"}
+    all_ids = {entry["ref"]["id"] for entry in evse}
+    contracts = set(validator.FIELD_CONTRACTS)
+    if facts != contracts:
+        raise AssertionError("catalog evse facts differ from FIELD_CONTRACTS")
+    if all_ids != STRUCTURAL_EVSE_IDS | contracts:
+        raise AssertionError("catalog evse ids differ from the previous ids plus the QQ12 fields")
+    by_id = {entry["ref"]["id"]: entry for entry in evse}
+    evidence = ["api/v1/packs/evse-v1.md", "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/177"]
+    for ident in sorted(qq12_evse_ids()):
+        entry = by_id[ident]
+        quantity = ident in HEARTBEAT_CONTRACTS
+        if entry["planes"] != (["diagnostic"] if quantity else ["physical"]) or entry["admission"] != {"arm": "eebus", "evidence": evidence}:
+            raise AssertionError(f"{ident} plane or admission")
+        attributes = entry["attributes"]
+        if attributes["aggregation"] != ("member" if quantity else "not_applicable") or attributes["direction"] != "not_applicable":
+            raise AssertionError(f"{ident} aggregation or direction")
+        subject = attributes["subject"]
+        if subject["kind"] != "resource.connector" or subject["dimension"]["id"] != "evse.dimension.connector":
+            raise AssertionError(f"{ident} subject")
+    print("qq12_evse_catalog_shape: PASS")
+
+
+def check_qq12_matter_rows():
+    """Each QQ12 evse fact has one unknown Matter roster row.
+
+    Fields and the publication change each comparison catches:
+    - disposition: ``transformed`` is rejected.
+    - reason: a reason other than ``matter.unmapped.v1`` is rejected.
+    - target: a ``target`` member is rejected.
+    """
+    import json
+    ledger = json.loads((ROOT / "api/v1/targets/matter-1.6.1-v1.json").read_text(encoding="utf-8"))
+    seen = {}
+    for row in ledger["rows"]:
+        ident = row["ref"]["id"]
+        if ident in seen:
+            raise AssertionError(f"duplicate roster row {ident}")
+        seen[ident] = row
+    for ident in sorted(qq12_evse_ids()):
+        row = seen.get(ident)
+        if row is None or row.get("disposition") != "unknown" or row.get("reason") != "matter.unmapped.v1" or "target" in row:
+            raise AssertionError(f"roster row {ident} is not one unknown row")
+    print("qq12_evse_matter_rows: PASS")
+
+
+def field_index(document, ident):
+    return next(index for index, field in enumerate(document["catalog"]["definitions"]["fields"]) if field["id"] == ident)
+
+
+def check_qq12_text_contract(document):
+    """``evse.cevc.use_case_name`` keeps every field of its text contract.
+
+    Fields and the production mutation each check catches:
+    - kind: setting ``symbol`` is rejected as a noncanonical kind.
+    - unit: adding ``unit.second`` is rejected as a text contract.
+    - dimension: setting ``evse.dimension.evse`` is rejected as a noncanonical kind.
+    - optional: setting ``False`` is rejected as a noncanonical kind.
+    - symbols: adding ``evse.cevc.use_case_name.present`` is rejected as a text contract.
+    - bounds: adding an empty bound pair is rejected as a text contract.
+    """
+    index = field_index(document, TEXT_ID)
+    case(document, "use_case_name_kind", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(kind="symbol"))
+    case(document, "use_case_name_unit", "invalid canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.second"))
+    case(document, "use_case_name_dimension", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(dimension="evse.dimension.evse"))
+    case(document, "use_case_name_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
+    case(document, "use_case_name_symbols", "invalid canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["evse.cevc.use_case_name.present"]))
+    case(document, "use_case_name_bounds", "invalid canonical text contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(bounds={"minimum": None, "maximum": None}))
+    print("qq12_evse_text_contract: PASS")
+
+
+def check_qq12_quantity_contract(document):
+    """``evse.cevc.heartbeat_timeout`` keeps every field of its quantity contract.
+
+    Fields and the production mutation each check catches:
+    - kind: setting ``text`` is rejected as a noncanonical kind.
+    - unit: setting ``unit.volt`` is rejected as a quantity contract.
+    - dimension: setting ``evse.dimension.phase`` is rejected as a noncanonical kind.
+    - optional: setting ``False`` is rejected as a noncanonical kind.
+    - symbols: adding ``evse.cevc.heartbeat_timeout.present`` is rejected as a quantity contract.
+    - minimum coefficient and exponent: installing ``0`` with exponent ``0`` is rejected as a quantity contract.
+    - maximum coefficient: setting ``7`` is rejected as a quantity contract.
+    - maximum exponent: setting ``0`` is rejected as a quantity contract.
+    - ``evse.opev.heartbeat_timeout`` maximum: copying the 60 s bound is rejected as a quantity contract.
+    """
+    index = field_index(document, "evse.cevc.heartbeat_timeout")
+    case(document, "heartbeat_kind", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(kind="text"))
+    case(document, "heartbeat_unit", "quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(unit="unit.volt"))
+    case(document, "heartbeat_dimension", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(dimension="evse.dimension.phase"))
+    case(document, "heartbeat_optional", "noncanonical kind", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(optional=False))
+    case(document, "heartbeat_symbols", "quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(symbols=["evse.cevc.heartbeat_timeout.present"]))
+    case(document, "heartbeat_minimum", "quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+    case(document, "heartbeat_maximum_coefficient", "quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["maximum"].update(coefficient="7"))
+    case(document, "heartbeat_maximum_exponent", "quantity contract", lambda catalog, index=index: catalog["definitions"]["fields"][index]["bounds"]["maximum"].update(exponent10=0))
+    other = field_index(document, "evse.opev.heartbeat_timeout")
+    case(document, "opev_maximum_copied_from_cevc", "quantity contract", lambda catalog, index=other: catalog["definitions"]["fields"][index]["bounds"].update(maximum={"coefficient": "6", "exponent10": 1}))
+    print("qq12_evse_quantity_contract: PASS")
+
+
+def check_qq12_evse_rows(document):
+    check_qq12_field_set()
+    check_qq12_catalog_shape()
+    check_qq12_matter_rows()
+    check_qq12_text_contract(document)
+    check_qq12_quantity_contract(document)
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -257,6 +574,7 @@ def main():
     print("focused_mutations: 36 REJECTED")
     check_admitted_rows_leave_the_set_case(document)
     check_validate_fields_complexity(document)
+    check_qq12_evse_rows(document)
 
 
 if __name__ == "__main__":
