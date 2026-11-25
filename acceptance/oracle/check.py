@@ -26,6 +26,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 sys.path.insert(0, str(HERE / "recorders"))
 import can_receive  # noqa: E402
+import restart as restart_cuts  # noqa: E402
 VECTORS = ROOT / "acceptance" / "vectors"
 INDEX = VECTORS / "index.json"
 ORIGINS = {"recorded-current", "recorded-released", "recorded-pre-port", "specification", "synthetic"}
@@ -254,6 +255,9 @@ def replay(reference):
                 errors.append(f"{relative}: extra actual output with no expected-output entry")
     errors += compare_build(reference, target / "oracle")
     if reference == "current":
+        rebuilt = actual_vectors / restart_cuts.DIRECTORY
+        if all((rebuilt / name).is_file() for name in restart_cuts.CUTS):
+            errors += [f"rebuilt restart cuts: {error}" for error in restart_errors(*restart_cuts.load(rebuilt), load_index())]
         errors += can_index_errors(load_index())
         for platform in can_receive.PARTITIONS:
             errors += verify_can_tree(platform, CAN_ACTUAL / platform, load_index())
@@ -499,13 +503,47 @@ def compare_build(reference, actual_oracle):
     return errors
 
 
+def restart_errors(first, second, entries):
+    """Compare the two lifecycles: the compared members of item 7 only, never clocks, leases, cut digests or the export result.
+
+    A difference is an identity difference of the pin, printed as an item 15 defect. It is accepted only where the index marks that
+    member as a defect, so the committed bytes stay the pin's; an unmarked difference, or a mark the cuts do not show, is an error."""
+    errors = []
+    found = restart_cuts.differences(first, second)
+    marked = restart_cuts.marked_members(entries)
+    for member, left, right in found:
+        print(f"DEFECT (item {restart_cuts.DEFECT_ITEM}, owner {restart_cuts.DEFECT_OWNER}): the lifecycles differ in {member}: first {json.dumps(left, sort_keys=True)}; second {json.dumps(right, sort_keys=True)}")
+        if member not in marked:
+            errors.append(f"the lifecycle difference in {member} is not marked as an item {restart_cuts.DEFECT_ITEM} defect in index.json")
+    for member in sorted(marked - {member for member, _left, _right in found}):
+        errors.append(f"index.json marks an item {restart_cuts.DEFECT_ITEM} defect in {member} that the lifecycles do not show")
+    return errors
+
+
 def restart():
-    directory = VECTORS / "current" / "restart"
+    directory = VECTORS / restart_cuts.DIRECTORY
     if not directory.is_dir():
         return ["no restart vectors are recorded under acceptance/vectors/current/restart/"]
-    first, second = (json.loads((directory / name).read_text(encoding="utf-8")) for name in ("cut-first.json", "cut-second.json"))
-    differences = [key for key in sorted(set(first) | set(second)) if first.get(key) != second.get(key)]
-    return [f"lifecycle difference in {key}" for key in differences]
+    entries = load_index()
+    errors = []
+    by_path = {entry["path"]: entry for entry in entries}
+    for name in restart_cuts.CUTS:
+        path = f"{restart_cuts.DIRECTORY}/{name}"
+        entry = by_path.get(path)
+        if entry is None:
+            errors.append(f"{path}: the restart cut is not in index.json")
+            continue
+        for key, value in (("origin", "recorded-current"), ("reference", "current"), ("role", "expected-output")):
+            if entry.get(key) != value:
+                errors.append(f"{path}: index {key} is {entry.get(key)!r}, not {value!r}")
+        if not (VECTORS / path).is_file():
+            errors.append(f"{path}: indexed file is missing")
+        elif sha256(VECTORS / path) != entry.get("sha256"):
+            errors.append(f"{path}: sha256 differs from index.json")
+    if errors:
+        return errors
+    first, second = restart_cuts.load(directory)
+    return restart_errors(first, second, entries)
 
 
 def main():

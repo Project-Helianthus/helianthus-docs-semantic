@@ -40,7 +40,7 @@ def build(vectors, entry_files):
                 if document["kind"] in KINDS:
                     entry["kind"] = document["kind"]
         entry["sha256"] = sha256(path)
-        index.append({key: entry[key] for key in ("path", "sha256", "origin", "reference", "role", "recorder", "case", "kind") if key in entry})
+        index.append({key: entry[key] for key in ("path", "sha256", "origin", "reference", "role", "recorder", "case", "kind", "defect") if key in entry})
     common.write(vectors / "index.json", common.canonical({"format": "helianthus-oracle-vector-index/1", "vectors": index}))
     return index
 
