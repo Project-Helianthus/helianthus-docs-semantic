@@ -6,6 +6,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The energy-management pack `helianthus.pack.energy_management` 1.0.0
+  publishes the admitted subject facts, `energy.dimension.subject`, five
+  qualifier dimensions, `energy.service.subject`, one read capability, and
+  thirteen operations with one capability and one effect rule each. Six
+  entered or left events stay out of the catalog because a fact stores no
+  symbols. Eleven signed quantities use direction `not_applicable` until a
+  supplies relation is admitted. Empty bounds stay empty. No element is
+  marked sensitive or hidden. New Matter 1.6.1 rows are unknown with
+  `matter.unmapped.v1`. The historical Matter 1.7 roster stays at 184
+  items. No other pack is added and no pack version is raised.
 - The EVSE pack publishes the 225 admitted use-case, actor, and scenario facts
   on `evse.dimension.connector`. Text facts are on the physical plane.
   `evse.cevc.heartbeat_timeout` is `unit.second` on the diagnostic plane with

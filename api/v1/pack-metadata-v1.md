@@ -1,6 +1,6 @@
 # Immutable pack metadata v1
 
-`helianthus.semantic.pack-metadata/v1` is an accepted, protocol-neutral read-only contract for the accepted capability packs. The schema list is open: the catalog validator and this validator read one source list, and a later pack is added on that list. This fixture still contains exactly the five accepted packs. Its machine-readable fixture is [pack-metadata-v1.json](pack-metadata-v1.json), constrained by the [JSON Schema](pack-metadata-v1.schema.json) and validated against the exact accepted source contracts by `scripts/validate_pack_metadata_v1.py`.
+`helianthus.semantic.pack-metadata/v1` is an accepted, protocol-neutral read-only contract for the accepted capability packs. The schema list is open: the catalog validator and this validator read one source list, and a later pack is added on that list. This fixture contains the six accepted packs, including `helianthus.pack.energy_management` 1.0.0. Its machine-readable fixture is [pack-metadata-v1.json](pack-metadata-v1.json), constrained by the [JSON Schema](pack-metadata-v1.schema.json) and validated against the exact accepted source contracts by `scripts/validate_pack_metadata_v1.py`.
 
 Immutable means read-only at run time. Until the 0.7 release the metadata changes in place whenever an accepted pack changes in place ([api/README.md](../README.md#version-rule)).
 
@@ -8,7 +8,7 @@ This contract provides SemReg's future external descriptor validator with alread
 
 ## Data and ordering
 
-Each record is an exact `PackRef` or `DefinitionRef`. The fixture contains thermal/HVAC 1.0.0, PV/inverter 1.0.0, storage/BMS 1.1.0, EVSE 1.0.0, and electrical infrastructure 1.0.0. Its source paths are accepted vectors, with storage field and operation detail from accepted storage contract tables.
+Each record is an exact `PackRef` or `DefinitionRef`. The fixture contains energy management 1.0.0, EVSE 1.0.0, electrical infrastructure 1.0.0, PV/inverter 1.0.0, storage/BMS 1.1.0, and thermal/HVAC 1.0.0. Its source paths are accepted vectors, with storage field and operation detail from accepted storage contract tables.
 
 `units` and `definitions` are bytewise sorted by `(pack id, pack version, definition id, definition version)`. Fields include their exact canonical unit (or `null` for a non-quantity) and dimension. Services include their exact fact-key dimension. Capabilities include their owning service. Operations use the exact five-part `{operation, capability, service, argument, effect}` shape, and may carry optional `parameters`: a sorted unique list of definition references of the same pack, none equal to the argument. `storage.state.soc` has canonical `unit.ratio`; neither `storage.state_of_charge` nor `storage.unit.ratio` is a definition.
 
@@ -20,7 +20,7 @@ The constructor required of the owning SemReg implementation rejects duplicate, 
 
 | Query | Required result |
 | --- | --- |
-| `Packs()` | Canonically ordered deep copy of this fixture's five `PackRef`s. The schema does not cap the list at five. |
+| `Packs()` | Canonically ordered deep copy of this fixture's six `PackRef`s. The schema does not cap the list at five. |
 | `HasDefinition(ref)` | True only for an exact exported definition, including quantity units. |
 | `CanonicalUnit(field)` | Exact unit for an exact quantity field; no result otherwise. |
 | `ServiceOwnsCapability(service, capability)` | True only for exact same-pack ownership. |
@@ -31,4 +31,4 @@ Every unknown, wrong-version, cross-pack, wrong-unit, service, capability, opera
 
 ## Validation and limits
 
-Run `python3 scripts/validate_pack_metadata_schema_v1.py`, `python3 scripts/validate_pack_metadata_v1.py`, `python3 scripts/test_validate_pack_metadata_v1.py`, then `./scripts/check_docs.sh`. The repository-contained validator executes the Draft 2020-12 features used by this strict schema without a third-party dependency and separately enforces that this fixture is exactly the five accepted PackRefs. The schema list itself is the open source list. The focused tests include raw-schema missing/malformed references, malformed operations, extra/incorrect packs, source drift mutations, canonical-order rejection, complete FieldMatches typed-reference probes, and deep-copy query isolation. They do not establish implementation, native qualification, Portal acceptance, interoperability or physical-device behavior.
+Run `python3 scripts/validate_pack_metadata_schema_v1.py`, `python3 scripts/validate_pack_metadata_v1.py`, `python3 scripts/test_validate_pack_metadata_v1.py`, then `./scripts/check_docs.sh`. The repository-contained validator executes the Draft 2020-12 features used by this strict schema without a third-party dependency and separately enforces that this fixture is exactly the six accepted PackRefs. The schema list itself is the open source list. The focused tests include raw-schema missing/malformed references, malformed operations, extra/incorrect packs, source drift mutations, canonical-order rejection, complete FieldMatches typed-reference probes, and deep-copy query isolation. They do not establish implementation, native qualification, Portal acceptance, interoperability or physical-device behavior.

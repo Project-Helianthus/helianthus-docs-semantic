@@ -2125,6 +2125,7089 @@
         "owner": {
           "kind": "pack",
           "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.adjust_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.adjust_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.adjust_start_time",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.adjust_start_time",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.modify_series_slot",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.modify_series_slot",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.read.subject",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.schedule_sequence",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.schedule_sequence",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_consumption_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_consumption_failsafe",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_consumption_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_consumption_limit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_energy_balance",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_energy_balance",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_esa_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_esa_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_esa_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_esa_state",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_low_power_sensitivity",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_production_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_production_failsafe",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_production_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_production_limit",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.capability.set_sequence_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "capability",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "service": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.service.subject",
+          "version": "1.0.0"
+        },
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_sequence_state",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.adjustment_range",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "quantity",
+        "unit": "unit.one"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.balance",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "quantity",
+        "unit": "unit.one"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.sequence",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "text"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.series",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "symbol",
+        "symbols": [
+          "charging_plan",
+          "charging_power_limit_curve",
+          "committed_power_plan",
+          "consumption_limit_curve",
+          "fallback_consumption_limit_curve",
+          "fallback_production_limit_curve",
+          "forecast",
+          "power_demand_forecast",
+          "preliminary_power_plan",
+          "production_limit_curve"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.slot",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "qualifier",
+        "value_kind": "quantity",
+        "unit": "unit.one"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.dimension.subject",
+        "version": "1.0.0"
+      },
+      "element_kind": "dimension",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "role": "resource",
+        "anchor_classes": [
+          "component",
+          "equipment",
+          "function"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.adjust_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.adjust_power",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.requested_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.adjust_start_time",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.adjust_start_time",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.series.start",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.modify_series_slot",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.modify_series_slot",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.series.slot_power_nominal",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.schedule_sequence",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.schedule_sequence",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.sequence.scheduled_start",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_consumption_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_consumption_failsafe",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.consumption_failsafe_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_consumption_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_consumption_limit",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.consumption_active_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_energy_balance",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_energy_balance",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.preference.current_balance",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_esa_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_esa_mode",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_esa_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_esa_state",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.state",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_low_power_sensitivity",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.preference.low_power_sensitivity",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_production_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_production_failsafe",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.production_failsafe_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_production_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_production_limit",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.production_active_power",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.effect.set_sequence_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "effect_rule",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "operation": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.operation.set_sequence_state",
+          "version": "1.0.0"
+        },
+        "fact": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.sequence.state",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_cause",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_end_cause",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_maximum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.adjustment_range",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_maximum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.adjustment_range",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_minimum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.adjustment_range",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.adjustment_minimum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.adjustment_range",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.can_generate",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.maximum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.minimum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.mode_supported",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.opt_out",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.request_cause",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.requested_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.requested_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.esa.type",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.heartbeat.status",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.heartbeat.timeout",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.consumption_active",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.consumption_active_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.consumption_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.consumption_failsafe_duration_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.consumption_failsafe_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.production_active",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.production_active_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.production_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.production_failsafe_duration_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.production_failsafe_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.limit.state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.manager.state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.nameplate.consumption_contractual_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.nameplate.consumption_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.nameplate.production_contractual_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.nameplate.production_nominal_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.adjust_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.adjust_power",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.requested_power",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.adjust_power",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.request_cause",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.requested_duration",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.adjust_start_time",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.adjust_start_time",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.series.start",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.adjust_start_time",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.request_cause",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.modify_series_slot",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.modify_series_slot",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.series.slot_power_nominal",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.modify_series_slot",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.request_cause",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.series.identifier",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.series.slot_duration",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.series.slot_power_maximum",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.schedule_sequence",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.schedule_sequence",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.sequence.scheduled_start",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.schedule_sequence",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_consumption_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_consumption_failsafe",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.consumption_failsafe_power",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_consumption_failsafe",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.consumption_failsafe_duration_minimum",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_consumption_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_consumption_limit",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.consumption_active_power",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_consumption_limit",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.consumption_active",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.consumption_duration",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_energy_balance",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_energy_balance",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.preference.current_balance",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_energy_balance",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_esa_mode",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_esa_mode",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.mode",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_esa_mode",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_esa_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_esa_state",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.esa.state",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_esa_state",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.request_cause",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.esa.requested_duration",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_low_power_sensitivity",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.preference.low_power_sensitivity",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_low_power_sensitivity",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_production_failsafe",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_production_failsafe",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.production_failsafe_power",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_production_failsafe",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.production_failsafe_duration_minimum",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_production_limit",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_production_limit",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.limit.production_active_power",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_production_limit",
+          "version": "1.0.0"
+        },
+        "parameters": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.production_active",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.limit.production_duration",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.operation.set_sequence_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "operation",
+      "disposition": "member",
+      "planes": [
+        "control"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "capability": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.capability.set_sequence_state",
+          "version": "1.0.0"
+        },
+        "argument": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.sequence.state",
+          "version": "1.0.0"
+        },
+        "effect_rule": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.effect.set_sequence_state",
+          "version": "1.0.0"
+        }
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.portal.read.subject",
+        "version": "1.0.0"
+      },
+      "element_kind": "presentation",
+      "disposition": "unsupported",
+      "planes": [],
+      "reason": "catalog.reason.target_presentation",
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "target": "portal"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.preference.balance_label",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.balance",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.preference.balance_step",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.balance",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.preference.current_balance",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.preference.low_power_sensitivity",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.preference.priorities",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbols",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable"
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.active_duration_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.active_duration_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.earliest_start",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.latest_end",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.pausable",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.pause_duration_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.pause_duration_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.scheduled_start",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.slot_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.slot_power_expected",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.slot_power_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.slot_power_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.sequence.stoppable",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.constraint_maximum_slots",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.constraint_minimum_slot_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.constraint_slot_value_step",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "eebus",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.earliest_start",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.end",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.identifier",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.latest_end",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.pausable",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_adjustment_maximum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_adjustment_maximum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_adjustment_minimum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_adjustment_minimum_power",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_default_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_elapsed",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_energy_nominal",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_maximum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_maximum_pause",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_minimum_duration",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_minimum_pause",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_pausable",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "boolean",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_power_maximum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_power_minimum",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_power_nominal",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_remaining",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "quantity",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "member",
+        "direction": "non_negative",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_start",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.slot_state",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "text",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.start",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "time",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.series.update_reason",
+        "version": "1.0.0"
+      },
+      "element_kind": "fact",
+      "disposition": "member",
+      "planes": [
+        "energy"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "value_kind": "symbol",
+        "subject": {
+          "status": "resolved",
+          "dimension": {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          }
+        },
+        "aggregation": "not_applicable",
+        "direction": "not_applicable",
+        "qualifiers": [
+          {
+            "owner": {
+              "kind": "pack",
+              "pack": {
+                "id": "helianthus.pack.energy_management",
+                "version": "1.0.0"
+              }
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
+            "id": "helianthus.pack.energy_management",
+            "version": "1.0.0"
+          }
+        },
+        "id": "energy.service.subject",
+        "version": "1.0.0"
+      },
+      "element_kind": "service",
+      "disposition": "member",
+      "planes": [
+        "energy",
+        "control",
+        "diagnostic"
+      ],
+      "admission": {
+        "arm": "matter_baseline",
+        "evidence": [
+          "api/v1/packs/energy-management-v1.md",
+          "https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/178"
+        ]
+      },
+      "attributes": {
+        "fact_key_dimension": {
+          "owner": {
+            "kind": "pack",
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            }
+          },
+          "id": "energy.dimension.subject",
+          "version": "1.0.0"
+        },
+        "subject_classes": [
+          "component",
+          "equipment",
+          "function"
+        ]
+      }
+    },
+    {
+      "ref": {
+        "owner": {
+          "kind": "pack",
+          "pack": {
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           }

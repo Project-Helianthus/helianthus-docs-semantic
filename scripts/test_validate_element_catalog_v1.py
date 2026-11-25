@@ -87,6 +87,7 @@ SCHEME_ADMISSION = {"arm": "public_registry", "evidence": ["https://example.org/
 THERMAL_PAGE = "api/v1/packs/thermal-hvac-v1.md"
 THIS_REPO_PAGES = {
     "api/v1/kernel.md",
+    "api/v1/packs/energy-management-v1.md",
     "api/v1/packs/evse-v1.md",
     "api/v1/packs/infrastructure-v1.md",
     "api/v1/packs/pv-inverter-v1.md",
@@ -184,7 +185,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 998 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1129 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -291,10 +292,10 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 930)
+        self.assertEqual(len(kinds), 1061)
         self.assertEqual(kinds.count("relation"), 30)
-        self.assertEqual(kinds.count("presentation"), 42)
-        self.assertEqual(kinds.count("dimension"), 47)
+        self.assertEqual(kinds.count("presentation"), 43)
+        self.assertEqual(kinds.count("dimension"), 53)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_room_planes_and_containment(self):
@@ -704,10 +705,16 @@ class PackInputs(unittest.TestCase):
             validator.subset.load_json = original
 
     def test_vector_pack_with_the_earlier_member_name(self):
-        def mutate(document):
+        def rename(document):
             definitions = document["catalog"]["definitions"]
             definitions[EARLIER_MEMBER] = definitions.pop("relations")
+
+        def add(document):
+            document["catalog"]["definitions"][EARLIER_MEMBER] = []
+
         for path in VECTOR_FILES:
+            present = subset.load_json(path)
+            mutate = rename if "relations" in present["catalog"]["definitions"] else add
             with self.subTest(pack=path.name), self.assertRaisesRegex(ValueError, "definition groups outside"):
                 self.load_with(path, mutate)
 

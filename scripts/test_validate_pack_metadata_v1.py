@@ -45,7 +45,7 @@ def main():
             assert registry.operation_matches(operation["ref"], operation["capability"], operation["service"], operation["argument"], operation["effect"])
             wrong = copy.deepcopy(operation["effect"]); wrong["id"] += ".wrong"
             assert not registry.operation_matches(operation["ref"], operation["capability"], operation["service"], operation["argument"], wrong)
-    assert typed_relation_probes == 272
+    assert typed_relation_probes == 328
     print(f"FieldMatches typed-reference probes: {typed_relation_probes} REJECTED")
     unknown = copy.deepcopy(baseline["packs"][0]["definitions"][0]); unknown["version"] = "0.0.0"
     assert not registry.has_definition(unknown) and registry.canonical_unit(unknown) is None
@@ -59,7 +59,7 @@ def main():
         candidate = copy.deepcopy(baseline); mutate(candidate); schema_rejects(candidate); print(f"{name}: REJECTED")
     for name, mutate in (
         ("wrong_version", lambda d: d["packs"][0]["definitions"][0].update(version="9.0.0")),
-        ("wrong_unit", lambda d: d["packs"][0]["fields"][0]["canonical_unit"].update(id="unit.missing")),
+        ("wrong_unit", lambda d: next(field["canonical_unit"] for field in d["packs"][0]["fields"] if field["canonical_unit"]).update(id="unit.missing")),
         ("cross_pack", lambda d: d["packs"][0]["capabilities"][0]["service"].update(pack=d["packs"][1]["pack"])),
         ("duplicate", lambda d: d["packs"][0]["definitions"].append(copy.deepcopy(d["packs"][0]["definitions"][0]))),
         ("operation_shape", lambda d: d["packs"][0]["operations"] and d["packs"][0]["operations"][0].update(argument=d["packs"][0]["fields"][0]["ref"])),

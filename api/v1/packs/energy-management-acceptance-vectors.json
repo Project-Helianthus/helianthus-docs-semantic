@@ -1,0 +1,2757 @@
+{
+  "contract": "helianthus.semantic.pack.energy_management.acceptance/v1",
+  "pack_contract": "helianthus.pack.energy_management/v1",
+  "catalog": {
+    "pack": {
+      "id": "helianthus.pack.energy_management",
+      "version": "1.0.0"
+    },
+    "definitions": {
+      "fields": [
+        {
+          "id": "energy.limit.consumption_active_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.consumption_active_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 10,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.consumption_active",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.consumption_active",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 20,
+          "direction": "not_applicable"
+        },
+        {
+          "id": "energy.limit.consumption_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.consumption_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 30,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.consumption_failsafe_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.consumption_failsafe_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 40,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.consumption_failsafe_duration_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.consumption_failsafe_duration_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 50,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": {
+              "coefficient": "72",
+              "exponent10": 2
+            },
+            "maximum": {
+              "coefficient": "864",
+              "exponent10": 2
+            }
+          }
+        },
+        {
+          "id": "energy.nameplate.consumption_nominal_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.nameplate.consumption_nominal_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 60,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.nameplate.consumption_contractual_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.nameplate.consumption_contractual_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 70,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.production_active_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.production_active_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 80,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.production_active",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.production_active",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 90,
+          "direction": "not_applicable"
+        },
+        {
+          "id": "energy.limit.production_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.production_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 100,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.production_failsafe_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.production_failsafe_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 110,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.production_failsafe_duration_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.production_failsafe_duration_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 120,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": {
+              "coefficient": "72",
+              "exponent10": 2
+            },
+            "maximum": {
+              "coefficient": "864",
+              "exponent10": 2
+            }
+          }
+        },
+        {
+          "id": "energy.nameplate.production_nominal_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.nameplate.production_nominal_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 130,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.nameplate.production_contractual_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.nameplate.production_contractual_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 140,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": {
+              "coefficient": "0",
+              "exponent10": 0
+            },
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.limit.state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.limit.state",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 150,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.limit.state.failsafe",
+            "energy.limit.state.init",
+            "energy.limit.state.limited",
+            "energy.limit.state.unlimited_autonomous",
+            "energy.limit.state.unlimited_controlled"
+          ]
+        },
+        {
+          "id": "energy.heartbeat.status",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.heartbeat.status",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 160,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.heartbeat.status.ok",
+            "energy.heartbeat.status.timeout",
+            "energy.heartbeat.status.unknown"
+          ]
+        },
+        {
+          "id": "energy.heartbeat.timeout",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.heartbeat.timeout",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 170,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": null,
+            "maximum": {
+              "coefficient": "6",
+              "exponent10": 1
+            }
+          }
+        },
+        {
+          "id": "energy.manager.state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.manager.state",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 180,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.manager.state.failure",
+            "energy.manager.state.normal_operation",
+            "energy.manager.state.not_reachable"
+          ]
+        },
+        {
+          "id": "energy.esa.type",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.type",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 190,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.type.battery_storage",
+            "energy.esa.type.cooking",
+            "energy.esa.type.dishwasher",
+            "energy.esa.type.evse",
+            "energy.esa.type.fridge_freezer",
+            "energy.esa.type.home_water_pump",
+            "energy.esa.type.irrigation_water_pump",
+            "energy.esa.type.other",
+            "energy.esa.type.pool_pump",
+            "energy.esa.type.solar_pv",
+            "energy.esa.type.space_cooling",
+            "energy.esa.type.space_heating",
+            "energy.esa.type.space_heating_cooling",
+            "energy.esa.type.washing_machine",
+            "energy.esa.type.water_heating"
+          ]
+        },
+        {
+          "id": "energy.esa.can_generate",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.can_generate",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 200,
+          "direction": "not_applicable"
+        },
+        {
+          "id": "energy.esa.state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.state",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 210,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.state.fault",
+            "energy.esa.state.offline",
+            "energy.esa.state.online",
+            "energy.esa.state.paused",
+            "energy.esa.state.power_adjust_active"
+          ]
+        },
+        {
+          "id": "energy.esa.minimum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.minimum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 220,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.maximum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.maximum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 230,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.adjustment_minimum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_minimum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 240,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.adjustment_range"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.adjustment_maximum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_maximum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 250,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.adjustment_range"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.adjustment_minimum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_minimum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 260,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.adjustment_range"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.adjustment_maximum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_maximum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 270,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.adjustment_range"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.adjustment_cause",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_cause",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 280,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.adjustment_cause.grid_optimization",
+            "energy.esa.adjustment_cause.local_optimization",
+            "energy.esa.adjustment_cause.no_adjustment"
+          ]
+        },
+        {
+          "id": "energy.esa.opt_out",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.opt_out",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 290,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.opt_out.grid_opt_out",
+            "energy.esa.opt_out.local_opt_out",
+            "energy.esa.opt_out.no_opt_out",
+            "energy.esa.opt_out.opt_out"
+          ]
+        },
+        {
+          "id": "energy.esa.mode",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.mode",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 300,
+          "direction": "not_applicable",
+          "unit": "unit.one",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.mode_supported",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.mode_supported",
+            "version": "1.0.0"
+          },
+          "kind": "text",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 310,
+          "direction": "not_applicable"
+        },
+        {
+          "id": "energy.esa.requested_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.requested_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 320,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.requested_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.requested_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 330,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.esa.request_cause",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.request_cause",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 340,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.request_cause.grid_optimization",
+            "energy.esa.request_cause.local_optimization"
+          ]
+        },
+        {
+          "id": "energy.esa.adjustment_end_cause",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.esa.adjustment_end_cause",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 350,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.esa.adjustment_end_cause.cancelled",
+            "energy.esa.adjustment_end_cause.fault",
+            "energy.esa.adjustment_end_cause.normal_completion",
+            "energy.esa.adjustment_end_cause.offline",
+            "energy.esa.adjustment_end_cause.user_opt_out"
+          ]
+        },
+        {
+          "id": "energy.series.identifier",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.identifier",
+            "version": "1.0.0"
+          },
+          "kind": "text",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 360,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.start",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.start",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 370,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.end",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.end",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 380,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.earliest_start",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.earliest_start",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 390,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.latest_end",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.latest_end",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 400,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.update_reason",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.update_reason",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 410,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ],
+          "symbols": [
+            "energy.series.update_reason.grid_optimization",
+            "energy.series.update_reason.internal_optimization",
+            "energy.series.update_reason.local_optimization"
+          ]
+        },
+        {
+          "id": "energy.series.pausable",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.pausable",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 420,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series"
+          ]
+        },
+        {
+          "id": "energy.series.slot_start",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_start",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 430,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ]
+        },
+        {
+          "id": "energy.series.slot_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 440,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_minimum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_minimum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 450,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_maximum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_maximum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 460,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_default_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_default_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 470,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_elapsed",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_elapsed",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 480,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_remaining",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_remaining",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 490,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_power_nominal",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_power_nominal",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 500,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_power_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_power_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 510,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_power_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_power_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 520,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_energy_nominal",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_energy_nominal",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 530,
+          "direction": "not_applicable",
+          "unit": "unit.joule",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_pausable",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_pausable",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 540,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ]
+        },
+        {
+          "id": "energy.series.slot_minimum_pause",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_minimum_pause",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 550,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_maximum_pause",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_maximum_pause",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 560,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_adjustment_minimum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_adjustment_minimum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 570,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_adjustment_maximum_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_adjustment_maximum_power",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 580,
+          "direction": "not_applicable",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_adjustment_minimum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_adjustment_minimum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 590,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_adjustment_maximum_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_adjustment_maximum_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 600,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.slot_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.slot_state",
+            "version": "1.0.0"
+          },
+          "kind": "text",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 610,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.series",
+            "energy.dimension.slot"
+          ]
+        },
+        {
+          "id": "energy.series.constraint_minimum_slot_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.constraint_minimum_slot_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 620,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.series"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.constraint_maximum_slots",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.constraint_maximum_slots",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 630,
+          "direction": "not_applicable",
+          "unit": "unit.one",
+          "qualifiers": [
+            "energy.dimension.series"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.series.constraint_slot_value_step",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.series.constraint_slot_value_step",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 640,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.series"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.state",
+            "version": "1.0.0"
+          },
+          "kind": "symbol",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 650,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ],
+          "symbols": [
+            "energy.sequence.state.completed",
+            "energy.sequence.state.inactive",
+            "energy.sequence.state.invalid",
+            "energy.sequence.state.paused",
+            "energy.sequence.state.pending",
+            "energy.sequence.state.running",
+            "energy.sequence.state.scheduled",
+            "energy.sequence.state.scheduled_paused"
+          ]
+        },
+        {
+          "id": "energy.sequence.earliest_start",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.earliest_start",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 660,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ]
+        },
+        {
+          "id": "energy.sequence.latest_end",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.latest_end",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 670,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ]
+        },
+        {
+          "id": "energy.sequence.scheduled_start",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.scheduled_start",
+            "version": "1.0.0"
+          },
+          "kind": "time",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 680,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ]
+        },
+        {
+          "id": "energy.sequence.pausable",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.pausable",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 690,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ]
+        },
+        {
+          "id": "energy.sequence.stoppable",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.stoppable",
+            "version": "1.0.0"
+          },
+          "kind": "boolean",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 700,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ]
+        },
+        {
+          "id": "energy.sequence.active_duration_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.active_duration_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 710,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.active_duration_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.active_duration_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 720,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.pause_duration_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.pause_duration_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 730,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.pause_duration_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.pause_duration_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 740,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.sequence"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.slot_duration",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.slot_duration",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 750,
+          "direction": "non_negative",
+          "unit": "unit.second",
+          "qualifiers": [
+            "energy.dimension.sequence",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.slot_power_expected",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.slot_power_expected",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 760,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.sequence",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.slot_power_minimum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.slot_power_minimum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 770,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.sequence",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.sequence.slot_power_maximum",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.sequence.slot_power_maximum",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 780,
+          "direction": "non_negative",
+          "unit": "unit.watt",
+          "qualifiers": [
+            "energy.dimension.sequence",
+            "energy.dimension.slot"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.preference.balance_step",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.preference.balance_step",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 790,
+          "direction": "not_applicable",
+          "unit": "unit.ratio",
+          "qualifiers": [
+            "energy.dimension.balance"
+          ],
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.preference.balance_label",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.preference.balance_label",
+            "version": "1.0.0"
+          },
+          "kind": "text",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 800,
+          "direction": "not_applicable",
+          "qualifiers": [
+            "energy.dimension.balance"
+          ]
+        },
+        {
+          "id": "energy.preference.current_balance",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.preference.current_balance",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 810,
+          "direction": "not_applicable",
+          "unit": "unit.one",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        },
+        {
+          "id": "energy.preference.priorities",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.preference.priorities",
+            "version": "1.0.0"
+          },
+          "kind": "symbols",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 820,
+          "direction": "not_applicable",
+          "symbols": [
+            "energy.preference.priorities.comfort",
+            "energy.preference.priorities.efficiency",
+            "energy.preference.priorities.speed",
+            "energy.preference.priorities.water_consumption"
+          ]
+        },
+        {
+          "id": "energy.preference.low_power_sensitivity",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.preference.low_power_sensitivity",
+            "version": "1.0.0"
+          },
+          "kind": "quantity",
+          "dimension": "energy.dimension.subject",
+          "optional": true,
+          "order": 830,
+          "direction": "not_applicable",
+          "unit": "unit.one",
+          "bounds": {
+            "minimum": null,
+            "maximum": null
+          }
+        }
+      ],
+      "fact_dimensions": [
+        {
+          "id": "energy.dimension.subject",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.subject",
+            "version": "1.0.0"
+          },
+          "value_kind": "text",
+          "order": 10
+        }
+      ],
+      "qualifier_dimensions": [
+        {
+          "id": "energy.dimension.slot",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.slot",
+            "version": "1.0.0"
+          },
+          "value_kind": "quantity",
+          "order": 10,
+          "unit": "unit.one"
+        },
+        {
+          "id": "energy.dimension.series",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.series",
+            "version": "1.0.0"
+          },
+          "value_kind": "symbol",
+          "order": 20,
+          "symbols": [
+            "charging_plan",
+            "charging_power_limit_curve",
+            "committed_power_plan",
+            "consumption_limit_curve",
+            "fallback_consumption_limit_curve",
+            "fallback_production_limit_curve",
+            "forecast",
+            "power_demand_forecast",
+            "preliminary_power_plan",
+            "production_limit_curve"
+          ]
+        },
+        {
+          "id": "energy.dimension.adjustment_range",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.adjustment_range",
+            "version": "1.0.0"
+          },
+          "value_kind": "quantity",
+          "order": 30,
+          "unit": "unit.one"
+        },
+        {
+          "id": "energy.dimension.sequence",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.sequence",
+            "version": "1.0.0"
+          },
+          "value_kind": "text",
+          "order": 40
+        },
+        {
+          "id": "energy.dimension.balance",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.dimension.balance",
+            "version": "1.0.0"
+          },
+          "value_kind": "quantity",
+          "order": 50,
+          "unit": "unit.one"
+        }
+      ],
+      "services": [
+        {
+          "id": "energy.service.subject",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.service.subject",
+            "version": "1.0.0"
+          },
+          "fact_key_dimension": "energy.dimension.subject",
+          "order": 10
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "energy.capability.read.subject",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.read.subject",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 10
+        },
+        {
+          "id": "energy.capability.set_consumption_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_consumption_limit",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 20
+        },
+        {
+          "id": "energy.capability.set_production_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_production_limit",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 30
+        },
+        {
+          "id": "energy.capability.set_consumption_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_consumption_failsafe",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 40
+        },
+        {
+          "id": "energy.capability.set_production_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_production_failsafe",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 50
+        },
+        {
+          "id": "energy.capability.adjust_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.adjust_power",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 60
+        },
+        {
+          "id": "energy.capability.set_esa_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_esa_state",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 70
+        },
+        {
+          "id": "energy.capability.adjust_start_time",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.adjust_start_time",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 80
+        },
+        {
+          "id": "energy.capability.modify_series_slot",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.modify_series_slot",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 90
+        },
+        {
+          "id": "energy.capability.set_esa_mode",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_esa_mode",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 100
+        },
+        {
+          "id": "energy.capability.schedule_sequence",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.schedule_sequence",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 110
+        },
+        {
+          "id": "energy.capability.set_sequence_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_sequence_state",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 120
+        },
+        {
+          "id": "energy.capability.set_energy_balance",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_energy_balance",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 130
+        },
+        {
+          "id": "energy.capability.set_low_power_sensitivity",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.capability.set_low_power_sensitivity",
+            "version": "1.0.0"
+          },
+          "service": "energy.service.subject",
+          "activation": "qualified_current_binding",
+          "order": 140
+        }
+      ],
+      "operations": [
+        {
+          "id": "energy.operation.set_consumption_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_consumption_limit",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_consumption_limit",
+          "arguments": [
+            "energy.limit.consumption_active_power"
+          ],
+          "effect_rule": "energy.effect.set_consumption_limit",
+          "order": 10,
+          "parameters": [
+            "energy.limit.consumption_active",
+            "energy.limit.consumption_duration"
+          ]
+        },
+        {
+          "id": "energy.operation.set_production_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_production_limit",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_production_limit",
+          "arguments": [
+            "energy.limit.production_active_power"
+          ],
+          "effect_rule": "energy.effect.set_production_limit",
+          "order": 20,
+          "parameters": [
+            "energy.limit.production_active",
+            "energy.limit.production_duration"
+          ]
+        },
+        {
+          "id": "energy.operation.set_consumption_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_consumption_failsafe",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_consumption_failsafe",
+          "arguments": [
+            "energy.limit.consumption_failsafe_power"
+          ],
+          "effect_rule": "energy.effect.set_consumption_failsafe",
+          "order": 30,
+          "parameters": [
+            "energy.limit.consumption_failsafe_duration_minimum"
+          ]
+        },
+        {
+          "id": "energy.operation.set_production_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_production_failsafe",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_production_failsafe",
+          "arguments": [
+            "energy.limit.production_failsafe_power"
+          ],
+          "effect_rule": "energy.effect.set_production_failsafe",
+          "order": 40,
+          "parameters": [
+            "energy.limit.production_failsafe_duration_minimum"
+          ]
+        },
+        {
+          "id": "energy.operation.adjust_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.adjust_power",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.adjust_power",
+          "arguments": [
+            "energy.esa.requested_power"
+          ],
+          "effect_rule": "energy.effect.adjust_power",
+          "order": 50,
+          "parameters": [
+            "energy.esa.request_cause",
+            "energy.esa.requested_duration"
+          ]
+        },
+        {
+          "id": "energy.operation.set_esa_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_esa_state",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_esa_state",
+          "arguments": [
+            "energy.esa.state"
+          ],
+          "effect_rule": "energy.effect.set_esa_state",
+          "order": 60,
+          "parameters": [
+            "energy.esa.request_cause",
+            "energy.esa.requested_duration"
+          ]
+        },
+        {
+          "id": "energy.operation.adjust_start_time",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.adjust_start_time",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.adjust_start_time",
+          "arguments": [
+            "energy.series.start"
+          ],
+          "effect_rule": "energy.effect.adjust_start_time",
+          "order": 70,
+          "parameters": [
+            "energy.esa.request_cause"
+          ]
+        },
+        {
+          "id": "energy.operation.modify_series_slot",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.modify_series_slot",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.modify_series_slot",
+          "arguments": [
+            "energy.series.slot_power_nominal"
+          ],
+          "effect_rule": "energy.effect.modify_series_slot",
+          "order": 80,
+          "parameters": [
+            "energy.esa.request_cause",
+            "energy.series.identifier",
+            "energy.series.slot_duration",
+            "energy.series.slot_power_maximum"
+          ]
+        },
+        {
+          "id": "energy.operation.set_esa_mode",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_esa_mode",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_esa_mode",
+          "arguments": [
+            "energy.esa.mode"
+          ],
+          "effect_rule": "energy.effect.set_esa_mode",
+          "order": 90
+        },
+        {
+          "id": "energy.operation.schedule_sequence",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.schedule_sequence",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.schedule_sequence",
+          "arguments": [
+            "energy.sequence.scheduled_start"
+          ],
+          "effect_rule": "energy.effect.schedule_sequence",
+          "order": 100
+        },
+        {
+          "id": "energy.operation.set_sequence_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_sequence_state",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_sequence_state",
+          "arguments": [
+            "energy.sequence.state"
+          ],
+          "effect_rule": "energy.effect.set_sequence_state",
+          "order": 110
+        },
+        {
+          "id": "energy.operation.set_energy_balance",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_energy_balance",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_energy_balance",
+          "arguments": [
+            "energy.preference.current_balance"
+          ],
+          "effect_rule": "energy.effect.set_energy_balance",
+          "order": 120
+        },
+        {
+          "id": "energy.operation.set_low_power_sensitivity",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.operation.set_low_power_sensitivity",
+            "version": "1.0.0"
+          },
+          "capability": "energy.capability.set_low_power_sensitivity",
+          "arguments": [
+            "energy.preference.low_power_sensitivity"
+          ],
+          "effect_rule": "energy.effect.set_low_power_sensitivity",
+          "order": 130
+        }
+      ],
+      "effect_rules": [
+        {
+          "id": "energy.effect.set_consumption_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_consumption_limit",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_consumption_limit",
+          "fact": "energy.limit.consumption_active_power",
+          "operator": "equal",
+          "order": 10
+        },
+        {
+          "id": "energy.effect.set_production_limit",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_production_limit",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_production_limit",
+          "fact": "energy.limit.production_active_power",
+          "operator": "equal",
+          "order": 20
+        },
+        {
+          "id": "energy.effect.set_consumption_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_consumption_failsafe",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_consumption_failsafe",
+          "fact": "energy.limit.consumption_failsafe_power",
+          "operator": "equal",
+          "order": 30
+        },
+        {
+          "id": "energy.effect.set_production_failsafe",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_production_failsafe",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_production_failsafe",
+          "fact": "energy.limit.production_failsafe_power",
+          "operator": "equal",
+          "order": 40
+        },
+        {
+          "id": "energy.effect.adjust_power",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.adjust_power",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.adjust_power",
+          "fact": "energy.esa.requested_power",
+          "operator": "equal",
+          "order": 50
+        },
+        {
+          "id": "energy.effect.set_esa_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_esa_state",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_esa_state",
+          "fact": "energy.esa.state",
+          "operator": "equal",
+          "order": 60
+        },
+        {
+          "id": "energy.effect.adjust_start_time",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.adjust_start_time",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.adjust_start_time",
+          "fact": "energy.series.start",
+          "operator": "equal",
+          "order": 70
+        },
+        {
+          "id": "energy.effect.modify_series_slot",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.modify_series_slot",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.modify_series_slot",
+          "fact": "energy.series.slot_power_nominal",
+          "operator": "equal",
+          "order": 80
+        },
+        {
+          "id": "energy.effect.set_esa_mode",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_esa_mode",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_esa_mode",
+          "fact": "energy.esa.mode",
+          "operator": "equal",
+          "order": 90
+        },
+        {
+          "id": "energy.effect.schedule_sequence",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.schedule_sequence",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.schedule_sequence",
+          "fact": "energy.sequence.scheduled_start",
+          "operator": "equal",
+          "order": 100
+        },
+        {
+          "id": "energy.effect.set_sequence_state",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_sequence_state",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_sequence_state",
+          "fact": "energy.sequence.state",
+          "operator": "equal",
+          "order": 110
+        },
+        {
+          "id": "energy.effect.set_energy_balance",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_energy_balance",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_energy_balance",
+          "fact": "energy.preference.current_balance",
+          "operator": "equal",
+          "order": 120
+        },
+        {
+          "id": "energy.effect.set_low_power_sensitivity",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.effect.set_low_power_sensitivity",
+            "version": "1.0.0"
+          },
+          "operation": "energy.operation.set_low_power_sensitivity",
+          "fact": "energy.preference.low_power_sensitivity",
+          "operator": "equal",
+          "order": 130
+        }
+      ],
+      "portal_contributions": [
+        {
+          "id": "energy.portal.read.subject",
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.energy_management",
+              "version": "1.0.0"
+            },
+            "id": "energy.portal.read.subject",
+            "version": "1.0.0"
+          },
+          "kind": "read",
+          "service": "energy.service.subject",
+          "fields": [
+            "energy.esa.adjustment_cause",
+            "energy.esa.adjustment_end_cause",
+            "energy.esa.adjustment_maximum_duration",
+            "energy.esa.adjustment_maximum_power",
+            "energy.esa.adjustment_minimum_duration",
+            "energy.esa.adjustment_minimum_power",
+            "energy.esa.can_generate",
+            "energy.esa.maximum_power",
+            "energy.esa.minimum_power",
+            "energy.esa.mode",
+            "energy.esa.mode_supported",
+            "energy.esa.opt_out",
+            "energy.esa.request_cause",
+            "energy.esa.requested_duration",
+            "energy.esa.requested_power",
+            "energy.esa.state",
+            "energy.esa.type",
+            "energy.heartbeat.status",
+            "energy.heartbeat.timeout",
+            "energy.limit.consumption_active",
+            "energy.limit.consumption_active_power",
+            "energy.limit.consumption_duration",
+            "energy.limit.consumption_failsafe_duration_minimum",
+            "energy.limit.consumption_failsafe_power",
+            "energy.limit.production_active",
+            "energy.limit.production_active_power",
+            "energy.limit.production_duration",
+            "energy.limit.production_failsafe_duration_minimum",
+            "energy.limit.production_failsafe_power",
+            "energy.limit.state",
+            "energy.manager.state",
+            "energy.nameplate.consumption_contractual_maximum",
+            "energy.nameplate.consumption_nominal_maximum",
+            "energy.nameplate.production_contractual_maximum",
+            "energy.nameplate.production_nominal_maximum",
+            "energy.preference.balance_label",
+            "energy.preference.balance_step",
+            "energy.preference.current_balance",
+            "energy.preference.low_power_sensitivity",
+            "energy.preference.priorities",
+            "energy.sequence.active_duration_maximum",
+            "energy.sequence.active_duration_minimum",
+            "energy.sequence.earliest_start",
+            "energy.sequence.latest_end",
+            "energy.sequence.pausable",
+            "energy.sequence.pause_duration_maximum",
+            "energy.sequence.pause_duration_minimum",
+            "energy.sequence.scheduled_start",
+            "energy.sequence.slot_duration",
+            "energy.sequence.slot_power_expected",
+            "energy.sequence.slot_power_maximum",
+            "energy.sequence.slot_power_minimum",
+            "energy.sequence.state",
+            "energy.sequence.stoppable",
+            "energy.series.constraint_maximum_slots",
+            "energy.series.constraint_minimum_slot_duration",
+            "energy.series.constraint_slot_value_step",
+            "energy.series.earliest_start",
+            "energy.series.end",
+            "energy.series.identifier",
+            "energy.series.latest_end",
+            "energy.series.pausable",
+            "energy.series.slot_adjustment_maximum_duration",
+            "energy.series.slot_adjustment_maximum_power",
+            "energy.series.slot_adjustment_minimum_duration",
+            "energy.series.slot_adjustment_minimum_power",
+            "energy.series.slot_default_duration",
+            "energy.series.slot_duration",
+            "energy.series.slot_elapsed",
+            "energy.series.slot_energy_nominal",
+            "energy.series.slot_maximum_duration",
+            "energy.series.slot_maximum_pause",
+            "energy.series.slot_minimum_duration",
+            "energy.series.slot_minimum_pause",
+            "energy.series.slot_pausable",
+            "energy.series.slot_power_maximum",
+            "energy.series.slot_power_minimum",
+            "energy.series.slot_power_nominal",
+            "energy.series.slot_remaining",
+            "energy.series.slot_start",
+            "energy.series.slot_state",
+            "energy.series.start",
+            "energy.series.update_reason"
+          ],
+          "order": 10
+        }
+      ]
+    }
+  }
+}

@@ -43,15 +43,24 @@ implementation equivalent to 1.6.1.
 The roster is derived from the [element catalog](../element-catalog-v1.json):
 one row for every fact, capability, operation, service and relation definition
 owned by the five accepted packs, 252 rows in all (146 facts, 37 capabilities,
-7 operations, 36 services and 26 relation definitions). Pack versions are EVSE,
-Infrastructure, PV and Thermal `1.0.0`, and Storage `1.1.0`, as the catalog
-keys them. Core-owned elements, dimensions, effect rules and presentations are
+7 operations, 36 services and 26 relation definitions). Pack versions are
+Energy management, EVSE, Infrastructure, PV and Thermal `1.0.0`, and Storage
+`1.1.0`, as the catalog keys them. Core-owned elements, dimensions, effect rules and presentations are
 not requested; the rows that cite them account for them. Rows sort by exact
 pack ID, pack version, item ID and item version; kind is also part of row
 identity. Each fact, capability, operation and relation row preserves its typed
 kernel-v1 request and exact snapshot/revision binding. Fact rows keep their
 canonical runtime FactKey dimensions, read from the catalog subject. These are
 runtime bindings, not synthetic values supplied by the descriptor.
+
+`helianthus.pack.energy_management` 1.0.0 adds one unknown row, reason
+`matter.unmapped.v1`, for each of its facts, capabilities and operations.
+`energy.service.subject` is unsupported, reason
+`matter.service_not_requested_item.v1`. Dimensions, effect rules, events and
+the read portal have no roster row. Where a reviewed column names a cluster
+element, the row stays unknown: this roster admits one transformed row,
+`evse.ac.current`, and the conversion for those columns is not established
+here.
 
 Measurement-type association, unverified. The Matter column recorded for the
 measurement-type dimension is `ElectricalPowerMeasurement.Accuracy`. For the

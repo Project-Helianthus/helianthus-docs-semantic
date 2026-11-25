@@ -7880,6 +7880,1574 @@
       "canonical_name": "evse.oscev.vendor_name",
       "status": "admitted",
       "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "helianthus.pack.energy_management",
+      "canonical_name": "helianthus.pack.energy_management",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.joule",
+      "canonical_name": "unit.joule",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.one",
+      "canonical_name": "unit.one",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.ratio",
+      "canonical_name": "unit.ratio",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.second",
+      "canonical_name": "unit.second",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "unit.watt",
+      "canonical_name": "unit.watt",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.adjust_power",
+      "canonical_name": "energy.capability.adjust_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.adjust_start_time",
+      "canonical_name": "energy.capability.adjust_start_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.modify_series_slot",
+      "canonical_name": "energy.capability.modify_series_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.read.subject",
+      "canonical_name": "energy.capability.read.subject",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.schedule_sequence",
+      "canonical_name": "energy.capability.schedule_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_consumption_failsafe",
+      "canonical_name": "energy.capability.set_consumption_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_consumption_limit",
+      "canonical_name": "energy.capability.set_consumption_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_energy_balance",
+      "canonical_name": "energy.capability.set_energy_balance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_esa_mode",
+      "canonical_name": "energy.capability.set_esa_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_esa_state",
+      "canonical_name": "energy.capability.set_esa_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_low_power_sensitivity",
+      "canonical_name": "energy.capability.set_low_power_sensitivity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_production_failsafe",
+      "canonical_name": "energy.capability.set_production_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_production_limit",
+      "canonical_name": "energy.capability.set_production_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.capability.set_sequence_state",
+      "canonical_name": "energy.capability.set_sequence_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.adjustment_range",
+      "canonical_name": "energy.dimension.adjustment_range",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.balance",
+      "canonical_name": "energy.dimension.balance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.sequence",
+      "canonical_name": "energy.dimension.sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.series",
+      "canonical_name": "energy.dimension.series",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.slot",
+      "canonical_name": "energy.dimension.slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.dimension.subject",
+      "canonical_name": "energy.dimension.subject",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.adjust_power",
+      "canonical_name": "energy.effect.adjust_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.adjust_start_time",
+      "canonical_name": "energy.effect.adjust_start_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.modify_series_slot",
+      "canonical_name": "energy.effect.modify_series_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.schedule_sequence",
+      "canonical_name": "energy.effect.schedule_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_consumption_failsafe",
+      "canonical_name": "energy.effect.set_consumption_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_consumption_limit",
+      "canonical_name": "energy.effect.set_consumption_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_energy_balance",
+      "canonical_name": "energy.effect.set_energy_balance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_esa_mode",
+      "canonical_name": "energy.effect.set_esa_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_esa_state",
+      "canonical_name": "energy.effect.set_esa_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_low_power_sensitivity",
+      "canonical_name": "energy.effect.set_low_power_sensitivity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_production_failsafe",
+      "canonical_name": "energy.effect.set_production_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_production_limit",
+      "canonical_name": "energy.effect.set_production_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.effect.set_sequence_state",
+      "canonical_name": "energy.effect.set_sequence_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_cause",
+      "canonical_name": "energy.esa.adjustment_cause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause",
+      "canonical_name": "energy.esa.adjustment_end_cause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_maximum_duration",
+      "canonical_name": "energy.esa.adjustment_maximum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_maximum_power",
+      "canonical_name": "energy.esa.adjustment_maximum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_minimum_duration",
+      "canonical_name": "energy.esa.adjustment_minimum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_minimum_power",
+      "canonical_name": "energy.esa.adjustment_minimum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.can_generate",
+      "canonical_name": "energy.esa.can_generate",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.maximum_power",
+      "canonical_name": "energy.esa.maximum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.minimum_power",
+      "canonical_name": "energy.esa.minimum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.mode",
+      "canonical_name": "energy.esa.mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.mode_supported",
+      "canonical_name": "energy.esa.mode_supported",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.opt_out",
+      "canonical_name": "energy.esa.opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.request_cause",
+      "canonical_name": "energy.esa.request_cause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.requested_duration",
+      "canonical_name": "energy.esa.requested_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.requested_power",
+      "canonical_name": "energy.esa.requested_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state",
+      "canonical_name": "energy.esa.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type",
+      "canonical_name": "energy.esa.type",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.heartbeat.status",
+      "canonical_name": "energy.heartbeat.status",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.heartbeat.timeout",
+      "canonical_name": "energy.heartbeat.timeout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.consumption_active",
+      "canonical_name": "energy.limit.consumption_active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.consumption_active_power",
+      "canonical_name": "energy.limit.consumption_active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.consumption_duration",
+      "canonical_name": "energy.limit.consumption_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.consumption_failsafe_duration_minimum",
+      "canonical_name": "energy.limit.consumption_failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.consumption_failsafe_power",
+      "canonical_name": "energy.limit.consumption_failsafe_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.production_active",
+      "canonical_name": "energy.limit.production_active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.production_active_power",
+      "canonical_name": "energy.limit.production_active_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.production_duration",
+      "canonical_name": "energy.limit.production_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.production_failsafe_duration_minimum",
+      "canonical_name": "energy.limit.production_failsafe_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.production_failsafe_power",
+      "canonical_name": "energy.limit.production_failsafe_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state",
+      "canonical_name": "energy.limit.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.manager.state",
+      "canonical_name": "energy.manager.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.nameplate.consumption_contractual_maximum",
+      "canonical_name": "energy.nameplate.consumption_contractual_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.nameplate.consumption_nominal_maximum",
+      "canonical_name": "energy.nameplate.consumption_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.nameplate.production_contractual_maximum",
+      "canonical_name": "energy.nameplate.production_contractual_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.nameplate.production_nominal_maximum",
+      "canonical_name": "energy.nameplate.production_nominal_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.adjust_power",
+      "canonical_name": "energy.operation.adjust_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.adjust_start_time",
+      "canonical_name": "energy.operation.adjust_start_time",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.modify_series_slot",
+      "canonical_name": "energy.operation.modify_series_slot",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.schedule_sequence",
+      "canonical_name": "energy.operation.schedule_sequence",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_consumption_failsafe",
+      "canonical_name": "energy.operation.set_consumption_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_consumption_limit",
+      "canonical_name": "energy.operation.set_consumption_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_energy_balance",
+      "canonical_name": "energy.operation.set_energy_balance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_esa_mode",
+      "canonical_name": "energy.operation.set_esa_mode",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_esa_state",
+      "canonical_name": "energy.operation.set_esa_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_low_power_sensitivity",
+      "canonical_name": "energy.operation.set_low_power_sensitivity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_production_failsafe",
+      "canonical_name": "energy.operation.set_production_failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_production_limit",
+      "canonical_name": "energy.operation.set_production_limit",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.operation.set_sequence_state",
+      "canonical_name": "energy.operation.set_sequence_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.balance_label",
+      "canonical_name": "energy.preference.balance_label",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.balance_step",
+      "canonical_name": "energy.preference.balance_step",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.current_balance",
+      "canonical_name": "energy.preference.current_balance",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.low_power_sensitivity",
+      "canonical_name": "energy.preference.low_power_sensitivity",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.priorities",
+      "canonical_name": "energy.preference.priorities",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.active_duration_maximum",
+      "canonical_name": "energy.sequence.active_duration_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.active_duration_minimum",
+      "canonical_name": "energy.sequence.active_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.earliest_start",
+      "canonical_name": "energy.sequence.earliest_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.latest_end",
+      "canonical_name": "energy.sequence.latest_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.pausable",
+      "canonical_name": "energy.sequence.pausable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.pause_duration_maximum",
+      "canonical_name": "energy.sequence.pause_duration_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.pause_duration_minimum",
+      "canonical_name": "energy.sequence.pause_duration_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.scheduled_start",
+      "canonical_name": "energy.sequence.scheduled_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.slot_duration",
+      "canonical_name": "energy.sequence.slot_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.slot_power_expected",
+      "canonical_name": "energy.sequence.slot_power_expected",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.slot_power_maximum",
+      "canonical_name": "energy.sequence.slot_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.slot_power_minimum",
+      "canonical_name": "energy.sequence.slot_power_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state",
+      "canonical_name": "energy.sequence.state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.stoppable",
+      "canonical_name": "energy.sequence.stoppable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.constraint_maximum_slots",
+      "canonical_name": "energy.series.constraint_maximum_slots",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.constraint_minimum_slot_duration",
+      "canonical_name": "energy.series.constraint_minimum_slot_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.constraint_slot_value_step",
+      "canonical_name": "energy.series.constraint_slot_value_step",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.earliest_start",
+      "canonical_name": "energy.series.earliest_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.end",
+      "canonical_name": "energy.series.end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.identifier",
+      "canonical_name": "energy.series.identifier",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.latest_end",
+      "canonical_name": "energy.series.latest_end",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.pausable",
+      "canonical_name": "energy.series.pausable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_adjustment_maximum_duration",
+      "canonical_name": "energy.series.slot_adjustment_maximum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_adjustment_maximum_power",
+      "canonical_name": "energy.series.slot_adjustment_maximum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_adjustment_minimum_duration",
+      "canonical_name": "energy.series.slot_adjustment_minimum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_adjustment_minimum_power",
+      "canonical_name": "energy.series.slot_adjustment_minimum_power",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_default_duration",
+      "canonical_name": "energy.series.slot_default_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_duration",
+      "canonical_name": "energy.series.slot_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_elapsed",
+      "canonical_name": "energy.series.slot_elapsed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_energy_nominal",
+      "canonical_name": "energy.series.slot_energy_nominal",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_maximum_duration",
+      "canonical_name": "energy.series.slot_maximum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_maximum_pause",
+      "canonical_name": "energy.series.slot_maximum_pause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_minimum_duration",
+      "canonical_name": "energy.series.slot_minimum_duration",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_minimum_pause",
+      "canonical_name": "energy.series.slot_minimum_pause",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_pausable",
+      "canonical_name": "energy.series.slot_pausable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_power_maximum",
+      "canonical_name": "energy.series.slot_power_maximum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_power_minimum",
+      "canonical_name": "energy.series.slot_power_minimum",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_power_nominal",
+      "canonical_name": "energy.series.slot_power_nominal",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_remaining",
+      "canonical_name": "energy.series.slot_remaining",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_start",
+      "canonical_name": "energy.series.slot_start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.slot_state",
+      "canonical_name": "energy.series.slot_state",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.start",
+      "canonical_name": "energy.series.start",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.update_reason",
+      "canonical_name": "energy.series.update_reason",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.service.subject",
+      "canonical_name": "energy.service.subject",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state.failsafe",
+      "canonical_name": "energy.limit.state.failsafe",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state.init",
+      "canonical_name": "energy.limit.state.init",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state.limited",
+      "canonical_name": "energy.limit.state.limited",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state.unlimited_autonomous",
+      "canonical_name": "energy.limit.state.unlimited_autonomous",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.limit.state.unlimited_controlled",
+      "canonical_name": "energy.limit.state.unlimited_controlled",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.heartbeat.status.ok",
+      "canonical_name": "energy.heartbeat.status.ok",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.heartbeat.status.timeout",
+      "canonical_name": "energy.heartbeat.status.timeout",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.heartbeat.status.unknown",
+      "canonical_name": "energy.heartbeat.status.unknown",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.manager.state.failure",
+      "canonical_name": "energy.manager.state.failure",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.manager.state.normal_operation",
+      "canonical_name": "energy.manager.state.normal_operation",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.manager.state.not_reachable",
+      "canonical_name": "energy.manager.state.not_reachable",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.battery_storage",
+      "canonical_name": "energy.esa.type.battery_storage",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.cooking",
+      "canonical_name": "energy.esa.type.cooking",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.dishwasher",
+      "canonical_name": "energy.esa.type.dishwasher",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.evse",
+      "canonical_name": "energy.esa.type.evse",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.fridge_freezer",
+      "canonical_name": "energy.esa.type.fridge_freezer",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.home_water_pump",
+      "canonical_name": "energy.esa.type.home_water_pump",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.irrigation_water_pump",
+      "canonical_name": "energy.esa.type.irrigation_water_pump",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.other",
+      "canonical_name": "energy.esa.type.other",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.pool_pump",
+      "canonical_name": "energy.esa.type.pool_pump",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.solar_pv",
+      "canonical_name": "energy.esa.type.solar_pv",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.space_cooling",
+      "canonical_name": "energy.esa.type.space_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.space_heating",
+      "canonical_name": "energy.esa.type.space_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.space_heating_cooling",
+      "canonical_name": "energy.esa.type.space_heating_cooling",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.washing_machine",
+      "canonical_name": "energy.esa.type.washing_machine",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.type.water_heating",
+      "canonical_name": "energy.esa.type.water_heating",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state.fault",
+      "canonical_name": "energy.esa.state.fault",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state.offline",
+      "canonical_name": "energy.esa.state.offline",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state.online",
+      "canonical_name": "energy.esa.state.online",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state.paused",
+      "canonical_name": "energy.esa.state.paused",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.state.power_adjust_active",
+      "canonical_name": "energy.esa.state.power_adjust_active",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_cause.grid_optimization",
+      "canonical_name": "energy.esa.adjustment_cause.grid_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_cause.local_optimization",
+      "canonical_name": "energy.esa.adjustment_cause.local_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_cause.no_adjustment",
+      "canonical_name": "energy.esa.adjustment_cause.no_adjustment",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.opt_out.grid_opt_out",
+      "canonical_name": "energy.esa.opt_out.grid_opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.opt_out.local_opt_out",
+      "canonical_name": "energy.esa.opt_out.local_opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.opt_out.no_opt_out",
+      "canonical_name": "energy.esa.opt_out.no_opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.opt_out.opt_out",
+      "canonical_name": "energy.esa.opt_out.opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.request_cause.grid_optimization",
+      "canonical_name": "energy.esa.request_cause.grid_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.request_cause.local_optimization",
+      "canonical_name": "energy.esa.request_cause.local_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause.cancelled",
+      "canonical_name": "energy.esa.adjustment_end_cause.cancelled",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause.fault",
+      "canonical_name": "energy.esa.adjustment_end_cause.fault",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause.normal_completion",
+      "canonical_name": "energy.esa.adjustment_end_cause.normal_completion",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause.offline",
+      "canonical_name": "energy.esa.adjustment_end_cause.offline",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.esa.adjustment_end_cause.user_opt_out",
+      "canonical_name": "energy.esa.adjustment_end_cause.user_opt_out",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.update_reason.grid_optimization",
+      "canonical_name": "energy.series.update_reason.grid_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.update_reason.internal_optimization",
+      "canonical_name": "energy.series.update_reason.internal_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.series.update_reason.local_optimization",
+      "canonical_name": "energy.series.update_reason.local_optimization",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.completed",
+      "canonical_name": "energy.sequence.state.completed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.inactive",
+      "canonical_name": "energy.sequence.state.inactive",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.invalid",
+      "canonical_name": "energy.sequence.state.invalid",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.paused",
+      "canonical_name": "energy.sequence.state.paused",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.pending",
+      "canonical_name": "energy.sequence.state.pending",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.running",
+      "canonical_name": "energy.sequence.state.running",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.scheduled",
+      "canonical_name": "energy.sequence.state.scheduled",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.sequence.state.scheduled_paused",
+      "canonical_name": "energy.sequence.state.scheduled_paused",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.priorities.comfort",
+      "canonical_name": "energy.preference.priorities.comfort",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.priorities.efficiency",
+      "canonical_name": "energy.preference.priorities.efficiency",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.priorities.speed",
+      "canonical_name": "energy.preference.priorities.speed",
+      "status": "admitted",
+      "question": null
+    },
+    {
+      "source": "semreg/v1/packs/energy_management/definitions.go",
+      "kind": "definition_literal",
+      "historical_name": "energy.preference.priorities.water_consumption",
+      "canonical_name": "energy.preference.priorities.water_consumption",
+      "status": "admitted",
+      "question": null
     }
   ],
   "consumer_correspondence": {
