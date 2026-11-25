@@ -225,6 +225,7 @@ def copy_tool(root: Path) -> Path:
     target.mkdir(parents=True, exist_ok=True)
     for name in ("main.py", "manifestlib.py", "closure.py", "gitstore.py", "patterns.py"):
         shutil.copy(TOOL / name, target / name)
+    shutil.copytree(TOOL / "gotypes", target / "gotypes", dirs_exist_ok=True)
     (root / "acceptance" / "manifests").mkdir(parents=True, exist_ok=True)
     return target / "main.py"
 
@@ -4316,6 +4317,146 @@ class ManifestCLITest(unittest.TestCase):
         self.assertEqual(shared.stdout, "outside-set: pair\n")
         self.assert_absent("sib-c")
 
+    TS = "closure/cross/ts"
+    NL = "closure/cross/nl"
+    QT = "closure/cross/qt"
+    QM = "closure/cross/qm"
+    HP = "closure/cross/hp"
+    HQ = "closure/cross/hq"
+    RB = "closure/cross/rb"
+    UM = "closure/cross/um"
+    GX = "closure/cross/gx"
+
+    def given(self, function: str, name: str) -> list[dict]:
+        return [{
+            "function": function,
+            "name": name,
+            "destination_repository": "ebusgo",
+            "destination_path": "dest/echo_test.go",
+            "test": "TestEcho",
+        }]
+
+    def test_a_type_switch_case_type_is_a_dependency_but_its_binding_is_not(self) -> None:
+        move = self.move_at(self.TS, "Move")
+        opened = self.repo.generate(self.symbol_spec("ts-open", [move]))
+        self.assert_fail(opened)
+        self.assertEqual(opened.stdout, "outside-set: Item\n")
+        self.assert_absent("ts-open")
+        closed = self.repo.generate(self.symbol_spec("ts-stays", [move], stay_symbols=[self.at(self.TS, "Item")]))
+        self.assert_ok(closed)
+        self.assert_ok(self.repo.check("ts-stays"))
+
+    def test_nested_literals_tell_map_keys_from_field_labels_at_each_level(self) -> None:
+        item = [self.at(self.NL, "Item")]
+        keyed = self.repo.generate(self.symbol_spec("nl-map", [self.move_at(self.NL, "Maps")], stay_symbols=item))
+        self.assert_fail(keyed)
+        self.assertEqual(keyed.stdout, "outside-set: K\n")
+        self.assert_absent("nl-map")
+        declared = self.repo.generate(
+            self.symbol_spec("nl-map-stays", [self.move_at(self.NL, "Maps")], stay_symbols=item + [self.at(self.NL, "K")])
+        )
+        self.assert_ok(declared)
+        labelled = self.repo.generate(self.symbol_spec("nl-field", [self.move_at(self.NL, "Fields")], stay_symbols=item))
+        self.assert_ok(labelled)
+        self.assertNotIn("outside-set", labelled.stdout)
+        self.assert_ok(self.repo.check("nl-field"))
+
+    def test_a_method_of_a_qualified_composite_literal_is_a_dependency(self) -> None:
+        move = self.move_at(self.QM, "Move")
+        only_type = self.repo.generate(
+            self.symbol_spec("qm-type", [move], stay_symbols=[self.at(self.QT, "T")])
+        )
+        self.assert_fail(only_type)
+        self.assertEqual(only_type.stdout, f"outside-set: {self.QT}.T.M\n")
+        self.assert_absent("qm-type")
+        both = self.repo.generate(self.symbol_spec(
+            "qm-both", [move], stay_symbols=[self.at(self.QT, "T"), self.at(self.QT, "T.M")],
+        ))
+        self.assert_ok(both)
+        self.assert_ok(self.repo.check("qm-both"))
+
+    def test_method_expressions_of_generic_and_pointer_receivers_and_a_raw_string_import(self) -> None:
+        move = self.move_at(self.GX, "Exprs")
+        box = self.at(self.GX, "Box")
+        opened = self.repo.generate(self.symbol_spec("gx-open", [move], stay_symbols=[box]))
+        self.assert_fail(opened)
+        self.assertEqual(
+            opened.stdout,
+            "outside-set: Box.Get\noutside-set: Box.Put\n"
+            f"outside-set: {self.QT}.T\noutside-set: {self.QT}.T.M\n",
+        )
+        self.assert_absent("gx-open")
+        stays = [
+            box, self.at(self.GX, "Box.Get"), self.at(self.GX, "Box.Put"),
+            self.at(self.QT, "T"), self.at(self.QT, "T.M"),
+        ]
+        self.assert_ok(self.repo.generate(self.symbol_spec("gx-stays", [move], stay_symbols=stays)))
+        self.assert_ok(self.repo.check("gx-stays"))
+
+    def test_a_donor_test_that_reaches_a_moved_symbol_through_a_helper_is_accounted(self) -> None:
+        # The helper owns the import; the test file does not import the package.
+        move = self.move_at(self.HP, "Moved")
+        self.assert_ok(self.repo.generate(self.symbol_spec("helper-via", [move])))
+        manifest = self.repo.manifest("helper-via")
+        accounted = [
+            (item["kind"], item["name"]) for item in manifest["stays"]
+        ] + [("assertion", item["name"]) for item in manifest["assertions"]]
+        self.assertIn(("test", "TestViaHelper"), accounted)
+        self.assert_ok(self.repo.check("helper-via"))
+        stripped = json.loads(self.repo.manifest_path("helper-via").read_text(encoding="utf-8"))
+        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "TestViaHelper"]
+        path = self.repo.root / "acceptance" / "manifests" / "helper-stripped.json"
+        path.write_text(json.dumps(stripped), encoding="utf-8")
+        self.assert_fail(self.repo.check("helper-via", manifest=path), "stays")
+
+    def test_an_assignment_on_a_returning_branch_does_not_change_what_a_check_exercises(self) -> None:
+        move = self.move_at(self.RB, "Moved")
+        keep = [self.at(self.RB, "Stay")]
+        bare = self.repo.generate(self.symbol_spec("branch-bare", [move], stay_symbols=keep))
+        self.assert_fail(bare, "unaccounted-assertion function=TestBranch assertion=moved-result")
+        self.assertNotIn("short-stay", bare.stdout)
+        self.assert_absent("branch-bare")
+        done = self.repo.generate(self.symbol_spec(
+            "branch-given", [move], stay_symbols=keep, assertions=self.given("TestBranch", "moved-result"),
+        ))
+        self.assert_ok(done)
+        manifest = self.repo.manifest("branch-given")
+        self.assertEqual([item["name"] for item in manifest["assertions"]], ["moved-result"])
+        self.assertEqual(
+            [(item["kind"], item["name"]) for item in manifest["stays"] if item["kind"] != "symbol"],
+            [("assertion", "short-stay")],
+        )
+        self.assert_ok(self.repo.check("branch-given"))
+
+    def test_a_staying_dependency_in_a_package_the_input_does_not_name_keeps_a_test_mixed(self) -> None:
+        move = self.move_at(self.UM, "Moved")
+        bare = self.repo.generate(self.symbol_spec("unlisted-bare", [move]))
+        self.assert_fail(bare, "unaccounted-assertion function=TestSeparate assertion=moved")
+        self.assertNotIn("left-behind", bare.stdout)
+        self.assert_absent("unlisted-bare")
+        done = self.repo.generate(self.symbol_spec(
+            "unlisted-given", [move], assertions=self.given("TestSeparate", "moved"),
+        ))
+        self.assert_ok(done)
+        manifest = self.repo.manifest("unlisted-given")
+        self.assertEqual([item["name"] for item in manifest["assertions"]], ["moved"])
+        self.assertEqual([(item["kind"], item["name"]) for item in manifest["stays"]], [("assertion", "retained")])
+        self.assert_ok(self.repo.check("unlisted-given"))
+
+    def test_an_incomplete_symbol_destination_is_refused_before_anything_is_written(self) -> None:
+        core = f"{self.ALPHA}/core.go"
+        for label, repository, destination in (
+            ("repository", "", "engine/records.go"),
+            ("path", "ebusgo", ""),
+        ):
+            row = f"incomplete-{label}"
+            move = self.repo.symbol(self.ALPHA, core, "Record", destination, repository=repository)
+            self.assert_fail(
+                self.repo.generate(self.symbol_spec(row, [move])),
+                f"missing-destination symbol={self.ALPHA}:Record",
+            )
+            self.assert_absent(row)
+
     def test_conflicting_destinations_for_one_assertion_fail_in_either_order(self) -> None:
         moves = self.alpha_moves() + self.beta_moves()
         first, = self.clone_assertions()
@@ -4394,11 +4535,20 @@ func Late() int {
             import closure
         finally:
             sys.path.pop(0)
-        source = closure.GoFile(self.SOURCE)
-        names = {item.name for item in source.declarations if item.kind != "method"}
-        structs = {item.name for item in source.declarations if item.struct}
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            (root / "go.mod").write_text("module example.test\n", encoding="utf-8")
+            (root / "p").mkdir()
+            (root / "p" / "p.go").write_text(self.SOURCE, encoding="utf-8")
+            git(root, "init", "-b", "main")
+            git(root, "add", "-A")
+            git(root, "commit", "-m", "fixture")
+            with patch.dict(os.environ, tool_env()):
+                report = closure.resolve_donor(root, "HEAD", ["p"])
+        package = next(item for item in report["packages"] if item["dir"] == "p")
         return {
-            item.key: source.uses(item, names, structs) for item in source.declarations
+            item["key"]: {name for directory, name in item["uses"] if directory == "p"}
+            for item in package["decls"]
         }
 
     def test_declarations_are_top_level_names_and_methods(self) -> None:
@@ -4423,6 +4573,38 @@ func Late() int {
 
     def test_a_name_is_used_outside_the_scope_that_shadows_it(self) -> None:
         self.assertEqual(self.uses()["Late"], {"sibling"})
+
+
+class ResolverRequiredTest(unittest.TestCase):
+    """A symbol-level closure comes from the Go helper or not at all."""
+
+    def donor(self, root: Path) -> None:
+        (root / "go.mod").write_text("module example.test\n", encoding="utf-8")
+        (root / "p").mkdir()
+        (root / "p" / "p.go").write_text("package p\n\nfunc Moved() int { return 1 }\n", encoding="utf-8")
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+
+    def test_a_missing_go_toolchain_fails_and_does_not_read_the_source_another_way(self) -> None:
+        sys.path.insert(0, str(TOOL))
+        try:
+            import closure
+        finally:
+            sys.path.pop(0)
+        move = [{"package": "p", "path": "p/p.go", "symbol": "Moved"}]
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            self.donor(root)
+            with patch.object(closure.shutil, "which", return_value=None):
+                facts = closure.analyze_symbols(root, git_out(root, "rev-parse", "HEAD"), move, [])
+            self.assertEqual(len(facts.errors), 1)
+            self.assertTrue(facts.errors[0].startswith("go-resolver: "), facts.errors)
+            self.assertEqual(facts.moved, [])
+            with patch.dict(os.environ, tool_env()):
+                facts = closure.analyze_symbols(root, git_out(root, "rev-parse", "HEAD"), move, [])
+            self.assertEqual(facts.errors, [])
+            self.assertEqual([item["name"] for item in facts.moved], ["Moved"])
 
 
 class CompareTimeoutPolicyTest(unittest.TestCase):

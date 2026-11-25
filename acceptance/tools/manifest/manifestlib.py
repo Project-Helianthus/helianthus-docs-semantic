@@ -440,6 +440,16 @@ def _accounting(donor: Path, spec: dict[str, Any]) -> tuple[dict[str, Any], list
     symbol_level = bool(spec.get("symbol_moves"))
     if symbol_level and spec.get("moves"):
         return {}, ["moves-and-symbol-moves"]
+    if symbol_level:
+        # A symbol move that names no destination repository or path is not a
+        # move `check` can accept, so no manifest or list is written for it.
+        incomplete = [
+            f"missing-destination symbol={item.get('package')}:{item.get('symbol')}"
+            for item in spec["symbol_moves"]
+            if not all(_text_present(item.get(key)) for key in ("destination_repository", "destination_path"))
+        ]
+        if incomplete:
+            return {}, sorted(set(incomplete))
     moves = spec.get("moves") or []
     moved_paths = [item["path"] for item in moves]
     moved_paths += sorted({item["path"] for item in spec.get("symbol_moves") or []})
