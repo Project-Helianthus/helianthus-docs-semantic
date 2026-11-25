@@ -31,7 +31,7 @@ SI_UNITS = {
 PACK_UNITS = {
     "unit.kelvin", "unit.ratio", "unit.cubic_metre_per_second", "unit.pascal",
     "unit.reciprocal_second", "unit.watt", "unit.joule", "unit.one", "unit.second",
-    "unit.cubic_metre",
+    "unit.cubic_metre", "unit.kilogram_per_cubic_metre", "unit.becquerel_per_cubic_metre",
 }
 SYSTEM = "thermal.dimension.system"
 ZONE = "thermal.dimension.zone"
@@ -46,7 +46,7 @@ COMPRESSOR = "thermal.dimension.compressor"
 ROOM = "thermal.dimension.room"
 FUNCTION = "thermal.dimension.function"
 SENSOR = "thermal.dimension.sensor"
-RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM, FUNCTION, SENSOR, "thermal.dimension.valve", "thermal.dimension.solar_circuit", "thermal.dimension.solar_collector", "thermal.dimension.detector", "thermal.dimension.water_tank"}
+RESOURCE_DIMENSIONS = {SYSTEM, ZONE, CIRCUIT, DHW, VENTILATION, GENERATOR, STORE, TERMINAL, REFRIGERANT, COMPRESSOR, "thermal.dimension.pump", ROOM, FUNCTION, SENSOR, "thermal.dimension.valve", "thermal.dimension.solar_circuit", "thermal.dimension.solar_collector", "thermal.dimension.detector", "thermal.dimension.water_tank", "thermal.dimension.fan", "thermal.dimension.air_filter"}
 # Temperature bounds of the placement, in kelvin: -100 to 200 and -50 to 150 degrees Celsius plus 273.15.
 AIR = (Fraction(-100), Fraction(200))
 SETPOINT = (Fraction(-50), Fraction(150))
@@ -275,6 +275,62 @@ FIELD_TABLE = {
     "thermal.water_tank.in_place": ("thermal.dimension.water_tank", None, None),
     "thermal.water_tank.last_changed": ("thermal.dimension.water_tank", None, None),
     "thermal.water_tank.replacement_product_identifier": ("thermal.dimension.water_tank", None, None),
+    "thermal.measurement.electrical_power": (GENERATOR, 'unit.watt', None),
+    "thermal.energy.electrical_consumed": (GENERATOR, 'unit.joule', None),
+    "thermal.energy.solar_yield": ("thermal.dimension.solar_circuit", 'unit.joule', None),
+    "thermal.setpoint.heat_generator_flow_temperature": (GENERATOR, 'unit.kelvin', None),
+    "thermal.setpoint.circuit_flow_temperature": (CIRCUIT, 'unit.kelvin', None),
+    "thermal.setpoint.circuit_fixed_flow_temperature": (CIRCUIT, 'unit.kelvin', None),
+    "thermal.limit.circuit_flow_temperature_minimum": (CIRCUIT, 'unit.kelvin', None),
+    "thermal.limit.circuit_flow_temperature_maximum": (CIRCUIT, 'unit.kelvin', None),
+    "thermal.measurement.outdoor_air_temperature_average": (SYSTEM, 'unit.kelvin', None),
+    "thermal.status.terminal_unit_power": (TERMINAL, None, None),
+    "thermal.measurement.terminal_unit_air_temperature": (TERMINAL, 'unit.kelvin', None),
+    "thermal.measurement.terminal_unit_humidity": (TERMINAL, 'unit.ratio', None),
+    "thermal.setpoint.terminal_unit_heating": (TERMINAL, 'unit.kelvin', None),
+    "thermal.setpoint.terminal_unit_cooling": (TERMINAL, 'unit.kelvin', None),
+    "thermal.measurement.coil_temperature": (TERMINAL, 'unit.kelvin', None),
+    "thermal.configuration.ac_type": (TERMINAL, None, None),
+    "thermal.nameplate.cooling_capacity": (TERMINAL, 'unit.watt', None),
+    "thermal.configuration.refrigerant_type": (TERMINAL, None, None),
+    "thermal.configuration.compressor_type": (TERMINAL, None, None),
+    "thermal.status.terminal_unit_errors": (TERMINAL, None, None),
+    "thermal.measurement.louver_position": (TERMINAL, None, None),
+    "thermal.fan.mode": ("thermal.dimension.fan", None, None),
+    "thermal.fan.mode_sequence": ("thermal.dimension.fan", None, None),
+    "thermal.fan.speed_setting": ("thermal.dimension.fan", 'unit.ratio', (None, Fraction(1))),
+    "thermal.fan.speed_ratio": ("thermal.dimension.fan", 'unit.ratio', (None, Fraction(1))),
+    "thermal.fan.speed_step_maximum": ("thermal.dimension.fan", 'unit.one', (Fraction(1), Fraction(100))),
+    "thermal.fan.speed_step_setting": ("thermal.dimension.fan", 'unit.one', None),
+    "thermal.fan.speed_step": ("thermal.dimension.fan", 'unit.one', None),
+    "thermal.fan.rock_support": ("thermal.dimension.fan", None, None),
+    "thermal.fan.rock_setting": ("thermal.dimension.fan", None, None),
+    "thermal.fan.wind_support": ("thermal.dimension.fan", None, None),
+    "thermal.fan.wind_setting": ("thermal.dimension.fan", None, None),
+    "thermal.fan.airflow_direction": ("thermal.dimension.fan", None, None),
+    "thermal.mode.ventilation": (VENTILATION, None, None),
+    "thermal.measurement.supply_air_flow": (VENTILATION, 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.extract_air_flow": (VENTILATION, 'unit.cubic_metre_per_second', None),
+    "thermal.measurement.supply_air_temperature": (VENTILATION, 'unit.kelvin', None),
+    "thermal.measurement.extract_air_temperature": (VENTILATION, 'unit.kelvin', None),
+    "thermal.measurement.outdoor_intake_air_temperature": (VENTILATION, 'unit.kelvin', None),
+    "thermal.measurement.exhaust_air_temperature": (VENTILATION, 'unit.kelvin', None),
+    "thermal.filter.kind": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.condition": ("thermal.dimension.air_filter", 'unit.ratio', (None, Fraction(1))),
+    "thermal.filter.degradation_direction": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.change_indication": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.in_place": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.last_changed": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.replacement_product_kind": ("thermal.dimension.air_filter", None, None),
+    "thermal.filter.replacement_product_identifier": ("thermal.dimension.air_filter", None, None),
+    "thermal.measurement.air_quality": (ZONE, None, None),
+    "thermal.air.volume_fraction": (ZONE, 'unit.ratio', None),
+    "thermal.air.mass_concentration": (ZONE, 'unit.kilogram_per_cubic_metre', None),
+    "thermal.air.radon_concentration": (ZONE, 'unit.becquerel_per_cubic_metre', None),
+    "thermal.air.statistic_window": (ZONE, 'unit.second', (None, Fraction(604800))),
+    "thermal.air.level": (ZONE, None, None),
+    "thermal.air.uncertainty": (ZONE, 'unit.ratio', None),
+    "thermal.air.measurement_medium": (ZONE, None, None),
 }
 # Overrun identity: field id, system dimension, and the four status symbols.
 # Symbol lists stay in canonical sorted order, the same rule as thermal.mode.system.
@@ -1722,6 +1778,324 @@ def pe05_mutants(document: dict) -> int:
     )
 
 
+QU11_FIELDS = ('thermal.measurement.electrical_power', 'thermal.energy.electrical_consumed', 'thermal.energy.solar_yield', 'thermal.setpoint.heat_generator_flow_temperature', 'thermal.setpoint.circuit_flow_temperature', 'thermal.setpoint.circuit_fixed_flow_temperature', 'thermal.limit.circuit_flow_temperature_minimum', 'thermal.limit.circuit_flow_temperature_maximum', 'thermal.measurement.outdoor_air_temperature_average', 'thermal.status.terminal_unit_power', 'thermal.measurement.terminal_unit_air_temperature', 'thermal.measurement.terminal_unit_humidity', 'thermal.setpoint.terminal_unit_heating', 'thermal.setpoint.terminal_unit_cooling', 'thermal.measurement.coil_temperature', 'thermal.configuration.ac_type', 'thermal.nameplate.cooling_capacity', 'thermal.configuration.refrigerant_type', 'thermal.configuration.compressor_type', 'thermal.status.terminal_unit_errors', 'thermal.measurement.louver_position', 'thermal.fan.mode', 'thermal.fan.mode_sequence', 'thermal.fan.speed_setting', 'thermal.fan.speed_ratio', 'thermal.fan.speed_step_maximum', 'thermal.fan.speed_step_setting', 'thermal.fan.speed_step', 'thermal.fan.rock_support', 'thermal.fan.rock_setting', 'thermal.fan.wind_support', 'thermal.fan.wind_setting', 'thermal.fan.airflow_direction', 'thermal.mode.ventilation', 'thermal.measurement.supply_air_flow', 'thermal.measurement.extract_air_flow', 'thermal.measurement.supply_air_temperature', 'thermal.measurement.extract_air_temperature', 'thermal.measurement.outdoor_intake_air_temperature', 'thermal.measurement.exhaust_air_temperature', 'thermal.filter.kind', 'thermal.filter.condition', 'thermal.filter.degradation_direction', 'thermal.filter.change_indication', 'thermal.filter.in_place', 'thermal.filter.last_changed', 'thermal.filter.replacement_product_kind', 'thermal.filter.replacement_product_identifier', 'thermal.measurement.air_quality', 'thermal.air.volume_fraction', 'thermal.air.mass_concentration', 'thermal.air.radon_concentration', 'thermal.air.statistic_window', 'thermal.air.level', 'thermal.air.uncertainty', 'thermal.air.measurement_medium')
+QU11_SYMBOLS = {'thermal.status.terminal_unit_power': ('off', 'on'), 'thermal.configuration.ac_type': ('cooling_fixed', 'cooling_inverter', 'heat_pump_fixed', 'heat_pump_inverter', 'unknown'), 'thermal.configuration.refrigerant_type': ('r22', 'r407c', 'r410a', 'unknown'), 'thermal.configuration.compressor_type': ('t1', 't2', 't3', 'unknown'), 'thermal.status.terminal_unit_errors': ('coil_sensor_fail', 'compressor_fail', 'fan_fail', 'outdoor_sensor_fail', 'room_sensor_fail'), 'thermal.measurement.louver_position': ('closed', 'half', 'open', 'quarter', 'three_quarters'), 'thermal.fan.mode': ('auto', 'high', 'low', 'medium', 'off', 'on', 'smart'), 'thermal.fan.mode_sequence': ('off_high', 'off_high_auto', 'off_low_high', 'off_low_high_auto', 'off_low_medium_high', 'off_low_medium_high_auto'), 'thermal.fan.rock_support': ('left_right', 'round', 'up_down'), 'thermal.fan.rock_setting': ('left_right', 'round', 'up_down'), 'thermal.fan.wind_support': ('natural', 'sleep'), 'thermal.fan.wind_setting': ('natural', 'sleep'), 'thermal.fan.airflow_direction': ('forward', 'reverse'), 'thermal.mode.ventilation': ('auto', 'eco', 'off', 'on'), 'thermal.filter.kind': ('activated_carbon', 'hepa', 'other'), 'thermal.filter.degradation_direction': ('down', 'up'), 'thermal.filter.change_indication': ('critical', 'ok', 'warning'), 'thermal.filter.replacement_product_kind': ('ean', 'gtin14', 'gtin8', 'oem', 'upc'), 'thermal.measurement.air_quality': ('extremely_poor', 'fair', 'good', 'moderate', 'poor', 'unknown', 'very_poor'), 'thermal.air.level': ('critical', 'high', 'low', 'medium', 'unknown'), 'thermal.air.measurement_medium': ('air', 'soil', 'water')}
+QU11_QUALIFIERS = {'thermal.energy.electrical_consumed': ('thermal.dimension.period', 'thermal.dimension.period_offset'), 'thermal.energy.solar_yield': ('thermal.dimension.period', 'thermal.dimension.period_offset'), 'thermal.filter.replacement_product_kind': ('thermal.dimension.replacement_product',), 'thermal.filter.replacement_product_identifier': ('thermal.dimension.replacement_product',), 'thermal.air.volume_fraction': ('thermal.dimension.statistic', 'thermal.dimension.substance'), 'thermal.air.mass_concentration': ('thermal.dimension.statistic', 'thermal.dimension.substance'), 'thermal.air.radon_concentration': ('thermal.dimension.statistic',), 'thermal.air.statistic_window': ('thermal.dimension.statistic', 'thermal.dimension.substance'), 'thermal.air.level': ('thermal.dimension.substance',), 'thermal.air.uncertainty': ('thermal.dimension.substance',), 'thermal.air.measurement_medium': ('thermal.dimension.substance',)}
+QU11_OPERATIONS = {'thermal.operation.set_heat_generator_flow_temperature': ('thermal.capability.set_heat_generator_flow_temperature', 'thermal.setpoint.heat_generator_flow_temperature', 'thermal.effect.set_heat_generator_flow_temperature', 'thermal.service.heat_generator'), 'thermal.operation.set_circuit_fixed_flow_temperature': ('thermal.capability.set_circuit_fixed_flow_temperature', 'thermal.setpoint.circuit_fixed_flow_temperature', 'thermal.effect.set_circuit_fixed_flow_temperature', 'thermal.service.circuit'), 'thermal.operation.set_circuit_flow_temperature_minimum': ('thermal.capability.set_circuit_flow_temperature_minimum', 'thermal.limit.circuit_flow_temperature_minimum', 'thermal.effect.set_circuit_flow_temperature_minimum', 'thermal.service.circuit'), 'thermal.operation.set_circuit_flow_temperature_maximum': ('thermal.capability.set_circuit_flow_temperature_maximum', 'thermal.limit.circuit_flow_temperature_maximum', 'thermal.effect.set_circuit_flow_temperature_maximum', 'thermal.service.circuit'), 'thermal.operation.set_overrun_hvac_system_off': ('thermal.capability.set_overrun_hvac_system_off', 'thermal.overrun.hvac_system_off', 'thermal.effect.set_overrun_hvac_system_off', 'thermal.service.system'), 'thermal.operation.set_overrun_one_day_at_home': ('thermal.capability.set_overrun_one_day_at_home', 'thermal.overrun.one_day_at_home', 'thermal.effect.set_overrun_one_day_at_home', 'thermal.service.system'), 'thermal.operation.set_overrun_one_day_away': ('thermal.capability.set_overrun_one_day_away', 'thermal.overrun.one_day_away', 'thermal.effect.set_overrun_one_day_away', 'thermal.service.system'), 'thermal.operation.set_overrun_one_time_dhw': ('thermal.capability.set_overrun_one_time_dhw', 'thermal.overrun.one_time_dhw', 'thermal.effect.set_overrun_one_time_dhw', 'thermal.service.system'), 'thermal.operation.set_overrun_one_time_ventilation': ('thermal.capability.set_overrun_one_time_ventilation', 'thermal.overrun.one_time_ventilation', 'thermal.effect.set_overrun_one_time_ventilation', 'thermal.service.system'), 'thermal.operation.set_overrun_party': ('thermal.capability.set_overrun_party', 'thermal.overrun.party', 'thermal.effect.set_overrun_party', 'thermal.service.system'), 'thermal.operation.set_overrun_sg_ready_condition_1': ('thermal.capability.set_overrun_sg_ready_condition_1', 'thermal.overrun.sg_ready_condition_1', 'thermal.effect.set_overrun_sg_ready_condition_1', 'thermal.service.system'), 'thermal.operation.set_overrun_sg_ready_condition_3': ('thermal.capability.set_overrun_sg_ready_condition_3', 'thermal.overrun.sg_ready_condition_3', 'thermal.effect.set_overrun_sg_ready_condition_3', 'thermal.service.system'), 'thermal.operation.set_overrun_sg_ready_condition_4': ('thermal.capability.set_overrun_sg_ready_condition_4', 'thermal.overrun.sg_ready_condition_4', 'thermal.effect.set_overrun_sg_ready_condition_4', 'thermal.service.system'), 'thermal.operation.set_overrun_valve_kick': ('thermal.capability.set_overrun_valve_kick', 'thermal.overrun.valve_kick', 'thermal.effect.set_overrun_valve_kick', 'thermal.service.system'), 'thermal.operation.set_terminal_unit_power': ('thermal.capability.set_terminal_unit_power', 'thermal.status.terminal_unit_power', 'thermal.effect.set_terminal_unit_power', 'thermal.service.terminal_unit'), 'thermal.operation.set_terminal_unit_mode': ('thermal.capability.set_terminal_unit_mode', 'thermal.mode.terminal_unit', 'thermal.effect.set_terminal_unit_mode', 'thermal.service.terminal_unit'), 'thermal.operation.set_terminal_unit_heating': ('thermal.capability.set_terminal_unit_heating', 'thermal.setpoint.terminal_unit_heating', 'thermal.effect.set_terminal_unit_heating', 'thermal.service.terminal_unit'), 'thermal.operation.set_terminal_unit_cooling': ('thermal.capability.set_terminal_unit_cooling', 'thermal.setpoint.terminal_unit_cooling', 'thermal.effect.set_terminal_unit_cooling', 'thermal.service.terminal_unit'), 'thermal.operation.set_louver_position': ('thermal.capability.set_louver_position', 'thermal.measurement.louver_position', 'thermal.effect.set_louver_position', 'thermal.service.terminal_unit'), 'thermal.operation.set_fan_mode': ('thermal.capability.set_fan_mode', 'thermal.fan.mode', 'thermal.effect.set_fan_mode', 'thermal.service.fan'), 'thermal.operation.set_fan_speed': ('thermal.capability.set_fan_speed', 'thermal.fan.speed_setting', 'thermal.effect.set_fan_speed', 'thermal.service.fan'), 'thermal.operation.set_fan_step': ('thermal.capability.set_fan_step', 'thermal.fan.speed_step_setting', 'thermal.effect.set_fan_step', 'thermal.service.fan'), 'thermal.operation.set_fan_rock': ('thermal.capability.set_fan_rock', 'thermal.fan.rock_setting', 'thermal.effect.set_fan_rock', 'thermal.service.fan'), 'thermal.operation.set_fan_wind': ('thermal.capability.set_fan_wind', 'thermal.fan.wind_setting', 'thermal.effect.set_fan_wind', 'thermal.service.fan'), 'thermal.operation.set_fan_airflow_direction': ('thermal.capability.set_fan_airflow_direction', 'thermal.fan.airflow_direction', 'thermal.effect.set_fan_airflow_direction', 'thermal.service.fan'), 'thermal.operation.set_ventilation_mode': ('thermal.capability.set_ventilation_mode', 'thermal.mode.ventilation', 'thermal.effect.set_ventilation_mode', 'thermal.service.ventilation'), 'thermal.operation.set_ventilation_level': ('thermal.capability.set_ventilation_level', 'thermal.demand.level', 'thermal.effect.set_ventilation_level', 'thermal.service.ventilation'), 'thermal.operation.reset_filter': ('thermal.capability.reset_filter', 'thermal.filter.change_indication', 'thermal.effect.reset_filter', 'thermal.service.air_filter'), 'thermal.operation.set_filter_last_changed': ('thermal.capability.set_filter_last_changed', 'thermal.filter.last_changed', 'thermal.effect.set_filter_last_changed', 'thermal.service.air_filter')}
+QU11_EXCLUDED = ('thermal.energy.fuel_consumed', 'thermal.energy.heat_delivered', 'thermal.energy.environmental_yield', 'thermal.measurement.modulation', 'thermal.setpoint.modulation', 'thermal.status.flame', 'thermal.status.backup_heater', 'thermal.measurement.burner_starts', 'thermal.measurement.burner_operating_time', 'thermal.measurement.compressor_starts', 'thermal.measurement.compressor_operating_time', 'thermal.nameplate.heat_output', 'thermal.configuration.partial_load_power', 'thermal.configuration.heating_curve_slope', 'thermal.configuration.heating_curve_offset', 'thermal.configuration.circuit_kind', 'thermal.status.screed_drying', 'thermal.program.screed_drying_day', 'thermal.setpoint.screed_drying_temperature', 'thermal.configuration.bivalence_heating_temperature', 'thermal.configuration.bivalence_dhw_temperature', 'thermal.maintenance.next_due', 'thermal.absence.start', 'thermal.absence.end', 'thermal.absence.setpoint', 'thermal.measurement.fan_speed', 'thermal.measurement.heat_recovery_efficiency', 'thermal.status.bypass', 'thermal.operation.set_screed_drying', 'thermal.operation.set_absence', 'thermal.operation.set_heating_curve', 'thermal.operation.set_bivalence_temperatures', 'thermal.dimension.purpose', 'thermal.dimension.louver_axis')
+QU11_RELATIONS = ('thermal.relation.fan_member', 'thermal.relation.filter_member')
+QU11_DIMENSIONS = ("thermal.dimension.fan", "thermal.dimension.air_filter")
+QU11_QUALIFIER_DIMENSIONS = {'thermal.dimension.period': ('symbol', None, ('day', 'month', 'year')), 'thermal.dimension.period_offset': ('quantity', 'unit.one', None), 'thermal.dimension.substance': ('symbol', None, ('carbon_dioxide', 'carbon_monoxide', 'formaldehyde', 'nitrogen_dioxide', 'ozone', 'pm1', 'pm10', 'pm2_5', 'radon', 'volatile_organic_compounds')), 'thermal.dimension.statistic': ('symbol', None, ('average', 'measured', 'peak'))}
+QU11_SERVICES = ("thermal.service.fan", "thermal.service.air_filter")
+QU11_PORTALS = ("thermal.portal.read.fan", "thermal.portal.read.air_filter")
+FORBIDDEN_USE_CASES = (
+    "flexibleStartForWhiteGoods",
+    "monitoringAndControlOfSmartGridReadyConditions",
+)
+
+
+def check_qu11_fields(fields: dict) -> None:
+    missing = [ident for ident in QU11_FIELDS if ident not in fields]
+    if missing:
+        raise AssertionError(f"admitted fields absent: {missing}")
+    for ident, tokens in QU11_SYMBOLS.items():
+        if fields[ident].get("symbols") != [f"{ident}.{token}" for token in tokens]:
+            raise AssertionError(f"{ident} symbols differ")
+    for ident, quals in QU11_QUALIFIERS.items():
+        if tuple(fields[ident].get("qualifiers", ())) != quals:
+            raise AssertionError(f"{ident} qualifiers differ")
+    if "qualifiers" in fields["thermal.measurement.louver_position"]:
+        raise AssertionError("louver position keeps an axis qualifier")
+
+
+def check_qu11_withheld(fields: dict, operations: dict, qualifier_ids: set, relations: set) -> None:
+    admitted = fields.keys() | operations.keys() | qualifier_ids
+    present = [ident for ident in QU11_EXCLUDED if ident in admitted]
+    if present:
+        raise AssertionError(f"withheld ids admitted: {present}")
+    present = [ident for ident in QU11_RELATIONS if ident in relations]
+    if present:
+        raise AssertionError(f"relations admitted: {present}")
+
+
+def check_qu11_operations(document: dict, operations: dict) -> None:
+    capabilities = {item["id"]: item for item in definitions(document)["capabilities"]}
+    for ident, (capability, argument, effect, service) in QU11_OPERATIONS.items():
+        item = operations[ident]
+        observed = (item["capability"], item["arguments"], item["effect_rule"], item.get("parameters"))
+        if observed != (capability, [argument], effect, None):
+            raise AssertionError(f"{ident} operation identity differs")
+        owner = capabilities[capability]
+        if owner["service"] != service or owner["constraints"] != [argument]:
+            raise AssertionError(f"{ident} capability identity differs")
+
+
+def check_qu11_event(events: dict) -> None:
+    event = events["thermal.event.maintenance_due"]
+    observed = (
+        event["service"], event["trigger"], event["condition"], tuple(event["payload"]),
+        event["origin"], event.get("symbols"),
+    )
+    expected = (
+        "thermal.service.system", "thermal.status.maintenance", "entered", (), "derived",
+        ["thermal.status.maintenance.due"],
+    )
+    if observed != expected:
+        raise AssertionError("maintenance event identity differs")
+
+
+def check_qu11_qualifier_dimensions(document: dict) -> None:
+    qualifiers = {item["id"]: item for item in definitions(document)["qualifier_dimensions"]}
+    for ident, (value_kind, unit, symbols) in QU11_QUALIFIER_DIMENSIONS.items():
+        item = qualifiers[ident]
+        expected_symbols = None if symbols is None else list(symbols)
+        if (item.get("value_kind"), item.get("unit"), item.get("symbols")) != (value_kind, unit, expected_symbols):
+            raise AssertionError(f"{ident} qualifier dimension differs")
+
+
+def check_qu11_pages() -> None:
+    for path in (validator.VECTORS, validator.DOCUMENT, ROOT / "api/v1/element-catalog-v1.json"):
+        found = [name for name in FORBIDDEN_USE_CASES if name in path.read_text(encoding="utf-8")]
+        if found:
+            raise AssertionError(f"{path.name} cites {found}")
+
+
+def check_qu11(document: dict) -> None:
+    """Admitted generator and ventilation rows are present and the withheld rows are absent."""
+    fields = {field["id"]: field for field in definitions(document)["fields"]}
+    operations = {item["id"]: item for item in definitions(document)["operations"]}
+    events = {item["id"]: item for item in definitions(document)["events"]}
+    qualifier_ids = {item["id"] for item in definitions(document)["qualifier_dimensions"]}
+    relations = {item["id"] for item in definitions(document)["relations"]}
+    check_qu11_fields(fields)
+    check_qu11_withheld(fields, operations, qualifier_ids, relations)
+    check_qu11_operations(document, operations)
+    check_qu11_event(events)
+    check_qu11_qualifier_dimensions(document)
+    check_qu11_pages()
+    print("qu11_identity: PASS")
+
+
+def qu11_rename(document: dict, group: str, ident: str) -> dict:
+    mutated = copy.deepcopy(document)
+    for item in definitions(mutated)[group]:
+        if item["id"] == ident:
+            item["id"] += "_other"
+            item["ref"]["id"] += "_other"
+            return mutated
+    raise AssertionError(ident)
+
+
+def qu11_field_mutants(document: dict) -> int:
+    count = 0
+    for ident in QU11_FIELDS:
+        index = field_index(document, ident)
+        removed = copy.deepcopy(document)
+        del definitions(removed)["fields"][index]
+        reject(removed, "field catalog")
+        count += 1
+        if definitions(document)["fields"][index]["kind"] in {"symbol", "symbols", "quantity"}:
+            continue
+        extra = copy.deepcopy(document)
+        definitions(extra)["fields"][index]["unit"] = "unit.kelvin"
+        reject(extra, "non-quantity field has quantity-only data")
+        count += 1
+    return count
+
+
+def qu11_symbol_mutants(document: dict) -> int:
+    count = 0
+    for ident, tokens in QU11_SYMBOLS.items():
+        index = field_index(document, ident)
+        for token in tokens:
+            renamed = copy.deepcopy(document)
+            symbols = definitions(renamed)["fields"][index]["symbols"]
+            symbols[symbols.index(f"{ident}.{token}")] = f"{ident}.paused"
+            reject(renamed, "field has invalid semantic symbols")
+            count += 1
+        smuggled = copy.deepcopy(document)
+        definitions(smuggled)["fields"][index]["symbols"].append(f"{ident}.withheld")
+        reject(smuggled, "field has invalid semantic symbols")
+        count += 1
+    return count
+
+
+def qu11_qualifier_mutants(document: dict) -> int:
+    count = 0
+    for ident in QU11_QUALIFIERS:
+        index = field_index(document, ident)
+        cleared = copy.deepcopy(document)
+        definitions(cleared)["fields"][index].pop("qualifiers")
+        reject(cleared, "field qualifiers differ")
+        added = copy.deepcopy(document)
+        definitions(added)["fields"][index]["qualifiers"].append("thermal.dimension.suggestion")
+        reject(added, "field qualifiers differ")
+        count += 2
+    return count
+
+
+def qu11_operation_index(document: dict, ident: str) -> int:
+    return next(i for i, item in enumerate(definitions(document)["operations"]) if item["id"] == ident)
+
+
+def qu11_one_operation_mutants(document: dict, ident: str, ids: list) -> int:
+    index = qu11_operation_index(document, ident)
+    other = ids[0] if ident != ids[0] else ids[1]
+    other_cap, other_arg, other_effect, _service = QU11_OPERATIONS[other]
+    reject(qu11_rename(document, "operations", ident), "operation catalog")
+    changed = copy.deepcopy(document)
+    definitions(changed)["operations"][index]["capability"] = other_cap
+    reject(changed, "operation capability differs")
+    argued = copy.deepcopy(document)
+    item = definitions(argued)["operations"][index]
+    item["arguments"] = [other_arg]
+    item["argument_constraints"] = [other_arg]
+    reject(argued, "operation argument differs")
+    effected = copy.deepcopy(document)
+    definitions(effected)["operations"][index]["effect_rule"] = other_effect
+    reject(effected, "operation effect differs")
+    extra = copy.deepcopy(document)
+    definitions(extra)["operations"][index]["parameters"] = ["thermal.hold.expiry"]
+    reject(extra, "operation parameters differ")
+    moved = copy.deepcopy(document)
+    capability_id = QU11_OPERATIONS[ident][0]
+    for capability in definitions(moved)["capabilities"]:
+        if capability["id"] == capability_id:
+            capability["service"] = "thermal.service.zone"
+    reject(moved, "operation capability differs")
+    return 6
+
+
+def qu11_operation_mutants(document: dict) -> int:
+    ids = list(QU11_OPERATIONS)
+    return sum(qu11_one_operation_mutants(document, ident, ids) for ident in ids)
+
+
+def qu11_event_mutants(document: dict) -> int:
+    count = 0
+    index = next(
+        i for i, item in enumerate(definitions(document)["events"]) if item["id"] == "thermal.event.maintenance_due")
+    removed = copy.deepcopy(document)
+    del definitions(removed)["events"][index]
+    reject(removed, "event catalog")
+    replacements = (
+        ("service", "thermal.service.zone", "event service differs"),
+        ("trigger", "thermal.mode.system", "event trigger differs"),
+        ("condition", "changed", "event payload differs"),
+        ("origin", "emitted", "event payload differs"),
+        ("payload", ["thermal.mode.zone"], "event payload differs"),
+        ("symbols", ["thermal.status.maintenance.clear"], "event payload differs"),
+    )
+    for key, value, message in replacements:
+        mutated = copy.deepcopy(document)
+        definitions(mutated)["events"][index][key] = value
+        reject(mutated, message)
+        count += 1
+    return count + 1
+
+
+def qu11_qualifier_symbol_mutants(document: dict, slot: int, symbols: tuple) -> int:
+    count = 0
+    for token in symbols:
+        replaced = copy.deepcopy(document)
+        current = definitions(replaced)["qualifier_dimensions"][slot]["symbols"]
+        current[current.index(token)] = "paused"
+        reject(replaced, "qualifier dimension differs")
+        count += 1
+    return count
+
+
+def qu11_one_qualifier_dimension_mutants(document: dict, ident: str, value_kind: str, unit, symbols) -> int:
+    count = 1
+    reject(qu11_rename(document, "qualifier_dimensions", ident), "qualifier catalog")
+    slot = next(i for i, item in enumerate(definitions(document)["qualifier_dimensions"]) if item["id"] == ident)
+    changed = copy.deepcopy(document)
+    replacement = "quantity" if value_kind == "text" else "text"
+    definitions(changed)["qualifier_dimensions"][slot]["value_kind"] = replacement
+    reject(changed, "qualifier dimension differs")
+    count += 1
+    if unit is not None:
+        cleared = copy.deepcopy(document)
+        definitions(cleared)["qualifier_dimensions"][slot].pop("unit")
+        reject(cleared, "qualifier dimension differs")
+        count += 1
+    if symbols is not None:
+        count += qu11_qualifier_symbol_mutants(document, slot, symbols)
+    return count
+
+
+def qu11_qualifier_dimension_mutants(document: dict) -> int:
+    return sum(
+        qu11_one_qualifier_dimension_mutants(document, ident, value_kind, unit, symbols)
+        for ident, (value_kind, unit, symbols) in QU11_QUALIFIER_DIMENSIONS.items()
+    )
+
+
+def qu11_group_cases() -> list:
+    cases = [(ident, "fact_dimensions", "fact-key dimension contracts") for ident in QU11_DIMENSIONS]
+    cases += [(ident, "services", "service catalog") for ident in QU11_SERVICES]
+    for capability, _argument, effect, _service in QU11_OPERATIONS.values():
+        cases.append((capability, "capabilities", "capability catalog"))
+        cases.append((effect, "effect_rules", "effect catalog"))
+    cases += [(ident, "portal_contributions", "Portal catalog") for ident in QU11_PORTALS]
+    return cases
+
+
+def qu11_group_mutants(document: dict) -> int:
+    count = 0
+    for ident, group, message in qu11_group_cases():
+        reject(qu11_rename(document, group, ident), message)
+        count += 1
+    for portal_id in QU11_PORTALS:
+        dropped = copy.deepcopy(document)
+        for portal in definitions(dropped)["portal_contributions"]:
+            if portal["id"] == portal_id:
+                portal["fields"].pop()
+        reject(dropped, "read descriptor field coverage")
+        count += 1
+    return count
+
+
+def qu11_mutants(document: dict) -> int:
+    """Identity fields and the production mutation each case catches.
+
+    field id: removing the field is rejected as a field catalog mismatch.
+    non-quantity unit: inserting unit.kelvin on a boolean, text or time field
+    is rejected as quantity-only data.
+    each symbol token: replacing that token is rejected as invalid semantic symbols.
+    qualifier list: removing it or appending one is rejected as field qualifiers differ.
+    operation id: renaming it is rejected as an operation catalog mismatch.
+    capability, argument and effect: replacing each is rejected as operation
+    capability differs, operation argument differs, or operation effect differs.
+    capability service: moving it to thermal.service.zone is rejected as
+    operation capability differs.
+    one added parameter: adding it is rejected as operation parameters differ.
+    event id: removing it is rejected as an event catalog mismatch.
+    event service, trigger, payload, condition, origin and symbol: replacing
+    each is rejected as event service differs, event trigger differs, or event
+    payload differs.
+    qualifier-dimension id: renaming it is rejected as a qualifier catalog mismatch.
+    qualifier value kind, unit and each symbol: replacing each is rejected as
+    qualifier dimension differs.
+    each new fact-dimension id: renaming it is rejected as fact-key dimension contracts.
+    each new service id: renaming it is rejected as a service catalog mismatch.
+    each new capability id: renaming it is rejected as a capability catalog mismatch.
+    each new effect id: renaming it is rejected as an effect catalog mismatch.
+    each new portal id: renaming it is rejected as a Portal catalog mismatch.
+    one field of each new read portal: removing it is rejected as read descriptor
+    field coverage.
+    Subject, unit and each present or absent bound of every new field are varied
+    by field_axis_mutants.
+    A symbol token listed by the field contract may contain unknown. A symbol
+    containing unknown or withheld that the contract does not list is rejected.
+    """
+    return (
+        qu11_field_mutants(document) + qu11_symbol_mutants(document) + qu11_qualifier_mutants(document)
+        + qu11_operation_mutants(document) + qu11_event_mutants(document)
+        + qu11_qualifier_dimension_mutants(document) + qu11_group_mutants(document)
+    )
+
+
 def main() -> None:
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -1750,6 +2124,8 @@ def main() -> None:
     print(f"pe04_mutants: {pe04_mutants(document)} REJECTED")
     check_pe05(document)
     print(f"pe05_mutants: {pe05_mutants(document)} REJECTED")
+    check_qu11(document)
+    print(f"qu11_mutants: {qu11_mutants(document)} REJECTED")
 
 
 if __name__ == "__main__":

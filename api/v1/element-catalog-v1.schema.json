@@ -854,6 +854,15 @@
           "items": {
             "$ref": "#/$defs/elementRef"
           }
+        },
+        "symbols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._]*$"
+          }
         }
       },
       "allOf": [
@@ -896,6 +905,41 @@
               "aggregation": {
                 "const": "not_applicable"
               }
+            }
+          }
+        },
+        {
+          "if": {
+            "not": {
+              "anyOf": [
+                {
+                  "properties": {
+                    "value_kind": {
+                      "const": "symbol"
+                    }
+                  },
+                  "required": [
+                    "value_kind"
+                  ]
+                },
+                {
+                  "properties": {
+                    "value_kind": {
+                      "const": "symbols"
+                    }
+                  },
+                  "required": [
+                    "value_kind"
+                  ]
+                }
+              ]
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "symbols"
+              ]
             }
           }
         }
