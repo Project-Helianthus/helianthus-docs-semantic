@@ -7,6 +7,20 @@ status: "unreleased change record; implementation and consumer adoption remain p
 ## Unreleased
 
 - The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the
+  admitted hydraulic, circuit and store facts, one qualifier dimension, five
+  resource dimensions, five resource kinds, five services, and fifteen
+  operations with one capability and one effect rule each. `resource.pump`,
+  `thermal.dimension.pump` and `thermal.service.pump` keep physical,
+  hydraulic and diagnostic and also carry energy and control.
+  `thermal.measurement.pump_speed` stays hydraulic and diagnostic. Six
+  changed events are catalog entries. Two domestic-hot-water boost events
+  and seventeen pump alarm events stay out. Nine two-vendor-only fields
+  stay out. Six hydraulic relations are not added. Empty bounds stay empty.
+  New Matter 1.6.1 rows are unknown with `matter.unmapped.v1`. The five new
+  services are unsupported with `matter.service_not_requested_item.v1`.
+  `evse.ac.current` stays the only transformed row. The historical Matter
+  1.7 roster stays at 184 items. No pack version is raised.
+- The thermal pack stays `helianthus.pack.thermal` 1.0.0 and publishes the
   admitted zone, function and sensor facts, `resource.sensor`,
   `thermal.dimension.function`, `thermal.dimension.sensor`, four qualifier
   dimensions, `thermal.service.function`, `thermal.service.sensor`, two read
