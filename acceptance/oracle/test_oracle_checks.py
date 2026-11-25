@@ -234,7 +234,8 @@ def test_the_session_output_does_not_depend_on_the_host_that_ran_it():
 @pytest.mark.parametrize("output", sorted(SESSIONS.rglob("output.json")), ids=lambda path: path.parent.name)
 def test_a_committed_session_output_holds_no_host_specific_build_record(output):
     document = json.loads(output.read_text(encoding="utf-8"))
-    assert set(document["build"]) == {"source", "label", "build_command", "invocation"}
+    assert set(document["build"]) - {"overlay"} == {"source", "label", "build_command", "invocation"}
+    assert set(document["build"].get("overlay", {"module": 0, "changed_files": 0, "added_files": 0})) == {"module", "changed_files", "added_files"}
     assert "darwin" not in output.read_text(encoding="utf-8") and "arm64" not in output.read_text(encoding="utf-8")
     provenance = json.loads((HERE / "provenance" / ("-".join(output.parent.relative_to(SESSIONS).parts) + ".json")).read_text(encoding="utf-8"))
     assert provenance["session_sha256"] == document["session_sha256"]
@@ -1226,3 +1227,32 @@ def test_the_index_digest_follows_every_entry_member(tmp_path, monkeypatch):
         changed = copy.deepcopy(entries)
         mutate(changed[0])
         assert can_receive.index_digest(changed) != base, name
+
+
+MODBUS_SESSIONS = ("sunspec-first-incarnation", "sunspec-generation-replacement", "rs485-storage-first-incarnation", "gen3-managed-first-incarnation",
+                   "gen3-managed-generation-replacement", "dongle-tcp", "logger-tcp")
+
+
+@pytest.mark.parametrize("name", MODBUS_SESSIONS)
+def test_a_modbus_session_is_indexed_as_input_and_expected_output_with_its_case(name):
+    entries = {entry["path"]: entry for entry in check.load_index()}
+    base = f"current/sessions/modbus/{name}"
+    for file, role in (("session.json", "input"), ("output.json", "expected-output")):
+        entry = entries[f"{base}/{file}"]
+        assert (entry["role"], entry["reference"], entry["case"], entry["source_entry"]) == (role, "current", f"modbus/{name}", "gateway")
+    session = json.loads((SESSIONS / "modbus" / name / "session.json").read_text(encoding="utf-8"))
+    output = json.loads((SESSIONS / "modbus" / name / "output.json").read_text(encoding="utf-8"))
+    assert session["scenario"] == name and output["session"] == session["session"]
+    assert all(isinstance(output[group], list) for group in CLASSES)
+
+
+def test_the_gen3_sessions_record_empty_acquisitions_and_sends_and_carry_the_raw_arm_as_stimulus():
+    for name in ("gen3-managed-first-incarnation", "gen3-managed-generation-replacement"):
+        session = json.loads((SESSIONS / "modbus" / name / "session.json").read_text(encoding="utf-8"))
+        output = json.loads((SESSIONS / "modbus" / name / "output.json").read_text(encoding="utf-8"))
+        assert output["acquisitions"] == [] and output["sends"] == []
+        assert "none of these frames is a donor transmission" in session["input"]["raw_active_transport_arm"]["role"]
+
+
+def test_the_exit_status_of_a_pin_without_a_runnable_operand_is_shared_by_the_runner_and_the_checker():
+    assert check.NO_RUNNABLE_OPERAND == replay_session.NO_RUNNABLE_OPERAND == 3

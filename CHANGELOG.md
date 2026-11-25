@@ -6,6 +6,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The oracle records seven Modbus whole sessions under
+  `acceptance/vectors/current/sessions/modbus/` (SunSpec first incarnation and
+  generation replacement, the RS-485 storage runtime through its production
+  RTU endpoint, the Gen3 retained owner first incarnation and generation
+  replacement, and the Huawei dongle and logger TCP providers), each with its
+  input and the six output classes of the pinned production path. The RS-485
+  session runs with a scratch copy of the pinned RTU module in which only the
+  serial operand and the receipt clock sample change. A session whose pin lacks
+  a named operand exits with status 3 and its comparison stays incomplete. The
+  Gen3 sessions carry the separate raw active-transport arm as stimulus only.
 - The EVSE page names the watt-to-ampere rule and RR05: measured voltage
   when SemReg has one, else the specification nominal voltage, marked
   declared. The energy-management page keeps registry prices in

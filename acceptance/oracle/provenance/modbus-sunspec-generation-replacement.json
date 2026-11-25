@@ -1,0 +1,17 @@
+{
+  "build": {
+    "build_command": "go test -c -trimpath -o replay-modbus-sunspec-generation-replacement.test ./cmd/gateway/",
+    "executable_sha256": "17753623ee2b8b15f953531f78e34c7ae06f14aa35273cd1bcab828d70fa2c33",
+    "invocation": "replay-modbus-sunspec-generation-replacement.test -test.run ^TestOracleSessionModbus$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    },
+    "toolchain": "go version go1.26.2 darwin/arm64"
+  },
+  "format": "helianthus-oracle-session-provenance/1",
+  "reference": "current",
+  "session": "modbus-sunspec-generation-replacement",
+  "session_sha256": "19bb14585a1b97bda12244b9db2057fedbb9f18af0a288d61a1877ee3199ce7b"
+}

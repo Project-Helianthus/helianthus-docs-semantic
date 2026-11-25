@@ -1,0 +1,170 @@
+{
+  "format": "helianthus-oracle-session/1",
+  "session": "modbus-rs485-storage-first-incarnation",
+  "reference": "current",
+  "scenario": "rs485-storage-first-incarnation",
+  "description": "The pinned Growatt RS-485 storage runtime opens its production RTU endpoint, whose physical serial operand is a scripted byte stream, and reads the four FC03 windows of unit 7 for three publications and one MCP call; the initial active state then turns to soft-start.",
+  "harness": {
+    "entry": "gateway",
+    "package": "cmd/gateway",
+    "sources": "gateway-sessions",
+    "test": "TestOracleSessionModbusRS485",
+    "build_tags": [
+      "oracle_rtu_overlay"
+    ],
+    "overlay": "overlays/helianthus-modbus-rtu"
+  },
+  "fixtures": [
+    {
+      "path": "cmd/gateway/growatt_bms_rs485_runtime_test.go",
+      "sha256": "dddea10ac341d3ce9d54e1357981d244bf980d16b2717df40d96953ad2a24f2d"
+    },
+    {
+      "path": "cmd/gateway/growatt_bms_rs485_runtime.go",
+      "sha256": "6f190abbc041169b24dde692c6052b8d8ef183f7d120938c5d9140cd26cd05fc"
+    },
+    {
+      "path": "cmd/gateway/portal_catalog_v1_test.go",
+      "sha256": "7d1f82e5e2f329bead3f6d147b92b6aa8bcaf6a740ca879f11d7208513df36d1"
+    }
+  ],
+  "clock": {
+    "kind": "simulated",
+    "receipt_wall": "unix 1800000000 plus one nanosecond per receipt, one receipt per response"
+  },
+  "state": {
+    "cache_seed": null
+  },
+  "input": {
+    "config": {
+      "Enabled": true,
+      "AssetID": "asset:growatt-bms-a",
+      "SourceID": "growatt-bms-a",
+      "SourceEpoch": "source-epoch-1",
+      "DriverGeneration": 1,
+      "UnitID": 7,
+      "SerialPath": "/dev/fixture",
+      "Baud": 9600,
+      "Parity": "even",
+      "StopBits": 1,
+      "ResponseTimeout": 1000000000,
+      "MaxResponseDelay": 100000000,
+      "MaxQuiescence": 200000000
+    },
+    "receipt_wall": {
+      "anchor_unix": 1800000000,
+      "step_ns": 1
+    },
+    "byte_offset_us": 1000,
+    "tail_offset_us": 10000,
+    "exchanges": [
+      {
+        "name": "publish1/0001/7",
+        "request_hex": "07030001000755ae",
+        "response_hex": "07030e01020304000000000000000000001a03"
+      },
+      {
+        "name": "publish1/000d/29",
+        "request_hex": "0703000d001d1466",
+        "response_hex": "07033a02040301000000000000000000020000004b1450ff9c001900000c80138800000000006e000000000000000000000000000000000000000000001820"
+      },
+      {
+        "name": "publish1/0100/12",
+        "request_hex": "07030100000c4455",
+        "response_hex": "0703180064007b0ce4000002000005000600000000000000000000f568"
+      },
+      {
+        "name": "publish1/010d/2",
+        "request_hex": "0703010d00025452",
+        "response_hex": "070304000000009c33"
+      },
+      {
+        "name": "publish2/0001/7",
+        "request_hex": "07030001000755ae",
+        "response_hex": "07030e01020304000000000000000000001a03"
+      },
+      {
+        "name": "publish2/000d/29",
+        "request_hex": "0703000d001d1466",
+        "response_hex": "07033a02040301000000000000000000020000004b1450ff9c001900000c80138800000000006e000000000000000000000000000000000000000000001820"
+      },
+      {
+        "name": "publish2/0100/12",
+        "request_hex": "07030100000c4455",
+        "response_hex": "0703180064007b0ce4000002000005000600000000000000000000f568"
+      },
+      {
+        "name": "publish2/010d/2",
+        "request_hex": "0703010d00025452",
+        "response_hex": "070304000000009c33"
+      },
+      {
+        "name": "publish3_soft_starting/0001/7",
+        "request_hex": "07030001000755ae",
+        "response_hex": "07030e01020304000000000000000000001a03"
+      },
+      {
+        "name": "publish3_soft_starting/000d/29",
+        "request_hex": "0703000d001d1466",
+        "response_hex": "07033a02040301000000000000000000000000004b1450ff9c001900000c80138800000000006e000000000000000000000000000000000000000000003a81"
+      },
+      {
+        "name": "publish3_soft_starting/0100/12",
+        "request_hex": "07030100000c4455",
+        "response_hex": "0703180064007b0ce4000002000005000600000000000000000000f568"
+      },
+      {
+        "name": "publish3_soft_starting/010d/2",
+        "request_hex": "0703010d00025452",
+        "response_hex": "070304000000009c33"
+      },
+      {
+        "name": "mcp_publish4/0001/7",
+        "request_hex": "07030001000755ae",
+        "response_hex": "07030e01020304000000000000000000001a03"
+      },
+      {
+        "name": "mcp_publish4/000d/29",
+        "request_hex": "0703000d001d1466",
+        "response_hex": "07033a02040301000000000000000000000000004b1450ff9c001900000c80138800000000006e000000000000000000000000000000000000000000003a81"
+      },
+      {
+        "name": "mcp_publish4/0100/12",
+        "request_hex": "07030100000c4455",
+        "response_hex": "0703180064007b0ce4000002000005000600000000000000000000f568"
+      },
+      {
+        "name": "mcp_publish4/010d/2",
+        "request_hex": "0703010d00025452",
+        "response_hex": "070304000000009c33"
+      }
+    ],
+    "steps": [
+      {
+        "name": "publish1",
+        "kind": "publish"
+      },
+      {
+        "name": "publish2",
+        "kind": "publish"
+      },
+      {
+        "name": "publish3_soft_starting",
+        "kind": "publish"
+      },
+      {
+        "name": "retained-current",
+        "kind": "retained-current"
+      },
+      {
+        "name": "current-at",
+        "kind": "current-at",
+        "current_at_offset_ms": 10000
+      },
+      {
+        "name": "mcp-publish4",
+        "kind": "mcp-call"
+      }
+    ]
+  }
+}

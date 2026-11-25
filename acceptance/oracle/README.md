@@ -351,11 +351,67 @@ of the replay executable depend on the host that ran the replay: they are writte
 of the output that `check.py` compares, so the same six output classes compare equal on any host. The replay executable is
 not the shipped gateway CLI binary. No live hardware is used.
 
-Published sessions: `vaillant/poller-full-site` and `vaillant/poller-cache-hydrated-partial-reads` (the production poller on
+Published sessions: `modbus/*` (seven, below), `vaillant/poller-full-site` and `vaillant/poller-cache-hydrated-partial-reads` (the production poller on
 the pinned virtual site and simulated clock), `eebus/inbound-observation-and-withdrawal` (remote observations, a profile
 drift and a runtime state change) and `eebus/outbound-peer-request` (one peer request relayed through the pinned output
 binding, which serves no eeBUS feature; the donor outcome is recorded as it is). The frames of one step of the Vaillant
 sessions are recorded in canonical order because the production poller issues the reads of a step concurrently.
+
+### Modbus sessions (`sessions/modbus/`)
+
+Seven further sessions run the pinned Modbus paths whole. Each directory holds `session.json` (role `input`) and
+`output.json` (role `expected-output`), indexed with `case` `modbus/<name>` and `source_entry` `gateway` (the gateway pin of
+`references.json`). The harness is `recorders/go/gateway-sessions/zz_oracle_session_modbus_test.go`, with
+`zz_oracle_session_modbus_rs485_test.go` for the RS-485 case (build tag `oracle_rtu_overlay`).
+
+| Session | Pinned production path that runs | Stimuli |
+| --- | --- | --- |
+| `sunspec-first-incarnation` | the production SunSpec driver, producer and qualifier that `newGatewaySunSpecInstanceLiveSmokeWorker` assembles, run on the worker core with a scripted wait between cycles: `Poll` runs `Qualify` then `Refresh` on one `Adapter` over a real loopback connection, then the registered public reads (adapter getters, the MCP provider, the Portal route over the machine GraphQL runtime), then the scope fence | the register words of the frozen SunSpec chain fixture, one changed float word, the clock of `TestPVCharacterizationFirstIncarnationLegacyIdentityAndCanonicalSnapshots` |
+| `sunspec-generation-replacement` | the same, over a same-epoch driver generation replacement and a later epoch replacement, each admitted after the fence of the previous scope | the words and the receipt schedule of `TestPVCharacterizationGenerationAndEpochReplacement` |
+| `rs485-storage-first-incarnation` | `startGrowattBMSRS485Runtime` through `OpenRTUProductionEndpoint`, three publications and the scheduled MCP call | four FC03 windows of unit 7 per acquisition, scripted request and response frames |
+| `gen3-managed-first-incarnation` | the retained Gen3 owner: completed exchanges accepted after receipt, the semantic reads, the MCP tool call, the machine GraphQL read | the exchanges and clocks of `TestTeslaCharacterizationOwnerFirstIncarnationLegacyIdentityAndPublicBytes` |
+| `gen3-managed-generation-replacement` | the same owner, its generation fence, the successor registered on the retained kernel, and the repeated public reads against the successor | the exchanges of `TestTeslaHSCRetainedOwnerSuccessorFirstPublicationIsAcceptedOnTheRetainedKernel` |
+| `dongle-tcp`, `logger-tcp` | the production Huawei provider over a real loopback connection, its PV publication on the hub, and the GraphQL and MCP snapshot reads | the per-endpoint `sdongle_replay.json` and `smartlogger_replay.json` register inputs; `logger-tcp` adds a lost child identity, an incomplete listing and a restoration |
+
+How the classes are filled. SunSpec: `sends` are the FC03 requests the frozen virtual server recorded, `acquisitions` the words
+returned for each, `outcomes` the qualification result of every poll and the decision lines of the worker, `publications` the
+view after each poll, `withdrawals` the fence of each scope, `public_outputs` the registered reads. RS-485: `sends` are the
+request frames the production endpoint wrote, `acquisitions` the observation evidence it retained (request and response frames,
+transport generation, receipt instants), `publications` the three semantic publications. Gen3: the retained owner opens no
+endpoint, so `acquisitions` and `sends` are empty; `outcomes` carry the exchanges it accepted and the native values it holds.
+Huawei: `sends` are the request PDUs the provider wrote, `acquisitions` the response PDUs the fixture answered (an empty
+response is a timeout), `outcomes` the provider cycles with their per-child evidence, withheld reasons and exchange attempts,
+`publications` the published assets, `withdrawals` the assets that left, `public_outputs` the snapshot reads.
+
+Gen3 cross-link. Each Gen3 `session.json` carries `raw_active_transport_arm`: the separate raw active-transport sequence the
+consumer drives at its own active Open path. It is stimulus only. The pinned owner transmits nothing, so none of its frames is a
+donor transmission, and a coincident configured-current value from that arm grants no equivalence of wire, receipts, identity or
+time. The output records the digest of the block, so a changed arm changes the output. Unknown in that block, and listed there as
+such: the response terminal frames of the ordinary reads (the pinned test builds them with an unexported helper) and the declared
+t28 read window (neither the pinned fixtures nor the public page state one).
+
+Harness seams, each harness-only and none an edit of production code:
+
+- The SunSpec sessions compose the steps of `startModbusInstanceRuntimeWithPublication` (the production configuration mapping,
+  the PV class of the hub, the publication scope, `modbusadapter.Start`) and add the injected clock that
+  `TestPUBLIC05SunSpecSemRegSurvivesGatewayProvidersAndPortal` also injects, because that function takes no clock and would stamp
+  every publication with the host's wall clock. The frozen helper `ServeSunSpecChain` binds an ephemeral port that enters the PV
+  source identity, so the harness serves the same words with the same request recorder on the fixed loopback port that
+  `endpoint_port` names.
+- The RS-485 session runs `startGrowattBMSRS485Runtime` and its real `OpenRTUProductionEndpoint` in a replay executable built
+  with a scratch copy of the module version the gateway `go.mod` pins (`recorders/go/overlays/helianthus-modbus-rtu/`). The copy
+  is byte-identical except two operands of `rtu_production.go`: the `OpenRTUSerial` call returns the scripted stream, and the
+  receipt wall-clock sample returns the clock of the session. The digest of the file before and after the change, and of the
+  added hook file, are part of the `build` record of the output.
+- The Huawei sessions draw the random incarnation identity of the hub from a fixed seed named in the session (`crypto/rand` is
+  replaced only while the hub is constructed). The pinned Huawei publication reads the host wall clock once, for the start
+  instant of its source, and covers that instant in the digests of the snapshot; those values are recorded as
+  `host-clock-dependent` and every other field is recorded as the pin produced it.
+- The SunSpec sessions bind the fixed loopback port of `endpoint_port`, because the endpoint string is part of the recorded
+  identities. Two replays of a SunSpec session on one host at the same time, or a host process that holds the port, make the
+  replay fail with a bind error; run them one after another.
+- A pinned fixture that a session names and the pin lacks makes `replay_session.py` exit with status 3 and name the missing
+  operand; `check.py --replay` then reports that session as incomplete.
 
 ## Commands
 

@@ -1,0 +1,2668 @@
+{
+  "acquisitions": [],
+  "build": {
+    "build_command": "go test -c -trimpath -o replay-modbus-gen3-managed-first-incarnation.test ./cmd/gateway/",
+    "invocation": "replay-modbus-gen3-managed-first-incarnation.test -test.run ^TestOracleSessionModbus$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    }
+  },
+  "format": "helianthus-oracle-session-output/1",
+  "outcomes": [
+    {
+      "epoch": "epoch:tesla-wc3-a",
+      "generation": 7,
+      "opens_active_endpoint": false,
+      "raw_active_transport_arm_sha256": "a03e1be667fbb05a53d4c1a6eb56894c1ff1ea66524466b3faba8c57a7470b5e",
+      "step": "owner-start"
+    },
+    {
+      "clock_wall": "2027-01-15T08:00:01Z",
+      "kind": "set-clock",
+      "read_clock_ns": 0,
+      "step": "clock-owner-start"
+    },
+    {
+      "evidence": [
+        {
+          "CorrelationID": 1,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.configure_settings",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 1000000000,
+          "ReceiptWall": "2027-01-15T08:00:01Z",
+          "RequestADU": "EGQIMgY6BAoCCBDDzA==",
+          "RequestPayload": "CDIGOgQKAggQ",
+          "ResponseADUs": [
+            "EGQIMgZCBAoCCBDJtA=="
+          ],
+          "ResponsePayloads": [
+            "CDIGQgQKAggQ"
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        }
+      ],
+      "kind": "ingest-persistent",
+      "native": {
+        "persistent_max_output_current_amps": 16
+      },
+      "step": "persistent-correlation-1"
+    },
+    {
+      "clock_wall": "2027-01-15T08:00:04Z",
+      "kind": "set-clock",
+      "read_clock_ns": 2500000000,
+      "step": "clock-before-provisional"
+    },
+    {
+      "evidence": [
+        {
+          "CorrelationID": 1,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.configure_settings",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 1000000000,
+          "ReceiptWall": "2027-01-15T08:00:01Z",
+          "RequestADU": "EGQIMgY6BAoCCBDDzA==",
+          "RequestPayload": "CDIGOgQKAggQ",
+          "ResponseADUs": [
+            "EGQIMgZCBAoCCBDJtA=="
+          ],
+          "ResponsePayloads": [
+            "CDIGQgQKAggQ"
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        },
+        {
+          "CorrelationID": 2,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.set_provisional",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 2000000000,
+          "ReceiptWall": "2027-01-15T08:00:02Z",
+          "RequestADU": "EGQOMgzKAQkKBwgMENgEGAAyBg==",
+          "RequestPayload": "DjIMygEJCgcIDBDYBBgA",
+          "ResponseADUs": [
+            "EGQFMgPSAQD8vQ=="
+          ],
+          "ResponsePayloads": [
+            "BTID0gEA"
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        },
+        {
+          "CorrelationID": 3,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.get_provisional",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 3000000000,
+          "ReceiptWall": "2027-01-15T08:00:03Z",
+          "RequestADU": "EGQFMgPaAQB9fw==",
+          "RequestPayload": "BTID2gEA",
+          "ResponseADUs": [
+            "EGQQMg7iAQsKBwgMENgEGAAQIKMy"
+          ],
+          "ResponsePayloads": [
+            "EDIO4gELCgcIDBDYBBgAECA="
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        }
+      ],
+      "kind": "ingest-provisional",
+      "native": {
+        "persistent_max_output_current_amps": 16,
+        "provisional_limit_current_max_amps": 12,
+        "provisional_limit_timeout_seconds": 600
+      },
+      "step": "provisional-correlations-2-3"
+    },
+    {
+      "clock_wall": "2027-01-15T08:00:07Z",
+      "kind": "set-clock",
+      "read_clock_ns": 4000000000,
+      "step": "clock-before-persistent-4"
+    },
+    {
+      "evidence": [
+        {
+          "CorrelationID": 4,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.configure_settings",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 4000000000,
+          "ReceiptWall": "2027-01-15T08:00:06Z",
+          "RequestADU": "EGQIMgY6BAoCCBJCDQ==",
+          "RequestPayload": "CDIGOgQKAggS",
+          "ResponseADUs": [
+            "EGQIMgZCBAoCCBJIdQ=="
+          ],
+          "ResponsePayloads": [
+            "CDIGQgQKAggS"
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        },
+        {
+          "CorrelationID": 2,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.set_provisional",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 2000000000,
+          "ReceiptWall": "2027-01-15T08:00:02Z",
+          "RequestADU": "EGQOMgzKAQkKBwgMENgEGAAyBg==",
+          "RequestPayload": "DjIMygEJCgcIDBDYBBgA",
+          "ResponseADUs": [
+            "EGQFMgPSAQD8vQ=="
+          ],
+          "ResponsePayloads": [
+            "BTID0gEA"
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        },
+        {
+          "CorrelationID": 3,
+          "DriverGeneration": 7,
+          "EndpointID": "tesla-hsc-public-a",
+          "Node": 16,
+          "Operation": "wc.get_provisional",
+          "OperationVersion": "wc3_24_44_3",
+          "ReceiptMonotonic": 3000000000,
+          "ReceiptWall": "2027-01-15T08:00:03Z",
+          "RequestADU": "EGQFMgPaAQB9fw==",
+          "RequestPayload": "BTID2gEA",
+          "ResponseADUs": [
+            "EGQQMg7iAQsKBwgMENgEGAAQIKMy"
+          ],
+          "ResponsePayloads": [
+            "EDIO4gELCgcIDBDYBBgAECA="
+          ],
+          "SourceEpoch": "epoch:tesla-wc3-a",
+          "SourceID": "source:tesla-wc3-a",
+          "TerminalOutcome": "success"
+        }
+      ],
+      "kind": "ingest-persistent",
+      "native": {
+        "persistent_max_output_current_amps": 18,
+        "provisional_limit_current_max_amps": 12,
+        "provisional_limit_timeout_seconds": 600
+      },
+      "step": "persistent-correlation-4"
+    }
+  ],
+  "public_outputs": [
+    {
+      "body": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": {
+          "content": [
+            {
+              "text": "{\"data\":{\"evaluation\":{\"contract\":\"helianthus.semantic.evaluation/v1\",\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"context\":{\"evaluated_at\":{\"unix_nanoseconds\":\"1800000009000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"7500000000\"}},\"facts\":[{\"candidate_id\":\"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"candidate_revision\":\"3\",\"freshness\":\"fresh\",\"effective_availability\":\"available\"}],\"evaluation_digest\":\"sha256:8a0a9f1848811f0e88898d69296080b32de09410ccb7f66448ec7a33c872d9ac\"},\"projection\":{\"contract\":\"helianthus.semantic.projection/v1\",\"manifest\":{\"target_id\":\"target:gateway-semantic-evse\",\"target_version\":\"1.0.0\",\"kernel_version\":\"helianthus.semantic.kernel/v1\",\"pack_versions\":[{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"}],\"mapping_revision\":\"1\"},\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"requested\":[{\"item_id\":\"evse.limit.allocated_current\",\"kind\":\"fact\"},{\"item_id\":\"evse.limit.configured_current\",\"kind\":\"fact\"}],\"dispositions\":[{\"kind\":\"fact\",\"item_id\":\"evse.limit.allocated_current\",\"outcome\":\"withheld\",\"source_keys\":[],\"loss\":[{\"kind\":\"policy\",\"source_items\":[\"native.tesla.wc3.provisional_current_limit\"],\"description\":\"allocated current withheld: missing\",\"reversible\":false}],\"reason\":\"withheld_provisional_missing\"},{\"kind\":\"fact\",\"item_id\":\"evse.limit.configured_current\",\"outcome\":\"exact\",\"source_keys\":[{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]}],\"loss\":[]}]},\"selections\":[],\"snapshot\":{\"contract\":\"helianthus.semantic.kernel/v1\",\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"asset_id\":\"asset:tesla-wc3-a\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"evaluated_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4500000000\"},\"sources\":[{\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"protocol_id\":\"modbus_fc100\",\"profile_id\":\"tesla.wc3.24_44_3.current_limit\",\"profile_version\":\"24.44.3\",\"registry_evidence\":{\"owner\":\"helianthus.pack.evse\",\"kind\":\"registry.tesla.wc3_24_44_3\",\"digest\":\"sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"},\"started_at\":{\"unix_nanoseconds\":\"1800000001000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"state\":\"current\",\"revision\":\"1\"}],\"bindings\":[{\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"asset_id\":\"asset:tesla-wc3-a\",\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"native_resource\":{\"owner\":\"helianthus.pack.evse\",\"kind\":\"registry.tesla.wc3_24_44_3\",\"digest\":\"sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"},\"state\":\"current\",\"revision\":\"1\"}],\"identity_links\":[{\"asset_id\":\"asset:tesla-wc3-a\",\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"state\":\"qualified\",\"basis\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"1\"}],\"facts\":[{\"asset_id\":\"asset:tesla-wc3-a\",\"key\":{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]},\"candidates\":[{\"candidate_id\":\"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"key\":{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"18\",\"exponent10\":0},\"unit\":\"unit.ampere\"}},\"quality\":{\"assertion\":\"observed\",\"qualification\":\"qualified\",\"promotion\":\"promoted\",\"validity\":\"good\",\"availability\":\"available\",\"freshness\":\"fresh\",\"reasons\":[]},\"times\":{\"received_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4000000000\"},\"evaluated_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4500000000\"}},\"freshness_policy\":{\"policy_id\":\"policy:tesla-wc3-native-receipt\",\"version\":\"1.0.0\",\"fresh_for_ns\":\"60000000000\",\"retain_for_ns\":\"300000000000\",\"max_wall_uncertainty_ns\":\"0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"origin\":{\"origin_id\":\"origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"kind\":\"native_observation\",\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}]},\"evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"}],\"conflicts\":[],\"revision\":\"3\"}],\"services\":[{\"instance_id\":\"service:tesla-wc3:03ae485218190fab9d8ce3446238532a\",\"asset_id\":\"asset:tesla-wc3-a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.service.connector\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"revision\":\"1\"},{\"instance_id\":\"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f\",\"asset_id\":\"asset:tesla-wc3-a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.service.evse\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"revision\":\"1\"}],\"capabilities\":[{\"instance_id\":\"capability:tesla-wc3:272930c2222f87a9659d70da89c63223\",\"asset_id\":\"asset:tesla-wc3-a\",\"service_instance\":\"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.capability.read.evse\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"constraints\":[],\"activation_evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit.persistent\",\"digest\":\"sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"},{\"instance_id\":\"capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38\",\"asset_id\":\"asset:tesla-wc3-a\",\"service_instance\":\"service:tesla-wc3:03ae485218190fab9d8ce3446238532a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.capability.read.connector\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"constraints\":[],\"activation_evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit.persistent\",\"digest\":\"sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"}],\"fences\":[],\"cursors\":[{\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"last_sequence\":\"3\",\"last_batch_digest\":\"sha256:7e3dbd3d4abe49f3c37f77aa5dce58dd26a5f17c599116b9af5dad5f75650fac\",\"fenced\":false}]}},\"error\":null,\"meta\":{\"consistency\":{\"mode\":\"EVALUATED_SEMREG_PUBLICATION\"},\"contract\":{\"major\":1,\"minor\":0,\"name\":\"helianthus-modbus-mcp\"},\"data_hash\":\"d1b23fde97cfac15ebb370328e1fa95ab549aa29c7e0b9adadf2cc8ceb0b0ce0\",\"data_timestamp\":\"2027-01-15T08:00:09Z\",\"limits\":{\"identity_max_bytes\":128,\"raw_read_max_words\":125,\"raw_read_window_milliseconds\":1000,\"raw_reads_per_window\":4}}}",
+              "type": "text"
+            }
+          ],
+          "isError": false
+        }
+      },
+      "read": "mcp tools/call semantic_v1_evse_current_get",
+      "status": 200,
+      "step": "mcp-sequence3"
+    },
+    {
+      "body": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": {
+          "content": [
+            {
+              "text": "{\"data\":{\"evaluation\":{\"contract\":\"helianthus.semantic.evaluation/v1\",\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"context\":{\"evaluated_at\":{\"unix_nanoseconds\":\"1800000009000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"7500000000\"}},\"facts\":[{\"candidate_id\":\"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"candidate_revision\":\"3\",\"freshness\":\"fresh\",\"effective_availability\":\"available\"}],\"evaluation_digest\":\"sha256:8a0a9f1848811f0e88898d69296080b32de09410ccb7f66448ec7a33c872d9ac\"},\"projection\":{\"contract\":\"helianthus.semantic.projection/v1\",\"manifest\":{\"target_id\":\"target:gateway-semantic-evse\",\"target_version\":\"1.0.0\",\"kernel_version\":\"helianthus.semantic.kernel/v1\",\"pack_versions\":[{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"}],\"mapping_revision\":\"1\"},\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"requested\":[{\"item_id\":\"evse.limit.allocated_current\",\"kind\":\"fact\"},{\"item_id\":\"evse.limit.configured_current\",\"kind\":\"fact\"}],\"dispositions\":[{\"kind\":\"fact\",\"item_id\":\"evse.limit.allocated_current\",\"outcome\":\"withheld\",\"source_keys\":[],\"loss\":[{\"kind\":\"policy\",\"source_items\":[\"native.tesla.wc3.provisional_current_limit\"],\"description\":\"allocated current withheld: missing\",\"reversible\":false}],\"reason\":\"withheld_provisional_missing\"},{\"kind\":\"fact\",\"item_id\":\"evse.limit.configured_current\",\"outcome\":\"exact\",\"source_keys\":[{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]}],\"loss\":[]}]},\"selections\":[],\"snapshot\":{\"contract\":\"helianthus.semantic.kernel/v1\",\"snapshot_id\":\"sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c\",\"asset_id\":\"asset:tesla-wc3-a\",\"revisions\":{\"semantic\":\"3\",\"identity\":\"1\",\"facts\":\"3\",\"services\":\"1\",\"capabilities\":\"3\"},\"evaluated_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4500000000\"},\"sources\":[{\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"protocol_id\":\"modbus_fc100\",\"profile_id\":\"tesla.wc3.24_44_3.current_limit\",\"profile_version\":\"24.44.3\",\"registry_evidence\":{\"owner\":\"helianthus.pack.evse\",\"kind\":\"registry.tesla.wc3_24_44_3\",\"digest\":\"sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"},\"started_at\":{\"unix_nanoseconds\":\"1800000001000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"state\":\"current\",\"revision\":\"1\"}],\"bindings\":[{\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"asset_id\":\"asset:tesla-wc3-a\",\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"native_resource\":{\"owner\":\"helianthus.pack.evse\",\"kind\":\"registry.tesla.wc3_24_44_3\",\"digest\":\"sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"},\"state\":\"current\",\"revision\":\"1\"}],\"identity_links\":[{\"asset_id\":\"asset:tesla-wc3-a\",\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"state\":\"qualified\",\"basis\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"1\"}],\"facts\":[{\"asset_id\":\"asset:tesla-wc3-a\",\"key\":{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]},\"candidates\":[{\"candidate_id\":\"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"key\":{\"pack_id\":\"helianthus.pack.evse\",\"pack_version\":\"1.0.0\",\"fact_id\":\"evse.limit.configured_current\",\"dimensions\":[{\"id\":\"evse.dimension.evse\",\"value\":{\"kind\":\"text\",\"text\":\"evse-a\"}}]},\"value\":{\"kind\":\"quantity\",\"quantity\":{\"number\":{\"coefficient\":\"18\",\"exponent10\":0},\"unit\":\"unit.ampere\"}},\"quality\":{\"assertion\":\"observed\",\"qualification\":\"qualified\",\"promotion\":\"promoted\",\"validity\":\"good\",\"availability\":\"available\",\"freshness\":\"fresh\",\"reasons\":[]},\"times\":{\"received_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"receipt_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4000000000\"},\"evaluated_at\":{\"unix_nanoseconds\":\"1800000006000000000\",\"clock_id\":\"wall.utc\",\"uncertainty_ns\":\"0\"},\"evaluate_monotonic\":{\"clock_epoch_id\":\"clock:tesla-wc3-a\",\"nanoseconds\":\"4500000000\"}},\"freshness_policy\":{\"policy_id\":\"policy:tesla-wc3-native-receipt\",\"version\":\"1.0.0\",\"fresh_for_ns\":\"60000000000\",\"retain_for_ns\":\"300000000000\",\"max_wall_uncertainty_ns\":\"0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"origin\":{\"origin_id\":\"origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\",\"kind\":\"native_observation\",\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}]},\"evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit\",\"digest\":\"sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"}],\"conflicts\":[],\"revision\":\"3\"}],\"services\":[{\"instance_id\":\"service:tesla-wc3:03ae485218190fab9d8ce3446238532a\",\"asset_id\":\"asset:tesla-wc3-a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.service.connector\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"revision\":\"1\"},{\"instance_id\":\"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f\",\"asset_id\":\"asset:tesla-wc3-a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.service.evse\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"revision\":\"1\"}],\"capabilities\":[{\"instance_id\":\"capability:tesla-wc3:272930c2222f87a9659d70da89c63223\",\"asset_id\":\"asset:tesla-wc3-a\",\"service_instance\":\"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.capability.read.evse\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"constraints\":[],\"activation_evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit.persistent\",\"digest\":\"sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"},{\"instance_id\":\"capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38\",\"asset_id\":\"asset:tesla-wc3-a\",\"service_instance\":\"service:tesla-wc3:03ae485218190fab9d8ce3446238532a\",\"definition\":{\"pack\":{\"id\":\"helianthus.pack.evse\",\"version\":\"1.0.0\"},\"id\":\"evse.capability.read.connector\",\"version\":\"1.0.0\"},\"binding_id\":\"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"qualification\":\"qualified\",\"availability\":\"available\",\"constraints\":[],\"activation_evidence\":[{\"owner\":\"helianthus.pack.evse\",\"kind\":\"native.tesla.wc3.current_limit.persistent\",\"digest\":\"sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7\",\"contract\":\"helianthus.semantic.kernel/v1\",\"access\":\"authorized\",\"redaction\":\"metadata_only\"}],\"revision\":\"3\"}],\"fences\":[],\"cursors\":[{\"source_id\":\"source:tesla-wc3-a\",\"source_epoch_id\":\"epoch:tesla-wc3-a\",\"driver_generation\":\"7\",\"last_sequence\":\"3\",\"last_batch_digest\":\"sha256:7e3dbd3d4abe49f3c37f77aa5dce58dd26a5f17c599116b9af5dad5f75650fac\",\"fenced\":false}]}},\"error\":null,\"meta\":{\"consistency\":{\"mode\":\"EVALUATED_SEMREG_PUBLICATION\"},\"contract\":{\"major\":1,\"minor\":0,\"name\":\"helianthus-modbus-mcp\"},\"data_hash\":\"d1b23fde97cfac15ebb370328e1fa95ab549aa29c7e0b9adadf2cc8ceb0b0ce0\",\"data_timestamp\":\"2027-01-15T08:00:09Z\",\"limits\":{\"identity_max_bytes\":128,\"raw_read_max_words\":125,\"raw_read_window_milliseconds\":1000,\"raw_reads_per_window\":4}}}",
+              "type": "text"
+            }
+          ],
+          "isError": false
+        }
+      },
+      "epoch": "epoch:tesla-wc3-a",
+      "generation": 7,
+      "read": "mcp tools/call semantic_v1_evse_current_get",
+      "status": 200,
+      "step": "public-reads-owner"
+    },
+    {
+      "body": {
+        "data": {
+          "semantic_evse_current": {
+            "evaluation": {
+              "context": {
+                "evaluate_monotonic": {
+                  "clock_epoch_id": "clock:tesla-wc3-a",
+                  "nanoseconds": "7500000000"
+                },
+                "evaluated_at": {
+                  "clock_id": "wall.utc",
+                  "uncertainty_ns": "0",
+                  "unix_nanoseconds": "1800000009000000000"
+                }
+              },
+              "contract": "helianthus.semantic.evaluation/v1",
+              "evaluation_digest": "sha256:8a0a9f1848811f0e88898d69296080b32de09410ccb7f66448ec7a33c872d9ac",
+              "facts": [
+                {
+                  "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                  "candidate_revision": "3",
+                  "effective_availability": "available",
+                  "freshness": "fresh"
+                }
+              ],
+              "revisions": {
+                "capabilities": "3",
+                "facts": "3",
+                "identity": "1",
+                "semantic": "3",
+                "services": "1"
+              },
+              "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+            },
+            "projection": {
+              "contract": "helianthus.semantic.projection/v1",
+              "dispositions": [
+                {
+                  "item_id": "evse.limit.allocated_current",
+                  "kind": "fact",
+                  "loss": [
+                    {
+                      "description": "allocated current withheld: missing",
+                      "kind": "policy",
+                      "reversible": false,
+                      "source_items": [
+                        "native.tesla.wc3.provisional_current_limit"
+                      ]
+                    }
+                  ],
+                  "outcome": "withheld",
+                  "reason": "withheld_provisional_missing",
+                  "source_keys": []
+                },
+                {
+                  "item_id": "evse.limit.configured_current",
+                  "kind": "fact",
+                  "loss": [],
+                  "outcome": "exact",
+                  "source_keys": [
+                    {
+                      "dimensions": [
+                        {
+                          "id": "evse.dimension.evse",
+                          "value": {
+                            "kind": "text",
+                            "text": "evse-a"
+                          }
+                        }
+                      ],
+                      "fact_id": "evse.limit.configured_current",
+                      "pack_id": "helianthus.pack.evse",
+                      "pack_version": "1.0.0"
+                    }
+                  ]
+                }
+              ],
+              "manifest": {
+                "kernel_version": "helianthus.semantic.kernel/v1",
+                "mapping_revision": "1",
+                "pack_versions": [
+                  {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  }
+                ],
+                "target_id": "target:gateway-semantic-evse",
+                "target_version": "1.0.0"
+              },
+              "requested": [
+                {
+                  "item_id": "evse.limit.allocated_current",
+                  "kind": "fact"
+                },
+                {
+                  "item_id": "evse.limit.configured_current",
+                  "kind": "fact"
+                }
+              ],
+              "revisions": {
+                "capabilities": "3",
+                "facts": "3",
+                "identity": "1",
+                "semantic": "3",
+                "services": "1"
+              },
+              "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+            },
+            "selections": [],
+            "snapshot": {
+              "asset_id": "asset:tesla-wc3-a",
+              "bindings": [
+                {
+                  "asset_id": "asset:tesla-wc3-a",
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "driver_generation": "7",
+                  "native_resource": {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                    "kind": "registry.tesla.wc3_24_44_3",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  },
+                  "revision": "1",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "source_id": "source:tesla-wc3-a",
+                  "state": "current"
+                }
+              ],
+              "capabilities": [
+                {
+                  "activation_evidence": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                      "kind": "native.tesla.wc3.current_limit.persistent",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "asset_id": "asset:tesla-wc3-a",
+                  "availability": "available",
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "constraints": [],
+                  "definition": {
+                    "id": "evse.capability.read.evse",
+                    "pack": {
+                      "id": "helianthus.pack.evse",
+                      "version": "1.0.0"
+                    },
+                    "version": "1.0.0"
+                  },
+                  "driver_generation": "7",
+                  "instance_id": "capability:tesla-wc3:272930c2222f87a9659d70da89c63223",
+                  "qualification": "qualified",
+                  "revision": "3",
+                  "service_instance": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                  "source_epoch_id": "epoch:tesla-wc3-a"
+                },
+                {
+                  "activation_evidence": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                      "kind": "native.tesla.wc3.current_limit.persistent",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "asset_id": "asset:tesla-wc3-a",
+                  "availability": "available",
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "constraints": [],
+                  "definition": {
+                    "id": "evse.capability.read.connector",
+                    "pack": {
+                      "id": "helianthus.pack.evse",
+                      "version": "1.0.0"
+                    },
+                    "version": "1.0.0"
+                  },
+                  "driver_generation": "7",
+                  "instance_id": "capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38",
+                  "qualification": "qualified",
+                  "revision": "3",
+                  "service_instance": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                  "source_epoch_id": "epoch:tesla-wc3-a"
+                }
+              ],
+              "contract": "helianthus.semantic.kernel/v1",
+              "cursors": [
+                {
+                  "driver_generation": "7",
+                  "fenced": false,
+                  "last_batch_digest": "sha256:7e3dbd3d4abe49f3c37f77aa5dce58dd26a5f17c599116b9af5dad5f75650fac",
+                  "last_sequence": "3",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "source_id": "source:tesla-wc3-a"
+                }
+              ],
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock:tesla-wc3-a",
+                "nanoseconds": "4500000000"
+              },
+              "evaluated_at": {
+                "clock_id": "wall.utc",
+                "uncertainty_ns": "0",
+                "unix_nanoseconds": "1800000006000000000"
+              },
+              "facts": [
+                {
+                  "asset_id": "asset:tesla-wc3-a",
+                  "candidates": [
+                    {
+                      "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                      "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                      "driver_generation": "7",
+                      "evidence": [
+                        {
+                          "access": "authorized",
+                          "contract": "helianthus.semantic.kernel/v1",
+                          "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                          "kind": "native.tesla.wc3.current_limit",
+                          "owner": "helianthus.pack.evse",
+                          "redaction": "metadata_only"
+                        }
+                      ],
+                      "freshness_policy": {
+                        "fresh_for_ns": "60000000000",
+                        "max_wall_uncertainty_ns": "0",
+                        "policy_id": "policy:tesla-wc3-native-receipt",
+                        "retain_for_ns": "300000000000",
+                        "version": "1.0.0"
+                      },
+                      "key": {
+                        "dimensions": [
+                          {
+                            "id": "evse.dimension.evse",
+                            "value": {
+                              "kind": "text",
+                              "text": "evse-a"
+                            }
+                          }
+                        ],
+                        "fact_id": "evse.limit.configured_current",
+                        "pack_id": "helianthus.pack.evse",
+                        "pack_version": "1.0.0"
+                      },
+                      "origin": {
+                        "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                        "evidence": [
+                          {
+                            "access": "authorized",
+                            "contract": "helianthus.semantic.kernel/v1",
+                            "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                            "kind": "native.tesla.wc3.current_limit",
+                            "owner": "helianthus.pack.evse",
+                            "redaction": "metadata_only"
+                          }
+                        ],
+                        "kind": "native_observation",
+                        "origin_id": "origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                        "source_epoch_id": "epoch:tesla-wc3-a",
+                        "source_id": "source:tesla-wc3-a"
+                      },
+                      "quality": {
+                        "assertion": "observed",
+                        "availability": "available",
+                        "freshness": "fresh",
+                        "promotion": "promoted",
+                        "qualification": "qualified",
+                        "reasons": [],
+                        "validity": "good"
+                      },
+                      "revision": "3",
+                      "source_epoch_id": "epoch:tesla-wc3-a",
+                      "times": {
+                        "evaluate_monotonic": {
+                          "clock_epoch_id": "clock:tesla-wc3-a",
+                          "nanoseconds": "4500000000"
+                        },
+                        "evaluated_at": {
+                          "clock_id": "wall.utc",
+                          "uncertainty_ns": "0",
+                          "unix_nanoseconds": "1800000006000000000"
+                        },
+                        "receipt_monotonic": {
+                          "clock_epoch_id": "clock:tesla-wc3-a",
+                          "nanoseconds": "4000000000"
+                        },
+                        "received_at": {
+                          "clock_id": "wall.utc",
+                          "uncertainty_ns": "0",
+                          "unix_nanoseconds": "1800000006000000000"
+                        }
+                      },
+                      "value": {
+                        "kind": "quantity",
+                        "quantity": {
+                          "number": {
+                            "coefficient": "18",
+                            "exponent10": 0
+                          },
+                          "unit": "unit.ampere"
+                        }
+                      }
+                    }
+                  ],
+                  "conflicts": [],
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.evse",
+                        "value": {
+                          "kind": "text",
+                          "text": "evse-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.configured_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  },
+                  "revision": "3"
+                }
+              ],
+              "fences": [],
+              "identity_links": [
+                {
+                  "asset_id": "asset:tesla-wc3-a",
+                  "basis": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d",
+                      "kind": "native.tesla.wc3.current_limit",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "revision": "1",
+                  "state": "qualified"
+                }
+              ],
+              "revisions": {
+                "capabilities": "3",
+                "facts": "3",
+                "identity": "1",
+                "semantic": "3",
+                "services": "1"
+              },
+              "services": [
+                {
+                  "asset_id": "asset:tesla-wc3-a",
+                  "availability": "available",
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "definition": {
+                    "id": "evse.service.connector",
+                    "pack": {
+                      "id": "helianthus.pack.evse",
+                      "version": "1.0.0"
+                    },
+                    "version": "1.0.0"
+                  },
+                  "driver_generation": "7",
+                  "instance_id": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                  "qualification": "qualified",
+                  "revision": "1",
+                  "source_epoch_id": "epoch:tesla-wc3-a"
+                },
+                {
+                  "asset_id": "asset:tesla-wc3-a",
+                  "availability": "available",
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "definition": {
+                    "id": "evse.service.evse",
+                    "pack": {
+                      "id": "helianthus.pack.evse",
+                      "version": "1.0.0"
+                    },
+                    "version": "1.0.0"
+                  },
+                  "driver_generation": "7",
+                  "instance_id": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                  "qualification": "qualified",
+                  "revision": "1",
+                  "source_epoch_id": "epoch:tesla-wc3-a"
+                }
+              ],
+              "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c",
+              "sources": [
+                {
+                  "profile_id": "tesla.wc3.24_44_3.current_limit",
+                  "profile_version": "24.44.3",
+                  "protocol_id": "modbus_fc100",
+                  "registry_evidence": {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                    "kind": "registry.tesla.wc3_24_44_3",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  },
+                  "revision": "1",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "source_id": "source:tesla-wc3-a",
+                  "started_at": {
+                    "clock_id": "wall.utc",
+                    "uncertainty_ns": "0",
+                    "unix_nanoseconds": "1800000001000000000"
+                  },
+                  "state": "current"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "epoch": "epoch:tesla-wc3-a",
+      "generation": 7,
+      "read": "m2m graphql semantic_evse_current",
+      "status": 200,
+      "step": "public-reads-owner"
+    }
+  ],
+  "publications": [
+    {
+      "canonical_sha256": "08fd1ec86ef4168e4d7f38f242855f24f7ec70e7fda20647e53d724624da2d69",
+      "current_at": {
+        "available": true,
+        "view": {
+          "Evaluation": {
+            "context": {
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock:tesla-wc3-a",
+                "nanoseconds": "6000000000"
+              },
+              "evaluated_at": {
+                "clock_id": "wall.utc",
+                "uncertainty_ns": "0",
+                "unix_nanoseconds": "1800000006000000000"
+              }
+            },
+            "contract": "helianthus.semantic.evaluation/v1",
+            "evaluation_digest": "sha256:680491f2eeba2108405fa76623bf0f9d52f83966ea4129cf96186b5e63d2dfe7",
+            "facts": [
+              {
+                "candidate_id": "candidate:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+                "candidate_revision": "1",
+                "effective_availability": "available",
+                "freshness": "fresh"
+              },
+              {
+                "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                "candidate_revision": "2",
+                "effective_availability": "available",
+                "freshness": "fresh"
+              }
+            ],
+            "revisions": {
+              "capabilities": "2",
+              "facts": "2",
+              "identity": "1",
+              "semantic": "2",
+              "services": "1"
+            },
+            "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174"
+          },
+          "Projection": {
+            "contract": "helianthus.semantic.projection/v1",
+            "dispositions": [
+              {
+                "item_id": "evse.limit.allocated_current",
+                "kind": "fact",
+                "loss": [],
+                "outcome": "exact",
+                "source_keys": [
+                  {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.connector",
+                        "value": {
+                          "kind": "text",
+                          "text": "connector-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.allocated_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  }
+                ]
+              },
+              {
+                "item_id": "evse.limit.configured_current",
+                "kind": "fact",
+                "loss": [],
+                "outcome": "exact",
+                "source_keys": [
+                  {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.evse",
+                        "value": {
+                          "kind": "text",
+                          "text": "evse-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.configured_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  }
+                ]
+              }
+            ],
+            "manifest": {
+              "kernel_version": "helianthus.semantic.kernel/v1",
+              "mapping_revision": "1",
+              "pack_versions": [
+                {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                }
+              ],
+              "target_id": "target:gateway-semantic-evse",
+              "target_version": "1.0.0"
+            },
+            "requested": [
+              {
+                "item_id": "evse.limit.allocated_current",
+                "kind": "fact"
+              },
+              {
+                "item_id": "evse.limit.configured_current",
+                "kind": "fact"
+              }
+            ],
+            "revisions": {
+              "capabilities": "2",
+              "facts": "2",
+              "identity": "1",
+              "semantic": "2",
+              "services": "1"
+            },
+            "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174"
+          },
+          "Selections": [],
+          "Snapshot": {
+            "asset_id": "asset:tesla-wc3-a",
+            "bindings": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "driver_generation": "7",
+                "native_resource": {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                  "kind": "registry.tesla.wc3_24_44_3",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a",
+                "state": "current"
+              }
+            ],
+            "capabilities": [
+              {
+                "activation_evidence": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:d4583035e3a52913aadbd92100e60cfd6f98cb808111b7248ac2149e85056b51",
+                    "kind": "native.tesla.wc3.current_limit.persistent",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  },
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:947bb5d374543a340b9036e6b0a7a8de70dc5cff489ea8ba41aaff49d2f3ae9d",
+                    "kind": "native.tesla.wc3.current_limit.provisional",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "constraints": [],
+                "definition": {
+                  "id": "evse.capability.read.evse",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "capability:tesla-wc3:272930c2222f87a9659d70da89c63223",
+                "qualification": "qualified",
+                "revision": "2",
+                "service_instance": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              },
+              {
+                "activation_evidence": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:d4583035e3a52913aadbd92100e60cfd6f98cb808111b7248ac2149e85056b51",
+                    "kind": "native.tesla.wc3.current_limit.persistent",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  },
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:947bb5d374543a340b9036e6b0a7a8de70dc5cff489ea8ba41aaff49d2f3ae9d",
+                    "kind": "native.tesla.wc3.current_limit.provisional",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "constraints": [],
+                "definition": {
+                  "id": "evse.capability.read.connector",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38",
+                "qualification": "qualified",
+                "revision": "2",
+                "service_instance": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              }
+            ],
+            "contract": "helianthus.semantic.kernel/v1",
+            "cursors": [
+              {
+                "driver_generation": "7",
+                "fenced": false,
+                "last_batch_digest": "sha256:8e62199c64050de1c5804c218feac1fd671012776800ec532b75265536b65e2c",
+                "last_sequence": "2",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a"
+              }
+            ],
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock:tesla-wc3-a",
+              "nanoseconds": "3000000000"
+            },
+            "evaluated_at": {
+              "clock_id": "wall.utc",
+              "uncertainty_ns": "0",
+              "unix_nanoseconds": "1800000003000000000"
+            },
+            "facts": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "candidates": [
+                  {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "candidate_id": "candidate:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+                    "driver_generation": "7",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "freshness_policy": {
+                      "fresh_for_ns": "600000000000",
+                      "max_wall_uncertainty_ns": "0",
+                      "policy_id": "policy:tesla-wc3-native-receipt",
+                      "retain_for_ns": "600000000001",
+                      "version": "1.0.0"
+                    },
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "evse.dimension.connector",
+                          "value": {
+                            "kind": "text",
+                            "text": "connector-a"
+                          }
+                        }
+                      ],
+                      "fact_id": "evse.limit.allocated_current",
+                      "pack_id": "helianthus.pack.evse",
+                      "pack_version": "1.0.0"
+                    },
+                    "origin": {
+                      "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                      "evidence": [
+                        {
+                          "access": "authorized",
+                          "contract": "helianthus.semantic.kernel/v1",
+                          "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                          "kind": "native.tesla.wc3.current_limit",
+                          "owner": "helianthus.pack.evse",
+                          "redaction": "metadata_only"
+                        }
+                      ],
+                      "kind": "native_observation",
+                      "origin_id": "origin:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+                      "source_epoch_id": "epoch:tesla-wc3-a",
+                      "source_id": "source:tesla-wc3-a"
+                    },
+                    "quality": {
+                      "assertion": "observed",
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "promotion": "promoted",
+                      "qualification": "qualified",
+                      "reasons": [],
+                      "validity": "good"
+                    },
+                    "revision": "1",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "times": {
+                      "evaluate_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "3000000000"
+                      },
+                      "evaluated_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000003000000000"
+                      },
+                      "receipt_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "2000000000"
+                      },
+                      "received_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000002000000000"
+                      }
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "12",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.ampere"
+                      }
+                    }
+                  }
+                ],
+                "conflicts": [],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.connector",
+                      "value": {
+                        "kind": "text",
+                        "text": "connector-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.allocated_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                },
+                "revision": "1"
+              },
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "candidates": [
+                  {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                    "driver_generation": "7",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "freshness_policy": {
+                      "fresh_for_ns": "60000000000",
+                      "max_wall_uncertainty_ns": "0",
+                      "policy_id": "policy:tesla-wc3-native-receipt",
+                      "retain_for_ns": "300000000000",
+                      "version": "1.0.0"
+                    },
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "evse.dimension.evse",
+                          "value": {
+                            "kind": "text",
+                            "text": "evse-a"
+                          }
+                        }
+                      ],
+                      "fact_id": "evse.limit.configured_current",
+                      "pack_id": "helianthus.pack.evse",
+                      "pack_version": "1.0.0"
+                    },
+                    "origin": {
+                      "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                      "evidence": [
+                        {
+                          "access": "authorized",
+                          "contract": "helianthus.semantic.kernel/v1",
+                          "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                          "kind": "native.tesla.wc3.current_limit",
+                          "owner": "helianthus.pack.evse",
+                          "redaction": "metadata_only"
+                        }
+                      ],
+                      "kind": "native_observation",
+                      "origin_id": "origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                      "source_epoch_id": "epoch:tesla-wc3-a",
+                      "source_id": "source:tesla-wc3-a"
+                    },
+                    "quality": {
+                      "assertion": "observed",
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "promotion": "promoted",
+                      "qualification": "qualified",
+                      "reasons": [],
+                      "validity": "good"
+                    },
+                    "revision": "2",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "times": {
+                      "evaluate_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "3000000000"
+                      },
+                      "evaluated_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000003000000000"
+                      },
+                      "receipt_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "1000000000"
+                      },
+                      "received_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000001000000000"
+                      }
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "16",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.ampere"
+                      }
+                    }
+                  }
+                ],
+                "conflicts": [],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.evse",
+                      "value": {
+                        "kind": "text",
+                        "text": "evse-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.configured_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                },
+                "revision": "2"
+              }
+            ],
+            "fences": [],
+            "identity_links": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "basis": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d",
+                    "kind": "native.tesla.wc3.current_limit",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "revision": "1",
+                "state": "qualified"
+              }
+            ],
+            "revisions": {
+              "capabilities": "2",
+              "facts": "2",
+              "identity": "1",
+              "semantic": "2",
+              "services": "1"
+            },
+            "services": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "definition": {
+                  "id": "evse.service.connector",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                "qualification": "qualified",
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              },
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "definition": {
+                  "id": "evse.service.evse",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                "qualification": "qualified",
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              }
+            ],
+            "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174",
+            "sources": [
+              {
+                "profile_id": "tesla.wc3.24_44_3.current_limit",
+                "profile_version": "24.44.3",
+                "protocol_id": "modbus_fc100",
+                "registry_evidence": {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                  "kind": "registry.tesla.wc3_24_44_3",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a",
+                "started_at": {
+                  "clock_id": "wall.utc",
+                  "uncertainty_ns": "0",
+                  "unix_nanoseconds": "1800000001000000000"
+                },
+                "state": "current"
+              }
+            ]
+          }
+        }
+      },
+      "identity": "{\n  \"asset\": [\n    \"asset:tesla-wc3-a\"\n  ],\n  \"bindings\": [\n    \"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95 source:tesla-wc3-a epoch:tesla-wc3-a 7 current\"\n  ],\n  \"candidates\": [\n    \"candidate:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0 evse.limit.allocated_current origin:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0\",\n    \"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5 evse.limit.configured_current origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\"\n  ],\n  \"capabilities\": [\n    \"capability:tesla-wc3:272930c2222f87a9659d70da89c63223 evse.capability.read.evse service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\n    \"capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38 evse.capability.read.connector service:tesla-wc3:03ae485218190fab9d8ce3446238532a binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\"\n  ],\n  \"cursors\": [\n    \"source:tesla-wc3-a epoch:tesla-wc3-a 7 2\"\n  ],\n  \"identity_links\": [\n    \"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95 qualified\"\n  ],\n  \"services\": [\n    \"service:tesla-wc3:03ae485218190fab9d8ce3446238532a evse.service.connector binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\n    \"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f evse.service.evse binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\"\n  ],\n  \"sources\": [\n    \"source:tesla-wc3-a epoch:tesla-wc3-a current\"\n  ]\n}\n",
+      "kind": "read",
+      "step": "sequence2",
+      "view": {
+        "evaluation": {
+          "context": {
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock:tesla-wc3-a",
+              "nanoseconds": "4500000000"
+            },
+            "evaluated_at": {
+              "clock_id": "wall.utc",
+              "uncertainty_ns": "0",
+              "unix_nanoseconds": "1800000005000000000"
+            }
+          },
+          "contract": "helianthus.semantic.evaluation/v1",
+          "evaluation_digest": "sha256:a4d5f9195f665902c8ee1bd7d12a649c4bdf8521db1e547a129dd0a286094873",
+          "facts": [
+            {
+              "candidate_id": "candidate:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+              "candidate_revision": "1",
+              "effective_availability": "available",
+              "freshness": "fresh"
+            },
+            {
+              "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+              "candidate_revision": "2",
+              "effective_availability": "available",
+              "freshness": "fresh"
+            }
+          ],
+          "revisions": {
+            "capabilities": "2",
+            "facts": "2",
+            "identity": "1",
+            "semantic": "2",
+            "services": "1"
+          },
+          "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174"
+        },
+        "projection": {
+          "contract": "helianthus.semantic.projection/v1",
+          "dispositions": [
+            {
+              "item_id": "evse.limit.allocated_current",
+              "kind": "fact",
+              "loss": [],
+              "outcome": "exact",
+              "source_keys": [
+                {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.connector",
+                      "value": {
+                        "kind": "text",
+                        "text": "connector-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.allocated_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                }
+              ]
+            },
+            {
+              "item_id": "evse.limit.configured_current",
+              "kind": "fact",
+              "loss": [],
+              "outcome": "exact",
+              "source_keys": [
+                {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.evse",
+                      "value": {
+                        "kind": "text",
+                        "text": "evse-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.configured_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                }
+              ]
+            }
+          ],
+          "manifest": {
+            "kernel_version": "helianthus.semantic.kernel/v1",
+            "mapping_revision": "1",
+            "pack_versions": [
+              {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              }
+            ],
+            "target_id": "target:gateway-semantic-evse",
+            "target_version": "1.0.0"
+          },
+          "requested": [
+            {
+              "item_id": "evse.limit.allocated_current",
+              "kind": "fact"
+            },
+            {
+              "item_id": "evse.limit.configured_current",
+              "kind": "fact"
+            }
+          ],
+          "revisions": {
+            "capabilities": "2",
+            "facts": "2",
+            "identity": "1",
+            "semantic": "2",
+            "services": "1"
+          },
+          "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174"
+        },
+        "selections": [],
+        "snapshot": {
+          "asset_id": "asset:tesla-wc3-a",
+          "bindings": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "driver_generation": "7",
+              "native_resource": {
+                "access": "authorized",
+                "contract": "helianthus.semantic.kernel/v1",
+                "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                "kind": "registry.tesla.wc3_24_44_3",
+                "owner": "helianthus.pack.evse",
+                "redaction": "metadata_only"
+              },
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a",
+              "state": "current"
+            }
+          ],
+          "capabilities": [
+            {
+              "activation_evidence": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:d4583035e3a52913aadbd92100e60cfd6f98cb808111b7248ac2149e85056b51",
+                  "kind": "native.tesla.wc3.current_limit.persistent",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:947bb5d374543a340b9036e6b0a7a8de70dc5cff489ea8ba41aaff49d2f3ae9d",
+                  "kind": "native.tesla.wc3.current_limit.provisional",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "constraints": [],
+              "definition": {
+                "id": "evse.capability.read.evse",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "capability:tesla-wc3:272930c2222f87a9659d70da89c63223",
+              "qualification": "qualified",
+              "revision": "2",
+              "service_instance": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            },
+            {
+              "activation_evidence": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:d4583035e3a52913aadbd92100e60cfd6f98cb808111b7248ac2149e85056b51",
+                  "kind": "native.tesla.wc3.current_limit.persistent",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:947bb5d374543a340b9036e6b0a7a8de70dc5cff489ea8ba41aaff49d2f3ae9d",
+                  "kind": "native.tesla.wc3.current_limit.provisional",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "constraints": [],
+              "definition": {
+                "id": "evse.capability.read.connector",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38",
+              "qualification": "qualified",
+              "revision": "2",
+              "service_instance": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            }
+          ],
+          "contract": "helianthus.semantic.kernel/v1",
+          "cursors": [
+            {
+              "driver_generation": "7",
+              "fenced": false,
+              "last_batch_digest": "sha256:8e62199c64050de1c5804c218feac1fd671012776800ec532b75265536b65e2c",
+              "last_sequence": "2",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a"
+            }
+          ],
+          "evaluate_monotonic": {
+            "clock_epoch_id": "clock:tesla-wc3-a",
+            "nanoseconds": "3000000000"
+          },
+          "evaluated_at": {
+            "clock_id": "wall.utc",
+            "uncertainty_ns": "0",
+            "unix_nanoseconds": "1800000003000000000"
+          },
+          "facts": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "candidates": [
+                {
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "candidate_id": "candidate:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+                  "driver_generation": "7",
+                  "evidence": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                      "kind": "native.tesla.wc3.current_limit",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "freshness_policy": {
+                    "fresh_for_ns": "600000000000",
+                    "max_wall_uncertainty_ns": "0",
+                    "policy_id": "policy:tesla-wc3-native-receipt",
+                    "retain_for_ns": "600000000001",
+                    "version": "1.0.0"
+                  },
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.connector",
+                        "value": {
+                          "kind": "text",
+                          "text": "connector-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.allocated_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  },
+                  "origin": {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "kind": "native_observation",
+                    "origin_id": "origin:tesla-wc3:6dbe2f0f1761d1dc150a8f489110b8e0",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "source_id": "source:tesla-wc3-a"
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "promotion": "promoted",
+                    "qualification": "qualified",
+                    "reasons": [],
+                    "validity": "good"
+                  },
+                  "revision": "1",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "times": {
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "3000000000"
+                    },
+                    "evaluated_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000003000000000"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "2000000000"
+                    },
+                    "received_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000002000000000"
+                    }
+                  },
+                  "value": {
+                    "kind": "quantity",
+                    "quantity": {
+                      "number": {
+                        "coefficient": "12",
+                        "exponent10": 0
+                      },
+                      "unit": "unit.ampere"
+                    }
+                  }
+                }
+              ],
+              "conflicts": [],
+              "key": {
+                "dimensions": [
+                  {
+                    "id": "evse.dimension.connector",
+                    "value": {
+                      "kind": "text",
+                      "text": "connector-a"
+                    }
+                  }
+                ],
+                "fact_id": "evse.limit.allocated_current",
+                "pack_id": "helianthus.pack.evse",
+                "pack_version": "1.0.0"
+              },
+              "revision": "1"
+            },
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "candidates": [
+                {
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                  "driver_generation": "7",
+                  "evidence": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                      "kind": "native.tesla.wc3.current_limit",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "freshness_policy": {
+                    "fresh_for_ns": "60000000000",
+                    "max_wall_uncertainty_ns": "0",
+                    "policy_id": "policy:tesla-wc3-native-receipt",
+                    "retain_for_ns": "300000000000",
+                    "version": "1.0.0"
+                  },
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.evse",
+                        "value": {
+                          "kind": "text",
+                          "text": "evse-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.configured_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  },
+                  "origin": {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:522678a16e477512de1e981acfb9aa5f057c541a7d3489f910e3deb712b47e94",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "kind": "native_observation",
+                    "origin_id": "origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "source_id": "source:tesla-wc3-a"
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "promotion": "promoted",
+                    "qualification": "qualified",
+                    "reasons": [],
+                    "validity": "good"
+                  },
+                  "revision": "2",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "times": {
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "3000000000"
+                    },
+                    "evaluated_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000003000000000"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "1000000000"
+                    },
+                    "received_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000001000000000"
+                    }
+                  },
+                  "value": {
+                    "kind": "quantity",
+                    "quantity": {
+                      "number": {
+                        "coefficient": "16",
+                        "exponent10": 0
+                      },
+                      "unit": "unit.ampere"
+                    }
+                  }
+                }
+              ],
+              "conflicts": [],
+              "key": {
+                "dimensions": [
+                  {
+                    "id": "evse.dimension.evse",
+                    "value": {
+                      "kind": "text",
+                      "text": "evse-a"
+                    }
+                  }
+                ],
+                "fact_id": "evse.limit.configured_current",
+                "pack_id": "helianthus.pack.evse",
+                "pack_version": "1.0.0"
+              },
+              "revision": "2"
+            }
+          ],
+          "fences": [],
+          "identity_links": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "basis": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d",
+                  "kind": "native.tesla.wc3.current_limit",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "revision": "1",
+              "state": "qualified"
+            }
+          ],
+          "revisions": {
+            "capabilities": "2",
+            "facts": "2",
+            "identity": "1",
+            "semantic": "2",
+            "services": "1"
+          },
+          "services": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "definition": {
+                "id": "evse.service.connector",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+              "qualification": "qualified",
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            },
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "definition": {
+                "id": "evse.service.evse",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+              "qualification": "qualified",
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            }
+          ],
+          "snapshot_id": "sha256:efd5a28fc71c9a7e9a2aa21dc1ca4253710269eabb6bb02a38bc1dd07fdf9174",
+          "sources": [
+            {
+              "profile_id": "tesla.wc3.24_44_3.current_limit",
+              "profile_version": "24.44.3",
+              "protocol_id": "modbus_fc100",
+              "registry_evidence": {
+                "access": "authorized",
+                "contract": "helianthus.semantic.kernel/v1",
+                "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                "kind": "registry.tesla.wc3_24_44_3",
+                "owner": "helianthus.pack.evse",
+                "redaction": "metadata_only"
+              },
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a",
+              "started_at": {
+                "clock_id": "wall.utc",
+                "uncertainty_ns": "0",
+                "unix_nanoseconds": "1800000001000000000"
+              },
+              "state": "current"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "canonical_sha256": "bb1377d0eb7bf288b67782d2b94ded1cda103c9aaafdf1dd972d39bcd5f05c14",
+      "current_at": {
+        "available": true,
+        "view": {
+          "Evaluation": {
+            "context": {
+              "evaluate_monotonic": {
+                "clock_epoch_id": "clock:tesla-wc3-a",
+                "nanoseconds": "7500000000"
+              },
+              "evaluated_at": {
+                "clock_id": "wall.utc",
+                "uncertainty_ns": "0",
+                "unix_nanoseconds": "1800000009000000000"
+              }
+            },
+            "contract": "helianthus.semantic.evaluation/v1",
+            "evaluation_digest": "sha256:8a0a9f1848811f0e88898d69296080b32de09410ccb7f66448ec7a33c872d9ac",
+            "facts": [
+              {
+                "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                "candidate_revision": "3",
+                "effective_availability": "available",
+                "freshness": "fresh"
+              }
+            ],
+            "revisions": {
+              "capabilities": "3",
+              "facts": "3",
+              "identity": "1",
+              "semantic": "3",
+              "services": "1"
+            },
+            "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+          },
+          "Projection": {
+            "contract": "helianthus.semantic.projection/v1",
+            "dispositions": [
+              {
+                "item_id": "evse.limit.allocated_current",
+                "kind": "fact",
+                "loss": [
+                  {
+                    "description": "allocated current withheld: missing",
+                    "kind": "policy",
+                    "reversible": false,
+                    "source_items": [
+                      "native.tesla.wc3.provisional_current_limit"
+                    ]
+                  }
+                ],
+                "outcome": "withheld",
+                "reason": "withheld_provisional_missing",
+                "source_keys": []
+              },
+              {
+                "item_id": "evse.limit.configured_current",
+                "kind": "fact",
+                "loss": [],
+                "outcome": "exact",
+                "source_keys": [
+                  {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.evse",
+                        "value": {
+                          "kind": "text",
+                          "text": "evse-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.configured_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  }
+                ]
+              }
+            ],
+            "manifest": {
+              "kernel_version": "helianthus.semantic.kernel/v1",
+              "mapping_revision": "1",
+              "pack_versions": [
+                {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                }
+              ],
+              "target_id": "target:gateway-semantic-evse",
+              "target_version": "1.0.0"
+            },
+            "requested": [
+              {
+                "item_id": "evse.limit.allocated_current",
+                "kind": "fact"
+              },
+              {
+                "item_id": "evse.limit.configured_current",
+                "kind": "fact"
+              }
+            ],
+            "revisions": {
+              "capabilities": "3",
+              "facts": "3",
+              "identity": "1",
+              "semantic": "3",
+              "services": "1"
+            },
+            "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+          },
+          "Selections": [],
+          "Snapshot": {
+            "asset_id": "asset:tesla-wc3-a",
+            "bindings": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "driver_generation": "7",
+                "native_resource": {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                  "kind": "registry.tesla.wc3_24_44_3",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a",
+                "state": "current"
+              }
+            ],
+            "capabilities": [
+              {
+                "activation_evidence": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                    "kind": "native.tesla.wc3.current_limit.persistent",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "constraints": [],
+                "definition": {
+                  "id": "evse.capability.read.evse",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "capability:tesla-wc3:272930c2222f87a9659d70da89c63223",
+                "qualification": "qualified",
+                "revision": "3",
+                "service_instance": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              },
+              {
+                "activation_evidence": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                    "kind": "native.tesla.wc3.current_limit.persistent",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "constraints": [],
+                "definition": {
+                  "id": "evse.capability.read.connector",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38",
+                "qualification": "qualified",
+                "revision": "3",
+                "service_instance": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              }
+            ],
+            "contract": "helianthus.semantic.kernel/v1",
+            "cursors": [
+              {
+                "driver_generation": "7",
+                "fenced": false,
+                "last_batch_digest": "sha256:7e3dbd3d4abe49f3c37f77aa5dce58dd26a5f17c599116b9af5dad5f75650fac",
+                "last_sequence": "3",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a"
+              }
+            ],
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock:tesla-wc3-a",
+              "nanoseconds": "4500000000"
+            },
+            "evaluated_at": {
+              "clock_id": "wall.utc",
+              "uncertainty_ns": "0",
+              "unix_nanoseconds": "1800000006000000000"
+            },
+            "facts": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "candidates": [
+                  {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                    "driver_generation": "7",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "freshness_policy": {
+                      "fresh_for_ns": "60000000000",
+                      "max_wall_uncertainty_ns": "0",
+                      "policy_id": "policy:tesla-wc3-native-receipt",
+                      "retain_for_ns": "300000000000",
+                      "version": "1.0.0"
+                    },
+                    "key": {
+                      "dimensions": [
+                        {
+                          "id": "evse.dimension.evse",
+                          "value": {
+                            "kind": "text",
+                            "text": "evse-a"
+                          }
+                        }
+                      ],
+                      "fact_id": "evse.limit.configured_current",
+                      "pack_id": "helianthus.pack.evse",
+                      "pack_version": "1.0.0"
+                    },
+                    "origin": {
+                      "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                      "evidence": [
+                        {
+                          "access": "authorized",
+                          "contract": "helianthus.semantic.kernel/v1",
+                          "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                          "kind": "native.tesla.wc3.current_limit",
+                          "owner": "helianthus.pack.evse",
+                          "redaction": "metadata_only"
+                        }
+                      ],
+                      "kind": "native_observation",
+                      "origin_id": "origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                      "source_epoch_id": "epoch:tesla-wc3-a",
+                      "source_id": "source:tesla-wc3-a"
+                    },
+                    "quality": {
+                      "assertion": "observed",
+                      "availability": "available",
+                      "freshness": "fresh",
+                      "promotion": "promoted",
+                      "qualification": "qualified",
+                      "reasons": [],
+                      "validity": "good"
+                    },
+                    "revision": "3",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "times": {
+                      "evaluate_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "4500000000"
+                      },
+                      "evaluated_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000006000000000"
+                      },
+                      "receipt_monotonic": {
+                        "clock_epoch_id": "clock:tesla-wc3-a",
+                        "nanoseconds": "4000000000"
+                      },
+                      "received_at": {
+                        "clock_id": "wall.utc",
+                        "uncertainty_ns": "0",
+                        "unix_nanoseconds": "1800000006000000000"
+                      }
+                    },
+                    "value": {
+                      "kind": "quantity",
+                      "quantity": {
+                        "number": {
+                          "coefficient": "18",
+                          "exponent10": 0
+                        },
+                        "unit": "unit.ampere"
+                      }
+                    }
+                  }
+                ],
+                "conflicts": [],
+                "key": {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.evse",
+                      "value": {
+                        "kind": "text",
+                        "text": "evse-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.configured_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                },
+                "revision": "3"
+              }
+            ],
+            "fences": [],
+            "identity_links": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "basis": [
+                  {
+                    "access": "authorized",
+                    "contract": "helianthus.semantic.kernel/v1",
+                    "digest": "sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d",
+                    "kind": "native.tesla.wc3.current_limit",
+                    "owner": "helianthus.pack.evse",
+                    "redaction": "metadata_only"
+                  }
+                ],
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "revision": "1",
+                "state": "qualified"
+              }
+            ],
+            "revisions": {
+              "capabilities": "3",
+              "facts": "3",
+              "identity": "1",
+              "semantic": "3",
+              "services": "1"
+            },
+            "services": [
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "definition": {
+                  "id": "evse.service.connector",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+                "qualification": "qualified",
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              },
+              {
+                "asset_id": "asset:tesla-wc3-a",
+                "availability": "available",
+                "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                "definition": {
+                  "id": "evse.service.evse",
+                  "pack": {
+                    "id": "helianthus.pack.evse",
+                    "version": "1.0.0"
+                  },
+                  "version": "1.0.0"
+                },
+                "driver_generation": "7",
+                "instance_id": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+                "qualification": "qualified",
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a"
+              }
+            ],
+            "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c",
+            "sources": [
+              {
+                "profile_id": "tesla.wc3.24_44_3.current_limit",
+                "profile_version": "24.44.3",
+                "protocol_id": "modbus_fc100",
+                "registry_evidence": {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                  "kind": "registry.tesla.wc3_24_44_3",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                },
+                "revision": "1",
+                "source_epoch_id": "epoch:tesla-wc3-a",
+                "source_id": "source:tesla-wc3-a",
+                "started_at": {
+                  "clock_id": "wall.utc",
+                  "uncertainty_ns": "0",
+                  "unix_nanoseconds": "1800000001000000000"
+                },
+                "state": "current"
+              }
+            ]
+          }
+        }
+      },
+      "identity": "{\n  \"asset\": [\n    \"asset:tesla-wc3-a\"\n  ],\n  \"bindings\": [\n    \"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95 source:tesla-wc3-a epoch:tesla-wc3-a 7 current\"\n  ],\n  \"candidates\": [\n    \"candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5 evse.limit.configured_current origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5\"\n  ],\n  \"capabilities\": [\n    \"capability:tesla-wc3:272930c2222f87a9659d70da89c63223 evse.capability.read.evse service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\n    \"capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38 evse.capability.read.connector service:tesla-wc3:03ae485218190fab9d8ce3446238532a binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\"\n  ],\n  \"cursors\": [\n    \"source:tesla-wc3-a epoch:tesla-wc3-a 7 3\"\n  ],\n  \"identity_links\": [\n    \"binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95 qualified\"\n  ],\n  \"services\": [\n    \"service:tesla-wc3:03ae485218190fab9d8ce3446238532a evse.service.connector binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\",\n    \"service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f evse.service.evse binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95\"\n  ],\n  \"sources\": [\n    \"source:tesla-wc3-a epoch:tesla-wc3-a current\"\n  ]\n}\n",
+      "kind": "read",
+      "step": "sequence3",
+      "view": {
+        "evaluation": {
+          "context": {
+            "evaluate_monotonic": {
+              "clock_epoch_id": "clock:tesla-wc3-a",
+              "nanoseconds": "6500000000"
+            },
+            "evaluated_at": {
+              "clock_id": "wall.utc",
+              "uncertainty_ns": "0",
+              "unix_nanoseconds": "1800000008000000000"
+            }
+          },
+          "contract": "helianthus.semantic.evaluation/v1",
+          "evaluation_digest": "sha256:d47b75003537764834fcf3b4f3297f93f0cfde0fc5bce070a6e19be4d646ee46",
+          "facts": [
+            {
+              "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+              "candidate_revision": "3",
+              "effective_availability": "available",
+              "freshness": "fresh"
+            }
+          ],
+          "revisions": {
+            "capabilities": "3",
+            "facts": "3",
+            "identity": "1",
+            "semantic": "3",
+            "services": "1"
+          },
+          "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+        },
+        "projection": {
+          "contract": "helianthus.semantic.projection/v1",
+          "dispositions": [
+            {
+              "item_id": "evse.limit.allocated_current",
+              "kind": "fact",
+              "loss": [
+                {
+                  "description": "allocated current withheld: missing",
+                  "kind": "policy",
+                  "reversible": false,
+                  "source_items": [
+                    "native.tesla.wc3.provisional_current_limit"
+                  ]
+                }
+              ],
+              "outcome": "withheld",
+              "reason": "withheld_provisional_missing",
+              "source_keys": []
+            },
+            {
+              "item_id": "evse.limit.configured_current",
+              "kind": "fact",
+              "loss": [],
+              "outcome": "exact",
+              "source_keys": [
+                {
+                  "dimensions": [
+                    {
+                      "id": "evse.dimension.evse",
+                      "value": {
+                        "kind": "text",
+                        "text": "evse-a"
+                      }
+                    }
+                  ],
+                  "fact_id": "evse.limit.configured_current",
+                  "pack_id": "helianthus.pack.evse",
+                  "pack_version": "1.0.0"
+                }
+              ]
+            }
+          ],
+          "manifest": {
+            "kernel_version": "helianthus.semantic.kernel/v1",
+            "mapping_revision": "1",
+            "pack_versions": [
+              {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              }
+            ],
+            "target_id": "target:gateway-semantic-evse",
+            "target_version": "1.0.0"
+          },
+          "requested": [
+            {
+              "item_id": "evse.limit.allocated_current",
+              "kind": "fact"
+            },
+            {
+              "item_id": "evse.limit.configured_current",
+              "kind": "fact"
+            }
+          ],
+          "revisions": {
+            "capabilities": "3",
+            "facts": "3",
+            "identity": "1",
+            "semantic": "3",
+            "services": "1"
+          },
+          "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c"
+        },
+        "selections": [],
+        "snapshot": {
+          "asset_id": "asset:tesla-wc3-a",
+          "bindings": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "driver_generation": "7",
+              "native_resource": {
+                "access": "authorized",
+                "contract": "helianthus.semantic.kernel/v1",
+                "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                "kind": "registry.tesla.wc3_24_44_3",
+                "owner": "helianthus.pack.evse",
+                "redaction": "metadata_only"
+              },
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a",
+              "state": "current"
+            }
+          ],
+          "capabilities": [
+            {
+              "activation_evidence": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                  "kind": "native.tesla.wc3.current_limit.persistent",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "constraints": [],
+              "definition": {
+                "id": "evse.capability.read.evse",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "capability:tesla-wc3:272930c2222f87a9659d70da89c63223",
+              "qualification": "qualified",
+              "revision": "3",
+              "service_instance": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            },
+            {
+              "activation_evidence": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:626dddcd2065c69966ee1dae303785eef3e76ba74acb4f6a3e8ae027f8cbc0a7",
+                  "kind": "native.tesla.wc3.current_limit.persistent",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "constraints": [],
+              "definition": {
+                "id": "evse.capability.read.connector",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "capability:tesla-wc3:d6814720e2e57f7af65acf5b9c411c38",
+              "qualification": "qualified",
+              "revision": "3",
+              "service_instance": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            }
+          ],
+          "contract": "helianthus.semantic.kernel/v1",
+          "cursors": [
+            {
+              "driver_generation": "7",
+              "fenced": false,
+              "last_batch_digest": "sha256:7e3dbd3d4abe49f3c37f77aa5dce58dd26a5f17c599116b9af5dad5f75650fac",
+              "last_sequence": "3",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a"
+            }
+          ],
+          "evaluate_monotonic": {
+            "clock_epoch_id": "clock:tesla-wc3-a",
+            "nanoseconds": "4500000000"
+          },
+          "evaluated_at": {
+            "clock_id": "wall.utc",
+            "uncertainty_ns": "0",
+            "unix_nanoseconds": "1800000006000000000"
+          },
+          "facts": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "candidates": [
+                {
+                  "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                  "candidate_id": "candidate:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                  "driver_generation": "7",
+                  "evidence": [
+                    {
+                      "access": "authorized",
+                      "contract": "helianthus.semantic.kernel/v1",
+                      "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                      "kind": "native.tesla.wc3.current_limit",
+                      "owner": "helianthus.pack.evse",
+                      "redaction": "metadata_only"
+                    }
+                  ],
+                  "freshness_policy": {
+                    "fresh_for_ns": "60000000000",
+                    "max_wall_uncertainty_ns": "0",
+                    "policy_id": "policy:tesla-wc3-native-receipt",
+                    "retain_for_ns": "300000000000",
+                    "version": "1.0.0"
+                  },
+                  "key": {
+                    "dimensions": [
+                      {
+                        "id": "evse.dimension.evse",
+                        "value": {
+                          "kind": "text",
+                          "text": "evse-a"
+                        }
+                      }
+                    ],
+                    "fact_id": "evse.limit.configured_current",
+                    "pack_id": "helianthus.pack.evse",
+                    "pack_version": "1.0.0"
+                  },
+                  "origin": {
+                    "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+                    "evidence": [
+                      {
+                        "access": "authorized",
+                        "contract": "helianthus.semantic.kernel/v1",
+                        "digest": "sha256:4fd3f849deb413b3905b25897954fa2a2fdf2238a8bc0996243e69417803ad44",
+                        "kind": "native.tesla.wc3.current_limit",
+                        "owner": "helianthus.pack.evse",
+                        "redaction": "metadata_only"
+                      }
+                    ],
+                    "kind": "native_observation",
+                    "origin_id": "origin:tesla-wc3:6e6695dc1247cc2e52346a39daec08d5",
+                    "source_epoch_id": "epoch:tesla-wc3-a",
+                    "source_id": "source:tesla-wc3-a"
+                  },
+                  "quality": {
+                    "assertion": "observed",
+                    "availability": "available",
+                    "freshness": "fresh",
+                    "promotion": "promoted",
+                    "qualification": "qualified",
+                    "reasons": [],
+                    "validity": "good"
+                  },
+                  "revision": "3",
+                  "source_epoch_id": "epoch:tesla-wc3-a",
+                  "times": {
+                    "evaluate_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "4500000000"
+                    },
+                    "evaluated_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000006000000000"
+                    },
+                    "receipt_monotonic": {
+                      "clock_epoch_id": "clock:tesla-wc3-a",
+                      "nanoseconds": "4000000000"
+                    },
+                    "received_at": {
+                      "clock_id": "wall.utc",
+                      "uncertainty_ns": "0",
+                      "unix_nanoseconds": "1800000006000000000"
+                    }
+                  },
+                  "value": {
+                    "kind": "quantity",
+                    "quantity": {
+                      "number": {
+                        "coefficient": "18",
+                        "exponent10": 0
+                      },
+                      "unit": "unit.ampere"
+                    }
+                  }
+                }
+              ],
+              "conflicts": [],
+              "key": {
+                "dimensions": [
+                  {
+                    "id": "evse.dimension.evse",
+                    "value": {
+                      "kind": "text",
+                      "text": "evse-a"
+                    }
+                  }
+                ],
+                "fact_id": "evse.limit.configured_current",
+                "pack_id": "helianthus.pack.evse",
+                "pack_version": "1.0.0"
+              },
+              "revision": "3"
+            }
+          ],
+          "fences": [],
+          "identity_links": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "basis": [
+                {
+                  "access": "authorized",
+                  "contract": "helianthus.semantic.kernel/v1",
+                  "digest": "sha256:2fde00d8aab8ca75611d3f431b7ee88467d6d5f5daae93303feb0b819ebaf81d",
+                  "kind": "native.tesla.wc3.current_limit",
+                  "owner": "helianthus.pack.evse",
+                  "redaction": "metadata_only"
+                }
+              ],
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "revision": "1",
+              "state": "qualified"
+            }
+          ],
+          "revisions": {
+            "capabilities": "3",
+            "facts": "3",
+            "identity": "1",
+            "semantic": "3",
+            "services": "1"
+          },
+          "services": [
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "definition": {
+                "id": "evse.service.connector",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "service:tesla-wc3:03ae485218190fab9d8ce3446238532a",
+              "qualification": "qualified",
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            },
+            {
+              "asset_id": "asset:tesla-wc3-a",
+              "availability": "available",
+              "binding_id": "binding:tesla-wc3:04acb6030d7537c1cb7885976be38c95",
+              "definition": {
+                "id": "evse.service.evse",
+                "pack": {
+                  "id": "helianthus.pack.evse",
+                  "version": "1.0.0"
+                },
+                "version": "1.0.0"
+              },
+              "driver_generation": "7",
+              "instance_id": "service:tesla-wc3:6edd3058a1b32972e7b33fe9e4d0822f",
+              "qualification": "qualified",
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a"
+            }
+          ],
+          "snapshot_id": "sha256:3bdf6db41cd7e680a38a3a7fc3d16a72bed60f3557b06487a10e2a870ab3530c",
+          "sources": [
+            {
+              "profile_id": "tesla.wc3.24_44_3.current_limit",
+              "profile_version": "24.44.3",
+              "protocol_id": "modbus_fc100",
+              "registry_evidence": {
+                "access": "authorized",
+                "contract": "helianthus.semantic.kernel/v1",
+                "digest": "sha256:27cae51d0725b8833c5255f6c32492c9350ab17b1dbeb476ea22afb5d6b85dcb",
+                "kind": "registry.tesla.wc3_24_44_3",
+                "owner": "helianthus.pack.evse",
+                "redaction": "metadata_only"
+              },
+              "revision": "1",
+              "source_epoch_id": "epoch:tesla-wc3-a",
+              "source_id": "source:tesla-wc3-a",
+              "started_at": {
+                "clock_id": "wall.utc",
+                "uncertainty_ns": "0",
+                "unix_nanoseconds": "1800000001000000000"
+              },
+              "state": "current"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "reference": "current",
+  "sends": [],
+  "session": "modbus-gen3-managed-first-incarnation",
+  "session_sha256": "c17d2eff3d769f75e1653593b21aef63d04b0587947c07b1177945fcf81f1b0f",
+  "withdrawals": []
+}

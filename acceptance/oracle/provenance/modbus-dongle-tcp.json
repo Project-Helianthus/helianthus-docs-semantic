@@ -1,0 +1,17 @@
+{
+  "build": {
+    "build_command": "go test -c -trimpath -o replay-modbus-dongle-tcp.test ./cmd/gateway/",
+    "executable_sha256": "2b27cf4a270a09330223afb1c41da62b776997543c4679afa3aa0fb0f82badac",
+    "invocation": "replay-modbus-dongle-tcp.test -test.run ^TestOracleSessionModbus$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    },
+    "toolchain": "go version go1.26.2 darwin/arm64"
+  },
+  "format": "helianthus-oracle-session-provenance/1",
+  "reference": "current",
+  "session": "modbus-dongle-tcp",
+  "session_sha256": "cc208ee3632eb844ae83b23086490e7d8ad0ae0110b4a200b550b42953dae223"
+}

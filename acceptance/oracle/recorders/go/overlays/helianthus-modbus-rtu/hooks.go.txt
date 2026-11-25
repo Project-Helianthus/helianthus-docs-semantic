@@ -1,0 +1,29 @@
+package modbus
+
+import "time"
+
+// OracleRTUStreamCloser is the scripted stream a replay executable installs in place of the physical serial stream.
+type OracleRTUStreamCloser interface {
+	RTUByteStream
+	Close() error
+}
+
+// OracleRTUStream replaces the physical serial operand of OpenRTUProductionEndpoint in a replay executable.
+var OracleRTUStream func(RTUSerialConfig) (OracleRTUStreamCloser, error)
+
+// OracleReceiptWall replaces the receipt wall-clock sample of the production RTU read in a replay executable.
+var OracleReceiptWall func() time.Time
+
+func oracleOpenRTUStream(config RTUSerialConfig) (OracleRTUStreamCloser, error) {
+	if OracleRTUStream != nil {
+		return OracleRTUStream(config)
+	}
+	return OpenRTUSerial(config)
+}
+
+func oracleReceiptWall() time.Time {
+	if OracleReceiptWall != nil {
+		return OracleReceiptWall()
+	}
+	return time.Now()
+}

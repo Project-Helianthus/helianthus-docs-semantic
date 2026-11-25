@@ -1,0 +1,33 @@
+{
+  "build": {
+    "build_command": "go test -c -trimpath -tags oracle_rtu_overlay -o replay-modbus-rs485-storage-first-incarnation.test ./cmd/gateway/",
+    "executable_sha256": "61a1a3dc7315319e795fe35798881288aa227328700ab2996a4aae3f8e371afe",
+    "invocation": "replay-modbus-rs485-storage-first-incarnation.test -test.run ^TestOracleSessionModbusRS485$ -test.count=1 (working directory ./cmd/gateway/, session input in ORACLE_SESSION)",
+    "label": "replay executable built from the pinned production source plus harness-only entry files; not the shipped gateway CLI binary",
+    "overlay": {
+      "added_files": [
+        {
+          "path": "zz_oracle_overlay.go",
+          "sha256": "1374323094406792ddaebfda6ac2e228642164dde228f5952fadf281e6f8f49f"
+        }
+      ],
+      "changed_files": [
+        {
+          "path": "rtu_production.go",
+          "sha256_after": "14544e5fed5abf665ea3732d85c59c3f8ceb0548e2e369168940c8ac37148179",
+          "sha256_before": "d50e4719c2a6a876750cef8367ec4463b7ebbe8293908b271592db743d8395b4"
+        }
+      ],
+      "module": "github.com/Project-Helianthus/helianthus-modbus"
+    },
+    "source": {
+      "commit": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa",
+      "repository": "helianthus-ebusgateway"
+    },
+    "toolchain": "go version go1.26.2 darwin/arm64"
+  },
+  "format": "helianthus-oracle-session-provenance/1",
+  "reference": "current",
+  "session": "modbus-rs485-storage-first-incarnation",
+  "session_sha256": "006a18d5beaff5ec02336b7395a2ad20c19cd108fa8fbd93503aff34e2d61bd9"
+}
