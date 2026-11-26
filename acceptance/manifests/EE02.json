@@ -13,13 +13,15 @@
         "cmd/gateway/semantic_vaillant_b509_access.go",
         "cmd/gateway/semantic_vaillant_b524_access.go",
         "cmd/gateway/semantic_vaillant_codec.go",
+        "cmd/gateway/semantic_vaillant_discovery.go",
+        "cmd/gateway/semantic_vaillant_energy.go",
         "cmd/gateway/semantic_vaillant_registers.go",
         "cmd/gateway/semantic_vaillant_schedules.go",
         "cmd/gateway/semantic_vaillant_test.go",
         "cmd/gateway/vaillant_b503_dispatcher.go",
         "cmd/gateway/vaillant_b524_interface_identity.go"
       ],
-      "sha256": "466cd233d27e38b010064a035f13b32bc395722870e129047d6b886d4267bfa0",
+      "sha256": "f040b8e7b8391d05f8a4eae014cb53616fecca7b931da6b447ee8a1513a6fad0",
       "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
     },
     {
@@ -300,6 +302,90 @@
     {
       "name": "decodeExactB524Bool",
       "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b524CapabilityProbes",
+      "file": "cmd/gateway/semantic_vaillant_discovery.go",
+      "uses": [
+        "dhwInstance",
+        "dhw_operation_mode",
+        "localDHW",
+        "localRegulator",
+        "regulatorInstance"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hc",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hc_last_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hc_this_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hwc",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hwc_last_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_electricity_sum_hwc_this_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hc",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hc_last_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hc_this_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hwc",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hwc_last_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "energy_fuel_sum_hwc_this_month",
+      "file": "cmd/gateway/semantic_vaillant_energy.go",
       "uses": [],
       "package": "cmd/gateway"
     },
@@ -2081,6 +2167,12 @@
       "name": "IsB524ResponseCoherent",
       "file": "b524_coherency.go",
       "package": "."
+    },
+    {
+      "kind": "symbol",
+      "name": "b524ProbeSpec",
+      "file": "cmd/gateway/semantic_vaillant_discovery.go",
+      "package": "cmd/gateway"
     }
   ],
   "patterns": [],
@@ -2364,6 +2456,110 @@
       "repository": "ebusreg",
       "path": "driver/vaillant/input/extended_register_rows.go",
       "destination_name": "boolOf"
+    },
+    {
+      "kind": "symbol",
+      "name": "b524CapabilityProbes",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hc_last_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hc_this_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hwc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hwc_last_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_electricity_sum_hwc_this_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hc_last_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hc_this_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hwc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hwc_last_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "energy_fuel_sum_hwc_this_month",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
     },
     {
       "kind": "symbol",
