@@ -233,7 +233,9 @@ def copy_tool(root: Path) -> Path:
 def product_strays() -> list[Path]:
     if not PRODUCT_MANIFESTS.is_dir():
         return []
-    return [path for path in PRODUCT_MANIFESTS.iterdir() if path.name != ".gitkeep"]
+    tracked = git(ROOT, "ls-files", "-z", "--", "acceptance/manifests").stdout.split("\0")
+    expected = {Path(path).name for path in tracked if path}
+    return sorted(path for path in PRODUCT_MANIFESTS.iterdir() if path.name not in expected)
 
 
 def detail(completed: subprocess.CompletedProcess[str]) -> str:
@@ -607,6 +609,25 @@ def kind_slug(body: dict) -> str:
     return f"{body['kind']}-{body['commit'][:12]}"
 
 
+class PublishedManifestDirectoryTest(unittest.TestCase):
+    def test_published_manifests_are_expected_but_strays_are_not(self) -> None:
+        published = sorted(PRODUCT_MANIFESTS.glob("EE01.*"))
+        self.assertEqual({path.suffix for path in published}, {".json", ".lst"})
+        self.assertEqual(product_strays(), [])
+        parent = Path(tempfile.mkdtemp(prefix="product-guard-", dir=ROOT / ".tmp"))
+        for path in published:
+            shutil.copy(path, parent / path.name)
+        unexpected = parent / "unexpected.json"
+        unexpected.write_text("{}\n", encoding="utf-8")
+        with patch(__name__ + ".PRODUCT_MANIFESTS", parent):
+            self.assertEqual(product_strays(), [unexpected])
+            with self.assertRaises(AssertionError):
+                ManifestCLITest().tearDown()
+        self.assertTrue(unexpected.is_file())
+        for path in published:
+            self.assertEqual((parent / path.name).read_bytes(), path.read_bytes())
+
+
 class ManifestCLITest(unittest.TestCase):
     repo: Repo
 
@@ -620,11 +641,7 @@ class ManifestCLITest(unittest.TestCase):
 
     def tearDown(self) -> None:
         strays = product_strays()
-        for path in strays:
-            dest = ROOT / ".tmp" / "stray-manifests"
-            dest.mkdir(parents=True, exist_ok=True)
-            shutil.move(str(path), str(dest / path.name))
-        self.assertEqual(strays, [], msg="product manifest directory changed")
+        self.assertEqual(strays, [], msg="unexpected files in the product manifest directory")
 
     def assert_ok(self, completed: subprocess.CompletedProcess[str]) -> None:
         self.assertEqual(completed.returncode, 0, detail(completed))
@@ -709,6 +726,72 @@ class ManifestCLITest(unittest.TestCase):
             [("test", "TestHostComposition")],
         )
         self.assert_ok(self.repo.check("mixed-sample"))
+
+    def test_compares_a_retained_test_and_a_moved_test_under_its_new_name(self) -> None:
+        row = "whole-test-comparison"
+        package = "closure/mixed"
+        donor_file = f"{package}/host_test.go"
+        retained = {
+            "name": "TestHostComposition", "file": donor_file,
+            "repository": "ebusgo", "path": "dest/retained_test.go", "test": "TestRetained",
+        }
+        moved = {
+            "name": "TestOnlyMoved", "file": "closure/left/left_test.go",
+            "repository": "ebusgo", "path": "dest/transferred_test.go", "test": "TestRenamed",
+        }
+        spec = self.repo.base(row, symbol_moves=[
+            self.repo.symbol(package, f"{package}/moved.go", "Moved", "engine/moved.go"),
+            self.repo.symbol("closure/left", "closure/left/moved.go", "Moved", "engine/left.go"),
+            self.repo.symbol("closure/left", moved["file"], moved["name"], moved["path"], renamed=moved["test"]),
+        ], new_files=[
+            {"repository": retained["repository"], "path": retained["path"]},
+            {"repository": "other-repository", "path": moved["path"]},
+        ], test_comparisons=[retained, moved])
+        self.assert_ok(self.repo.generate(spec))
+        manifest = self.repo.manifest(row)
+        self.assertIn({"kind": "test", "name": retained["name"], "file": donor_file,
+                       "function": retained["name"]}, manifest["stays"])
+        self.assertEqual([entry for entry in manifest["destinations"] if entry["kind"] == "test"],
+                         [{"kind": "test", **entry} for entry in (retained, moved)])
+        self.assert_ok(self.repo.check(row))
+
+        dest = self.repo.private_dest()
+        passing = 'package dest\nimport "testing"\nfunc %s(t *testing.T) {}\n'
+        for entry in (retained, moved):
+            plant(dest, Path(entry["path"]).name, passing % entry["test"])
+        compared = self.repo.compare(row, dest)
+        self.assert_ok(compared)
+        for entry in (retained, moved):
+            self.assertIn(f"test={entry['test']} invocation-status=0 result=pass", compared.stdout)
+
+        plant(dest, "retained_test.go", passing.replace("{}", '{ t.Fatal("regression") }') % retained["test"])
+        failed = self.repo.compare(row, dest)
+        self.assert_fail(failed, "test=TestRetained invocation-status=1 result=fail",
+                         "test=TestRenamed invocation-status=0 result=pass")
+        plant(dest, "retained_test.go", passing.replace("{}", '{ t.Skip("not exercised") }') % retained["test"])
+        self.assert_fail(self.repo.compare(row, dest), "not-executed", "test=TestRetained")
+        # A same-named test elsewhere in the same package cannot stand in for the bound file.
+        plant(dest, "retained_test.go", passing % "TestOther")
+        plant(dest, "other_test.go", passing % retained["test"])
+        self.assert_fail(self.repo.compare(row, dest), "not-executed", "test=TestRetained")
+        plant(dest, "retained_test.go", "//go:build ignore\n\n" + passing % retained["test"])
+        self.assert_fail(self.repo.compare(row, dest), "not-executed", "test=TestRetained")
+
+        for field, (value, problem) in {
+            "file": (donor_file, "unaccounted"),
+            "name": ("TestUnbound", "unaccounted"),
+            "repository": ("other-repository", "mismatched"),
+            "path": (retained["path"], "mismatched"),
+            "test": ("TestOther", "mismatched"),
+        }.items():
+            with self.subTest(field=field):
+                changed = self.repo.manifest(row)
+                entry = next(item for item in changed["destinations"] if item.get("test") == moved["test"])
+                entry[field] = value
+                changed_path = self.repo.manifest_path(row).with_name("changed-comparison.json")
+                changed_path.write_text(json.dumps(changed), encoding="utf-8")
+                self.assert_fail(self.repo.check(row, manifest=changed_path), f"{problem}-test-comparison")
+                self.assert_fail(self.repo.compare(row, dest, manifest=changed_path), f"{problem}-test-comparison")
 
     def test_split_mixed_function_accounts_every_assertion(self) -> None:
         assertions = [
