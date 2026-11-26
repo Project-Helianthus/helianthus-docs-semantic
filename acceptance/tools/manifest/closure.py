@@ -708,6 +708,8 @@ def analyze_symbols(
     for directory in packages:
         for key in sorted(moved_keys[directory]):
             declaration, here = lookup[directory][(moved_keys[directory][key], key)]
+            for selector in sorted(set(declaration.get("unresolved", []))):
+                facts.errors.append(f"unresolved-selector: {declaration['file']} {key}.{selector}")
             used = _refs(declaration["uses"])
             # A function, type or value may name itself.
             used.discard((here, key))
