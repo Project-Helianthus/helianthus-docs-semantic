@@ -526,6 +526,29 @@ expectation.
   is available, independently of retained cuts. Unavailable history resyncs, and
   an unavailable pinned cut returns `revision_conflict`. [approved runtime design
   3; item 6]
+- A driver opens a `driver.PublicationTransaction` through
+  `Session.Publisher().Begin(ctx)`. To publish the source and candidate together
+  as in section 5, it uses `DeclareSource(driver.Source) error` for the
+  declaration and `StageSample(driver.Sample) error` for the sample. The
+  sample names the declared source and the candidate also carried in the
+  batch's `FactUpserts`; the runtime stamps the sample's receipt on admission.
+  A setting route, if supplied, is staged with `DeclareSettingRoute` in the
+  same transaction. [helianthus-semreg:semreg/v1/driver/session.go;
+  helianthus-semreg:semreg/runtime/cut_publish.go]
+- The session-backed batch preparation supplies the transaction's ownership
+  stamp (driver and instance in the session, asset, source, epoch and generation
+  in the batch), the next publication sequence and the expected semantic
+  revision. It computes the batch digest after the batch contents are filled
+  in. The handoff to the driver transaction is `Stage(v1.PublicationBatch)
+  error` with that prepared batch, followed by `Commit(ctx)`; the driver does
+  not call a concrete runtime's preparation method. Staging alone publishes
+  nothing. [helianthus-semreg:semreg/runtime/cut_publish.go]
+- The same `driver.PublicationTransaction` offers
+  `StageLink(driver.LinkClaim) error`. The claim commits with the staged batch
+  under the transaction's ownership stamp. Aborting the transaction or
+  rejecting its commit discards the staged claim without changing committed
+  claims. Claims and their bases remain separate per publisher under section 4,
+  including when a target is absent. [helianthus-semreg:semreg/runtime/cut_publish.go]
 - A consumer that is also a driver publishes through its own publisher. These
   types freeze with it. [design contract 4]
 
@@ -591,6 +614,27 @@ expectation.
   separately. Conflicting namespace owners are rejected. There is no per-driver
   resolver, no arbitrary schema injection and no per-driver MCP server. [design
   contract 5; item 13]
+- A roster read on `TreeCut` returns the namespaces declared at capture, in
+  namespace-key order. For each namespace it gives the owner driver kind, the
+  namespace key and every instance planned under it, in instance-key order.
+  This is a read of planning declarations, not an enumeration of published
+  members: a namespace with no instances and an instance that has published
+  nothing are both visible. [helianthus-semreg:semreg/runtime/tree/registry.go]
+- A root accessor on `TreeCut` returns the `NodeRef` of the captured tree's
+  installation node, the starting node for `List`. It is not a driver
+  instance or a semantic site selected from published resources. The node is
+  present even before any driver publishes.
+  [helianthus-semreg:semreg/runtime/tree/registry.go]
+- Keep the `CutID` returned by `TreeCut.ID()` to continue in a later call. Look
+  up that identifier on `Tree` to get the same captured `TreeCut` for `List`,
+  `Describe` and `Read`; do not capture again. To continue a listing, pass
+  the previous page's `Next` as `Page.Token` on that cut. An empty `Next` ends
+  the listing. Release the capture with `Tree.Release(CutID)` or
+  `TreeCut.Close()`. Looking up or releasing an unknown or released `CutID`
+  returns `dangling_reference`; using another cut's page token returns
+  `revision_conflict`. These are tree-capture operations, distinct from graph
+  retrieval's pin and retention rules in [graph section 25, CUT-1 to CUT-3](graph.md#25-coherence-unit).
+  [helianthus-semreg:semreg/runtime/tree/tree.go]
 - GraphQL serves the typed `Resource`, `Relation`, `Fact`, `Source`,
   `Capability`, `Operation` and typed outcome reads over SemReg, and driver
   namespaces through the generic `TreeNode`, `Attribute` and `Method` types. MCP
