@@ -3057,57 +3057,9 @@
     },
     {
       "kind": "test",
-      "name": "TestM18RefreshPublishesOnceWithoutDirectPromotion",
-      "file": "cmd/gateway/eebus_semreg_publication_test.go",
-      "function": "TestM18RefreshPublishesOnceWithoutDirectPromotion"
-    },
-    {
-      "kind": "test",
       "name": "TestEnergyAcquisitionCalendar",
       "file": "cmd/gateway/energy_acquisition_calendar_test.go",
       "function": "TestEnergyAcquisitionCalendar"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageDecimalCanonicalOutput",
-      "file": "cmd/gateway/growatt_storage_decimal_test.go",
-      "function": "TestGrowattStorageDecimalCanonicalOutput"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageDecimalExponentCap",
-      "file": "cmd/gateway/growatt_storage_decimal_test.go",
-      "function": "TestGrowattStorageDecimalExponentCap"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageGraphPackIdentifierFollowsOnlyTheOperatorLabel",
-      "file": "cmd/gateway/growatt_storage_semreg_test.go",
-      "function": "TestGrowattStorageGraphPackIdentifierFollowsOnlyTheOperatorLabel"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageGraphPublishesThePackAsAnAllocatedResource",
-      "file": "cmd/gateway/growatt_storage_semreg_test.go",
-      "function": "TestGrowattStorageGraphPublishesThePackAsAnAllocatedResource"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageGraphRestartKeepsThePackIdentifier",
-      "file": "cmd/gateway/growatt_storage_semreg_test.go",
-      "function": "TestGrowattStorageGraphRestartKeepsThePackIdentifier"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageGraphSoftStartWithdrawsOnlyThePublishersOperatingState",
-      "file": "cmd/gateway/growatt_storage_semreg_test.go",
-      "function": "TestGrowattStorageGraphSoftStartWithdrawsOnlyThePublishersOperatingState"
-    },
-    {
-      "kind": "test",
-      "name": "TestGrowattStorageGraphTwoLabelsAreTwoPacksAndNeverJoin",
-      "file": "cmd/gateway/growatt_storage_semreg_test.go",
-      "function": "TestGrowattStorageGraphTwoLabelsAreTwoPacksAndNeverJoin"
     },
     {
       "kind": "test",
@@ -3162,12 +3114,6 @@
       "name": "TestObservability_ZonePresenceTransitionIncrementsCounter",
       "file": "cmd/gateway/observability_test.go",
       "function": "TestObservability_ZonePresenceTransitionIncrementsCounter"
-    },
-    {
-      "kind": "test",
-      "name": "TestOperatorRecordRuntimeAuditFollowsTheDeclaration",
-      "file": "cmd/gateway/portal_config_runtime_test.go",
-      "function": "TestOperatorRecordRuntimeAuditFollowsTheDeclaration"
     },
     {
       "kind": "test",
@@ -3425,7 +3371,14 @@
       "kind": "test",
       "name": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones",
       "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones"
+      "function": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones",
+      "moved_uses": [
+        "cmd/gateway:semanticCacheSnapshot",
+        "cmd/gateway:vaillantZoneSnapshot",
+        "graphql:Zone",
+        "graphql:ZoneConfig",
+        "graphql:ZoneState"
+      ]
     },
     {
       "kind": "specimen",
@@ -3450,12 +3403,6 @@
       "name": "TestVaillantSemanticPoller_PersistsOnlyOnLivePublish",
       "file": "cmd/gateway/semantic_cache_test.go",
       "function": "TestVaillantSemanticPoller_PersistsOnlyOnLivePublish"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticMultiSourceAcceptanceOneUnitThroughTwoPaths",
-      "file": "cmd/gateway/semantic_multisource_acceptance_test.go",
-      "function": "TestSemanticMultiSourceAcceptanceOneUnitThroughTwoPaths"
     },
     {
       "kind": "test",
@@ -4233,114 +4180,6 @@
     },
     {
       "kind": "test",
-      "name": "TestThermalSIConversions",
-      "file": "cmd/gateway/thermal_boiler_publication_test.go",
-      "function": "TestThermalSIConversions"
-    },
-    {
-      "kind": "test",
-      "name": "TestI42EvidenceIdentity",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestI42EvidenceIdentity"
-    },
-    {
-      "kind": "test",
-      "name": "TestI42SemanticAssociationConflicts",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestI42SemanticAssociationConflicts"
-    },
-    {
-      "kind": "test",
-      "name": "TestI42TypedFreshnessProvenance",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestI42TypedFreshnessProvenance"
-    },
-    {
-      "kind": "test",
-      "name": "TestI42VirtualWaterMissingType",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestI42VirtualWaterMissingType"
-    },
-    {
-      "kind": "test",
-      "name": "TestP18RejectedPolicyPreservesSibling",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestP18RejectedPolicyPreservesSibling"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingConflictAccountingAndDetachment",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingConflictAccountingAndDetachment"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingCoolingLossAndReceipt",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingCoolingLossAndReceipt"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingEvidenceAndDispositionContracts",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingEvidenceAndDispositionContracts"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingGlobalInstanceConflicts",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingGlobalInstanceConflicts"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingIdentityFences",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingIdentityFences"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingIndependentAdmission",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingIndependentAdmission"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingInvalidIdentities",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingInvalidIdentities"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingNativeOnly",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingNativeOnly"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingOtherFamilyInstanceNine",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingOtherFamilyInstanceNine"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingSelectorFences",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingSelectorFences"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalCircuitCapabilityMappingVirtualAndSparse",
-      "file": "cmd/gateway/thermal_circuit_capability_mapping_test.go",
-      "function": "TestThermalCircuitCapabilityMappingVirtualAndSparse"
-    },
-    {
-      "kind": "test",
-      "name": "TestI33EvidenceAxes",
-      "file": "cmd/gateway/thermal_circuit_temperature_candidate_test.go",
-      "function": "TestI33EvidenceAxes"
-    },
-    {
-      "kind": "test",
       "name": "TestI34Freshness",
       "file": "cmd/gateway/thermal_cylinder_temperature_candidate_test.go",
       "function": "TestI34Freshness"
@@ -4404,192 +4243,6 @@
       "name": "TestP17PreviousCodecFields",
       "file": "cmd/gateway/thermal_cylinder_temperature_candidate_test.go",
       "function": "TestP17PreviousCodecFields"
-    },
-    {
-      "kind": "test",
-      "name": "TestI32EveryEvidenceLeaf",
-      "file": "cmd/gateway/thermal_dhw_measured_temperature_candidate_test.go",
-      "function": "TestI32EveryEvidenceLeaf"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalDhwModeMappingNativeSeparation",
-      "file": "cmd/gateway/thermal_dhw_mode_mapping_test.go",
-      "function": "TestThermalDhwModeMappingNativeSeparation"
-    },
-    {
-      "kind": "test",
-      "name": "TestI40EvidenceReferences",
-      "file": "cmd/gateway/thermal_dhw_setpoint_mapping_test.go",
-      "function": "TestI40EvidenceReferences"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalHumidityMappingPercent",
-      "file": "cmd/gateway/thermal_humidity_mapping_test.go",
-      "function": "TestThermalHumidityMappingPercent"
-    },
-    {
-      "kind": "test",
-      "name": "TestI39ConflictIdentityIsolation",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestI39ConflictIdentityIsolation"
-    },
-    {
-      "kind": "test",
-      "name": "TestI39DispositionEnvelope",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestI39DispositionEnvelope"
-    },
-    {
-      "kind": "test",
-      "name": "TestI39EvidenceStatusAndStaleConflict",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestI39EvidenceStatusAndStaleConflict"
-    },
-    {
-      "kind": "test",
-      "name": "TestI39IndependentExactPreserved",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestI39IndependentExactPreserved"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalMaintenanceMappingAccountingAndIsolation",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestThermalMaintenanceMappingAccountingAndIsolation"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalMaintenanceMappingIdentity",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestThermalMaintenanceMappingIdentity"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalMaintenanceMappingQualityAndRetention",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestThermalMaintenanceMappingQualityAndRetention"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalMaintenanceMappingUnknownAndAbsent",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestThermalMaintenanceMappingUnknownAndAbsent"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalMaintenanceMappingWithholding",
-      "file": "cmd/gateway/thermal_maintenance_mapping_test.go",
-      "function": "TestThermalMaintenanceMappingWithholding"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41AggregateMatchingItem",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41AggregateMatchingItem"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41AggregateSourceKeyIdentity",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41AggregateSourceKeyIdentity"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41AggregateSources",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41AggregateSources"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41CurrentBeyondDiagnosticCap",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41CurrentBeyondDiagnosticCap"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41HistoryCanonicalBeforeCap",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41HistoryCanonicalBeforeCap"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41MalformedSourceDispositions",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41MalformedSourceDispositions"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41NonprojectedSourceLoss",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41NonprojectedSourceLoss"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41ReasonAndCopyBoundary",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41ReasonAndCopyBoundary"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41ReceiptRetention",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41ReceiptRetention"
-    },
-    {
-      "kind": "test",
-      "name": "TestI41Retention",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestI41Retention"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingAccountingAndDetachment",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingAccountingAndDetachment"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingAdmission",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingAdmission"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingIdentity",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingIdentity"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingIntervalAndConflict",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingIntervalAndConflict"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingMergedDispositions",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingMergedDispositions"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingRepeatedFeedback",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingRepeatedFeedback"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingRetention",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingRetention"
-    },
-    {
-      "kind": "test",
-      "name": "TestThermalZoneSetpointMappingRoles",
-      "file": "cmd/gateway/thermal_zone_setpoint_mapping_test.go",
-      "function": "TestThermalZoneSetpointMappingRoles"
     },
     {
       "kind": "test",
@@ -4739,7 +4392,15 @@
       "kind": "test",
       "name": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues",
       "file": "cmd/gateway/vaillant_semantic_publication_views_test.go",
-      "function": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues"
+      "function": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues",
+      "moved_uses": [
+        "cmd/gateway:decodeAssociatedCircuit",
+        "cmd/gateway:decodeRoomTemperatureZoneMapping",
+        "cmd/gateway:resolveAssociatedCircuitInstance",
+        "cmd/gateway:vaillantRadioDeviceSnapshot",
+        "cmd/gateway:vaillantZoneSnapshot",
+        "cmd/gateway:zoneFromView"
+      ]
     },
     {
       "kind": "test",
@@ -5007,36 +4668,6 @@
     },
     {
       "kind": "test",
-      "name": "TestSemanticSnapshotProviderEdgesSerializedOverflow",
-      "file": "graphql/semantic_snapshot_provider_edges_test.go",
-      "function": "TestSemanticSnapshotProviderEdgesSerializedOverflow"
-    },
-    {
-      "kind": "test",
-      "name": "TestM09EveryRevisionComponent",
-      "file": "graphql/semantic_snapshot_test.go",
-      "function": "TestM09EveryRevisionComponent"
-    },
-    {
-      "kind": "test",
-      "name": "TestM09FivePacksHandler",
-      "file": "graphql/semantic_snapshot_test.go",
-      "function": "TestM09FivePacksHandler"
-    },
-    {
-      "kind": "test",
-      "name": "TestM09PackQueries",
-      "file": "graphql/semantic_snapshot_test.go",
-      "function": "TestM09PackQueries"
-    },
-    {
-      "kind": "test",
-      "name": "TestM09UnavailableCapabilityAndConflict",
-      "file": "graphql/semantic_snapshot_test.go",
-      "function": "TestM09UnavailableCapabilityAndConflict"
-    },
-    {
-      "kind": "test",
       "name": "TestLiveSemanticProvider_StartupReasonIsAdditive",
       "file": "graphql/semantic_startup_reason_test.go",
       "function": "TestLiveSemanticProvider_StartupReasonIsAdditive"
@@ -5274,24 +4905,6 @@
       "name": "TestSemanticZonesAndDHWGoldenEnvelope",
       "file": "mcp/zone_dhw_golden_test.go",
       "function": "TestSemanticZonesAndDHWGoldenEnvelope"
-    },
-    {
-      "kind": "test",
-      "name": "TestM10EveryRevisionComponent",
-      "file": "mcp/semantic_snapshot_test.go",
-      "function": "TestM10EveryRevisionComponent"
-    },
-    {
-      "kind": "test",
-      "name": "TestM10FivePackM09Parity",
-      "file": "mcp/semantic_snapshot_test.go",
-      "function": "TestM10FivePackM09Parity"
-    },
-    {
-      "kind": "test",
-      "name": "TestM10ProviderFailuresAndDeadline",
-      "file": "mcp/semantic_snapshot_test.go",
-      "function": "TestM10ProviderFailuresAndDeadline"
     },
     {
       "kind": "symbol",
@@ -7955,6 +7568,94 @@
       "repository": "ebusreg",
       "path": "driver/vaillant/output/cache_test.go",
       "test": "TestCacheHydrationFromSnapshotKeysZonesAndKeepsLegacyReturn"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_DiscardsV1",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_DiscardsSchemaOne"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_DiscardsV2",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_DiscardsSchemaTwo"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_HitLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_HitLogsMarker"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_MissLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_MissLogsMarker"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe"
+    },
+    {
+      "kind": "test",
+      "name": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "test": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues",
+      "file": "cmd/gateway/vaillant_semantic_publication_views_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/views_test.go",
+      "test": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues"
     }
   ],
   "expectations": [

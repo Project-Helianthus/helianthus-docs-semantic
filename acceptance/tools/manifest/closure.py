@@ -9,6 +9,7 @@ is classified the same way.
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -540,6 +541,85 @@ def _module_path(repo: Path, revision: str) -> str:
     return match.group(1).strip('"') if match else ""
 
 
+def _escape_module_path(path: str) -> str:
+    return "".join("!" + char.lower() if char.isupper() else char for char in path)
+
+
+def _module_cache(go: str) -> Path | None:
+    configured = os.environ.get("GOMODCACHE")
+    if configured:
+        return Path(configured)
+    try:
+        completed = subprocess.run([go, "env", "GOMODCACHE"], capture_output=True, text=True, check=False)
+    except OSError:
+        return None
+    value = completed.stdout.strip()
+    return Path(value) if completed.returncode == 0 and value else None
+
+
+def _requirements(go_mod: str) -> dict[str, str]:
+    """The module versions the donor's go.mod requires, after its replacements."""
+    required: dict[str, str] = {}
+    replaced: dict[str, tuple[str, str]] = {}
+    block = ""
+    for raw in go_mod.splitlines():
+        line = raw.split("//", 1)[0].strip()
+        if not line:
+            continue
+        if block:
+            if line == ")":
+                block = ""
+                continue
+            fields = line.split()
+        else:
+            fields = line.split()
+            if fields[0] in ("require", "replace") and len(fields) > 1 and fields[1] == "(":
+                block = fields[0]
+                continue
+            if fields[0] not in ("require", "replace"):
+                continue
+            block_kind, fields = fields[0], fields[1:]
+        kind = block or block_kind
+        if kind == "require" and len(fields) >= 2:
+            required[fields[0].strip('"')] = fields[1].strip('"')
+        elif kind == "replace" and "=>" in fields:
+            arrow = fields.index("=>")
+            target = fields[arrow + 1:]
+            if len(target) == 2:
+                replaced[fields[0].strip('"')] = (target[0].strip('"'), target[1].strip('"'))
+            elif len(target) == 1:
+                replaced[fields[0].strip('"')] = (target[0].strip('"'), "")
+    resolved: dict[str, str] = {}
+    for module, version in required.items():
+        if module in replaced:
+            module_to, version_to = replaced[module]
+            if not version_to:
+                continue
+            resolved[module] = f"{module_to}@{version_to}"
+        else:
+            resolved[module] = f"{module}@{version}"
+    return resolved
+
+
+def _dependency_directories(repo: Path, revision: str, go: str) -> dict[str, str]:
+    """Module directories of the donor's pinned dependencies in the module cache.
+
+    A dependency whose directory is not in the cache is left out, and the
+    helper then stands an empty package in for it.
+    """
+    blob = read_blobs(repo, revision, ["go.mod"]).get("go.mod")
+    cache = _module_cache(go)
+    if blob is None or cache is None:
+        return {}
+    found: dict[str, str] = {}
+    for module, pinned in _requirements(blob.decode(errors="replace")).items():
+        path, _, version = pinned.partition("@")
+        directory = cache / (_escape_module_path(path) + "@" + version)
+        if directory.is_dir():
+            found[module] = str(directory)
+    return found
+
+
 def resolve_donor(repo: Path, revision: str, packages: list[str]) -> dict[str, object]:
     """Run the Go helper over the donor at ``revision``.
 
@@ -563,6 +643,7 @@ def resolve_donor(repo: Path, revision: str, packages: list[str]) -> dict[str, o
         "module": _module_path(repo, revision),
         "files": files,
         "packages": packages,
+        "deps": _dependency_directories(repo, revision, go),
     })
     with tempfile.TemporaryDirectory(prefix="manifest-resolve-") as scratch:
         try:
