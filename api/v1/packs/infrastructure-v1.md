@@ -165,7 +165,8 @@ Run `python3 scripts/validate_infrastructure_pack_v1.py`,
 `infrastructure.portal.read.load` reads every load-dimension field.
 `infrastructure.capability.read.load` is not a member.
 `infrastructure.dimension.harmonic_order` is `unit.one` and stores no minimum.
-`infrastructure.ac.phase_power_factor`, `infrastructure.ac.harmonic_current` and `infrastructure.ac.harmonic_phase` withhold the unit.
+`infrastructure.ac.phase_power_factor` is a signed quantity in `unit.ratio` on `infrastructure.dimension.phase` with empty bounds.
+`infrastructure.ac.harmonic_current` and `infrastructure.ac.harmonic_phase` withhold the unit.
 `infrastructure.limit.pv_curtailment_factor` is closed from 0 to 1.
 Empty bounds stay empty.
 A new signed quantity names `infrastructure.relation.feeder_circuit`.

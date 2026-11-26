@@ -958,15 +958,15 @@ def test_phase_power_factor_withholds_undeclared_matter_scale():
     assert "matter association removed" in pv["review"]
     assert pv["verification_level"] == "specification"
     grid = {row["id"]: row for row in _rows("pe10-fields.tsv")}["infrastructure.ac.phase_power_factor"]
-    assert grid["unit"] == ""
+    assert grid["unit"] == "unit.ratio"
+    assert grid["minimum"] == "" and grid["maximum"] == ""
     assert grid["matter_1_6_1"] == "ElectricalPowerMeasurement.PowerFactor"
     assert grid["eebus"] == "SPINE:measurement.acCosPhiGrid"
     assert "scale not declared" in grid["source"]
-    assert "ratio qualification withheld" in grid["source"]
-    assert "unit uncertainty" in grid["source"]
+    assert "semantic unit is unit.ratio" in grid["source"]
     assert "no unit name" in grid["review"]
-    assert "ratio qualification withheld" in grid["review"]
-    assert "unit uncertainty" in grid["review"]
+    assert "the semantic element is unit.ratio" in grid["review"]
+    assert "scale stays undeclared and unmapped" in grid["review"]
     assert "bound not in specification" in grid["review"]
     assert grid["verification_level"] == "specification"
 
