@@ -6,6 +6,12 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The [driver contract](api/v1/driver-contract.md) states that a factory's descriptor
+  declares the driver kinds it plans, so the host knows the owner of a configured
+  instance without calling planning. The instance and its secret reference go only to
+  that owner, and an instance of an undeclared kind is reported unmatched while the
+  others start.
+
 - Define rule-only release intents for the existing PV active-power and EVSE
   allocated-current limit operations. Pack metadata mirrors the catalog's
   boolean `false` literal. A release can be acknowledged but cannot be

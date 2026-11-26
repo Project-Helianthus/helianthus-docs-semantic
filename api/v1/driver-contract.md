@@ -85,6 +85,14 @@ expectation.
   `secret_ref` string unchanged; an omitted reference is empty. Neither the host
   nor generic planning resolves a secret or treats a neighbouring instance's
   reference as shared authority.
+- A factory's descriptor declares the driver kinds the factory plans. The host
+  knows the owner of a configured instance from these declarations alone and
+  never calls a planning step, with a placeholder or otherwise, to find it. Two
+  factories of one host must not declare the same kind. The host passes a
+  configured instance, with its `SecretRef`, only to the factory that declares
+  the instance's kind. An instance whose kind no factory declares is reported
+  unmatched, receives no factory call and no reference, and the other instances
+  start.
 - `InstancePlan` carries `RetryPolicy`, the neutral record below. Normalization
   applies the preserved donor values and invents no other default.
   [helianthus-gateway:internal/drivermanager/manager.go]
