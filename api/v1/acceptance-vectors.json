@@ -585,10 +585,10 @@
             "fact": {
               "pack_id": "helianthus.pack.evse",
               "pack_version": "1.0.0",
-              "fact_id": "helianthus.evse.interlock_clear",
+              "fact_id": "helianthus.synthetic.precondition_flag",
               "dimensions": []
             },
-            "candidate_id": "candidate:evse:interlock",
+            "candidate_id": "candidate:synthetic:flag",
             "candidate_revision": "4",
             "operator": "equal",
             "expected": {
@@ -603,7 +603,7 @@
           "capability:limit:01"
         ],
         "authority_resolves": true,
-        "candidate:evse:interlock": {
+        "candidate:synthetic:flag": {
           "qualification": "qualified",
           "promotion": "promoted",
           "validity": "good",
@@ -3448,10 +3448,10 @@
           "fact": {
             "pack_id": "helianthus.pack.evse",
             "pack_version": "1.0.0",
-            "fact_id": "helianthus.evse.interlock_clear",
+            "fact_id": "helianthus.synthetic.precondition_flag",
             "dimensions": []
           },
-          "candidate_id": "candidate:interlock:unqualified",
+          "candidate_id": "candidate:synthetic:flag:unqualified",
           "candidate_revision": "4",
           "operator": "equal",
           "expected": {
@@ -3461,7 +3461,7 @@
         },
         "envelope_candidates": [
           {
-            "candidate_id": "candidate:interlock:unqualified",
+            "candidate_id": "candidate:synthetic:flag:unqualified",
             "revision": "4",
             "value": {
               "kind": "boolean",
@@ -3474,7 +3474,7 @@
             "effective_availability": "available"
           },
           {
-            "candidate_id": "candidate:interlock:qualified",
+            "candidate_id": "candidate:synthetic:flag:qualified",
             "revision": "4",
             "value": {
               "kind": "boolean",
@@ -3511,10 +3511,10 @@
           "fact": {
             "pack_id": "helianthus.pack.evse",
             "pack_version": "1.0.0",
-            "fact_id": "helianthus.evse.interlock_clear",
+            "fact_id": "helianthus.synthetic.precondition_flag",
             "dimensions": []
           },
-          "candidate_id": "candidate:interlock:qualified",
+          "candidate_id": "candidate:synthetic:flag:qualified",
           "candidate_revision": "4",
           "operator": "equal",
           "expected": {
@@ -3524,7 +3524,7 @@
         },
         "envelope_candidates": [
           {
-            "candidate_id": "candidate:interlock:qualified",
+            "candidate_id": "candidate:synthetic:flag:qualified",
             "revision": "4",
             "value": {
               "kind": "boolean",
@@ -3537,7 +3537,7 @@
             "effective_availability": "available"
           },
           {
-            "candidate_id": "candidate:interlock:candidate",
+            "candidate_id": "candidate:synthetic:flag:candidate",
             "revision": "4",
             "value": {
               "kind": "boolean",
@@ -4200,7 +4200,7 @@
         "fact": {
           "pack_id": "helianthus.pack.evse",
           "pack_version": "1.0.0",
-          "fact_id": "helianthus.evse.interlock_clear",
+          "fact_id": "helianthus.synthetic.precondition_flag",
           "dimensions": []
         },
         "candidate_id": "candidate:missing",
@@ -4234,10 +4234,10 @@
         "fact": {
           "pack_id": "helianthus.pack.evse",
           "pack_version": "1.0.0",
-          "fact_id": "helianthus.evse.interlock_clear",
+          "fact_id": "helianthus.synthetic.precondition_flag",
           "dimensions": []
         },
-        "candidate_id": "candidate:evse:interlock",
+        "candidate_id": "candidate:synthetic:flag",
         "candidate_revision": "4",
         "operator": "equal",
         "expected": {
