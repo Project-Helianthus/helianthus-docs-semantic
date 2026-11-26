@@ -335,6 +335,14 @@ expectation.
   contemporaneous, for example a fresh boiler sample after a setpoint change
   against an internet mirror's pre-change sample, or an unknown step, are
   reported incomparable and never as disagreement. [item 21; rule 21; SR56]
+- A value that a certificate states about a device is held as a
+  [certification reference](certification-references-v1.md), a source category
+  of its own and never mixed with a value the device publishes. A driver publishes
+  it with origin kind `declared` and certification evidence. Its source has a
+  lower priority than every device source of the same element, and it is never
+  published beside a device value for the same fact key: a driver declares no
+  certification source for a fact key for which it declares a device source.
+  [operator decision 2026-11-26; rule 20]
 - A write goes to the one owner route of the setting, checked at dispatch. It is
   never written to the latest reader and never broadcast. With no owner route, an
   ambiguous one or a withdrawn one, nothing is sent. [item 56; rule 17]
