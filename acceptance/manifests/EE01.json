@@ -1830,6 +1830,16 @@
       "package": "cmd/gateway"
     },
     {
+      "name": "vaillantSemanticPublication.publishRegulatorCapability",
+      "file": "cmd/gateway/vaillant_semantic_publication_views.go",
+      "uses": [
+        "graphql.VaillantRegulatorCapabilityNone",
+        "graphql.VaillantRegulatorCapabilityPresent",
+        "graphql.VaillantRegulatorCapabilityUnknown"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
       "name": "zoneFromView",
       "file": "cmd/gateway/vaillant_semantic_publication_views.go",
       "uses": [
@@ -5194,6 +5204,12 @@
     },
     {
       "kind": "symbol",
+      "name": "vaillantSemanticPublication",
+      "file": "cmd/gateway/vaillant_semantic_publication.go",
+      "package": "cmd/gateway"
+    },
+    {
+      "kind": "symbol",
       "name": "FM5InterpretationProvider",
       "file": "graphql/semantic.go",
       "package": "graphql"
@@ -5202,6 +5218,12 @@
       "kind": "symbol",
       "name": "SemanticProvider",
       "file": "graphql/semantic.go",
+      "package": "graphql"
+    },
+    {
+      "kind": "symbol",
+      "name": "LiveSemanticProvider.SetVaillantRegulatorCapability",
+      "file": "graphql/semantic_live.go",
       "package": "graphql"
     },
     {
@@ -6782,6 +6804,14 @@
       "repository": "ebusreg",
       "path": "driver/vaillant/output/views.go",
       "destination_name": "SystemStatusFromView"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantSemanticPublication.publishRegulatorCapability",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/views.go",
+      "destination_name": "RegulatorCapabilityFromNative"
     },
     {
       "kind": "symbol",
