@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/build"
+	"go/build/constraint"
 	"go/importer"
 	"go/parser"
 	"go/token"
@@ -33,11 +34,29 @@ import (
 	"strings"
 )
 
+// input names the donor module and the module directories of its pinned
+// dependencies. Deps maps a module path to the directory that holds that
+// module at the version the donor's go.mod requires; a dependency that is
+// not listed, or whose directory is absent, is represented by an empty
+// package, as before.
 type input struct {
 	Module   string            `json:"module"`
 	Files    map[string]string `json:"files"`
 	Packages []string          `json:"packages"`
+	Deps     map[string]string `json:"deps"`
 }
+
+// target is one build context: the platform and the extra build tags.
+type buildTarget struct {
+	goos, goarch string
+	tags         []string
+}
+
+func (t buildTarget) key() string {
+	return t.goos + "/" + t.goarch + "?" + strings.Join(t.tags, ",")
+}
+
+var baseTarget = buildTarget{goos: "linux", goarch: "amd64"}
 
 type outRef [2]string
 
@@ -147,13 +166,16 @@ type result struct {
 
 type loader struct {
 	in       input
+	target   buildTarget
 	fset     *token.FileSet
 	ctxt     build.Context
+	deps     map[string]*types.Package
 	std      types.ImporterFrom
 	dirs     map[string]*dirFiles
 	pathDir  map[string]string
 	bases    map[string]*result
 	variants map[string]*result
+	rebuilds map[string]*result
 	externs  map[string]*result
 	loading  map[string]bool
 	fakes    map[string]*types.Package
@@ -171,7 +193,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "input:", err)
 		os.Exit(2)
 	}
-	l := newLoader(in)
+	l := newLoader(in, baseTarget)
 	out := l.run()
 	encoded, err := json.Marshal(out)
 	if err != nil {
@@ -182,11 +204,14 @@ func main() {
 	os.Stdout.Write([]byte("\n"))
 }
 
-func newLoader(in input) *loader {
+func newLoader(in input, t buildTarget) *loader {
 	build.Default.CgoEnabled = false
+	build.Default.GOOS = t.goos
+	build.Default.GOARCH = t.goarch
 	ctxt := build.Default
-	ctxt.GOOS = "linux"
-	ctxt.GOARCH = "amd64"
+	ctxt.GOOS = t.goos
+	ctxt.GOARCH = t.goarch
+	ctxt.BuildTags = append([]string{}, t.tags...)
 	ctxt.CgoEnabled = false
 	ctxt.OpenFile = func(path string) (io.ReadCloser, error) {
 		text, ok := in.Files[strings.TrimPrefix(path, "/donor/")]
@@ -198,12 +223,15 @@ func newLoader(in input) *loader {
 	fset := token.NewFileSet()
 	l := &loader{
 		in:       in,
+		target:   t,
+		deps:     map[string]*types.Package{},
 		fset:     fset,
 		ctxt:     ctxt,
 		dirs:     map[string]*dirFiles{},
 		pathDir:  map[string]string{},
 		bases:    map[string]*result{},
 		variants: map[string]*result{},
+		rebuilds: map[string]*result{},
 		externs:  map[string]*result{},
 		loading:  map[string]bool{},
 		fakes:    map[string]*types.Package{},
@@ -362,9 +390,12 @@ func (i *donorImporter) Import(path string) (*types.Package, error) {
 	l := i.l
 	if dir, ok := l.donorDir(path); ok {
 		var imported *result
-		if dir == i.variantOf {
+		switch {
+		case dir == i.variantOf:
 			imported = l.variant(dir)
-		} else {
+		case i.variantOf != "" && l.reachesNamed(dir, map[string]bool{i.variantOf: true}, map[string]bool{}):
+			imported = l.rebuilt(dir, i.variantOf)
+		default:
 			imported = l.base(dir)
 		}
 		if imported == nil || imported.pkg == nil {
@@ -376,13 +407,103 @@ func (i *donorImporter) Import(path string) (*types.Package, error) {
 		}
 		return imported.pkg, nil
 	}
-	if l.std != nil && !strings.Contains(strings.SplitN(path, "/", 2)[0], ".") {
-		if pkg, err := l.std.ImportFrom(path, "", 0); err == nil && pkg != nil {
-			return pkg, nil
-		}
+	if pkg := l.dependency(path); pkg != nil {
+		return pkg, nil
+	}
+	if pkg := l.standard(path); pkg != nil {
+		return pkg, nil
 	}
 	i.owner.unresolved = true
 	return l.fake(path), nil
+}
+
+func (l *loader) standard(path string) *types.Package {
+	if l.std == nil || strings.Contains(strings.SplitN(path, "/", 2)[0], ".") {
+		return nil
+	}
+	pkg, err := l.std.ImportFrom(path, "", 0)
+	if err != nil {
+		return nil
+	}
+	return pkg
+}
+
+// libraryImporter resolves the imports of a dependency: another dependency,
+// the standard library, or an empty package.
+type libraryImporter struct{ l *loader }
+
+func (i libraryImporter) Import(path string) (*types.Package, error) {
+	if pkg := i.l.dependency(path); pkg != nil {
+		return pkg, nil
+	}
+	if pkg := i.l.standard(path); pkg != nil {
+		return pkg, nil
+	}
+	return i.l.fake(path), nil
+}
+
+// dependency type-checks a package of a pinned dependency from the module
+// directory the input names for it, for the loader's build target, without
+// its test files and without function bodies. It returns nil when the
+// package is not a dependency the input resolves.
+func (l *loader) dependency(path string) *types.Package {
+	if pkg, seen := l.deps[path]; seen {
+		return pkg
+	}
+	l.deps[path] = nil
+	module, root := "", ""
+	for name, dir := range l.in.Deps {
+		if (path == name || strings.HasPrefix(path, name+"/")) && len(name) > len(module) {
+			module, root = name, dir
+		}
+	}
+	if module == "" {
+		return nil
+	}
+	dir := root + strings.TrimPrefix(path, module)
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil
+	}
+	ctxt := l.ctxt
+	ctxt.OpenFile = nil
+	var files []*ast.File
+	for _, entry := range entries {
+		name := entry.Name()
+		if entry.IsDir() || !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") ||
+			strings.HasPrefix(name, "_") || strings.HasPrefix(name, ".") {
+			continue
+		}
+		if match, err := ctxt.MatchFile(dir, name); err != nil || !match {
+			continue
+		}
+		parsed, err := parser.ParseFile(l.fset, dir+"/"+name, nil, parser.SkipObjectResolution)
+		if err != nil || parsed == nil {
+			continue
+		}
+		cgo := false
+		for _, spec := range parsed.Imports {
+			if strings.Trim(spec.Path.Value, "\"`") == "C" {
+				cgo = true
+			}
+		}
+		if !cgo {
+			files = append(files, parsed)
+		}
+	}
+	if len(files) == 0 {
+		return nil
+	}
+	conf := types.Config{
+		Importer:         libraryImporter{l},
+		FakeImportC:      true,
+		IgnoreFuncBodies: true,
+		Sizes:            types.SizesFor("gc", l.target.goarch),
+		Error:            func(error) {},
+	}
+	pkg, _ := conf.Check(path, l.fset, files, nil)
+	l.deps[path] = pkg
+	return pkg
 }
 
 func (l *loader) fake(path string) *types.Package {
@@ -405,7 +526,7 @@ func (l *loader) check(path string, files []*ast.File, info *types.Info, imp *do
 	conf := types.Config{
 		Importer:    imp,
 		FakeImportC: true,
-		Sizes:       types.SizesFor("gc", "amd64"),
+		Sizes:       types.SizesFor("gc", l.target.goarch),
 		Error: func(err error) {
 			if typed, ok := err.(types.Error); ok && !typed.Soft {
 				owner.errs = append(owner.errs, typed.Error())
@@ -442,6 +563,29 @@ func (l *loader) base(dir string) *result {
 	path := l.importPath(dir)
 	l.pathDir[path] = dir
 	l.check(path, files, &types.Info{}, &donorImporter{l: l, owner: owner}, owner)
+	return owner
+}
+
+// rebuilt is a package of a directory checked against the test variant of
+// the package under test: a package that imports that package must see the
+// variant's types, as the toolchain recompiles it for the test binary.
+func (l *loader) rebuilt(dir, under string) *result {
+	key := under + "|" + dir
+	if found, ok := l.rebuilds[key]; ok {
+		return found
+	}
+	group := l.dirs[dir]
+	if group == nil || len(group.base) == 0 || l.loading["rebuilt:"+key] {
+		return nil
+	}
+	l.loading["rebuilt:"+key] = true
+	defer delete(l.loading, "rebuilt:"+key)
+	owner := &result{}
+	l.rebuilds[key] = owner
+	files, errs := l.parseFiles(group.base)
+	owner.errs = append(owner.errs, errs...)
+	owner.files = files
+	l.check(l.importPath(dir), files, &types.Info{}, &donorImporter{l: l, owner: owner, variantOf: under}, owner)
 	return owner
 }
 
@@ -515,6 +659,7 @@ func (l *loader) reachesNamed(dir string, named map[string]bool, visited map[str
 }
 
 func (l *loader) run() output {
+	l.activate()
 	out := output{Errors: []string{}, Packages: []outPackage{}}
 	named := map[string]bool{}
 	for _, dir := range l.in.Packages {
@@ -557,10 +702,9 @@ func (l *loader) run() output {
 		}
 	}
 	sort.Strings(selected)
+	var excluded []*sourceFile
 	for _, dir := range selected {
-		for _, file := range l.dirs[dir].excluded {
-			out.Errors = append(out.Errors, "unsupported-build-file: "+file.rel)
-		}
+		excluded = append(excluded, l.dirs[dir].excluded...)
 		for _, kind := range []string{"variant", "external"} {
 			var res *result
 			xtest := kind == "external"
@@ -589,8 +733,296 @@ func (l *loader) run() output {
 			out.Packages = append(out.Packages, analyzer.report(dir, res, xtest))
 		}
 	}
+	fragments, unaccounted := l.account(excluded)
+	for _, rel := range unaccounted {
+		out.Errors = append(out.Errors, "unsupported-build-file: "+rel)
+	}
+	for _, fragment := range fragments {
+		merged := false
+		for index := range out.Packages {
+			have := &out.Packages[index]
+			if have.Dir == fragment.Dir && have.XTest == fragment.XTest {
+				have.Decls = append(have.Decls, fragment.Decls...)
+				have.Tests = append(have.Tests, fragment.Tests...)
+				sortPackage(have)
+				merged = true
+				break
+			}
+		}
+		if !merged {
+			out.Packages = append(out.Packages, fragment)
+		}
+	}
 	sort.Strings(out.Errors)
 	return out
+}
+
+var knownTargetTags = map[string]bool{
+	"aix": true, "android": true, "darwin": true, "dragonfly": true, "freebsd": true, "hurd": true,
+	"illumos": true, "ios": true, "js": true, "linux": true, "nacl": true, "netbsd": true, "openbsd": true,
+	"plan9": true, "solaris": true, "wasip1": true, "windows": true, "zos": true,
+	"386": true, "amd64": true, "arm": true, "arm64": true, "loong64": true, "mips": true, "mips64": true,
+	"mips64le": true, "mipsle": true, "ppc64": true, "ppc64le": true, "riscv64": true, "s390x": true, "wasm": true,
+	"unix": true, "cgo": true, "gc": true, "gccgo": true, "ignore": true,
+}
+
+var accountOS = []string{"linux", "darwin", "windows", "freebsd", "netbsd", "openbsd", "dragonfly", "solaris", "illumos", "aix", "plan9", "android", "ios"}
+
+var accountArch = []string{"amd64", "arm64", "386", "arm", "ppc64le", "s390x", "riscv64", "mips"}
+
+func collectTags(expr constraint.Expr, into map[string]bool) {
+	switch item := expr.(type) {
+	case *constraint.AndExpr:
+		collectTags(item.X, into)
+		collectTags(item.Y, into)
+	case *constraint.OrExpr:
+		collectTags(item.X, into)
+		collectTags(item.Y, into)
+	case *constraint.NotExpr:
+		collectTags(item.X, into)
+	case *constraint.TagExpr:
+		into[item.Tag] = true
+	}
+}
+
+// constraintTags are the custom build tags a file's constraint lines name:
+// not a platform, not a toolchain tag, and never "ignore".
+func constraintTags(text string) []string {
+	seen := map[string]bool{}
+	for _, line := range strings.Split(text, "\n") {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "package ") {
+			break
+		}
+		if !constraint.IsGoBuild(trimmed) && !constraint.IsPlusBuild(trimmed) {
+			continue
+		}
+		if expr, err := constraint.Parse(trimmed); err == nil {
+			collectTags(expr, seen)
+		}
+	}
+	var out []string
+	for tag := range seen {
+		if !knownTargetTags[tag] && !strings.HasPrefix(tag, "go1.") && !strings.HasPrefix(tag, "goexperiment.") {
+			out = append(out, tag)
+		}
+	}
+	sort.Strings(out)
+	return out
+}
+
+// targetFor finds the first build context in which the loader's own context
+// excludes file but the file is part of its package: the fewest of the custom
+// tags the file names first and, for each choice of tags, Linux on the other
+// architectures, then the other operating systems. A file with no such
+// context has none.
+func (l *loader) targetFor(file *sourceFile) (buildTarget, bool) {
+	for _, path := range file.imports {
+		if path == "C" {
+			return buildTarget{}, false
+		}
+	}
+	tags := constraintTags(file.text)
+	if len(tags) > 8 {
+		return buildTarget{}, false
+	}
+	var subsets [][]string
+	for mask := 0; mask < 1<<len(tags); mask++ {
+		var subset []string
+		for index, tag := range tags {
+			if mask&(1<<index) != 0 {
+				subset = append(subset, tag)
+			}
+		}
+		subsets = append(subsets, subset)
+	}
+	sort.SliceStable(subsets, func(i, j int) bool { return len(subsets[i]) < len(subsets[j]) })
+	name := file.rel[strings.LastIndex(file.rel, "/")+1:]
+	for _, subset := range subsets {
+		for _, goos := range accountOS {
+			for _, goarch := range accountArch {
+				candidate := buildTarget{goos: goos, goarch: goarch, tags: subset}
+				ctxt := l.ctxt
+				ctxt.GOOS, ctxt.GOARCH, ctxt.BuildTags = goos, goarch, subset
+				if match, err := ctxt.MatchFile("/donor/"+file.dir, name); err == nil && match {
+					return candidate, true
+				}
+			}
+		}
+	}
+	return buildTarget{}, false
+}
+
+func sortPackage(pkg *outPackage) {
+	sort.Slice(pkg.Decls, func(i, j int) bool {
+		if pkg.Decls[i].File != pkg.Decls[j].File {
+			return pkg.Decls[i].File < pkg.Decls[j].File
+		}
+		return pkg.Decls[i].Key < pkg.Decls[j].Key
+	})
+	sort.Slice(pkg.Tests, func(i, j int) bool {
+		if pkg.Tests[i].File != pkg.Tests[j].File {
+			return pkg.Tests[i].File < pkg.Tests[j].File
+		}
+		return pkg.Tests[i].Name < pkg.Tests[j].Name
+	})
+}
+
+// account takes the files the base build excludes and type-checks each in
+// the first other build context that includes it. A file is accounted for
+// when its package checks there; the declarations and tests of the accounted
+// files are returned as package fragments, so the closure reads what they
+// use. A file that no context includes, that imports C, whose clause differs
+// from its package or whose package does not check in its context is
+// returned as unaccounted.
+func (l *loader) account(files []*sourceFile) ([]outPackage, []string) {
+	groups := map[string][]*sourceFile{}
+	targets := map[string]buildTarget{}
+	var unaccounted []string
+	for _, file := range files {
+		chosen, ok := l.targetFor(file)
+		if !ok {
+			unaccounted = append(unaccounted, file.rel)
+			continue
+		}
+		key := chosen.key()
+		groups[key] = append(groups[key], file)
+		targets[key] = chosen
+	}
+	keys := make([]string, 0, len(groups))
+	for key := range groups {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	var fragments []outPackage
+	for _, key := range keys {
+		other := newLoader(l.in, targets[key])
+		found, failed := other.accounted(groups[key])
+		fragments = append(fragments, found...)
+		unaccounted = append(unaccounted, failed...)
+	}
+	l.activate()
+	sort.Strings(unaccounted)
+	return fragments, unaccounted
+}
+
+// activate points the standard library importer at the loader's platform.
+func (l *loader) activate() {
+	build.Default.CgoEnabled = false
+	build.Default.GOOS = l.target.goos
+	build.Default.GOARCH = l.target.goarch
+}
+
+func (l *loader) accounted(files []*sourceFile) ([]outPackage, []string) {
+	want := map[string]bool{}
+	for _, file := range files {
+		want[file.rel] = true
+	}
+	var failed []string
+	var out []outPackage
+	type unit struct {
+		dir   string
+		xtest bool
+	}
+	checked := map[unit]*outPackage{}
+	for _, file := range files {
+		group := l.dirs[file.dir]
+		var kind []*sourceFile
+		xtest := false
+		for _, candidate := range [][]*sourceFile{group.base, group.internal, group.external} {
+			for _, item := range candidate {
+				if item.rel == file.rel {
+					kind = candidate
+				}
+			}
+		}
+		if kind == nil {
+			failed = append(failed, file.rel)
+			continue
+		}
+		xtest = len(group.external) > 0 && kind[0] == group.external[0]
+		clause := group.name
+		if xtest {
+			clause = group.extName
+		}
+		for _, item := range kind {
+			if item.clause != clause {
+				kind = nil
+			}
+		}
+		if kind == nil {
+			failed = append(failed, file.rel)
+			continue
+		}
+		key := unit{file.dir, xtest}
+		fragment, done := checked[key]
+		if !done {
+			var res *result
+			if xtest {
+				res = l.external(file.dir)
+			} else {
+				res = l.variant(file.dir)
+			}
+			if res != nil && res.pkg != nil && !res.failed() {
+				analyzer := &analyzer{l: l, info: res.info, unresolved: res.unresolved}
+				report := analyzer.report(file.dir, res, xtest)
+				report.Decls = keepDecls(report.Decls, want)
+				report.Tests = keepTests(report.Tests, want)
+				fragment = &report
+			}
+			checked[key] = fragment
+		}
+		if fragment == nil {
+			failed = append(failed, file.rel)
+		}
+	}
+	units := make([]unit, 0, len(checked))
+	for key, fragment := range checked {
+		if fragment != nil {
+			units = append(units, key)
+		}
+	}
+	sort.Slice(units, func(i, j int) bool {
+		if units[i].dir != units[j].dir {
+			return units[i].dir < units[j].dir
+		}
+		return !units[i].xtest && units[j].xtest
+	})
+	for _, key := range units {
+		out = append(out, *checked[key])
+	}
+	return out, failed
+}
+
+func keepDecls(decls []outDecl, want map[string]bool) []outDecl {
+	kept := []outDecl{}
+	for _, decl := range decls {
+		if want[decl.File] {
+			kept = append(kept, decl)
+		}
+	}
+	return kept
+}
+
+func keepTests(tests []outTest, want map[string]bool) []outTest {
+	kept := []outTest{}
+	for _, test := range tests {
+		if want[test.File] {
+			kept = append(kept, test)
+		}
+	}
+	return kept
+}
+
+// failed reports a package that does not parse, or that does not check
+// although everything it imports resolved.
+func (r *result) failed() bool {
+	for _, text := range r.errs {
+		if strings.HasPrefix(text, "parse-error: ") {
+			return true
+		}
+	}
+	return len(r.errs) > 0 && !r.unresolved
 }
 
 type analyzer struct {

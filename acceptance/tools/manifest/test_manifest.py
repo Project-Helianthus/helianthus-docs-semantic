@@ -4776,8 +4776,8 @@ class ManifestCLITest(unittest.TestCase):
         ])
         self.assert_absent("duplicated-check")
 
-    def test_excluded_build_file_in_a_donor_test_is_reported(self) -> None:
-        root = Path(tempfile.mkdtemp(prefix="build-test-", dir=self.repo.root.parent)) / "donor"
+    def constrained_donor(self, prefix: str) -> tuple[Repo, dict]:
+        root = Path(tempfile.mkdtemp(prefix=prefix, dir=self.repo.root.parent)) / "donor"
         repo = Repo(root)
         repo.write("go.mod", "module example.test\n")
         repo.write("p/p.go", "package p\nfunc Moved() int { return 1 }\n")
@@ -4786,31 +4786,142 @@ class ManifestCLITest(unittest.TestCase):
         git(root, "add", "-A")
         git(root, "commit", "-m", "fixture")
         repo.sha = git_out(root, "rev-parse", "HEAD")
-        spec = repo.base("portable-test", symbol_moves=[repo.symbol("p", "p/p.go", "Moved", "out/ported.go")])
+        spec = repo.base(prefix + "row", symbol_moves=[repo.symbol("p", "p/p.go", "Moved", "out/ported.go")])
         self.assert_ok(repo.generate(spec))
-        row = spec["row"]
+        return repo, spec
+
+    def commit_files(self, repo: Repo, files: dict[str, str]) -> None:
+        for path, text in files.items():
+            repo.write(path, text)
+        git(repo.root, "add", "-A")
+        git(repo.root, "commit", "-m", "build-constrained files")
+        repo.sha = git_out(repo.root, "rev-parse", "HEAD")
+
+    def test_file_excluded_by_the_base_build_is_accounted_in_its_own_build(self) -> None:
+        repo, spec = self.constrained_donor("portable-")
         path = "q/portable_windows_test.go"
-        repo.write(path, '''package q_test
+        self.commit_files(repo, {
+            path: '''package q_test
 import ("testing"; "example.test/p")
 func TestPortable(t *testing.T) { if p.Moved() != 1 { t.Fatal("mismatch") } }
-''')
-        repo.write("p/tagged_test.go", "//go:build custom\n\npackage p\n")
-        git(root, "add", "p/tagged_test.go", path)
-        git(root, "commit", "-m", "build-constrained tests")
-        repo.sha = git_out(root, "rev-parse", "HEAD")
-        expected = ["unsupported-build-file: p/tagged_test.go", f"unsupported-build-file: {path}"]
+''',
+            "p/tagged_test.go": "//go:build custom\n\npackage p\n",
+        })
         blocked = repo.generate({**spec, "row": "portable-blocked", "donor_sha": repo.sha})
         self.assert_fail(blocked)
+        self.assertEqual(blocked.stdout.splitlines(), ["left-behind: TestPortable"])
+        self.assertFalse(list(repo.manifest_path(spec["row"]).parent.glob("portable-blocked.*")))
+        kept = {**spec, "row": "portable-kept", "donor_sha": repo.sha, "specimens": [{"name": "TestPortable", "file": path}]}
+        self.assert_ok(repo.generate(kept))
+        self.assertEqual(
+            [(entry["kind"], entry["file"]) for entry in repo.manifest("portable-kept")["stays"]],
+            [("specimen", path)],
+        )
+        self.assert_ok(repo.check("portable-kept"))
+
+    def test_same_named_helpers_under_different_builds_each_keep_their_reach(self) -> None:
+        root = Path(tempfile.mkdtemp(prefix="helpers-", dir=self.repo.root.parent)) / "donor"
+        repo = Repo(root)
+        repo.write("go.mod", "module example.test\n")
+        repo.write("p/p.go", "package p\nfunc MovedA() int { return 1 }\nfunc MovedB() int { return 2 }\n")
+        repo.write("p/helper_linux_test.go", "package p\nimport \"testing\"\nfunc helper() int { return MovedA() }\n"
+                   "func TestLinux(t *testing.T) { if helper() != 1 { t.Fatal(\"mismatch\") } }\n")
+        repo.write("p/helper_windows_test.go", "package p\nimport \"testing\"\nfunc helper() int { return 2 }\n"
+                   "func TestWindows(t *testing.T) { if helper() != 2 { t.Fatal(\"mismatch\") } }\n")
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        spec = repo.base("helpers-row", symbol_moves=[
+            repo.symbol("p", "p/p.go", "MovedA", "out/a.go"), repo.symbol("p", "p/p.go", "MovedB", "out/b.go"),
+        ])
+        self.assert_ok(repo.generate(spec))
+        # The Linux helper reaches a moved symbol; the same-named helper that sorts after it in the
+        # other build's file must not erase that reach.
+        self.assertIn(
+            ("test", "TestLinux"),
+            [(item["kind"], item["name"]) for item in repo.manifest("helpers-row")["stays"]],
+        )
+
+    def test_file_no_build_includes_stays_unsupported(self) -> None:
+        repo, spec = self.constrained_donor("unsupported-")
+        files = {
+            "p/never_test.go": "//go:build linux && windows\n\npackage p\n",
+            "p/cgo.go": 'package p\n\nimport "C"\n',
+            "q/broken_windows_test.go": '''package q_test
+import ("testing"; "example.test/p")
+func TestBroken(t *testing.T) { _ = p.Moved; _ = undefinedName }
+''',
+        }
+        self.commit_files(repo, files)
+        expected = [
+            "unsupported-build-file: p/cgo.go",
+            "unsupported-build-file: p/never_test.go",
+            "unsupported-build-file: q/broken_windows_test.go",
+        ]
+        blocked = repo.generate({**spec, "row": "unsupported-blocked", "donor_sha": repo.sha})
+        self.assert_fail(blocked)
         self.assertEqual(blocked.stdout.splitlines(), expected)
-        self.assertFalse(list(repo.manifest_path(row).parent.glob("portable-blocked.*")))
-        manifest = repo.manifest(row)
+        self.assertFalse(list(repo.manifest_path(spec["row"]).parent.glob("unsupported-blocked.*")))
+        manifest = repo.manifest(spec["row"])
         manifest["donor"]["sha"] = repo.sha
         for entry in manifest["paths"]:
             entry["donor_sha"] = repo.sha
-        repo.write_json(f"acceptance/manifests/{row}.json", manifest)
-        checked = repo.check(row)
+        repo.write_json(f"acceptance/manifests/{spec['row']}.json", manifest)
+        checked = repo.check(spec["row"])
         self.assert_fail(checked)
         self.assertEqual(checked.stdout.splitlines(), expected)
+
+    def test_a_moved_declaration_reads_the_types_of_the_pinned_dependencies(self) -> None:
+        cache = Path(tempfile.mkdtemp(prefix="modcache-", dir=self.repo.root.parent))
+        module = cache / "example.com" / "dep@v1.0.0"
+        module.mkdir(parents=True)
+        (module / "dep.go").write_text(
+            "package dep\n\ntype Reader struct{}\n\nfunc New() *Reader { return &Reader{} }\n\n"
+            "func (r *Reader) Read() int { return 1 }\n",
+            encoding="utf-8",
+        )
+        root = Path(tempfile.mkdtemp(prefix="deps-", dir=self.repo.root.parent)) / "donor"
+        repo = Repo(root)
+        repo.write("go.mod", "module example.test\n\ngo 1.22\n\nrequire (\n\texample.com/dep v1.0.0\n)\n")
+        repo.write("p/p.go", 'package p\n\nimport "example.com/dep"\n\nfunc Moved() int { return dep.New().Read() }\n')
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        spec = repo.base("with-deps", symbol_moves=[repo.symbol("p", "p/p.go", "Moved", "out/ported.go")])
+        with patch.dict(os.environ, {"GOMODCACHE": str(cache / "absent")}):
+            blocked = repo.generate({**spec, "row": "without-deps"})
+        self.assert_fail(blocked)
+        self.assertEqual(blocked.stdout.splitlines(), ["unresolved-selector: p/p.go Moved.Read"])
+        with patch.dict(os.environ, {"GOMODCACHE": str(cache)}):
+            resolved = repo.generate(spec)
+            self.assert_ok(resolved)
+            self.assert_ok(repo.check("with-deps"))
+        self.assertEqual([item["name"] for item in repo.manifest("with-deps")["symbols"]], ["Moved"])
+
+    def test_external_test_package_sees_one_variant_of_the_package_under_test(self) -> None:
+        root = Path(tempfile.mkdtemp(prefix="variant-", dir=self.repo.root.parent)) / "donor"
+        repo = Repo(root)
+        repo.write("go.mod", "module example.test\n")
+        repo.write("p/p.go", "package p\n\ntype Record struct{}\n\nfunc Moved() int { return 1 }\n")
+        repo.write("p/helper_linux_test.go", "package p\n\nfunc helper() int { return 1 }\n")
+        repo.write("q/q.go", 'package q\n\nimport "example.test/p"\n\nfunc Take(p.Record) int { return 1 }\n')
+        repo.write("p/p_test.go", '''package p_test
+import ("testing"; "example.test/p"; "example.test/q")
+func TestTake(t *testing.T) { if q.Take(p.Record{}) != p.Moved() { t.Fatal("mismatch") } }
+''')
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        spec = repo.base("one-variant", symbol_moves=[repo.symbol("p", "p/p.go", "Moved", "out/ported.go")])
+        self.assert_ok(repo.generate(spec))
+        self.assertEqual(
+            [(entry["kind"], entry["function"]) for entry in repo.manifest("one-variant")["stays"]],
+            [("test", "TestTake")],
+        )
+        self.assert_ok(repo.check("one-variant"))
 
     def test_unknown_receiver_does_not_guess_a_donor_method(self) -> None:
         directory = "closure/cross/opaque"
