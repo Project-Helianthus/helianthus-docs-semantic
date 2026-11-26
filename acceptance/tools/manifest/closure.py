@@ -827,7 +827,9 @@ def analyze_symbols(
     for item in resolved["packages"]:
         for declaration in item["decls"]:
             if declaration["test"]:
-                helper_uses[(label(item), declaration["key"])] = _refs(declaration["uses"])
+                # Helpers that share a name in files under different build
+                # constraints each keep their reach: the closure is their union.
+                helper_uses.setdefault((label(item), declaration["key"]), set()).update(_refs(declaration["uses"]))
 
     def expand(direct: set[tuple[str, str]]) -> set[tuple[str, str]]:
         reached = set(direct)

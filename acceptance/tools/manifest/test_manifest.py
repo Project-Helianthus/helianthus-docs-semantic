@@ -4819,6 +4819,30 @@ func TestPortable(t *testing.T) { if p.Moved() != 1 { t.Fatal("mismatch") } }
         )
         self.assert_ok(repo.check("portable-kept"))
 
+    def test_same_named_helpers_under_different_builds_each_keep_their_reach(self) -> None:
+        root = Path(tempfile.mkdtemp(prefix="helpers-", dir=self.repo.root.parent)) / "donor"
+        repo = Repo(root)
+        repo.write("go.mod", "module example.test\n")
+        repo.write("p/p.go", "package p\nfunc MovedA() int { return 1 }\nfunc MovedB() int { return 2 }\n")
+        repo.write("p/helper_linux_test.go", "package p\nimport \"testing\"\nfunc helper() int { return MovedA() }\n"
+                   "func TestLinux(t *testing.T) { if helper() != 1 { t.Fatal(\"mismatch\") } }\n")
+        repo.write("p/helper_windows_test.go", "package p\nimport \"testing\"\nfunc helper() int { return 2 }\n"
+                   "func TestWindows(t *testing.T) { if helper() != 2 { t.Fatal(\"mismatch\") } }\n")
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        spec = repo.base("helpers-row", symbol_moves=[
+            repo.symbol("p", "p/p.go", "MovedA", "out/a.go"), repo.symbol("p", "p/p.go", "MovedB", "out/b.go"),
+        ])
+        self.assert_ok(repo.generate(spec))
+        # The Linux helper reaches a moved symbol; the same-named helper that sorts after it in the
+        # other build's file must not erase that reach.
+        self.assertIn(
+            ("test", "TestLinux"),
+            [(item["kind"], item["name"]) for item in repo.manifest("helpers-row")["stays"]],
+        )
+
     def test_file_no_build_includes_stays_unsupported(self) -> None:
         repo, spec = self.constrained_donor("unsupported-")
         files = {
@@ -4881,7 +4905,7 @@ func TestBroken(t *testing.T) { _ = p.Moved; _ = undefinedName }
         repo = Repo(root)
         repo.write("go.mod", "module example.test\n")
         repo.write("p/p.go", "package p\n\ntype Record struct{}\n\nfunc Moved() int { return 1 }\n")
-        repo.write("p/helper_test.go", "package p\n\nfunc helper() int { return 1 }\n")
+        repo.write("p/helper_linux_test.go", "package p\n\nfunc helper() int { return 1 }\n")
         repo.write("q/q.go", 'package q\n\nimport "example.test/p"\n\nfunc Take(p.Record) int { return 1 }\n')
         repo.write("p/p_test.go", '''package p_test
 import ("testing"; "example.test/p"; "example.test/q")

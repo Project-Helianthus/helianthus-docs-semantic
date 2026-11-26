@@ -812,9 +812,10 @@ func constraintTags(text string) []string {
 }
 
 // targetFor finds the first build context in which the loader's own context
-// excludes file but the file is part of its package: the base platform with
-// the custom tags the file names, then another architecture, then another
-// operating system. A file with no such context has none.
+// excludes file but the file is part of its package: the fewest of the custom
+// tags the file names first and, for each choice of tags, Linux on the other
+// architectures, then the other operating systems. A file with no such
+// context has none.
 func (l *loader) targetFor(file *sourceFile) (buildTarget, bool) {
 	for _, path := range file.imports {
 		if path == "C" {
