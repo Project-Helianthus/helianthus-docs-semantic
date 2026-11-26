@@ -500,6 +500,9 @@ original candidate bytes, and result. The fixture is checked by
 validator derives the complete positive, negative and total counts; a drift or omitted
 sequential-lifecycle vector rejects validation.
 
+Identifiers under `helianthus.synthetic.` in the kernel vectors are synthetic kernel
+test facts; no capability pack defines them.
+
 Issue #46 adds bounded-admission rows for H+C boundary/excess, two unexpired
 sets of twenty and third-set refusal, repeated refresh, inferred exclusion,
 mixed-source paths, expiry versus unknown clocks, conservative legacy import,
