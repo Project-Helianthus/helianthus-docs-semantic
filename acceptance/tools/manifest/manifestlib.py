@@ -402,12 +402,16 @@ def _account_tests(
             else:
                 staying.append(assertion)
         if not moved_only:
-            stays.append({
+            record = {
                 "kind": "test",
                 "name": test.name,
                 "file": test.file,
                 "function": test.name,
-            })
+            }
+            if any((entry.get("file"), entry.get("name")) == (test.file, test.name)
+                   for entry in spec.get("test_comparisons") or []):
+                record["moved_uses"] = sorted(test.uses & moved_names)
+            stays.append(record)
             continue
         for assertion in staying:
             stays.append({
@@ -1196,6 +1200,7 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
         ],
         "assertions": supplied,
         "specimens": specimens,
+        "test_comparisons": [entry for entry in manifest["destinations"] if entry.get("kind") == "test"],
         "shared": [],
     }
     recomputed, account_errors = _accounting(donor, spec)
@@ -1243,8 +1248,16 @@ def _test_comparison_problems(manifest: dict[str, Any]) -> list[str]:
     comparisons = [entry for entry in destinations if entry.get("kind") == "test"]
     if not comparisons:
         return []
-    retained = {(item["file"], item["name"]) for item in manifest["stays"] if item["kind"] == "test"}
+    retained = {(item["file"], item["name"]): item for item in manifest["stays"] if item["kind"] == "test"}
     moved = {(item["file"], item["name"]): item for item in manifest["symbols"]}
+    moved_names = set()
+    for symbol in moved.values():
+        if "package" in symbol:
+            moved_names.add(f"{symbol['package']}:{symbol['name']}")
+            if symbol["file"].endswith("_test.go"):
+                moved_names.add(f"{symbol['package']}#xtest:{symbol['name']}")
+        else:
+            moved_names.add(symbol["name"])
     sealed = {(item["repository"], path) for item in manifest["paths"] for path in item["paths"]}
     errors = []
     seen = set()
@@ -1270,8 +1283,12 @@ def _test_comparison_problems(manifest: dict[str, Any]) -> list[str]:
                 for item in destinations
             ):
                 errors.append(f"mismatched-{identity}")
-        elif source not in retained:
-            errors.append(f"unaccounted-{identity}")
+        else:
+            uses = retained.get(source, {}).get("moved_uses")
+            if not isinstance(uses, list) or not uses or not all(
+                isinstance(use, str) and use in moved_names for use in uses
+            ):
+                errors.append(f"unaccounted-{identity}")
         if (repository, path) not in sealed:
             errors.append(f"unsealed-{identity}")
     return errors

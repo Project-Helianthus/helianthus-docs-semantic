@@ -785,7 +785,7 @@ class ManifestCLITest(unittest.TestCase):
         self.assert_ok(self.repo.generate(spec))
         manifest = self.repo.manifest(row)
         self.assertIn({"kind": "test", "name": retained["name"], "file": donor_file,
-                       "function": retained["name"]}, manifest["stays"])
+                       "function": retained["name"], "moved_uses": [f"{package}:Moved"]}, manifest["stays"])
         self.assertEqual([entry for entry in manifest["destinations"] if entry["kind"] == "test"],
                          [{"kind": "test", **entry} for entry in (retained, moved)])
         self.assert_ok(self.repo.check(row))
@@ -798,6 +798,18 @@ class ManifestCLITest(unittest.TestCase):
         self.assert_ok(compared)
         for entry in (retained, moved):
             self.assertIn(f"test={entry['test']} invocation-status=0 result=pass", compared.stdout)
+
+        changed_path = self.repo.manifest_path(row).with_name("changed-comparison.json")
+        changed = self.repo.manifest(row)
+        stay = next(item for item in changed["stays"] if item["name"] == retained["name"])
+        for uses in ([], ["closure/mixed:Staying"]):
+            stay["moved_uses"] = uses
+            changed_path.write_text(json.dumps(changed), encoding="utf-8")
+            self.assert_fail(self.repo.compare(row, dest, manifest=changed_path), "unaccounted-test-comparison")
+        # A real moved symbol from a different package is not donor evidence for this test.
+        stay["moved_uses"] = ["closure/left:Moved"]
+        changed_path.write_text(json.dumps(changed), encoding="utf-8")
+        self.assert_fail(self.repo.check(row, manifest=changed_path), "stays")
 
         plant(dest, "retained_test.go", passing.replace("{}", '{ t.Fatal("regression") }') % retained["test"])
         failed = self.repo.compare(row, dest)
@@ -827,6 +839,31 @@ class ManifestCLITest(unittest.TestCase):
                 changed_path.write_text(json.dumps(changed), encoding="utf-8")
                 self.assert_fail(self.repo.check(row, manifest=changed_path), f"{problem}-test-comparison")
                 self.assert_fail(self.repo.compare(row, dest, manifest=changed_path), f"{problem}-test-comparison")
+
+    def test_rejects_a_retained_test_binding_without_a_move(self) -> None:
+        row = "retained-without-move"
+        binding = {
+            "name": "TestHostComposition", "file": "closure/mixed/host_test.go",
+            "repository": "ebusgo", "path": "dest/retained_test.go", "test": "TestRetained",
+        }
+        spec = self.repo.base(row, new_files=[{
+            "repository": binding["repository"], "path": binding["path"],
+        }])
+        self.assert_fail(self.repo.generate(dict(spec, test_comparisons=[binding])),
+                         "unaccounted-test-comparison")
+        self.assert_absent(row)
+        self.assert_ok(self.repo.generate(spec))
+        manifest = self.repo.manifest(row)
+        manifest["stays"].append({"kind": "test", "name": binding["name"],
+                                  "file": binding["file"], "function": binding["name"]})
+        manifest["destinations"].append({"kind": "test", **binding})
+        self.repo.manifest_path(row).write_text(json.dumps(manifest), encoding="utf-8")
+        dest = self.repo.private_dest()
+        plant(dest, "retained_test.go", 'package dest\nimport "testing"\nfunc TestRetained(t *testing.T) {}\n')
+        with self.subTest(command="check"):
+            self.assert_fail(self.repo.check(row), "unaccounted-test-comparison")
+        with self.subTest(command="compare"):
+            self.assert_fail(self.repo.compare(row, dest), "unaccounted-test-comparison")
 
     def test_split_mixed_function_accounts_every_assertion(self) -> None:
         assertions = [
