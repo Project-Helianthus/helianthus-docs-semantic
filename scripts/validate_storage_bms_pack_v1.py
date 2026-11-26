@@ -13,22 +13,21 @@ TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
 COUNTS={'field_specs':96,'services':7,'capabilities':20,'relations':7,'operations':17,'effects':17,'portal_contributions':5,'events':2}
-TABLE_MEMBERS={'capabilities','contract','definition_index','effects','events','field_specs','interlock_fail_closed_states','operations','portal_contributions','relations','services','supersession'}
+TABLE_MEMBERS={'capabilities','contract','definition_index','effects','events','field_specs','operations','portal_contributions','relations','services','supersession'}
 RELATION_MEMBERS={'id','from','to','cardinality','order'}
 DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
 DOMAINS={'thermal_hvac':('helianthus.pack.thermal','accepted'),'pv_inverter':('helianthus.pack.pv','exact_head_review'),'storage_bms':('helianthus.pack.storage','accepted'),'evse':('helianthus.pack.evse','follow_on'),'infrastructure':('helianthus.pack.infrastructure','follow_on')}
 PINS={'semantic_docs':'346cda9b675a03a7d1a8c886a3467eab84ce8fb2','semreg_projection':'cc9b324225e945598128eeabe977e7fa0af6dc93','can_docs':'665a5f22f78c349b5e3063bda158af250a3f44b6','canbusreg':'8c827ea26ffbad8b50aba2c6ae89028622ba4343','rs485_docs':'c9d37b7f7cd5ebc6c4125565648a7deb094aaa7a','modbusreg':'f1e593995576fdfbbc64fd879b47abff8bd2cc0e','eebus_ledger':'81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1','matter_draft':'29b4768a513cf566011ab8cd60df1bc495204953'}
 LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_direction','aggregation_reference','counter_reset_wrap','unavailable_fields','conflicting_sources','vendor_extensions','unsupported_operations'}
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
-FAIL_CLOSED=['missing','active','stale','unknown','unqualified','unpromoted','degraded','unavailable','withdrawn','conflicting']
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='376060ad0cc2afae81790d61a42e605d3b1503bc43a2b9bf27d3eed9274cd7ca'
+TABLE_SHA256='1abc00d728833f2577b6514b7a23a80de9e7827689bfda5aaf81a9f1537e4ac2'
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt', 'unit.second', 'unit.cubic_metre', 'unit.metre', 'unit.ohm', 'unit.radian', 'unit.one', 'unit.volt_ampere_reactive_second', 'unit.volt_ampere_second', 'unit.kilogram_per_cubic_metre', 'unit.becquerel_per_cubic_metre', 'unit.kilogram_per_joule', 'unit.watt_per_square_metre', 'unit.metre_per_joule', 'unit.currency', 'unit.currency_per_joule'})
 
 INTERLOCK_FIELD={'id':'storage.status.interlock','kind':'symbol','dimension':'storage.dimension.interface','optional':True,'symbols':['storage.status.interlock.active','storage.status.interlock.clear']}
-INTERLOCK_PREDICATE={'cardinality':'exactly_one','definition':{'pack':PACK,'id':'storage.status.interlock','version':'1.1.0'},'fact_key_dimensions':['storage.dimension.interface'],'operator':'equal','expected_value':{'kind':'symbol','symbol':{'namespace':'storage.status.interlock','token':'clear','known':True}}}
-SUPERSESSION={'superseded_pack_ref':{'id':'helianthus.pack.storage','version':'1.0.0'},'operation_use':'superseded_non_implementable','reason':'required_interlock_not_machine_identifiable'}
+PRECONDITIONS=['current_generation','qualified_active_capability','exact_route','authority_admitted']
+SUPERSESSION={'superseded_pack_ref':{'id':'helianthus.pack.storage','version':'1.0.0'},'operation_use':'superseded_non_implementable','reason':'required_precondition_without_source'}
 PUBLICATION={'admission':['exact_source_epoch','current_driver_generation','exact_semantic_revision','qualified_active_capability'],'stale_generation':'reject','partial_publication':'supplied_valid_only_preserve_permitted_last_known_good','withdrawal':'explicit_generation_fenced','evidence':'stale_unknown_never_promote_or_authorize','tombstone':'retained_non_actionable'}
 
 def load(): return json.loads(VECTORS.read_text())
@@ -58,7 +57,6 @@ def validate_tables(table):
  for name,count in COUNTS.items():
   if len(table.get(name,[]))!=count: raise ValueError('exact counts')
  if table.get('supersession')!=SUPERSESSION: raise ValueError('supersession')
- if table.get('interlock_fail_closed_states')!=FAIL_CLOSED: raise ValueError('fail-closed states')
  fields=table['field_specs']
  if len({field.get('id') for field in fields})!=len(fields): raise ValueError('duplicate field')
  if fields[-1]!=INTERLOCK_FIELD: raise ValueError('interlock field')
@@ -86,10 +84,10 @@ def validate_tables(table):
  effects={effect['id']:effect for effect in table['effects']}
  for operation in table['operations']:
   if operation.get('terminal_outcomes')!=OUTCOMES or operation.get('retry')!='forbidden_after_possible_side_effect_or_indeterminate': raise ValueError('kernel outcomes/no-blind-retry')
-  if operation.get('canonical_interlock_predicate')!=INTERLOCK_PREDICATE or operation.get('preconditions',[]).count('canonical_interlock_predicate')!=1 or 'interlock_admitted' in operation.get('preconditions',[]): raise ValueError('canonical interlock predicate')
-  if operation.get('canonical_interlock_predicates'): raise ValueError('duplicate canonical interlock predicate')
+  if operation.get('preconditions')!=PRECONDITIONS: raise ValueError('generic preconditions')
+  if any('interlock' in key or 'predicate' in key for key in operation): raise ValueError('operation predicate member')
   effect=effects.get(operation.get('effect'))
-  if effect is None or effect.get('comparator')!='equal' or effect.get('fact_key_dimensions')!=INTERLOCK_PREDICATE['fact_key_dimensions']: raise ValueError('same-interface equal predicate')
+  if effect is None or effect.get('comparator')!='equal' or effect.get('fact_key_dimensions')!=['storage.dimension.interface']: raise ValueError('same-interface equal predicate')
  if canonical_digest(table)!=TABLE_SHA256: raise ValueError('exact contract tables')
 
 
@@ -110,7 +108,6 @@ def validate(catalog,table=None):
  validate_tables(table)
  if catalog.get('pack')!=PACK or catalog.get('kernel_contract')!='helianthus.semantic.kernel/v1': raise ValueError('PackRef')
  exact(catalog.get('supersession'),SUPERSESSION,'supersession')
- exact(catalog.get('interlock_fail_closed_states'),FAIL_CLOSED,'fail-closed states')
  exact({x.get('id'):(x.get('pack'),x.get('state')) for x in catalog.get('domain_catalog',[])},DOMAINS,'five-domain catalog')
  exact({x.get('id'):x.get('revision') for x in catalog.get('inputs',[])},PINS,'pins')
  if set(catalog.get('lifecycle_axes',[]))!=LIFECYCLE or set(catalog.get('loss_dispositions',[]))!=LOSS: raise ValueError('lifecycle/loss')
