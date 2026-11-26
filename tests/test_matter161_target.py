@@ -340,6 +340,16 @@ class Matter161TargetTests(unittest.TestCase):
         pilot = {'pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
                  'infrastructure.accuracy.measured', 'infrastructure.accuracy.ratio_maximum',
                  'storage.limit.charge_current', 'storage.limit.discharge_current'}
+        ep01_pv_accuracy = {
+            'pv.accuracy.measured_minimum_active_current',
+            'pv.accuracy.measured_maximum_active_current',
+            'pv.accuracy.range_minimum_active_current',
+            'pv.accuracy.range_maximum_active_current',
+            'pv.accuracy.measured_minimum_active_power',
+            'pv.accuracy.measured_maximum_active_power',
+            'pv.accuracy.range_minimum_active_power',
+            'pv.accuracy.range_maximum_active_power',
+        }
         room = {
             'thermal.capability.read.room',
             'thermal.room.capability_set_occupied_cooling',
@@ -1604,7 +1614,7 @@ class Matter161TargetTests(unittest.TestCase):
             "equipment.time.current",
             "equipment.time.timezone",
         }
-        self.assertEqual({row['ref']['id'] for row in extra}, pilot | room | new_facts | storage_rows | evse_rows | energy_rows | qu08_energy | qu09_thermal | qu10_thermal | qu11_thermal | qu12_equipment)
+        self.assertEqual({row['ref']['id'] for row in extra}, pilot | ep01_pv_accuracy | room | new_facts | storage_rows | evse_rows | energy_rows | qu08_energy | qu09_thermal | qu10_thermal | qu11_thermal | qu12_equipment)
         for row in extra:
             self.assertEqual(row['disposition'], 'unknown')
             self.assertEqual(row['reason'], 'matter.unmapped.v1')
@@ -1733,6 +1743,36 @@ class Matter161TargetTests(unittest.TestCase):
                 self.assertEqual(row['disposition'], 'unknown')
                 self.assertEqual(row['reason'], 'matter.unmapped.v1')
                 self.assertNotIn('target', row)
+
+    def test_pv_measured_range_and_accuracy_range_rows_are_unknown(self):
+        """One unknown row per added element, each with its own subtests.
+
+        Expectations are literal ids, never read back from the catalog.
+        """
+        rows = {r['ref']['id']: r for r in self.document['rows']}
+        expected = [
+            'pv.accuracy.measured_minimum_active_current',
+            'pv.accuracy.measured_maximum_active_current',
+            'pv.accuracy.range_minimum_active_current',
+            'pv.accuracy.range_maximum_active_current',
+            'pv.accuracy.measured_minimum_active_power',
+            'pv.accuracy.measured_maximum_active_power',
+            'pv.accuracy.range_minimum_active_power',
+            'pv.accuracy.range_maximum_active_power',
+        ]
+        for ident in expected:
+            with self.subTest(ident=ident):
+                row = rows[ident]
+                self.assertEqual(row['kind'], 'fact')
+                self.assertEqual(row['disposition'], 'unknown')
+                self.assertEqual(row['reason'], 'matter.unmapped.v1')
+                self.assertNotIn('target', row)
+                self.assertEqual(row['loss'][0]['source_items'], [ident])
+                self.assertEqual(row['source']['requested']['item_id'], ident)
+                self.assertEqual(row['source']['fact_keys'][0]['fact_id'], ident)
+        transformed = [r['ref']['id'] for r in self.document['rows']
+                       if r['disposition'] in ('exact', 'transformed')]
+        self.assertEqual(transformed, ['evse.ac.current'])
 
     def test_unqualified_is_not_a_whole_document_guard(self):
         guards = self.document['input_guards']['whole_document_no_payload']
@@ -1940,6 +1980,20 @@ class Matter161ProjectionPageTests(unittest.TestCase):
                       'pv.dimension.measurement_type', 'infrastructure.dimension.measurement_type']:
             with self.subTest(ident=ident):
                 self.assertIn(ident, self.text)
+        for ident in [
+                'pv.accuracy.measured_minimum_active_current',
+                'pv.accuracy.measured_maximum_active_current',
+                'pv.accuracy.range_minimum_active_current',
+                'pv.accuracy.range_maximum_active_current',
+                'pv.accuracy.measured_minimum_active_power',
+                'pv.accuracy.measured_maximum_active_power',
+                'pv.accuracy.range_minimum_active_power',
+                'pv.accuracy.range_maximum_active_power']:
+            with self.subTest(ident=ident):
+                self.assertIn(ident, self.text)
+        for field in ['MinMeasuredValue', 'MaxMeasuredValue', 'RangeMin', 'RangeMax']:
+            with self.subTest(field=field):
+                self.assertIn(field, self.text)
         self.assertIn('PV inverter', self.text)
         self.assertIn('have no roster row', self.text)
         self.assertIn('matter.unmapped.v1', self.text)

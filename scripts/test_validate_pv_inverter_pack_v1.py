@@ -491,6 +491,28 @@ def reject_admitted_field(document, ident, index, kind, fields):
         case(document, ident + "_qualifiers", "field qualifiers", lambda catalog, index=index: catalog["definitions"]["fields"][index].update(qualifiers=["pv.dimension.array"]))
 
 
+def check_measured_range_fields(fields):
+    """Each measured-range and accuracy-range field: contract, empty bounds, qualifier, no default."""
+    for ident, unit in (
+        ("pv.accuracy.measured_minimum_active_current", "unit.ampere"),
+        ("pv.accuracy.measured_maximum_active_current", "unit.ampere"),
+        ("pv.accuracy.range_minimum_active_current", "unit.ampere"),
+        ("pv.accuracy.range_maximum_active_current", "unit.ampere"),
+        ("pv.accuracy.measured_minimum_active_power", "unit.watt"),
+        ("pv.accuracy.measured_maximum_active_power", "unit.watt"),
+        ("pv.accuracy.range_minimum_active_power", "unit.watt"),
+        ("pv.accuracy.range_maximum_active_power", "unit.watt"),
+    ):
+        if validator.FIELD_CONTRACTS[ident] != ("quantity", unit, "pv.dimension.inverter", True, None):
+            raise AssertionError("measured range pilot " + ident)
+        if validator.FIELD_BOUNDS[ident] != (None, None):
+            raise AssertionError("measured range bounds " + ident)
+        if validator.QUALIFIED[ident] != ("pv.dimension.measurement_type",):
+            raise AssertionError("measured range qualifier " + ident)
+        if fields[ident]["bounds"] != {"minimum": None, "maximum": None} or "default" in fields[ident]:
+            raise AssertionError("measured range carries a bound or default " + ident)
+
+
 def check_admitted_fields(document):
     """Each admitted field identity and the production mutation that catches it.
 
@@ -514,8 +536,9 @@ def check_admitted_fields(document):
         raise AssertionError("ratio pilot")
     if validator.FIELD_BOUNDS["pv.accuracy.ratio_maximum"] != (None, None):
         raise AssertionError("ratio bounds")
+    check_measured_range_fields(fields)
     new_ids = [ident for ident in validator.FIELD_CONTRACTS if ident not in PRIOR_FIELDS]
-    if len(new_ids) != 63 or set(validator.FIELD_CONTRACTS) != set(fields):
+    if len(new_ids) != 71 or set(validator.FIELD_CONTRACTS) != set(fields):
         raise AssertionError("field catalog")
     positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
     for ident in new_ids:

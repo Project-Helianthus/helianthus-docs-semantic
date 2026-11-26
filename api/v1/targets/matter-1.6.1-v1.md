@@ -107,9 +107,28 @@ measured facts, the two ratio facts and the two current limits. Each of the
 six facts has one `unknown` row, reason `matter.unmapped.v1`, and no target
 member.
 
-Electrical Power Measurement is not complete: `PowerMode`,
-`MinMeasuredValue`, `MaxMeasuredValue`, `AccuracyRanges`, `RangeMin` and
-`RangeMax` have no catalog element and no source in the cited tables. The
+The PV inverter has eight further facts for the values of one Accuracy entry:
+`MinMeasuredValue` is `pv.accuracy.measured_minimum_active_current` and
+`pv.accuracy.measured_minimum_active_power`, `MaxMeasuredValue` is
+`pv.accuracy.measured_maximum_active_current` and
+`pv.accuracy.measured_maximum_active_power`, `RangeMin` is
+`pv.accuracy.range_minimum_active_current` and
+`pv.accuracy.range_minimum_active_power`, and `RangeMax` is
+`pv.accuracy.range_maximum_active_current` and
+`pv.accuracy.range_maximum_active_power`. They serve the measurement types
+`active_current` and `active_power` only, are `unit.ampere` and `unit.watt`,
+have empty bounds, no default and no declared value, and each has one `unknown`
+row, reason `matter.unmapped.v1`, and no target member. The Matter column of
+each is the field of `ElectricalPowerMeasurement.Accuracy` it is named for; it
+is not one device type, cluster, attribute and conversion. These facts hold a
+value only when a device publishes it, and a measured range or accuracy range
+that no driver publishes is a missing value, not an element with a number.
+
+Electrical Power Measurement is not complete: `PowerMode` has no catalog
+element and no source in the cited tables, and `AccuracyRanges` as a list has
+no catalog element. The values `MinMeasuredValue`, `MaxMeasuredValue`,
+`RangeMin` and `RangeMax` have no source value for any measurement type
+and stay withheld until a device source adds one. The
 mandatory `NumberOfMeasurementTypes` has no catalog count, and `ActivePower` has
 several partial sources and no single element id. Electrical Sensor `0x0510` is
 therefore not a complete endpoint, and this row does not deliver it.

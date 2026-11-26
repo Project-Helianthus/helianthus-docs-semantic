@@ -24525,6 +24525,70 @@
             "id": "helianthus.pack.pv",
             "version": "1.0.0"
           },
+          "id": "pv.accuracy.measured_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.measured_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.measured_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.measured_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.range_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.range_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.range_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.accuracy.range_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
           "id": "pv.accuracy.ratio_maximum",
           "version": "1.0.0"
         },
@@ -25802,6 +25866,214 @@
             "version": "1.0.0"
           },
           "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.measured_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.measured_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.measured_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.measured_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.range_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.range_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.range_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.dimension.inverter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.accuracy.range_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
           "dimension": {
             "pack": {
               "id": "helianthus.pack.pv",
