@@ -9,6 +9,7 @@
       "repository": "gateway",
       "paths": [
         "cmd/gateway/semantic_cache.go",
+        "cmd/gateway/semantic_cache_test.go",
         "cmd/gateway/semantic_provider.go",
         "cmd/gateway/semantic_snapshot_merge.go",
         "cmd/gateway/semantic_vaillant_adapter_info.go",
@@ -31,7 +32,7 @@
         "internal/vaillant/systemconfig/bounds.go",
         "mcp/server.go"
       ],
-      "sha256": "e96552193f40673887a26610dc5ad5c5543c917bce9db4c3fde76b84c1efcc45",
+      "sha256": "e72d9e0d686b01f7c2a047ba2a7297f7e712a2b7161fa136fe714d20cfae4c45",
       "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
     },
     {
@@ -344,6 +345,156 @@
       "name": "writeSemanticCacheFileAtomic",
       "file": "cmd/gateway/semantic_cache.go",
       "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_DiscardsV1",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "newSemanticCacheStore",
+        "semanticCacheStore.Load",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_DiscardsV2",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "newSemanticCacheStore",
+        "semanticCacheStore.Load",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_HitLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "graphql.Zone",
+        "graphql.ZoneConfig",
+        "newSemanticCacheStore",
+        "semanticCacheSnapshot",
+        "semanticCacheStore.Load",
+        "semanticCacheStore.Save",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.Reset",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "newSemanticCacheStore",
+        "semanticCacheStore.Load",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_MissLogsMarker",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "newSemanticCacheStore",
+        "semanticCacheStore.Load",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "newSemanticCacheStore",
+        "semanticCacheStore.Load",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "graphql.Zone",
+        "graphql.ZoneConfig",
+        "newSemanticCacheStore",
+        "semanticCacheSnapshot",
+        "semanticCacheStore.Save",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheV3"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "graphql.Zone",
+        "newSemanticCacheStore",
+        "semanticCacheSnapshot",
+        "semanticCacheStore.Save",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "graphql.Zone",
+        "newSemanticCacheStore",
+        "semanticCacheSnapshot",
+        "semanticCacheStore.Save",
+        "semanticCacheTestLogs",
+        "semanticCacheTestLogs.Printf",
+        "semanticCacheTestLogs.requireContains"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "semanticCacheTestLogs",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "semanticCacheTestLogs.Printf",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "semanticCacheTestLogs"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "semanticCacheTestLogs.Reset",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "semanticCacheTestLogs"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "semanticCacheTestLogs.requireContains",
+      "file": "cmd/gateway/semantic_cache_test.go",
+      "uses": [
+        "semanticCacheTestLogs"
+      ],
       "package": "cmd/gateway"
     },
     {
@@ -3277,64 +3428,10 @@
       "function": "TestPersistSemanticSnapshotLaysRetainedZoneValuesOverPublishedZones"
     },
     {
-      "kind": "test",
+      "kind": "specimen",
       "name": "TestPreloadSemanticCache_AppliesSnapshotAsStale",
       "file": "cmd/gateway/semantic_cache_test.go",
       "function": "TestPreloadSemanticCache_AppliesSnapshotAsStale"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_DiscardsV1",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_DiscardsV1"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_DiscardsV2",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_DiscardsV2"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_HitLogsMarker",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_HitLogsMarker"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_MissLogsMarker",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_MissLogsMarker"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile"
-    },
-    {
-      "kind": "test",
-      "name": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe",
-      "file": "cmd/gateway/semantic_cache_test.go",
-      "function": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe"
     },
     {
       "kind": "test",
@@ -5484,6 +5581,110 @@
       "repository": "ebusreg",
       "path": "driver/vaillant/output/cache.go",
       "destination_name": "writeSemanticCacheFileAtomic"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_DiscardsV1",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_DiscardsSchemaOne"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_DiscardsV2",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_DiscardsSchemaTwo"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_HitLogsMarker",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_HitLogsMarker"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_InvalidJSONLogsMarker"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_MissLogsMarker",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_MissLogsMarker"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreLoad_UnknownSchemaVersionLogsInvalid"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreSave_SortsZonesAndAllowedModes"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreSave_WriteFailureKeepsExistingFile"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "TestSemanticCacheStoreSave_WritePermissionErrorFailsSafe"
+    },
+    {
+      "kind": "symbol",
+      "name": "semanticCacheTestLogs",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "semanticCacheTestLogs"
+    },
+    {
+      "kind": "symbol",
+      "name": "semanticCacheTestLogs.Printf",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "semanticCacheTestLogs.Printf"
+    },
+    {
+      "kind": "symbol",
+      "name": "semanticCacheTestLogs.Reset",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "semanticCacheTestLogs.Reset"
+    },
+    {
+      "kind": "symbol",
+      "name": "semanticCacheTestLogs.requireContains",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/output/cache_test.go",
+      "destination_name": "semanticCacheTestLogs.requireContains"
     },
     {
       "kind": "symbol",
