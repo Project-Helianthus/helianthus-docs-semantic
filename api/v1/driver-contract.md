@@ -705,13 +705,14 @@ structure they follow.
   pack-declared release case (`pv.operation.set_active_power_limit` and
   `evse.operation.set_allocated_current` each have a numeric set case and a
   boolean-false release case under the same operation id and owner route) is
-  judged by the selected case. The release case takes only its declared boolean
-  `false` and no numeric argument, the set case takes its numeric argument, and a
-  request mixing the two cases' arguments is rejected. Within the selected case
-  an intent supplies each declared argument exactly once and each supplied
-  optional parameter at most once; an omitted optional parameter is accepted; a
-  repeated or undeclared field is rejected with a reason, and the operation's
-  effect rule still judges its argument values. [PE01 item 5; F4-112; F4-113;
+  judged by the selected case. The set case supplies its numeric argument.
+  For operations with optional parameters, the ordinary case supplies each
+  parameter at most once; an omitted optional parameter is accepted. A repeated
+  or undeclared field is rejected with a reason. The release intent supplies
+  exactly one argument under the existing argument field ID, with the declared
+  boolean `false`. It supplies no parameter, and a request mixing set and
+  release arguments is rejected. The shared `effect_rule` identifies the
+  operation and judges only the set case. [PE01 item 5; F4-112; F4-113;
   SR84; SR55]
   In the element catalog, these two operations declare the alternative in
   `attributes.release` beside `argument` and `effect_rule`. Its entire shape is
@@ -721,8 +722,9 @@ structure they follow.
   limit on the subject of the existing `argument` fact, under the same
   `capability`, `effect_rule` and single setting-owner route. It takes no set
   argument or parameter and uses no numeric fallback. The numeric set case is
-  unchanged. Readback of whether the limit is enabled remains Unknown;
-  acknowledgement or a numeric reading alone does not prove release.
+  unchanged. The [kernel release intent](kernel.md#type-expectedeffect) carries
+  only the effect-rule reference, not a predicate. There is no readback; at best
+  the outcome is `acknowledged_unverified`. The enabled state stays Unknown.
 - The pack list is open: every pack the catalog defines is admitted, with no
   fixed count, and a Family row can name every accepted pack it maps to. [F4-107]
 - The units the union adds are `unit.second`, `unit.cubic_metre`, `unit.metre`,

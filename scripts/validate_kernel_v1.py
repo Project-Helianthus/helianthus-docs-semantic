@@ -167,6 +167,12 @@ RULE_SCHEMAS = {
         "K-NEG-064": ["tuple", ["str", "str"]],
         "K-NEG-065": ["tuple", ["str", "str"]],
     },
+    "release-vector-results": {
+        "K-POS-026": "str", "K-POS-027": "str",
+        "K-NEG-066": "str", "K-NEG-067": "str", "K-NEG-068": "str",
+        "K-NEG-069": "str", "K-NEG-070": "str", "K-NEG-071": "str",
+        "K-NEG-072": "str", "K-NEG-073": "str", "K-NEG-074": "str",
+    },
     "k-pos-019-time-only-evaluation-assertions-are-incomplete": [
         "set",
         ["str", "str", "str"],
@@ -1640,10 +1646,69 @@ def check_k_pos_022_definition_index_collections_are_incomplete(pack_dispatch):
                 raise ValueError("K-POS-022: definition owner differs from index pack")
 
 
+def operation_metadata():
+    document = json.loads((ROOT / "api/v1/pack-metadata-v1.json").read_text(encoding="utf-8"),
+                          object_pairs_hook=unique_object)
+    return [item for pack in document["packs"] for item in pack["operations"]]
+
+
+def release_vector_result(vector, operations):
+    """Evaluate only release-form constraints on the projected kernel vector input."""
+    record = vector["input"]
+    execution = vector["record_type"] == "ExecutionRecord"
+    intent = record["intent"] if execution else record
+    operation = next((item for item in operations if item["ref"] == intent["kind"]), None)
+    effect = intent["expected_effect"]
+    if operation is None or effect.get("rule") != operation["effect"]:
+        return "invalid_value"
+    predicate = {"fact", "operator", "expected"}
+    members = set(effect) - {"rule"}
+    arguments = intent["arguments"]
+    literal = operation.get("release", {}).get("argument")
+    boolean_argument = any(field["value"]["kind"] == "boolean" for field in arguments)
+    if not members or (literal is not None and boolean_argument):
+        if members or literal is None or len(arguments) != 1:
+            return "invalid_value"
+        field = arguments[0]
+        kind = literal["value_kind"]
+        if (field["id"] != operation["argument"]["id"]
+                or set(field["value"]) != {"kind", kind}
+                or field["value"]["kind"] != kind
+                or type(field["value"][kind]) is not type(literal["value"])
+                or field["value"][kind] != literal["value"]):
+            return "invalid_value"
+    else:
+        # The set pack still owns predicate typing and value validation.
+        return "accept" if members == predicate and all(effect[name] is not None for name in predicate) else "invalid_value"
+    if not execution:
+        return "accept"
+    if "readback" in record or record["outcome"] in {"applied", "conflict", "no_effect"}:
+        return "invalid_outcome"
+    if record["outcome"] == "acknowledged_unverified" and (
+        record.get("dispatch_delivery") != "sent"
+        or record.get("acknowledgement") not in {"accepted", "provisional"}
+    ):
+        return "invalid_outcome"
+    return record["outcome"]
+
+
+def check_release_vectors(by_id):
+    operations = operation_metadata()
+    for ident, expected in rule("release-vector-results").items():
+        vector = by_id.get(ident)
+        if vector is None:
+            raise ValueError(f"{ident}: missing release vector")
+        expect = vector["expect"]
+        declared = expect.get("error_id", expect.get("outcome", expect["result"]))
+        if declared != expected or release_vector_result(vector, operations) != expected:
+            raise ValueError(f"{ident}: release form result differs from {expected}")
+
+
 def require_correction_vectors(vectors: list[dict[str, Any]]) -> None:
     by_id, required_readback = check_vector_id_required_correction_vector_is_missing(
         vectors
     )
+    check_release_vectors(by_id)
     derivation, sources = check_vector_id_readback_binding_scenario_is_incomplete(
         by_id, required_readback
     )

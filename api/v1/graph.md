@@ -808,8 +808,8 @@ These values are separate from `ProjectionOutcome`; `withheld` or
 - **CAT-2 Agreement.** Where the catalog repeats a fact of pack metadata or of a
   `DefinitionIndex`, it is equal. Check: cross-validation against
   `pack-metadata-v1.json`. The two limit operations named in the driver
-  contract each declare a `release` case; other operations do not.
-  A disagreement is `invalid_value`.
+  contract each declare the same closed `release` member in the catalog and
+  pack metadata; other operations do not. A disagreement is `invalid_value`.
 - **CAT-3 Dispositions.** Section 10.3 holds for every entry. Check: schema
   module plus validator; `membership_missing`.
 - **CAT-4 Closure and core types.** PLN-5, PLN-6 and LNS-1 hold, and plane and

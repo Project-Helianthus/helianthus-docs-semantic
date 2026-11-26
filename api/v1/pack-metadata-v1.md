@@ -12,6 +12,15 @@ Each record is an exact `PackRef` or `DefinitionRef`. The fixture contains energ
 
 `units` and `definitions` are bytewise sorted by `(pack id, pack version, definition id, definition version)`. Fields include their exact canonical unit (or `null` for a non-quantity) and dimension. Services include their exact fact-key dimension. Capabilities include their owning service. Operations use the exact five-part `{operation, capability, service, argument, effect}` shape, and may carry optional `parameters`: a sorted unique list of definition references of the same pack, none equal to the argument. `storage.state.soc` has canonical `unit.ratio`; neither `storage.state_of_charge` nor `storage.unit.ratio` is a definition.
 
+Operations may also carry an optional closed `release` member of the form
+`{"argument":{"value_kind":"boolean","value":false}}`. The nested `argument`
+is closed too. Only `pv.operation.set_active_power_limit` and
+`evse.operation.set_allocated_current` carry it, and it equals each operation's
+catalog declaration. The literal uses the existing `argument` field ID, with
+no parameter. The existing `effect` identifies the operation in the
+[kernel intent](kernel.md#type-expectedeffect); release adds no predicate or
+separate definition. The five-part lookup and numeric set case are unchanged.
+
 Canonical units follow the [unit rule](../README.md#unit-rule): a canonical unit is SI, and a customary unit appears only at display, in a consumer. The rule's strict reading is a working reading until the project owner confirms it. Every record carries only SI units: `unit.joule` for every energy field, `unit.kelvin` for every temperature, and `unit.ratio` for every dimensionless quantity, including the storage state of charge and state of health. The storage record keeps `unit.ampere_hour` for its two capacities, as decided by the project owner. The equipment record keeps `unit.ampere_hour` for `equipment.power.battery_capacity`. The unit rule also names further SI units and two currency identifiers; a record carries one only when a pack field declares it. This metadata follows each pack in place.
 
 The constructor required of the owning SemReg implementation rejects duplicate, ambiguous, cross-pack, wrong-version, missing-definition, wrong-unit or malformed relations that differ from the accepted source. It deep-copies inputs and returns deep copies of every collection. This repository does not implement the SemReg runtime API.

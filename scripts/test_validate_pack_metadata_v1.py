@@ -16,8 +16,57 @@ def schema_rejects(document):
     try: schema_module.validate_document(document)
     except ValueError: return
     raise AssertionError("raw schema mutation accepted")
+RELEASE_IDS = {"pv.operation.set_active_power_limit", "evse.operation.set_allocated_current"}
+
+
+def operations(document):
+    return (item for pack in document["packs"] for item in pack["operations"])
+
+
+def check_release_metadata(baseline):
+    catalog = module.load(module.element_catalog.CATALOG)
+    declared = {entry["ref"]["id"]: entry["attributes"]["release"] for entry in catalog["elements"]
+                if "release" in entry["attributes"]}
+    published = {item["ref"]["id"]: item["release"] for item in operations(baseline) if "release" in item}
+    assert set(declared) == set(published) == RELEASE_IDS
+    assert published == declared
+    schema_module.validate_document(baseline)
+    for ident in sorted(RELEASE_IDS):
+        assert published[ident]["argument"]["value"] is False
+        for mutate in (
+            lambda item: item["release"]["argument"].update(value=True),
+            lambda item: item["release"]["argument"].update(value=0),
+            lambda item: item["release"]["argument"].update(value_kind="quantity"),
+            lambda item: item["release"]["argument"].pop("value"),
+            lambda item: item["release"]["argument"].pop("value_kind"),
+            lambda item: item["release"]["argument"].update(extra=False),
+            lambda item: item["release"].pop("argument"),
+            lambda item: item["release"].update(effect={}),
+        ):
+            candidate = copy.deepcopy(baseline)
+            mutate(next(item for item in operations(candidate) if item["ref"]["id"] == ident))
+            rejects(candidate)
+            schema_rejects(candidate)
+        candidate = copy.deepcopy(baseline)
+        next(item for item in operations(candidate) if item["ref"]["id"] == ident).pop("release")
+        rejects(candidate)
+    candidate = copy.deepcopy(baseline)
+    next(item for item in operations(candidate) if item["ref"]["id"] not in RELEASE_IDS)["release"] = published[sorted(RELEASE_IDS)[0]]
+    rejects(candidate)
+    # Exercise the type-sensitive const independently of the boolean type check.
+    assert schema_module.validate(False, {"const": False}, {}) is None
+    try:
+        schema_module.validate(0, {"const": False}, {})
+    except ValueError as error:
+        assert str(error) == "$: const"
+    else:
+        raise AssertionError("numeric zero matched the boolean const")
+    print("PV and EVSE release literals: catalog parity and closed-shape mutations PASS")
+
+
 def main():
     baseline = module.load(module.FIXTURE); module.validate(baseline); registry = module.Registry(baseline["packs"])
+    check_release_metadata(baseline)
     packs = registry.packs(); packs[0]["id"] = "mutated"; assert registry.packs()[0]["id"] != "mutated"
     field = baseline["packs"][0]["fields"][0]; unit = registry.canonical_unit(field["ref"])
     if unit: unit["id"] = "mutated"; assert registry.canonical_unit(field["ref"])["id"] != "mutated"

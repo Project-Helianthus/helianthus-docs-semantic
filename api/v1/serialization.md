@@ -335,6 +335,18 @@ clock, or evaluation whose freshness is not reproducible rejects
 unchanged intent and resolved candidate; serialized `relation=confirms` cannot
 substitute for that evaluation.
 
+For a pack-declared release, `expected_effect` contains only `rule`, the
+operation's existing effect-rule reference. Omit `fact`, `operator` and
+`expected`; do not encode them as `null`. For all other intents all three
+members are required. The release `arguments` array has exactly one entry under
+the operation's existing argument field ID. For both limit operations its
+`value` is `{"kind":"boolean","boolean":false}`. There is no parameter or
+numeric fallback. A wrong literal, mixed request or wrong predicate form is
+`invalid_value`. The execution record omits `readback`, and `EvaluateReadback`
+is not called. A readback or an `applied`, `conflict` or `no_effect` outcome is
+`invalid_outcome`. At best the outcome is `acknowledged_unverified`; it leaves
+the enabled state Unknown.
+
 Definition dispatch reads the explicit `PackRef` carried by each
 `DefinitionRef` or capability requirement, then performs one exact lookup in the
 prebuilt definition index. Registration order, name prefixes, and fallback

@@ -23,6 +23,7 @@ ROOT = HERE.parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import validate_family_catalog_v1 as family  # noqa: E402
+import validate_kernel_v1 as kernel  # noqa: E402
 
 LEGACY_DOMAIN = "helianthus.semgraph.resource/v1"
 PATH_DOMAIN = "helianthus.semgraph.path-node/v1"
@@ -311,6 +312,39 @@ EXPECTED = {
         "G-POS-RELEASE-1": typed("the declared boolean false alone accepted under the release case: false alone",
                                  True),
         "G-NEG-RELEASE-MIXED-1": typed("a request carrying release and set arguments rejected: mixed case", False),
+        "K-POS-026": typed(
+            "A PV release accepts boolean false under the existing argument field ID and has no predicate.",
+            True),
+        "K-POS-027": typed(
+            "An acknowledged EVSE release is unverified and reads nothing back.",
+            True, execution_outcome='acknowledged_unverified'),
+        "K-NEG-066": typed(
+            "A release does not accept true.",
+            False, error_id='invalid_value'),
+        "K-NEG-067": typed(
+            "Numeric zero is not boolean false.",
+            False, error_id='invalid_value'),
+        "K-NEG-068": typed(
+            "A release cannot mix the numeric set and boolean release arguments.",
+            False, error_id='invalid_value'),
+        "K-NEG-069": typed(
+            "A release cannot carry a fact predicate.",
+            False, error_id='invalid_value'),
+        "K-NEG-070": typed(
+            "A numeric set intent requires its complete fact predicate.",
+            False, error_id='invalid_value'),
+        "K-NEG-071": typed(
+            "A release record cannot carry readback even if the relation is inconclusive.",
+            False, error_id='invalid_outcome'),
+        "K-NEG-072": typed(
+            "A release cannot report applied.",
+            False, error_id='invalid_outcome'),
+        "K-NEG-073": typed(
+            "A release cannot report conflict.",
+            False, error_id='invalid_outcome'),
+        "K-NEG-074": typed(
+            "A release cannot report no effect.",
+            False, error_id='invalid_outcome'),
     },
 }
 
@@ -491,11 +525,37 @@ def composition_errors(expected):
     return errors
 
 
+def release_errors(structure):
+    """Check the kernel vectors named by the structure table against its expectations."""
+    vectors = {v["id"]: v for v in read_json(kernel.VECTORS)["vectors"]}
+    operations = kernel.operation_metadata()
+    errors = []
+    for entry in structure:
+        ident = entry["id"]
+        if not ident.startswith(("K-POS-", "K-NEG-")):
+            continue
+        expected = entry["expected"]
+        result = expected.get("error_id", expected.get("execution_outcome", "accept"))
+        vector = vectors.get(ident)
+        if vector is None:
+            errors.append(f"{ident}: missing kernel release vector")
+            continue
+        expect = vector["expect"]
+        if (expect["result"] != ("accept" if expected["accepted"] else "reject")
+                or expect.get("error_id") != expected.get("error_id")
+                or expect.get("outcome") != expected.get("execution_outcome")
+                or kernel.release_vector_result(vector, operations) != result):
+            errors.append(f"{ident}: kernel release result differs from {result}")
+    return errors
+
+
 def executable_errors(files):
-    """Recompute the retry, allocation and composition outcomes from the vector inputs."""
+    """Recompute the retry, allocation, composition and release outcomes."""
     errors = []
     expected = {k: v for table in EXPECTED.values() for k, v in table.items()}
     errors += allocation_errors(expected) + composition_errors(expected)
+    if "structure.json" in files:
+        errors += release_errors(files["structure.json"])
     for vector in files.get("composition.json", []):
         if vector.get("id", "").startswith("K-RETRY-"):
             if normalize_retry(vector.get("input", {})) != vector["expected"]["normalized"]:
@@ -571,6 +631,67 @@ def load(directory):
     return {name: read_json(directory / name) for name in EXPECTED}
 
 
+def release_mutation_failures():
+    vectors = {v["id"]: v for v in read_json(kernel.VECTORS)["vectors"]}
+    operations = kernel.operation_metadata()
+    escaped = []
+
+    def check_result(vector, expected, label):
+        if kernel.release_vector_result(vector, operations) != expected:
+            escaped.append(label)
+
+    # Each component of both DefinitionRefs must participate in exact matching.
+    for ident in ("K-POS-026", "K-POS-027"):
+        for ref_name in ("kind", "rule"):
+            for path, replacement in (
+                (("pack", "id"), "helianthus.pack.other"),
+                (("pack", "version"), "0.0.0"),
+                (("id",), "other.definition"),
+                (("version",), "0.0.0"),
+            ):
+                probe = copy.deepcopy(vectors[ident])
+                intent = probe["input"] if ident == "K-POS-026" else probe["input"]["intent"]
+                ref = intent["kind"] if ref_name == "kind" else intent["expected_effect"]["rule"]
+                for segment in path[:-1]:
+                    ref = ref[segment]
+                ref[path[-1]] = replacement
+                check_result(probe, "invalid_value", f"{ident}: {ref_name}.{'.'.join(path)}")
+
+    for label, change in (
+        ("wrong field ID", lambda i: i["arguments"][0].update(id="pv.limit.other")),
+        ("no argument", lambda i: i["arguments"].clear()),
+        ("extra parameter", lambda i: i["arguments"].append(
+            {"id": "pv.parameter.other", "value": {"kind": "boolean", "boolean": False}})),
+        ("missing rule", lambda i: i["expected_effect"].pop("rule")),
+        ("null rule", lambda i: i["expected_effect"].update(rule=None)),
+    ):
+        probe = copy.deepcopy(vectors["K-POS-026"])
+        change(probe["input"])
+        check_result(probe, "invalid_value", label)
+
+    set_probe = copy.deepcopy(vectors["K-NEG-070"])
+    set_probe["input"]["expected_effect"] = vectors["K-NEG-069"]["input"]["expected_effect"]
+    check_result(set_probe, "accept", "numeric set with complete predicate")
+    for member in ("fact", "operator", "expected"):
+        partial = copy.deepcopy(set_probe)
+        partial["input"]["expected_effect"].pop(member)
+        check_result(partial, "invalid_value", f"set without {member}")
+        probe = copy.deepcopy(vectors["K-POS-026"])
+        probe["input"]["expected_effect"][member] = None
+        check_result(probe, "invalid_value", f"release with explicit null {member}")
+    probe = copy.deepcopy(vectors["K-POS-026"])
+    undeclared = next(item for item in operations if "release" not in item)
+    probe["input"].update(kind=undeclared["ref"], expected_effect={"rule": undeclared["effect"]})
+    probe["input"]["arguments"][0]["id"] = undeclared["argument"]["id"]
+    check_result(probe, "invalid_value", "rule-only intent without a release declaration")
+    probe = copy.deepcopy(vectors["K-POS-027"])
+    probe["input"]["acknowledgement"] = "provisional"
+    check_result(probe, "acknowledged_unverified", "provisional acknowledgement")
+    probe["input"]["readback"] = None
+    check_result(probe, "invalid_outcome", "explicit null readback")
+    return escaped
+
+
 def mutation_failures(files, kernel_text, page_text):
     """Return the mutations that did not make the check fail."""
     escaped = []
@@ -611,7 +732,7 @@ def mutation_failures(files, kernel_text, page_text):
         mutated = kernel_text.replace(QUALITY_HEADING, QUALITY_HEADING + "\n\n" + ban + "\n", 1)
         if not kernel_errors(mutated) or family.check(page_text):
             escaped.append(f"kernel ban restored on the kernel alone: {name}")
-    return escaped
+    return escaped + release_mutation_failures()
 
 
 def main():

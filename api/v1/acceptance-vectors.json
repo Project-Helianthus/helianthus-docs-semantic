@@ -4663,6 +4663,551 @@
         "state_unchanged": true
       },
       "criterion": "A correctly redigested view whose candidate revision differs from the immutable snapshot is rejected before policy dispatch."
+    },
+    {
+      "id": "K-POS-026",
+      "polarity": "positive",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.pv",
+            "version": "1.0.0"
+          },
+          "id": "pv.operation.set_active_power_limit",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "pv.limit.active_power",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.pv",
+              "version": "1.0.0"
+            },
+            "id": "pv.effect.set_active_power_limit",
+            "version": "1.0.0"
+          }
+        }
+      },
+      "expect": {
+        "result": "accept"
+      },
+      "criterion": "A PV release accepts boolean false under the existing argument field ID and has no predicate."
+    },
+    {
+      "id": "K-POS-027",
+      "polarity": "positive",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent": {
+          "kind": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "arguments": [
+            {
+              "id": "evse.limit.allocated_current",
+              "value": {
+                "kind": "boolean",
+                "boolean": false
+              }
+            }
+          ],
+          "expected_effect": {
+            "rule": {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.effect.set_allocated_current",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "acknowledged_unverified"
+      },
+      "expect": {
+        "result": "accept",
+        "outcome": "acknowledged_unverified"
+      },
+      "criterion": "An acknowledged EVSE release is unverified and reads nothing back."
+    },
+    {
+      "id": "K-NEG-066",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "boolean",
+              "boolean": true
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A release does not accept true."
+    },
+    {
+      "id": "K-NEG-067",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "boolean",
+              "boolean": 0
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "Numeric zero is not boolean false."
+    },
+    {
+      "id": "K-NEG-068",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "quantity",
+              "quantity": {
+                "number": {
+                  "coefficient": "16",
+                  "exponent10": 0
+                },
+                "unit": "unit.ampere"
+              }
+            }
+          },
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A release cannot mix the numeric set and boolean release arguments."
+    },
+    {
+      "id": "K-NEG-069",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "boolean",
+              "boolean": false
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "fact": {
+            "pack_id": "helianthus.pack.evse",
+            "pack_version": "1.0.0",
+            "fact_id": "evse.limit.allocated_current",
+            "dimensions": []
+          },
+          "operator": "equal",
+          "expected": {
+            "kind": "quantity",
+            "quantity": {
+              "number": {
+                "coefficient": "16",
+                "exponent10": 0
+              },
+              "unit": "unit.ampere"
+            }
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A release cannot carry a fact predicate."
+    },
+    {
+      "id": "K-NEG-070",
+      "polarity": "negative",
+      "record_type": "Intent",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "kind": {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.operation.set_allocated_current",
+          "version": "1.0.0"
+        },
+        "arguments": [
+          {
+            "id": "evse.limit.allocated_current",
+            "value": {
+              "kind": "quantity",
+              "quantity": {
+                "number": {
+                  "coefficient": "16",
+                  "exponent10": 0
+                },
+                "unit": "unit.ampere"
+              }
+            }
+          }
+        ],
+        "expected_effect": {
+          "rule": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.effect.set_allocated_current",
+            "version": "1.0.0"
+          }
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_value",
+        "state_unchanged": true
+      },
+      "criterion": "A numeric set intent requires its complete fact predicate."
+    },
+    {
+      "id": "K-NEG-071",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent": {
+          "kind": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "arguments": [
+            {
+              "id": "evse.limit.allocated_current",
+              "value": {
+                "kind": "boolean",
+                "boolean": false
+              }
+            }
+          ],
+          "expected_effect": {
+            "rule": {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.effect.set_allocated_current",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "acknowledged_unverified",
+        "readback": {
+          "relation": "inconclusive"
+        }
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A release record cannot carry readback even if the relation is inconclusive."
+    },
+    {
+      "id": "K-NEG-072",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent": {
+          "kind": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "arguments": [
+            {
+              "id": "evse.limit.allocated_current",
+              "value": {
+                "kind": "boolean",
+                "boolean": false
+              }
+            }
+          ],
+          "expected_effect": {
+            "rule": {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.effect.set_allocated_current",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "applied"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A release cannot report applied."
+    },
+    {
+      "id": "K-NEG-073",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent": {
+          "kind": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "arguments": [
+            {
+              "id": "evse.limit.allocated_current",
+              "value": {
+                "kind": "boolean",
+                "boolean": false
+              }
+            }
+          ],
+          "expected_effect": {
+            "rule": {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.effect.set_allocated_current",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "conflict"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A release cannot report conflict."
+    },
+    {
+      "id": "K-NEG-074",
+      "polarity": "negative",
+      "record_type": "ExecutionRecord",
+      "operation": "validate",
+      "coverage": [
+        "operation"
+      ],
+      "input": {
+        "intent": {
+          "kind": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.operation.set_allocated_current",
+            "version": "1.0.0"
+          },
+          "arguments": [
+            {
+              "id": "evse.limit.allocated_current",
+              "value": {
+                "kind": "boolean",
+                "boolean": false
+              }
+            }
+          ],
+          "expected_effect": {
+            "rule": {
+              "pack": {
+                "id": "helianthus.pack.evse",
+                "version": "1.0.0"
+              },
+              "id": "evse.effect.set_allocated_current",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "dispatch_delivery": "sent",
+        "acknowledgement": "accepted",
+        "outcome": "no_effect"
+      },
+      "expect": {
+        "result": "reject",
+        "error_id": "invalid_outcome",
+        "state_unchanged": true
+      },
+      "criterion": "A release cannot report no effect."
     }
   ]
 }
