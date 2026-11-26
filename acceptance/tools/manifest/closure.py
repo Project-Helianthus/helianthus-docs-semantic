@@ -8,11 +8,15 @@ is classified the same way.
 
 from __future__ import annotations
 
+import json
 import re
+import shutil
+import subprocess
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from gitstore import list_dir, read_blobs
+from gitstore import list_dir, list_files_recursive, read_blobs
 
 
 _KEYWORDS = {
@@ -54,6 +58,9 @@ class TestFunction:
     file: str
     uses: set[str] = field(default_factory=set)
     assertions: list[Assertion] = field(default_factory=list)
+    # Reserved for names a test package declares and keeps; the symbol-level
+    # closure reports those as ordinary uses, so it stays empty there.
+    own: set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -504,3 +511,293 @@ def classify_test(test: TestFunction, moved_names: set[str], outside_names: set[
     if moved and staying:
         return "mixed"
     return "unrelated"
+
+
+# Symbol-level closure.
+#
+# A symbol is a top-level declaration: a function, type, var or const name, or
+# a method written ``Receiver.Method``. Which symbol an identifier refers to,
+# and which package it belongs to, is read from Go's own name resolution: the
+# helper program in ``gotypes/`` type-checks the donor with go/types and
+# reports, for every declaration, test function and assertion, the declared
+# symbols it uses. A field label, a parameter, a receiver, a local binding, a
+# type parameter and a package name never is one. This module classifies what
+# the helper reports; it does not read Go syntax to decide what a name means.
+
+HELPER_DIR = Path(__file__).resolve().parent / "gotypes"
+HELPER_FILES = ("resolve.go", "flow.go")
+
+
+class ResolverError(Exception):
+    pass
+
+
+def _module_path(repo: Path, revision: str) -> str:
+    blob = read_blobs(repo, revision, ["go.mod"]).get("go.mod")
+    if blob is None:
+        return ""
+    match = re.search(r"(?m)^\s*module\s+(\S+)", blob.decode(errors="replace"))
+    return match.group(1).strip('"') if match else ""
+
+
+def resolve_donor(repo: Path, revision: str, packages: list[str]) -> dict[str, object]:
+    """Run the Go helper over the donor at ``revision``.
+
+    The helper takes the text of every Go file of the donor and the donor
+    directories the move names. There is no other reading of Go source: a
+    missing Go toolchain or a helper that fails is an error, not a fallback.
+    """
+    go = shutil.which("go")
+    if go is None:
+        raise ResolverError("the go toolchain is required to resolve donor symbols and was not found")
+    sources = [str(HELPER_DIR / name) for name in HELPER_FILES]
+    missing = [path for path in sources if not Path(path).is_file()]
+    if missing:
+        raise ResolverError("helper source is missing: " + ", ".join(missing))
+    names = [path for path in list_files_recursive(repo, revision) if path.endswith(".go")]
+    files = {
+        path: blob.decode(errors="replace")
+        for path, blob in read_blobs(repo, revision, names).items()
+    }
+    payload = json.dumps({
+        "module": _module_path(repo, revision),
+        "files": files,
+        "packages": packages,
+    })
+    with tempfile.TemporaryDirectory(prefix="manifest-resolve-") as scratch:
+        try:
+            completed = subprocess.run(
+                [go, "run", *sources],
+                input=payload,
+                capture_output=True,
+                text=True,
+                check=False,
+                cwd=scratch,
+            )
+        except OSError as error:
+            raise ResolverError(f"cannot run the go helper: {error}") from error
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout or "").strip().splitlines()
+        raise ResolverError("go helper failed: " + (detail[-1] if detail else f"exit {completed.returncode}"))
+    try:
+        return json.loads(completed.stdout)
+    except ValueError as error:
+        raise ResolverError(f"go helper wrote no JSON: {error}") from error
+
+
+@dataclass
+class SymbolFacts:
+    moved: list[dict[str, object]] = field(default_factory=list)
+    stays: list[dict[str, str]] = field(default_factory=list)
+    outside_uses: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    tests: dict[str, list[TestFunction]] = field(default_factory=dict)
+    moved_names: dict[str, set[str]] = field(default_factory=dict)
+    outside_names: dict[str, set[str]] = field(default_factory=dict)
+
+
+def _spelled(reference: tuple[str, str], here: str) -> str:
+    """A symbol as the manifest names it: bare in its own package, else ``directory.Name``."""
+    directory, key = reference
+    return key if directory == here else f"{directory}.{key}"
+
+
+def _canonical(reference: tuple[str, str]) -> str:
+    return f"{reference[0]}:{reference[1]}"
+
+
+def _refs(items: list[list[str]]) -> set[tuple[str, str]]:
+    return {(item[0], item[1]) for item in items}
+
+
+def analyze_symbols(
+    repo: Path,
+    revision: str,
+    moves: list[dict[str, str]],
+    stays: list[dict[str, str]],
+) -> SymbolFacts:
+    """Closure of a symbol-level move over each donor package it names.
+
+    ``moves`` and ``stays`` hold ``package`` (the donor directory), ``path``
+    and ``symbol``. A moved symbol may use only moved symbols and symbols the
+    input declares as staying. The methods of a moved type are siblings and
+    follow the same rule. Which symbol a name stands for comes from the type
+    checker, whether or not the package it belongs to is named in the input.
+    """
+    facts = SymbolFacts()
+    entries = [("move", item) for item in moves] + [("stay", item) for item in stays]
+    packages = sorted({item["package"].rstrip("/") for _kind, item in entries})
+    for directory in packages:
+        listed = sorted({
+            item["path"] for _kind, item in entries
+            if item["package"].rstrip("/") == directory
+        })
+        blobs = read_blobs(repo, revision, listed)
+        for path in listed:
+            if path not in blobs:
+                facts.errors.append(f"absent: {path}")
+            elif str(Path(path).parent) != directory:
+                facts.errors.append(f"package-mismatch: {path}")
+        if any(path not in blobs for path in listed):
+            continue
+        try:
+            clauses = {package_name(blobs[path].decode(errors="replace")) for path in listed}
+        except ValueError as error:
+            facts.errors.append(str(error))
+            continue
+        if len(clauses) != 1:
+            facts.errors.append(f"package-mismatch: {directory}")
+    if facts.errors:
+        return facts
+    try:
+        resolved = resolve_donor(repo, revision, packages)
+    except ResolverError as error:
+        facts.errors.append(f"go-resolver: {error}")
+        return facts
+    if resolved.get("errors"):
+        facts.errors.extend(str(line) for line in resolved["errors"])
+        return facts
+    records = {
+        (item["dir"], bool(item["xtest"])): item for item in resolved["packages"]
+    }
+    label = lambda item: item["dir"] + ("#xtest" if item["xtest"] else "")
+    # A declaration belongs to the package its file is in: the package of a
+    # directory or its external test package. The two may declare one name.
+    lookup: dict[str, dict[tuple[str, str], tuple[dict, str]]] = {}
+    methods: dict[str, list[dict]] = {}
+    for directory in packages:
+        lookup[directory] = {}
+        for item in (records.get((directory, False)), records.get((directory, True))):
+            if item is None:
+                continue
+            methods[label(item)] = []
+            for declaration in item["decls"]:
+                lookup[directory].setdefault((declaration["file"], declaration["key"]), (declaration, label(item)))
+                if declaration["kind"] == "method":
+                    methods[label(item)].append(declaration)
+    moved_keys: dict[str, dict[str, str]] = {directory: {} for directory in packages}
+    stay_keys: dict[str, dict[str, str]] = {directory: {} for directory in packages}
+    for kind, item in entries:
+        directory = item["package"].rstrip("/")
+        target = moved_keys[directory] if kind == "move" else stay_keys[directory]
+        if (item["path"], item["symbol"]) not in lookup[directory]:
+            facts.errors.append(f"absent-symbol: {item['path']} {item['symbol']}")
+        elif item["symbol"] in target:
+            facts.errors.append(f"duplicate-symbol: {item['path']} {item['symbol']}")
+        else:
+            target[item["symbol"]] = item["path"]
+    for directory in packages:
+        for key in moved_keys[directory]:
+            if key in stay_keys[directory]:
+                facts.errors.append(f"moved-and-stays: {moved_keys[directory][key]} {key}")
+    if facts.errors:
+        return facts
+
+    def identity(directory: str, key: str, path: str) -> tuple[str, str]:
+        return (lookup[directory][(path, key)][1], key)
+
+    moved_refs = {
+        identity(directory, key, path)
+        for directory in packages for key, path in moved_keys[directory].items()
+    }
+    stay_refs = {
+        identity(directory, key, path)
+        for directory in packages for key, path in stay_keys[directory].items()
+    }
+    outside: set[str] = set()
+    for directory in packages:
+        for key in sorted(moved_keys[directory]):
+            declaration, here = lookup[directory][(moved_keys[directory][key], key)]
+            used = _refs(declaration["uses"])
+            # A function, type or value may name itself.
+            used.discard((here, key))
+            carried = set()
+            for reference in used:
+                if reference in moved_refs:
+                    carried.add(_spelled(reference, here))
+                elif reference not in stay_refs:
+                    outside.add(_spelled(reference, here))
+            facts.moved.append({
+                "package": directory,
+                "file": moved_keys[directory][key],
+                "name": key,
+                "uses": sorted(carried),
+            })
+            if declaration["kind"] == "type":
+                for method in methods.get(here, []):
+                    if (
+                        method["receiver"] == declaration["name"]
+                        and (here, method["key"]) not in moved_refs
+                        and (here, method["key"]) not in stay_refs
+                    ):
+                        outside.add(_spelled((here, method["key"]), directory))
+        for key in sorted(stay_keys[directory]):
+            facts.stays.append({"package": directory, "file": stay_keys[directory][key], "name": key})
+    facts.outside_uses = sorted(outside)
+    facts.moved.sort(key=lambda item: (item["package"], item["file"], item["name"]))
+    facts.stays.sort(key=lambda item: (item["package"], item["file"], item["name"]))
+    if facts.outside_uses:
+        return facts
+    # A test reaches a moved symbol through a helper that its package declares
+    # in a test file just as it reaches it directly.
+    helper_uses: dict[tuple[str, str], set[tuple[str, str]]] = {}
+    for item in resolved["packages"]:
+        for declaration in item["decls"]:
+            if declaration["test"]:
+                helper_uses[(label(item), declaration["key"])] = _refs(declaration["uses"])
+
+    def expand(direct: set[tuple[str, str]]) -> set[tuple[str, str]]:
+        reached = set(direct)
+        pending = list(direct)
+        while pending:
+            for found in helper_uses.get(pending.pop(), ()):
+                if found not in reached:
+                    reached.add(found)
+                    pending.append(found)
+        return reached
+
+    moved_pairs = {(item["file"], item["name"]) for item in facts.moved}
+    seen: set[str] = set()
+    for item in sorted(resolved["packages"], key=lambda entry: (entry["dir"], entry["xtest"])):
+        directory = item["dir"]
+        found: list[TestFunction] = []
+        for test in item["tests"]:
+            if (test["file"], test["name"]) in moved_pairs:
+                continue
+            assertions = []
+            for ordinal, check in enumerate(test["assertions"], start=1):
+                reached = expand(_refs(check["uses"]))
+                called = sorted(
+                    _spelled(reference, directory)
+                    for reference in _refs(check["calls"])
+                    if reference in moved_refs and reference in reached
+                )
+                assertions.append(Assertion(
+                    name=_assertion_name(check["text"], test["name"], ordinal),
+                    function=test["name"],
+                    file=test["file"],
+                    uses={_canonical(reference) for reference in reached},
+                    helpers=called,
+                ))
+            found.append(TestFunction(
+                name=test["name"],
+                file=test["file"],
+                uses={_canonical(reference) for reference in expand(_refs(test["uses"]))},
+                assertions=assertions,
+            ))
+        facts.tests.setdefault(directory, []).extend(found)
+        for test in found:
+            seen |= test.uses
+            for check in test.assertions:
+                seen |= check.uses
+    moved_canon = {_canonical(reference) for reference in moved_refs}
+    # Every symbol a test uses that does not move stays in the donor: one the
+    # input declares, one of a package the input does not name, and one a
+    # test package declares for itself.
+    outside_canon = seen - moved_canon
+    for directory in packages:
+        facts.tests.setdefault(directory, [])
+    for directory in facts.tests:
+        facts.moved_names[directory] = set(moved_canon)
+        facts.outside_names[directory] = set(outside_canon)
+    return facts
