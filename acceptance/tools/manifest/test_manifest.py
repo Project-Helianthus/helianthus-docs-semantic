@@ -230,12 +230,16 @@ def copy_tool(root: Path) -> Path:
     return target / "main.py"
 
 
+def product_manifest_paths() -> list[Path]:
+    tracked = git(ROOT, "ls-files", "-z", "--", "acceptance/manifests").stdout.split("\0")
+    return sorted(PRODUCT_MANIFESTS / Path(path).name for path in tracked if path)
+
+
 def product_strays() -> list[Path]:
     if not PRODUCT_MANIFESTS.is_dir():
         return []
-    tracked = git(ROOT, "ls-files", "-z", "--", "acceptance/manifests").stdout.split("\0")
-    expected = {Path(path).name for path in tracked if path}
-    return sorted(path for path in PRODUCT_MANIFESTS.iterdir() if path.name not in expected)
+    expected = set(product_manifest_paths())
+    return sorted(path for path in PRODUCT_MANIFESTS.iterdir() if path not in expected)
 
 
 def detail(completed: subprocess.CompletedProcess[str]) -> str:
@@ -615,17 +619,40 @@ class PublishedManifestDirectoryTest(unittest.TestCase):
         self.assertEqual({path.suffix for path in published}, {".json", ".lst"})
         self.assertEqual(product_strays(), [])
         parent = Path(tempfile.mkdtemp(prefix="product-guard-", dir=ROOT / ".tmp"))
-        for path in published:
+        for path in product_manifest_paths():
             shutil.copy(path, parent / path.name)
         unexpected = parent / "unexpected.json"
-        unexpected.write_text("{}\n", encoding="utf-8")
         with patch(__name__ + ".PRODUCT_MANIFESTS", parent):
+            guard = ManifestCLITest()
+            guard.setUp()
+            unexpected.write_text("{}\n", encoding="utf-8")
             self.assertEqual(product_strays(), [unexpected])
             with self.assertRaises(AssertionError):
-                ManifestCLITest().tearDown()
+                guard.tearDown()
         self.assertTrue(unexpected.is_file())
         for path in published:
             self.assertEqual((parent / path.name).read_bytes(), path.read_bytes())
+
+    def test_teardown_rejects_overwritten_and_deleted_published_manifests(self) -> None:
+        parent = Path(tempfile.mkdtemp(prefix="product-guard-", dir=ROOT / ".tmp"))
+        for path in product_manifest_paths():
+            shutil.copy(path, parent / path.name)
+        with patch(__name__ + ".PRODUCT_MANIFESTS", parent):
+            guard = ManifestCLITest()
+            guard.setUp()
+            guard.tearDown()
+
+            manifest = parent / "EE01.json"
+            original = manifest.read_bytes()
+            manifest.write_bytes(original + b"\n")
+            with self.assertRaisesRegex(AssertionError, r"EE01\.json"):
+                guard.tearDown()
+            manifest.write_bytes(original)
+
+            sealed_list = parent / "EE01.gateway.lst"
+            sealed_list.rename(parent.with_name(parent.name + ".lst"))
+            with self.assertRaisesRegex(AssertionError, r"EE01\.gateway\.lst"):
+                guard.tearDown()
 
 
 class ManifestCLITest(unittest.TestCase):
@@ -639,9 +666,17 @@ class ManifestCLITest(unittest.TestCase):
         cls.repo = Repo(parent / "donor")
         cls.repo.build()
 
+    def setUp(self) -> None:
+        self.published_manifests = {path: path.read_bytes() for path in product_manifest_paths()}
+
     def tearDown(self) -> None:
         strays = product_strays()
         self.assertEqual(strays, [], msg="unexpected files in the product manifest directory")
+        changed = [
+            path.name for path, original in self.published_manifests.items()
+            if not path.is_file() or path.read_bytes() != original
+        ]
+        self.assertEqual(changed, [], msg="missing or modified product manifest files")
 
     def assert_ok(self, completed: subprocess.CompletedProcess[str]) -> None:
         self.assertEqual(completed.returncode, 0, detail(completed))
