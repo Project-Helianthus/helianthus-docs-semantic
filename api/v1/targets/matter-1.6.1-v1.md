@@ -133,6 +133,54 @@ mandatory `NumberOfMeasurementTypes` has no catalog count, and `ActivePower` has
 several partial sources and no single element id. Electrical Sensor `0x0510` is
 therefore not a complete endpoint, and this row does not deliver it.
 
+## Electrical Sensor pilot: every mandatory value and its source
+
+The member `electrical_sensor_pilot` of the descriptor names each mandatory
+value of Power Topology `0x009C` and Electrical Power Measurement `0x0090` for
+device type `0x0510` that has no source. A value has one of two sources: a
+catalog element with one cited conversion, or a declared constant that the
+specification or a recorded design sentence of this project fixes. A declared
+constant is marked `declared` in the member `declared_values`. A value with
+neither source is `unsourced` with its reason, and the endpoint is not called
+complete while one is listed.
+
+The row shape gains two optional members of `target`, for use by a later row
+that has a source. `field` names a member of a list entry by its attribute and
+its field path, as `Accuracy` and `MeasurementType`. `declared` marks a constant
+and carries the sentence that fixes it. A row that uses neither keeps the shape
+`device_type_id`, `cluster_id`, `attribute_id` and `value`, and the rules for
+existing rows are unchanged. No row uses either member now, so
+`declared_values` is empty and `evse.ac.current` stays the only `transformed`
+row.
+
+Unsourced, with the reason in the descriptor:
+
+- Power Topology `FeatureMap`: no catalog element and no recorded design
+  sentence; the specification does not fix it, so no value is declared.
+- Electrical Power Measurement `FeatureMap`: the same.
+- `PowerMode`: no catalog element states the current type of the measured
+  subject. It is not derived from an `ac` or `dc` fact prefix, and no value is
+  declared. The Unknown value of the specification is not selected here.
+- `NumberOfMeasurementTypes`: no catalog count and no recorded design sentence.
+  It is not derived from a count of accuracy entries.
+- `MinMeasuredValue`, `MaxMeasuredValue`, `RangeMin` and `RangeMax`: the eight
+  PV facts above serve active current and active power only, name no cited
+  representation bounds, and no element exists for any other measurement type.
+  The rows stay `unknown` with no target member.
+- `Accuracy.MeasurementType` and `Accuracy.Measured`: the dimension has no
+  roster row and the measured fact has no cited field mapping; the rows stay
+  `unknown`.
+- `ActivePower`: the catalog sign of `evse.ac.active_power` is
+  `native_convention`, and no cited fact ties that sign to the sign rule of the
+  attribute. The row stays `unknown`. The attribute is nullable, so
+  `ActivePower` is null for the pilot. The same holds for the other partial
+  power sources.
+
+A device publishes a value from its own data, and a resource whose driver
+publishes no value gets no electrical endpoint; the missing row is named here.
+Values taken from a device's certification are a separate source that this
+target does not add.
+
 Only `evse.ac.current` is `transformed`, with reason
 `matter.phase_association_by_relation.v1`, to device/cluster/attribute
 `0x0510 / 0x0090 / 0x0005`. Multiply exact amperes by 1000; emit only an integral,
