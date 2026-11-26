@@ -1684,6 +1684,11 @@ their equality; helianthus-docs owns the field-level pages.
   `projections` or `projection`: on the shared schema those words name the
   native registry views (section 3). Plane and lens identifiers are arguments
   and values, not field names.
+  This rule covers only names the graph API defines: tool names, argument names,
+  and fields of the result envelope and shared schema. Member names inside
+  canonical records defined elsewhere in this contract, including `planes` on
+  a catalog entry and the `planes` list in the catalog document, are carried
+  unchanged as API-2 requires.
 - **API-2 Same bytes.** For one served cut and one request, the GraphQL and the
   MCP answer carry the same canonical `LensResult`, or the same resource list.
   Check: gateway parity test over the graph vectors.
