@@ -304,30 +304,6 @@
       "package": "cmd/gateway"
     },
     {
-      "name": "CircuitStateCooling",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
-      "name": "CircuitStateDHW",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
-      "name": "CircuitStateHeating",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
-      "name": "CircuitStateStandby",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
       "name": "b524GroupDef",
       "file": "cmd/gateway/semantic_vaillant_registers.go",
       "uses": [],
@@ -767,18 +743,6 @@
     },
     {
       "name": "dhwInstance",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
-      "name": "dhwPseudoCircuitInstance",
-      "file": "cmd/gateway/semantic_vaillant_registers.go",
-      "uses": [],
-      "package": "cmd/gateway"
-    },
-    {
-      "name": "dhwPseudoCircuitTypeRaw",
       "file": "cmd/gateway/semantic_vaillant_registers.go",
       "uses": [],
       "package": "cmd/gateway"
@@ -2403,38 +2367,6 @@
     },
     {
       "kind": "symbol",
-      "name": "CircuitStateCooling",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
-      "name": "CircuitStateDHW",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
-      "name": "CircuitStateHeating",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
-      "name": "CircuitStateStandby",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
       "name": "b524GroupDef",
       "package": "cmd/gateway",
       "repository": "ebusreg",
@@ -3020,22 +2952,6 @@
     {
       "kind": "symbol",
       "name": "dhwInstance",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
-      "name": "dhwPseudoCircuitInstance",
-      "package": "cmd/gateway",
-      "repository": "ebusreg",
-      "path": "driver/vaillant/input/extended_register_rows.go",
-      "destination_name": "localRows"
-    },
-    {
-      "kind": "symbol",
-      "name": "dhwPseudoCircuitTypeRaw",
       "package": "cmd/gateway",
       "repository": "ebusreg",
       "path": "driver/vaillant/input/extended_register_rows.go",
