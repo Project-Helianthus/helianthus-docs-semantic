@@ -75816,5 +75816,99 @@
       }
     ]
   },
-  "historical_input": "matter-1.7-ballot-0.9-v1.json"
+  "historical_input": "matter-1.7-ballot-0.9-v1.json",
+  "electrical_sensor_pilot": {
+    "device_type_id": 1296,
+    "declared_values": [],
+    "unsourced": [
+      {
+        "cluster_id": 156,
+        "cluster": "Power Topology",
+        "attribute": "FeatureMap",
+        "attribute_id": 65532,
+        "status": "unsourced",
+        "reason": "the feature selection has no catalog element and no recorded design sentence; the specification does not fix it, so none is declared"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "FeatureMap",
+        "attribute_id": 65532,
+        "status": "unsourced",
+        "reason": "the feature selection has no catalog element and no recorded design sentence; the specification does not fix it, so none is declared"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "PowerMode",
+        "attribute_id": 0,
+        "status": "unsourced",
+        "reason": "no catalog element states the current type of the measured subject; no value is derived from a fact prefix and none is declared"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "NumberOfMeasurementTypes",
+        "attribute_id": 1,
+        "status": "unsourced",
+        "reason": "no catalog count and no recorded design sentence; it is not derived from a count of accuracy entries"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.MinMeasuredValue",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "the four catalog elements for active current and active power name no cited conversion bounds and no other measurement type has an element; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.MaxMeasuredValue",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "the four catalog elements for active current and active power name no cited conversion bounds and no other measurement type has an element; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.AccuracyRanges.RangeMin",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "the four catalog elements for active current and active power name no cited conversion bounds and no other measurement type has an element; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.AccuracyRanges.RangeMax",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "the four catalog elements for active current and active power name no cited conversion bounds and no other measurement type has an element; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.MeasurementType",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "the catalog dimension has no roster row and no cited field list ties its symbols to the specification's measurement types; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "Accuracy.Measured",
+        "attribute_id": 2,
+        "status": "unsourced",
+        "reason": "pv.accuracy.measured has no cited field mapping; the row stays unknown"
+      },
+      {
+        "cluster_id": 144,
+        "cluster": "Electrical Power Measurement",
+        "attribute": "ActivePower",
+        "attribute_id": 8,
+        "status": "unsourced",
+        "reason": "the catalog sign of evse.ac.active_power is the native convention and no cited fact ties it to the sign rule of the attribute; the attribute is nullable, so ActivePower is null for the pilot"
+      }
+    ]
+  }
 }

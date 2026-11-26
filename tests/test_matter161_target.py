@@ -272,9 +272,42 @@ def check_loss(d):
         require(row['loss'] == expected, 'explicit irreversible loss')
 
 
+PILOT_UNSOURCED = [
+    ('Power Topology', 156, 'FeatureMap', 65532),
+    ('Electrical Power Measurement', 144, 'FeatureMap', 65532),
+    ('Electrical Power Measurement', 144, 'PowerMode', 0),
+    ('Electrical Power Measurement', 144, 'NumberOfMeasurementTypes', 1),
+    ('Electrical Power Measurement', 144, 'Accuracy.MinMeasuredValue', 2),
+    ('Electrical Power Measurement', 144, 'Accuracy.MaxMeasuredValue', 2),
+    ('Electrical Power Measurement', 144, 'Accuracy.AccuracyRanges.RangeMin', 2),
+    ('Electrical Power Measurement', 144, 'Accuracy.AccuracyRanges.RangeMax', 2),
+    ('Electrical Power Measurement', 144, 'Accuracy.MeasurementType', 2),
+    ('Electrical Power Measurement', 144, 'Accuracy.Measured', 2),
+    ('Electrical Power Measurement', 144, 'ActivePower', 8),
+]
+
+
+def check_pilot(d):
+    pilot = d['electrical_sensor_pilot']
+    require(set(pilot) == {'device_type_id', 'declared_values', 'unsourced'}, 'pilot members')
+    require(pilot['device_type_id'] == 1296, 'pilot device type')
+    require(pilot['declared_values'] == [], 'no declared value without a recorded sentence')
+    entries = pilot['unsourced']
+    require([(e['cluster'], e['cluster_id'], e['attribute'], e['attribute_id'])
+             for e in entries] == PILOT_UNSOURCED, 'unsourced values')
+    for entry in entries:
+        require(set(entry) == {'cluster', 'cluster_id', 'attribute', 'attribute_id',
+                               'status', 'reason'}, 'unsourced entry members')
+        require(entry['status'] == 'unsourced', 'unsourced status')
+        require(isinstance(entry['reason'], str) and entry['reason'] != '', 'reason')
+    for row in d['rows']:
+        require('declared' not in row.get('target', {}) and 'field' not in row.get('target', {}),
+                'no row uses the field or declared member yet')
+
+
 CHECKS = [check_model, check_roster, check_dispositions, check_relations,
           check_source, check_target, check_phase, check_conversion,
-          check_guards, check_loss]
+          check_guards, check_loss, check_pilot]
 
 
 class Matter161TargetTests(unittest.TestCase):
@@ -1734,15 +1767,51 @@ class Matter161TargetTests(unittest.TestCase):
         self.assertGreater(seen, 0)
 
     def test_pilot_accuracy_rows_stay_unknown_without_a_target(self):
+        # Expectations are literal ids from the Matter field list: no cited
+        # one-target conversion exists for a field of the Accuracy struct.
         rows = {r['ref']['id']: r for r in self.document['rows']}
         for ident in ('pv.accuracy.measured', 'pv.accuracy.ratio_maximum',
                       'infrastructure.accuracy.measured',
-                      'infrastructure.accuracy.ratio_maximum'):
+                      'infrastructure.accuracy.ratio_maximum',
+                      'evse.ac.active_power'):
             with self.subTest(ident=ident):
                 row = rows[ident]
                 self.assertEqual(row['disposition'], 'unknown')
                 self.assertEqual(row['reason'], 'matter.unmapped.v1')
                 self.assertNotIn('target', row)
+        transformed = [r['ref']['id'] for r in self.document['rows']
+                       if r['disposition'] in ('exact', 'transformed')]
+        self.assertEqual(transformed, ['evse.ac.current'])
+
+    def test_pilot_unsourced_values_are_named(self):
+        pilot = self.document['electrical_sensor_pilot']
+        self.assertEqual(pilot['declared_values'], [])
+        named = {(e['cluster_id'], e['attribute']) for e in pilot['unsourced']}
+        for key in [(156, 'FeatureMap'), (144, 'FeatureMap'), (144, 'PowerMode'),
+                    (144, 'NumberOfMeasurementTypes')]:
+            with self.subTest(value=key):
+                self.assertIn(key, named)
+
+    def test_pilot_unsourced_entry_field_mutants(self):
+        # Each field of an entry is varied alone; the production mutation it
+        # catches is the same field changed in the descriptor.
+        # cluster: a value moved to the other cluster; cluster_id: a wrong id;
+        # attribute: a renamed value; attribute_id: a wrong id; status: a
+        # value called sourced; reason: an erased reason.
+        for i, _ in enumerate(PILOT_UNSOURCED):
+            for field, value in [('cluster', 'Other'), ('cluster_id', 1),
+                                 ('attribute', 'Other'), ('attribute_id', 9999),
+                                 ('status', 'declared'), ('reason', '')]:
+                with self.subTest(entry=i, field=field):
+                    self.reject(check_pilot,
+                                ('electrical_sensor_pilot', 'unsourced', i, field), value)
+
+    def test_pilot_declared_value_and_dropped_entry_mutants(self):
+        self.reject(check_pilot, ('electrical_sensor_pilot', 'declared_values'),
+                    [{'attribute': 'PowerMode', 'value': 0}])
+        self.reject(check_pilot, ('electrical_sensor_pilot', 'unsourced'),
+                    self.document['electrical_sensor_pilot']['unsourced'][1:])
+        self.reject(check_pilot, ('electrical_sensor_pilot', 'device_type_id'), 1295)
 
     def test_pv_measured_range_and_accuracy_range_rows_are_unknown(self):
         """One unknown row per added element, each with its own subtests.
@@ -2000,6 +2069,17 @@ class Matter161ProjectionPageTests(unittest.TestCase):
         self.assertIn('no struct is published', self.text)
         self.assertIn('does not deliver', self.text)
         self.assertIn('withheld', self.text)
+
+    def test_unsourced_values_and_shape_are_stated(self):
+        for text in ['electrical_sensor_pilot', 'declared_values', '`unsourced`',
+                     'Power Topology `FeatureMap`',
+                     'Electrical Power Measurement `FeatureMap`', '`PowerMode`',
+                     '`NumberOfMeasurementTypes`', '`MinMeasuredValue`',
+                     '`MaxMeasuredValue`', '`RangeMin`', '`RangeMax`',
+                     '`ActivePower`', 'ActivePower` is null for the pilot',
+                     '`field`', '`declared`', 'native_convention']:
+            with self.subTest(text=text):
+                self.assertIn(text, self.text)
 
     def test_no_false_unresolved_subject_schema_cause(self):
         self.assertNotIn('unresolved subject', self.text)
