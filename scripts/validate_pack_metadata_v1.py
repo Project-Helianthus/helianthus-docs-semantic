@@ -22,7 +22,7 @@ def load(path): return json.loads(path.read_text(encoding="utf-8"), object_pairs
 def ref(pack, identifier): return {"pack": pack, "id": identifier, "version": pack["version"]}
 def key(value): return (value["pack"]["id"], value["pack"]["version"], value["id"], value["version"])
 
-def source_metadata(path):
+def source_metadata(path, releases):
     catalog = load(ROOT / path)["catalog"]; pack = catalog["pack"]; definitions = catalog.get("definitions", {})
     if pack["id"] == "helianthus.pack.storage":
         tables = load(STORAGE_TABLES)
@@ -39,20 +39,43 @@ def source_metadata(path):
         record = {"ref": ref(pack, item["id"]), "capability": ref(pack, item["capability"]), "service": ref(pack, capability_by_id[item["capability"]]["service"]), "argument": ref(pack, argument), "effect": ref(pack, effect)}
         if item.get("parameters"):
             record["parameters"] = [ref(pack, parameter) for parameter in item["parameters"]]
+        release_key = key(record["ref"])
+        if release_key in releases:
+            record["release"] = releases[release_key]
         operations_out.append(record)
     units = sorted({item["canonical_unit"]["id"] for item in fields if item["canonical_unit"]})
     known = [item["ref"] for item in fields + services + capabilities + operations_out] + [item["effect"] for item in operations_out] + [ref(pack, unit) for unit in units]
     return {"pack": pack, "source": path, "units": [ref(pack, unit) for unit in units], "definitions": sorted(known, key=key), "fields": sorted(fields, key=lambda item: key(item["ref"])), "services": sorted(services, key=lambda item: key(item["ref"])), "capabilities": sorted(capabilities, key=lambda item: key(item["ref"])), "operations": sorted(operations_out, key=lambda item: key(item["ref"]))}
-def expected(): return sorted((source_metadata(path) for path in SOURCES), key=lambda item: (item["pack"]["id"], item["pack"]["version"]))
+def expected():
+    releases = {
+        key({**entry["ref"], "pack": entry["ref"]["owner"]["pack"]}): entry["attributes"]["release"]
+        for entry in load(element_catalog.CATALOG)["elements"]
+        if entry["element_kind"] == "operation" and "release" in entry["attributes"]
+    }
+    return sorted((source_metadata(path, releases) for path in SOURCES),
+                  key=lambda item: (item["pack"]["id"], item["pack"]["version"]))
 def ordered(items, selector):
     values = [selector(item) for item in items]
     if values != sorted(values): raise ValueError("noncanonical order")
     if len(values) != len(set(values)): raise ValueError("duplicate or ambiguous metadata")
 
+def release_signatures(packs):
+    return [element_catalog.release_signature(item)
+            for pack in packs for item in pack["operations"]]
+
+
+def validate_source_agreement(packs):
+    expected_packs = expected()
+    if packs != expected_packs:
+        raise ValueError("metadata differs from accepted pack sources")
+    if release_signatures(packs) != release_signatures(expected_packs):
+        raise ValueError("metadata differs from accepted pack sources: release literal")
+
+
 def validate(document):
     if document.get("contract") != "helianthus.semantic.pack-metadata/v1" or document.get("status") != "accepted": raise ValueError("contract identity")
     packs = document.get("packs")
-    if packs != expected(): raise ValueError("metadata differs from accepted pack sources")
+    validate_source_agreement(packs)
     ordered(packs, lambda item: (item["pack"]["id"], item["pack"]["version"]))
     for pack in packs:
         pack_ref = pack["pack"]

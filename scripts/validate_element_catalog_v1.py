@@ -38,6 +38,8 @@ import sys
 from pathlib import Path
 from typing import NamedTuple
 
+import json
+
 import json_schema_subset_v1 as subset
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -372,9 +374,15 @@ def load_storage_pack(path, model):
         model.relation(key(item["id"]), ends, item["cardinality"])
 
 
+def release_signature(record):
+    """Compare the literal without conflating JSON false with numeric zero."""
+    return json.dumps(record['release'], sort_keys=True) if 'release' in record else None
+
+
 def metadata_agreements(metadata):
     """Facts that the catalog repeats from pack metadata, as (key, kind, label, expected, reader)."""
     result = []
+    release_agreements = []
     for pack in metadata["packs"]:
         for item in pack["fields"]:
             result.append((item["ref"], "fact", "subject dimension", item["dimension"], subject_dimension))
@@ -385,8 +393,12 @@ def metadata_agreements(metadata):
             result.append((item["ref"], "capability", "service", item["service"], ref_at("service")))
         for item in pack["operations"]:
             result.extend(operation_agreements(item))
-    return [Agreement(item_key(ref), kind, "pack metadata " + label, item_key(expected), read)
-            for ref, kind, label, expected, read in result]
+            release_agreements.append(Agreement(item_key(item["ref"]), "operation", "pack metadata release",
+                                                release_signature(item), release_signature))
+    return release_agreements + [
+        Agreement(item_key(ref), kind, "pack metadata " + label, item_key(expected), read)
+        for ref, kind, label, expected, read in result
+    ]
 
 
 def operation_agreements(item):

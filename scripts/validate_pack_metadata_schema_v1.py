@@ -10,6 +10,11 @@ SCHEMA = ROOT / "api/v1/pack-metadata-v1.schema.json"
 FIXTURE = ROOT / "api/v1/pack-metadata-v1.json"
 
 def load(path): return json.loads(path.read_text(encoding="utf-8"))
+
+def validate_const(value, literal, path):
+    if type(value) is not type(literal) or value != literal:
+        raise ValueError(f"{path}: const")
+
 def validate(value, schema, root, path="$"):
     if "$ref" in schema:
         ref = schema["$ref"]
@@ -25,11 +30,11 @@ def validate(value, schema, root, path="$"):
         if len(matches) != 1: raise ValueError(f"{path}: oneOf")
         return
     expected = schema.get("type")
-    mapping = {"object": dict, "array": list, "string": str, "null": type(None)}
+    mapping = {"object": dict, "array": list, "string": str, "null": type(None), "boolean": bool}
     if expected:
         choices = expected if isinstance(expected, list) else [expected]
         if not any(isinstance(value, mapping[name]) for name in choices): raise ValueError(f"{path}: type")
-    if "const" in schema and value != schema["const"]: raise ValueError(f"{path}: const")
+    if "const" in schema: validate_const(value, schema["const"], path)
     if "enum" in schema and value not in schema["enum"]: raise ValueError(f"{path}: enum")
     if isinstance(value, str):
         if len(value) < schema.get("minLength", 0): raise ValueError(f"{path}: minLength")

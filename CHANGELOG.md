@@ -6,6 +6,11 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- Define rule-only release intents for the existing PV active-power and EVSE
+  allocated-current limit operations. Pack metadata mirrors the catalog's
+  boolean `false` literal. A release can be acknowledged but cannot be
+  confirmed by readback; the enabled state remains Unknown.
+
 - The oracle publishes a specification vector for each pre-port loss under
   `acceptance/vectors/specification/losses/` (68 of the 69 entries of
   `acceptance/vectors/pre-port/losses.json`): the synthetic input from the public

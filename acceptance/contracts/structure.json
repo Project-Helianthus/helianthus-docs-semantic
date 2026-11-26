@@ -90,5 +90,103 @@
       "accepted": false
     },
     "explanation": "Release case."
+  },
+  {
+    "id": "K-POS-026",
+    "expected": {
+      "outcome": "A PV release accepts boolean false under the existing argument field ID and has no predicate.",
+      "accepted": true
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-POS-027",
+    "expected": {
+      "outcome": "An acknowledged EVSE release is unverified and reads nothing back.",
+      "accepted": true,
+      "execution_outcome": "acknowledged_unverified"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-066",
+    "expected": {
+      "outcome": "A release does not accept true.",
+      "accepted": false,
+      "error_id": "invalid_value"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-067",
+    "expected": {
+      "outcome": "Numeric zero is not boolean false.",
+      "accepted": false,
+      "error_id": "invalid_value"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-068",
+    "expected": {
+      "outcome": "A release cannot mix the numeric set and boolean release arguments.",
+      "accepted": false,
+      "error_id": "invalid_value"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-069",
+    "expected": {
+      "outcome": "A release cannot carry a fact predicate.",
+      "accepted": false,
+      "error_id": "invalid_value"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-070",
+    "expected": {
+      "outcome": "A numeric set intent requires its complete fact predicate.",
+      "accepted": false,
+      "error_id": "invalid_value"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-071",
+    "expected": {
+      "outcome": "A release record cannot carry readback even if the relation is inconclusive.",
+      "accepted": false,
+      "error_id": "invalid_outcome"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-072",
+    "expected": {
+      "outcome": "A release cannot report applied.",
+      "accepted": false,
+      "error_id": "invalid_outcome"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-073",
+    "expected": {
+      "outcome": "A release cannot report conflict.",
+      "accepted": false,
+      "error_id": "invalid_outcome"
+    },
+    "explanation": "Kernel release form."
+  },
+  {
+    "id": "K-NEG-074",
+    "expected": {
+      "outcome": "A release cannot report no effect.",
+      "accepted": false,
+      "error_id": "invalid_outcome"
+    },
+    "explanation": "Kernel release form."
   }
 ]

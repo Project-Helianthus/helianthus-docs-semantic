@@ -901,6 +901,19 @@ class Mutations(unittest.TestCase):
         self.rejects(mutate, "invalid_value", "CAT-2", "pv.accuracy.measured",
                      "class-level fact carries a resource kind")
 
+    def test_limit_release_must_agree_with_pack_metadata(self):
+        for ident in (PV_LIMIT, EVSE_LIMIT):
+            for wrong in (True, 0):
+                with self.subTest(operation=ident, value=wrong):
+                    metadata = subset.load_json(validator.PACK_METADATA)
+                    item = next(op for pack in metadata["packs"] for op in pack["operations"]
+                                if op["ref"]["id"] == ident)
+                    item["release"]["argument"]["value"] = wrong
+                    inputs = INPUTS._replace(agreements=validator.metadata_agreements(metadata))
+                    self.assertTrue(any(f.error == "invalid_value" and f.rule == "CAT-2"
+                                        and ident in f.entry and "pack metadata release" in f.detail
+                                        for f in validator.check_rules(CATALOG, inputs)))
+
     def test_each_limit_operation_requires_release(self):
         for ident in (PV_LIMIT, EVSE_LIMIT):
             with self.subTest(operation=ident):

@@ -83,8 +83,9 @@ only boolean `false` to clear that limit on `evse.dimension.connector`, under
 on the same single setting-owner route. The
 [driver contract](../driver-contract.md#11-element-structure-for-the-matter-and-eebus-union)
 defines the closed case: `true` or a request mixing the release and numeric
-set arguments is rejected. There is no numeric fallback. Readback of whether
-the limit is enabled remains Unknown.
+set arguments is rejected. There is no numeric fallback. The release outcome
+is acknowledgement only: at best `acknowledged_unverified`, with no readback.
+The enabled state remains Unknown.
 
 A watt value becomes ampere by the watt-to-ampere rule. RR05 is the row that
 converts it: measured voltage when SemReg has one, else the specification

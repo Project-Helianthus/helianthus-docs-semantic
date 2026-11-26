@@ -1539,20 +1539,29 @@ another same-key candidate or use a presentation selection as fallback.
 ```go
 type ExpectedEffect struct {
     Rule     DefinitionRef `json:"rule"`
-    Fact     FactKey       `json:"fact"`
-    Operator PredicateOp   `json:"operator"`
-    Expected Value         `json:"expected"`
+    Fact     *FactKey      `json:"fact,omitempty"`
+    Operator *PredicateOp  `json:"operator,omitempty"`
+    Expected *Value        `json:"expected,omitempty"`
 }
 ```
 
 `ExpectedEffect` is a required part of the intent's canonical bytes. The
 operation pack owns the rule that translates the exact operation and arguments
-into this typed fact predicate. `ValidateIntent` MUST derive the expected rule,
-fact, operator, and value and require byte-identical fields; caller assertion is
-insufficient, and a mismatch is `invalid_value`. `rule.pack` MUST equal
-`Intent.kind.pack` and the rule MUST be
+into a typed fact predicate for the set case. `ValidateIntent` MUST derive the
+rule and, for that case, the fact, operator, and value, and require
+byte-identical fields; caller assertion is insufficient, and a mismatch is
+`invalid_value`. `rule.pack` MUST equal `Intent.kind.pack` and the rule MUST be
 present in that pack's `effect_rules` index. The fact may belong to another
 explicit pack; this does not transfer ownership of its meaning.
+
+An operation alternative declared as `release` in the
+[pack metadata](pack-metadata-v1.md#data-and-ordering) has no confirmable effect.
+For that alternative, `expected_effect` carries only `rule`, equal to the
+operation's existing effect rule. The rule identifies the operation; it does
+not judge release as a predicate. `fact`, `operator` and `expected` MUST be
+all present or all absent. The absent form is accepted only for a matching
+pack-declared release. A partial predicate, a predicate on a release, or an
+omitted predicate on a set is `invalid_value`.
 
 ### Type: OperationPackValidator
 
@@ -1569,7 +1578,8 @@ type OperationPackValidator interface {
 Any pack that indexes an operation or effect rule MUST implement this interface.
 Admission dispatches directly through `Intent.kind.pack`, verifies the indexed
 operation and effect rule, then calls `ValidateIntent`. It never probes another
-validator. `EvaluateReadback` receives the unchanged admitted intent and the
+validator. `EvaluateReadback` MUST NOT be called for a rule-only intent. For a
+predicate-bearing intent it receives the unchanged admitted intent and the
 exact resolved observed candidate named by `Readback`; it MUST reject a candidate
 whose `FactKey` differs from `Intent.expected_effect.fact`, then apply the
 pack-owned rule/operator/value and return the computed relation. The serialized
@@ -1617,6 +1627,11 @@ optional parameter is accepted. A repeated field, an undeclared field, or an
 undeclared qualifier is rejected with a reason and is never guessed.
 Parameters, when an operation declares them, are a sorted unique list of
 fields of the same pack and are not the argument.
+
+For a pack-declared release, `arguments` instead carries exactly one field:
+its `id` is the operation's existing argument field ID and its `value` is the
+declared literal with its declared kind. A release takes no parameter. Any
+other argument shape or value in a release intent is `invalid_value`.
 
 `expected_capability_revision` binds `RevisionVector.capabilities`.
 `expected_capability_instance_revision` binds the one matched instance. Both
@@ -1703,6 +1718,9 @@ type Readback struct {
 }
 ```
 
+A rule-only intent has no `Readback`. An execution record for it that carries
+`readback` is `invalid_outcome`, regardless of the relation.
+
 `ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The exact
 snapshot must still be retrievable, its semantic revision must be greater than
 the admitted semantic revision, and it must contain the named observed candidate
@@ -1771,6 +1789,12 @@ type ExecutionRecord struct {
 | `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
 | `conflict` | Post-dispatch evidence contradicts the requested effect or another current result. |
 | `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
+
+For a rule-only intent, `acknowledged_unverified` is the best outcome.
+`applied`, `conflict` and `no_effect` require evidence of the effect and are
+`invalid_outcome` for this form. Rejection, proven no contact and indeterminate
+dispatch retain their ordinary meanings. The limit's enabled state stays
+Unknown; acknowledgement is not proof of release.
 
 After dispatch may have occurred, the execution remains bound to its route.
 Timeout is an event, not `failed_no_contact`. An owner-specific recovery contract

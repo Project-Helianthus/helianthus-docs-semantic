@@ -112,8 +112,9 @@ boolean `false` to clear that limit on `pv.dimension.inverter`, under
 on the same single setting-owner route. The
 [driver contract](../driver-contract.md#11-element-structure-for-the-matter-and-eebus-union)
 defines the closed case: `true` or a request mixing the release and numeric
-set arguments is rejected. There is no numeric fallback. Readback of whether
-the limit is enabled remains Unknown.
+set arguments is rejected. There is no numeric fallback. The release outcome
+is acknowledgement only: at best `acknowledged_unverified`, with no readback.
+The enabled state remains Unknown.
 
 A verification level recorded beside an element blocks nothing. No element
 is marked sensitive or hidden.
