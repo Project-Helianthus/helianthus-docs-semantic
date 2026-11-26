@@ -4478,23 +4478,14 @@ class ManifestCLITest(unittest.TestCase):
     SB = "closure/cross/sb"
     FB = "closure/cross/fb"
 
-    def test_a_method_reached_through_an_unavailable_package_is_not_left_out(self) -> None:
+    def test_an_unavailable_receiver_type_is_not_resolved_by_a_stay_declaration(self) -> None:
         move = self.move_at(self.UE, "Move")
         keep = self.at(self.UE, "T")
-        bare = self.repo.generate(self.symbol_spec("ue-open", [move], stay_symbols=[keep]))
-        self.assert_fail(bare)
-        self.assertEqual(bare.stdout, "outside-set: T.M\n")
-        self.assert_absent("ue-open")
-        declared = self.repo.generate(
-            self.symbol_spec("ue-kept", [move], stay_symbols=[keep, self.at(self.UE, "T.M")])
-        )
-        self.assert_ok(declared)
-        self.assert_ok(self.repo.check("ue-kept"))
-        stripped = json.loads(self.repo.manifest_path("ue-kept").read_text(encoding="utf-8"))
-        stripped["stays"] = [item for item in stripped["stays"] if item["name"] != "T.M"]
-        path = self.repo.root / "acceptance" / "manifests" / "ue-stripped.json"
-        path.write_text(json.dumps(stripped), encoding="utf-8")
-        self.assert_fail(self.repo.check("ue-kept", manifest=path), "outside-set: T.M")
+        for row, stays in (("ue-open", [keep]), ("ue-kept", [keep, self.at(self.UE, "T.M")])):
+            blocked = self.repo.generate(self.symbol_spec(row, [move], stay_symbols=stays))
+            self.assert_fail(blocked)
+            self.assertEqual(blocked.stdout, f"unresolved-selector: {self.UE}/ue.go Move.M\n")
+            self.assert_absent(row)
 
     def test_a_method_written_on_an_alias_is_a_sibling_of_the_moved_type(self) -> None:
         move = self.move_at(self.AR, "T")
@@ -4591,6 +4582,94 @@ class ManifestCLITest(unittest.TestCase):
                 f"invalid-destination-symbol symbol={self.ALPHA}:Record",
             )
             self.assert_absent(row)
+
+    def test_pointer_write_requires_the_moved_assertion_but_keeps_the_host_check(self) -> None:
+        directory = "closure/cross/ptr"
+        move = self.move_at(directory, "Moved")
+        bare = self.repo.generate(self.symbol_spec("ptr-bare", [move]))
+        self.assert_fail(bare)
+        names = ["indirect-value", "moved-value"]
+        messages = [f"unaccounted-assertion function=TestPointerWrite assertion={name}" for name in names]
+        self.assertEqual(sorted(bare.stdout.splitlines()), messages)
+        self.assert_absent("ptr-bare")
+        row = "ptr-given"
+        self.assert_ok(self.repo.generate(self.symbol_spec(
+            row, [move], assertions=[given for name in names for given in self.given("TestPointerWrite", name)],
+        )))
+        manifest = self.repo.manifest(row)
+        self.assertEqual(sorted(entry["name"] for entry in manifest["assertions"]), names)
+        self.assertEqual([entry["name"] for entry in manifest["stays"]], ["host-value"])
+        self.assert_ok(self.repo.check(row))
+        manifest["assertions"] = []
+        manifest["destinations"] = [entry for entry in manifest["destinations"] if entry["kind"] != "assertion"]
+        self.repo.write_json(f"acceptance/manifests/{row}.json", manifest)
+        checked = self.repo.check(row)
+        self.assert_fail(checked)
+        self.assertEqual(sorted(checked.stdout.splitlines()), messages)
+
+    def test_duplicate_moved_checks_in_one_function_cannot_share_one_binding(self) -> None:
+        directory = "closure/cross/dup"
+        spec = self.symbol_spec(
+            "duplicated-check", [self.move_at(directory, "Moved"), self.move_at(self.DA, "MoveA")],
+            assertions=[dict(self.given("TestBehaviour", "same")[0], package=pkg) for pkg in (directory, self.DA)]
+            + self.given("TestOther", "same") + self.given("TestOther", "negative"),
+        )
+        blocked = self.repo.generate(spec)
+        self.assert_fail(blocked)
+        self.assertEqual(blocked.stdout.splitlines(), [
+            f"ambiguous-assertion function=TestBehaviour assertion=same package={directory}",
+        ])
+        self.assert_absent("duplicated-check")
+
+    def test_excluded_build_file_in_a_donor_test_is_reported(self) -> None:
+        root = Path(tempfile.mkdtemp(prefix="build-test-", dir=self.repo.root.parent)) / "donor"
+        repo = Repo(root)
+        repo.write("go.mod", "module example.test\n")
+        repo.write("p/p.go", "package p\nfunc Moved() int { return 1 }\n")
+        repo.write("other/unrelated_windows_test.go", "package other\n")
+        git(root, "init", "-b", "main")
+        git(root, "add", "-A")
+        git(root, "commit", "-m", "fixture")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        spec = repo.base("portable-test", symbol_moves=[repo.symbol("p", "p/p.go", "Moved", "out/ported.go")])
+        self.assert_ok(repo.generate(spec))
+        row = spec["row"]
+        path = "q/portable_windows_test.go"
+        repo.write(path, '''package q_test
+import ("testing"; "example.test/p")
+func TestPortable(t *testing.T) { if p.Moved() != 1 { t.Fatal("mismatch") } }
+''')
+        repo.write("p/tagged_test.go", "//go:build custom\n\npackage p\n")
+        git(root, "add", "p/tagged_test.go", path)
+        git(root, "commit", "-m", "build-constrained tests")
+        repo.sha = git_out(root, "rev-parse", "HEAD")
+        expected = ["unsupported-build-file: p/tagged_test.go", f"unsupported-build-file: {path}"]
+        blocked = repo.generate({**spec, "row": "portable-blocked", "donor_sha": repo.sha})
+        self.assert_fail(blocked)
+        self.assertEqual(blocked.stdout.splitlines(), expected)
+        self.assertFalse(list(repo.manifest_path(row).parent.glob("portable-blocked.*")))
+        manifest = repo.manifest(row)
+        manifest["donor"]["sha"] = repo.sha
+        for entry in manifest["paths"]:
+            entry["donor_sha"] = repo.sha
+        repo.write_json(f"acceptance/manifests/{row}.json", manifest)
+        checked = repo.check(row)
+        self.assert_fail(checked)
+        self.assertEqual(checked.stdout.splitlines(), expected)
+
+    def test_unknown_receiver_does_not_guess_a_donor_method(self) -> None:
+        directory = "closure/cross/opaque"
+        blocked = self.repo.generate(self.symbol_spec("opaque-receiver", [self.move_at(directory, "External")]))
+        self.assert_fail(blocked)
+        self.assertEqual(blocked.stdout.splitlines(), [
+            f"unresolved-selector: {directory}/opaque.go External.Read",
+            f"unresolved-selector: {directory}/opaque.go External.Write",
+        ])
+        self.assert_absent("opaque-receiver")
+        resolved = self.repo.generate(self.symbol_spec(
+            "resolved-receiver", [self.move_at(directory, "Resolved")], stay_symbols=[self.at(directory, "Local")],
+        ))
+        self.assertEqual(resolved.stdout.splitlines(), ["outside-set: Local.Read"])
 
 
 class DeclaredSymbolUsesTest(unittest.TestCase):

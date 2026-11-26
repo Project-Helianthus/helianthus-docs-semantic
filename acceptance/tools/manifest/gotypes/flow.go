@@ -37,6 +37,9 @@ func (a *analyzer) test(decl *ast.FuncDecl, file string) outTest {
 		entry := flow.snaps[item]
 		written := writeTargets(item)
 		ast.Inspect(item, func(node ast.Node) bool {
+			if star, ok := node.(*ast.StarExpr); ok && flow.readPointees(star, entry, reach) {
+				return false
+			}
 			id, ok := node.(*ast.Ident)
 			if !ok || written[id] {
 				return true
@@ -115,7 +118,11 @@ func failureCall(node ast.Node) bool {
 
 // A def is one statement that gives a local its value: the symbols that
 // statement uses, with the symbols of the definitions its operands carry.
-type def struct{ refs refset }
+type def struct {
+	refs     refset
+	pointees map[types.Object]struct{}
+	unknown  bool
+}
 
 type defKey struct {
 	node ast.Node
@@ -244,6 +251,9 @@ func (f *flow) read(node ast.Node, s state) refset {
 	f.a.direct(node, out)
 	written := writeTargets(node)
 	ast.Inspect(node, func(item ast.Node) bool {
+		if star, ok := item.(*ast.StarExpr); ok && f.readPointees(star, s, out) {
+			return false
+		}
 		id, ok := item.(*ast.Ident)
 		if !ok || written[id] {
 			return true
@@ -259,7 +269,20 @@ func (f *flow) read(node ast.Node, s state) refset {
 	return out
 }
 
-func (f *flow) setDef(s state, node ast.Node, obj types.Object, refs refset, strong bool) {
+// For known local addresses, the current pointee values supersede the
+// definitions that reached the expression when the address was taken.
+func (f *flow) readPointees(star *ast.StarExpr, s state, into refset) bool {
+	targets := f.pointees(star.X, s)
+	for obj := range targets {
+		for def := range s[obj] {
+			into.union(def.refs)
+		}
+	}
+	_, unknown := targets[nil]
+	return len(targets) > 0 && !unknown
+}
+
+func (f *flow) setDef(s state, node ast.Node, obj types.Object, refs refset, strong bool, aliases map[types.Object]struct{}) {
 	if s == nil || obj == nil || !f.a.local(obj) {
 		return
 	}
@@ -272,6 +295,22 @@ func (f *flow) setDef(s state, node ast.Node, obj types.Object, refs refset, str
 	}
 	if held.refs.union(refs) {
 		f.version++
+	}
+	if aliases == nil {
+		if !held.unknown {
+			held.unknown = true
+			f.version++
+		}
+	} else {
+		if held.pointees == nil {
+			held.pointees = map[types.Object]struct{}{}
+		}
+		for target := range aliases {
+			if _, ok := held.pointees[target]; !ok {
+				held.pointees[target] = struct{}{}
+				f.version++
+			}
+		}
 	}
 	if strong && !f.weak {
 		s[obj] = map[*def]struct{}{held: {}}
@@ -306,18 +345,67 @@ func root(expr ast.Expr) *ast.Ident {
 	}
 }
 
-// assign records that lhs receives a value that uses refs.
-func (f *flow) assign(s state, node ast.Node, lhs ast.Expr, refs refset, plain bool) {
+// pointees follows addresses of locals and copies of local pointers. A nil
+// key represents a possible target beyond the ones this flow can identify.
+func (f *flow) pointees(expr ast.Expr, s state) map[types.Object]struct{} {
+	switch item := unparen(expr).(type) {
+	case *ast.UnaryExpr:
+		if id, ok := unparen(item.X).(*ast.Ident); ok && item.Op == token.AND {
+			if obj := f.a.info.Uses[id]; f.a.local(obj) {
+				return map[types.Object]struct{}{obj: {}}
+			}
+		}
+	case *ast.Ident:
+		obj := f.a.info.Uses[item]
+		if obj == nil || obj.Type() == nil {
+			return nil
+		}
+		if _, pointer := obj.Type().Underlying().(*types.Pointer); !pointer {
+			return nil
+		}
+		defs := s[obj]
+		if len(defs) != 0 {
+			out := map[types.Object]struct{}{}
+			for def := range defs {
+				if def.unknown {
+					out[nil] = struct{}{}
+				}
+				for obj := range def.pointees {
+					out[obj] = struct{}{}
+				}
+			}
+			return out
+		}
+	}
+	return nil
+}
+
+// assign records that lhs receives a value that uses refs. Evaluate pointer
+// targets in the pre-assignment state, as for the right-hand operands.
+func (f *flow) assign(s, before state, node ast.Node, lhs ast.Expr, refs refset, plain bool, aliases map[types.Object]struct{}) {
 	lhs = unparen(lhs)
 	if id, ok := lhs.(*ast.Ident); ok {
 		if id.Name == "_" {
 			return
 		}
-		f.setDef(s, node, f.a.info.ObjectOf(id), refs, plain)
+		f.setDef(s, node, f.a.info.ObjectOf(id), refs, plain, aliases)
 		return
 	}
+	if star, ok := lhs.(*ast.StarExpr); ok {
+		targets := f.pointees(star.X, before)
+		known := false
+		for obj := range targets {
+			if obj != nil {
+				f.setDef(s, node, obj, refs, plain && len(targets) == 1, aliases)
+				known = true
+			}
+		}
+		if known {
+			return
+		}
+	}
 	if id := root(lhs); id != nil {
-		f.setDef(s, node, f.a.info.ObjectOf(id), refs, false)
+		f.setDef(s, node, f.a.info.ObjectOf(id), refs, false, nil)
 	}
 }
 
@@ -343,7 +431,7 @@ func (f *flow) literals(node ast.Node, s state) {
 					if id := root(unparen(lhs)); id != nil {
 						obj := f.a.info.ObjectOf(id)
 						if obj != nil && (obj.Pos() < literal.Pos() || obj.Pos() >= literal.End()) {
-							f.setDef(s, stmt, obj, refs, false)
+							f.setDef(s, stmt, obj, refs, false, nil)
 						}
 					}
 				}
@@ -414,12 +502,22 @@ func (f *flow) exec(node ast.Stmt, s state) state {
 				all.union(refs)
 			}
 		}
+		before := s
+		if len(stmt.Lhs) > 1 {
+			before = s.clone()
+		}
+		aliases := make([]map[types.Object]struct{}, len(stmt.Lhs))
+		if plain && len(stmt.Rhs) == len(stmt.Lhs) {
+			for index, value := range stmt.Rhs {
+				aliases[index] = f.pointees(value, before)
+			}
+		}
 		for index, lhs := range stmt.Lhs {
 			refs := all
 			if refs == nil {
 				refs = perValue[index]
 			}
-			f.assign(s, stmt, lhs, refs, plain)
+			f.assign(s, before, stmt, lhs, refs, plain, aliases[index])
 		}
 		return s
 	case *ast.DeclStmt:
@@ -437,17 +535,19 @@ func (f *flow) exec(node ast.Stmt, s state) state {
 					// The declared type of a variable is not a value it was
 					// given: only its initial values count.
 					refs := refset{}
+					var aliases map[types.Object]struct{}
 					if len(item.Values) == len(item.Names) {
 						refs.union(f.read(item.Values[index], s))
+						aliases = f.pointees(item.Values[index], s)
 					} else {
 						for _, value := range item.Values {
 							refs.union(f.read(value, s))
 						}
 					}
-					f.setDef(s, item, f.a.info.Defs[name], refs, true)
+					f.setDef(s, item, f.a.info.Defs[name], refs, true, aliases)
 				}
 			case *ast.TypeSpec:
-				f.setDef(s, item, f.a.info.Defs[item.Name], f.read(item.Type, s), true)
+				f.setDef(s, item, f.a.info.Defs[item.Name], f.read(item.Type, s), true, nil)
 			}
 		}
 		return s
@@ -607,7 +707,7 @@ func (f *flow) clauses(body *ast.BlockStmt, s state, refs refset) state {
 			f.literals(expr, in)
 		}
 		if refs != nil {
-			f.setDef(in, cc, f.a.info.Implicits[cc], refs, true)
+			f.setDef(in, cc, f.a.info.Implicits[cc], refs, true, nil)
 		}
 		end := f.execList(cc.Body, in)
 		if cc.List == nil {
@@ -653,7 +753,7 @@ func (f *flow) loop(node ast.Stmt, init ast.Stmt, cond ast.Expr, post ast.Stmt, 
 			refs := f.read(rng.X, in)
 			for _, bound := range []ast.Expr{rng.Key, rng.Value} {
 				if bound != nil {
-					f.assign(in, rng, bound, refs, rng.Tok == token.DEFINE || rng.Tok == token.ASSIGN)
+					f.assign(in, in, rng, bound, refs, rng.Tok == token.DEFINE || rng.Tok == token.ASSIGN, nil)
 				}
 			}
 		}

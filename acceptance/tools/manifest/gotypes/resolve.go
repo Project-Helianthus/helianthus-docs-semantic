@@ -14,8 +14,8 @@
 // The program uses the standard library only. A donor package is checked from
 // the files the commit holds, for the platform linux/amd64 without cgo; the
 // standard library is read from its source; a package that is neither of the
-// two is replaced by an empty package of its name, and the diagnostics that
-// follow from that are not reported.
+// two is replaced by an empty package of its name. Unresolved receiver
+// selectors are reported separately from resolved donor references.
 package main
 
 import (
@@ -42,13 +42,14 @@ type input struct {
 type outRef [2]string
 
 type outDecl struct {
-	Key      string   `json:"key"`
-	Name     string   `json:"name"`
-	Kind     string   `json:"kind"`
-	Receiver string   `json:"receiver"`
-	File     string   `json:"file"`
-	Test     bool     `json:"test"`
-	Uses     []outRef `json:"uses"`
+	Key        string   `json:"key"`
+	Name       string   `json:"name"`
+	Kind       string   `json:"kind"`
+	Receiver   string   `json:"receiver"`
+	File       string   `json:"file"`
+	Test       bool     `json:"test"`
+	Uses       []outRef `json:"uses"`
+	Unresolved []string `json:"unresolved,omitempty"`
 }
 
 type outAssertion struct {
@@ -130,6 +131,7 @@ type dirFiles struct {
 	base      []*sourceFile
 	internal  []*sourceFile
 	external  []*sourceFile
+	excluded  []*sourceFile
 	name      string
 	extName   string
 	parseDone bool
@@ -219,8 +221,8 @@ func dirOfFile(rel string) string {
 	return rel[:index]
 }
 
-// scan reads the package clause and the imports of every Go file the build
-// constraints of linux/amd64 admit.
+// scan keeps import edges even for excluded files, so a test that imports
+// the moved package only on another build target is not silently ignored.
 func (l *loader) scan() {
 	names := make([]string, 0, len(l.in.Files))
 	for rel := range l.in.Files {
@@ -233,26 +235,32 @@ func (l *loader) scan() {
 		}
 		dir := dirOfFile(rel)
 		name := rel[strings.LastIndex(rel, "/")+1:]
+		if strings.HasPrefix(name, "_") || strings.HasPrefix(name, ".") {
+			continue
+		}
 		match, err := l.ctxt.MatchFile("/donor/"+dir, name)
-		if err != nil || !match {
-			continue
-		}
-		head, err := parser.ParseFile(token.NewFileSet(), rel, l.in.Files[rel], parser.ImportsOnly|parser.SkipObjectResolution)
-		if head == nil || head.Name == nil {
-			_ = err
-			continue
-		}
-		file := &sourceFile{rel: rel, dir: dir, text: l.in.Files[rel], test: strings.HasSuffix(rel, "_test.go"), clause: head.Name.Name}
-		for _, spec := range head.Imports {
-			path := strings.Trim(spec.Path.Value, "\"`")
-			file.imports = append(file.imports, path)
+		head, _ := parser.ParseFile(token.NewFileSet(), rel, l.in.Files[rel], parser.ImportsOnly|parser.SkipObjectResolution)
+		file := &sourceFile{rel: rel, dir: dir, text: l.in.Files[rel], test: strings.HasSuffix(rel, "_test.go")}
+		if head != nil {
+			if head.Name != nil {
+				file.clause = head.Name.Name
+			}
+			for _, spec := range head.Imports {
+				path := strings.Trim(spec.Path.Value, "\"`")
+				file.imports = append(file.imports, path)
+				if path == "C" {
+					match = false
+				}
+			}
 		}
 		group := l.dirs[dir]
 		if group == nil {
 			group = &dirFiles{dir: dir}
 			l.dirs[dir] = group
 		}
-		if !file.test {
+		if err != nil || !match {
+			group.excluded = append(group.excluded, file)
+		} else if !file.test {
 			group.base = append(group.base, file)
 		} else if strings.HasSuffix(file.clause, "_test") {
 			group.external = append(group.external, file)
@@ -286,7 +294,18 @@ func (l *loader) importPath(dir string) string {
 func (l *loader) donorDir(path string) (string, bool) {
 	has := func(dir string) bool {
 		group := l.dirs[dir]
-		return group != nil && len(group.base) > 0
+		if group == nil {
+			return false
+		}
+		if len(group.base) > 0 {
+			return true
+		}
+		for _, file := range group.excluded {
+			if !file.test {
+				return true
+			}
+		}
+		return false
 	}
 	module := l.in.Module
 	if module != "" {
@@ -482,7 +501,10 @@ func (l *loader) reachesNamed(dir string, named map[string]bool, visited map[str
 	if group == nil {
 		return false
 	}
-	for _, file := range group.base {
+	for _, file := range append(append([]*sourceFile{}, group.base...), group.excluded...) {
+		if file.test {
+			continue
+		}
 		for _, path := range file.imports {
 			if target, ok := l.donorDir(path); ok && l.reachesNamed(target, named, visited) {
 				return true
@@ -510,6 +532,11 @@ func (l *loader) run() output {
 		// can only come through such a chain of imports, so a test that calls
 		// a method of it need not import the package itself.
 		tests := append(append([]*sourceFile{}, group.internal...), group.external...)
+		for _, file := range group.excluded {
+			if file.test {
+				tests = append(tests, file)
+			}
+		}
 		if len(tests) == 0 {
 			continue
 		}
@@ -531,6 +558,9 @@ func (l *loader) run() output {
 	}
 	sort.Strings(selected)
 	for _, dir := range selected {
+		for _, file := range l.dirs[dir].excluded {
+			out.Errors = append(out.Errors, "unsupported-build-file: "+file.rel)
+		}
 		for _, kind := range []string{"variant", "external"} {
 			var res *result
 			xtest := kind == "external"
@@ -555,7 +585,7 @@ func (l *loader) run() output {
 					out.Errors = append(out.Errors, "type-error: "+label+": "+text)
 				}
 			}
-			analyzer := &analyzer{l: l, info: res.info, pkg: res.pkg, unresolved: res.unresolved}
+			analyzer := &analyzer{l: l, info: res.info, unresolved: res.unresolved}
 			out.Packages = append(out.Packages, analyzer.report(dir, res, xtest))
 		}
 	}
@@ -566,12 +596,10 @@ func (l *loader) run() output {
 type analyzer struct {
 	l    *loader
 	info *types.Info
-	pkg  *types.Package
 	// unresolved is set when the package imports something that is neither
 	// the standard library nor a donor package, so the type of a value that
 	// comes from it is unknown.
 	unresolved bool
-	reachable  []*types.Package
 }
 
 func unparen(expr ast.Expr) ast.Expr {
@@ -669,71 +697,40 @@ func (a *analyzer) direct(node ast.Node, into refset) {
 		return
 	}
 	ast.Inspect(node, func(item ast.Node) bool {
-		switch found := item.(type) {
-		case *ast.Ident:
-			if found, ok := a.ref(a.info.Uses[found]); ok {
+		if id, ok := item.(*ast.Ident); ok {
+			if found, ok := a.ref(a.info.Uses[id]); ok {
 				into.add(found)
 			}
-		case *ast.SelectorExpr:
-			a.opaque(found, into)
 		}
 		return true
 	})
 }
 
-// opaque adds, for a selector whose operand has no type because it comes from
-// a package that is not available, every method of that name that a donor
-// type of the package's imports declares. The call may reach any of them, so
-// none may be left out of the closure.
-func (a *analyzer) opaque(sel *ast.SelectorExpr, into refset) {
-	if !a.unresolved || a.info.Uses[sel.Sel] != nil || a.info.Selections[sel] != nil {
-		return
+// A missing receiver type is not evidence for any particular donor method.
+func (a *analyzer) unresolvedSelectors(node ast.Node) []string {
+	if !a.unresolved || node == nil {
+		return nil
 	}
-	if id, ok := unparen(sel.X).(*ast.Ident); ok {
-		if _, qualified := a.info.Uses[id].(*types.PkgName); qualified {
-			return
+	names := map[string]bool{}
+	ast.Inspect(node, func(node ast.Node) bool {
+		sel, ok := node.(*ast.SelectorExpr)
+		if !ok || a.info.Uses[sel.Sel] != nil || a.info.Selections[sel] != nil {
+			return true
 		}
-	}
-	if a.reachable == nil {
-		seen := map[*types.Package]bool{}
-		var walk func(pkg *types.Package)
-		walk = func(pkg *types.Package) {
-			if pkg == nil || seen[pkg] {
-				return
-			}
-			seen[pkg] = true
-			if _, ok := a.l.pathDir[pkg.Path()]; ok {
-				a.reachable = append(a.reachable, pkg)
-			}
-			for _, imported := range pkg.Imports() {
-				walk(imported)
+		if id, ok := unparen(sel.X).(*ast.Ident); ok {
+			if _, qualified := a.info.Uses[id].(*types.PkgName); qualified {
+				return true
 			}
 		}
-		walk(a.pkg)
-		if a.reachable == nil {
-			a.reachable = []*types.Package{}
-		}
+		names[sel.Sel.Name] = true
+		return true
+	})
+	var out []string
+	for name := range names {
+		out = append(out, name)
 	}
-	for _, pkg := range a.reachable {
-		scope := pkg.Scope()
-		for _, name := range scope.Names() {
-			owner, ok := scope.Lookup(name).(*types.TypeName)
-			if !ok || owner.IsAlias() || types.IsInterface(owner.Type()) {
-				continue
-			}
-			named, ok := owner.Type().(*types.Named)
-			if !ok {
-				continue
-			}
-			for index := 0; index < named.NumMethods(); index++ {
-				if method := named.Method(index); method.Name() == sel.Sel.Name {
-					if found, ok := a.at(pkg, owner.Name()+"."+method.Name()); ok {
-						into.add(found)
-					}
-				}
-			}
-		}
-	}
+	sort.Strings(out)
+	return out
 }
 
 func (a *analyzer) calls(node ast.Node, into refset) {
@@ -827,6 +824,7 @@ func (a *analyzer) report(dir string, res *result, xtest bool) outPackage {
 					record.Key = record.Receiver + "." + item.Name.Name
 				}
 				record.Uses = uses.list()
+				record.Unresolved = a.unresolvedSelectors(item)
 				pkg.Decls = append(pkg.Decls, record)
 				if isTest && item.Recv == nil && strings.HasPrefix(item.Name.Name, "Test") && item.Body != nil {
 					pkg.Tests = append(pkg.Tests, a.test(item, name))
@@ -859,7 +857,7 @@ func (a *analyzer) generalDecls(decl *ast.GenDecl, file string, isTest bool) []o
 		case *ast.TypeSpec:
 			uses := refset{}
 			a.direct(item, uses)
-			out = append(out, outDecl{Key: item.Name.Name, Name: item.Name.Name, Kind: "type", File: file, Test: isTest, Uses: uses.list()})
+			out = append(out, outDecl{Key: item.Name.Name, Name: item.Name.Name, Kind: "type", File: file, Test: isTest, Uses: uses.list(), Unresolved: a.unresolvedSelectors(item)})
 		case *ast.ValueSpec:
 			kind := "var"
 			source := item
@@ -879,14 +877,16 @@ func (a *analyzer) generalDecls(decl *ast.GenDecl, file string, isTest bool) []o
 				}
 				uses := refset{}
 				a.direct(source.Type, uses)
-				if len(source.Values) == len(item.Names) {
-					a.direct(source.Values[index], uses)
-				} else {
-					for _, value := range source.Values {
-						a.direct(value, uses)
-					}
+				values := source.Values
+				if len(values) == len(item.Names) {
+					values = values[index : index+1]
 				}
-				out = append(out, outDecl{Key: name.Name, Name: name.Name, Kind: kind, File: file, Test: isTest, Uses: uses.list()})
+				unresolved := a.unresolvedSelectors(source.Type)
+				for _, value := range values {
+					a.direct(value, uses)
+					unresolved = append(unresolved, a.unresolvedSelectors(value)...)
+				}
+				out = append(out, outDecl{Key: name.Name, Name: name.Name, Kind: kind, File: file, Test: isTest, Uses: uses.list(), Unresolved: unresolved})
 			}
 		}
 	}
