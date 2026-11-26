@@ -1,0 +1,4106 @@
+{
+  "row": "EE02",
+  "donor": {
+    "repository": "gateway",
+    "sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+  },
+  "paths": [
+    {
+      "repository": "gateway",
+      "paths": [
+        "cmd/gateway/b509_decode.go",
+        "cmd/gateway/b509_decode_test.go",
+        "cmd/gateway/semantic_vaillant_b509_access.go",
+        "cmd/gateway/semantic_vaillant_b524_access.go",
+        "cmd/gateway/semantic_vaillant_codec.go",
+        "cmd/gateway/semantic_vaillant_registers.go",
+        "cmd/gateway/semantic_vaillant_schedules.go",
+        "cmd/gateway/semantic_vaillant_test.go",
+        "cmd/gateway/vaillant_b503_dispatcher.go",
+        "cmd/gateway/vaillant_b524_interface_identity.go"
+      ],
+      "sha256": "466cd233d27e38b010064a035f13b32bc395722870e129047d6b886d4267bfa0",
+      "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+    },
+    {
+      "repository": "ebusreg",
+      "paths": [
+        "driver/vaillant/input/boiler_register_rows.go",
+        "driver/vaillant/input/boiler_register_rows_test.go",
+        "driver/vaillant/input/diagnostics.go",
+        "driver/vaillant/input/doc.go",
+        "driver/vaillant/input/extended_register_rows.go",
+        "driver/vaillant/input/extended_register_rows_test.go",
+        "driver/vaillant/input/history_rows.go",
+        "driver/vaillant/input/history_rows_test.go",
+        "driver/vaillant/input/interface_identity_rows.go",
+        "driver/vaillant/input/interface_identity_rows_test.go",
+        "driver/vaillant/input/inventory_test.go",
+        "driver/vaillant/input/record.go",
+        "driver/vaillant/input/record_test.go",
+        "driver/vaillant/input/replay_test.go",
+        "driver/vaillant/input/schedule_rows.go",
+        "driver/vaillant/input/schedule_rows_test.go",
+        "driver/vaillant/input/selectors.go",
+        "driver/vaillant/input/selectors_test.go",
+        "driver/vaillant/input/testdata/gateway_selectors.json",
+        "driver/vaillant/input/testdata/session/poller-cache-hydrated-partial-reads/native.json",
+        "driver/vaillant/input/testdata/session/poller-cache-hydrated-partial-reads/session.json",
+        "driver/vaillant/input/testdata/session/poller-full-site/native.json",
+        "driver/vaillant/input/testdata/session/poller-full-site/session.json",
+        "driver/vaillant/input/testdata/session/sessions.json",
+        "driver/vaillant/input/testdata/session/supplemental.json",
+        "driver/vaillant/input/testdata/vectors/boiler_register.json",
+        "driver/vaillant/input/testdata/vectors/extended_register.json",
+        "driver/vaillant/input/testdata/vectors/history.json",
+        "driver/vaillant/input/testdata/vectors/interface_identity.json",
+        "driver/vaillant/input/testdata/vectors/schedule.json"
+      ],
+      "sha256": "09126f1105a5b3424ee78a6ed11c0b389f209883e4c055d668c88446b29d25e8",
+      "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "decodeDATA2b",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeDATA2c",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeHoursum2",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeOnOff",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodePercent0",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeSIN",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeUCH",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeUIN",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeUIN100",
+      "file": "cmd/gateway/b509_decode.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeDATA2b",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeDATA2b"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeDATA2c",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeDATA2c"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeHoursum2",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeHoursum2"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeOnOff",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeOnOff"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodePercent0",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodePercent0"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeSIN",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeSIN"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeUCH",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeUCH"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeUIN",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeUIN"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeUIN100",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "uses": [
+        "decodeUIN100"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "buildB509ReadSelector",
+      "file": "cmd/gateway/semantic_vaillant_b509_access.go",
+      "uses": [
+        "vaillantB509OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "buildB509WriteSelector",
+      "file": "cmd/gateway/semantic_vaillant_b509_access.go",
+      "uses": [
+        "vaillantB509OpcodeWrite"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeBCDPhone",
+      "file": "cmd/gateway/semantic_vaillant_b509_access.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "parseB509ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_b509_access.go",
+      "uses": [
+        "vaillantB509OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "parseB509WriteAck",
+      "file": "cmd/gateway/semantic_vaillant_b509_access.go",
+      "uses": [
+        "vaillantB509OpcodeWrite"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "buildB524ReadSelector",
+      "file": "cmd/gateway/semantic_vaillant_b524_access.go",
+      "uses": [
+        "vaillantB524OpRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "buildB524WriteSelector",
+      "file": "cmd/gateway/semantic_vaillant_b524_access.go",
+      "uses": [
+        "vaillantB524OpWrite"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "isB524ProbeCoherent",
+      "file": "cmd/gateway/semantic_vaillant_b524_access.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "matchesB524ReplyInstance",
+      "file": "cmd/gateway/semantic_vaillant_b524_access.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "parseB524ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_b524_access.go",
+      "uses": [
+        "matchesB524ReplyInstance"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524BoolFromRaw",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524DateSuppressSentinel",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524FirmwareVersion",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524Float32FromRaw",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524Uint16",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeB524Uint32FromRaw",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "decodeExactB524Bool",
+      "file": "cmd/gateway/semantic_vaillant_codec.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "CircuitStateCooling",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "CircuitStateDHW",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "CircuitStateHeating",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "CircuitStateStandby",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b524GroupDef",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555OpcodeConfigRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555OpcodeSlotsRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555OpcodeTimerRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555OpcodeTimerWrite",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_central_heating_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_central_heating_pump",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_central_heating_starts",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_circulation_pump_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_deactivations_ifc",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_deactivations_limit",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_dhw_demand_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_dhw_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_dhw_starts",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_dhw_temp_desired_c",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_dhw_water_flow_lpm",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_diverter_valve_position",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_external_pump_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_fan_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_fan_speed_rpm",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flame_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flow_temp_desired_c",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flow_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flowset_hc_max_c",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flowset_hc_max_c_fallback",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_flowset_hwc_max_c",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_gas_valve_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_heating_switch_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_hours_till_service",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_installer_menu_code",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_ionisation_voltage_ua",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_modulation_pct",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_partload_hc_kw",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_partload_hwc_kw",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_phone_number",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_primary_circuit_flow_lpm",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_pump_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_state_number",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_storage_load_pump_pct",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_target_fan_speed_rpm",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "boiler_b509_water_pressure",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_calc_flow_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_circuit_state",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_cooling_enabled",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_dew_point",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_flow_setpoint",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_flow_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_flow_temp_max",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_flow_temp_min",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_heating_curve",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_humidity",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_mixer_position",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_pump_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_pump_starts",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_pump_status",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_room_temp_control",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_special_function_mode",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_summer_limit",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "circuit_type",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "cylinder_charge_hysteresis",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "cylinder_charge_offset",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "cylinder_max_setpoint",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "cylinder_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_class_address",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_connected",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_firmware",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_hardware_identifier",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_paired",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_reception_strength",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_remote_control_address",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_room_humidity",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_room_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "device_slot_zone_assignment",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhwInstance",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhwPseudoCircuitInstance",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhwPseudoCircuitTypeRaw",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_current_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_holiday_end_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_holiday_start_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_operation_mode",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_special_function",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "dhw_target_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localCircuits",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localCylinders",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localDHW",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localRegulator",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localSolar",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "localZones",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeLocal"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "regulatorInstance",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "remoteDeviceGroups",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "remoteFunctionalModules",
+        "remoteRegulators",
+        "remoteThermostats"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "remoteFunctionalModules",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "remoteRegulators",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "remoteThermostats",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [
+        "b524GroupDef",
+        "vaillantB524OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solarInstance",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_collector_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_current_yield",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_enabled",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_function_mode",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_pump_active",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_pump_hours",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "solar_return_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_adaptive_heating_curve",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_alternative_point",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_dhw_bivalence_point",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_flow_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_hc_emergency_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_heating_circuit_bivalence_point",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_hwc_cylinder_temperature_bottom",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_hwc_cylinder_temperature_top",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_hwc_max_flow_temp_desired",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_installer_menu_code",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_installer_name_1",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_installer_name_2",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_installer_phone_1",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_installer_phone_2",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_maintenance_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_maintenance_due",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_max_room_humidity",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_module_configuration_vr71",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_off",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_outdoor_temperature",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_outdoor_temperature_avg_24h",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_scheme",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "system_water_pressure",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB509OpcodeRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB509OpcodeWrite",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB509Primary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB509Secondary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB524OpRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB524OpWrite",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB524OpcodeLocal",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB524OpcodeRead",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB555Primary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantB555Secondary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantExtRegisterPrimary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "vaillantExtRegisterSecondary",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_current_humidity",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_current_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_fallback_manual_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_heating_op_mode",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_holiday_end_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_holiday_end_time",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_holiday_setpoint",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_holiday_start_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_holiday_start_time",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_index",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_name",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_name_prefix",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_name_suffix",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_quick_veto_duration",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_quick_veto_end_date",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_quick_veto_end_time",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_quick_veto_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_room_temperature_zone_mapping_raw",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_special_function",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_target_temp",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "zone_valve_status",
+      "file": "cmd/gateway/semantic_vaillant_registers.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555ErrorDesc",
+      "file": "cmd/gateway/semantic_vaillant_schedules.go",
+      "uses": [
+        "b555ErrorDescriptions"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b555ErrorDescriptions",
+      "file": "cmd/gateway/semantic_vaillant_schedules.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestB524GroupDef_OpcodeGroupBindingIsCorrect",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "b524GroupDef",
+        "localCircuits",
+        "localCylinders",
+        "localDHW",
+        "localRegulator",
+        "localSolar",
+        "localZones",
+        "remoteFunctionalModules",
+        "remoteRegulators",
+        "remoteThermostats",
+        "vaillantB524OpcodeLocal",
+        "vaillantB524OpcodeRead"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestBuildB524ReadSelector",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "buildB524ReadSelector"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestCircuitRegisterSelectors_PinCircuitStateAndPumpStatus",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "circuit_circuit_state",
+        "circuit_pump_status"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeB524DateSuppressSentinel",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "decodeB524DateSuppressSentinel"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeB524FirmwareVersion",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "decodeB524FirmwareVersion"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestDecodeB524Uint16",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "decodeB524Uint16"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestIsB524ProbeCoherent",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "isB524ProbeCoherent"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestMatchesB524ReplyInstance",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "matchesB524ReplyInstance"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestParseB509ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "parseB509ReadPayload"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "TestParseB524ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "uses": [
+        "parseB524ReadPayload"
+      ],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b503PrimaryByte",
+      "file": "cmd/gateway/vaillant_b503_dispatcher.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b503SecondaryByte",
+      "file": "cmd/gateway/vaillant_b503_dispatcher.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    },
+    {
+      "name": "b524InterfaceQualifier",
+      "file": "cmd/gateway/vaillant_b524_interface_identity.go",
+      "uses": [],
+      "package": "cmd/gateway"
+    }
+  ],
+  "assertions": [],
+  "stays": [
+    {
+      "kind": "test",
+      "name": "TestM62BoilerPumpComesOnlyFromB509",
+      "file": "cmd/gateway/boiler_circuit_zero_isolation_test.go",
+      "function": "TestM62BoilerPumpComesOnlyFromB509"
+    },
+    {
+      "kind": "test",
+      "name": "TestM62BoilerRegisterDefinitionsNeverReadCircuitPumpOrState",
+      "file": "cmd/gateway/boiler_circuit_zero_isolation_test.go",
+      "function": "TestM62BoilerRegisterDefinitionsNeverReadCircuitPumpOrState"
+    },
+    {
+      "kind": "test",
+      "name": "TestM62BoilerUnavailableLeavesBoilerFieldsUnknownAndPublishesCircuit",
+      "file": "cmd/gateway/boiler_circuit_zero_isolation_test.go",
+      "function": "TestM62BoilerUnavailableLeavesBoilerFieldsUnknownAndPublishesCircuit"
+    },
+    {
+      "kind": "test",
+      "name": "TestB524ReplyWidthMismatchEveryFixedWidthReader",
+      "file": "cmd/gateway/circuit_special_function_mode_test.go",
+      "function": "TestB524ReplyWidthMismatchEveryFixedWidthReader"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesBoilerKeysWriteThroughGraphQLAndMCP",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesBoilerKeysWriteThroughGraphQLAndMCP"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesBoilerPumpModeKeepsItsBound",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesBoilerPumpModeKeepsItsBound"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesFieldDescriptionListsAcceptedKeys",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesFieldDescriptionListsAcceptedKeys"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesFixtureComparisonCoversEveryField",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesFixtureComparisonCoversEveryField"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesFixtureMatchesSystemAndBoilerSetters",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesFixtureMatchesSystemAndBoilerSetters"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesFormerKeysRejected",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesFormerKeysRejected"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesSystemKeysWriteThroughGraphQLAndMCP",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesSystemKeysWriteThroughGraphQLAndMCP"
+    },
+    {
+      "kind": "test",
+      "name": "TestConfigSetterNamesSystemPhoneValidationFollowsKey",
+      "file": "cmd/gateway/config_setter_names_test.go",
+      "function": "TestConfigSetterNamesSystemPhoneValidationFollowsKey"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteControllerAppearsAfterAbsent",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteControllerAppearsAfterAbsent"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteHeatPumpBusControllerAppearsClearsReason",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteHeatPumpBusControllerAppearsClearsReason"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteHeatPumpClassUnitAdoptedAsRoot",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteHeatPumpClassUnitAdoptedAsRoot"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteHeatSourceIdentifiedAfterAbsent",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteHeatSourceIdentifiedAfterAbsent"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSitePollingOverSimulatedTime",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSitePollingOverSimulatedTime"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteReadinessAgainstBootDeadline",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteReadinessAgainstBootDeadline"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerlessSiteStartupWithoutController",
+      "file": "cmd/gateway/controllerless_site_acceptance_test.go",
+      "function": "TestControllerlessSiteStartupWithoutController"
+    },
+    {
+      "kind": "test",
+      "name": "TestO18StartupRawCannotEstablishPseudoCircuit",
+      "file": "cmd/gateway/o18_circuit_rr0020_test.go",
+      "function": "TestO18StartupRawCannotEstablishPseudoCircuit"
+    },
+    {
+      "kind": "test",
+      "name": "TestCommitFM5Acquisition_RegistryMutationAfterPostReadCaptureIsIncoherent",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestCommitFM5Acquisition_RegistryMutationAfterPostReadCaptureIsIncoherent"
+    },
+    {
+      "kind": "test",
+      "name": "TestCommitFM5Acquisition_SerializesWriterAfterCommitWithoutDeadlock",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestCommitFM5Acquisition_SerializesWriterAfterCommitWithoutDeadlock"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_FreshEmptySlotCacheForcesBoundedFM5Discovery",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_FreshEmptySlotCacheForcesBoundedFM5Discovery"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_GenericFunctionalModuleDoesNotPreemptLaterVR71",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_GenericFunctionalModuleDoesNotPreemptLaterVR71"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_LateFM5RecoveryReadsStartupSubsetBeforeOtherSystem",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_LateFM5RecoveryReadsStartupSubsetBeforeOtherSystem"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_LateFM5SuccessTriggersBoundedSemanticReacquisition",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_LateFM5SuccessTriggersBoundedSemanticReacquisition"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_MaxSlotVR71ConvergesWithinBoundedRecoveryBudget",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_MaxSlotVR71ConvergesWithinBoundedRecoveryBudget"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_MaxSlotVR71RecoveryReadsOnlyConfigurationGate",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_MaxSlotVR71RecoveryReadsOnlyConfigurationGate"
+    },
+    {
+      "kind": "test",
+      "name": "TestEnqueueAddressIdentityProbe_SaturatedQueueCoalescesGuaranteedOrderedFM5Recovery",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestEnqueueAddressIdentityProbe_SaturatedQueueCoalescesGuaranteedOrderedFM5Recovery"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5EvidenceCapture_DetectsStaleAndGenerationChange",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5EvidenceCapture_DetectsStaleAndGenerationChange"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5IdentityClassification_RequiresCompleteFunctionalModuleNamespaceScan",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5IdentityClassification_RequiresCompleteFunctionalModuleNamespaceScan"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5PositiveIdentityDoesNotRequireNegativeNamespaceCompleteness",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5PositiveIdentityDoesNotRequireNegativeNamespaceCompleteness"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5StartupIdentityClassification_UsesCompleteFunctionalModuleIdentityTuple",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5StartupIdentityClassification_UsesCompleteFunctionalModuleIdentityTuple"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5Startup_FastPositiveRetainsDeferredHighSlotRegistrySeed",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5Startup_FastPositiveRetainsDeferredHighSlotRegistrySeed"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5Startup_HighSlotPositivePreemptsUnrelatedRadioTails",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5Startup_HighSlotPositivePreemptsUnrelatedRadioTails"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5Startup_MaxSlotVR71ConvergesWithinBoundedIdentityBudget",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5Startup_MaxSlotVR71ConvergesWithinBoundedIdentityBudget"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5Startup_PositiveFastSlotClassifiesBeforeUnrelatedRadioTailDeadline",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5Startup_PositiveFastSlotClassifiesBeforeUnrelatedRadioTailDeadline"
+    },
+    {
+      "kind": "test",
+      "name": "TestFM5Startup_UnseededLowSlotPositiveDoesNotLosePrimingBudget",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestFM5Startup_UnseededLowSlotPositiveDoesNotLosePrimingBudget"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshDiscovery_TransientRootFailureRetainsFM5ClassificationAndValues",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshDiscovery_TransientRootFailureRetainsFM5ClassificationAndValues"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshFM5Semantic_StaleEvidenceSkipsReadsAndRetainsCoherentFamily",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshFM5Semantic_StaleEvidenceSkipsReadsAndRetainsCoherentFamily"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshFM5Semantic_StaleIdentityOutranksUnsupportedConfiguration",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshFM5Semantic_StaleIdentityOutranksUnsupportedConfiguration"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshRadioDevices_CompleteNegativeFM5ScanSupersedesRetainedRegistryIdentity",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshRadioDevices_CompleteNegativeFM5ScanSupersedesRetainedRegistryIdentity"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshRadioDevices_IncompleteCurrentFM5IdentityTupleRetainsPriorClassification",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshRadioDevices_IncompleteCurrentFM5IdentityTupleRetainsPriorClassification"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshSystem_FM5ConfigurationRequiresCurrentAcquisition",
+      "file": "cmd/gateway/post_m9_defects_red_test.go",
+      "function": "TestRefreshSystem_FM5ConfigurationRequiresCurrentAcquisition"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerB524IdentityUsesOnlyRegistry",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestControllerB524IdentityUsesOnlyRegistry"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerConfigBoundRegistryProvenanceRetiresOnObservation",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestControllerConfigBoundRegistryProvenanceRetiresOnObservation"
+    },
+    {
+      "kind": "test",
+      "name": "TestControllerConfigBoundRetainsDiscoveredAddress",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestControllerConfigBoundRetainsDiscoveredAddress"
+    },
+    {
+      "kind": "test",
+      "name": "TestMCPConfigWriterDHWBivalenceRejectsBeforeBusWrite",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestMCPConfigWriterDHWBivalenceRejectsBeforeBusWrite"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshSystemDoesNotAcquireAPIIdentity",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestRefreshSystemDoesNotAcquireAPIIdentity"
+    },
+    {
+      "kind": "test",
+      "name": "TestSetSystemConfigDHWBivalenceBASV0WithoutAPIUsesPolicy",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestSetSystemConfigDHWBivalenceBASV0WithoutAPIUsesPolicy"
+    },
+    {
+      "kind": "test",
+      "name": "TestSetSystemConfigDHWBivalenceBASV2FallsToUnmatchedPolicy",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestSetSystemConfigDHWBivalenceBASV2FallsToUnmatchedPolicy"
+    },
+    {
+      "kind": "test",
+      "name": "TestSetSystemConfigOtherSystemNumbersUnchangedAndSkipOP00",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestSetSystemConfigOtherSystemNumbersUnchangedAndSkipOP00"
+    },
+    {
+      "kind": "test",
+      "name": "TestSystemConfigBoundMCPGraphQLParity",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestSystemConfigBoundMCPGraphQLParity"
+    },
+    {
+      "kind": "test",
+      "name": "TestSystemConfigNonFiniteRejectedBeforeBusIO",
+      "file": "cmd/gateway/semantic_vaillant_dhw_bound_test.go",
+      "function": "TestSystemConfigNonFiniteRejectedBeforeBusIO"
+    },
+    {
+      "kind": "test",
+      "name": "TestAttachPassiveShadowProducer_DedupSuppressedWriteStillInvalidatesShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestAttachPassiveShadowProducer_DedupSuppressedWriteStillInvalidatesShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestAttachPassiveShadowProducer_ResubscribesAfterCriticalOverflow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestAttachPassiveShadowProducer_ResubscribesAfterCriticalOverflow"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_DirectApplyAdmissionHonorsNormalizedPolicyFlags",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_DirectApplyAdmissionHonorsNormalizedPolicyFlags"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_IgnoresNonApplicableEvents",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_IgnoresNonApplicableEvents"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_ReadSkipsShadowWhenObserveFirstMasterDisabled",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_ReadSkipsShadowWhenObserveFirstMasterDisabled"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_ReadUnknownWatchKeyDoesNotPolluteShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_ReadUnknownWatchKeyDoesNotPolluteShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_ReadWithoutSharedWatchKeyDoesNotPolluteShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_ReadWithoutSharedWatchKeyDoesNotPolluteShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_UnmatchedExternalWriteInvalidatesShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_UnmatchedExternalWriteInvalidatesShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_UnmatchedValueBearingB524ReadWritesShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_UnmatchedValueBearingB524ReadWritesShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_UnmatchedValueBearingReadWritesShadow",
+      "file": "cmd/gateway/semantic_vaillant_passive_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_UnmatchedValueBearingReadWritesShadow"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupL1PrimingStatusAcceptsPublishedGPIOOnlyFM5Planes",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupL1PrimingStatusAcceptsPublishedGPIOOnlyFM5Planes"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupL1PrimingStatusRejectsEmptyInterpretedCylinders",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupL1PrimingStatusRejectsEmptyInterpretedCylinders"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupL1PrimingStatusRequiresCriticalPlanes",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupL1PrimingStatusRequiresCriticalPlanes"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupL1PrimingStatusRequiresFM5PlanesWhenInterpreted",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupL1PrimingStatusRequiresFM5PlanesWhenInterpreted"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupRadioDeviceInclude_SkipsDisconnectedRegulatorSlots",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupRadioDeviceInclude_SkipsDisconnectedRegulatorSlots"
+    },
+    {
+      "kind": "test",
+      "name": "TestStartupRadioFullScanGroups_AreSelectedPerGroup",
+      "file": "cmd/gateway/semantic_vaillant_startup_test.go",
+      "function": "TestStartupRadioFullScanGroups_AreSelectedPerGroup"
+    },
+    {
+      "kind": "test",
+      "name": "TestBoilerStatusRegisterDefinitionsForTier_NoReturnTemperatureMapping",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestBoilerStatusRegisterDefinitionsForTier_NoReturnTemperatureMapping"
+    },
+    {
+      "kind": "test",
+      "name": "TestDeviceSlotCacheGating_OnlyPollsCachedSlots",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestDeviceSlotCacheGating_OnlyPollsCachedSlots"
+    },
+    {
+      "kind": "test",
+      "name": "TestDeviceSlotCacheGating_RequiresRediscoveryAfterTTL",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestDeviceSlotCacheGating_RequiresRediscoveryAfterTTL"
+    },
+    {
+      "kind": "test",
+      "name": "TestDiscoverDeviceSlotsExcludesDisconnectedRegulatorAndThermostatSlots",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestDiscoverDeviceSlotsExcludesDisconnectedRegulatorAndThermostatSlots"
+    },
+    {
+      "kind": "test",
+      "name": "TestDiscoverDeviceSlotsKeepsDisconnectedFunctionalModuleIdentityEvidence",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestDiscoverDeviceSlotsKeepsDisconnectedFunctionalModuleIdentityEvidence"
+    },
+    {
+      "kind": "test",
+      "name": "TestFlowsetHcMaxSpecIncludesFallbackAddress",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestFlowsetHcMaxSpecIncludesFallbackAddress"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_EmitsWatchEfficiencyCandidateForRejectedDirectApply",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_EmitsWatchEfficiencyCandidateForRejectedDirectApply"
+    },
+    {
+      "kind": "test",
+      "name": "TestHandleAdjudicatedPassiveEvent_EmitsWatchEfficiencyDirectApply",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestHandleAdjudicatedPassiveEvent_EmitsWatchEfficiencyDirectApply"
+    },
+    {
+      "kind": "test",
+      "name": "TestPrepareSemanticReadWatchRuntime_FallbackDescriptorB524DiscoveryBucketsCorrectly",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestPrepareSemanticReadWatchRuntime_FallbackDescriptorB524DiscoveryBucketsCorrectly"
+    },
+    {
+      "kind": "test",
+      "name": "TestPrepareSemanticReadWatch_UsesObserverDescriptorFreshness",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestPrepareSemanticReadWatch_UsesObserverDescriptorFreshness"
+    },
+    {
+      "kind": "test",
+      "name": "TestReadB524StartupUsesLivePathWithoutScheduler",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestReadB524StartupUsesLivePathWithoutScheduler"
+    },
+    {
+      "kind": "test",
+      "name": "TestReadEnergyRegister_MonthlyNeverServedFromCache",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestReadEnergyRegister_MonthlyNeverServedFromCache"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshBoilerStatusFastMergesCachedDHWWhenB509UpdatesWithoutB524Mirrors",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshBoilerStatusFastMergesCachedDHWWhenB509UpdatesWithoutB524Mirrors"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshBoilerStatusFastProjectsB524MirrorsWithoutActiveB524Reads",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshBoilerStatusFastProjectsB524MirrorsWithoutActiveB524Reads"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshBoilerStatusFastUsesCachedDHWWithoutB524DHWReads",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshBoilerStatusFastUsesCachedDHWWithoutB524DHWReads"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshCircuits_DoesNotPromoteDhwPseudoCircuitWithoutTemperatureEvidence",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshCircuits_DoesNotPromoteDhwPseudoCircuitWithoutTemperatureEvidence"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshCircuits_PreservesDhwPseudoCircuitWhenEvidenceReadsFail",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshCircuits_PreservesDhwPseudoCircuitWhenEvidenceReadsFail"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshCircuits_PromotesDhwPseudoCircuitWithTemperatureEvidence",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshCircuits_PromotesDhwPseudoCircuitWithTemperatureEvidence"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshCircuits_ReadsCircuitStateFromRR001EAndPumpFromRR001B",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshCircuits_ReadsCircuitStateFromRR001EAndPumpFromRR001B"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshConfigDHWOnlySuccessKeepsZonesCacheSource",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshConfigDHWOnlySuccessKeepsZonesCacheSource"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshConfigNoZonesStillRefreshesDHWSlowConfig",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshConfigNoZonesStillRefreshesDHWSlowConfig"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshConfigReadsSlowZoneAndDHWB524Selectors",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshConfigReadsSlowZoneAndDHWB524Selectors"
+    },
+    {
+      "kind": "specimen",
+      "name": "TestRefreshDiscoveryPrimesDHWBeforeStartupZoneScan",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshDiscoveryPrimesDHWBeforeStartupZoneScan"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshDiscoveryRetriesDHWBeforeStartupZoneScan",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshDiscoveryRetriesDHWBeforeStartupZoneScan"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshRadioDevicesClearsStaleSnapshotsWhenDiscoveryFindsNoRefreshableSlots",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshRadioDevicesClearsStaleSnapshotsWhenDiscoveryFindsNoRefreshableSlots"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshRadioDevicesPreservesSnapshotsWhenRediscoveryOnlyTimesOut",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshRadioDevicesPreservesSnapshotsWhenRediscoveryOnlyTimesOut"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshRadioDevicesSkipsVolatileDetailsForDisconnectedFunctionalModuleInventory",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshRadioDevicesSkipsVolatileDetailsForDisconnectedFunctionalModuleInventory"
+    },
+    {
+      "kind": "test",
+      "name": "TestRefreshStateSkipsSlowZoneAndDHWB524Selectors",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRefreshStateSkipsSlowZoneAndDHWB524Selectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestRegistryRadioDeviceSeeds_UsesKnownRegulatorAndFM5Identities",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestRegistryRadioDeviceSeeds_UsesKnownRegulatorAndFM5Identities"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticReadBreakerKeyIncludesOpcode",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestSemanticReadBreakerKeyIncludesOpcode"
+    },
+    {
+      "kind": "test",
+      "name": "TestSemanticReadWatchDescriptorWithDecoderID_ClassifiesB524Cadence",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestSemanticReadWatchDescriptorWithDecoderID_ClassifiesB524Cadence"
+    },
+    {
+      "kind": "test",
+      "name": "TestSetBoilerConfig_WriteConfirmForcesLiveReadAfterWrite",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestSetBoilerConfig_WriteConfirmForcesLiveReadAfterWrite"
+    },
+    {
+      "kind": "test",
+      "name": "TestSetBoilerConfig_WriteConfirmInvalidatesShadowBeforeReadback",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestSetBoilerConfig_WriteConfirmInvalidatesShadowBeforeReadback"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_DoesNotInferAmbiguousThermostatAssignment",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_DoesNotInferAmbiguousThermostatAssignment"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_FillsRoomStateFromMappedRadioSensors",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_FillsRoomStateFromMappedRadioSensors"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_InfersThermostatMappingFromRadioAssignment",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_InfersThermostatMappingFromRadioAssignment"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_KeepsDirectRoomStateOverRadioFallback",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_KeepsDirectRoomStateOverRadioFallback"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_RadioFallbackDoesNotPersistAsDirectState",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_RadioFallbackDoesNotPersistAsDirectState"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantSemanticPoller_PublishZones_SkipsUnknownRoomSensorMappingFallback",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "function": "TestVaillantSemanticPoller_PublishZones_SkipsUnknownRoomSensorMappingFallback"
+    },
+    {
+      "kind": "test",
+      "name": "TestM15FreshSystemFlowMirrorPublishesChangedDHWWithFailedB509",
+      "file": "cmd/gateway/thermal_boiler_publication_test.go",
+      "function": "TestM15FreshSystemFlowMirrorPublishesChangedDHWWithFailedB509"
+    },
+    {
+      "kind": "test",
+      "name": "TestM15UnqualifiedFlowOnlyCyclePublishesChangedDHW",
+      "file": "cmd/gateway/thermal_boiler_publication_test.go",
+      "function": "TestM15UnqualifiedFlowOnlyCyclePublishesChangedDHW"
+    },
+    {
+      "kind": "test",
+      "name": "TestB524InterfaceIdentityQualifierConversion",
+      "file": "cmd/gateway/vaillant_b524_interface_identity_test.go",
+      "function": "TestB524InterfaceIdentityQualifierConversion"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantPublicationGolden",
+      "file": "cmd/gateway/vaillant_publication_golden_test.go",
+      "function": "TestVaillantPublicationGolden"
+    },
+    {
+      "kind": "test",
+      "name": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues",
+      "file": "cmd/gateway/vaillant_semantic_publication_views_test.go",
+      "function": "TestVaillantZoneViewsDeriveRadioStateOnlyForMissingZoneValues"
+    },
+    {
+      "kind": "symbol",
+      "name": "IsB524ResponseCoherent",
+      "file": "b524_coherency.go",
+      "package": "."
+    }
+  ],
+  "patterns": [],
+  "destinations": [
+    {
+      "kind": "symbol",
+      "name": "decodeDATA2b",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeDATA2c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeHoursum2",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeOnOff",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodePercent0",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeSIN",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeUCH",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeUIN",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeUIN100",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRow.decode"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeDATA2b",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeDATA2c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeHoursum2",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeOnOff",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodePercent0",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeSIN",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeUCH",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeUIN",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeUIN100",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "buildB509ReadSelector",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "B509Selector.Payload"
+    },
+    {
+      "kind": "symbol",
+      "name": "buildB509WriteSelector",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "B509Selector.WithValue"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeBCDPhone",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "decodeBoilerBCD"
+    },
+    {
+      "kind": "symbol",
+      "name": "parseB509ReadPayload",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "ParseBoilerReadPayload"
+    },
+    {
+      "kind": "symbol",
+      "name": "parseB509WriteAck",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "ParseBoilerWriteAck"
+    },
+    {
+      "kind": "symbol",
+      "name": "buildB524ReadSelector",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "B524Selector.Payload"
+    },
+    {
+      "kind": "symbol",
+      "name": "buildB524WriteSelector",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "B524Selector.WithValue"
+    },
+    {
+      "kind": "symbol",
+      "name": "isB524ProbeCoherent",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "Coherent"
+    },
+    {
+      "kind": "symbol",
+      "name": "matchesB524ReplyInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "ParseReply"
+    },
+    {
+      "kind": "symbol",
+      "name": "parseB524ReadPayload",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "ParseReply"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524BoolFromRaw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "boolOf"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524DateSuppressSentinel",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "suppressedDate"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524FirmwareVersion",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "decodeStructured"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524Float32FromRaw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "floatOf"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524Uint16",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "uint16Of"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeB524Uint32FromRaw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "decodeBytes"
+    },
+    {
+      "kind": "symbol",
+      "name": "decodeExactB524Bool",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "boolOf"
+    },
+    {
+      "kind": "symbol",
+      "name": "CircuitStateCooling",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "CircuitStateDHW",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "CircuitStateHeating",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "CircuitStateStandby",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "b524GroupDef",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "def"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555OpcodeConfigRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "scheduleConfigOpcode"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555OpcodeSlotsRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "scheduleCountsOpcode"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555OpcodeTimerRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "scheduleReadOpcode"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555OpcodeTimerWrite",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "scheduleWriteOpcode"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_central_heating_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_central_heating_pump",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_central_heating_starts",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_circulation_pump_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_deactivations_ifc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_deactivations_limit",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_dhw_demand_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_dhw_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_dhw_starts",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_dhw_temp_desired_c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_dhw_water_flow_lpm",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_diverter_valve_position",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_external_pump_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_fan_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_fan_speed_rpm",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flame_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flow_temp_desired_c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flow_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flowset_hc_max_c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flowset_hc_max_c_fallback",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_flowset_hwc_max_c",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_gas_valve_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_heating_switch_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_hours_till_service",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_installer_menu_code",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_ionisation_voltage_ua",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_modulation_pct",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_partload_hc_kw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_partload_hwc_kw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_phone_number",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_primary_circuit_flow_lpm",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_pump_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_state_number",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_storage_load_pump_pct",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_target_fan_speed_rpm",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "boiler_b509_water_pressure",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows.go",
+      "destination_name": "BoilerRegisterRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_calc_flow_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_circuit_state",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_cooling_enabled",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_dew_point",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_flow_setpoint",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_flow_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_flow_temp_max",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_flow_temp_min",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_heating_curve",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_humidity",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_mixer_position",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_pump_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_pump_starts",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_pump_status",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_room_temp_control",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_special_function_mode",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_summer_limit",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "circuit_type",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "cylinder_charge_hysteresis",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "cylinder_charge_offset",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "cylinder_max_setpoint",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "cylinder_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_class_address",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_connected",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_firmware",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_hardware_identifier",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_paired",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_reception_strength",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_remote_control_address",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_room_humidity",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_room_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "device_slot_zone_assignment",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhwInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhwPseudoCircuitInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhwPseudoCircuitTypeRaw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_current_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_holiday_end_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_holiday_start_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_operation_mode",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_special_function",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "dhw_target_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localCircuits",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localCylinders",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localDHW",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localRegulator",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localSolar",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "localZones",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "regulatorInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "remoteDeviceGroups",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "remoteDefs"
+    },
+    {
+      "kind": "symbol",
+      "name": "remoteFunctionalModules",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "remoteDefs"
+    },
+    {
+      "kind": "symbol",
+      "name": "remoteRegulators",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "remoteDefs"
+    },
+    {
+      "kind": "symbol",
+      "name": "remoteThermostats",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "remoteDefs"
+    },
+    {
+      "kind": "symbol",
+      "name": "solarInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_collector_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_current_yield",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_enabled",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_function_mode",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_pump_active",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_pump_hours",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "solar_return_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_adaptive_heating_curve",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_alternative_point",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_dhw_bivalence_point",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_flow_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_hc_emergency_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_heating_circuit_bivalence_point",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_hwc_cylinder_temperature_bottom",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_hwc_cylinder_temperature_top",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_hwc_max_flow_temp_desired",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_installer_menu_code",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_installer_name_1",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_installer_name_2",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_installer_phone_1",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_installer_phone_2",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_maintenance_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_maintenance_due",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_max_room_humidity",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_module_configuration_vr71",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_off",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_outdoor_temperature",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_outdoor_temperature_avg_24h",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_scheme",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "system_water_pressure",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB509OpcodeRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "BoilerRead"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB509OpcodeWrite",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "BoilerWrite"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB509Primary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "primaryBoilerRegister"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB509Secondary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "secondaryBoilerRegister"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB524OpRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "OperationRead"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB524OpWrite",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "OperationWrite"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB524OpcodeLocal",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "OpcodeLocal"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB524OpcodeRead",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "OpcodeRemote"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB555Primary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "primarySchedule"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantB555Secondary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "secondarySchedule"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantExtRegisterPrimary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "primaryExtendedRegister"
+    },
+    {
+      "kind": "symbol",
+      "name": "vaillantExtRegisterSecondary",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "secondaryExtendedRegister"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_current_humidity",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_current_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_fallback_manual_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_heating_op_mode",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_holiday_end_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_holiday_end_time",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_holiday_setpoint",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_holiday_start_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_holiday_start_time",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_index",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_name",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_name_prefix",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_name_suffix",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_quick_veto_duration",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_quick_veto_end_date",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_quick_veto_end_time",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_quick_veto_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_room_temperature_zone_mapping_raw",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_special_function",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_target_temp",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "zone_valve_status",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows.go",
+      "destination_name": "localRows"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555ErrorDesc",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/schedule_rows.go",
+      "destination_name": "ScheduleStatusText"
+    },
+    {
+      "kind": "symbol",
+      "name": "b555ErrorDescriptions",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/schedule_rows.go",
+      "destination_name": "scheduleStatusText"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestB524GroupDef_OpcodeGroupBindingIsCorrect",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsInventory"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestBuildB524ReadSelector",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors_test.go",
+      "destination_name": "TestVaillantInputSelectorsInventoryBuildsRecordedRequests"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCircuitRegisterSelectors_PinCircuitStateAndPumpStatus",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsInventory"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeB524DateSuppressSentinel",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeB524FirmwareVersion",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestDecodeB524Uint16",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestIsB524ProbeCoherent",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsProbeAndRead"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestMatchesB524ReplyInstance",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsNeighbourAndMiss"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestParseB509ReadPayload",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestParseB524ReadPayload",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "destination_name": "TestVaillantInputRowsNeighbourAndMiss"
+    },
+    {
+      "kind": "symbol",
+      "name": "b503PrimaryByte",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "primaryDiagnostic"
+    },
+    {
+      "kind": "symbol",
+      "name": "b503SecondaryByte",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors.go",
+      "destination_name": "secondaryDiagnostic"
+    },
+    {
+      "kind": "symbol",
+      "name": "b524InterfaceQualifier",
+      "package": "cmd/gateway",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/interface_identity_rows.go",
+      "destination_name": "InterfaceIdentityQualifier"
+    },
+    {
+      "kind": "test",
+      "name": "TestB524GroupDef_OpcodeGroupBindingIsCorrect",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsInventory"
+    },
+    {
+      "kind": "test",
+      "name": "TestBuildB524ReadSelector",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/selectors_test.go",
+      "test": "TestVaillantInputSelectorsInventoryBuildsRecordedRequests"
+    },
+    {
+      "kind": "test",
+      "name": "TestCircuitRegisterSelectors_PinCircuitStateAndPumpStatus",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsInventory"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeB524DateSuppressSentinel",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeB524FirmwareVersion",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeB524Uint16",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeDATA2b",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeDATA2c",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeHoursum2",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeOnOff",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodePercent0",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeSIN",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeUCH",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeUIN",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestDecodeUIN100",
+      "file": "cmd/gateway/b509_decode_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestIsB524ProbeCoherent",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsProbeAndRead"
+    },
+    {
+      "kind": "test",
+      "name": "TestMatchesB524ReplyInstance",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsNeighbourAndMiss"
+    },
+    {
+      "kind": "test",
+      "name": "TestParseB509ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/boiler_register_rows_test.go",
+      "test": "TestVaillantInputRowsBoilerRegisterReadVectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestParseB524ReadPayload",
+      "file": "cmd/gateway/semantic_vaillant_test.go",
+      "repository": "ebusreg",
+      "path": "driver/vaillant/input/extended_register_rows_test.go",
+      "test": "TestVaillantInputRowsNeighbourAndMiss"
+    }
+  ],
+  "expectations": [
+    {
+      "case": "session-poller-full-site",
+      "kind": "poller-session",
+      "rows": [],
+      "inputs": {
+        "raw": "",
+        "qualifiers": "scenario=full_site",
+        "clock": "{\"frame_cost\":\"20ms\",\"kind\":\"simulated\",\"start\":\"2026-01-05T06:00:00Z\",\"step_gap\":\"11m\"}",
+        "state": "{\"cache_seed\":null}"
+      },
+      "selectors": {},
+      "references": [
+        {
+          "role": "donor-native",
+          "repository": "docs-semantic",
+          "revision": "a8e83019a82521862f1e2c69e75f1d792d0aec3d",
+          "path": "acceptance/vectors/current/sessions/vaillant/poller-full-site/session.json",
+          "blob_sha256": "a3ecbfbdb8a1c12980c2afb1bee76e44ee537440b5fda72ea5ff1ea356300708",
+          "projection": {
+            "fields": {
+              "format": "helianthus-oracle-session/1",
+              "session": "vaillant-poller-full-site",
+              "reference": "current",
+              "scenario": "full_site",
+              "description": "Complete synthetic Vaillant poller session: discovery, one refresh pass of every plane, then four write steps, on the pinned virtual site and its simulated clock.",
+              "harness": {
+                "entry": "gateway",
+                "package": "cmd/gateway",
+                "sources": "gateway-sessions",
+                "test": "TestOracleSessionVaillantPoller"
+              },
+              "fixtures": [
+                {
+                  "path": "cmd/gateway/vaillant_publication_golden_test.go",
+                  "sha256": "d5fbdac85a1d3e1b56130f8dca45d76fe43f0b32c2db83d74c30c2dd71e66522"
+                },
+                {
+                  "path": "cmd/gateway/vaillant_publication_site_test.go",
+                  "sha256": "5c12414dce2fa84da79198536e46509f14d7bae8703b143482de25a508a8173b"
+                },
+                {
+                  "path": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+                  "sha256": "6deef142442561ce31a605d57f23ee602ea042094cd0483b06b5c0e4af84be9d"
+                }
+              ],
+              "clock": {
+                "kind": "simulated",
+                "start": "2026-01-05T06:00:00Z",
+                "step_gap": "11m",
+                "frame_cost": "20ms"
+              },
+              "state": {
+                "cache_seed": null
+              },
+              "input": {
+                "steps": [
+                  "startup_discovery",
+                  "refresh pass (13 refresh tasks)",
+                  "write_boiler_config",
+                  "write_system_config",
+                  "write_zone_time_program",
+                  "write_dhw_time_program"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "session-poller-cache-hydrated-partial-reads",
+      "kind": "poller-session",
+      "rows": [],
+      "inputs": {
+        "raw": "",
+        "qualifiers": "scenario=cache_hydrated_partial_reads",
+        "clock": "{\"frame_cost\":\"20ms\",\"kind\":\"simulated\",\"start\":\"2026-01-05T06:00:00Z\",\"step_gap\":\"11m\"}",
+        "state": "{\"cache_seed\":\"cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json\"}"
+      },
+      "selectors": {},
+      "references": [
+        {
+          "role": "donor-native",
+          "repository": "docs-semantic",
+          "revision": "a8e83019a82521862f1e2c69e75f1d792d0aec3d",
+          "path": "acceptance/vectors/current/sessions/vaillant/poller-cache-hydrated-partial-reads/session.json",
+          "blob_sha256": "7b9ddf75164257f4e1165d3e101a715d11bbb97837aa094b829be9d28916b4c7",
+          "projection": {
+            "fields": {
+              "format": "helianthus-oracle-session/1",
+              "session": "vaillant-poller-cache-hydrated-partial-reads",
+              "reference": "current",
+              "scenario": "cache_hydrated_partial_reads",
+              "description": "Synthetic Vaillant poller session started from a hydrated semantic cache, one successful pass, then a pass in which a fixed set of reads stops answering.",
+              "harness": {
+                "entry": "gateway",
+                "package": "cmd/gateway",
+                "sources": "gateway-sessions",
+                "test": "TestOracleSessionVaillantPoller"
+              },
+              "fixtures": [
+                {
+                  "path": "cmd/gateway/vaillant_publication_golden_test.go",
+                  "sha256": "d5fbdac85a1d3e1b56130f8dca45d76fe43f0b32c2db83d74c30c2dd71e66522"
+                },
+                {
+                  "path": "cmd/gateway/vaillant_publication_site_test.go",
+                  "sha256": "5c12414dce2fa84da79198536e46509f14d7bae8703b143482de25a508a8173b"
+                },
+                {
+                  "path": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json",
+                  "sha256": "6deef142442561ce31a605d57f23ee602ea042094cd0483b06b5c0e4af84be9d"
+                }
+              ],
+              "clock": {
+                "kind": "simulated",
+                "start": "2026-01-05T06:00:00Z",
+                "step_gap": "11m",
+                "frame_cost": "20ms"
+              },
+              "state": {
+                "cache_seed": "cmd/gateway/testdata/vaillant_publication/semantic_cache_seed.json"
+              },
+              "input": {
+                "steps": [
+                  "cache_hydrated",
+                  "startup_discovery",
+                  "refresh pass",
+                  "failing_startup_discovery",
+                  "failing refresh pass"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "expected_differences": [],
+  "receipts": []
+}
