@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -401,12 +402,16 @@ def _account_tests(
             else:
                 staying.append(assertion)
         if not moved_only:
-            stays.append({
+            record = {
                 "kind": "test",
                 "name": test.name,
                 "file": test.file,
                 "function": test.name,
-            })
+            }
+            if any((entry.get("file"), entry.get("name")) == (test.file, test.name)
+                   for entry in spec.get("test_comparisons") or []):
+                record["moved_uses"] = sorted(test.uses & moved_names)
+            stays.append(record)
             continue
         for assertion in staying:
             stays.append({
@@ -836,6 +841,10 @@ def _destinations(spec: dict[str, Any], accounted: dict[str, Any], patterns: lis
             "path": assertion["destination_path"],
             "test": assertion["test"],
         })
+    for test in spec.get("test_comparisons") or []:
+        entries.append({"kind": "test", **{key: test.get(key) for key in (
+            "name", "file", "repository", "path", "test",
+        )}})
     expectations = {item["case"]: item for item in spec.get("expectations") or []}
     for pattern in patterns:
         for case in pattern["cases"]:
@@ -908,9 +917,9 @@ def build_manifest(donor: Path, tool: Path, spec: dict[str, Any]) -> tuple[dict[
         "expected_differences": differences,
         "receipts": [],
     }
-    contradiction = _absence_contradiction_errors(manifest)
-    if contradiction:
-        return None, contradiction
+    problems = _absence_contradiction_errors(manifest) + _test_comparison_problems(manifest)
+    if problems:
+        return None, problems
     return manifest, []
 
 
@@ -1191,6 +1200,7 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
         ],
         "assertions": supplied,
         "specimens": specimens,
+        "test_comparisons": [entry for entry in manifest["destinations"] if entry.get("kind") == "test"],
         "shared": [],
     }
     recomputed, account_errors = _accounting(donor, spec)
@@ -1224,6 +1234,64 @@ def _closure_check(donor: Path, manifest: dict[str, Any]) -> list[str]:
 
 def _text_present(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def _go_test_name(name: Any) -> bool:
+    return (
+        isinstance(name, str) and name.isidentifier() and name.startswith("Test")
+        and (len(name) == 4 or not name[4].islower())
+    )
+
+
+def _test_comparison_problems(manifest: dict[str, Any]) -> list[str]:
+    destinations = manifest["destinations"]
+    comparisons = [entry for entry in destinations if entry.get("kind") == "test"]
+    if not comparisons:
+        return []
+    retained = {(item["file"], item["name"]): item for item in manifest["stays"] if item["kind"] == "test"}
+    moved = {(item["file"], item["name"]): item for item in manifest["symbols"]}
+    moved_names = set()
+    for symbol in moved.values():
+        if "package" in symbol:
+            moved_names.add(f"{symbol['package']}:{symbol['name']}")
+            if symbol["file"].endswith("_test.go"):
+                moved_names.add(f"{symbol['package']}#xtest:{symbol['name']}")
+        else:
+            moved_names.add(symbol["name"])
+    sealed = {(item["repository"], path) for item in manifest["paths"] for path in item["paths"]}
+    errors = []
+    seen = set()
+    for entry in comparisons:
+        name, file, repository, path, test = (entry.get(key) for key in ("name", "file", "repository", "path", "test"))
+        identity = f"test-comparison source={file}:{name} destination={repository}:{path}:{test}"
+        if not all(_text_present(value) for value in (name, file, repository, path, test)) or not (
+            _go_test_name(name) and _go_test_name(test) and file.endswith("_test.go") and path.endswith("_test.go")
+            and not Path(path).is_absolute() and ".." not in Path(path).parts
+        ):
+            errors.append(f"invalid-{identity}")
+            continue
+        source = (file, name)
+        if source in seen:
+            errors.append(f"ambiguous-{identity}")
+        seen.add(source)
+        if source in moved:
+            symbol = moved[source]
+            if not any(
+                item.get("kind") == "symbol" and item["name"] == name
+                and item.get("package") == symbol.get("package")
+                and (item["repository"], item["path"], item.get("destination_name", name)) == (repository, path, test)
+                for item in destinations
+            ):
+                errors.append(f"mismatched-{identity}")
+        else:
+            uses = retained.get(source, {}).get("moved_uses")
+            if not isinstance(uses, list) or not uses or not all(
+                isinstance(use, str) and use in moved_names for use in uses
+            ):
+                errors.append(f"unaccounted-{identity}")
+        if (repository, path) not in sealed:
+            errors.append(f"unsealed-{identity}")
+    return errors
 
 
 def _case_destination_problems(manifest: dict[str, Any]) -> list[str]:
@@ -1268,6 +1336,7 @@ def check(manifest_path: Path, donor: Path) -> int:
     errors.extend(_closure_check(donor, manifest))
     errors.extend(_binding_problems(manifest))
     errors.extend(_case_destination_problems(manifest))
+    errors.extend(_test_comparison_problems(manifest))
     errors.extend(_pattern_check(donor, repo_root(), manifest))
     if manifest_path.read_bytes() != before:
         errors.append("check-wrote")
@@ -1580,6 +1649,50 @@ def _run_transferred(destination: Path, entry: dict[str, Any], move: str) -> tup
     ], True
 
 
+def _run_test_comparison(destination: Path, entry: dict[str, Any], move: str) -> list[str]:
+    test = entry["test"]
+    path = Path(entry["path"])
+    identity = (
+        f"row={move} source={entry['file']}:{entry['name']} "
+        f"destination={entry['repository']}:{path} test={test}"
+    )
+    missing = f"not-executed {identity}"
+    file = destination / path
+    if not file.is_file() or not re.search(
+        rf"\bfunc\s+{re.escape(test)}\s*\(", closure.blank_source(file.read_text(encoding="utf-8"))
+    ):
+        return [missing]
+    environment = {**os.environ, "GOWORK": "off", "GOFLAGS": "-mod=mod",
+                   "GOPROXY": "off", "GOSUMDB": "off", "GO111MODULE": "on"}
+    target = _package_target(entry["path"])
+    listed = subprocess.run(
+        ["go", "list", "-f", "{{range .TestGoFiles}}{{println .}}{{end}}"
+         "{{range .XTestGoFiles}}{{println .}}{{end}}", target],
+        cwd=destination, capture_output=True, text=True, env=environment, check=False,
+    )
+    if listed.returncode != 0 or path.name not in listed.stdout.splitlines():
+        return [missing, *listed.stderr.splitlines()]
+    completed = subprocess.run(
+        ["go", "test", "-json", "-count=1", "-run", f"^{re.escape(test)}$", target],
+        cwd=destination, capture_output=True, text=True, env=environment, check=False,
+    )
+    terminal = []
+    for line in completed.stdout.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("Test") == test and event.get("Action") in ("pass", "fail", "skip"):
+            terminal.append(event["Action"])
+    result = "pass" if terminal == ["pass"] and completed.returncode == 0 else "fail"
+    messages = [f"test-outcome {identity} invocation-status={completed.returncode} result={result}"]
+    if terminal not in (["pass"], ["fail"]):
+        messages.append(missing)
+    if result == "fail":
+        messages.extend(completed.stderr.splitlines())
+    return messages
+
+
 def compare(manifest_path: Path, destination: Path) -> int:
     manifest = load_json(manifest_path)
     before = manifest_path.read_bytes()
@@ -1594,6 +1707,7 @@ def compare(manifest_path: Path, destination: Path) -> int:
     reference_errors.extend(_difference_errors(manifest))
     reference_errors.extend(_absence_contradiction_errors(manifest))
     reference_errors.extend(_binding_problems(manifest))
+    reference_errors.extend(_test_comparison_problems(manifest))
     if reference_errors:
         return emit(reference_errors)
     expectations = {item["case"]: item for item in manifest["expectations"]}
@@ -1605,6 +1719,10 @@ def compare(manifest_path: Path, destination: Path) -> int:
     executed: set[tuple[str, str]] = set()
     move = str(manifest.get("row") or "")
     for entry in manifest["destinations"]:
+        if entry.get("kind") == "test":
+            messages.extend(_run_test_comparison(destination, entry, move))
+            ran = True
+            continue
         if entry.get("kind") == "assertion":
             lines, did_run = _run_transferred(destination, entry, move)
             messages.extend(lines)

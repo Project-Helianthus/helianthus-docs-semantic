@@ -61,9 +61,17 @@ It does not read a destination checkout and it cannot see a destination regressi
 A failing `generate`, `receipt` or `deletion` writes nothing.
 Failure lines are unique and sorted.
 `check` prints `check: ok` on success.
-`compare` prints one result per bound case and one result per transferred assertion, then `compare: ok`.
+`compare` prints a result for each bound case, transferred assertion and whole-test comparison, then `compare: ok` on success.
 A move whose `patterns` list is empty still runs each transferred assertion at its recorded destination test.
 When the manifest declares transferred assertions and none of them ran, `compare` fails with `not-executed move=<row>` and does not print `compare: ok`.
+
+## Whole-test comparisons
+
+A donor test that stays and exercises moved behaviour can be bound to its destination test without treating the donor file or test as moved. A test already listed as a moved symbol can also opt into whole-test comparison, using its recorded destination name (including a rename).
+
+In the generator input, `test_comparisons` entries have `file` and `name` for the donor test, and `repository`, `path` and `test` for the destination. The donor identity must match a `test` under `stays` or a moved test symbol. The destination path must be sealed for that repository, and a moved test's destination must agree with its symbol mapping. `generate` writes each binding under `destinations` with `kind: "test"`; it does not change the closure classification. For a bound retained test it also records `moved_uses` under `stays`: the moved symbols reached by that test. `check` recomputes those uses from the donor. `compare` has no donor checkout, so it checks that the recorded uses are nonempty and refer to symbols in the move before it runs the destination test.
+
+`compare` runs each exact named Go test in its recorded file and reports its own invocation status. An absent, skipped or failing test does not pass. These runs check the whole test's own assertions; they do not substitute for transferred-assertion diagnostics or independent vector comparisons.
 
 ## Symbol-level moves
 
