@@ -330,7 +330,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1903 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1911 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -436,6 +436,51 @@ class CommittedCatalog(unittest.TestCase):
         self.assertTrue(all(item["admission"]["arm"] == "public_registry" for item in schemes))
 
 
+    def test_pv_measured_range_and_accuracy_range_elements(self):
+        """One member per measured-range and accuracy-range element of the PV inverter.
+
+        Expectations are literal: id, unit and measurement type are written here,
+        never read back from the catalog.
+        - id: a renamed element is not found in the catalog.
+        - unit: another unit fails the unit comparison against the pack metadata.
+        - subject: another dimension or kind fails the subject comparison.
+        - qualifier: a missing or different qualifier fails the qualifier comparison.
+        - value kind: another kind fails the value-kind comparison.
+        - bound: a bound or default in the pack field fails the empty-bound comparison.
+        """
+        metadata = subset.load_json(validator.ROOT / "api/v1/pack-metadata-v1.json")
+        pv_pack = next(item for item in metadata["packs"] if item["pack"]["id"] == "helianthus.pack.pv")
+        units = {item["ref"]["id"]: item["canonical_unit"]["id"]
+                 for item in pv_pack["fields"] if item["canonical_unit"]}
+        vectors = subset.load_json(validator.ROOT / "api/v1/packs/pv-inverter-acceptance-vectors.json")
+        fields = {item["id"]: item for item in vectors["catalog"]["definitions"]["fields"]}
+        expected = (
+            ("pv.accuracy.measured_minimum_active_current", "unit.ampere"),
+            ("pv.accuracy.measured_maximum_active_current", "unit.ampere"),
+            ("pv.accuracy.range_minimum_active_current", "unit.ampere"),
+            ("pv.accuracy.range_maximum_active_current", "unit.ampere"),
+            ("pv.accuracy.measured_minimum_active_power", "unit.watt"),
+            ("pv.accuracy.measured_maximum_active_power", "unit.watt"),
+            ("pv.accuracy.range_minimum_active_power", "unit.watt"),
+            ("pv.accuracy.range_maximum_active_power", "unit.watt"),
+        )
+        for ident, unit in expected:
+            with self.subTest(ident=ident):
+                entry = entry_of(CATALOG, ident)
+                self.assertEqual(entry["element_kind"], "fact")
+                self.assertEqual(entry["disposition"], "member")
+                self.assertEqual(entry["planes"], ["energy"])
+                attributes = entry["attributes"]
+                self.assertEqual(attributes["value_kind"], "quantity")
+                self.assertEqual(attributes["subject"]["dimension"]["id"], "pv.dimension.inverter")
+                self.assertEqual(attributes["subject"]["kind"], "resource.inverter")
+                self.assertEqual([item["id"] for item in attributes["qualifiers"]],
+                                 ["pv.dimension.measurement_type"])
+                self.assertEqual(units[ident], unit)
+                self.assertEqual(fields[ident]["bounds"], {"minimum": None, "maximum": None})
+                self.assertNotIn("default", fields[ident])
+                self.assertNotIn("default", attributes)
+
     def test_qu11_generator_and_ventilation(self):
         power = entry_of(CATALOG, "thermal.measurement.electrical_power")
         self.assertEqual(power["attributes"]["direction"], "not_applicable")
@@ -462,7 +507,7 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 1821)
+        self.assertEqual(len(kinds), 1829)
         self.assertEqual(kinds.count("relation"), 40)
         self.assertEqual(kinds.count("presentation"), 55)
         self.assertEqual(kinds.count("dimension"), 87)

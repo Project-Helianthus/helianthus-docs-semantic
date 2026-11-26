@@ -52363,6 +52363,430 @@
           "id": "helianthus.pack.pv",
           "version": "1.0.0"
         },
+        "id": "pv.accuracy.measured_maximum_active_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.measured_maximum_active_current"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.measured_maximum_active_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.measured_maximum_active_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.measured_maximum_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.measured_maximum_active_power"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.measured_maximum_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.measured_maximum_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.measured_minimum_active_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.measured_minimum_active_current"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.measured_minimum_active_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.measured_minimum_active_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.measured_minimum_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.measured_minimum_active_power"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.measured_minimum_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.measured_minimum_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.range_maximum_active_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.range_maximum_active_current"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.range_maximum_active_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.range_maximum_active_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.range_maximum_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.range_maximum_active_power"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.range_maximum_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.range_maximum_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.range_minimum_active_current",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.range_minimum_active_current"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.range_minimum_active_current",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.range_minimum_active_current",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
+        "id": "pv.accuracy.range_minimum_active_power",
+        "version": "1.0.0"
+      },
+      "kind": "fact",
+      "disposition": "unknown",
+      "reason": "eebus.unmapped.v1",
+      "loss": [
+        {
+          "kind": "policy",
+          "source_items": [
+            "pv.accuracy.range_minimum_active_power"
+          ],
+          "description": "no SPINE feature, function, entity, scenario or datagram is created",
+          "reversible": false
+        }
+      ],
+      "source": {
+        "kernel_contract": "helianthus.semantic.kernel/v1",
+        "requested": {
+          "kind": "fact",
+          "item_id": "pv.accuracy.range_minimum_active_power",
+          "item_version": "1.0.0"
+        },
+        "revision_binding": {
+          "snapshot_id": "exact_input_snapshot",
+          "revisions": "exact_input_revisions"
+        },
+        "fact_keys": [
+          {
+            "pack_id": "helianthus.pack.pv",
+            "pack_version": "1.0.0",
+            "fact_id": "pv.accuracy.range_minimum_active_power",
+            "dimensions": {
+              "mode": "exact_runtime_fact_key",
+              "definition": {
+                "pack": {
+                  "id": "helianthus.pack.pv",
+                  "version": "1.0.0"
+                },
+                "id": "pv.dimension.inverter",
+                "version": "1.0.0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "ref": {
+        "pack": {
+          "id": "helianthus.pack.pv",
+          "version": "1.0.0"
+        },
         "id": "pv.accuracy.ratio_maximum",
         "version": "1.0.0"
       },

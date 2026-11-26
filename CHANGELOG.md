@@ -6,6 +6,14 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The PV pack and element catalog gain eight facts on `pv.dimension.inverter`, each
+  qualified by `pv.dimension.measurement_type`, for the measured minimum, the measured
+  maximum, and the minimum and maximum of one accuracy range, one set for `active_current`
+  (`unit.ampere`) and one for `active_power` (`unit.watt`). Bounds are empty, and no fact
+  has a default or a declared value. Each has one unknown Matter 1.6.1 row, reason
+  `matter.unmapped.v1`, and the catalog digest in the graph vectors is updated. No
+  version is raised.
+
 - The [driver contract](api/v1/driver-contract.md) states that a factory's descriptor
   declares the driver kinds it plans, so the host knows the owner of a configured
   instance without calling planning. The instance and its secret reference go only to

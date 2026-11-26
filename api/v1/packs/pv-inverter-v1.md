@@ -40,6 +40,24 @@ dimension, not a fact-key dimension. `pv.accuracy.measured` is a boolean and
 are qualified by `pv.dimension.measurement_type`. The ratio bounds are empty.
 This pack does not publish an Accuracy struct.
 
+Eight further facts carry the values an electrical measurement states for its
+measured range and for one accuracy range, one set for each measurement type
+the pilot serves. For `active_current` the facts are
+`pv.accuracy.measured_minimum_active_current`,
+`pv.accuracy.measured_maximum_active_current`,
+`pv.accuracy.range_minimum_active_current` and
+`pv.accuracy.range_maximum_active_current`, each `unit.ampere`. For
+`active_power` the facts are `pv.accuracy.measured_minimum_active_power`,
+`pv.accuracy.measured_maximum_active_power`,
+`pv.accuracy.range_minimum_active_power` and
+`pv.accuracy.range_maximum_active_power`, each `unit.watt`. Each is on
+`pv.dimension.inverter` and qualified by `pv.dimension.measurement_type`. The
+bounds of all eight are empty. The Matter field constraint of `-2^62` to `2^62`
+limits the integer representation in the Matter unit and is not a bound of the
+measured quantity. No fact has a default and none holds a declared value. A
+value that a device does not publish stays absent, and a source for one of
+these values is added only by a row that names that source.
+
 The corresponding services and explicit relation
 definitions preserve system-to-inverter, inverter-to-array, array-to-string,
 inverter-to-input, and inverter-to-phase records. Each of the five relation
@@ -69,6 +87,14 @@ pv.limit.active_power_ratio       pv.limit.export_power
 pv.status.operating               pv.status.derating
 pv.status.fault
 pv.accuracy.measured              pv.accuracy.ratio_maximum
+pv.accuracy.measured_minimum_active_current
+pv.accuracy.measured_maximum_active_current
+pv.accuracy.range_minimum_active_current
+pv.accuracy.range_maximum_active_current
+pv.accuracy.measured_minimum_active_power
+pv.accuracy.measured_maximum_active_power
+pv.accuracy.range_minimum_active_power
+pv.accuracy.range_maximum_active_power
 pv.dimension.measurement_type
 pv.service.system                 pv.service.inverter
 pv.service.array                  pv.service.string
@@ -93,7 +119,8 @@ pv.portal.operation.set_export_limit
 
 A quantity carries closed minimum and maximum kernel `Decimal`
 `{coefficient, exponent10}` bounds only when its fact table states both.
-Empty bounds stay empty. `pv.accuracy.ratio_maximum` has both bounds empty.
+Empty bounds stay empty. `pv.accuracy.ratio_maximum` and the eight measured-range and range facts have
+both bounds empty.
 `pv.ac.phase_power_factor` is closed from -1 to 1.
 `pv.configuration.grid_code` is the eeBUS grid-code fact.
 SunSpec grid-code settings have no element.
