@@ -136,7 +136,7 @@ FIELD_CONTRACTS = {
     "infrastructure.energy.apparent_export": empty_quantity("unit.volt_ampere_second", "infrastructure.dimension.meter"),
     "infrastructure.energy.phase_import": empty_quantity("unit.joule", "infrastructure.dimension.phase"),
     "infrastructure.energy.phase_export": empty_quantity("unit.joule", "infrastructure.dimension.phase"),
-    "infrastructure.ac.phase_power_factor": unitless_quantity("infrastructure.dimension.phase"),
+    "infrastructure.ac.phase_power_factor": quantity("unit.ratio", "infrastructure.dimension.phase", None, None),
     "infrastructure.ac.reactive_current": empty_quantity("unit.ampere", "infrastructure.dimension.phase"),
     "infrastructure.ac.apparent_current": empty_quantity("unit.ampere", "infrastructure.dimension.phase"),
     "infrastructure.ac.neutral_current": empty_quantity("unit.ampere", "infrastructure.dimension.circuit"),

@@ -22672,7 +22672,14 @@
             "id": "infrastructure.ac.phase_power_factor",
             "version": "1.0.0"
           },
-          "canonical_unit": null,
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
           "dimension": {
             "pack": {
               "id": "helianthus.pack.infrastructure",
