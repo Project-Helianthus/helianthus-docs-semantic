@@ -1,0 +1,1128 @@
+{
+  "row": "CC05",
+  "donor": {
+    "repository": "gateway",
+    "sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+  },
+  "paths": [
+    {
+      "repository": "gateway",
+      "paths": [
+        "cmd/growatt-can-classify/main.go",
+        "cmd/growatt-can-classify/main_test.go",
+        "internal/growattcanclassify/classify.go",
+        "internal/growattcanclassify/classify_test.go"
+      ],
+      "sha256": "1f86631b794174a6413a29fa7ff48f7092a29fa9ac66452656263eb7480d218e",
+      "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+    },
+    {
+      "repository": "canbusreg",
+      "paths": [
+        "cmd/growatt-can-classify/main.go",
+        "cmd/growatt-can-classify/main_test.go",
+        "docs/growatt-can-classify.md",
+        "internal/growattcanclassify/classify.go",
+        "internal/growattcanclassify/classify_test.go"
+      ],
+      "sha256": "afe93b8d59cfe5e13b5cbea57d338b13400574857bdf1213653932d58fb57603",
+      "donor_sha": "37f18bbaf5d2a8ce583e299bfa77c15b8eb131fa"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "main",
+      "file": "cmd/growatt-can-classify/main.go",
+      "uses": [
+        "run"
+      ],
+      "package": "cmd/growatt-can-classify"
+    },
+    {
+      "name": "run",
+      "file": "cmd/growatt-can-classify/main.go",
+      "uses": [
+        "internal/growattcanclassify.Classify",
+        "internal/growattcanclassify.DefaultMaxBytes",
+        "internal/growattcanclassify.DefaultMaxLine",
+        "internal/growattcanclassify.Options",
+        "internal/growattcanclassify.WriteText"
+      ],
+      "package": "cmd/growatt-can-classify"
+    },
+    {
+      "name": "TestCX02CLIStdinAndFile",
+      "file": "cmd/growatt-can-classify/main_test.go",
+      "uses": [
+        "internal/growattcanclassify.Result",
+        "run"
+      ],
+      "package": "cmd/growatt-can-classify"
+    },
+    {
+      "name": "TestCX02CLITextAssociationAndErrors",
+      "file": "cmd/growatt-can-classify/main_test.go",
+      "uses": [
+        "run"
+      ],
+      "package": "cmd/growatt-can-classify"
+    },
+    {
+      "name": "Candidate",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "Classify",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "DefaultMaxBytes",
+        "DefaultMaxLine",
+        "Frame",
+        "InterfaceResult",
+        "MaxFrames",
+        "Options",
+        "Result",
+        "classifyFrame",
+        "parse",
+        "summarize"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "DefaultMaxBytes",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "DefaultMaxLine",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "Frame",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Candidate"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "InterfaceResult",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "MaxFrames",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "Options",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "Result",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Frame",
+        "InterfaceResult"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "WriteText",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Result",
+        "optionalInt"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "classifyFrame",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Candidate",
+        "Frame",
+        "intPointer"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "containsFlag",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "decimalTimestamp",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "hasFlag",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "intPointer",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "optionalInt",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "outcome",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "parse",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Candidate",
+        "Frame",
+        "containsFlag",
+        "hasFlag",
+        "setIdentifier",
+        "validTimestamp"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "setIdentifier",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "Frame"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "summarize",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "InterfaceResult",
+        "Result",
+        "outcome"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "validTimestamp",
+      "file": "internal/growattcanclassify/classify.go",
+      "uses": [
+        "decimalTimestamp"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02BoundsAndIndependentSibling",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Classify",
+        "DefaultMaxBytes",
+        "Options",
+        "WriteText",
+        "classify",
+        "failReader",
+        "failWriter",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02CompactAndFDLengthMetadata",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "hasFlag"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02CompactFDRequiresFlagsNibble",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "parse"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02CompactRawDLCSuffix",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "hasFlag"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02CompactSuffixAndFDBounds",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02DateTimestampAndBraceDLC",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "parse"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02IdentityEvidenceFieldVariation",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02InvalidAndFlagsRetention",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02LINKGeometryAndIdentity",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02LINKNegativeRouteAndASCII",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02MONAssociationAndIndependentDimensions",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02PCSExtendedNegativeDirections",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02PCSExtendedRoutes",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02ParallelGroupsAndRelease",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02RTRLengthAndBracketForm",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "hasFlag"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02RTRSuffixAndBracketDigitRules",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02RecordBoundAndInvalidUTF8",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Classify",
+        "MaxFrames",
+        "Options",
+        "classify"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02SharedControlOnlyUnknown",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02StandardAmbiguity",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "has",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02StandardTupleNegativeSelectors",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "classify",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "TestCX02UnknownMixedCountsAndDeterminism",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Options",
+        "WriteText",
+        "classify",
+        "payload"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "classify",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Classify",
+        "Options",
+        "Result"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "failReader",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "failReader.Read",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "failReader"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "failWriter",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "failWriter.Write",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "failWriter"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "has",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [
+        "Frame"
+      ],
+      "package": "internal/growattcanclassify"
+    },
+    {
+      "name": "payload",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "uses": [],
+      "package": "internal/growattcanclassify"
+    }
+  ],
+  "assertions": [],
+  "stays": [
+    {
+      "kind": "test",
+      "name": "TestCX22ClassificationDoesNotAdmit",
+      "file": "cmd/gateway/growatt_project_conformance_test.go",
+      "function": "TestCX22ClassificationDoesNotAdmit"
+    }
+  ],
+  "patterns": [],
+  "destinations": [
+    {
+      "kind": "symbol",
+      "name": "main",
+      "package": "cmd/growatt-can-classify",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main.go",
+      "destination_name": "main"
+    },
+    {
+      "kind": "symbol",
+      "name": "run",
+      "package": "cmd/growatt-can-classify",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main.go",
+      "destination_name": "run"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CLIStdinAndFile",
+      "package": "cmd/growatt-can-classify",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main_test.go",
+      "destination_name": "TestCX02CLIStdinAndFile"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CLITextAssociationAndErrors",
+      "package": "cmd/growatt-can-classify",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main_test.go",
+      "destination_name": "TestCX02CLITextAssociationAndErrors"
+    },
+    {
+      "kind": "symbol",
+      "name": "Candidate",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "Candidate"
+    },
+    {
+      "kind": "symbol",
+      "name": "Classify",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "Classify"
+    },
+    {
+      "kind": "symbol",
+      "name": "DefaultMaxBytes",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "DefaultMaxBytes"
+    },
+    {
+      "kind": "symbol",
+      "name": "DefaultMaxLine",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "DefaultMaxLine"
+    },
+    {
+      "kind": "symbol",
+      "name": "Frame",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "Frame"
+    },
+    {
+      "kind": "symbol",
+      "name": "InterfaceResult",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "InterfaceResult"
+    },
+    {
+      "kind": "symbol",
+      "name": "MaxFrames",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "MaxFrames"
+    },
+    {
+      "kind": "symbol",
+      "name": "Options",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "Options"
+    },
+    {
+      "kind": "symbol",
+      "name": "Result",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "Result"
+    },
+    {
+      "kind": "symbol",
+      "name": "WriteText",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "WriteText"
+    },
+    {
+      "kind": "symbol",
+      "name": "classifyFrame",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "classifyFrame"
+    },
+    {
+      "kind": "symbol",
+      "name": "containsFlag",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "containsFlag"
+    },
+    {
+      "kind": "symbol",
+      "name": "decimalTimestamp",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "decimalTimestamp"
+    },
+    {
+      "kind": "symbol",
+      "name": "hasFlag",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "hasFlag"
+    },
+    {
+      "kind": "symbol",
+      "name": "intPointer",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "intPointer"
+    },
+    {
+      "kind": "symbol",
+      "name": "optionalInt",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "optionalInt"
+    },
+    {
+      "kind": "symbol",
+      "name": "outcome",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "outcome"
+    },
+    {
+      "kind": "symbol",
+      "name": "parse",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "parse"
+    },
+    {
+      "kind": "symbol",
+      "name": "setIdentifier",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "setIdentifier"
+    },
+    {
+      "kind": "symbol",
+      "name": "summarize",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "summarize"
+    },
+    {
+      "kind": "symbol",
+      "name": "validTimestamp",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify.go",
+      "destination_name": "validTimestamp"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02BoundsAndIndependentSibling",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02BoundsAndIndependentSibling"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CompactAndFDLengthMetadata",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02CompactAndFDLengthMetadata"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CompactFDRequiresFlagsNibble",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02CompactFDRequiresFlagsNibble"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CompactRawDLCSuffix",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02CompactRawDLCSuffix"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02CompactSuffixAndFDBounds",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02CompactSuffixAndFDBounds"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02DateTimestampAndBraceDLC",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02DateTimestampAndBraceDLC"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02IdentityEvidenceFieldVariation",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02IdentityEvidenceFieldVariation"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02InvalidAndFlagsRetention",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02InvalidAndFlagsRetention"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02LINKGeometryAndIdentity",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02LINKGeometryAndIdentity"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02LINKNegativeRouteAndASCII",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02LINKNegativeRouteAndASCII"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02MONAssociationAndIndependentDimensions",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02MONAssociationAndIndependentDimensions"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02PCSExtendedNegativeDirections",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02PCSExtendedNegativeDirections"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02PCSExtendedRoutes",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02PCSExtendedRoutes"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02ParallelGroupsAndRelease",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02ParallelGroupsAndRelease"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02RTRLengthAndBracketForm",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02RTRLengthAndBracketForm"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02RTRSuffixAndBracketDigitRules",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02RTRSuffixAndBracketDigitRules"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02RecordBoundAndInvalidUTF8",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02RecordBoundAndInvalidUTF8"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02SharedControlOnlyUnknown",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02SharedControlOnlyUnknown"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02StandardAmbiguity",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02StandardAmbiguity"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02StandardTupleNegativeSelectors",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02StandardTupleNegativeSelectors"
+    },
+    {
+      "kind": "symbol",
+      "name": "TestCX02UnknownMixedCountsAndDeterminism",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "TestCX02UnknownMixedCountsAndDeterminism"
+    },
+    {
+      "kind": "symbol",
+      "name": "classify",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "classify"
+    },
+    {
+      "kind": "symbol",
+      "name": "failReader",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "failReader"
+    },
+    {
+      "kind": "symbol",
+      "name": "failReader.Read",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "failReader.Read"
+    },
+    {
+      "kind": "symbol",
+      "name": "failWriter",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "failWriter"
+    },
+    {
+      "kind": "symbol",
+      "name": "failWriter.Write",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "failWriter.Write"
+    },
+    {
+      "kind": "symbol",
+      "name": "has",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "has"
+    },
+    {
+      "kind": "symbol",
+      "name": "payload",
+      "package": "internal/growattcanclassify",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "destination_name": "payload"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CLIStdinAndFile",
+      "file": "cmd/growatt-can-classify/main_test.go",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main_test.go",
+      "test": "TestCX02CLIStdinAndFile"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CLITextAssociationAndErrors",
+      "file": "cmd/growatt-can-classify/main_test.go",
+      "repository": "canbusreg",
+      "path": "cmd/growatt-can-classify/main_test.go",
+      "test": "TestCX02CLITextAssociationAndErrors"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02BoundsAndIndependentSibling",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02BoundsAndIndependentSibling"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CompactAndFDLengthMetadata",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02CompactAndFDLengthMetadata"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CompactFDRequiresFlagsNibble",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02CompactFDRequiresFlagsNibble"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CompactRawDLCSuffix",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02CompactRawDLCSuffix"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02CompactSuffixAndFDBounds",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02CompactSuffixAndFDBounds"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02DateTimestampAndBraceDLC",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02DateTimestampAndBraceDLC"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02IdentityEvidenceFieldVariation",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02IdentityEvidenceFieldVariation"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02InvalidAndFlagsRetention",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02InvalidAndFlagsRetention"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02LINKGeometryAndIdentity",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02LINKGeometryAndIdentity"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02LINKNegativeRouteAndASCII",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02LINKNegativeRouteAndASCII"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02MONAssociationAndIndependentDimensions",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02MONAssociationAndIndependentDimensions"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02PCSExtendedNegativeDirections",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02PCSExtendedNegativeDirections"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02PCSExtendedRoutes",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02PCSExtendedRoutes"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02ParallelGroupsAndRelease",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02ParallelGroupsAndRelease"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02RTRLengthAndBracketForm",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02RTRLengthAndBracketForm"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02RTRSuffixAndBracketDigitRules",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02RTRSuffixAndBracketDigitRules"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02RecordBoundAndInvalidUTF8",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02RecordBoundAndInvalidUTF8"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02SharedControlOnlyUnknown",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02SharedControlOnlyUnknown"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02StandardAmbiguity",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02StandardAmbiguity"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02StandardTupleNegativeSelectors",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02StandardTupleNegativeSelectors"
+    },
+    {
+      "kind": "test",
+      "name": "TestCX02UnknownMixedCountsAndDeterminism",
+      "file": "internal/growattcanclassify/classify_test.go",
+      "repository": "canbusreg",
+      "path": "internal/growattcanclassify/classify_test.go",
+      "test": "TestCX02UnknownMixedCountsAndDeterminism"
+    }
+  ],
+  "expectations": [],
+  "expected_differences": [],
+  "receipts": []
+}
