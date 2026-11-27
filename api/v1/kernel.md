@@ -1728,8 +1728,9 @@ A rule-only intent has no `Readback`. An execution record for it that carries
 
 `ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The exact
 snapshot must still be retrievable, its semantic revision must be greater than
-the admitted semantic revision, and it must contain the named observed candidate
-at exactly `candidate_revision`.
+the admitted semantic revision, and, except for the no-candidate `contradicts`
+form below, it must contain the named observed candidate at exactly
+`candidate_revision`.
 
 A readback with relation `contradicts` may carry no candidate (`candidate_id`
 and `candidate_revision` both omitted) when the contradicting evidence is not an
@@ -1740,9 +1741,14 @@ names the contradicting evidence; no new member is added. The outcome is then
 `conflict` with delivery `sent`. `confirms` always names a candidate of the
 operation's own fact at exactly `candidate_revision`, and a candidate of another
 fact key stays invalid. `inconclusive` is unchanged. The recorded invocation and
-the call-bound invocation give the same outcome for the same evidence. The candidate's binding, source, source epoch,
-and driver generation must equal these fields, resolve within that snapshot, and
-equal the admitted `Route`.
+the call-bound invocation give the same outcome for the same evidence. When a
+candidate is named, its binding, source, source epoch, and driver generation
+must equal these fields, resolve within that snapshot, and equal the admitted
+`Route`. The no-candidate form has no candidate to resolve, so the candidate
+rules below (route match, qualified, promoted, good, fresh and available
+evaluation, `dangling_reference` for a missing candidate) do not apply to it;
+its `binding_id`, `source_id`, `source_epoch_id` and `driver_generation` still
+equal the admitted `Route`, and the serialized candidate revision is absent.
 
 For `applied`, dispatch must be `sent` and include `Dispatch.completed`. The
 resolved candidate's `Times.received_at`/`receipt_monotonic` must prove a new
@@ -1755,7 +1761,8 @@ incomparable clocks, missing completion, or a retained pre-dispatch observation
 is `invalid_outcome`.
 
 `Readback.evaluation` is the complete explicit wall and monotonic context used
-to call `EvaluateSnapshot` on the later snapshot. When the receipt and
+to call `EvaluateSnapshot` on the later snapshot (for the no-candidate form it
+is retained as context only). When the receipt and
 evaluation monotonic epochs match, evaluation ticks MUST be greater than or
 equal to receipt ticks. Across epochs, `EvaluateSnapshot` applies the exact UTC
 uncertainty algorithm in `FreshnessPolicy`. The candidate must be qualified,
@@ -1803,7 +1810,7 @@ type ExecutionRecord struct {
 | `acknowledged_unverified` | A request was sent and accepted/provisionally acknowledged, but no confirming readback exists. |
 | `applied` | Dispatch occurred and exact current-generation readback was evaluated as `confirms` by the intent's exact operation-pack effect rule. An ACK is retained when the protocol supplies one. |
 | `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
-| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result, including a `contradicts` readback without a candidate (see [Readback](#type-readback)); delivery is `sent`. |
+| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result, including a `contradicts` readback without a candidate (see [Readback](#type-readback)), which requires delivery `sent`. |
 | `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
 
 For a rule-only intent, `acknowledged_unverified` is the best outcome.
