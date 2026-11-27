@@ -1748,15 +1748,16 @@ the call-bound invocation give the same outcome for the same evidence. When a
 candidate is named, its binding, source, source epoch, and driver generation
 must equal these fields, resolve within that snapshot, and equal the admitted
 `Route`. The no-candidate form has no candidate to resolve, so the candidate
-rules below (route match, qualified, promoted, good, fresh and available
-evaluation, `dangling_reference` for a missing candidate) do not apply to it;
+rules below (qualified, promoted, good, fresh and available evaluation,
+`dangling_reference` for a missing candidate) do not apply to it;
 the absent candidate id and revision are not a missing candidate reference and
 are not `dangling_reference`. Serialization and the operation-pack validator
 omit the candidate revision for this form and do not recompute the relation from
 a resolved candidate; the relation is `contradicts` and the outcome is
-`conflict`. A readback with relation `confirms` or `inconclusive` that omits the
-candidate is still `dangling_reference`. Its `binding_id`, `source_id`,
-`source_epoch_id` and `driver_generation` still equal the admitted `Route`.
+`conflict`. The no-candidate form's `binding_id`, `source_id`,
+`source_epoch_id` and `driver_generation` MUST equal the admitted `Route`. A
+readback with relation `confirms` or `inconclusive` that omits the candidate is
+still `dangling_reference`.
 
 For `applied`, dispatch must be `sent` and include `Dispatch.completed`. The
 resolved candidate's `Times.received_at`/`receipt_monotonic` must prove a new
