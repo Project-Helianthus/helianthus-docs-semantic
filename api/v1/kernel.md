@@ -1588,7 +1588,10 @@ predicate-bearing intent it receives the unchanged admitted intent and the
 exact resolved observed candidate named by `Readback`; it MUST reject a candidate
 whose `FactKey` differs from `Intent.expected_effect.fact`, then apply the
 pack-owned rule/operator/value and return the computed relation. The serialized
-`Readback.relation` must equal that result. Missing hooks or index entries are
+`Readback.relation` must equal that result. A `contradicts` readback with no
+candidate (see [Readback](#type-readback)) names no candidate to resolve, so the
+hook is not called for it and the serialized relation is `contradicts` by that
+form's own rule. Missing hooks or index entries are
 `definition_owner_missing`; a caller-provided `confirms` token is never evidence
 by itself.
 
@@ -1711,8 +1714,8 @@ native protocol evidence; it is not confirming readback.
 type Readback struct {
     SnapshotID        SnapshotID       `json:"snapshot_id"`
     Revisions         RevisionVector   `json:"revisions"`
-    CandidateID       CandidateID      `json:"candidate_id"`
-    CandidateRevision Uint64           `json:"candidate_revision"`
+    CandidateID       *CandidateID     `json:"candidate_id,omitempty"`
+    CandidateRevision *Uint64          `json:"candidate_revision,omitempty"`
     BindingID         NativeBindingID  `json:"binding_id"`
     SourceID          SourceID         `json:"source_id"`
     SourceEpochID     SourceEpochID    `json:"source_epoch_id"`
@@ -1728,10 +1731,33 @@ A rule-only intent has no `Readback`. An execution record for it that carries
 
 `ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The exact
 snapshot must still be retrievable, its semantic revision must be greater than
-the admitted semantic revision, and it must contain the named observed candidate
-at exactly `candidate_revision`. The candidate's binding, source, source epoch,
-and driver generation must equal these fields, resolve within that snapshot, and
-equal the admitted `Route`.
+the admitted semantic revision, and, except for the no-candidate `contradicts`
+form below, it must contain the named observed candidate at exactly
+`candidate_revision`.
+
+A readback with relation `contradicts` may carry no candidate (`candidate_id`
+and `candidate_revision` both omitted) when the contradicting evidence is not an
+observed value of the operation's own fact, for example a device row read back
+after dispatch that shows the requested effect is not in force while the value
+row equals the request. For this form `evidence` is required and non-empty and
+names the contradicting evidence; no new member is added. The outcome is then
+`conflict` with delivery `sent`. `confirms` always names a candidate of the
+operation's own fact at exactly `candidate_revision`, and a candidate of another
+fact key stays invalid. `inconclusive` is unchanged. The recorded invocation and
+the call-bound invocation give the same outcome for the same evidence. When a
+candidate is named, its binding, source, source epoch, and driver generation
+must equal these fields, resolve within that snapshot, and equal the admitted
+`Route`. The no-candidate form has no candidate to resolve, so the candidate
+rules below (qualified, promoted, good, fresh and available evaluation,
+`dangling_reference` for a missing candidate) do not apply to it;
+the absent candidate id and revision are not a missing candidate reference and
+are not `dangling_reference`. Serialization and the operation-pack validator
+omit the candidate revision for this form and do not recompute the relation from
+a resolved candidate; the relation is `contradicts` and the outcome is
+`conflict`. The no-candidate form's `binding_id`, `source_id`,
+`source_epoch_id` and `driver_generation` MUST equal the admitted `Route`. A
+readback with relation `confirms` or `inconclusive` that omits the candidate is
+still `dangling_reference`.
 
 For `applied`, dispatch must be `sent` and include `Dispatch.completed`. The
 resolved candidate's `Times.received_at`/`receipt_monotonic` must prove a new
@@ -1744,7 +1770,8 @@ incomparable clocks, missing completion, or a retained pre-dispatch observation
 is `invalid_outcome`.
 
 `Readback.evaluation` is the complete explicit wall and monotonic context used
-to call `EvaluateSnapshot` on the later snapshot. When the receipt and
+to call `EvaluateSnapshot` on the later snapshot (for the no-candidate form it
+is retained as context only). When the receipt and
 evaluation monotonic epochs match, evaluation ticks MUST be greater than or
 equal to receipt ticks. Across epochs, `EvaluateSnapshot` applies the exact UTC
 uncertainty algorithm in `FreshnessPolicy`. The candidate must be qualified,
@@ -1787,12 +1814,12 @@ type ExecutionRecord struct {
 
 | Outcome | Required evidence and meaning |
 |---|---|
-| `rejected` | No route or dispatch. `error_id` is required and records the stable admission error. |
-| `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect. Retry still requires the owning replay policy. |
+| `rejected` | The admission outcome: no route or dispatch. `error_id` is required and records the stable admission error. The executor never produces it. |
+| `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect; this includes an executor's own refusal before anything is sent, such as an unmet precondition it reads from the device. Retry still requires the owning replay policy. |
 | `acknowledged_unverified` | A request was sent and accepted/provisionally acknowledged, but no confirming readback exists. |
 | `applied` | Dispatch occurred and exact current-generation readback was evaluated as `confirms` by the intent's exact operation-pack effect rule. An ACK is retained when the protocol supplies one. |
 | `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
-| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result. |
+| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result, including a `contradicts` readback without a candidate (see [Readback](#type-readback)), which requires delivery `sent`. |
 | `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
 
 For a rule-only intent, `acknowledged_unverified` is the best outcome.
