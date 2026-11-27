@@ -193,13 +193,15 @@ Each `evidence` entry is an object with exactly four non-empty string members.
 | Member | Rule |
 | --- | --- |
 | `owner` | Public repository reference in one of two forms. `Project-Helianthus/<repository>@<revision>` pins an immutable revision, so the `locator` path at that revision is reproducible. `Project-Helianthus/<repository>#<number>` names an issue or pull request thread; it pins no revision and its content can change, so it is used only for kinds `issue` and `pull_request`, and the `statement` records what the thread established when cited. |
-| `kind` | Evidence kind, for example `native_disposition`, `native_evidence`, `native_qualification_card`, `native_registry`, `semantic_contract`, `semreg_fixture`, `specification`, `hardware_test_record`, `issue` or `pull_request`. Kinds are an open, additive vocabulary. |
+| `kind` | Evidence kind, for example `native_disposition`, `native_evidence`, `native_qualification_card`, `native_registry`, `semantic_contract`, `semreg_fixture`, `specification`, `hardware_test_record`, `certification`, `issue` or `pull_request`. Kinds are an open, additive vocabulary. |
 | `locator` | Path inside the repository at the pinned revision (`@` form), or the URL of the issue or pull request (`#` form). |
 | `statement` | What the cited material establishes, stated without copying restricted text and without claiming more than the source. |
 
 A `specification` entry cites the pinned native specification or public
 documentation that declares the mapping. A `hardware_test_record` entry cites a
-public hardware test record in a project repository. Evidence
+public hardware test record in a project repository. A `certification` entry
+cites a record of [certification references](certification-references-v1.md),
+that is, a value a certificate states about a device. Evidence
 MUST be publishable: no private material, device capture, serial, network
 coordinate or credential.
 

@@ -284,9 +284,14 @@ type OriginRef struct {
 }
 ```
 
-`OriginKind` is `native_observation`, `derived`, `operator`, `automation`, or
-`projection`. Native observations require source, epoch, and binding. Derived
-origins require a `Derivation` on the candidate. Operator and automation origins
+`OriginKind` is `native_observation`, `derived`, `declared`, `operator`,
+`automation`, or `projection`. Native observations require source, epoch, and
+binding. Derived origins require a `Derivation` on the candidate. A declared
+origin states a value that a source states about a device under stated
+conditions and that no device published, such as a
+[certification reference](certification-references-v1.md). A declared origin
+omits native source fields and carries 1 through 32 unique evidence references;
+it needs no `Derivation`. Operator and automation origins
 omit native source fields and require authority/audit evidence. Projection
 origins omit native source fields, retain the prior causal context, and require
 projection evidence. Evidence contains 1 through 32 unique references. An

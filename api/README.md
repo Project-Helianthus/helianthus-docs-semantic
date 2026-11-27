@@ -176,6 +176,17 @@ family (`semantic_pack` and the optional `further_semantic_packs`) and evidence
 references. It is checked by `scripts/validate_family_catalog_v1.py` and states
 no family's actual state; states live in the SemReg fixture with their evidence.
 
+## Certification references v1
+
+The [certification references contract v1](v1/certification-references-v1.md)
+defines the record form, the source category `certification` and the publication
+rule of a value that a certificate states about the measurement accuracy of a
+device. Such a record is held apart from every value a device publishes, and a
+driver publishes it with origin kind `declared` at lower priority than any device
+source. The [schema](v1/certification-references-v1.schema.json) and the
+[acceptance vectors](v1/certification-references-vectors-v1.json) are checked by
+`scripts/validate_certification_references_v1.py`.
+
 ## Element catalog v1
 
 The [element catalog](v1/element-catalog-v1.json) is the
@@ -394,6 +405,7 @@ Each in-place change made under the exception of the version rule before the
 | 2026-11-26 | [QR04](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/248): The [driver contract](v1/driver-contract.md) states how to stage source samples and link claims and hand off a prepared batch in the session transaction. Captured tree cuts expose the declared namespace and instance roster and installation root, and can be looked up, paged and released by cut ID. | None: no contract version, vector, schema, digest or validator changes. |
 | 2026-11-26 | [QR06](https://github.com/Project-Helianthus/helianthus-docs-semantic/issues/252): The [driver contract](v1/driver-contract.md) states that a factory's descriptor declares its driver kinds, so the host knows which factory owns a configured instance without calling planning, and hands the instance and its secret reference only to that factory. | None: no contract version, vector, schema, digest or validator changes. |
 | 2026-11-26 | The Matter 1.6.1 target names every mandatory value of the Electrical Sensor pilot that has no source. The descriptor gains the member `electrical_sensor_pilot` with an empty `declared_values` list and eleven `unsourced` entries (Power Topology and Electrical Power Measurement `FeatureMap`, `PowerMode`, `NumberOfMeasurementTypes`, the four range values, `Accuracy.MeasurementType`, `Accuracy.Measured` and `ActivePower`), each with its reason. The target row shape gains the optional members `field` and `declared`, which no row uses yet. No row changes disposition: `evse.ac.current` stays the only transformed row, and `ActivePower` is null for the pilot. No version is raised. | The bytes of `api/v1/targets/matter-1.6.1-v1.json` and its page, and `tests/test_matter161_target.py`. |
+| 2026-11-27 | The kernel `OriginKind` list gains `declared`: a value that a source states about a device under stated conditions and that no device published, with no native source fields, 1 through 32 unique evidence references and no `Derivation`. The family-catalog evidence kinds gain `certification`, and the [driver contract](v1/driver-contract.md) section 5 states that a certification value is published with origin kind `declared` and certification evidence, at lower priority than every device source and never beside a device value for the same fact key. No alias and no version is raised; `Quality.Assertion` of a declared candidate stays unresolved in the [certification references contract](v1/certification-references-v1.md). | The kernel and driver-contract pages, the evidence-kind sentence of `family-catalog-v1.md`, `scripts/check_docs.sh`, and the new files of the [certification references contract](v1/certification-references-v1.md). The SemReg `OriginKind` set follows in SemReg. |
 
 ## Matter 1.6.1 target
 
