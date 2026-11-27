@@ -6,6 +6,16 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- The infrastructure pack gains eight facts, and the EVSE pack and the storage pack gain
+  ten facts each, for the accuracy of an electrical measurement: the measured minimum, the
+  measured maximum, and the minimum and maximum of one accuracy range for `active_current`
+  (`unit.ampere`) and `active_power` (`unit.watt`), and for the EVSE and the storage pack
+  also the measured flag and the maximum ratio. The EVSE pack and the storage pack gain a
+  `*.dimension.measurement_type` qualifier. Bounds are empty, and no fact has a default or
+  a declared value. Each fact has one unknown Matter 1.6.1 row, reason
+  `matter.unmapped.v1`, and the catalog digest in the graph vectors is updated. The pack
+  versions are unchanged.
+
 - The PV pack and element catalog gain eight facts on `pv.dimension.inverter`, each
   qualified by `pv.dimension.measurement_type`, for the measured minimum, the measured
   maximum, and the minimum and maximum of one accuracy range, one set for `active_current`

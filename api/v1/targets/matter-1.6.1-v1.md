@@ -124,6 +124,26 @@ is not one device type, cluster, attribute and conversion. These facts hold a
 value only when a device publishes it, and a measured range or accuracy range
 that no driver publishes is a missing value, not an element with a number.
 
+The infrastructure meter, the EVSE meter and the storage pack have the same
+eight value facts as the PV inverter, on `infrastructure.dimension.meter`,
+`evse.dimension.meter` and `storage.dimension.pack`, each qualified by its own
+`*.dimension.measurement_type`. For the infrastructure meter they are
+`infrastructure.accuracy.measured_minimum_active_current`, `infrastructure.accuracy.measured_maximum_active_current`, `infrastructure.accuracy.range_minimum_active_current`, `infrastructure.accuracy.range_maximum_active_current`, `infrastructure.accuracy.measured_minimum_active_power`, `infrastructure.accuracy.measured_maximum_active_power`, `infrastructure.accuracy.range_minimum_active_power` and `infrastructure.accuracy.range_maximum_active_power`. For the EVSE meter they are
+`evse.accuracy.measured_minimum_active_current`, `evse.accuracy.measured_maximum_active_current`, `evse.accuracy.range_minimum_active_current`, `evse.accuracy.range_maximum_active_current`, `evse.accuracy.measured_minimum_active_power`, `evse.accuracy.measured_maximum_active_power`, `evse.accuracy.range_minimum_active_power` and `evse.accuracy.range_maximum_active_power`. For the storage pack they are
+`storage.accuracy.measured_minimum_active_current`, `storage.accuracy.measured_maximum_active_current`, `storage.accuracy.range_minimum_active_current`, `storage.accuracy.range_maximum_active_current`, `storage.accuracy.measured_minimum_active_power`, `storage.accuracy.measured_maximum_active_power`, `storage.accuracy.range_minimum_active_power` and `storage.accuracy.range_maximum_active_power`.
+
+The EVSE pack and the storage pack also add `evse.accuracy.measured`,
+`evse.accuracy.ratio_maximum`, `evse.dimension.measurement_type`,
+`storage.accuracy.measured`, `storage.accuracy.ratio_maximum` and
+`storage.dimension.measurement_type`, because neither had them. The
+infrastructure meter already had its measured fact, its ratio fact and its
+measurement-type dimension. The measured fact and the ratio fact of each
+subject have the same Matter columns as the PV inverter ones. Every added fact
+has one `unknown` row, reason `matter.unmapped.v1`, and no target member, and a
+dimension has no row. These facts hold a value only when a device publishes it.
+A value stated in a certification is a separate reference whose origin the
+endpoint states in its Fixed Label cluster, and it is never held in these facts.
+
 Electrical Power Measurement is not complete: `PowerMode` has no catalog
 element and no source in the cited tables, and `AccuracyRanges` as a list has
 no catalog element. The values `MinMeasuredValue`, `MaxMeasuredValue`,

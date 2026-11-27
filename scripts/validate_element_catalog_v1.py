@@ -367,8 +367,12 @@ def load_storage_pack(path, model):
     service_dimension = {item["id"]: dimension(item["dimension"]) for item in tables["services"]}
     for value in service_dimension.values():
         model.resource_dimension(value)
+    load_qualifier_dimensions({"qualifier_dimensions": [
+        {"id": item["id"], "value_kind": item["kind"], "symbols": item.get("symbols", [])}
+        for item in tables.get("qualifier_dimensions", [])]}, model, dimension)
     for item in tables["field_specs"]:
-        model.field(key(item["id"]), item["kind"], dimension(item["dimension"]))
+        qualifiers = tuple(dimension(ident) for ident in item.get("qualifiers", ()))
+        model.field(key(item["id"]), item["kind"], dimension(item["dimension"]), qualifiers)
     for item in tables["relations"]:
         ends = ((service_dimension[item["from"]],), (service_dimension[item["to"]],))
         model.relation(key(item["id"]), ends, item["cardinality"])

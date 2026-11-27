@@ -23,6 +23,29 @@ absolute zero, and an explicit unbounded maximum. Pack current and pack power re
 explicit unbounded minimum and maximum because their native reference or sign is
 not normalized by this contract. Symbol records carry their complete accepted set.
 
+Ten facts carry what an electrical measurement of the battery pack states about
+its accuracy, each on `storage.dimension.pack` and qualified by
+`storage.dimension.measurement_type`, a symbol dimension with the same
+seventeen measurement types as the PV inverter and the infrastructure meter.
+`storage.accuracy.measured` is a boolean and `storage.accuracy.ratio_maximum`
+is `unit.ratio`. Eight more carry the measured minimum, the measured maximum,
+and the minimum and maximum of one accuracy range, one set for `active_current`
+(`unit.ampere`) and one for `active_power` (`unit.watt`):
+`storage.accuracy.measured_minimum_active_current`,
+`storage.accuracy.measured_maximum_active_current`,
+`storage.accuracy.range_minimum_active_current`,
+`storage.accuracy.range_maximum_active_current`,
+`storage.accuracy.measured_minimum_active_power`,
+`storage.accuracy.measured_maximum_active_power`,
+`storage.accuracy.range_minimum_active_power` and
+`storage.accuracy.range_maximum_active_power`. The bounds of all ten are empty,
+none has a default and none holds a declared value. The Matter field constraint
+of `-2^62` to `2^62` limits the integer representation in the Matter unit and
+is not a bound of the measured quantity. A value that a device does not publish
+stays absent, and a value stated in a certification is a separate reference
+and is never held in these facts. This pack does not publish an Accuracy
+struct.
+
 Limit operations use the complete kernel outcomes: `rejected`,
 `failed_no_contact`, `acknowledged_unverified`, `applied`, `no_effect`,
 `conflict`, and `indeterminate`. ACK without confirming current-generation

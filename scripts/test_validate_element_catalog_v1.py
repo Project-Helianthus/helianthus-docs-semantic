@@ -330,7 +330,7 @@ class CommittedCatalog(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(validator.main(), 0)
-        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1911 entries"))
+        self.assertTrue(output.getvalue().startswith("PASS: element catalog CAT-1..CAT-9: 1941 entries"))
 
     def test_same_repository_pages_are_relative_paths(self):
         relative = []
@@ -481,6 +481,85 @@ class CommittedCatalog(unittest.TestCase):
                 self.assertNotIn("default", fields[ident])
                 self.assertNotIn("default", attributes)
 
+    def test_accuracy_elements_of_storage_evse_and_infrastructure(self):
+        """One member per accuracy element of the storage pack, the EVSE pack and the infrastructure meter.
+
+        Expectations are literal: id, value kind, unit, subject and qualifier are written here,
+        never read back from the catalog.
+        - id: a renamed element is not found in the catalog.
+        - value kind: another kind fails the value-kind comparison.
+        - unit: another unit fails the unit comparison against the pack metadata.
+        - subject: another dimension or kind fails the subject comparison.
+        - qualifier: a missing or different qualifier fails the qualifier comparison.
+        - default, bound, declared value: a pack field or catalog attribute that carries one fails
+          the empty-bound and no-default comparison.
+        """
+        metadata = subset.load_json(validator.ROOT / "api/v1/pack-metadata-v1.json")
+        units = {item["ref"]["id"]: item["canonical_unit"]["id"]
+                 for pack in metadata["packs"] for item in pack["fields"] if item["canonical_unit"]}
+        value_facts = (
+            ("accuracy.measured_minimum_active_current", "unit.ampere"),
+            ("accuracy.measured_maximum_active_current", "unit.ampere"),
+            ("accuracy.range_minimum_active_current", "unit.ampere"),
+            ("accuracy.range_maximum_active_current", "unit.ampere"),
+            ("accuracy.measured_minimum_active_power", "unit.watt"),
+            ("accuracy.measured_maximum_active_power", "unit.watt"),
+            ("accuracy.range_minimum_active_power", "unit.watt"),
+            ("accuracy.range_maximum_active_power", "unit.watt"),
+        )
+        base_facts = (("accuracy.measured", "boolean", None), ("accuracy.ratio_maximum", "quantity", "unit.ratio"))
+        subjects = {
+            "infrastructure": ("infrastructure.dimension.meter", "resource.meter", False,
+                               "vectors", "api/v1/packs/infrastructure-acceptance-vectors.json"),
+            "evse": ("evse.dimension.meter", "resource.meter", True,
+                     "vectors", "api/v1/packs/evse-acceptance-vectors.json"),
+            "storage": ("storage.dimension.pack", "resource.battery_pack", True,
+                        "tables", "api/v1/packs/storage-bms-contract-tables.json"),
+        }
+        listed = 0
+        for prefix, (dimension, kind, adds_base, source, path) in subjects.items():
+            document = subset.load_json(validator.ROOT / path)
+            if source == "tables":
+                fields = {item["id"]: item for item in document["field_specs"]}
+            else:
+                fields = {item["id"]: item for item in document["catalog"]["definitions"]["fields"]}
+            expected = [(prefix + "." + name, "quantity", unit) for name, unit in value_facts]
+            if adds_base:
+                expected = [(prefix + "." + name, value_kind, unit) for name, value_kind, unit in base_facts] + expected
+            for ident, value_kind, unit in expected:
+                listed += 1
+                with self.subTest(ident=ident):
+                    entry = entry_of(CATALOG, ident)
+                    self.assertEqual(entry["element_kind"], "fact")
+                    self.assertEqual(entry["disposition"], "member")
+                    self.assertEqual(entry["planes"], ["energy"])
+                    attributes = entry["attributes"]
+                    self.assertEqual(attributes["value_kind"], value_kind)
+                    self.assertEqual(attributes["subject"]["dimension"]["id"], dimension)
+                    self.assertEqual(attributes["subject"]["kind"], kind)
+                    self.assertEqual([item["id"] for item in attributes["qualifiers"]],
+                                     [prefix + ".dimension.measurement_type"])
+                    self.assertEqual(units.get(ident), unit)
+                    for name in ("default", "bounds", "minimum", "maximum", "value", "declared", "declared_value"):
+                        self.assertNotIn(name, attributes)
+                    self.assertNotIn("default", fields[ident])
+                    self.assertNotIn("value", fields[ident])
+                    self.assertNotIn("declared", fields[ident])
+                    if value_kind == "quantity":
+                        self.assertEqual(fields[ident]["bounds"], {"minimum": None, "maximum": None})
+                    else:
+                        self.assertNotIn("bounds", fields[ident])
+        self.assertEqual(listed, 28)
+        for prefix in ("evse", "storage"):
+            with self.subTest(dimension=prefix):
+                entry = entry_of(CATALOG, prefix + ".dimension.measurement_type")
+                self.assertEqual(entry["element_kind"], "dimension")
+                self.assertEqual(entry["attributes"]["role"], "qualifier")
+                self.assertEqual(entry["attributes"]["value_kind"], "symbol")
+                self.assertEqual(len(entry["attributes"]["symbols"]), 17)
+                for name in ("default", "bounds", "value", "declared"):
+                    self.assertNotIn(name, entry["attributes"])
+
     def test_qu11_generator_and_ventilation(self):
         power = entry_of(CATALOG, "thermal.measurement.electrical_power")
         self.assertEqual(power["attributes"]["direction"], "not_applicable")
@@ -507,10 +586,10 @@ class CommittedCatalog(unittest.TestCase):
 
     def test_reference_set_counts(self):
         kinds = list(INPUTS.pack_kinds.values())
-        self.assertEqual(len(kinds), 1829)
+        self.assertEqual(len(kinds), 1859)
         self.assertEqual(kinds.count("relation"), 40)
         self.assertEqual(kinds.count("presentation"), 55)
-        self.assertEqual(kinds.count("dimension"), 87)
+        self.assertEqual(kinds.count("dimension"), 89)
         self.assertEqual(len(INPUTS.kernel_types), 28)
 
     def test_room_planes_and_containment(self):
