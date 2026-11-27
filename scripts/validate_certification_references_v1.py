@@ -40,7 +40,7 @@ DATE_MEMBERS = ("issue_date", "retrieved_on")
 IDENTITY = ("driver", "vendor", "flavor", "model", "firmware")
 STATED_MEMBERS = (
     "measurement_type", "measured", "ratio_maximum", "measured_minimum",
-    "measured_maximum", "range_minimum", "range_maximum",
+    "measured_maximum", "range_minimum", "range_maximum", "statement",
 )
 DECIMAL_MEMBERS = ("ratio_maximum", "measured_minimum", "measured_maximum", "range_minimum", "range_maximum")
 UPPER_BOUND_SOURCES = ("certificate", "vendor_document")
@@ -178,20 +178,25 @@ def check_firmware(entry):
     return None
 
 
+def valid_stated_value(stated):
+    if not isinstance(stated, dict) or not set(stated) <= set(STATED_MEMBERS):
+        return False
+    measurement_type = stated.get("measurement_type")
+    if not isinstance(measurement_type, str) or not re.fullmatch(r"[a-z][a-z0-9_]*", measurement_type):
+        return False
+    values = set(stated) - {"measurement_type"}
+    if not values or ("measured" in values and type(stated["measured"]) is not bool):
+        return False
+    if "statement" in values and not is_text(stated["statement"]):
+        return False
+    return all(is_decimal(stated[name]) for name in values & set(DECIMAL_MEMBERS))
+
+
 def check_stated_value(entry):
     if "stated_value" not in entry:
         return None
-    stated = entry["stated_value"]
-    problem = Finding("stated_value_invalid", member="stated_value")
-    if not isinstance(stated, dict) or not set(stated) <= set(STATED_MEMBERS):
-        return problem
-    if not isinstance(stated.get("measurement_type"), str) or not re.fullmatch(r"[a-z][a-z0-9_]*", stated["measurement_type"]):
-        return problem
-    values = set(stated) - {"measurement_type"}
-    if not values or ("measured" in values and type(stated["measured"]) is not bool):
-        return problem
-    if not all(is_decimal(stated[name]) for name in values & set(DECIMAL_MEMBERS)):
-        return problem
+    if not valid_stated_value(entry["stated_value"]):
+        return Finding("stated_value_invalid", member="stated_value")
     return None
 
 

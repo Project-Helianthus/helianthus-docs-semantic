@@ -316,6 +316,25 @@ class StatedValueTest(unittest.TestCase):
                 self.assertIsNone(self.with_value({"measurement_type": "active_power", name: decimal}))
         self.assertIsNone(self.with_value({"measurement_type": "voltage", "measured": False}))
 
+    def test_measurement_type_and_statement_and_no_other_member_passes(self):
+        stated = {
+            "measurement_type": "active_energy",
+            "statement": "Accuracy class designation: class B, with the standard the certificate names.",
+        }
+        self.assertEqual(set(stated), {"measurement_type", "statement"})
+        entry = reference()
+        entry["stated_value"] = stated
+        self.assertIsNone(finding(entry))
+        self.assertEqual(schema_rejects(entry), False)
+
+    def test_a_statement_that_is_empty_or_not_a_string_fails(self):
+        for value in ("", 1, None, True, ["class B"], {"text": "class B"}):
+            with self.subTest(value):
+                entry = reference()
+                entry["stated_value"] = {"measurement_type": "active_energy", "statement": value}
+                self.assertEqual(finding(entry), v.Finding("stated_value_invalid", 0, "stated_value"))
+                self.assertTrue(schema_rejects(entry))
+
     def test_a_stated_value_that_is_not_an_object_fails(self):
         for stated in (None, [], "x", 1):
             with self.subTest(stated):
@@ -339,8 +358,16 @@ class StatedValueTest(unittest.TestCase):
             with self.subTest(stated):
                 self.assertEqual(self.with_value(stated).reason, "stated_value_invalid")
 
-    def test_a_statement_with_no_value_fails(self):
-        self.assertEqual(self.with_value({"measurement_type": "active_power"}).reason, "stated_value_invalid")
+    def test_measurement_type_alone_still_fails(self):
+        self.assertEqual(
+            self.with_value({"measurement_type": "active_power"}),
+            v.Finding("stated_value_invalid", 0, "stated_value"))
+
+    def test_stated_value_schema_lists_statement_among_the_required_one(self):
+        stated = SCHEMA["$defs"]["stated_value"]
+        self.assertIs(stated["additionalProperties"], False)
+        self.assertEqual(stated["properties"]["statement"], {"$ref": "#/$defs/text"})
+        self.assertIn({"required": ["statement"]}, stated["anyOf"])
 
     def test_measured_must_be_a_boolean(self):
         for value in (1, "true", None):

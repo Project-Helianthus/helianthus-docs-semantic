@@ -6,6 +6,12 @@ status: "unreleased change record; implementation and consumer adoption remain p
 
 ## Unreleased
 
+- A certification reference `stated_value` gains `statement`, the certificate's own
+  words for the accuracy, as written, for example a class designation with the
+  standard it names. A certificate that states only a class is a reference.
+  A statement feeds no accuracy fact, and nothing converts the class into a
+  number. The contract identifier is unchanged and no version is raised.
+
 - The infrastructure pack gains eight facts, and the EVSE pack and the storage pack gain
   ten facts each, for the accuracy of an electrical measurement: the measured minimum, the
   measured maximum, and the minimum and maximum of one accuracy range for `active_current`

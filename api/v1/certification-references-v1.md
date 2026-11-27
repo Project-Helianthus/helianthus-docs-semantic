@@ -26,7 +26,9 @@ below are its normative statement.
 Compatibility effect: new contract. The kernel origin list gains `declared` and
 the family-catalog evidence kinds gain `certification`, both in place
 ([in-place change record](../README.md#in-place-change-record)); no existing
-value changes its meaning and no version is raised.
+value changes its meaning and no version is raised. The member `statement` is
+an edit in place of this same contract: the contract identifier is unchanged
+and no version is raised.
 
 ## Source category
 
@@ -145,13 +147,17 @@ token form. At least one of the other members is present.
 | `measured_maximum` | decimal | The maximum of the measured range. |
 | `range_minimum` | decimal | The minimum of one accuracy range. |
 | `range_maximum` | decimal | The maximum of one accuracy range. |
+| `statement` | string | Non-empty: the certificate's words for the accuracy, as written, for example a class designation with the standard it names. |
 
 A decimal is the canonical decimal of [serialization](serialization.md#canonical-decimal-and-quantity):
 a `coefficient` string and an integer `exponent10`, written in the SI unit of the
 fact it feeds (`unit.ratio`, `unit.watt` or `unit.ampere`). A figure that the
 certificate states in percent is written as the exact ratio, with no rounding.
 A member whose measurement type has no fact in the table below holds a value
-that feeds nothing until the catalog has one.
+that feeds nothing until the catalog has one. A certificate that states the
+accuracy only as a class designation is a reference: `stated_value` holds
+`measurement_type` and `statement` and no other member. Nothing converts that
+class into a number.
 
 ## Which accuracy values a record can feed
 
@@ -163,6 +169,9 @@ that feeds nothing until the catalog has one.
 | `measured_maximum` | `pv.accuracy.measured_maximum_active_current`, `pv.accuracy.measured_maximum_active_power` | none |
 | `range_minimum` | `pv.accuracy.range_minimum_active_current`, `pv.accuracy.range_minimum_active_power` | none |
 | `range_maximum` | `pv.accuracy.range_maximum_active_current`, `pv.accuracy.range_maximum_active_power` | none |
+| `statement` | none | none |
+
+A statement feeds no fact. Nothing converts a class designation into a number.
 
 The facts are qualified by `pv.dimension.measurement_type` or
 `infrastructure.dimension.measurement_type`; the `measurement_type` member selects
@@ -220,7 +229,7 @@ last.
 | `invalid_value` | A text member is not a non-empty string, a date is not a calendar date, `url` is not an `https` address, or `category` is not one of the three. |
 | `firmware_invalid` | `firmware` has an unknown form, an unexpected member, a release of another form, or a range whose `from` is above its `to`. |
 | `firmware_upper_bound_unstated` | A range has no `upper_bound_stated_by`, or one that is not `certificate` or `vendor_document`. |
-| `stated_value_invalid` | `stated_value` has a member outside the table, no member besides `measurement_type`, a `null` member, or a decimal that is not canonical. |
+| `stated_value_invalid` | `stated_value` has a member outside the table, no member besides `measurement_type`, a `null` member, a `statement` that is empty or not a string, or a decimal that is not canonical. |
 | `schema` | The document does not conform to the schema in a way the reasons above do not name. |
 | `category_conflict` | Two entries of different categories share `driver`, `vendor`, `flavor`, `model` and `firmware`. |
 
@@ -255,3 +264,5 @@ last.
   states, and is accepted, falsifies the firmware rule.
 - A release earlier than the floor of a `release` record reported as covered, or
   a later release reported as not covered, falsifies the coverage rule.
+- A `statement` published as an accuracy fact, or a class designation converted
+  into a number, falsifies the rule that a statement feeds no fact.
