@@ -1711,8 +1711,8 @@ native protocol evidence; it is not confirming readback.
 type Readback struct {
     SnapshotID        SnapshotID       `json:"snapshot_id"`
     Revisions         RevisionVector   `json:"revisions"`
-    CandidateID       CandidateID      `json:"candidate_id"`
-    CandidateRevision Uint64           `json:"candidate_revision"`
+    CandidateID       *CandidateID     `json:"candidate_id,omitempty"`
+    CandidateRevision *Uint64          `json:"candidate_revision,omitempty"`
     BindingID         NativeBindingID  `json:"binding_id"`
     SourceID          SourceID         `json:"source_id"`
     SourceEpochID     SourceEpochID    `json:"source_epoch_id"`
@@ -1729,7 +1729,18 @@ A rule-only intent has no `Readback`. An execution record for it that carries
 `ReadbackRelation` is `confirms`, `contradicts`, or `inconclusive`. The exact
 snapshot must still be retrievable, its semantic revision must be greater than
 the admitted semantic revision, and it must contain the named observed candidate
-at exactly `candidate_revision`. The candidate's binding, source, source epoch,
+at exactly `candidate_revision`.
+
+A readback with relation `contradicts` may carry no candidate (`candidate_id`
+and `candidate_revision` both omitted) when the contradicting evidence is not an
+observed value of the operation's own fact, for example a device row read back
+after dispatch that shows the requested effect is not in force while the value
+row equals the request. For this form `evidence` is required and non-empty and
+names the contradicting evidence; no new member is added. The outcome is then
+`conflict` with delivery `sent`. `confirms` always names a candidate of the
+operation's own fact at exactly `candidate_revision`, and a candidate of another
+fact key stays invalid. `inconclusive` is unchanged. The recorded invocation and
+the call-bound invocation give the same outcome for the same evidence. The candidate's binding, source, source epoch,
 and driver generation must equal these fields, resolve within that snapshot, and
 equal the admitted `Route`.
 
@@ -1787,12 +1798,12 @@ type ExecutionRecord struct {
 
 | Outcome | Required evidence and meaning |
 |---|---|
-| `rejected` | No route or dispatch. `error_id` is required and records the stable admission error. |
-| `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect. Retry still requires the owning replay policy. |
+| `rejected` | The admission outcome: no route or dispatch. `error_id` is required and records the stable admission error. The executor never produces it. |
+| `failed_no_contact` | Dispatch evidence proves `not_sent` and no possible side effect; this includes an executor's own refusal before anything is sent, such as an unmet precondition it reads from the device. Retry still requires the owning replay policy. |
 | `acknowledged_unverified` | A request was sent and accepted/provisionally acknowledged, but no confirming readback exists. |
 | `applied` | Dispatch occurred and exact current-generation readback was evaluated as `confirms` by the intent's exact operation-pack effect rule. An ACK is retained when the protocol supplies one. |
 | `no_effect` | Dispatch occurred and current-generation evidence proves the requested effect did not occur. |
-| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result. |
+| `conflict` | Post-dispatch evidence contradicts the requested effect or another current result, including a `contradicts` readback without a candidate (see [Readback](#type-readback)); delivery is `sent`. |
 | `indeterminate` | Dispatch may have occurred and evidence cannot prove applied or no effect. Blind retry and fallback to another route are forbidden. |
 
 For a rule-only intent, `acknowledged_unverified` is the best outcome.

@@ -529,7 +529,13 @@ expectation.
   the strict `operation.ExecutionRecord`; for an admitted call-bound invocation
   it applies the same evidence checks without constructing a finite-wire record.
   The owner rechecks `Guard` and the active cancellation context immediately
-  before the native send. There is one registration path.
+  before the native send. An executor's own refusal before anything is
+  sent (for example a precondition it reads from the device and finds unmet) is
+  recorded as `failed_no_contact` with dispatch evidence `not_sent` and no
+  possible side effect; `rejected` stays the admission outcome with no dispatch
+  and is never produced by an executor. A readback with relation `contradicts`
+  and no candidate yields `conflict`, as in the kernel page, for the recorded
+  and the call-bound invocation alike. There is one registration path.
 - `Session.Native() NativeRegistry` is instance- and generation-rooted.
   `NativeRegistry` provides `Node(NodeSpec) (NodeRef, error)`,
   `ReadMember(NodeRef, MemberSpec, NativeReader) error` and
