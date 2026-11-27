@@ -461,7 +461,7 @@ def check_admitted_fields(document):
     if validator.FIELD_CONTRACTS["infrastructure.accuracy.ratio_maximum"] != validator.empty_quantity("unit.ratio", "infrastructure.dimension.meter"):
         raise AssertionError("ratio pilot")
     new_ids = [ident for ident in validator.FIELD_CONTRACTS if ident not in PRIOR_FIELDS]
-    if len(new_ids) != 43 or set(validator.FIELD_CONTRACTS) != set(fields):
+    if len(new_ids) != 51 or set(validator.FIELD_CONTRACTS) != set(fields):
         raise AssertionError("field catalog")
     positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
     for ident in new_ids:

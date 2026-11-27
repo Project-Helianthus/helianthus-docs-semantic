@@ -11812,6 +11812,86 @@
             "id": "helianthus.pack.evse",
             "version": "1.0.0"
           },
+          "id": "evse.accuracy.measured",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.measured_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.measured_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.measured_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.measured_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.range_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.range_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.range_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.range_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
+          "id": "evse.accuracy.ratio_maximum",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.evse",
+            "version": "1.0.0"
+          },
           "id": "evse.capability.clear_targets",
           "version": "1.0.0"
         },
@@ -14762,6 +14842,259 @@
               "version": "1.0.0"
             },
             "id": "evse.dimension.phase",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.measured",
+            "version": "1.0.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.measured_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.measured_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.measured_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.measured_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.range_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.range_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.range_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.range_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.accuracy.ratio_maximum",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.evse",
+              "version": "1.0.0"
+            },
+            "id": "evse.dimension.meter",
             "version": "1.0.0"
           }
         },
@@ -21856,6 +22189,70 @@
             "id": "helianthus.pack.infrastructure",
             "version": "1.0.0"
           },
+          "id": "infrastructure.accuracy.measured_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.measured_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.measured_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.measured_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.range_maximum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.range_maximum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.range_minimum_active_current",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
+          "id": "infrastructure.accuracy.range_minimum_active_power",
+          "version": "1.0.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.infrastructure",
+            "version": "1.0.0"
+          },
           "id": "infrastructure.accuracy.ratio_maximum",
           "version": "1.0.0"
         },
@@ -22829,6 +23226,214 @@
             "version": "1.0.0"
           },
           "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.measured_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.measured_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.measured_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.measured_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.range_maximum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.range_maximum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.range_minimum_active_current",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.0.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.dimension.meter",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "infrastructure.accuracy.range_minimum_active_power",
+            "version": "1.0.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.infrastructure",
+              "version": "1.0.0"
+            },
+            "id": "unit.watt",
+            "version": "1.0.0"
+          },
           "dimension": {
             "pack": {
               "id": "helianthus.pack.infrastructure",
@@ -28335,6 +28940,86 @@
             "id": "helianthus.pack.storage",
             "version": "1.1.0"
           },
+          "id": "storage.accuracy.measured",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.measured_maximum_active_current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.measured_maximum_active_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.measured_minimum_active_current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.measured_minimum_active_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.range_maximum_active_current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.range_maximum_active_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.range_minimum_active_current",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.range_minimum_active_power",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
+          "id": "storage.accuracy.ratio_maximum",
+          "version": "1.1.0"
+        },
+        {
+          "pack": {
+            "id": "helianthus.pack.storage",
+            "version": "1.1.0"
+          },
           "id": "storage.capability.read.cell",
           "version": "1.1.0"
         },
@@ -29660,6 +30345,259 @@
         }
       ],
       "fields": [
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.measured",
+            "version": "1.1.0"
+          },
+          "canonical_unit": null,
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.measured_maximum_active_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.measured_maximum_active_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.measured_minimum_active_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.measured_minimum_active_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.range_maximum_active_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.range_maximum_active_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.range_minimum_active_current",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ampere",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.range_minimum_active_power",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.watt",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
+        {
+          "ref": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.accuracy.ratio_maximum",
+            "version": "1.1.0"
+          },
+          "canonical_unit": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "unit.ratio",
+            "version": "1.1.0"
+          },
+          "dimension": {
+            "pack": {
+              "id": "helianthus.pack.storage",
+              "version": "1.1.0"
+            },
+            "id": "storage.dimension.pack",
+            "version": "1.1.0"
+          }
+        },
         {
           "ref": {
             "pack": {

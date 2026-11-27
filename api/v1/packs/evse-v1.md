@@ -23,6 +23,29 @@ earlier customary bounds. A customary unit appears only at display, in a
 consumer. Published Decimal bounds are pack validation bounds, never a claim
 about a device's nameplate capability.
 
+Ten facts carry what an electrical measurement of the EVSE meter states about
+its accuracy, each on `evse.dimension.meter` and qualified by
+`evse.dimension.measurement_type`, a symbol dimension with the same seventeen
+measurement types as the PV inverter and the infrastructure meter.
+`evse.accuracy.measured` is a boolean and `evse.accuracy.ratio_maximum` is
+`unit.ratio`. Eight more carry the measured minimum, the measured maximum, and
+the minimum and maximum of one accuracy range, one set for `active_current`
+(`unit.ampere`) and one for `active_power` (`unit.watt`):
+`evse.accuracy.measured_minimum_active_current`,
+`evse.accuracy.measured_maximum_active_current`,
+`evse.accuracy.range_minimum_active_current`,
+`evse.accuracy.range_maximum_active_current`,
+`evse.accuracy.measured_minimum_active_power`,
+`evse.accuracy.measured_maximum_active_power`,
+`evse.accuracy.range_minimum_active_power` and
+`evse.accuracy.range_maximum_active_power`. The bounds of all ten are empty,
+none has a default and none holds a declared value. The Matter field constraint
+of `-2^62` to `2^62` limits the integer representation in the Matter unit and
+is not a bound of the measured quantity. A value that a device does not publish
+stays absent, and a value stated in a certification is a separate reference
+and is never held in these facts. `evse.evcem.measurement_type` is a different
+fact and is not this qualifier. This pack does not publish an Accuracy struct.
+
 Fact keys distinguish asset, EVSE, connector, phase, session, meter, and vehicle. The
 declared asset-to-EVSE, EVSE-to-connector, connector-to-phase,
 connector-to-session, and EVSE-to-meter cardinalities preserve records without

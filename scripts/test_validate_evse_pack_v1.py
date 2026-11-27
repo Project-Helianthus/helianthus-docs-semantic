@@ -296,6 +296,7 @@ PE06_FIELD_IDS = frozenset({
 })
 
 STRUCTURAL_EVSE_IDS = frozenset({
+    'evse.dimension.measurement_type',
     'evse.capability.clear_targets',
     'evse.capability.read.connector',
     'evse.capability.read.evse',
@@ -393,6 +394,15 @@ TEXT_ID = "evse.cevc.use_case_name"
 TEXT_CONTRACT = ("text", None, "evse.dimension.connector", True, None, None)
 
 
+CR02_ACCURACY_IDS = frozenset({
+    "evse.accuracy.measured", "evse.accuracy.ratio_maximum",
+    "evse.accuracy.measured_minimum_active_current", "evse.accuracy.measured_maximum_active_current",
+    "evse.accuracy.range_minimum_active_current", "evse.accuracy.range_maximum_active_current",
+    "evse.accuracy.measured_minimum_active_power", "evse.accuracy.measured_maximum_active_power",
+    "evse.accuracy.range_minimum_active_power", "evse.accuracy.range_maximum_active_power",
+})
+
+
 def qq12_evse_ids():
     import csv
     path = ROOT / "acceptance/catalog-inputs/energy/qq12-fields.tsv"
@@ -408,9 +418,9 @@ def check_qq12_field_set():
     """
     qq12 = qq12_evse_ids()
     contracts = set(validator.FIELD_CONTRACTS)
-    if contracts != PE06_FIELD_IDS | qq12:
+    if contracts != PE06_FIELD_IDS | qq12 | CR02_ACCURACY_IDS:
         raise AssertionError("FIELD_CONTRACTS is not the PE06 fields plus the QQ12 evse fields")
-    if PE06_FIELD_IDS & qq12:
+    if PE06_FIELD_IDS & qq12 or CR02_ACCURACY_IDS & (PE06_FIELD_IDS | qq12):
         raise AssertionError("a QQ12 evse id collides with a PE06 field")
     if len(qq12) != 225:
         raise AssertionError("QQ12 evse field count")
@@ -567,6 +577,44 @@ def check_connector_vehicle(document):
     print("connector_vehicle: PASS")
 
 
+def check_cr02_accuracy_fields(document):
+    """Each accuracy fact of the EVSE meter keeps every field of its contract.
+
+    Fields and the production mutation each check catches, for every id in ``CR02_ACCURACY_IDS``:
+    - id: renaming the field and its ref fails the fields catalog.
+    - kind: another kind is rejected as a noncanonical kind.
+    - dimension: ``evse.dimension.connector`` is rejected as a noncanonical kind.
+    - optional: ``False`` is rejected as a noncanonical kind.
+    - unit of a quantity: ``unit.volt`` is rejected as a quantity contract.
+    - bounds of a quantity: a minimum is rejected as a quantity contract.
+    - qualifiers: removing them is rejected as field qualifiers.
+    The qualifier dimension: another value kind, and a changed symbol list, are rejected as a qualifier dimension.
+    """
+    positions = {field["id"]: index for index, field in enumerate(document["catalog"]["definitions"]["fields"])}
+    for ident in sorted(CR02_ACCURACY_IDS):
+        index = positions[ident]
+        kind = validator.FIELD_CONTRACTS[ident][0]
+        if validator.FIELD_CONTRACTS[ident][5] is not None or validator.FIELD_CONTRACTS[ident][2] != "evse.dimension.meter":
+            raise AssertionError(ident + " contract")
+        def rename(catalog, index=index):
+            field = catalog["definitions"]["fields"][index]
+            field["id"] = field["id"] + "_moved"
+            field["ref"]["id"] = field["id"]
+        case(document, ident + "_id", "fields catalog", rename)
+        case(document, ident + "_kind", "noncanonical kind", lambda c, index=index, kind=kind: c["definitions"]["fields"][index].update(kind="text" if kind != "text" else "boolean"))
+        case(document, ident + "_dimension", "noncanonical kind", lambda c, index=index: c["definitions"]["fields"][index].update(dimension="evse.dimension.connector"))
+        case(document, ident + "_optional", "noncanonical kind", lambda c, index=index: c["definitions"]["fields"][index].update(optional=False))
+        case(document, ident + "_qualifiers", "field qualifiers", lambda c, index=index: c["definitions"]["fields"][index].pop("qualifiers"))
+        if kind == "quantity":
+            case(document, ident + "_unit", "quantity contract", lambda c, index=index: c["definitions"]["fields"][index].update(unit="unit.volt"))
+            case(document, ident + "_bounds", "quantity contract", lambda c, index=index: c["definitions"]["fields"][index]["bounds"].update(minimum={"coefficient": "0", "exponent10": 0}))
+    dimensions = document["catalog"]["definitions"]["qualifier_dimensions"]
+    place = next(i for i, item in enumerate(dimensions) if item["id"] == "evse.dimension.measurement_type")
+    case(document, "measurement_type_value_kind", "qualifier dimension", lambda c: c["definitions"]["qualifier_dimensions"][place].update(value_kind="text"))
+    case(document, "measurement_type_symbols", "qualifier dimension", lambda c: c["definitions"]["qualifier_dimensions"][place]["symbols"].pop())
+    print("cr02_accuracy_fields: PASS")
+
+
 def main():
     document = validator.load_document(validator.VECTORS)
     validator.validate_document(document)
@@ -608,6 +656,7 @@ def main():
     check_admitted_rows_leave_the_set_case(document)
     check_validate_fields_complexity(document)
     check_qq12_evse_rows(document)
+    check_cr02_accuracy_fields(document)
 
 
 if __name__ == "__main__":

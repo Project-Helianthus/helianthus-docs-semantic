@@ -12,16 +12,32 @@ VECTORS=ROOT/'api/v1/packs/storage-bms-acceptance-vectors.json'
 TABLES=ROOT/'api/v1/packs/storage-bms-contract-tables.json'
 DOCUMENT=ROOT/'api/v1/packs/storage-bms-v1.md'
 PACK={'id':'helianthus.pack.storage','version':'1.1.0'}
-COUNTS={'field_specs':96,'services':7,'capabilities':20,'relations':7,'operations':17,'effects':17,'portal_contributions':5,'events':2}
-TABLE_MEMBERS={'capabilities','contract','definition_index','effects','events','field_specs','operations','portal_contributions','relations','services','supersession'}
+COUNTS={'field_specs':106,'services':7,'capabilities':20,'relations':7,'operations':17,'effects':17,'portal_contributions':5,'events':2}
+TABLE_MEMBERS={'capabilities','contract','definition_index','effects','events','field_specs','operations','portal_contributions','qualifier_dimensions','relations','services','supersession'}
 RELATION_MEMBERS={'id','from','to','cardinality','order'}
-DEFINITION_GROUPS={'dimensions','fields','operations','portal','relations'}
+DEFINITION_GROUPS={'dimensions','fields','operations','portal','qualifier_dimensions','relations'}
 DOMAINS={'thermal_hvac':('helianthus.pack.thermal','accepted'),'pv_inverter':('helianthus.pack.pv','exact_head_review'),'storage_bms':('helianthus.pack.storage','accepted'),'evse':('helianthus.pack.evse','follow_on'),'infrastructure':('helianthus.pack.infrastructure','follow_on')}
 PINS={'semantic_docs':'346cda9b675a03a7d1a8c886a3467eab84ce8fb2','semreg_projection':'cc9b324225e945598128eeabe977e7fa0af6dc93','can_docs':'665a5f22f78c349b5e3063bda158af250a3f44b6','canbusreg':'8c827ea26ffbad8b50aba2c6ae89028622ba4343','rs485_docs':'c9d37b7f7cd5ebc6c4125565648a7deb094aaa7a','modbusreg':'f1e593995576fdfbbc64fd879b47abff8bd2cc0e','eebus_ledger':'81cd647c834e88c88a3c82ef9fbc5a0194f6b0f1','matter_draft':'29b4768a513cf566011ab8cd60df1bc495204953'}
 LOSS={'native_enum_bitfield','precision_range','cell_module_topology','signed_direction','aggregation_reference','counter_reset_wrap','unavailable_fields','conflicting_sources','vendor_extensions','unsupported_operations'}
 LIFECYCLE={'source_epoch','driver_generation','semantic_revision','capability_qualification','activation','generation_fencing','partial_updates','stale_unknown_evidence','last_known_good_retention'}
 OUTCOMES=['rejected','failed_no_contact','acknowledged_unverified','applied','no_effect','conflict','indeterminate']
-TABLE_SHA256='1abc00d728833f2577b6514b7a23a80de9e7827689bfda5aaf81a9f1537e4ac2'
+TABLE_SHA256='b62b56c087d70f1f40775a0e18b42f2e3a591eb390201e2a9b52cc395ad19239'
+MEASUREMENT_QUALIFIER='storage.dimension.measurement_type'
+MEASUREMENT_SYMBOLS=['active_current','active_power','apparent_current','apparent_energy','apparent_power','electrical_energy','frequency','neutral_current','power_factor','reactive_current','reactive_energy','reactive_power','rms_current','rms_power','rms_voltage','unspecified','voltage']
+QUALIFIER_DIMENSIONS=[{'id':MEASUREMENT_QUALIFIER,'kind':'symbol','symbols':MEASUREMENT_SYMBOLS}]
+# The accuracy facts of the pack: each is on storage.dimension.pack, qualified by the measurement type, and carries no bound and no default.
+ACCURACY_FIELDS={
+ 'storage.accuracy.measured':('boolean',None),
+ 'storage.accuracy.ratio_maximum':('quantity','unit.ratio'),
+ 'storage.accuracy.measured_minimum_active_current':('quantity','unit.ampere'),
+ 'storage.accuracy.measured_maximum_active_current':('quantity','unit.ampere'),
+ 'storage.accuracy.range_minimum_active_current':('quantity','unit.ampere'),
+ 'storage.accuracy.range_maximum_active_current':('quantity','unit.ampere'),
+ 'storage.accuracy.measured_minimum_active_power':('quantity','unit.watt'),
+ 'storage.accuracy.measured_maximum_active_power':('quantity','unit.watt'),
+ 'storage.accuracy.range_minimum_active_power':('quantity','unit.watt'),
+ 'storage.accuracy.range_maximum_active_power':('quantity','unit.watt'),
+}
 # The SI unit set of the unit rule in api/README.md (a working reading): a pack field declares no customary or prefixed unit.
 CANONICAL_UNITS=frozenset({'unit.ampere','unit.ampere_hour','unit.cubic_metre_per_second','unit.hertz','unit.joule','unit.kelvin','unit.pascal','unit.ratio','unit.reciprocal_second','unit.volt','unit.volt_ampere','unit.volt_ampere_reactive','unit.watt', 'unit.second', 'unit.cubic_metre', 'unit.metre', 'unit.ohm', 'unit.radian', 'unit.one', 'unit.volt_ampere_reactive_second', 'unit.volt_ampere_second', 'unit.kilogram_per_cubic_metre', 'unit.becquerel_per_cubic_metre', 'unit.kilogram_per_joule', 'unit.watt_per_square_metre', 'unit.metre_per_joule', 'unit.currency', 'unit.currency_per_joule'})
 
@@ -47,9 +63,36 @@ def si_bounds(field):
 
 
 def check_plain_field(field):
-    """Boolean and text fields carry identity, kind, dimension and optionality only."""
-    if field.get('kind') not in ('boolean', 'text') or set(field) != {'id', 'kind', 'dimension', 'optional'}:
+    """Boolean and text fields carry identity, kind, dimension and optionality; an accuracy fact adds its qualifier."""
+    members = {'id', 'kind', 'dimension', 'optional'} | ({'qualifiers'} if field.get('id') in ACCURACY_FIELDS else set())
+    if field.get('kind') not in ('boolean', 'text') or set(field) != members:
         raise ValueError('field kind')
+
+
+def check_accuracy_field(field):
+    """An accuracy fact has its kind and unit, the pack dimension, the measurement-type qualifier and empty bounds."""
+    kind, unit = ACCURACY_FIELDS[field['id']]
+    if field.get('kind') != kind or field.get('dimension') != 'storage.dimension.pack' or field.get('qualifiers') != [MEASUREMENT_QUALIFIER]:
+        raise ValueError('accuracy field')
+    if kind == 'quantity' and (field.get('unit') != unit or field.get('bounds') != {'minimum': None, 'maximum': None}):
+        raise ValueError('accuracy field')
+
+
+def quantity_members(field):
+    """The members of a quantity field record; an accuracy fact adds its qualifier."""
+    return {'id','kind','unit','dimension','optional','bounds'}|({'qualifiers'} if field.get('id') in ACCURACY_FIELDS else set())
+
+
+def validate_accuracy_tables(table):
+    """The qualifier dimension and the accuracy facts, and only those facts, carry the measurement-type qualifier."""
+    if table.get('qualifier_dimensions') != QUALIFIER_DIMENSIONS:
+        raise ValueError('qualifier dimensions')
+    qualified = {field['id'] for field in table['field_specs'] if 'qualifiers' in field}
+    if qualified != set(ACCURACY_FIELDS):
+        raise ValueError('accuracy field')
+    for field in table['field_specs']:
+        if field['id'] in ACCURACY_FIELDS:
+            check_accuracy_field(field)
 
 
 def validate_tables(table):
@@ -63,7 +106,7 @@ def validate_tables(table):
  for field in fields:
   if field.get('optional') is not True: raise ValueError('field optionality')
   if field.get('kind')=='quantity':
-   if set(field)!={'id','kind','unit','dimension','optional','bounds'} or set(field.get('bounds',{}))!={'minimum','maximum'}: raise ValueError('field bounds')
+   if set(field)!=quantity_members(field) or set(field.get('bounds',{}))!={'minimum','maximum'}: raise ValueError('field bounds')
    low,high=si_bounds(field)
    if low is not None: low=decimal(low)
    if high is not None: high=decimal(high)
@@ -105,6 +148,7 @@ def validate_relation_encoding(table,catalog):
 def validate(catalog,table=None):
  table=tables() if table is None else table
  validate_relation_encoding(table,catalog)
+ validate_accuracy_tables(table)
  validate_tables(table)
  if catalog.get('pack')!=PACK or catalog.get('kernel_contract')!='helianthus.semantic.kernel/v1': raise ValueError('PackRef')
  exact(catalog.get('supersession'),SUPERSESSION,'supersession')
@@ -113,9 +157,10 @@ def validate(catalog,table=None):
  if set(catalog.get('lifecycle_axes',[]))!=LIFECYCLE or set(catalog.get('loss_dispositions',[]))!=LOSS: raise ValueError('lifecycle/loss')
  if catalog.get('counter_policy')!={'decrease':'never_infer_reset_or_wrap','continuity':'native_reset_or_wrap_evidence_required'}: raise ValueError('counter')
  exact(catalog.get('publication_withdrawal_policy'),PUBLICATION,'publication lifecycle')
- d=catalog.get('definitions',{}); outline=[{key:field[key] for key in ('id','kind','unit','dimension','symbols') if key in field} for field in table['field_specs']]
+ d=catalog.get('definitions',{}); outline=[{key:field[key] for key in ('id','kind','unit','dimension','qualifiers','symbols') if key in field} for field in table['field_specs']]
  exact(d.get('fields'),outline,'field catalog')
  exact(d.get('dimensions'),['system','battery','pack','module','cell','string','interface'],'dimensions')
+ exact(d.get('qualifier_dimensions'),['measurement_type'],'qualifier dimensions')
  exact(d.get('relations'),[entry['id'].removeprefix('storage.relation.') for entry in table['relations']],'relations')
  exact(d.get('operations'),[entry['id'].removeprefix('storage.operation.') for entry in table['operations']],'operations')
  exact(d.get('portal'),{'read':'all_fields_exactly_once','operation':'current_admission_only'},'Portal')
@@ -213,7 +258,7 @@ def document(data,table=None):
 def main():
  document(load())
  text=DOCUMENT.read_text()
- for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority','storage.energy.remaining','storage.energy.usable_capacity','storage.energy.nominal_capacity','may omit validity duration','starts counting at receipt','deactivates the setpoint','explicit zero','command execution deadline','storage.operation.set_ac_power','storage.operation.set_dc_power','storage.operation.set_pcc_power','storage.setpoint.active','storage.setpoint.duration'):
+ for token in ('storage.status.interlock.active','storage.status.interlock.clear','qualified-current','superseded','unknown_pending_normative_source','No generic contactor','unbounded maximum','no live authority','storage.energy.remaining','storage.energy.usable_capacity','storage.energy.nominal_capacity','may omit validity duration','starts counting at receipt','deactivates the setpoint','explicit zero','command execution deadline','storage.operation.set_ac_power','storage.operation.set_dc_power','storage.operation.set_pcc_power','storage.setpoint.active','storage.setpoint.duration',MEASUREMENT_QUALIFIER,*ACCURACY_FIELDS):
   if token not in text: raise ValueError('document boundary')
  print('storage/BMS pack v1.1: PASS')
 if __name__=='__main__': main()

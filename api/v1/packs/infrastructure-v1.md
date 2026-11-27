@@ -20,6 +20,14 @@ infrastructure.power.apparent             infrastructure.power.pcc
 infrastructure.energy.import              infrastructure.energy.export
 infrastructure.energy.self_consumption    infrastructure.limit.fallback_power
 infrastructure.accuracy.measured          infrastructure.accuracy.ratio_maximum
+infrastructure.accuracy.measured_minimum_active_current
+infrastructure.accuracy.measured_maximum_active_current
+infrastructure.accuracy.range_minimum_active_current
+infrastructure.accuracy.range_maximum_active_current
+infrastructure.accuracy.measured_minimum_active_power
+infrastructure.accuracy.measured_maximum_active_power
+infrastructure.accuracy.range_minimum_active_power
+infrastructure.accuracy.range_maximum_active_power
 infrastructure.status.connection          infrastructure.status.readiness
 infrastructure.status.breaker             infrastructure.status.fault
 infrastructure.status.interlock
@@ -76,6 +84,27 @@ descriptor and no read capability. Self-consumption is
 `infrastructure.accuracy.ratio_maximum` is `unit.ratio` on
 `infrastructure.dimension.meter`. Both are qualified by
 `infrastructure.dimension.measurement_type`. The ratio bounds are empty.
+
+Eight further facts carry the values an electrical measurement states for its
+measured range and for one accuracy range, one set for each measurement type
+the pilot serves. For `active_current` the facts are
+`infrastructure.accuracy.measured_minimum_active_current`,
+`infrastructure.accuracy.measured_maximum_active_current`,
+`infrastructure.accuracy.range_minimum_active_current` and
+`infrastructure.accuracy.range_maximum_active_current`, each `unit.ampere`. For
+`active_power` the facts are
+`infrastructure.accuracy.measured_minimum_active_power`,
+`infrastructure.accuracy.measured_maximum_active_power`,
+`infrastructure.accuracy.range_minimum_active_power` and
+`infrastructure.accuracy.range_maximum_active_power`, each `unit.watt`. Each is
+on `infrastructure.dimension.meter` and qualified by
+`infrastructure.dimension.measurement_type`. The bounds of all eight are empty.
+The Matter field constraint of `-2^62` to `2^62` limits the integer
+representation in the Matter unit and is not a bound of the measured quantity.
+No fact has a default and none holds a declared value. A value that a device
+does not publish stays absent, and a value stated in a certification is a
+separate reference and is never held in these facts.
+
 This pack does not publish an Accuracy struct.
 Point-of-coupling power is `infrastructure.power.pcc`.
 It is not the import/export pair. The fallback grid limit is

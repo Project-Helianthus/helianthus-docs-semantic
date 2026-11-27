@@ -155,8 +155,8 @@ def check_current_limits(table):
     interface field list: inserting the current limit fails the interface capability check.
     """
     specs = table['field_specs']
-    if len(specs) != 96:
-        raise AssertionError('field_specs is not 25')
+    if len(specs) != 106:
+        raise AssertionError('field_specs is not 106')
     if specs[-1]['id'] != 'storage.status.interlock':
         raise AssertionError('interlock is not last')
     for ident in ('storage.limit.charge_current', 'storage.limit.discharge_current'):
@@ -253,6 +253,30 @@ def main():
   ('symbols_field_extra_member',lambda t:next(field for field in t['field_specs'] if field['id']=='storage.status.faults').update(unit='unit.one'),'field symbols'),
  ]
  table_cases += [('field_%d_unit_%s' % (index, unit.removeprefix('unit.')), lambda t, index=index, unit=unit: t['field_specs'][index].update(unit=unit), 'field unit is outside the canonical SI unit set') for index in (0, 1, 5, 6, 12, 13) for unit in NOT_SI]
+ # Each accuracy fact and the production check that its mutation fails, for every id in v.ACCURACY_FIELDS:
+ # id (renamed): accuracy field; kind: accuracy field; dimension: accuracy field; qualifiers (removed): accuracy field;
+ # optional (False): field optionality; unit and bounds (quantities only): accuracy field.
+ # The qualifier dimension: its symbols and its id: qualifier dimensions.
+ def accuracy_field(t, ident):
+  return next(field for field in t['field_specs'] if field['id']==ident)
+ for ident, (kind, unit) in v.ACCURACY_FIELDS.items():
+  table_cases += [
+   (ident+'_renamed', lambda t, ident=ident: accuracy_field(t, ident).update(id=ident+'_moved'), 'accuracy field'),
+   (ident+'_kind', lambda t, ident=ident: accuracy_field(t, ident).update(kind='text'), 'accuracy field'),
+   (ident+'_dimension', lambda t, ident=ident: accuracy_field(t, ident).update(dimension='storage.dimension.cell'), 'accuracy field'),
+   (ident+'_qualifiers', lambda t, ident=ident: accuracy_field(t, ident).pop('qualifiers'), 'accuracy field'),
+   (ident+'_optional', lambda t, ident=ident: accuracy_field(t, ident).update(optional=False), 'field optionality'),
+  ]
+  if kind == 'quantity':
+   table_cases += [
+    (ident+'_unit', lambda t, ident=ident: accuracy_field(t, ident).update(unit='unit.volt'), 'accuracy field'),
+    (ident+'_minimum', lambda t, ident=ident: accuracy_field(t, ident)['bounds'].update(minimum={'coefficient':'0','exponent10':0}), 'accuracy field'),
+    (ident+'_maximum', lambda t, ident=ident: accuracy_field(t, ident)['bounds'].update(maximum={'coefficient':'1','exponent10':0}), 'accuracy field'),
+   ]
+ table_cases += [
+  ('measurement_type_symbols', lambda t: t['qualifier_dimensions'][0]['symbols'].pop(), 'qualifier dimensions'),
+  ('measurement_type_id', lambda t: t['qualifier_dimensions'][0].update(id='storage.dimension.period'), 'qualifier dimensions'),
+ ]
  for case in table_cases: table_case(*case)
  check_duration_identity()
  print('baseline: PASS; %d catalog and %d table mutations rejected'%(len(catalog_cases),len(table_cases)))

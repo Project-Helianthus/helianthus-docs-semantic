@@ -383,6 +383,36 @@ class Matter161TargetTests(unittest.TestCase):
             'pv.accuracy.range_minimum_active_power',
             'pv.accuracy.range_maximum_active_power',
         }
+        cr02_accuracy = {
+            'infrastructure.accuracy.measured_minimum_active_current',
+            'infrastructure.accuracy.measured_maximum_active_current',
+            'infrastructure.accuracy.range_minimum_active_current',
+            'infrastructure.accuracy.range_maximum_active_current',
+            'infrastructure.accuracy.measured_minimum_active_power',
+            'infrastructure.accuracy.measured_maximum_active_power',
+            'infrastructure.accuracy.range_minimum_active_power',
+            'infrastructure.accuracy.range_maximum_active_power',
+            'evse.accuracy.measured',
+            'evse.accuracy.ratio_maximum',
+            'evse.accuracy.measured_minimum_active_current',
+            'evse.accuracy.measured_maximum_active_current',
+            'evse.accuracy.range_minimum_active_current',
+            'evse.accuracy.range_maximum_active_current',
+            'evse.accuracy.measured_minimum_active_power',
+            'evse.accuracy.measured_maximum_active_power',
+            'evse.accuracy.range_minimum_active_power',
+            'evse.accuracy.range_maximum_active_power',
+            'storage.accuracy.measured',
+            'storage.accuracy.ratio_maximum',
+            'storage.accuracy.measured_minimum_active_current',
+            'storage.accuracy.measured_maximum_active_current',
+            'storage.accuracy.range_minimum_active_current',
+            'storage.accuracy.range_maximum_active_current',
+            'storage.accuracy.measured_minimum_active_power',
+            'storage.accuracy.measured_maximum_active_power',
+            'storage.accuracy.range_minimum_active_power',
+            'storage.accuracy.range_maximum_active_power',
+        }
         room = {
             'thermal.capability.read.room',
             'thermal.room.capability_set_occupied_cooling',
@@ -1647,7 +1677,7 @@ class Matter161TargetTests(unittest.TestCase):
             "equipment.time.current",
             "equipment.time.timezone",
         }
-        self.assertEqual({row['ref']['id'] for row in extra}, pilot | ep01_pv_accuracy | room | new_facts | storage_rows | evse_rows | energy_rows | qu08_energy | qu09_thermal | qu10_thermal | qu11_thermal | qu12_equipment)
+        self.assertEqual({row['ref']['id'] for row in extra}, pilot | ep01_pv_accuracy | cr02_accuracy | room | new_facts | storage_rows | evse_rows | energy_rows | qu08_energy | qu09_thermal | qu10_thermal | qu11_thermal | qu12_equipment)
         for row in extra:
             self.assertEqual(row['disposition'], 'unknown')
             self.assertEqual(row['reason'], 'matter.unmapped.v1')
@@ -1842,6 +1872,122 @@ class Matter161TargetTests(unittest.TestCase):
         transformed = [r['ref']['id'] for r in self.document['rows']
                        if r['disposition'] in ('exact', 'transformed')]
         self.assertEqual(transformed, ['evse.ac.current'])
+
+    CR02_PACKS = {
+        'infrastructure': ('helianthus.pack.infrastructure', '1.0.0', 'infrastructure.dimension.meter'),
+        'evse': ('helianthus.pack.evse', '1.0.0', 'evse.dimension.meter'),
+        'storage': ('helianthus.pack.storage', '1.1.0', 'storage.dimension.pack'),
+    }
+    CR02_VALUE_FACTS = [
+        'accuracy.measured_minimum_active_current',
+        'accuracy.measured_maximum_active_current',
+        'accuracy.range_minimum_active_current',
+        'accuracy.range_maximum_active_current',
+        'accuracy.measured_minimum_active_power',
+        'accuracy.measured_maximum_active_power',
+        'accuracy.range_minimum_active_power',
+        'accuracy.range_maximum_active_power',
+    ]
+    CR02_BASE_FACTS = ['accuracy.measured', 'accuracy.ratio_maximum']
+
+    def cr02_expected(self):
+        # Literal prefixes and suffixes; the infrastructure meter already has the base facts.
+        result = []
+        for prefix, (pack, version, dimension) in self.CR02_PACKS.items():
+            names = self.CR02_VALUE_FACTS if prefix == 'infrastructure' else self.CR02_BASE_FACTS + self.CR02_VALUE_FACTS
+            result.extend((prefix + '.' + name, pack, version, dimension) for name in names)
+        return result
+
+    @staticmethod
+    def cr02_row_fault(row, ident, pack, version, dimension):
+        """The first fault of one added row, or None.
+
+        Every identity field of the row is compared: ref pack id, ref pack version, ref id,
+        ref version, kind, disposition, reason, the target member, the loss source item, the
+        requested item id, kind and version, and the fact key pack id, pack version, fact id,
+        dimension definition pack id, pack version, id and version.
+        """
+        ref = row['ref']
+        checks = [
+            (ref['pack']['id'] == pack, 'ref pack id'),
+            (ref['pack']['version'] == version, 'ref pack version'),
+            (ref['id'] == ident, 'ref id'),
+            (ref['version'] == version, 'ref version'),
+            (row['kind'] == 'fact', 'kind'),
+            (row['disposition'] == 'unknown', 'disposition'),
+            (row['reason'] == 'matter.unmapped.v1', 'reason'),
+            ('target' not in row, 'target member'),
+            (row['loss'][0]['source_items'] == [ident], 'loss source item'),
+            (row['source']['requested']['item_id'] == ident, 'requested item id'),
+            (row['source']['requested']['kind'] == 'fact', 'requested kind'),
+            (row['source']['requested']['item_version'] == version, 'requested item version'),
+            (row['source']['fact_keys'][0]['pack_id'] == pack, 'fact key pack id'),
+            (row['source']['fact_keys'][0]['pack_version'] == version, 'fact key pack version'),
+            (row['source']['fact_keys'][0]['fact_id'] == ident, 'fact key fact id'),
+            (row['source']['fact_keys'][0]['dimensions']['definition']['pack']['id'] == pack, 'dimension pack id'),
+            (row['source']['fact_keys'][0]['dimensions']['definition']['pack']['version'] == version, 'dimension pack version'),
+            (row['source']['fact_keys'][0]['dimensions']['definition']['id'] == dimension, 'dimension id'),
+            (row['source']['fact_keys'][0]['dimensions']['definition']['version'] == version, 'dimension version'),
+        ]
+        return next((label for ok, label in checks if not ok), None)
+
+    def test_storage_evse_and_meter_accuracy_rows_are_unknown(self):
+        """One unknown row per added element; expectations are literal, never read from the catalog."""
+        rows = {r['ref']['id']: r for r in self.document['rows']}
+        expected = self.cr02_expected()
+        self.assertEqual(len(expected), 28)
+        for ident, pack, version, dimension in expected:
+            with self.subTest(ident=ident):
+                self.assertIsNone(self.cr02_row_fault(rows[ident], ident, pack, version, dimension))
+        for prefix in ('evse', 'storage'):
+            with self.subTest(dimension=prefix):
+                self.assertNotIn(prefix + '.dimension.measurement_type', rows)
+        transformed = [r['ref']['id'] for r in self.document['rows']
+                       if r['disposition'] in ('exact', 'transformed')]
+        self.assertEqual(transformed, ['evse.ac.current'])
+
+    def test_each_identity_field_of_an_accuracy_row_is_checked(self):
+        """Each mutation below must be reported by cr02_row_fault.
+
+        ref pack id, ref pack version, ref id and ref version: another value is reported.
+        kind, disposition and reason: another value is reported.
+        target member: adding one is reported.
+        loss source item, requested item id, kind and version: another value is reported.
+        fact key pack id, pack version and fact id: another value is reported.
+        dimension definition pack id, pack version, id and version: another value is reported.
+        """
+        ident, pack, version, dimension = 'storage.accuracy.measured', 'helianthus.pack.storage', '1.1.0', 'storage.dimension.pack'
+        row = next(r for r in self.document['rows'] if r['ref']['id'] == ident)
+        key = ('source', 'fact_keys', 0, 'dimensions', 'definition')
+        mutations = {
+            'ref pack id': (('ref', 'pack', 'id'), 'helianthus.pack.evse'),
+            'ref pack version': (('ref', 'pack', 'version'), '1.0.0'),
+            'ref id': (('ref', 'id'), 'storage.accuracy.ratio_maximum'),
+            'ref version': (('ref', 'version'), '1.0.0'),
+            'kind': (('kind',), 'service'),
+            'disposition': (('disposition',), 'transformed'),
+            'reason': (('reason',), 'matter.service_not_requested_item.v1'),
+            'target member': (('target',), {'device_type_id': 1296}),
+            'loss source item': (('loss', 0, 'source_items'), ['storage.accuracy.ratio_maximum']),
+            'requested item id': (('source', 'requested', 'item_id'), 'storage.accuracy.ratio_maximum'),
+            'requested kind': (('source', 'requested', 'kind'), 'capability'),
+            'requested item version': (('source', 'requested', 'item_version'), '1.0.0'),
+            'fact key pack id': (('source', 'fact_keys', 0, 'pack_id'), 'helianthus.pack.evse'),
+            'fact key pack version': (('source', 'fact_keys', 0, 'pack_version'), '1.0.0'),
+            'fact key fact id': (('source', 'fact_keys', 0, 'fact_id'), 'storage.accuracy.ratio_maximum'),
+            'dimension pack id': (key + ('pack', 'id'), 'helianthus.pack.evse'),
+            'dimension pack version': (key + ('pack', 'version'), '1.0.0'),
+            'dimension id': (key + ('id',), 'storage.dimension.cell'),
+            'dimension version': (key + ('version',), '1.0.0'),
+        }
+        for label, (path, value) in mutations.items():
+            with self.subTest(field=label):
+                candidate = copy.deepcopy(row)
+                cursor = candidate
+                for part in path[:-1]:
+                    cursor = cursor[part]
+                cursor[path[-1]] = value
+                self.assertEqual(self.cr02_row_fault(candidate, ident, pack, version, dimension), label)
 
     def test_unqualified_is_not_a_whole_document_guard(self):
         guards = self.document['input_guards']['whole_document_no_payload']
@@ -2069,6 +2215,20 @@ class Matter161ProjectionPageTests(unittest.TestCase):
         self.assertIn('no struct is published', self.text)
         self.assertIn('does not deliver', self.text)
         self.assertIn('withheld', self.text)
+
+    def test_storage_evse_and_meter_accuracy_facts_are_stated(self):
+        for ident in ['infrastructure.accuracy.measured_minimum_active_current',
+                      'infrastructure.accuracy.range_maximum_active_power',
+                      'evse.accuracy.measured', 'evse.accuracy.ratio_maximum',
+                      'evse.accuracy.measured_maximum_active_current',
+                      'evse.accuracy.range_minimum_active_power',
+                      'storage.accuracy.measured', 'storage.accuracy.ratio_maximum',
+                      'storage.accuracy.measured_minimum_active_power',
+                      'storage.accuracy.range_maximum_active_current',
+                      'evse.dimension.measurement_type', 'storage.dimension.measurement_type']:
+            with self.subTest(ident=ident):
+                self.assertIn(ident, self.text)
+        self.assertIn('Fixed Label', self.text)
 
     def test_unsourced_values_and_shape_are_stated(self):
         for text in ['electrical_sensor_pilot', 'declared_values', '`unsourced`',

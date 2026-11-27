@@ -148,7 +148,7 @@ class Catalog:
             ref = element["ref"]
             if element.get("disposition") != "member" or ref["owner"].get("pack") != PACK:
                 continue
-            if element["element_kind"] == "dimension":
+            if element["element_kind"] == "dimension" and element["attributes"].get("role") != "qualifier":
                 self.dimensions[ref["id"]] = element["attributes"]["resource_kind"]
             elif element["element_kind"] == "relation":
                 self.pack_relations.append(ref["id"])
