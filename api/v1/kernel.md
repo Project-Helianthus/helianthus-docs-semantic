@@ -1588,7 +1588,10 @@ predicate-bearing intent it receives the unchanged admitted intent and the
 exact resolved observed candidate named by `Readback`; it MUST reject a candidate
 whose `FactKey` differs from `Intent.expected_effect.fact`, then apply the
 pack-owned rule/operator/value and return the computed relation. The serialized
-`Readback.relation` must equal that result. Missing hooks or index entries are
+`Readback.relation` must equal that result. A `contradicts` readback with no
+candidate (see [Readback](#type-readback)) names no candidate to resolve, so the
+hook is not called for it and the serialized relation is `contradicts` by that
+form's own rule. Missing hooks or index entries are
 `definition_owner_missing`; a caller-provided `confirms` token is never evidence
 by itself.
 
@@ -1747,8 +1750,13 @@ must equal these fields, resolve within that snapshot, and equal the admitted
 `Route`. The no-candidate form has no candidate to resolve, so the candidate
 rules below (route match, qualified, promoted, good, fresh and available
 evaluation, `dangling_reference` for a missing candidate) do not apply to it;
-its `binding_id`, `source_id`, `source_epoch_id` and `driver_generation` still
-equal the admitted `Route`, and the serialized candidate revision is absent.
+the absent candidate id and revision are not a missing candidate reference and
+are not `dangling_reference`. Serialization and the operation-pack validator
+omit the candidate revision for this form and do not recompute the relation from
+a resolved candidate; the relation is `contradicts` and the outcome is
+`conflict`. A readback with relation `confirms` or `inconclusive` that omits the
+candidate is still `dangling_reference`. Its `binding_id`, `source_id`,
+`source_epoch_id` and `driver_generation` still equal the admitted `Route`.
 
 For `applied`, dispatch must be `sent` and include `Dispatch.completed`. The
 resolved candidate's `Times.received_at`/`receipt_monotonic` must prove a new

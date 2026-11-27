@@ -534,8 +534,11 @@ expectation.
   recorded as `failed_no_contact` with dispatch evidence `not_sent` and no
   possible side effect; `rejected` stays the admission outcome with no dispatch
   and is never produced by an executor. A readback with relation `contradicts`
-  and no candidate yields `conflict`, as in the kernel page, for the recorded
-  and the call-bound invocation alike. There is one registration path.
+  and no candidate (candidate id and revision omitted, non-empty `evidence`)
+  is a valid record with delivery `sent` and yields `conflict`, as in the
+  kernel page, for the recorded and the call-bound invocation alike; the
+  relation hook is not called for it and the missing candidate is not
+  `dangling_reference`. There is one registration path.
 - `Session.Native() NativeRegistry` is instance- and generation-rooted.
   `NativeRegistry` provides `Node(NodeSpec) (NodeRef, error)`,
   `ReadMember(NodeRef, MemberSpec, NativeReader) error` and
